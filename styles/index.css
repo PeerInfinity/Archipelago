@@ -1,0 +1,328 @@
+/* Consolidated CSS file combining old-index.css, index.css, and gameUI.css
+   Priority order: old-index.css → index.css → gameUI.css */
+
+/* Base layout */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #9a9a9a;
+}
+
+/* Page Layout */
+#page-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Main Content Area */
+#main-content {
+    width: 30em;
+    min-width: 30em;
+    background-color: #2d2d2d;
+    border: 2px solid #cecece;
+    border-radius: 4px;
+    padding: 1em;
+    margin: 0;
+    color: #cecece;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Elements */
+#header-text {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Status Bar */
+#status-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+/* Progress Container */
+#progress-container {
+    text-align: center;
+}
+
+#progress-container #progress-container-header {
+    margin-bottom: 0;
+}
+
+#progress-container #progress-bar {
+    width: 100%;
+}
+
+#progress-container #control-button {
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 1em;
+}
+
+/* Console Area */
+#console {
+    width: 100%;
+    height: 500px;
+    max-height: 500px;
+    margin-top: 1em;
+    border-radius: 4px;
+    border: 2px solid #cecece;
+    overflow-y: auto;
+    background-color: #2d2d2d;
+}
+
+#console .console-message {
+    padding: 0.25em 0.5em;
+    border-bottom: 1px solid #cecece;
+}
+
+/* Command Input Area */
+#command-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1em;
+}
+
+#command-wrapper #console-input {
+    flex-grow: 1;
+}
+
+/* Inventory Column */
+#inventory-column {
+    width: 250px;
+    min-width: 250px;
+    height: 100%;
+    background-color: #2d2d2d;
+    border: 2px solid #cecece;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar Components */
+.sidebar-header {
+    padding: 0.5rem;
+    background: #2d2d2d;
+    border-bottom: 1px solid #cecece;
+    flex-shrink: 0;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: #cecece;
+}
+
+.sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+/* Inventory Items */
+.inventory-group h3 {
+    color: #cecece;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.inventory-items {
+    position: relative;
+    display: flex;  /* Switch back to flex */
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.item-container {
+    display: flex;  /* Horizontal flex for item and its badge */
+    align-items: center;
+    width: 100%;
+}
+
+.item-button {
+    position: relative;
+    background-color: #1a1a1a;
+    color: #cecece;
+    border: 1px solid #666;
+    padding: 0.25rem 0.5rem;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.8rem;
+    flex-grow: 1;  /* Take up remaining space */
+}
+
+.count-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    background: #ffd700;
+    color: #000;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    padding: 0 4px;
+    margin-left: 4px;
+    flex-shrink: 0;  /* Prevent badge from shrinking */
+}
+
+.item-button:hover {
+    background-color: #2a2a2a;
+}
+
+.item-button.active {
+    background-color: #000080;
+    color: #cecece;
+}
+
+.item-count {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #ffd700;
+    color: black;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    border: 1px solid #666;
+}
+
+/* Locations Column */
+#locations-column {
+    flex-grow: 1;
+    height: 100%;
+    background-color: #2d2d2d;
+    border: 2px solid #cecece;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+.locations-header {
+    padding: 1rem;
+    background-color: #2d2d2d;
+    border-bottom: 1px solid #cecece;
+    flex-shrink: 0;
+    color: #cecece;
+}
+
+#locations-grid {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+/* Location Cards */
+.location-card {
+    padding: 0.5rem;
+    cursor: pointer;
+    border: 1px solid #cecece;
+    color: #cecece;
+}
+
+.location-card.reachable {
+    background-color: #0a3318;
+}
+
+.location-card.unreachable {
+    background-color: #3a0808;
+}
+
+.location-card.newly-reachable {
+    background-color: #3a2808;
+}
+
+.location-card.checked {
+    background-color: #000000;
+    color: #cecece;
+    border-color: #666;
+}
+
+.location-card.checked:hover {
+    background-color: #1a1a1a;
+}
+
+/* Buttons and Controls */
+.button {
+    background-color: #000080;
+    color: #cecece;
+    border: 1px solid #666;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.button:hover {
+    background-color: #0000a0;
+}
+
+/* Form Controls */
+select, input[type="checkbox"] {
+    border: 1px solid #666;
+}
+
+select {
+    padding: 0.25rem;
+    background: white;
+}
+
+/* Utility Classes */
+.red {
+    color: #ff0000;
+}
+
+.green {
+    color: #008000;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Cookie Message */
+#cookie-message {
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    line-height: 2rem;
+    border-top: 1px solid #c3c3c3;
+    background-color: #2d2d2d;
+    color: #c3c3c3;
+    width: 100%;
+}
+
+#cookie-message:hover {
+    cursor: pointer;
+}
+
+#cookie-message span {
+    padding: 0 0.5rem;
+}
+
+/* Empty State */
+.empty-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-style: italic;
+}

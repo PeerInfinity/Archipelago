@@ -1,0 +1,3481 @@
+
+Player 1:
+========================================
+
+Location: Mushroom
+Region: Light World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Bottle Merchant
+Region: Light World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Flute Spot
+Region: Light World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(world.get_location('Flute Spot', player), lambda state: state.has('Shovel', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sunken Treasure
+Region: Light World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Sunken Treasure', player), lambda state: state.has('Open Floodgate', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Purple Chest
+Region: Light World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: state.has('Pick Up Purple Chest', player))  # Can S&Q with chest
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Flute Activation Spot
+Region: Light World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Flute Activation Spot', player), lambda state: state.has('Flute', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Blind's Hideout - Top
+Region: Blinds Hideout
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Blind\'s Hideout - Top', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Blind's Hideout - Left
+Region: Blinds Hideout
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Blind's Hideout - Right
+Region: Blinds Hideout
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Blind's Hideout - Far Left
+Region: Blinds Hideout
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Blind's Hideout - Far Right
+Region: Blinds Hideout
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Link's Uncle
+Region: Hyrule Castle Secret Entrance
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Secret Passage
+Region: Hyrule Castle Secret Entrance
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: King Zora
+Region: Zoras River
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Zora's Ledge
+Region: Zoras River
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(world.get_location('Zora\'s Ledge', player), lambda state: state.has('Flippers', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Waterfall Fairy - Left
+Region: Waterfall of Wishing
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Waterfall Fairy - Right
+Region: Waterfall of Wishing
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: King's Tomb
+Region: Kings Grave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Floodgate
+Region: Dam
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Floodgate Chest
+Region: Dam
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Link's House
+Region: Links House
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Kakariko Tavern
+Region: Tavern
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Chicken House
+Region: Chicken House
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Chicken House', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Aginah's Cave
+Region: Aginahs Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Aginah\'s Cave', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sahasrahla's Hut - Left
+Region: Sahasrahlas Hut
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Sahasrahla\'s Hut - Left', player), lambda state: can_bomb_or_bonk(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sahasrahla's Hut - Middle
+Region: Sahasrahlas Hut
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Sahasrahla\'s Hut - Middle', player), lambda state: can_bomb_or_bonk(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sahasrahla's Hut - Right
+Region: Sahasrahlas Hut
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Sahasrahla\'s Hut - Right', player), lambda state: can_bomb_or_bonk(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sahasrahla
+Region: Sahasrahlas Hut
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Sahasrahla', player), lambda state: state.has('Green Pendant', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Kakariko Well - Top
+Region: Kakariko Well (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Kakariko Well - Top', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Kakariko Well - Left
+Region: Kakariko Well (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Kakariko Well - Middle
+Region: Kakariko Well (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Kakariko Well - Right
+Region: Kakariko Well (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Kakariko Well - Bottom
+Region: Kakariko Well (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Blacksmith
+Region: Blacksmiths Hut
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Blacksmith', player), lambda state: state.has('Return Smith', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Missing Smith
+Region: Blacksmiths Hut
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Missing Smith', player), lambda state: state.has('Get Frog', player) and state.can_reach('Blacksmiths Hut', 'Region', player))  # Can't S&Q with smith
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Magic Bat
+Region: Bat Cave (right)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Magic Bat', player), lambda state: state.has('Magic Powder', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sick Kid
+Region: Sick Kids House
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Sick Kid', player), lambda state: state.has_group("Bottles", player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Hobo
+Region: Hobo Bridge
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Lost Woods Hideout
+Region: Lost Woods Hideout (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Lumberjack Tree
+Region: Lumberjack Tree (top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Cave 45
+Region: Cave 45
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Graveyard Cave
+Region: Graveyard Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Graveyard Cave', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Checkerboard Cave
+Region: Checkerboard Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Mini Moldorm Cave - Far Left
+Region: Mini Moldorm Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Mini Moldorm Cave - Far Left', player), lambda state: can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Mini Moldorm Cave - Left
+Region: Mini Moldorm Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Mini Moldorm Cave - Left', player), lambda state: can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Mini Moldorm Cave - Right
+Region: Mini Moldorm Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Mini Moldorm Cave - Right', player), lambda state: can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Mini Moldorm Cave - Far Right
+Region: Mini Moldorm Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Mini Moldorm Cave - Far Right', player), lambda state: can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Mini Moldorm Cave - Generous Guy
+Region: Mini Moldorm Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Mini Moldorm Cave - Generous Guy', player), lambda state: can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Rod Cave
+Region: Ice Rod Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Bonk Rock Cave
+Region: Bonk Rock Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Library
+Region: Library
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Library', player), lambda state: state.has('Pegasus Boots', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Potion Shop
+Region: Potion Shop
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(world.get_location('Potion Shop', player), lambda state: state.has('Mushroom', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Lake Hylia Island
+Region: Lake Hylia Island
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Capacity Upgrade Shop
+Region: Capacity Upgrade
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Maze Race
+Region: Maze Race Ledge
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Desert Ledge
+Region: Desert Ledge
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Desert Palace - Big Chest
+Region: Desert Palace Main (Outer)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Desert Palace - Big Chest', player), lambda state: state.has('Big Key (Desert Palace)', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Desert Palace - Torch
+Region: Desert Palace Main (Outer)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Desert Palace - Torch', player), lambda state: state.has('Pegasus Boots', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Desert Palace - Map Chest
+Region: Desert Palace Main (Outer)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Desert Palace - Compass Chest
+Region: Desert Palace East
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Desert Palace - Big Key Chest
+Region: Desert Palace East
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Desert Palace - Big Key Chest', player), lambda state: can_kill_most_things(state, player, 3))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Desert Palace - Desert Tiles 1 Pot Key
+Region: Desert Palace North
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Desert Palace - Beamos Hall Pot Key
+Region: Desert Palace North
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Desert Palace - Beamos Hall Pot Key', player), lambda state: state._lttp_has_key('Small Key (Desert Palace)', player, 2) and can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Desert Palace - Desert Tiles 2 Pot Key
+Region: Desert Palace North
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Desert Palace - Desert Tiles 2 Pot Key', player), lambda state: state._lttp_has_key('Small Key (Desert Palace)', player, 3) and can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Desert Palace - Boss
+Region: Desert Palace North
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    add_rule(multiworld.get_location('Desert Palace - Boss', player), lambda state: state._lttp_has_key('Small Key (Desert Palace)', player, 4) and state.has('Big Key (Desert Palace)', player) and has_fire_source(state, player) and state.multiworld.get_location('Desert Palace - Boss', player).parent_region.dungeon.boss.can_defeat(state))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Desert Palace - Prize
+Region: Desert Palace North
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D784D60>
+rule: <function global_rules.<locals>.<lambda> at 0x000002797D784EA0>
+----------------------------------------
+
+Location: Eastern Palace - Compass Chest
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Eastern Palace - Big Chest
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: state.has('Big Key (Eastern Palace)', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Eastern Palace - Cannonball Chest
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Eastern Palace - Dark Square Pot Key
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+        add_rule(spot, lambda state: state.has('Lamp', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Eastern Palace - Dark Eyegore Key Drop
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7844A0>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79BCE0>
+----------------------------------------
+
+Location: Eastern Palace - Big Key Chest
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D784400>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79BE20>
+----------------------------------------
+
+Location: Eastern Palace - Map Chest
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Eastern Palace - Boss
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7847C0>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79BF60>
+----------------------------------------
+
+Location: Eastern Palace - Prize
+Region: Eastern Palace
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D784900>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79C0E0>
+----------------------------------------
+
+Location: Master Sword Pedestal
+Region: Master Sword Meadow
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Master Sword Pedestal', player), lambda state: state.has('Red Pendant', player) and state.has('Blue Pendant', player) and state.has('Green Pendant', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Hyrule Castle - Boomerang Chest
+Region: Hyrule Castle
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(world.get_location('Hyrule Castle - Boomerang Chest', player), lambda state: basement_key_rule(state) and can_kill_most_things(state, player, 1))
+
+
+Closure variables:
+basement_key_rule: <function open_rules.<locals>.basement_key_rule at 0x000002797D79A3E0>
+player: 1
+----------------------------------------
+
+Location: Hyrule Castle - Map Chest
+Region: Hyrule Castle
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Hyrule Castle - Zelda's Chest
+Region: Hyrule Castle
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: state._lttp_has_key('Small Key (Hyrule Castle)', player, 4)
+
+
+Closure variables:
+player: 1
+world: <BaseClasses.MultiWorld object at 0x000002797D9D3CD0>
+----------------------------------------
+
+Location: Hyrule Castle - Map Guard Key Drop
+Region: Hyrule Castle
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: can_kill_most_things(state, player, 1))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Hyrule Castle - Boomerang Guard Key Drop
+Region: Hyrule Castle
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: basement_key_rule(state) and can_kill_most_things(state, player, 2))
+
+
+Closure variables:
+basement_key_rule: <function open_rules.<locals>.basement_key_rule at 0x000002797D79A3E0>
+player: 1
+----------------------------------------
+
+Location: Hyrule Castle - Big Key Drop
+Region: Hyrule Castle
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: state._lttp_has_key('Small Key (Hyrule Castle)', player, 4) and can_kill_most_things(state, player, 1))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sewers - Dark Cross
+Region: Sewers (Dark)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+        add_rule(spot, lambda state: state.has('Lamp', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sewers - Key Rat Key Drop
+Region: Sewers (Dark)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+             lambda state: state._lttp_has_key('Small Key (Hyrule Castle)', player, 3) and can_kill_most_things(state, player, 1))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Sewers - Secret Room - Left
+Region: Sewers Secret Room
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Sewers - Secret Room - Middle
+Region: Sewers Secret Room
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Sewers - Secret Room - Right
+Region: Sewers Secret Room
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Sanctuary
+Region: Sanctuary
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Castle Tower - Room 03
+Region: Agahnims Tower
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Castle Tower - Room 03', player), lambda state: can_kill_most_things(state, player, 4))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Castle Tower - Dark Maze
+Region: Agahnims Tower
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D784180>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79B4C0>
+----------------------------------------
+
+Location: Castle Tower - Dark Archer Key Drop
+Region: Agahnims Tower
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D784220>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79B600>
+----------------------------------------
+
+Location: Castle Tower - Circle of Pots Key Drop
+Region: Agahnims Tower
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7842C0>
+rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79B740>
+----------------------------------------
+
+Location: Agahnim 1
+Region: Agahnim 1
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    add_rule(location, lambda state: location.parent_region.dungeon.boss.can_defeat(state))
+
+
+Closure variables:
+location: Agahnim 1
+----------------------------------------
+
+Location: Old Man
+Region: Old Man Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+        add_rule(spot, lambda state: state.has('Lamp', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Spectacle Rock Cave
+Region: Spectacle Rock Cave (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Paradox Cave Lower - Far Left
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Lower - Far Left', player), lambda state: can_use_bombs(state, player)
+                                                                                             or has_beam_sword(state, player) or can_shoot_arrows(state, player)
+                                                                                             or state.has_any(["Fire Rod", "Cane of Somaria"], player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Paradox Cave Lower - Left
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Lower - Left', player), lambda state: can_use_bombs(state, player)
+                                                                                         or has_beam_sword(state, player) or can_shoot_arrows(state, player)
+                                                                                         or state.has_any(["Fire Rod", "Cane of Somaria"], player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Paradox Cave Lower - Right
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Lower - Right', player), lambda state: can_use_bombs(state, player)
+                                                                                          or has_beam_sword(state, player) or can_shoot_arrows(state, player)
+                                                                                          or state.has_any(["Fire Rod", "Cane of Somaria"], player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Paradox Cave Lower - Far Right
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Lower - Far Right', player), lambda state: can_use_bombs(state, player)
+                                                                                              or has_beam_sword(state, player) or can_shoot_arrows(state, player)
+                                                                                              or state.has_any(["Fire Rod", "Cane of Somaria"], player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Paradox Cave Lower - Middle
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Lower - Middle', player), lambda state: can_use_bombs(state, player)
+                                                                                           or has_beam_sword(state, player) or can_shoot_arrows(state, player)
+                                                                                           or state.has_any(["Fire Rod", "Cane of Somaria"], player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Paradox Cave Upper - Left
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Upper - Left', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Paradox Cave Upper - Right
+Region: Paradox Cave Chest Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Paradox Cave Upper - Right', player), lambda state: can_use_bombs(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Spiral Cave
+Region: Spiral Cave (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Ether Tablet
+Region: Death Mountain (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Ether Tablet', player), lambda state: can_retrieve_tablet(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Spectacle Rock
+Region: Spectacle Rock
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Tower of Hera - Basement Cage
+Region: Tower of Hera (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Tower of Hera - Basement Cage', player), lambda state: can_activate_crystal_switch(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Tower of Hera - Map Chest
+Region: Tower of Hera (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Tower of Hera - Map Chest', player), lambda state: can_activate_crystal_switch(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Tower of Hera - Big Key Chest
+Region: Tower of Hera (Basement)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Tower of Hera - Big Key Chest', player), lambda state: has_fire_source(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Tower of Hera - Compass Chest
+Region: Tower of Hera (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Tower of Hera - Big Chest
+Region: Tower of Hera (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Tower of Hera - Big Chest', player), lambda state: state.has('Big Key (Tower of Hera)', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Tower of Hera - Boss
+Region: Tower of Hera (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    add_rule(location, lambda state: location.parent_region.dungeon.boss.can_defeat(state))
+
+
+Closure variables:
+location: Tower of Hera - Boss
+----------------------------------------
+
+Location: Tower of Hera - Prize
+Region: Tower of Hera (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    add_rule(location, lambda state: location.parent_region.dungeon.boss.can_defeat(state))
+
+
+Closure variables:
+location: Tower of Hera - Prize
+----------------------------------------
+
+Location: Pyramid
+Region: East Dark World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Catfish
+Region: Catfish
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Stumpy
+Region: South Dark World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D79FB00>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2CA0>
+----------------------------------------
+
+Location: Digging Game
+Region: South Dark World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D79FC40>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2DE0>
+----------------------------------------
+
+Location: Bombos Tablet
+Region: Bombos Tablet Ledge
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(world.get_location('Bombos Tablet', player), lambda state: can_retrieve_tablet(state, player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Hype Cave - Top
+Region: Hype Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D95B6A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79F1A0>
+----------------------------------------
+
+Location: Hype Cave - Middle Right
+Region: Hype Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D95B600>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79F2E0>
+----------------------------------------
+
+Location: Hype Cave - Middle Left
+Region: Hype Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D95B560>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79F420>
+----------------------------------------
+
+Location: Hype Cave - Bottom
+Region: Hype Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D95B4C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79F560>
+----------------------------------------
+
+Location: Hype Cave - Generous Guy
+Region: Hype Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Frog
+Region: West Dark World
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B0720>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B8220>
+----------------------------------------
+
+Location: Dark Blacksmith Ruins
+Region: Hammer Peg Area
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    set_rule(multiworld.get_location('Dark Blacksmith Ruins', player), lambda state: state.has('Return Smith', player))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Peg Cave
+Region: Dark World Hammer Peg Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Pyramid Fairy - Left
+Region: Pyramid Fairy
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Pyramid Fairy - Right
+Region: Pyramid Fairy
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Brewery
+Region: Brewery
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: C-Shaped House
+Region: C-Shaped House
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Chest Game
+Region: Chest Game
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Bumper Cave Ledge
+Region: Bumper Cave Ledge
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Mire Shed - Left
+Region: Mire Shed
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Mire Shed - Right
+Region: Mire Shed
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Superbunny Cave - Top
+Region: Superbunny Cave (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B1580>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2480>
+----------------------------------------
+
+Location: Superbunny Cave - Bottom
+Region: Superbunny Cave (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B1620>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B25C0>
+----------------------------------------
+
+Location: Spike Cave
+Region: Spike Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D95B920>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B1120>
+----------------------------------------
+
+Location: Hookshot Cave - Top Right
+Region: Hookshot Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B1760>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2700>
+----------------------------------------
+
+Location: Hookshot Cave - Top Left
+Region: Hookshot Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B18A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2840>
+----------------------------------------
+
+Location: Hookshot Cave - Bottom Right
+Region: Hookshot Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B19E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2980>
+----------------------------------------
+
+Location: Hookshot Cave - Bottom Left
+Region: Hookshot Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B1B20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2AC0>
+----------------------------------------
+
+Location: Floating Island
+Region: Death Mountain Floating Island (Light World)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+    access_rule: Callable[[CollectionState], bool] = staticmethod(lambda state: True)
+
+----------------------------------------
+
+Location: Mimic Cave
+Region: Mimic Cave
+
+Access Rule:
+Has access_rule: Yes
+Source:
+        set_rule(multiworld.get_location('Mimic Cave', player), lambda state: state.has('Hammer', player)
+                                                                              and ((state.multiworld.enemy_health[player] in ("easy", "default") and can_use_bombs(state, player, 4))
+                      or can_shoot_arrows(state, player) or state.has("Cane of Somaria", player)
+                      or has_beam_sword(state, player)))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Entrance
+Region: Swamp Palace (First Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Map Chest
+Region: Swamp Palace (Starting Area)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7856C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B2F20>
+----------------------------------------
+
+Location: Swamp Palace - Pot Row Pot Key
+Region: Swamp Palace (Starting Area)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Trench 1 Pot Key
+Region: Swamp Palace (Starting Area)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D785760>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3100>
+----------------------------------------
+
+Location: Swamp Palace - Big Chest
+Region: Swamp Palace (Center)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D785D00>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3240>
+----------------------------------------
+
+Location: Swamp Palace - Compass Chest
+Region: Swamp Palace (Center)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Hookshot Pot Key
+Region: Swamp Palace (Center)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7858A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3420>
+----------------------------------------
+
+Location: Swamp Palace - Trench 2 Pot Key
+Region: Swamp Palace (Center)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Big Key Chest
+Region: Swamp Palace (West)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - West Chest
+Region: Swamp Palace (West)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Flooded Room - Left
+Region: Swamp Palace (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Flooded Room - Right
+Region: Swamp Palace (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Waterway Pot Key
+Region: Swamp Palace (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Waterfall Room
+Region: Swamp Palace (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Swamp Palace - Boss
+Region: Swamp Palace (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D786020>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3880>
+----------------------------------------
+
+Location: Swamp Palace - Prize
+Region: Swamp Palace (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D785EE0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B39C0>
+----------------------------------------
+
+Location: Thieves' Town - Big Key Chest
+Region: Thieves Town (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Thieves' Town - Map Chest
+Region: Thieves Town (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Thieves' Town - Compass Chest
+Region: Thieves Town (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Thieves' Town - Ambush Chest
+Region: Thieves Town (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Thieves' Town - Attic
+Region: Thieves Town (Deep)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D786340>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3C40>
+----------------------------------------
+
+Location: Thieves' Town - Big Chest
+Region: Thieves Town (Deep)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D786200>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3D80>
+----------------------------------------
+
+Location: Thieves' Town - Hallway Pot Key
+Region: Thieves Town (Deep)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Thieves' Town - Spike Switch Pot Key
+Region: Thieves Town (Deep)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7863E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B3F60>
+----------------------------------------
+
+Location: Thieves' Town - Blind's Cell
+Region: Thieves Town (Deep)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7862A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B80E0>
+----------------------------------------
+
+Location: Thieves' Town - Boss
+Region: Blind Fight
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BF240>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B8360>
+----------------------------------------
+
+Location: Thieves' Town - Prize
+Region: Blind Fight
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BF100>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B84A0>
+----------------------------------------
+
+Location: Skull Woods - Map Chest
+Region: Skull Woods First Section
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B8CC0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B8EA0>
+----------------------------------------
+
+Location: Skull Woods - Pinball Room
+Region: Skull Woods First Section (Right)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B87C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B8D60>
+----------------------------------------
+
+Location: Skull Woods - Compass Chest
+Region: Skull Woods First Section (Left)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B0860>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B8860>
+----------------------------------------
+
+Location: Skull Woods - Pot Prison
+Region: Skull Woods First Section (Left)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B0900>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B89A0>
+----------------------------------------
+
+Location: Skull Woods - Big Chest
+Region: Skull Woods First Section (Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B0A40>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B85E0>
+----------------------------------------
+
+Location: Skull Woods - Big Key Chest
+Region: Skull Woods Second Section
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B0D60>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B8FE0>
+----------------------------------------
+
+Location: Skull Woods - West Lobby Pot Key
+Region: Skull Woods Second Section
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7B0EA0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9120>
+----------------------------------------
+
+Location: Skull Woods - Bridge Room
+Region: Skull Woods Final Section (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Skull Woods - Spike Corner Key Drop
+Region: Skull Woods Final Section (Mothula)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Skull Woods - Boss
+Region: Skull Woods Final Section (Mothula)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D786C00>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9300>
+----------------------------------------
+
+Location: Skull Woods - Prize
+Region: Skull Woods Final Section (Mothula)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D786AC0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9440>
+----------------------------------------
+
+Location: Ice Palace - Jelly Key Drop
+Region: Ice Palace (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D786CA0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79F7E0>
+----------------------------------------
+
+Location: Ice Palace - Compass Chest
+Region: Ice Palace (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D786D40>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79F920>
+----------------------------------------
+
+Location: Ice Palace - Conveyor Key Drop
+Region: Ice Palace (Second Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Freezor Chest
+Region: Ice Palace (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Many Pots Pot Key
+Region: Ice Palace (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Big Chest
+Region: Ice Palace (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D786F20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9760>
+----------------------------------------
+
+Location: Ice Palace - Iced T Room
+Region: Ice Palace (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Spike Room
+Region: Ice Palace (East)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Big Key Chest
+Region: Ice Palace (East Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Map Chest
+Region: Ice Palace (East Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Hammer Block Key Drop
+Region: Ice Palace (East Top)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ice Palace - Boss
+Region: Ice Palace (Kholdstare)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BCC20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B99E0>
+----------------------------------------
+
+Location: Ice Palace - Prize
+Region: Ice Palace (Kholdstare)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BEFC0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9B20>
+----------------------------------------
+
+Location: Misery Mire - Big Chest
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7872E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9E40>
+----------------------------------------
+
+Location: Misery Mire - Map Chest
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7874C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B9F80>
+----------------------------------------
+
+Location: Misery Mire - Main Lobby
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D787560>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA0C0>
+----------------------------------------
+
+Location: Misery Mire - Bridge Chest
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Misery Mire - Spike Chest
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D787380>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA2A0>
+----------------------------------------
+
+Location: Misery Mire - Spikes Pot Key
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Misery Mire - Fishbone Pot Key
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D787240>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA480>
+----------------------------------------
+
+Location: Misery Mire - Conveyor Crystal Key Drop
+Region: Misery Mire (Main)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D787600>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA5C0>
+----------------------------------------
+
+Location: Misery Mire - Compass Chest
+Region: Misery Mire (West)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D787740>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA700>
+----------------------------------------
+
+Location: Misery Mire - Big Key Chest
+Region: Misery Mire (West)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7877E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA840>
+----------------------------------------
+
+Location: Misery Mire - Boss
+Region: Misery Mire (Vitreous)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BEF20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BA980>
+----------------------------------------
+
+Location: Misery Mire - Prize
+Region: Misery Mire (Vitreous)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BECA0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BAAC0>
+----------------------------------------
+
+Location: Turtle Rock - Compass Chest
+Region: Turtle Rock (First Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7BACA0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BB240>
+----------------------------------------
+
+Location: Turtle Rock - Roller Room - Left
+Region: Turtle Rock (First Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7BADE0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BB380>
+----------------------------------------
+
+Location: Turtle Rock - Roller Room - Right
+Region: Turtle Rock (First Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7BAF20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BB4C0>
+----------------------------------------
+
+Location: Turtle Rock - Pokey 1 Key Drop
+Region: Turtle Rock (Pokey Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7BB060>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BB880>
+----------------------------------------
+
+Location: Turtle Rock - Chain Chomps
+Region: Turtle Rock (Chain Chomp Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7BB1A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BB9C0>
+----------------------------------------
+
+Location: Turtle Rock - Big Key Chest
+Region: Turtle Rock (Second Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7BBEC0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C00E0>
+----------------------------------------
+
+Location: Turtle Rock - Pokey 2 Key Drop
+Region: Turtle Rock (Second Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C0040>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0220>
+----------------------------------------
+
+Location: Turtle Rock - Big Chest
+Region: Turtle Rock (Big Chest)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D787D80>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B1BC0>
+----------------------------------------
+
+Location: Turtle Rock - Crystaroller Room
+Region: Turtle Rock (Crystaroller Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7BBB00>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0360>
+----------------------------------------
+
+Location: Turtle Rock - Eye Bridge - Bottom Left
+Region: Turtle Rock (Eye Bridge)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C0540>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C09A0>
+----------------------------------------
+
+Location: Turtle Rock - Eye Bridge - Bottom Right
+Region: Turtle Rock (Eye Bridge)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C0680>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0AE0>
+----------------------------------------
+
+Location: Turtle Rock - Eye Bridge - Top Left
+Region: Turtle Rock (Eye Bridge)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C07C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0C20>
+----------------------------------------
+
+Location: Turtle Rock - Eye Bridge - Top Right
+Region: Turtle Rock (Eye Bridge)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C0900>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0D60>
+----------------------------------------
+
+Location: Turtle Rock - Boss
+Region: Turtle Rock (Trinexx)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BF380>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0EA0>
+----------------------------------------
+
+Location: Turtle Rock - Prize
+Region: Turtle Rock (Trinexx)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BF4C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C0FE0>
+----------------------------------------
+
+Location: Palace of Darkness - Shooter Room
+Region: Palace of Darkness (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - The Arena - Bridge
+Region: Palace of Darkness (Center)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1120>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1A80>
+----------------------------------------
+
+Location: Palace of Darkness - Stalfos Basement
+Region: Palace of Darkness (Center)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C11C0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1BC0>
+----------------------------------------
+
+Location: Palace of Darkness - Big Key Chest
+Region: Palace of Darkness (Big Key Chest)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - The Arena - Ledge
+Region: Palace of Darkness (Bonk Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D790C20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1260>
+----------------------------------------
+
+Location: Palace of Darkness - Map Chest
+Region: Palace of Darkness (Bonk Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - Compass Chest
+Region: Palace of Darkness (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - Dark Basement - Left
+Region: Palace of Darkness (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79B240>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1580>
+----------------------------------------
+
+Location: Palace of Darkness - Dark Basement - Right
+Region: Palace of Darkness (North)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_lamp_requirement.<locals>.<lambda> at 0x000002797D79B2E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C16C0>
+----------------------------------------
+
+Location: Palace of Darkness - Dark Maze - Top
+Region: Palace of Darkness (Maze)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - Dark Maze - Bottom
+Region: Palace of Darkness (Maze)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - Big Chest
+Region: Palace of Darkness (Maze)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D790B80>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1EE0>
+----------------------------------------
+
+Location: Palace of Darkness - Harmless Hellway
+Region: Palace of Darkness (Harmless Hellway)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Palace of Darkness - Boss
+Region: Palace of Darkness (Final Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BEE80>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1800>
+----------------------------------------
+
+Location: Palace of Darkness - Prize
+Region: Palace of Darkness (Final Section)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D9BF600>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C1940>
+----------------------------------------
+
+Location: Ganons Tower - Bob's Torch
+Region: Ganons Tower (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D790FE0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7B1260>
+----------------------------------------
+
+Location: Ganons Tower - Hope Room - Left
+Region: Ganons Tower (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Hope Room - Right
+Region: Ganons Tower (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Conveyor Cross Pot Key
+Region: Ganons Tower (Entrance)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Tile Room
+Region: Ganons Tower (Tile Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Compass Room - Top Left
+Region: Ganons Tower (Compass Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791800>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2660>
+----------------------------------------
+
+Location: Ganons Tower - Compass Room - Top Right
+Region: Ganons Tower (Compass Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7918A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C27A0>
+----------------------------------------
+
+Location: Ganons Tower - Compass Room - Bottom Left
+Region: Ganons Tower (Compass Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791940>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C28E0>
+----------------------------------------
+
+Location: Ganons Tower - Compass Room - Bottom Right
+Region: Ganons Tower (Compass Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7919E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2A20>
+----------------------------------------
+
+Location: Ganons Tower - Conveyor Star Pits Pot Key
+Region: Ganons Tower (Compass Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791A80>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2B60>
+----------------------------------------
+
+Location: Ganons Tower - DMs Room - Top Left
+Region: Ganons Tower (Hookshot Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function forbid_bomb_jump_requirements.<locals>.<lambda> at 0x000002797D793D80>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C20C0>
+----------------------------------------
+
+Location: Ganons Tower - DMs Room - Top Right
+Region: Ganons Tower (Hookshot Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function forbid_bomb_jump_requirements.<locals>.<lambda> at 0x000002797D79C4A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2200>
+----------------------------------------
+
+Location: Ganons Tower - DMs Room - Bottom Left
+Region: Ganons Tower (Hookshot Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function forbid_bomb_jump_requirements.<locals>.<lambda> at 0x000002797D79C540>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2340>
+----------------------------------------
+
+Location: Ganons Tower - DMs Room - Bottom Right
+Region: Ganons Tower (Hookshot Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function forbid_bomb_jump_requirements.<locals>.<lambda> at 0x000002797D79C5E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2480>
+----------------------------------------
+
+Location: Ganons Tower - Double Switch Pot Key
+Region: Ganons Tower (Hookshot Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Map Chest
+Region: Ganons Tower (Map Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Firesnake Room
+Region: Ganons Tower (Firesnake Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7913A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C32E0>
+----------------------------------------
+
+Location: Ganons Tower - Randomizer Room - Top Left
+Region: Ganons Tower (Teleport Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791440>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3420>
+----------------------------------------
+
+Location: Ganons Tower - Randomizer Room - Top Right
+Region: Ganons Tower (Teleport Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D7914E0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3560>
+----------------------------------------
+
+Location: Ganons Tower - Randomizer Room - Bottom Left
+Region: Ganons Tower (Teleport Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791580>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C36A0>
+----------------------------------------
+
+Location: Ganons Tower - Randomizer Room - Bottom Right
+Region: Ganons Tower (Teleport Room)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791620>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C37E0>
+----------------------------------------
+
+Location: Ganons Tower - Bob's Chest
+Region: Ganons Tower (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C2CA0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3920>
+----------------------------------------
+
+Location: Ganons Tower - Big Chest
+Region: Ganons Tower (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C2DE0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3A60>
+----------------------------------------
+
+Location: Ganons Tower - Big Key Room - Left
+Region: Ganons Tower (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C2F20>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3BA0>
+----------------------------------------
+
+Location: Ganons Tower - Big Key Room - Right
+Region: Ganons Tower (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C3060>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3CE0>
+----------------------------------------
+
+Location: Ganons Tower - Big Key Chest
+Region: Ganons Tower (Bottom)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D7C31A0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C3E20>
+----------------------------------------
+
+Location: Ganons Tower - Mini Helmasaur Room - Left
+Region: Ganons Tower (Before Moldorm)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Mini Helmasaur Room - Right
+Region: Ganons Tower (Before Moldorm)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Ganons Tower - Pre-Moldorm Chest
+Region: Ganons Tower (Before Moldorm)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791F80>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C40E0>
+----------------------------------------
+
+Location: Ganons Tower - Mini Helmasaur Key Drop
+Region: Ganons Tower (Before Moldorm)
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function global_rules.<locals>.<lambda> at 0x000002797D791EE0>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C4220>
+----------------------------------------
+
+Location: Ganons Tower - Validation Chest
+Region: Agahnim 2
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                return lambda state: state.has('Moon Pearl', player)
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Agahnim 2
+Region: Agahnim 2
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function set_defeat_dungeon_boss_rule.<locals>.<lambda> at 0x000002797D792160>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D7C4400>
+----------------------------------------
+
+Location: Ganon
+Region: Pyramid
+
+Access Rule:
+Has access_rule: Yes
+Source:
+            spot.access_rule = lambda state: rule(state) and old_rule(state)
+
+
+Closure variables:
+old_rule: <function add_rule.<locals>.<lambda> at 0x000002797D79C860>
+rule: <function set_bunny_rules.<locals>.get_rule_to_add.<locals>.<lambda> at 0x000002797D79EE80>
+----------------------------------------
+
+Location: Capacity Upgrade Left
+Region: Capacity Upgrade
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                add_rule(loc, lambda state, spot=loc: shop_price_rules(state, player, spot))
+
+
+Closure variables:
+player: 1
+----------------------------------------
+
+Location: Capacity Upgrade Right
+Region: Capacity Upgrade
+
+Access Rule:
+Has access_rule: Yes
+Source:
+                add_rule(loc, lambda state, spot=loc: shop_price_rules(state, player, spot))
+
+
+Closure variables:
+player: 1
+----------------------------------------
