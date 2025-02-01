@@ -2,6 +2,10 @@
 
 import logging
 import collections
+import json
+import os
+import asyncio
+from automate_frontend_tests import run_frontend_tests
 from typing import Any, Dict, List, Optional
 
 from .analyzer import analyze_rule
@@ -9,6 +13,34 @@ from .games import get_game_helpers
 
 logger = logging.getLogger(__name__)
 
+def export_test_data(multiworld, access_pool, output_dir, filename_base="test_output"):
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Export the rules data
+    from worlds.generic.RuleParser import export_game_rules
+    export_game_rules(multiworld, output_dir, filename_base)
+    
+    # Convert the test cases to the format needed for JSON
+    test_cases = []
+    for location, access, *item_pool in access_pool:
+        items = item_pool[0]
+        all_except = item_pool[1] if len(item_pool) > 1 else None
+        if all_except is not None:
+            test_cases.append([location, access, items, all_except])
+        else:
+            test_cases.append([location, access, items])
+    
+    # Write to JSON file
+    test_cases_data = {"location_tests": test_cases}
+    test_cases_path = os.path.join(output_dir, "test_cases.json")
+    with open(test_cases_path, 'w') as f:
+        json.dump(test_cases_data, f, indent=2)
+    
+    asyncio.run(run_frontend_tests())
+    print("Automated frontend tests finished.")
+
+    return True
+    
 def prepare_export_data(multiworld) -> Dict[str, Any]:
     """
     Prepares rule and location data for export to frontend.

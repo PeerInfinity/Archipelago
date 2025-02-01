@@ -14,6 +14,7 @@ from worlds.AutoWorld import World, call_all
 from BaseClasses import Location, MultiWorld, CollectionState, ItemClassification, Item
 from worlds.alttp.Items import item_factory
 
+from worlds.generic.RuleParser.exporter import export_test_data
 
 class TestBase(unittest.TestCase):
     multiworld: MultiWorld
@@ -46,35 +47,9 @@ class TestBase(unittest.TestCase):
         return list(pathpairs)
 
     def run_location_tests(self, access_pool):
-        # Set up output directory
         output_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend')
-        os.makedirs(output_dir, exist_ok=True)
-        
-        # Export the rules data
-        from worlds.generic.RuleParser import export_game_rules
-        export_game_rules(self.multiworld, output_dir, "test_output")
-        
-        # Convert the test cases to the format needed for JSON
-        test_cases = []
-        for location, access, *item_pool in access_pool:
-            items = item_pool[0]
-            all_except = item_pool[1] if len(item_pool) > 1 else None
-            if all_except is not None:
-                test_cases.append([location, access, items, all_except])
-            else:
-                test_cases.append([location, access, items])
-        
-        # Write to JSON file
-        test_cases_data = {"location_tests": test_cases}
-        test_cases_path = os.path.join(output_dir, "test_cases.json")
-        with open(test_cases_path, 'w') as f:
-            json.dump(test_cases_data, f, indent=2)
-        
-        print("\nTest files have been generated. To run frontend tests:")
-        print("1. Start a web server: python -m http.server 8000")
-        print("2. Open http://localhost:8000/test_runner.html in your browser")
-        
-        # Run the original test logic
+        export_test_data(self.multiworld, access_pool, output_dir)
+
         for i, (location, access, *item_pool) in enumerate(access_pool):
             items = item_pool[0]
             all_except = item_pool[1] if len(item_pool) > 1 else None

@@ -1,52 +1,46 @@
-# Developer Guide
+# Running Frontend Tests
 
-This guide covers the technical details of the Archipelago JSON Rules system.
+The Archipelago JSON Rules system includes automated testing to verify that the JavaScript rule evaluation matches the Python implementation. The testing process is now fully automated using Playwright.
 
-## Rule Export System
+## Prerequisites
 
-### Overview
-The system extracts rules from Archipelago's Python codebase and converts them to a JSON format that can be evaluated in JavaScript.
+Before running the tests, you need to install Playwright and its browser dependencies:
 
-### Components
-
-#### Rule Parser (`worlds/generic/RuleParser/`)
-- `__init__.py`: Main export functionality
-- `analyzer.py`: Analyzes Python rule functions
-- `exporter.py`: Converts rules to JSON format
-- `games/`: Game-specific helper functions
-
-#### Rule Engine (`frontend/assets/ruleEngine.js`)
-- Evaluates converted rules in JavaScript
-- Manages inventory state
-- Provides debugging tools
-
-### JSON Format
-
-Rules are exported in a structured format:
-```json
-{
-  "locations": {
-    "1": {  // Player number
-      "Location Name": {
-        "name": "Location Name",
-        "region": "Region Name",
-        "access_rule": {
-          "type": "and|or|item_check|...",
-          "conditions": [...]
-        },
-        "path_rules": {...}
-      }
-    }
-  },
-  "items": {...},
-  "item_groups": {...},
-  "progression_mapping": {...}
-}
+```bash
+pip install playwright
+playwright install
 ```
 
-## Test Runner
+## Running Tests
 
-### Running Tests
+There are two ways to run the tests:
+
+### 1. Automated Testing (Recommended)
+
+The tests can now be run directly from pytest without manual intervention. The test process will:
+
+1. Run the Python test case
+2. Generate the necessary JSON files
+3. Start a local HTTP server
+4. Launch a headless browser
+5. Execute the frontend tests
+6. Save test results
+7. Clean up automatically
+
+To run a test:
+
+```bash
+pytest worlds/alttp/test/vanilla/TestLightWorld.py::TestLightWorld -v
+```
+
+The test results will be saved to:
+- `test_results/test_results_automated.html` - HTML snapshot of test results
+- `test_results/test_results_automated.json` - Detailed test results in JSON format
+
+### 2. Manual Testing (Legacy Method)
+
+You can still run the tests manually if needed:
+
 1. Configure test execution in VS Code:
    ```json
    {
@@ -79,42 +73,72 @@ Rules are exported in a structured format:
    http://localhost:8000/frontend/test_runner.html
    ```
 
-### Test Results
-Results are saved to `test_results.json` with:
-- Overall pass/fail counts
-- Detailed results per test case
-- Debug logs for failed tests
+## Test Results
 
-## Creating New Interfaces
+The automated testing process generates two types of output:
 
-The exported JSON format can be used to create new web interfaces:
+1. HTML Snapshot (`test_results_automated.html`)
+   - Visual representation of test results
+   - Pass/fail status for each test case
+   - Detailed information about failures
+   - Summary statistics
 
-1. Load the JSON:
-   ```javascript
-   const response = await fetch('rules.json');
-   const rulesData = await response.json();
+2. JSON Results (`test_results_automated.json`)
+   ```json
+   {
+     "summary": {
+       "total": 155,
+       "passed": 128,
+       "failed": 27,
+       "percentage": 83
+     },
+     "results": [
+       {
+         "location": "Location Name",
+         "passed": true/false,
+         "message": "Test details",
+         "expectedAccess": true/false,
+         "requiredItems": ["item1", "item2"],
+         "excludedItems": ["item3"],
+         "debugLog": ["log entry 1", "log entry 2"]
+       }
+     ]
+   }
    ```
 
-2. Create an inventory:
-   ```javascript
-   const inventory = new Inventory(items, excludeItems, progressionMapping);
-   ```
+## Generated Files
 
-3. Evaluate rules:
-   ```javascript
-   const isAccessible = evaluateRule(location.access_rule, inventory);
-   ```
+The testing process generates several files:
 
-See the Archipidle-json implementation for a complete example.
+- `frontend/test_output_rules.json`: Rule definitions exported from Python
+- `frontend/test_cases.json`: Test cases exported from Python
+- `test_results/test_results_automated.json`: Test execution results
+- `test_results/test_results_automated.html`: HTML snapshot of results
 
-## Integration with Archipelago
+## Debugging Failed Tests
 
-The rule export is integrated with Archipelago's generation process:
-```python
-# In generation code
-export_game_rules(multiworld, output_dir, "rules")
-```
+When tests fail, you can:
 
-This creates:
-- rules.json: Contains all location access rules
-- (Future) Additional game-specific data
+1. Check the HTML snapshot for a visual overview of failures
+2. Examine the JSON results file for detailed error information
+3. Look for debug logs in the test results for specific test cases
+4. Run the tests manually using the legacy method to interact with the test runner directly
+
+## Configuration
+
+The automated testing process can be configured through several options:
+
+- `TestLogger.enableFileSaving`: Enable/disable saving debug files for failed tests
+- `TestLogger.enableDebugLogging`: Enable/disable detailed console logging
+- Playwright browser options in `automate_frontend_tests.py`
+
+## Adding New Tests
+
+When adding new tests:
+
+1. Create test cases in your Python test file
+2. Run the test using pytest
+3. The frontend tests will run automatically
+4. Check results in the test_results directory
+
+The automated process ensures that both Python and JavaScript implementations stay in sync as new features are added.

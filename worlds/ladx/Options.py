@@ -441,6 +441,7 @@ class GfxMod(FreeText, LADXROption):
 
     extensions = [".bin", ".bdiff", ".png", ".bmp"]
 
+    # When running pytest, __spriteDir is set to the wrong path, and gives a FileNotFoundError
     if not 'pytest' in sys.modules:
         for file in os.listdir(__spriteDir):
             name, extension = os.path.splitext(file)
