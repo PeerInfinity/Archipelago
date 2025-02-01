@@ -1,0 +1,25 @@
+That's the end of the files you need for context.  Now here are your instructions:
+
+The next thing I want you to do is find a way to fully automate the test process.
+
+The test process currently starts by running this test profile in VSCode:
+
+        {
+            "name": "Python: TestLightWorld",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "worlds/alttp/test/vanilla/TestLightWorld.py::TestLightWorld",
+                "-v",
+                "--capture=tee-sys",
+                "-o", "log_cli=true",
+                ">", "pytest_output.txt"
+            ],
+            "console": "integratedTerminal"
+        },
+
+The test process is currently bottlenecked by needing to manually open the browser to open test_runner.html, let the page run its tests, and save the outputs to test_results.json
+
+I want a way for the Python test scripts to do this automatically, without having to manually open a browser.
+

@@ -17,7 +17,7 @@ A web interface extending the Archipidle client with rule-based location trackin
 - Track inventory and available locations
 - Integrates with existing Archipidle console features
 
-[Try it live](https://peerinfinity.github.io/archipelago/) | [User Guide](/docs/json/archipidle.md)
+[Try it live](https://peerinfinity.github.io/Archipelago/) | [User Guide](/docs/json/archipidle.md)
 
 #### Rule Test Runner
 A development tool for validating rule conversion:

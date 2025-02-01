@@ -22,6 +22,56 @@ from worlds.generic.RuleParser import export_game_rules
 
 __all__ = ["main"]
 
+def save_to_folder(temp_dir: str, output_folder: str) -> None:
+    """
+    Save generated files from temp directory to an output folder.
+    
+    Args:
+        temp_dir: Path to temporary directory containing generated files
+        output_folder: Path where files should be saved
+    """
+    import os
+    import shutil
+    
+    # Create the output directory if it doesn't exist
+    os.makedirs(output_folder, exist_ok=True)
+    
+    # Copy all files from temp directory to output folder
+    for file in os.scandir(temp_dir):
+        shutil.copy2(file.path, os.path.join(output_folder, file.name))
+
+def save_to_zip(temp_dir: str, zip_path: str) -> None:
+    """
+    Save generated files from temp directory to a zip file.
+    
+    Args:
+        temp_dir: Path to temporary directory containing generated files
+        zip_path: Path where zip file should be saved
+    """
+    import os
+    import zipfile
+    
+    # Create zip file with maximum compression
+    with zipfile.ZipFile(zip_path, mode="w", compression=zipfile.ZIP_DEFLATED, 
+                        compresslevel=9) as zf:
+        for file in os.scandir(temp_dir):
+            zf.write(file.path, arcname=file.name)
+
+def save_output_files(temp_dir: str, base_path: str, use_zip: bool = True) -> None:
+    """
+    Save all generated files either to a zip file or a folder.
+    
+    Args:
+        temp_dir: Path to temporary directory containing generated files
+        base_path: Base path for output (either zip file path or folder path)
+        use_zip: If True, save to zip file; if False, save to folder
+    """
+    if use_zip:
+        save_to_zip(temp_dir, base_path)
+    else:
+        # For folder output, remove .zip extension if present
+        folder_path = base_path[:-4] if base_path.lower().endswith('.zip') else base_path
+        save_to_folder(temp_dir, folder_path)
 
 def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = None):
     if not baked_server_options:
@@ -369,12 +419,11 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
         if args.spoiler:
             multiworld.spoiler.to_file(os.path.join(temp_dir, '%s_Spoiler.txt' % outfilebase))
 
-        zipfilename = output_path(f"AP_{multiworld.seed_name}.zip")
-        logger.info(f"Creating final archive at {zipfilename}")
-        with zipfile.ZipFile(zipfilename, mode="w", compression=zipfile.ZIP_DEFLATED,
-                             compresslevel=9) as zf:
-            for file in os.scandir(temp_dir):
-                zf.write(file.path, arcname=file.name)
+        output_filename = output_path(f"AP_{multiworld.seed_name}.zip")
+        use_zip = False  # Set this to False to save to folder instead
+        
+        logger.info(f"Saving output files to {'archive' if use_zip else 'folder'} at {output_filename}")
+        save_output_files(temp_dir, output_filename, use_zip)
 
     logger.info('Done. Enjoy. Total Time: %s', time.perf_counter() - start)
     return multiworld

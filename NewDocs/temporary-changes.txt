@@ -1,0 +1,72 @@
+Here are some temporary changes I made, to make my own testing easier.
+
+
+
+Context.py
+
+A script to collect context to pass to a LLM.
+
+
+Context.txt
+
+The output of Context.py
+
+
+ContextList.txt
+
+The file with the parameters for Context.py
+
+
+Main.py
+
+I added an option to save to a folder instead of a zip file.  I found that more convenient for testing.
+
+
+pytest.ini
+
+filterwarnings =
+    ignore:.*Getting options from multiworld is now deprecated.*
+    ignore:.*Using per_slot_randoms is now deprecated.*
+
+The console was full of these messages when running pytest on alttp, so I disabled them.
+
+
+pytest_output.txt
+
+Output from pytest
+
+
+frontend/test_output_raw_rules.txt
+
+Used for debugging, not needed for release
+
+
+NewDocs/project-notes.txt
+
+Some scrap notes about the project.
+
+
+NewDocs/scrap.txt
+
+A scrap text file.
+
+
+worlds/alttp/test/vanilla/TestCustom.py
+
+Obsolete, it was replaced with the code in test/bases.py
+
+
+worlds/ladx/Options.py
+
+I made an update to skip running these lines when running through pytest, because they generate an error due to loading the wrong folder for the sprites:
+
+import sys
+
+...
+
+    if not 'pytest' in sys.modules:
+        for file in os.listdir(__spriteDir):
+            name, extension = os.path.splitext(file)
+            if extension in extensions:
+                __spriteFiles[name].append(file)
+

@@ -6,6 +6,7 @@ import logging
 from Options import Choice, Toggle, DefaultOnToggle, Range, FreeText, PerGameCommonOptions, OptionGroup, Removed
 from collections import defaultdict
 import Utils
+import sys
 
 DefaultOffToggle = Toggle
 
@@ -440,10 +441,11 @@ class GfxMod(FreeText, LADXROption):
 
     extensions = [".bin", ".bdiff", ".png", ".bmp"]
 
-    for file in os.listdir(__spriteDir):
-        name, extension = os.path.splitext(file)
-        if extension in extensions:
-            __spriteFiles[name].append(file)
+    if not 'pytest' in sys.modules:
+        for file in os.listdir(__spriteDir):
+            name, extension = os.path.splitext(file)
+            if extension in extensions:
+                __spriteFiles[name].append(file)
 
     def __init__(self, value: str):
         super().__init__(value)
