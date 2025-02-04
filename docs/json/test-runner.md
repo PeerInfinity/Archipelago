@@ -1,6 +1,6 @@
-# Running Frontend Tests
+# Test Runner Documentation
 
-The Archipelago JSON Rules system includes automated testing to verify that the JavaScript rule evaluation matches the Python implementation. The testing process is now fully automated using Playwright.
+The Archipelago JSON Rules system includes automated testing to verify JavaScript rule evaluation matches Python behavior. Tests run automatically using Playwright, with comprehensive debug logging and result analysis.
 
 ## Prerequisites
 
@@ -73,72 +73,201 @@ You can still run the tests manually if needed:
    http://localhost:8000/frontend/test_runner.html
    ```
 
-## Test Results
+### Generated Files
 
-The automated testing process generates two types of output:
+The testing process generates:
 
-1. HTML Snapshot (`test_results_automated.html`)
-   - Visual representation of test results
-   - Pass/fail status for each test case
-   - Detailed information about failures
-   - Summary statistics
+1. Rule Definitions (`test_output_rules.json`)
+   - Exported rules from Python
+   - Helper function references
+   - Item and location data
 
-2. JSON Results (`test_results_automated.json`)
-   ```json
-   {
-     "summary": {
-       "total": 155,
-       "passed": 128,
-       "failed": 27,
-       "percentage": 83
-     },
-     "results": [
-       {
-         "location": "Location Name",
-         "passed": true/false,
-         "message": "Test details",
-         "expectedAccess": true/false,
-         "requiredItems": ["item1", "item2"],
-         "excludedItems": ["item3"],
-         "debugLog": ["log entry 1", "log entry 2"]
-       }
-     ]
-   }
-   ```
+2. Test Cases (`test_cases.json`)
+   - Test specifications from Python
+   - Location access requirements
+   - Required/excluded items
 
-## Generated Files
+3. Test Results (`test_results_automated.json`)
+```javascript
+{
+  "summary": {
+    "total": number,
+    "passed": number,
+    "failed": number,
+    "percentage": number
+  },
+  "results": [{
+    "location": string,
+    "result": {
+      "passed": boolean,
+      "message": string,
+      "expectedAccess": boolean,
+      "requiredItems": string[],
+      "excludedItems": string[]
+    },
+    "debugLog": LogEntry[]
+  }]
+}
+```
 
-The testing process generates several files:
+4. Debug Logs (`debug_logs_automated.json`)
+```javascript
+{
+  "timestamp": string,
+  "testResults": TestResult[],
+  "summary": {
+    "total": number,
+    "passed": number,
+    "failed": number,
+    "percentage": number,
+    "failureAnalysis": {
+      "byType": Record<string, TestResult[]>,
+      "tracePatterns": {
+        "helperCalls": string[],
+        "failedRules": string[],
+        "itemChecks": string[]
+      },
+      "commonPatterns": {
+        "requiredItems": Record<string, number>,
+        "locations": Record<string, number>,
+        "rules": Record<string, number>
+      }
+    }
+  },
+  "ruleTraces": [{
+    "timestamp": string,
+    "trace": {
+      "type": string,
+      "rule": Rule,
+      "depth": number,
+      "result": boolean,
+      "startTime": string,
+      "endTime": string,
+      "children": Trace[]
+    }
+  }]
+}
+```
 
-- `frontend/test_output_rules.json`: Rule definitions exported from Python
-- `frontend/test_cases.json`: Test cases exported from Python
-- `test_results/test_results_automated.json`: Test execution results
-- `test_results/test_results_automated.html`: HTML snapshot of results
+## Debug Logging
 
-## Debugging Failed Tests
+The test system provides comprehensive debug logging:
 
-When tests fail, you can:
+### Rule Evaluation
+- Step-by-step rule processing
+- Helper function execution
+- Inventory state changes
+- Rule evaluation results
 
-1. Check the HTML snapshot for a visual overview of failures
-2. Examine the JSON results file for detailed error information
-3. Look for debug logs in the test results for specific test cases
-4. Run the tests manually using the legacy method to interact with the test runner directly
+### Test Execution
+- Test case setup
+- Rule loading
+- Location access checks
+- Item management
+
+### Failure Analysis
+- Rule evaluation traces
+- Inventory state at failure
+- Helper execution logs
+- Common failure patterns
+
+## Implementation Details
+
+### Frontend Test Runner
+
+The test runner (`LocationTester` class):
+1. Loads rule definitions
+2. Creates test inventory
+3. Processes test cases
+4. Evaluates location access
+5. Records results and debug info
+6. Analyzes test failures
+
+### Debug Infrastructure
+
+Debug logging tracks:
+- Rule evaluation steps
+- Helper function calls
+- Inventory operations
+- Location access checks
+- Test case execution
+- Result analysis
+
+### Test Result Analysis
+
+The system analyzes test results to identify:
+- Common failure patterns
+- Problematic rule types
+- Helper function issues
+- Item dependencies
+- State management problems
 
 ## Configuration
 
-The automated testing process can be configured through several options:
+Test execution can be configured through:
 
-- `TestLogger.enableFileSaving`: Enable/disable saving debug files for failed tests
-- `TestLogger.enableDebugLogging`: Enable/disable detailed console logging
-- Playwright browser options in `automate_frontend_tests.py`
+```javascript
+TestLogger.enableFileSaving // Enable/disable file output
+TestLogger.enableDebugLogging // Enable/disable debug logs
+```
+
+Playwright options in `automate_frontend_tests.py`:
+- Browser selection
+- Headless mode
+- Viewport settings
+- Network conditions
+
+## Debugging Failed Tests
+
+When tests fail:
+
+1. Check Results Summary
+   - Review failure count and percentage
+   - Examine failure categories
+   - Look for patterns
+
+2. Analyze Debug Logs
+   - Review rule evaluation traces
+   - Check inventory state
+   - Examine helper execution
+   - Look for error patterns
+
+3. Review Test Cases
+   - Verify test specifications
+   - Check required items
+   - Validate expected access
+
+4. Use Visual Inspection
+   - Run tests with debug logging
+   - Use browser DevTools
+   - Check network requests
+   - Monitor console output
 
 ## Adding New Tests
 
-When adding new tests:
+To add new tests:
 
-1. Create test cases in your Python test file
-2. Run the test using pytest
-3. The frontend tests will run automatically
-4. Check results in the test_results directory
+1. Create Test Cases
+```python
+self.run_location_tests([
+    ["Location Name", False, []],
+    ["Location Name", True, ["Required Item"]],
+    ["Location Name", False, [], ["Excluded Item"]]
+])
+```
 
-The automated process ensures that both Python and JavaScript implementations stay in sync as new features are added.
+2. Run Tests
+```bash
+pytest path/to/test_file.py -v
+```
+
+3. Check Results
+- Review automated test results
+- Examine debug logs
+- Analyze any failures
+
+4. Debug Issues
+- Use debug logging
+- Check rule evaluation
+- Verify helper execution
+- Validate inventory state

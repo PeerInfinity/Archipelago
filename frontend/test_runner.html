@@ -27,6 +27,25 @@
 </head>
 <body>
     <div id="test-results">Running tests...</div>
-    <script type="module" src="assets/locationTests.js"></script>
+    <script>
+        // Add loading status checks
+        console.log('Starting script loading...');
+        window.moduleLoadErrors = [];
+        window.addEventListener('error', function(e) {
+            console.error('Script error:', e);
+            if (e.target && e.target.src) {
+                window.moduleLoadErrors.push({
+                    src: e.target.src,
+                    error: e.message
+                });
+            }
+        });
+    </script>
+    <script type="module">
+        import { LocationTester } from './assets/locationTests.js';
+        console.log('LocationTester imported successfully');
+        // Explicitly set it on window for Playwright check
+        window.LocationTester = LocationTester;
+    </script>
 </body>
 </html>

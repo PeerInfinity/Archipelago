@@ -1,4 +1,4 @@
-// testResultsDisplay.js
+// frontend/assets/testResultsDisplay.js
 export class TestResultsDisplay {
     constructor(resultsElementId = 'test-results') {
         this.resultsElement = document.getElementById(resultsElementId);
@@ -6,7 +6,7 @@ export class TestResultsDisplay {
 
     displayResults(results, locationManager) {
         const total = results.length;
-        const passed = results.filter(r => r.passed).length;
+        const passed = results.filter(r => r.result?.passed).length;
         const failed = total - passed;
 
         const resultsData = {
@@ -47,20 +47,21 @@ export class TestResultsDisplay {
                 </tr>
         `;
 
-        for (const result of results) {
+        for (const testContext of results) {
+            const result = testContext.result;
             const locationData = locationManager.locations.find(
-                loc => loc.name === result.location
+                loc => loc.name === testContext.location
             );
             
             html += `
                 <tr class="${result.passed ? 'pass' : 'fail'}">
-                    <td>${result.location}</td>
+                    <td>${testContext.location}</td>
                     <td>${locationData?.region || 'Unknown'}</td>
                     <td>${result.passed ? '✓ PASS' : '❌ FAIL'}</td>
-                    <td>${result.expectedAccess ? 'Accessible' : 'Inaccessible'}</td>
-                    <td>${result.requiredItems?.join(', ') || 'None'}</td>
-                    <td>${result.excludedItems?.join(', ') || 'None'}</td>
-                    <td>${result.message}</td>
+                    <td>${testContext.expectedAccess ? 'Accessible' : 'Inaccessible'}</td>
+                    <td>${testContext.requiredItems?.join(', ') || 'None'}</td>
+                    <td>${testContext.excludedItems?.join(', ') || 'None'}</td>
+                    <td>${result.message || 'No details'}</td>
                 </tr>
             `;
         }

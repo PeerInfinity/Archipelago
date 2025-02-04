@@ -1,7 +1,10 @@
-// locationTester.js
+// frontend/assets/locationTests.js
+
 import { LocationManager } from './locationManager.js';
 import { evaluateRule } from './ruleEngine.js';
-import { Inventory } from './inventory.js';
+import { ALTTPInventory } from './games/alttp/inventory.js';
+import { ALTTPState } from './games/alttp/state.js';
+import { ALTTPHelpers } from './games/alttp/helpers.js';
 import { TestLogger } from './testLogger.js';
 import { TestResultsDisplay } from './testResultsDisplay.js';
 
@@ -10,9 +13,9 @@ export class LocationTester {
         this.locationManager = new LocationManager();
         this.logger = new TestLogger();
         this.display = new TestResultsDisplay();
-        this.testResults = [];
         this.progressionMapping = null;
         this.currentLocation = null;
+        console.log('LocationTester initialized');
     }
 
     async loadRulesData() {
@@ -22,10 +25,9 @@ export class LocationTester {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const rulesData = await response.json();
-            this.logger.log('Loaded rules data');
             this.locationManager.loadFromJSON(rulesData);
-            this.progressionMapping = rulesData.progression_mapping["1"];  // Get player 1's mapping
-            this.logger.log('Rules and progression mapping loaded:', this.progressionMapping);
+            this.progressionMapping = rulesData.progression_mapping["1"];
+            return true;
         } catch (error) {
             console.error('Error loading rules data:', error);
             throw error;
@@ -33,117 +35,139 @@ export class LocationTester {
     }
 
     createInventory(items = [], excludeItems = []) {
-        const debugLog = this.logger.isDebugging ? this.logger.logs : null;
-        const inventory = new Inventory(
+        const state = new ALTTPState(this.logger);
+        const inventory = new ALTTPInventory(
             items,
             excludeItems,
             this.progressionMapping,
-            this.locationManager.itemData, // Add this
-            debugLog
+            this.locationManager.itemData,
+            this.logger
         );
-        // Add debug property for rule engine
-        if (debugLog) {
-            inventory.debug = {
-                log: (msg) => this.logger.log(msg)
-            };
-        }
+        
+        inventory.helpers = new ALTTPHelpers(inventory, state);
+        inventory.state = state;
+
         return inventory;
     }
 
     async runLocationTests(testCases) {
-        let failureCount = 0;
-        const results = [];
-    
-        this.logger.log(`Running ${testCases.length} test cases`);
-        
-        for (const [location, expectedAccess, requiredItems = [], excludedItems = []] of testCases) {
-            this.currentLocation = location;
-            this.logger.setDebugging(location === "Sunken Treasure");
-            this.logger.clear();
-            
-            const testResult = await this.runSingleTest(
-                location, 
-                expectedAccess, 
-                requiredItems, 
-                excludedItems
-            );
+        this.logger.setDebugging(true);
+        this.logger.clear();
 
-            results.push(testResult);
-            if (!testResult.passed) {
-                failureCount++;
+        let failureCount = 0;
+        
+        try {
+            console.log(`Running ${testCases.length} test cases`);
+            
+            for (const [location, expectedAccess, requiredItems = [], excludedItems = []] of testCases) {
+                this.currentLocation = location;
                 
-                if (this.logger.isDebugging) {
-                    this.logger.saveToFile(location, {
-                        requiredItems,
-                        excludedItems,
-                        expectedAccess
-                    });
+                this.logger.startTest({
+                    location,
+                    expectedAccess,
+                    requiredItems,
+                    excludedItems
+                });
+                
+                const testResult = await this.runSingleTest(
+                    location, 
+                    expectedAccess, 
+                    requiredItems, 
+                    excludedItems
+                );
+
+                if (!testResult.passed) {
+                    failureCount++;
                 }
+                
+                this.logger.endTest(testResult);
             }
+
+            // Add debug data to window for Playwright
+            window.debugData = this.logger.getDebugData();
+            
+            // Display results
+            this.display.displayResults(this.logger.testResults, this.locationManager);
+            
+            // Signal test completion and verify it was set
+            window.testsCompleted = true;
+            console.log('Test completion flag set:', window.testsCompleted);
+            
+            return failureCount;
+            
+        } catch (error) {
+            console.error('Error in runLocationTests:', error);
+            window.testsCompleted = true;
+            throw error;
         }
-    
-        this.display.displayResults(results, this.locationManager);
-        return failureCount;
     }
 
     async runSingleTest(location, expectedAccess, requiredItems, excludedItems) {
-        this.logger.log(`\nTesting location: ${location}`);
-        this.logger.log('Test parameters:', {
-            expectedAccess,
-            requiredItems,
-            excludedItems
-        });
-        
-        const inventory = this.createInventory(requiredItems, excludedItems);
-        const locationData = this.locationManager.locations.find(loc => 
-            loc.name === location && loc.player === 1
-        );
+        try {
+            console.log(`Running test for ${location}:`, {
+                expectedAccess,
+                requiredItems,
+                excludedItems
+            });
+            
+            const inventory = this.createInventory(requiredItems, excludedItems);
+            const locationData = this.locationManager.locations.find(loc => 
+                loc.name === location && loc.player === 1
+            );
 
-        if (!locationData) {
-            return this.createTestResult(location, false, 
-                `Location not found: ${location}`, expectedAccess);
-        }
+            if (!locationData) {
+                console.log(`Location not found: ${location}`);
+                return this.createTestResult(location, false, 
+                    `Location not found: ${location}`, expectedAccess);
+            }
 
-        this.logger.log('Location data:', locationData);
-        this.logger.log('Testing access rules...');
-        
-        const accessRuleResult = evaluateRule(locationData.access_rule, inventory);
-        const pathRuleResult = evaluateRule(locationData.path_rules, inventory);
-        const isAccessible = accessRuleResult && pathRuleResult;
-        
-        this.logger.log('Rule evaluation results:', {
-            accessRuleResult,
-            pathRuleResult,
-            isAccessible
-        });
-        
-        const passed = isAccessible === expectedAccess;
-        if (!passed) {
-            this.logger.log(`Test failed: expected ${expectedAccess}, got ${isAccessible}`);
+            console.log('Evaluating rules for:', location);
+            const accessRuleResult = evaluateRule(locationData.access_rule, inventory);
+            const pathRuleResult = evaluateRule(locationData.path_rules, inventory);
+            const isAccessible = accessRuleResult && pathRuleResult;
+            
+            console.log('Rule results:', {
+                accessRuleResult,
+                pathRuleResult,
+                isAccessible,
+                expectedAccess
+            });
+            
+            const passed = isAccessible === expectedAccess;
+            if (!passed) {
+                const result = this.createTestResult(location, false,
+                    `Expected: ${expectedAccess}, Got: ${isAccessible}`,
+                    expectedAccess, requiredItems, excludedItems);
+                console.log('Created failure result:', result);
+                return result;
+            }
+            
+            if (expectedAccess && requiredItems.length && !excludedItems.length) {
+                console.log('Testing partial inventories');
+                const partialResult = await this.testPartialInventories(
+                    location, locationData, requiredItems, expectedAccess
+                );
+                if (!partialResult.passed) {
+                    console.log('Partial inventory test failed:', partialResult);
+                    return partialResult;
+                }
+            }
+
+            const result = this.createTestResult(location, true, 'Test passed',
+                expectedAccess, requiredItems, excludedItems);
+            console.log('Created success result:', result);
+            return result;
+                
+        } catch (error) {
+            console.error('Error in runSingleTest:', error);
             return this.createTestResult(location, false,
-                `Expected: ${expectedAccess}, Got: ${isAccessible}`,
+                `Test error: ${error.message}`,
                 expectedAccess, requiredItems, excludedItems);
         }
-        
-        // Test partial inventory if needed
-        if (expectedAccess && requiredItems.length && !excludedItems.length) {
-            const partialResult = await this.testPartialInventories(
-                location, locationData, requiredItems, expectedAccess
-            );
-            if (!partialResult.passed) {
-                return partialResult;
-            }
-        }
-
-        return this.createTestResult(location, true, 'Test passed',
-            expectedAccess, requiredItems, excludedItems);
     }
 
     async testPartialInventories(location, locationData, requiredItems, expectedAccess) {
-        this.logger.log('\nTesting partial inventories...');
-        
         for (const missingItem of requiredItems) {
-            this.logger.log(`Testing without item: ${missingItem}`);
             const partialInventory = this.createInventory(
                 requiredItems.filter(item => item !== missingItem)
             );
@@ -153,7 +177,6 @@ export class LocationTester {
             const partialAccess = partialAccessRule && partialPathRule;
             
             if (partialAccess) {
-                this.logger.log('WARNING: Location accessible without required item');
                 return this.createTestResult(location, false,
                     `Location accessible without required item: ${missingItem}`,
                     expectedAccess, requiredItems, [missingItem]);
@@ -165,7 +188,8 @@ export class LocationTester {
     }
 
     createTestResult(location, passed, message, expectedAccess, requiredItems = [], excludedItems = []) {
-        return {
+        // Create the base result
+        const result = {
             location,
             passed,
             message,
@@ -174,7 +198,17 @@ export class LocationTester {
             excludedItems,
             debugLog: this.logger.isDebugging ? this.logger.logs : undefined
         };
+
+        // Log the created result for debugging
+        console.log('Created test result:', {
+            location,
+            passed,
+            message,
+        });
+
+        return result;
     }
+
 }
 
 // Initialize and run tests when page loads
@@ -198,11 +232,14 @@ window.onload = async () => {
         console.log(`Loaded ${testCasesData.location_tests.length} test cases`);
         const failures = await tester.runLocationTests(testCasesData.location_tests);
         console.log(`Tests completed with ${failures} failures`);
+        
     } catch (error) {
         console.error('Test execution failed:', error);
         document.getElementById('test-results').innerHTML = `
             <h2>Test Execution Failed</h2>
             <pre style="color: red;">${error.message}</pre>
+            <pre>${error.stack}</pre>
         `;
+        window.testsCompleted = true;
     }
 };

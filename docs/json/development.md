@@ -1,4 +1,4 @@
-# Development Planning
+# Development Documentation
 
 ## Vision
 Create a robust system for using Archipelago's location access rules in web-based applications, enabling:
@@ -6,71 +6,139 @@ Create a robust system for using Archipelago's location access rules in web-base
 - Development of new web interfaces
 - Enhanced testing capabilities
 
-## Current Status
+## Architecture
+
+### Core Components
+
+#### 1. Rule Export System
+- Converts Python rule functions to standardized JSON format
+- Preserves helper function references
+- Handles complex rule patterns including boolean operations, method calls, and conditional expressions
+
+#### 2. Frontend Implementation 
+- Evaluates rules using native JavaScript helper functions
+- Manages inventory and state
+- Provides rule debugging capabilities
+- Supports game-specific logic through helpers
+
+#### 3. Testing Infrastructure
+- Automated test execution via Playwright
+- Comprehensive debug logging
+- Test result analysis and reporting
+
+### Rule Processing Flow
+
+1. Backend (Python)
+   - Analyzer parses rule functions using AST
+   - Converts to standardized JSON structure
+   - Preserves helper function references
+   - Exports complete ruleset
+
+2. Frontend (JavaScript)
+   - Loads exported rules
+   - Implements helper functions natively
+   - Evaluates rules using helper infrastructure
+   - Maintains game state and inventory
+
+### Supported Rule Types
+
+1. Basic Rules
+   - `item_check`: Direct item requirements
+   - `count_check`: Item quantity requirements
+   - `helper`: Preserved helper function references 
+   - `group_check`: Item group requirements
+   - `constant`: Static boolean values
+
+2. Composite Rules
+   - `and`: Multiple required conditions
+   - `or`: Alternative conditions
+   - `comparison`: Numeric comparisons
+   - `state_method`: State method calls
+
+3. Special Rules
+   - Conditional expressions
+   - Nested helper calls
+   - Progressive item handling
+   - State flags and methods
+
+## Development Status
 
 ### Working Features
 
-#### Rule Export System
-- JSON export format defined and implemented
-- Basic location/region relationships exported
-- Simple rules successfully converted
-  - Item checks
-  - Basic AND/OR operations
-  - Group checks
+- Complete rule analysis and export
+- Helper function preservation and execution
+- Inventory and state management  
+- Automated testing infrastructure
+- Debug logging system
+- Test result analysis
 
-#### Frontend Implementation
-- Basic inventory management
-- Location accessibility checking
-- Rule evaluation engine
-- Filtering and sorting
-- Visual indication of new locations
+### Enhanced Analyzer Capabilities
 
-#### Testing Framework
-- Basic test runner functioning
-- JSON test case format defined
-- Comparison with Python results
+The analyzer now properly handles:
+- Complex lambda expressions
+- Nested parentheses
+- Multiline rules
+- Method chains
+- String literals and escaping
+- Conditional expressions
+- Return statements
+- Boolean operations
 
-### Current Challenges
+### Debug Infrastructure
 
-#### Rule Analysis
-- Helper function conversion needs improvement
-- Closure variable handling not complete
-- Complex conditional rules need better support
-- Some lambda expressions fail to parse
+The debug system provides:
+- Rule evaluation traces
+- Inventory state logs
+- Helper function execution logs
+- Test execution details
+- Step-by-step rule processing
+- Performance metrics
 
-#### Frontend Implementation
-- Need better error handling
-- Debug tools could be improved
-- Code organization needs refinement
-- Performance untested with large rulesets
+### Test Results Structure
 
-#### Data Export
-- May need to expand JSON format
-- Missing some advanced rule types
-- Export configuration limited
+Results are now organized as:
+```javascript
+{
+  summary: {
+    total: number,
+    passed: number, 
+    failed: number,
+    percentage: number
+  },
+  results: [{
+    location: string,
+    result: {
+      passed: boolean,
+      message: string,
+      expectedAccess: boolean,
+      requiredItems: string[],
+      excludedItems: string[]
+    },
+    debugLog: LogEntry[]
+  }]
+}
+```
 
 ## Development Priorities
 
 ### 1. Rule System Completion (High Priority)
 - [ ] Fix complex helper function parsing
-- [ ] Implement proper closure handling
-- [ ] Support all rule patterns
-- [ ] Improve lambda expression analysis
-- [ ] Add error recovery for failed conversions
+- [ ] Handle edge cases in helper execution
+- [ ] Improve progressive item logic
+- [ ] Add support for complex state tracking
+- [ ] Enhance error handling and recovery
 - [ ] Add option to enable/disable JSON file saving (similar to spoiler file option)
 
 ### 2. Testing Infrastructure (High Priority)
-- [ ] Automate test execution
-- [ ] Support multiple test files
-- [ ] Create comprehensive test suite
-- [ ] Add performance benchmarks
-- [ ] Generate test data sets
+- [ ] Add performance benchmarking
+- [ ] Expand test coverage
+- [ ] Enhance failure analysis
 
 ### 3. Frontend Development (Medium Priority)
-- [ ] Improve rule inspection tools
-- [ ] Enhance error messages
-- [ ] Add advanced filtering
-- [ ] Create visual rule debugger
+- [ ] Improve rule evaluation performance
+- [ ] Enhance error reporting
+- [ ] Add advanced filtering options
+- [ ] Implement caching strategies
 - [ ] Improve component organization
 - [ ] Add robust state management
 - [ ] Enhance accessibility
@@ -91,8 +159,9 @@ Create a robust system for using Archipelago's location access rules in web-base
 
 ### 6. Documentation & Release (Ongoing)
 - [ ] Complete user guides
-- [ ] Add API documentation
-- [ ] Write contribution guidelines
+- [ ] Complete API documentation
+- [ ] Add debugging guides
+- [ ] Document helper implementations
 - [ ] Create example implementations
 - [ ] Document deployment process
 
@@ -108,82 +177,50 @@ Create a robust system for using Archipelago's location access rules in web-base
 ### Rule Format
 ```javascript
 {
-  "type": String,     // Rule type (item_check, helper, and, or, etc.)
-  "conditions": Array, // For composite rules
-  "item": String,     // For item checks
-  "count": Number,    // For counting rules
-  "name": String,     // For helper functions
-  "args": Array       // For helper function arguments
+  type: string,      // Rule type (item_check, helper, etc.)
+  conditions: Rule[], // For composite rules
+  item: string,      // For item checks
+  count: number,     // For counting rules
+  name: string,      // For helper functions
+  args: any[],       // For helper arguments
+  value: boolean     // For constant rules
 }
 ```
 
-### Supported Rule Types
-1. Basic Rules
-   - item_check: Item requirements
-   - count_check: Item quantity requirements
-   - group_check: Item group requirements
-   - helper: Known helper functions
+### Debug Log Format
+```javascript
+{
+  timestamp: string,
+  message: string,
+  data?: any,
+  trace?: {
+    type: string,
+    rule: Rule,
+    result: boolean,
+    children: Trace[]
+  }
+}
+```
 
-2. Composite Rules
-   - and: Multiple required conditions
-   - or: Alternative conditions
+## Implementation Notes
 
-3. Planned Complex Rules
-   - lambda: Complex expressions
-   - comparison: Numeric comparisons
-   - conditional: State-based conditions
+### Helper Functions
+- Implemented natively in JavaScript
+- Match Python behavior exactly
+- Access inventory and state
+- Support debug logging
+- Handle progressive items
 
-### Current Limitations
-1. Rule Parsing
-   - Complex lambda expressions may fail
-   - Helper function context sometimes lost
-   - Nested rules can cause issues
-   - Some closure variables not captured
+### Rule Evaluation
+- Recursive evaluation strategy
+- Caches intermediate results
+- Handles circular references
+- Provides evaluation traces
+- Supports short-circuiting
 
-2. Frontend
-   - Large ruleset performance unknown
-   - Some edge cases in rule evaluation
-   - Limited error recovery
-   - Basic debugging tools
-
-## Design Questions
-
-### Rule System
-1. How to handle very complex game-specific rules?
-2. What's the best way to handle state-dependent rules?
-3. How to maintain rule version compatibility?
-
-### Frontend Design
-1. What additional interfaces might be useful?
-2. How to structure components for reusability?
-3. What state management solution fits best?
-
-### Integration
-1. How to best integrate with Archipelago generation?
-2. What's the optimal way to handle updates?
-3. How to support different game types?
-
-## Next Steps
-
-### Immediate Tasks
-1. Complete test automation
-2. Fix remaining test failures
-3. Document system architecture
-4. Improve error handling
-
-### Near-term Goals
-1. Full rule system support
-2. Enhanced debugging tools
-3. Complete Archipidle integration
-4. Performance optimization
-
-### Long-term Vision
-1. Multiple interface options
-2. Plugin system for game-specific rules
-3. Integrated testing framework
-4. Comprehensive documentation
-
-### Future Projects
-1. Create Python client for rules system
-2. Test lambda function consistency across configurations
-3. Remove dill dependency if lambda functions prove consistent
+### State Management  
+- Tracks inventory contents
+- Manages progressive items
+- Handles item exclusions
+- Maintains game flags
+- Supports debug inspection

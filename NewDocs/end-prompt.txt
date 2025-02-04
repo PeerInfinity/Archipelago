@@ -1,11 +1,19 @@
 That's the end of the files you need for context.  Now here are your instructions:
 
-automate_frontend_tests.py has now been implemented, to automate the process of running the tests in test_runner.html directly from pytest.
+We just finished making some large changes to both the backend and the frontend.
 
-Update the documentation to include this information, and the new instructions for running the tests.
+The main change is that the helper functions are now handled in the frontend, rather than trying to break them down into a tree of simpler rules.
 
-Also mention that the current test setup requires manually installing Playwright:
+Look at the documentation for things that need to be updated.
 
-pip install playwright
-playwright install
+Write updated versions of the documentation files.
 
+If you have any questions, then please ask them.
+
+Other recent changes include:
+
+We recently updated analyzer.py to handle all of the cases we currently know of that it needs to handle.
+
+We just finished setting up debug_logs_automated.json to contain debug information that we want.
+
+As part of this process, the “result” structure has changed.  Some things that were previously in “result” are now in “result.result”

@@ -5,11 +5,14 @@ ContextList.txt
 README.md
 
 docs/json/development.md
+docs/json/development-update.md
 docs/json/archipidle.md
 docs/json/test-runner.md
-docs/json/changes.txt
 docs/json/test-setup.txt
+NewDocs/analyzer-debugging-notes.md
 NewDocs/project-notes.txt
+
+NewDocs/alttpFileList.txt
 
 worlds/alttp/Rules.py 1 729
 worlds/alttp/StateHelpers.py
@@ -18,6 +21,8 @@ worlds/alttp/test/vanilla/TestVanilla.py
 worlds/alttp/test/__init__.py
 
 test/bases.py
+
+worlds/generic/Rules.py
 
 worlds/generic/RuleParser/__init__.py
 worlds/generic/RuleParser/exporter.py
@@ -29,19 +34,30 @@ worlds/generic/RuleParser/games/generic.py
 
 automate_frontend_tests.py
 
-frontend/test_output_rules.json 1 192
-frontend/test_cases.json 1 129
+frontend/test_output_rules.json 1 1000
+frontend/test_cases.json 1 200
+
 frontend/assets/locationTests.js
 frontend/assets/locationManager.js
 frontend/assets/ruleEngine.js
 frontend/assets/inventory.js
 frontend/assets/testLogger.js
 frontend/assets/testResultsDisplay.js
+
+frontend/assets/helpers/index.js
+frontend/assets/games/alttp/helpers.js
+frontend/assets/games/alttp/inventory.js
+frontend/assets/games/alttp/state.js
+
 frontend/assets/gameUI.js
+
 frontend/styles/index.css
 frontend/index.html
 frontend/test_runner.html
 
-test_results/test_results_automated.json 1 180
+pytest_output.txt 1 200
+
+test_results/debug_logs_automated.json 1 200
+test_results/test_results_automated.json 1 200
 
 NewDocs/end-prompt.txt

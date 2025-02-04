@@ -1,0 +1,54 @@
+Jan. 31, 2025:
+
+automate_frontend_tests.py has now been implemented, to automate the process of running the tests in test_runner.html directly from pytest.
+
+Update the documentation to include this information, and the new instructions for running the tests.
+
+Also mention that the current test setup requires manually installing Playwright:
+
+pip install playwright
+playwright install
+
+----
+
+Feb. 2, 2025:
+
+Look at the current state of the code, and the test results.
+
+Identify at least one issue that's contributing to the test failures.
+
+Propose an outline of a plan for how to begin work on fixing the issues.
+
+The code to propose changes to is in worlds/generic/RuleParser and in frontend.
+
+There is no restriction on proposing dramatic changes to the way the RuleParser or frontend are implemented, if that's what's required to fix the issues.
+
+If you want to see the contents of other files, please tell me and I will provide them.
+
+If you want to add trace messages to the code and look at the output, we can do that.
+
+If you have any other questions, then please ask them.
+
+----
+
+We recently implemented the alttp helper functions in the frontend.  That would be one of the next places to look for issues.
+
+We recently updated analyzer.py to handle all of the cases we currently know of that it needs to handle.
+
+We just finished setting up debug_logs_automated.json to contain debug information that we want.
+
+After we made that change, all of the frontend tests consistently fail.
+
+It looks like the problem is that the “result” structure has changed.  Some things that were previously in “result” are now in “result.result”
+
+----
+
+But first, we've been stuck for a while trying to update analyzer.py to handle all of the cases it needs to handle.  Here are some instructions specific to that issue:
+
+Document each new type of error you encounter, keeping a running list rather than starting fresh each time
+When suggesting fixes, maintain all previously working functionality rather than completely rewriting functions
+Make incremental improvements instead of wholesale rewrites when possible
+Focus on building up knowledge about the full set of cases that need to be handled
+Avoid dropping important details that were addressed in earlier iterations
+
+I'm including the file "worlds/generic/RuleParser/analyzer - before sonnet edits.py", to help with checking if any important functionality was lost during the edits so far.
