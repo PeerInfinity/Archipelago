@@ -1,19 +1,19 @@
 That's the end of the files you need for context.  Now here are your instructions:
 
-We just finished making some large changes to both the backend and the frontend.
+Look at the current state of the code, and the test results.
 
-The main change is that the helper functions are now handled in the frontend, rather than trying to break them down into a tree of simpler rules.
+Identify at least one issue that's contributing to the test failures.
 
-Look at the documentation for things that need to be updated.
+Propose an outline of a plan for how to begin work on fixing the issues.
 
-Write updated versions of the documentation files.
+The code to propose changes to is in worlds/generic/RuleParser and in frontend.
 
-If you have any questions, then please ask them.
+There is no restriction on proposing dramatic changes to the way the RuleParser or frontend are implemented, if that's what's required to fix the issues.
 
-Other recent changes include:
+If you want to see the contents of other files, please tell me and I will provide them.
 
-We recently updated analyzer.py to handle all of the cases we currently know of that it needs to handle.
+If you want to add trace messages to the code and look at the output, we can do that.
 
-We just finished setting up debug_logs_automated.json to contain debug information that we want.
+If you have any other questions, then please ask them.
 
-As part of this process, the “result” structure has changed.  Some things that were previously in “result” are now in “result.result”
+When we left off, we fixed some issues in analyzer.py that were causing the data in test_output_rules.json to be invalid.

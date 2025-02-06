@@ -55,9 +55,11 @@ export class LocationManager {
 
   isLocationAccessible(location, inventory) {
     try {
-      return evaluateRule(location.access_rule, inventory);
+      const accessRuleResult = evaluateRule(location.access_rule, inventory);
+      const pathRulesResult = evaluateRule(location.path_rules, inventory);
+      return accessRuleResult && pathRulesResult;
     } catch (error) {
-      console.error(`Error evaluating rule for ${location.name}:`, error);
+      console.error(`Error evaluating rules for ${location.name}:`, error);
       return false;
     }
   }

@@ -177,6 +177,7 @@ def _process_items(multiworld, player) -> Dict[str, Any]:
     if hasattr(world, 'item_name_groups'):
         item_groups = world.item_name_groups
         
+        # Process regular items from item_id_to_name first
         for item_id, item_name in getattr(world, 'item_id_to_name', {}).items():
             groups = [
                 group_name for group_name, items in item_groups.items() 
@@ -192,6 +193,24 @@ def _process_items(multiworld, player) -> Dict[str, Any]:
                 'useful': False,
                 'trap': False
             }
+
+
+        from worlds.alttp.Items import item_table
+        from BaseClasses import ItemClassification
+
+        for item_name, item_data in item_table.items():
+            if item_data.type == 'Event':
+                print(f"Found event item: {item_name}")
+                print(f"Classification: {item_data.classification}")
+                items_data[item_name] = {
+                    'name': item_name,
+                    'id': None,  # Events don't have item IDs
+                    'groups': [],  # Events don't belong to groups
+                    'advancement': item_data.classification == ItemClassification.progression,  # Use ItemClassification instead of world.ItemClassification
+                    'priority': False,
+                    'useful': False,
+                    'trap': False
+                }
 
         # Update flags based on placed items
         for location in multiworld.get_locations(player):

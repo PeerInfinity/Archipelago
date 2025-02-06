@@ -46,6 +46,64 @@ Key features we need to preserve:
 
 The new version needs to combine these while fixing the parenthesis matching issue.
 
+
+
+### Update 1: Method Call Parsing
+Fixed initial parsing issues but discovered new cases with simple boolean returns:
+```python
+lambda state: True
+```
+is being converted to:
+```python
+def __analyzed_func__(state):
+    return True)
+```
+
+Issues identified:
+1. Extra closing parenthesis being captured from the staticmethod wrapper
+2. Need to differentiate between method calls and simple returns
+
+## Next Steps
+1. Implement improved `_clean_source()` with parenthesis tracking
+2. Add test cases specifically for lambda parsing
+3. Add debug logging in lambda handling code
+4. Verify fix maintains support for simpler lambda cases
+
+We'll track each issue we find and fix in this document as we progress through debugging and improving the Rule Parser.
+
+
+
+### Update 2: String Escaping
+Found new failure case with escaped characters:
+```python
+"set_rule(multiworld.get_location('Blind\\'s Hideout - Top', player), lambda state: can_use_bombs(state, player))\n"
+```
+
+Issues:
+1. Escaped quotes in location names affecting pattern matching
+2. Function call not being captured completely due to string escaping
+3. Need to handle both method calls (state.has) and function calls (can_use_bombs)
+
+
+
+### Update 3: Complex Multiline Rules
+Found failure with complex multiline rule containing nested parentheses:
+```python
+lambda state: (state.has('Hookshot', player) or
+              (state._lttp_has_key('Small Key (Ice Palace)', player, 4)
+              if item_name_in_location_names(state, 'Big Key (Ice Palace)', player,
+                  [('Ice Palace - Spike Room', player), ...])
+              else state._lttp_has_key('Small Key (Ice Palace)', player, 6)))
+```
+
+Issues:
+1. Parentheses in item/location names being counted in nesting level
+2. Multiline expression getting truncated
+3. Conditional expression (if/else) not being preserved
+4. Need to handle tuple literals in location list
+
+
+
 ### Update 4: Resolution of Parser Issues
 Successfully resolved several key parsing challenges:
 
@@ -78,52 +136,43 @@ Expected Rule Structures:
 
 This completes the parser debugging phase. Next phase will focus on frontend rule evaluation.
 
-### Update 3: Complex Multiline Rules
-Found failure with complex multiline rule containing nested parentheses:
+
+
+### Update 5: Improved Argument Processing
+Date: Feb 5, 2025
+
+Successfully resolved argument handling to properly distinguish between:
+1. Helper function arguments
+2. State method arguments
+3. Special context parameters (state, player)
+
+#### Solution
+Modified argument processing to maintain two separate argument lists:
 ```python
-lambda state: (state.has('Hookshot', player) or
-              (state._lttp_has_key('Small Key (Ice Palace)', player, 4)
-              if item_name_in_location_names(state, 'Big Key (Ice Palace)', player,
-                  [('Ice Palace - Spike Room', player), ...])
-              else state._lttp_has_key('Small Key (Ice Palace)', player, 6)))
+args = []                   # All arguments 
+processed_args = []         # Arguments excluding state/player
 ```
 
-Issues:
-1. Parentheses in item/location names being counted in nesting level
-2. Multiline expression getting truncated
-3. Conditional expression (if/else) not being preserved
-4. Need to handle tuple literals in location list
+This allows different handling for:
+- Helper functions: Use processed_args (excludes state/player)
+- State methods: Use full args for path validation
+- item_check conversions: Use first non-state/player argument as item name
 
-### Update 2: String Escaping
-Found new failure case with escaped characters:
-```python
-"set_rule(multiworld.get_location('Blind\\'s Hideout - Top', player), lambda state: can_use_bombs(state, player))\n"
-```
+#### Results
+- Test failures reduced from 35 to 23 
+- Successfully passing:
+  - All can_use_bombs() tests (Chicken House, Aginah's Cave)
+  - All can_kill_most_things() tests (Mini Moldorm Cave)
+  - All basic item_check cases (Sick Kid, Flute Spot)
 
-Issues:
-1. Escaped quotes in location names affecting pattern matching
-2. Function call not being captured completely due to string escaping
-3. Need to handle both method calls (state.has) and function calls (can_use_bombs)
+#### Remaining Issues
+Failures now primarily involve complex access paths that depend on:
+- Progressive item handling
+- Path rule evaluation
+- Beat Agahnim 1 state tracking
 
-### Update 1: Method Call Parsing
-Fixed initial parsing issues but discovered new cases with simple boolean returns:
-```python
-lambda state: True
-```
-is being converted to:
-```python
-def __analyzed_func__(state):
-    return True)
-```
-
-Issues identified:
-1. Extra closing parenthesis being captured from the staticmethod wrapper
-2. Need to differentiate between method calls and simple returns
-
-## Next Steps
-1. Implement improved `_clean_source()` with parenthesis tracking
-2. Add test cases specifically for lambda parsing
-3. Add debug logging in lambda handling code
-4. Verify fix maintains support for simpler lambda cases
-
-We'll track each issue we find and fix in this document as we progress through debugging and improving the Rule Parser.
+Next step is to analyze these specific failure patterns to identify if the issue lies in:
+- Rule parsing
+- Rule evaluation
+- State tracking
+- Frontend implementation

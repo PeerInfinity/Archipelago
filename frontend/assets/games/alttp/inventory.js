@@ -68,18 +68,22 @@ export class ALTTPInventory extends GameInventory {
             return true;
         }
 
-        // Progressive check
+        // Progressive item check
+        this.log(`Checking progressive mappings for ${itemName}`);
         const progressiveInfo = this.getProgressiveItemInfo(itemName);
-        for (const [baseItem, info] of Object.entries(progressiveInfo)) {
-            if (info.provides) {
-                this.log({
-                    message: `Progressive item provides ${itemName}`,
-                    baseItem,
-                    info
-                });
-                return true;
+        for (const [baseItem, progression] of Object.entries(this.progressionMapping)) {
+            const baseCount = this.items.get(baseItem) || 0;
+            this.log(`Checking ${baseItem}: base count = ${baseCount}`);
+            this.log(`Progression data: ${JSON.stringify(progression)}`);
+        
+            const targetLevel = progression.items.findIndex(i => i.name === itemName) + 1;
+            this.log(`Target level for ${itemName}: ${targetLevel}`);
+            
+            if (targetLevel > 0 && baseCount >= targetLevel) {
+                this.log(`Progressive match found: ${baseItem} count ${baseCount} >= level ${targetLevel}`);
+                return true; 
             }
-        }
+        }        
 
         this.log({
             message: `No match found for ${itemName}`,

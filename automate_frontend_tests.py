@@ -7,6 +7,8 @@ import time
 from urllib.request import urlopen
 from playwright.async_api import async_playwright
 
+SAVE_JSON_FILES = False  # Set to True to save JSON files, False to skip
+
 async def run_frontend_tests():
     # Define a folder for storing test results
     downloads_dir = os.path.join(os.getcwd(), "test_results")
@@ -142,11 +144,14 @@ async def run_frontend_tests():
             if not debug_data:
                 raise Exception("No debug data available after test completion")
 
-            # Save debug logs
-            debug_output = os.path.join(downloads_dir, "debug_logs_automated.json")
-            with open(debug_output, "w", encoding="utf-8") as f:
-                json.dump(debug_data, f, indent=2)
-            print(f"Debug logs saved to {debug_output}")
+            # Save debug logs (only if enabled)
+            if SAVE_JSON_FILES:
+                debug_output = os.path.join(downloads_dir, "debug_logs_automated.json")
+                with open(debug_output, "w", encoding="utf-8") as f:
+                    json.dump(debug_data, f, indent=2)
+                print(f"Debug logs saved to {debug_output}")
+            else:
+                print("Skipping debug logs save (disabled in configuration)")
 
             # Save HTML snapshot
             html_content = await page.content()
@@ -155,17 +160,22 @@ async def run_frontend_tests():
                 f.write(html_content)
             print(f"HTML snapshot saved to {html_output}")
 
-            # Handle test results download
+            # Handle test results
             async with page.expect_download() as download_info:
                 await page.click(".download-btn")
             download = await download_info.value
-            json_output = os.path.join(downloads_dir, "test_results_automated.json")
-            await download.save_as(json_output)
-            print(f"Test results saved to {json_output}")
+            
+            if SAVE_JSON_FILES:
+                json_output = os.path.join(downloads_dir, "test_results_automated.json")
+                await download.save_as(json_output)
+                print(f"Test results saved to {json_output}")
+            else:
+                print("Skipping JSON results save (disabled in configuration)")
 
-            # Check test results
+            # Process and display results directly from the download
             try:
-                with open(json_output, 'r') as f:
+                results_string = await download.path()
+                with open(results_string, 'r') as f:
                     results = json.load(f)
 
                     # Process results

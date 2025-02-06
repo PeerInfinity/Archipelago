@@ -134,18 +134,25 @@ class RuleAnalyzer(ast.NodeVisitor):
             self.log_error("Error in visit_Return", e)
 
     def visit_Call(self, node):
+        """
+        Updated visit_Call from analyzer.py.
+        The key changes are in each recognized method's block:
+        - Assign to self.current_result
+        - Return immediately
+        """
         print(f"\nvisit_Call called:")
         print(f"Function: {ast.dump(node.func)}")
         print(f"Args: {[ast.dump(arg) for arg in node.args]}")
-        
+
         # First visit the function node to get function details
         self.visit(node.func)
         func_info = self.current_result
         print(f"Function info after visit: {func_info}")
-        
-        # Enhanced argument handling
+
         args = []
+        processed_args = []
         for arg in node.args:
+            # First collect all args as in the original
             if isinstance(arg, ast.Constant):
                 args.append(arg.value)
             elif isinstance(arg, ast.Name):
@@ -153,20 +160,51 @@ class RuleAnalyzer(ast.NodeVisitor):
             elif isinstance(arg, ast.Str):
                 args.append(arg.s)
             else:
-                # For complex arguments, visit and use result
                 self.visit(arg)
                 if self.current_result is not None:
                     args.append(self.current_result)
-        print(f"Collected args: {args}")
+                    
+            # Then collect processed_args, skipping state/player
+            if isinstance(arg, ast.Name) and arg.id in ['state', 'player']:
+                continue  # Skip state and player args for processed_args
+                
+            if isinstance(arg, ast.Constant):
+                processed_args.append(arg.value)
+            elif isinstance(arg, ast.Name):
+                processed_args.append(arg.id)
+            elif isinstance(arg, ast.Str):
+                processed_args.append(arg.s)
+            else:
+                # We already visited this arg above, so just use current_result
+                if self.current_result is not None:
+                    processed_args.append(self.current_result)
 
+        print(f"Collected args: {args}")
+        print(f"Processed args (without state/player): {processed_args}")
+
+        # If we recognized state.method
         if func_info and func_info.get('type') == 'state_method':
-            # Enhanced state method handling
             method = func_info['method']
+
+            # 1) state.has('Item', player)
             if method == 'has':
-                self.current_result = {
-                    'type': 'item_check',
-                    'item': args[0]
-                }
+                if len(args) >= 2 and args[1] == 'player':
+                    self.current_result = {
+                        'type': 'item_check',
+                        'item': args[0]
+                    }
+                    return
+
+            # 2) state.has_group('GroupName', player)
+            elif method == 'has_group':
+                if len(args) >= 2 and args[1] == 'player':
+                    self.current_result = {
+                        'type': 'group_check',
+                        'group': args[0]
+                    }
+                    return
+
+            # 3) state.has_any([...], player)
             elif method == 'has_any':
                 if len(args) >= 2 and args[1] == 'player':
                     items = args[0]
@@ -178,22 +216,40 @@ class RuleAnalyzer(ast.NodeVisitor):
                                 for item in items
                             ]
                         }
+                        return
+
+            # 4) state._lttp_has_key('Small Key (Swamp)', count, player)
             elif method == '_lttp_has_key':
+                # Example usage: state._lttp_has_key('Small Key (Palace)', 2, player)
                 if len(args) >= 3 and args[2] == 'player':
                     self.current_result = {
                         'type': 'count_check',
                         'item': args[0],
                         'count': args[1]
                     }
+                    return
+
+            # Any unhandled method on state -> fallback
+            self.current_result = {
+                'type': 'state_method',
+                'method': method,
+                'args': args
+            }
+            return
+        # Handle helper function calls
         elif func_info and func_info.get('type') == 'name':
-            # Handle helper function calls
+            print(f"Checking helper: {func_info['name']}")
+            print(f"Available closure vars: {list(self.closure_vars.keys())}")
             if func_info['name'] in self.closure_vars:
                 self.current_result = {
                     'type': 'helper',
                     'name': func_info['name'],
-                    'args': args or ['state', 'player']  # Preserve args if we have them
+                    'args': processed_args
                 }
                 print(f"Created helper: {self.current_result}")
+                return
+        # Fallback: we didn't recognize a known pattern
+        self.current_result = None
 
     def visit_Attribute(self, node):
         print(f"\nvisit_Attribute called:")
@@ -229,6 +285,41 @@ class RuleAnalyzer(ast.NodeVisitor):
             'value': node.value
         }
         print(f"Constant result: {self.current_result}")
+
+    def visit_BoolOp(self, node):
+        """Handle boolean operations (AND/OR) between conditions"""
+        try:
+            self.log_debug("\nvisit_BoolOp called:")
+            self.log_debug(f"Operator: {type(node.op).__name__}")
+            self.log_debug(f"Values: {[ast.dump(val) for val in node.values]}")
+            
+            # Process each value in the boolean operation
+            conditions = []
+            for value in node.values:
+                self.visit(value)
+                if self.current_result:
+                    conditions.append(self.current_result)
+
+            # Create appropriate rule structure based on operator type
+            if isinstance(node.op, ast.And):
+                self.current_result = {
+                    'type': 'and',
+                    'conditions': conditions
+                }
+            elif isinstance(node.op, ast.Or):
+                self.current_result = {
+                    'type': 'or',
+                    'conditions': conditions
+                }
+            else:
+                self.log_debug(f"Unknown boolean operator: {type(node.op).__name__}")
+                self.current_result = None
+
+            self.log_debug(f"Boolean operation result: {self.current_result}")
+            
+        except Exception as e:
+            self.log_error(f"Error in visit_BoolOp", e)
+            self.current_result = None
 
     def generic_visit(self, node):
         """Override to add detailed logging for unexpected node types."""
@@ -453,7 +544,17 @@ def analyze_rule(rule_func, closure_vars=None, seen_funcs=None):
         return None
 
     try:
-        # Source extraction with error handling
+        # Extract closure variables including helper functions
+        if closure_vars is None:
+            closure_vars = {}
+            try:
+                vars = inspect.getclosurevars(rule_func)
+                closure_vars.update(vars.nonlocals)
+                closure_vars.update(vars.globals)
+                print(f"Extracted closure vars: {list(closure_vars.keys())}")
+            except Exception as closure_err:
+                print(f"Error getting closure vars: {closure_err}")
+
         try:
             source = inspect.getsource(rule_func)
         except (OSError, TypeError) as source_err:
