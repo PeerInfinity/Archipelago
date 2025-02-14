@@ -9,6 +9,7 @@ export class LocationManager {
     this.mode = null;
     this.settings = null;
     this.startRegions = null;
+    this.eventLocations = new Map(); // name -> location
   }
 
   loadFromJSON(jsonData) {
@@ -16,62 +17,158 @@ export class LocationManager {
       throw new Error('Invalid JSON format: requires version 3');
     }
 
-    // Store complete data
-    this.regions = jsonData.regions['1']; // Store player 1's region data
-    this.itemData = jsonData.items['1']; // Store player 1's item data
-    this.groupData = jsonData.item_groups['1']; // Store player 1's item groups
-    this.progressionMapping = jsonData.progression_mapping['1']; // Store progression mapping
-    this.mode = jsonData.mode?.['1']; // Store game mode if available
-    this.settings = jsonData.settings?.['1']; // Store game settings if available
-    this.startRegions = jsonData.start_regions?.['1']; // Store start region data if available
+    this.regions = jsonData.regions['1'];
+    this.itemData = jsonData.items['1'];
+    this.groupData = jsonData.item_groups['1'];
+    this.progressionMapping = jsonData.progression_mapping['1'];
+    this.mode = jsonData.mode?.['1'];
+    this.settings = jsonData.settings?.['1'];
+    this.startRegions = jsonData.start_regions?.['1'];
 
-    // Convert region-based locations into flat array
-    this.locations = Object.values(this.regions).flatMap((region) => {
-      return region.locations.map((location) => ({
-        ...location,
-        region: region.name,
-        player: region.player,
-        path_rules: this.buildPathRules(region),
-      }));
-    });
+    // Convert region-based locations into a flat array
+    this.locations = [];
+    this.eventLocations.clear();
 
-    console.log('Loaded data:', {
-      regionCount: Object.keys(this.regions).length,
-      locationCount: this.locations.length,
-      itemCount: Object.keys(this.itemData).length,
-      groupCount: this.groupData?.length || 0,
+    Object.values(this.regions).forEach((region) => {
+      region.locations.forEach((loc) => {
+        const locationData = {
+          ...loc,
+          region: region.name,
+          player: region.player,
+        };
+        this.locations.push(locationData);
+
+        // If location's item is type 'Event', store it for easy reference
+        if (locationData.item && locationData.item.type === 'Event') {
+          this.eventLocations.set(locationData.name, locationData);
+        }
+      });
     });
   }
 
-  buildPathRules(region) {
-    // Combine region rules and entrance rules to determine path access
-    const rules = [];
+  computeReachableRegions(inventory) {
+    let newEventCollected = true;
+    let finalReachableRegions = new Set();
 
-    // Add region-specific rules
-    if (region.region_rules && region.region_rules.length) {
-      rules.push(...region.region_rules);
-    }
+    // Repeat BFS until stable
+    while (newEventCollected) {
+      newEventCollected = false;
 
-    // Add entrance access rules
-    if (region.entrances && region.entrances.length) {
-      region.entrances.forEach((entrance) => {
-        if (entrance.access_rule) {
-          rules.push(entrance.access_rule);
+      // 1. Run a single BFS pass
+      const reachableSet = this.runSingleBFS(inventory);
+
+      // 2. Check all event locations that are in reachable regions
+      for (const loc of this.eventLocations.values()) {
+        if (reachableSet.has(loc.region)) {
+          const canAccessLoc = evaluateRule(loc.access_rule, inventory);
+          if (canAccessLoc) {
+            const eventName = loc.item.name;
+            // If we haven't already collected this event
+            if (!inventory.state.hasEvent(eventName)) {
+              // Mark it as collected
+              inventory.state.setEvent(eventName);
+              console.log(`Collected event item: ${eventName}`);
+
+              // We need another pass, because collecting an event
+              // can unlock new regions or conditions
+              newEventCollected = true;
+            }
+          }
         }
-      });
+      }
+
+      finalReachableRegions = reachableSet;
     }
 
-    // Return composite rule if we have multiple rules
-    if (rules.length > 1) {
-      return {
-        type: 'and',
-        conditions: rules,
-      };
-    } else if (rules.length === 1) {
-      return rules[0];
+    // Return the final stable set of reachable regions
+    return finalReachableRegions;
+  }
+
+  runSingleBFS(inventory) {
+    const start = this.getStartRegions();
+    const reachable = new Set(start);
+    const queue = [...start];
+    const seenExits = new Set();
+
+    while (queue.length > 0) {
+      const currentRegionName = queue.shift();
+      const currentRegion = this.regions[currentRegionName];
+
+      if (!currentRegion) continue;
+
+      // Process exits from this region
+      for (const exit of currentRegion.exits || []) {
+        const exitKey = `${currentRegionName}->${exit.name}`;
+        if (seenExits.has(exitKey)) continue;
+        seenExits.add(exitKey);
+
+        if (!exit.connected_region) continue;
+
+        // Check if exit can be used
+        if (exit.access_rule && !evaluateRule(exit.access_rule, inventory)) {
+          continue;
+        }
+
+        const targetRegion = exit.connected_region;
+        if (!reachable.has(targetRegion)) {
+          reachable.add(targetRegion);
+          queue.push(targetRegion);
+        }
+      }
+
+      // Also consider region entrances (some logic uses them)
+      for (const entrance of currentRegion.entrances || []) {
+        // If the entrance leads to a region that isn't visited
+        if (!entrance.connected_region) continue;
+        if (reachable.has(entrance.connected_region)) continue;
+
+        if (
+          entrance.access_rule &&
+          !evaluateRule(entrance.access_rule, inventory)
+        ) {
+          continue;
+        }
+
+        reachable.add(entrance.connected_region);
+        queue.push(entrance.connected_region);
+      }
     }
 
-    return null;
+    return reachable;
+  }
+
+  getStartRegions() {
+    if (this.startRegions && this.startRegions.default) {
+      return this.startRegions.default;
+    }
+    return ['Menu', 'Links House'];
+  }
+
+  isRegionReachable(regionName, inventory) {
+    const reachableRegions = this.computeReachableRegions(inventory);
+    return reachableRegions.has(regionName);
+  }
+
+  isLocationAccessible(location, inventory) {
+    // Check if the region is reachable
+    const reachableRegions = this.computeReachableRegions(inventory);
+    if (!reachableRegions.has(location.region)) {
+      return false;
+    }
+
+    // Check location's access rule
+    const ruleResult = evaluateRule(location.access_rule, inventory);
+
+    // Handle event collection if location is accessible
+    if (
+      ruleResult &&
+      location.item?.type === 'Event' &&
+      !inventory.state.hasEvent(location.item.name)
+    ) {
+      inventory.state.setEvent(location.item.name);
+    }
+
+    return ruleResult;
   }
 
   getProcessedLocations(
@@ -96,17 +193,6 @@ export class LocationManager {
           (isAccessible && showReachable) || (!isAccessible && showUnreachable)
         );
       });
-  }
-
-  isLocationAccessible(location, inventory) {
-    try {
-      const accessRuleResult = evaluateRule(location.access_rule, inventory);
-      const pathRulesResult = evaluateRule(location.path_rules, inventory);
-      return accessRuleResult && pathRulesResult;
-    } catch (error) {
-      console.error(`Error evaluating rules for ${location.name}:`, error);
-      return false;
-    }
   }
 
   getNewlyReachableLocations(inventory) {

@@ -21,7 +21,14 @@ export class ALTTPInventory extends GameInventory {
       progressionMapping: this.progressionMapping,
     });
 
-    // Items are already added in super constructor, no need to add again
+    // Process each initial item and handle events
+    for (const item of items) {
+      this.addItem(item);
+      // Also process events for these items
+      if (this.state) {
+        this.state.processEventItem(item);
+      }
+    }
   }
 
   getItemState(itemName) {
@@ -30,6 +37,8 @@ export class ALTTPInventory extends GameInventory {
       isExcluded: this.excludeSet.has(itemName),
       progressiveInfo: this.getProgressiveItemInfo(itemName),
       itemData: this.itemData[itemName],
+      // Include event state for this item
+      isEvent: this.state?.hasEvent(itemName) || false,
     };
   }
 
@@ -59,7 +68,6 @@ export class ALTTPInventory extends GameInventory {
     return progressiveInfo;
   }
 
-  // Override has() to handle ALTTP-specific progression logic
   has(itemName) {
     this.log({
       message: 'Checking has() for item',
@@ -71,6 +79,12 @@ export class ALTTPInventory extends GameInventory {
     if (this.excludeSet.has(itemName)) {
       this.log(`${itemName} is excluded`);
       return false;
+    }
+
+    // Check if it's an event first
+    if (this.state?.hasEvent(itemName)) {
+      this.log(`${itemName} is an event and is active`);
+      return true;
     }
 
     // Direct check
@@ -106,6 +120,20 @@ export class ALTTPInventory extends GameInventory {
       progressiveInfo,
     });
     return false;
+  }
+
+  addItem(item) {
+    if (!this.excludeSet.has(item)) {
+      // Update item count
+      const count = (this.items.get(item) || 0) + 1;
+      this.items.set(item, count);
+      this.log(`Added item ${item}, new count: ${count}`);
+
+      // Process event if applicable
+      if (this.state) {
+        this.state.processEventItem(item);
+      }
+    }
   }
 
   count(itemName) {

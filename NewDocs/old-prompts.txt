@@ -409,3 +409,93 @@ Determine whether exporter.py currently exports all of the data that is required
 If there is data missing, then describe the data that is missing, and write an updated version of the data export code.
 
 If there is no data missing, then describe the changes that need to be made to the javascript frontend, to make it use the same location accessibility logic as the Python backend.
+
+----
+
+Feb. 13, 2025:
+
+We recently changed the format of the data exported by worlds/generic/RuleParser/exporter.py
+
+The old format is documented in frontend/assets/types/alttp.d-old.ts
+
+The new format is documented in frontend/assets/types/alttp.d.ts
+
+The javascript frontend needs to be updated to use the new format instead of the old format.
+
+Update the frontend code to read and save all of the relevant data from the json files, even if we're currently not using some of it.
+
+----
+
+It looks like most of the failing test cases are caused by the frontend javascript code not using the proper location accessibility code from the Python backend.
+
+Here are some instructions about how to make the frontend logic match the backend logic:
+
+After comparing how Archipelago determines reachability on the Python side versus what the front‐end is actually using, it turns out that all the necessary data is technically already exported. The JSON export (in exporter.py) includes:
+
+Region graph (including each region’s exits and each exit’s access_rule)
+Location data (with each location’s access_rule)
+Item & progression data (used by the rule analyzer)
+
+The Python backend uses a region‐graph BFS (i.e. it starts from known accessible regions, uses each region’s exit access_rule to see if it can get to the next region, and so on). Once a region is flagged as reachable, only then do the location’s own access_rule matter.
+
+What Is Missing?
+
+No additional data is actually missing. In other words, exporter.py is already outputting the region–exit connectivity data and each region/exit’s access_rule. That is enough to do exactly the same BFS that Python does.
+
+However, the front‐end currently never uses the region‐graph data to replicate the BFS logic. Instead, the front‐end code in locationManager.js and locationTests.js simply calls evaluateRule(locationData.access_rule, inventory). That checks the location’s rule in isolation, ignoring whether you can even physically get to that region in the first place (i.e. ignoring the region’s own BFS connectivity).
+
+Therefore the mismatch arises not because we are missing data, but because the front‐end never implements the BFS approach. The Python logic says:
+
+Start from known starting regions (e.g. “Links House,” “Sanctuary,” or “Menu”).
+For each region, apply the region’s exits (and each exit’s access_rule) to see which connected regions you can get into next.
+Mark a region as reachable if you can pass the exit’s rule from a region you already have flagged as reachable.
+Once a region is reachable, then check each location in that region with its location rule.
+A location is accessible if both:
+The region is reachable (via BFS).
+The location’s access rule is satisfied.
+By contrast, the JavaScript side is skipping steps 1–3.
+
+How To Fix the Front‐End
+
+Since we do have all the region data in the JSON (for example, "regions": {"1": {"Links House": {...}, "Light World": {...}, ...}}), the solution is:
+
+Build a region‐graph BFS in the JavaScript front‐end:
+Parse the regions["1"] object to get each region’s name, its exits, and each exit’s connected_region.
+Mark your starting regions (for example, “Menu” or “Links House,” depending on the mode) as reachable by default.
+Recursively check each region’s exits and evaluate the access_rule with the user’s current inventory. If the exit’s rule passes and we haven’t already flagged that connected region as reachable, mark it reachable and continue BFS.
+Only if the region containing a location is flagged reachable do you then evaluate the location’s access_rule.
+A location is considered accessible if regionIsReachable && evaluateRule(location.access_rule, inventory).
+In other words, you need to implement something like:
+
+js
+function computeReachableRegions(jsonData, inventory) {
+  // parse all regions into a dictionary: { regionName -> {exits, ...} }
+  // BFS or DFS from known start region(s)
+  // For each exit in the current region:
+  //   if evaluateRule(exit.access_rule, inventory):
+  //       mark exit.connected_region as reachable
+  // keep going until no new region is added
+  // return a set of reachable region names
+}
+Then the location check:
+
+js
+function isLocationAccessible(location, inventory, reachableRegions) {
+  return reachableRegions.has(location.parent_region)
+    && evaluateRule(location.access_rule, inventory);
+}
+
+Minimal Outline of Changes
+
+Parse region info from rulesData.regions["1"].
+Pick a start region based on the game mode (often "Menu" or "Links House" or both).
+Implement BFS or DFS across region.exits, checking each exit’s access_rule with the current inventory.
+Once BFS completes, keep a set (or map) of reachableRegions.
+Filter location checks in locationManager.js to say: “Is the location’s region in reachableRegions? If yes, then evaluate evaluateRule(location.access_rule, inventory).”
+That is exactly how the Python side does it, and it ensures the front‐end logic will match the Python BFS connectivity model.
+
+Summary
+
+No new data is needed. exporter.py already exports everything required (the region graph, each exit’s rule, each location’s rule).
+What’s missing is the region BFS logic in JavaScript.
+Once you implement BFS across the region graph using the exported access_rules on each region’s exits, you can replicate the Python logic accurately.
