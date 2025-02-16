@@ -1,12 +1,16 @@
 // gameUI.js
 import { Inventory } from './inventory.js';
+import { ALTTPInventory } from './games/alttp/inventory.js';
+import { ALTTPState } from './games/alttp/state.js';
 import { evaluateRule } from './ruleEngine.js';
 import { LocationManager } from './locationManager.js';
 
 class GameUI {
   constructor() {
     // Initialize core game state
-    this.inventory = new Inventory();
+    this.inventory = new ALTTPInventory();
+    this.inventory.state =
+      new ALTTPState(/* optionally pass a logger if available */);
     this.locationManager = new LocationManager();
     this.itemCounts = {};
     this.debugMode = false;
@@ -228,12 +232,15 @@ class GameUI {
       this.clearExistingData();
 
       // Initialize inventory and UI with the JSON data
-      this.inventory = new Inventory(
+      this.inventory = new ALTTPInventory(
         [], // Initial items
         [], // Excluded items
         jsonData.progression_mapping['1'], // Player 1's progression mapping
         jsonData.items['1'] // Player 1's item data
       );
+
+      this.inventory.state =
+        new ALTTPState(/* optionally pass a logger if available */);
 
       this.initializeUI(jsonData);
       this.locationManager.loadFromJSON(jsonData);
@@ -302,12 +309,16 @@ class GameUI {
           const jsonData = JSON.parse(e.target.result);
 
           // Initialize inventory and UI with the JSON data
-          this.inventory = new Inventory(
+          this.inventory = new ALTTPInventory(
             [], // Initial items
             [], // Excluded items
             jsonData.progression_mapping['1'], // Player 1's progression mapping
             jsonData.items['1'] // Player 1's item data
           );
+
+          this.inventory.state =
+            new ALTTPState(/* optionally pass a logger if available */);
+
           this.initializeUI(jsonData);
 
           // Load locations

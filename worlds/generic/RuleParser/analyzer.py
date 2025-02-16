@@ -135,16 +135,20 @@ class RuleAnalyzer(ast.NodeVisitor):
 
     def visit_Call(self, node):
         """
-        Updated visit_Call from analyzer.py.
-        The key changes are in each recognized method's block:
-        - Assign to self.current_result
-        - Return immediately
+        Updated visit_Call method.
+
+        This version first visits the function node to determine its type.
+        If the function is a simple Name and its name is one of our special
+        closure names (e.g. "rule" or "old_rule"), then we retrieve the actual
+        function from the closure_vars and recursively analyze it. To avoid
+        infinite recursion, we check if the function object has already been
+        seen (using its id).
         """
         print(f"\nvisit_Call called:")
         print(f"Function: {ast.dump(node.func)}")
         print(f"Args: {[ast.dump(arg) for arg in node.args]}")
 
-        # First visit the function node to get function details
+        # Visit the function node to obtain its details.
         self.visit(node.func)
         func_info = self.current_result
         print(f"Function info after visit: {func_info}")
@@ -152,7 +156,6 @@ class RuleAnalyzer(ast.NodeVisitor):
         args = []
         processed_args = []
         for arg in node.args:
-            # First collect all args as in the original
             if isinstance(arg, ast.Constant):
                 args.append(arg.value)
             elif isinstance(arg, ast.Name):
@@ -163,11 +166,10 @@ class RuleAnalyzer(ast.NodeVisitor):
                 self.visit(arg)
                 if self.current_result is not None:
                     args.append(self.current_result)
-                    
-            # Then collect processed_args, skipping state/player
+
+            # For processed_args, skip names "state" and "player"
             if isinstance(arg, ast.Name) and arg.id in ['state', 'player']:
-                continue  # Skip state and player args for processed_args
-                
+                continue
             if isinstance(arg, ast.Constant):
                 processed_args.append(arg.value)
             elif isinstance(arg, ast.Name):
@@ -175,14 +177,44 @@ class RuleAnalyzer(ast.NodeVisitor):
             elif isinstance(arg, ast.Str):
                 processed_args.append(arg.s)
             else:
-                # We already visited this arg above, so just use current_result
                 if self.current_result is not None:
                     processed_args.append(self.current_result)
 
         print(f"Collected args: {args}")
         print(f"Processed args (without state/player): {processed_args}")
 
-        # If we recognized state.method
+        # Special handling: if the function is a Name and its name is in our special list,
+        # then retrieve the actual function from closure_vars and recursively analyze it.
+        if func_info and func_info.get('type') == 'name':
+            func_name = func_info['name']
+            print(f"Checking helper: {func_name}")
+            print(f"Available closure vars: {list(self.closure_vars.keys())}")
+            if func_name in self.closure_vars:
+                if func_name in ['rule', 'old_rule']:
+                    # Retrieve the actual function object.
+                    helper_func = self.closure_vars[func_name]
+                    # Check if we've already seen this function to avoid infinite recursion.
+                    if id(helper_func) in self.seen_funcs:
+                        print(f"Already analyzed {func_name}, returning default constant true")
+                        self.current_result = {'type': 'constant', 'value': True}
+                        return
+                    else:
+                        self.seen_funcs.add(id(helper_func))
+                        analyzed = analyze_rule(helper_func, closure_vars=self.closure_vars, seen_funcs=self.seen_funcs)
+                        self.current_result = analyzed
+                        print(f"Inlined helper for {func_name}: {self.current_result}")
+                        return
+                else:
+                    self.current_result = {
+                        'type': 'helper',
+                        'name': func_name,
+                        'args': processed_args
+                    }
+                    print(f"Created helper: {self.current_result}")
+                    return
+            # If not in closure_vars, continue below.
+        
+        # Handle state methods (e.g. state.has, state._lttp_has_key, etc.)
         if func_info and func_info.get('type') == 'state_method':
             method = func_info['method']
 
@@ -236,19 +268,8 @@ class RuleAnalyzer(ast.NodeVisitor):
                 'args': args
             }
             return
-        # Handle helper function calls
-        elif func_info and func_info.get('type') == 'name':
-            print(f"Checking helper: {func_info['name']}")
-            print(f"Available closure vars: {list(self.closure_vars.keys())}")
-            if func_info['name'] in self.closure_vars:
-                self.current_result = {
-                    'type': 'helper',
-                    'name': func_info['name'],
-                    'args': processed_args
-                }
-                print(f"Created helper: {self.current_result}")
-                return
-        # Fallback: we didn't recognize a known pattern
+
+        # Fallback: if no recognized pattern, set current_result to None.
         self.current_result = None
 
     def visit_Attribute(self, node):

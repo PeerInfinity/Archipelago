@@ -499,3 +499,711 @@ Summary
 No new data is needed. exporter.py already exports everything required (the region graph, each exit’s rule, each location’s rule).
 What’s missing is the region BFS logic in JavaScript.
 Once you implement BFS across the region graph using the exported access_rules on each region’s exits, you can replicate the Python logic accurately.
+
+----
+
+Feb. 14, 2025:
+
+The most recent change we made was updating the javascript frontend to use the same BFS region traversal logic as the Python backend.
+
+That brought the failed test cases down to 8, a new record.
+
+These are the cases that still failed:
+
+Bombos Tablet    Bombos Tablet Ledge    ❌ FAIL    Accessible    Moon Pearl, Magic Mirror, Book of Mudora, Progressive Sword, Progressive Sword, Progressive Glove, Progressive Glove    None    Expected: true, Got: false
+Bombos Tablet    Bombos Tablet Ledge    ❌ FAIL    Accessible    Moon Pearl, Magic Mirror, Book of Mudora, Progressive Sword, Progressive Sword, Progressive Glove, Hammer    None    Expected: true, Got: false
+Bombos Tablet    Bombos Tablet Ledge    ❌ FAIL    Accessible    Moon Pearl, Magic Mirror, Book of Mudora, Progressive Sword, Progressive Sword, Beat Agahnim 1, Hammer    None    Expected: true, Got: false
+Bombos Tablet    Bombos Tablet Ledge    ❌ FAIL    Accessible    Moon Pearl, Magic Mirror, Book of Mudora, Progressive Sword, Progressive Sword, Beat Agahnim 1, Progressive Glove, Hookshot    None    Expected: true, Got: false
+Bombos Tablet    Bombos Tablet Ledge    ❌ FAIL    Accessible    Moon Pearl, Magic Mirror, Book of Mudora, Progressive Sword, Progressive Sword, Beat Agahnim 1, Flippers, Hookshot    None    Expected: true, Got: false
+
+Checkerboard Cave    Checkerboard Cave    ❌ FAIL    Accessible    Flute, Magic Mirror, Progressive Glove, Progressive Glove    None    Expected: true, Got: false
+
+Desert Ledge    Desert Ledge    ❌ FAIL    Accessible    Flute, Magic Mirror, Progressive Glove, Progressive Glove    None    Expected: true, Got: false
+
+Sunken Treasure    Light World    ❌ FAIL    Accessible    None    None    Expected: true, Got: false
+
+It looks like these failed cases all involve event items.
+
+We already knew that the event item logic wasn't implemented yet, and now fixing that is our next priority.
+
+We attempted to implement the event item logic, but that is currently unfinished and our attempts so far have only introduced more errors.
+
+The latest version of the code has 25 failed cases, and also the tests run much faster than the previous version, suggesting that something important is being skipped.
+
+Some more information about event items:
+
+We have code in exporter.py to include event items in the rules.json file.
+
+Here is that code:
+
+    # Then add event flags
+    from worlds.alttp.Items import item_table
+    from BaseClasses import ItemClassification
+
+    for item_name, item_data in item_table.items():
+        if item_data.type == 'Event':
+            items_data[item_name] = {
+                'name': item_name,
+                'id': None,
+                'groups': [],
+                'advancement': item_data.classification == ItemClassification.progression,
+                'priority': False,
+                'useful': False,
+                'trap': False
+            }
+
+Here is the json data we get for the event items:
+
+      "Apple": {
+        "name": "Apple",
+        "id": 180,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Red Potion": {
+        "name": "Red Potion",
+        "id": 46,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Potions"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Green Potion": {
+        "name": "Green Potion",
+        "id": 47,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Potions"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Blue Potion": {
+        "name": "Blue Potion",
+        "id": 48,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Potions"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Bee": {
+        "name": "Bee",
+        "id": 14,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Small Heart": {
+        "name": "Small Heart",
+        "id": 66,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Activated Flute": {
+        "name": "Activated Flute",
+        "id": 74,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Beat Agahnim 1": {
+        "name": "Beat Agahnim 1",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Beat Agahnim 2": {
+        "name": "Beat Agahnim 2",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Get Frog": {
+        "name": "Get Frog",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Return Smith": {
+        "name": "Return Smith",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Pick Up Purple Chest": {
+        "name": "Pick Up Purple Chest",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Open Floodgate": {
+        "name": "Open Floodgate",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      },
+      "Capacity Upgrade Shop": {
+        "name": "Capacity Upgrade Shop",
+        "id": null,
+        "groups": [],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false
+      }
+    }
+  },
+
+In rules.json, all events have an "event" entry, but it's false for every single location:
+
+            "progress_type": 1,
+            "event": false,
+            "locked": false,
+            "item": null
+
+There are some locations that are labeled as events:
+
+        "locations": [
+          {
+            "name": "Floodgate",
+            "address": null,
+            "crystal": false,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "event": false,
+            "locked": true,
+            "item": {
+              "name": "Open Floodgate",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "Event",
+              "code": null
+            }
+          },
+
+I think this is the way the event flags are supposed to be set.  Here are the other event locations I found in rules.json:
+
+          {
+            "name": "Missing Smith",
+            "address": null,
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Get Frog"
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    "Blacksmiths Hut",
+                    "Region",
+                    "player"
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "event": false,
+            "locked": true,
+            "item": {
+              "name": "Return Smith",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "Event",
+              "code": null
+            }
+          }
+
+          {
+            "name": "Capacity Upgrade Shop",
+            "address": null,
+            "crystal": false,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "event": false,
+            "locked": true,
+            "item": {
+              "name": "Capacity Upgrade Shop",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "Event",
+              "code": null
+            }
+          },
+
+          {
+            "name": "Frog",
+            "address": null,
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "event": false,
+            "locked": true,
+            "item": {
+              "name": "Get Frog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "Event",
+              "code": null
+            }
+          }
+
+I also notice that that last location has the issue of "rule" and "old rule" appearing in the conditions.  That means that there is a case that exporter.py isn't handling properly.  I don't know if that's related to the issues we're currently trying to fix.
+
+----
+
+Feb. 15, 2025:
+
+There are still some issues with exporter.py
+
+There are some entries in rules.json with this form:
+
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
+                }
+              ]
+            },
+
+It looks like this happens when Rules.py uses add_rule
+
+What we want to happen instead is to get the contents of rule and old_rule, not treat them as generic helper functions.
+
+Here is what the debug output looks like for one of these cases:
+
+--- Starting Rule Analysis ---
+Rule function: <function add_rule.<locals>.<lambda> at 0x000001FF71796AC0>
+Extracted closure vars: ['old_rule', 'rule']
+Original source: '            spot.access_rule = lambda state: rule(state) and old_rule(state)\n'
+Cleaned source: 'def __analyzed_func__(state):\n    return rule(state) and old_rule(state)'
+AST parsed successfully
+DEBUG    root:analyzer.py:67 
+--- Starting Module Analysis ---
+
+--- Starting Module Analysis ---
+DEBUG    root:analyzer.py:67 Module body length: 1
+Module body length: 1
+DEBUG    root:analyzer.py:67 Module body node 0: FunctionDef
+Module body node 0: FunctionDef
+DEBUG    root:analyzer.py:67 
+--- Analyzing Function Definition: __analyzed_func__ ---
+
+--- Analyzing Function Definition: __analyzed_func__ ---
+DEBUG    root:analyzer.py:67 Function args: ['state']
+Function args: ['state']
+DEBUG    root:analyzer.py:67 Function body node 0: Return
+Function body node 0: Return
+DEBUG    root:analyzer.py:67 
+--- Analyzing Return ---
+
+--- Analyzing Return ---
+DEBUG    root:analyzer.py:67 Return value type: BoolOp
+Return value type: BoolOp
+DEBUG    root:analyzer.py:67 BoolOp type: And
+BoolOp type: And
+DEBUG    root:analyzer.py:67 BoolOp values count: 2
+BoolOp values count: 2
+DEBUG    root:analyzer.py:67 
+visit_BoolOp called:
+
+visit_BoolOp called:
+DEBUG    root:analyzer.py:67 Operator: And
+Operator: And
+DEBUG    root:analyzer.py:67 Values: ["Call(func=Name(id='rule', ctx=Load()), args=[Name(id='state', ctx=Load())], keywords=[])", "Call(func=Name(id='old_rule', ctx=Load()), args=[Name(id='state', ctx=Load())], keywords=[])"]
+Values: ["Call(func=Name(id='rule', ctx=Load()), args=[Name(id='state', ctx=Load())], keywords=[])", "Call(func=Name(id='old_rule', ctx=Load()), args=[Name(id='state', ctx=Load())], keywords=[])"]
+
+visit_Call called:
+Function: Name(id='rule', ctx=Load())
+Args: ["Name(id='state', ctx=Load())"]
+
+visit_Name called: rule
+Name result: {'type': 'name', 'name': 'rule'}
+Function info after visit: {'type': 'name', 'name': 'rule'}
+Collected args: ['state']
+Processed args (without state/player): []
+Checking helper: rule
+Available closure vars: ['old_rule', 'rule']
+Created helper: {'type': 'helper', 'name': 'rule', 'args': []}
+
+visit_Call called:
+Function: Name(id='old_rule', ctx=Load())
+Args: ["Name(id='state', ctx=Load())"]
+
+visit_Name called: old_rule
+Name result: {'type': 'name', 'name': 'old_rule'}
+Function info after visit: {'type': 'name', 'name': 'old_rule'}
+Collected args: ['state']
+Processed args (without state/player): []
+Checking helper: old_rule
+Available closure vars: ['old_rule', 'rule']
+Created helper: {'type': 'helper', 'name': 'old_rule', 'args': []}
+DEBUG    root:analyzer.py:67 Boolean operation result: {'type': 'and', 'conditions': [{'type': 'helper', 'name': 'rule', 'args': []}, {'type': 'helper', 'name': 'old_rule', 'args': []}]}
+Boolean operation result: {'type': 'and', 'conditions': [{'type': 'helper', 'name': 'rule', 'args': []}, {'type': 'helper', 'name': 'old_rule', 'args': []}]}
+Debug log:
+
+--- Starting Module Analysis ---
+Module body length: 1
+Module body node 0: FunctionDef
+
+--- Analyzing Function Definition: __analyzed_func__ ---
+Function args: ['state']
+Function body node 0: Return
+
+--- Analyzing Return ---
+Return value type: BoolOp
+BoolOp type: And
+BoolOp values count: 2
+
+visit_BoolOp called:
+Operator: And
+Values: ["Call(func=Name(id='rule', ctx=Load()), args=[Name(id='state', ctx=Load())], keywords=[])", "Call(func=Name(id='old_rule', ctx=Load()), args=[Name(id='state', ctx=Load())], keywords=[])"]
+Boolean operation result: {'type': 'and', 'conditions': [{'type': 'helper', 'name': 'rule', 'args': []}, {'type': 'helper', 'name': 'old_rule', 'args': []}]}
+Unknown ALTTP helper: rule
+Unknown ALTTP helper: old_rule
+DEBUG    worlds.generic.RuleParser.exporter:exporter.py:134 Successfully expanded rule
+
+
+Propose a plan for how to fix this issue.
+
+If you need more information, then tell me what information you need.
+
+----
+
+There are still some issues with exporter.py and analyzer.py
+
+Here is one of the errors that appears in rules.json:
+
+          {
+            "name": "Capacity Upgrade Left",
+            "address": 4194334,
+            "crystal": false,
+            "access_rule": {
+              "type": "error",
+              "debug_log": [
+                "\n--- Starting Module Analysis ---",
+                "Module body length: 1",
+                "Module body node 0: Expr",
+                "\n--- Generic Visit: Expr ---",
+                "Node details: {'value': <ast.Call object at 0x000002994EF74D90>, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 76}",
+                "\n--- Analyzing Lambda ---",
+                "Lambda args: ['state', 'spot']",
+                "Lambda body type: Call"
+              ],
+              "error_log": []
+            },
+            "item_rule": {
+              "type": "error",
+              "debug_log": [
+                "\n--- Starting Module Analysis ---",
+                "Module body length: 1",
+                "Module body node 0: Assign",
+                "\n--- Generic Visit: Assign ---",
+                "Node details: {'targets': [<ast.Attribute object at 0x000002994EF77C40>], 'value': <ast.Lambda object at 0x000002994EF77880>, 'type_comment': None, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 114}",
+                "\n--- Analyzing Lambda ---",
+                "Lambda args: ['item', 'spot']",
+                "Lambda body type: UnaryOp",
+                "\n--- Generic Visit: UnaryOp ---",
+                "Node details: {'op': <ast.Not object at 0x00000299420855A0>, 'operand': <ast.Call object at 0x000002994EF763E0>, 'lineno': 1, 'col_offset': 39, 'end_lineno': 1, 'end_col_offset': 114}",
+                "\n--- Generic Visit: Not ---",
+                "Node details: {}",
+                "\n--- Generic Visit: GeneratorExp ---",
+                "Node details: {'elt': <ast.Name object at 0x000002994EF77430>, 'generators': [<ast.comprehension object at 0x000002994EF75E40>], 'lineno': 1, 'col_offset': 46, 'end_lineno': 1, 'end_col_offset': 114}",
+                "\n--- Generic Visit: comprehension ---",
+                "Node details: {'target': <ast.Name object at 0x000002994EF75D50>, 'iter': <ast.Subscript object at 0x000002994EF753F0>, 'ifs': [<ast.Compare object at 0x000002994EF76170>], 'is_async': 0}",
+                "\n--- Generic Visit: Subscript ---",
+                "Node details: {'value': <ast.Name object at 0x000002994EF75450>, 'slice': <ast.Attribute object at 0x000002994EF74EE0>, 'ctx': <ast.Load object at 0x0000029942084DC0>, 'lineno': 1, 'col_offset': 58, 'end_lineno': 1, 'end_col_offset': 95}",
+                "\n--- Generic Visit: Load ---",
+                "Node details: {}",
+                "\n--- Generic Visit: Compare ---",
+                "Node details: {'left': <ast.Name object at 0x000002994EF769B0>, 'ops': [<ast.In object at 0x00000299420859F0>], 'comparators': [<ast.Attribute object at 0x000002994EF76800>], 'lineno': 1, 'col_offset': 99, 'end_lineno': 1, 'end_col_offset': 113}",
+                "\n--- Generic Visit: In ---",
+                "Node details: {}"
+              ],
+              "error_log": []
+            },
+            "progress_type": 1,
+            "event": false,
+            "locked": false,
+            "item": null
+          },
+
+Here is what the debug output looks like for one of these cases:
+
+--- Starting Rule Analysis ---
+Rule function: <function create_shops.<locals>.<lambda> at 0x0000029945500C20>
+Extracted closure vars: ['price_blacklist']
+Original source: '                loc.item_rule = lambda item, spot=loc: not any(i for i in price_blacklist[spot.shop_price_type] if i in item.name)\n'
+Cleaned source: 'loc.item_rule = lambda item, spot=loc: not any(i for i in price_blacklist[spot.shop_price_type] if i in item.name)'
+AST parsed successfully
+DEBUG    root:analyzer.py:67 
+--- Starting Module Analysis ---
+
+--- Starting Module Analysis ---
+DEBUG    root:analyzer.py:67 Module body length: 1
+Module body length: 1
+DEBUG    root:analyzer.py:67 Module body node 0: Assign
+Module body node 0: Assign
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Assign ---
+
+--- Generic Visit: Assign ---
+DEBUG    root:analyzer.py:67 Node details: {'targets': [<ast.Attribute object at 0x000002994EF77C40>], 'value': <ast.Lambda object at 0x000002994EF77880>, 'type_comment': None, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 114}
+Node details: {'targets': [<ast.Attribute object at 0x000002994EF77C40>], 'value': <ast.Lambda object at 0x000002994EF77880>, 'type_comment': None, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 114}
+
+visit_Attribute called:
+Value: Name(id='loc', ctx=Load())
+Attr: item_rule
+
+visit_Name called: loc
+Name result: {'type': 'name', 'name': 'loc'}
+Value info after visit: {'type': 'name', 'name': 'loc'}
+Unhandled attribute access: item_rule on {'type': 'name', 'name': 'loc'}
+DEBUG    root:analyzer.py:67 
+--- Analyzing Lambda ---
+
+--- Analyzing Lambda ---
+DEBUG    root:analyzer.py:67 Lambda args: ['item', 'spot']
+Lambda args: ['item', 'spot']
+DEBUG    root:analyzer.py:67 Lambda body type: UnaryOp
+Lambda body type: UnaryOp
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: UnaryOp ---
+
+--- Generic Visit: UnaryOp ---
+DEBUG    root:analyzer.py:67 Node details: {'op': <ast.Not object at 0x00000299420855A0>, 'operand': <ast.Call object at 0x000002994EF763E0>, 'lineno': 1, 'col_offset': 39, 'end_lineno': 1, 'end_col_offset': 114}
+Node details: {'op': <ast.Not object at 0x00000299420855A0>, 'operand': <ast.Call object at 0x000002994EF763E0>, 'lineno': 1, 'col_offset': 39, 'end_lineno': 1, 'end_col_offset': 114}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Not ---
+
+--- Generic Visit: Not ---
+DEBUG    root:analyzer.py:67 Node details: {}
+Node details: {}
+
+visit_Call called:
+Function: Name(id='any', ctx=Load())
+Args: ["GeneratorExp(elt=Name(id='i', ctx=Load()), generators=[comprehension(target=Name(id='i', ctx=Store()), iter=Subscript(value=Name(id='price_blacklist', ctx=Load()), slice=Attribute(value=Name(id='spot', ctx=Load()), attr='shop_price_type', ctx=Load()), ctx=Load()), ifs=[Compare(left=Name(id='i', ctx=Load()), ops=[In()], comparators=[Attribute(value=Name(id='item', ctx=Load()), attr='name', ctx=Load())])], is_async=0)])"]
+
+visit_Name called: any
+Name result: {'type': 'name', 'name': 'any'}
+Function info after visit: {'type': 'name', 'name': 'any'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: GeneratorExp ---
+
+--- Generic Visit: GeneratorExp ---
+DEBUG    root:analyzer.py:67 Node details: {'elt': <ast.Name object at 0x000002994EF77430>, 'generators': [<ast.comprehension object at 0x000002994EF75E40>], 'lineno': 1, 'col_offset': 46, 'end_lineno': 1, 'end_col_offset': 114}
+Node details: {'elt': <ast.Name object at 0x000002994EF77430>, 'generators': [<ast.comprehension object at 0x000002994EF75E40>], 'lineno': 1, 'col_offset': 46, 'end_lineno': 1, 'end_col_offset': 114}
+
+visit_Name called: i
+Name result: {'type': 'name', 'name': 'i'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: comprehension ---
+
+--- Generic Visit: comprehension ---
+DEBUG    root:analyzer.py:67 Node details: {'target': <ast.Name object at 0x000002994EF75D50>, 'iter': <ast.Subscript object at 0x000002994EF753F0>, 'ifs': [<ast.Compare object at 0x000002994EF76170>], 'is_async': 0}
+Node details: {'target': <ast.Name object at 0x000002994EF75D50>, 'iter': <ast.Subscript object at 0x000002994EF753F0>, 'ifs': [<ast.Compare object at 0x000002994EF76170>], 'is_async': 0}
+
+visit_Name called: i
+Name result: {'type': 'name', 'name': 'i'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Subscript ---
+
+--- Generic Visit: Subscript ---
+DEBUG    root:analyzer.py:67 Node details: {'value': <ast.Name object at 0x000002994EF75450>, 'slice': <ast.Attribute object at 0x000002994EF74EE0>, 'ctx': <ast.Load object at 0x0000029942084DC0>, 'lineno': 1, 'col_offset': 58, 'end_lineno': 1, 'end_col_offset': 95}
+Node details: {'value': <ast.Name object at 0x000002994EF75450>, 'slice': <ast.Attribute object at 0x000002994EF74EE0>, 'ctx': <ast.Load object at 0x0000029942084DC0>, 'lineno': 1, 'col_offset': 58, 'end_lineno': 1, 'end_col_offset': 95}
+
+visit_Name called: price_blacklist
+Name result: {'type': 'name', 'name': 'price_blacklist'}
+
+visit_Attribute called:
+Value: Name(id='spot', ctx=Load())
+Attr: shop_price_type
+
+visit_Name called: spot
+Name result: {'type': 'name', 'name': 'spot'}
+Value info after visit: {'type': 'name', 'name': 'spot'}
+Unhandled attribute access: shop_price_type on {'type': 'name', 'name': 'spot'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Load ---
+
+--- Generic Visit: Load ---
+DEBUG    root:analyzer.py:67 Node details: {}
+Node details: {}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Compare ---
+
+--- Generic Visit: Compare ---
+DEBUG    root:analyzer.py:67 Node details: {'left': <ast.Name object at 0x000002994EF769B0>, 'ops': [<ast.In object at 0x00000299420859F0>], 'comparators': [<ast.Attribute object at 0x000002994EF76800>], 'lineno': 1, 'col_offset': 99, 'end_lineno': 1, 'end_col_offset': 113}
+Node details: {'left': <ast.Name object at 0x000002994EF769B0>, 'ops': [<ast.In object at 0x00000299420859F0>], 'comparators': [<ast.Attribute object at 0x000002994EF76800>], 'lineno': 1, 'col_offset': 99, 'end_lineno': 1, 'end_col_offset': 113}
+
+visit_Name called: i
+Name result: {'type': 'name', 'name': 'i'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: In ---
+
+--- Generic Visit: In ---
+DEBUG    root:analyzer.py:67 Node details: {}
+Node details: {}
+
+visit_Attribute called:
+Value: Name(id='item', ctx=Load())
+Attr: name
+
+visit_Name called: item
+Name result: {'type': 'name', 'name': 'item'}
+Value info after visit: {'type': 'name', 'name': 'item'}
+Unhandled attribute access: name on {'type': 'name', 'name': 'item'}
+Collected args: [{'type': 'name', 'name': 'item'}]
+Processed args (without state/player): [{'type': 'name', 'name': 'item'}]
+Checking helper: any
+Available closure vars: ['price_blacklist']
+Debug log:
+
+--- Starting Module Analysis ---
+Module body length: 1
+Module body node 0: Assign
+
+--- Generic Visit: Assign ---
+Node details: {'targets': [<ast.Attribute object at 0x000002994EF77C40>], 'value': <ast.Lambda object at 0x000002994EF77880>, 'type_comment': None, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 114}
+
+--- Analyzing Lambda ---
+Lambda args: ['item', 'spot']
+Lambda body type: UnaryOp
+
+--- Generic Visit: UnaryOp ---
+Node details: {'op': <ast.Not object at 0x00000299420855A0>, 'operand': <ast.Call object at 0x000002994EF763E0>, 'lineno': 1, 'col_offset': 39, 'end_lineno': 1, 'end_col_offset': 114}
+
+--- Generic Visit: Not ---
+Node details: {}
+
+--- Generic Visit: GeneratorExp ---
+Node details: {'elt': <ast.Name object at 0x000002994EF77430>, 'generators': [<ast.comprehension object at 0x000002994EF75E40>], 'lineno': 1, 'col_offset': 46, 'end_lineno': 1, 'end_col_offset': 114}
+
+--- Generic Visit: comprehension ---
+Node details: {'target': <ast.Name object at 0x000002994EF75D50>, 'iter': <ast.Subscript object at 0x000002994EF753F0>, 'ifs': [<ast.Compare object at 0x000002994EF76170>], 'is_async': 0}
+
+--- Generic Visit: Subscript ---
+Node details: {'value': <ast.Name object at 0x000002994EF75450>, 'slice': <ast.Attribute object at 0x000002994EF74EE0>, 'ctx': <ast.Load object at 0x0000029942084DC0>, 'lineno': 1, 'col_offset': 58, 'end_lineno': 1, 'end_col_offset': 95}
+
+--- Generic Visit: Load ---
+Node details: {}
+
+--- Generic Visit: Compare ---
+Node details: {'left': <ast.Name object at 0x000002994EF769B0>, 'ops': [<ast.In object at 0x00000299420859F0>], 'comparators': [<ast.Attribute object at 0x000002994EF76800>], 'lineno': 1, 'col_offset': 99, 'end_lineno': 1, 'end_col_offset': 113}
+
+--- Generic Visit: In ---
+Node details: {}
+DEBUG    worlds.generic.RuleParser.exporter:exporter.py:134 Successfully expanded rule
+DEBUG    worlds.generic.RuleParser.exporter:exporter.py:300 Successfully processed location: Capacity Upgrade Left
+
+
+Propose a plan for how to fix this issue.
+
+If you need more information, then tell me what information you need.
+
+----
+

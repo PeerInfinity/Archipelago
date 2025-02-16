@@ -436,17 +436,19 @@ class GfxMod(FreeText, LADXROption):
     normal = ''
     default = 'Link'
 
-    __spriteDir: str = Utils.local_path(os.path.join('data', 'sprites', 'ladx'))
+    # When running pytest, __spriteDir was set to the wrong path, and gave a FileNotFoundError
+    #__spriteDir: str = Utils.local_path(os.path.join('data', 'sprites', 'ladx'))
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
+    BASE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))  # Adjust according to your folder structure
+    __spriteDir: str = os.path.join(BASE_DIR, 'data', 'sprites', 'ladx')
     __spriteFiles: typing.DefaultDict[str, typing.List[str]] = defaultdict(list)
 
     extensions = [".bin", ".bdiff", ".png", ".bmp"]
 
-    # When running pytest, __spriteDir is set to the wrong path, and gives a FileNotFoundError
-    if not 'pytest' in sys.modules:
-        for file in os.listdir(__spriteDir):
-            name, extension = os.path.splitext(file)
-            if extension in extensions:
-                __spriteFiles[name].append(file)
+    for file in os.listdir(__spriteDir):
+        name, extension = os.path.splitext(file)
+        if extension in extensions:
+            __spriteFiles[name].append(file)
 
     def __init__(self, value: str):
         super().__init__(value)

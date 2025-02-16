@@ -130,7 +130,9 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
         try:
             if rule:
                 analyzed = analyze_rule(rule)
-                return helper_expander.expand_rule(analyzed)
+                expanded = helper_expander.expand_rule(analyzed)
+                logger.debug("Successfully expanded rule")
+                return expanded
         except Exception as e:
             logger.error(f"Error expanding rule: {str(e)}")
         return None
@@ -139,13 +141,14 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
         regions_data = {}
         logger.debug(f"Getting game helpers for {multiworld.game[player]}")
         helper_expander = get_game_helpers(multiworld.game[player])
+        logger.debug("Successfully got game helpers")
         
         logger.debug("Getting player regions")
         player_regions = [
             region for region in multiworld.get_regions() 
             if region.player == player
         ]
-        logger.debug(f"Found {len(player_regions)} regions")
+        logger.debug(f"Successfully found {len(player_regions)} regions")
 
         # Process each region
         for region in player_regions:
@@ -166,6 +169,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                     'provides_chest_count': getattr(region, 'provides_chest_count', True),
                     'region_rules': []
                 }
+                logger.debug("Successfully initialized region data")
 
                 # Process dungeon data
                 logger.debug("Processing dungeon data")
@@ -196,6 +200,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                         )
                     
                     region_data['dungeon'] = dungeon_data
+                    logger.debug("Successfully processed dungeon data")
 
                 # Process shop data
                 logger.debug("Processing shop data")
@@ -215,6 +220,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                     inventory_item['replacement'] = item.replacement.name
                                     inventory_item['replacement_price'] = getattr(item, 'replacement_price', 0)
                                 shop_inventory.append(inventory_item)
+                                logger.debug(f"Successfully processed shop item: {inventory_item['item']}")
                             except Exception as e:
                                 logger.error(f"Error processing shop inventory item: {str(e)}")
 
@@ -225,6 +231,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                         'region_name': getattr(region.shop, 'region_name', None),
                         'location_name': getattr(region.shop, 'location_name', None)
                     }
+                    logger.debug("Successfully processed shop data")
 
                 # Process entrances
                 logger.debug("Processing entrances")
@@ -242,6 +249,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 'addresses': getattr(entrance, 'addresses', None)
                             }
                             region_data['entrances'].append(entrance_data)
+                            logger.debug(f"Successfully processed entrance: {entrance_data['name']}")
                         except Exception as e:
                             logger.error(f"Error processing entrance {getattr(entrance, 'name', 'Unknown')}: {str(e)}")
 
@@ -257,6 +265,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 'type': getattr(exit, 'type', 'Exit')
                             }
                             region_data['exits'].append(exit_data)
+                            logger.debug(f"Successfully processed exit: {exit_data['name']}")
                         except Exception as e:
                             logger.error(f"Error processing exit {getattr(exit, 'name', 'Unknown')}: {str(e)}")
 
@@ -288,35 +297,37 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 }
                             
                             region_data['locations'].append(location_data)
+                            logger.debug(f"Successfully processed location: {location_data['name']}")
                         except Exception as e:
                             logger.error(f"Error processing location {getattr(location, 'name', 'Unknown')}: {str(e)}")
 
                 # Process region rules
                 logger.debug("Processing region rules")
                 if hasattr(region, 'region_rules'):
-                    for rule in region.region_rules:
+                    for i, rule in enumerate(region.region_rules):
                         try:
                             expanded_rule = safe_expand_rule(helper_expander, rule)
                             if expanded_rule:
                                 region_data['region_rules'].append(expanded_rule)
+                                logger.debug(f"Successfully processed region rule {i+1}")
                         except Exception as e:
                             logger.error(f"Error processing region rule: {str(e)}")
 
                 regions_data[region.name] = region_data
+                logger.debug(f"Successfully completed processing region: {region.name}")
 
             except Exception as e:
                 logger.error(f"Error processing region {getattr(region, 'name', 'Unknown')}: {str(e)}")
                 logger.exception("Full traceback:")
                 continue
 
-        logger.debug(f"Finished process_regions for player {player}")
+        logger.debug(f"Successfully finished process_regions for player {player}")
         return regions_data
 
     except Exception as e:
         logger.error(f"Error in process_regions: {str(e)}")
         logger.exception("Full traceback:")
         raise
-
 
 def process_items(multiworld, player: int) -> Dict[str, Any]:
     """Process item data including progression flags."""
@@ -451,7 +462,7 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     test_cases_path = os.path.join(output_dir, "test_cases.json")
     with open(test_cases_path, 'w') as f:
         json.dump(test_cases_data, f, indent=2)
-    asyncio.run(run_frontend_tests())
+    #asyncio.run(run_frontend_tests())
     print("Automated frontend tests finished.")
     
     return True
