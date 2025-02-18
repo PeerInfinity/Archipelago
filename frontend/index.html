@@ -96,6 +96,10 @@
               <option value="original">Original Order</option>
               <option value="accessibility">Sort by Accessibility</option>
             </select>
+            <select id="view-toggle">
+              <option value="locations">Locations View</option>
+              <option value="regions">Regions View</option>
+            </select>
             <label>
               <input type="checkbox" id="show-checked" checked />
               Show Checked
@@ -116,6 +120,9 @@
         </div>
         <div id="locations-grid">
           <!-- Populated by JS -->
+        </div>
+        <div id="regions-panel" style="display: none">
+          <!-- Region blocks are injected here by regionManager -->
         </div>
       </div>
     </div>

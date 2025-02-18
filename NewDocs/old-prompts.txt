@@ -1207,3 +1207,22 @@ If you need more information, then tell me what information you need.
 
 ----
 
+We have recently made several updates to both the Python backend and the javascript frontend.
+
+We have been testing the changes through frontend/test_runner.html.
+
+Some of the changes we made caused the frontend/index.html interface to stop working properly.
+
+Here is the error that we're currently getting in the chrome console, when opening frontend/index.html:
+
+gameUI.js:249 Error loading default rules: TypeError: inventory.getItemState is not a function
+    at evaluateRule (ruleEngine.js:119:30)
+    at ruleEngine.js:104:33
+    at Array.map (<anonymous>)
+    at evaluateRule (ruleEngine.js:103:39)
+    at LocationManager.runSingleBFS (locationManager.js:108:34)
+    at LocationManager.computeReachableRegions (locationManager.js:58:33)
+    at LocationManager.isLocationAccessible (locationManager.js:154:35)
+    at locationManager.js:191:35
+    at Array.filter (<anonymous>)
+    at LocationManager.getProcessedLocations (locationManager.js:190:8)

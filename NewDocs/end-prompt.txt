@@ -1,21 +1,110 @@
 That's the end of the files you need for context.  Now here are your instructions:
 
-We have recently made several updates to both the Python backend and the javascript frontend.
+Here is a planning document for the next changes I want to make:
 
-We have been testing the changes through frontend/test_runner.html.
+----
 
-Some of the changes we made caused the frontend/index.html interface to stop working properly.
+The basic idea is to take the Archipidle-json interface and expand it into an incremental game with mechanics similar to Idle Loops, Increlution, or Stuck In Time.
 
-Here is the error that we're currently getting in the chrome console, when opening frontend/index.html:
+The basic layout will remain mostly the same. The inventory panel on the left, the Archipelago console in the middle, and the locations panel on the right. It's mainly the locations panel that will change. And it would be more appropriate to call it the regions panel, since it will now show a vertically scrollable list of regions, not locations.
 
-gameUI.js:249 Error loading default rules: TypeError: inventory.getItemState is not a function
-    at evaluateRule (ruleEngine.js:119:30)
-    at ruleEngine.js:104:33
-    at Array.map (<anonymous>)
-    at evaluateRule (ruleEngine.js:103:39)
-    at LocationManager.runSingleBFS (locationManager.js:108:34)
-    at LocationManager.computeReachableRegions (locationManager.js:58:33)
-    at LocationManager.isLocationAccessible (locationManager.js:154:35)
-    at locationManager.js:191:35
-    at Array.filter (<anonymous>)
-    at LocationManager.getProcessedLocations (locationManager.js:190:8)
+The game will load the same json data, and implement the same location access rules as the Archipidle version. The console will remain fully functional, and fully synchronized with the rest of the game data.
+
+The premise of the game is similar to Idle Loops, Increlution, or Stuck In Time. The player is stuck in a loop that resets when they die. The player starts with a limited amount of mana, which gradually decreases as they perform actions. When it runs out, the loop restarts.
+
+There are ways that the player can get more mana, or reduce the mana cost of specific actions.
+
+When the game starts, the regions panel will show just one block, for the player's starting region. This block will be active and expanded.
+
+In its expanded view, the block will show more information about the region, and also what the player's status was when they entered the region. This includes mana, health, and consumable items. Inventory items are listed in the inventory panel. 
+
+The other information for the region includes:
+The player's current experience level for that specific region
+The percentage of the region that has been explored so far
+Item locations discovered so far in the region
+Exits discovered so far in the region. If an exit has more than one way to access it, each way will be listed separately.
+
+Later, if I decide that I want to add more complexity, I could make the item locations and specific exits have their own experience level. But I don’t want to include them in the first version.
+
+Another feature to maybe add later, but not include in the first version, is to give specific inventory items or action types their own experience level.  Item or action type experience would affect the mana cost of actions that require that item, or are that action type. This information would be read from the access rules in the game's json data.
+
+There will be buttons for each of the actions the player can perform. These include:
+Exploring the region
+Checking an item locations
+Taking one of the exits
+
+Another feature to consider adding later is actions for grinding for consumable resources. That could work similarly to Idle Loops, but without a hard cap on how many resources are available for grinding.  But of course this will also be left out of the first version.
+
+Another feature to consider adding later is an action of grinding for extra experience in a specific region.
+
+When an area is fully explored, all of the item locations and exits will be visible, even if the player doesn't yet have the items required to access it.
+
+The player's experience level for each region determines how much mana actions in that region cost. That includes exploring, checking item locations, and taking exits. Performing any action in a region grants experience, even if the player doesn't have enough mana to complete the action.
+
+Clicking on a button for an action doesn't cause the action to be performed immediately. Instead, it causes the action to be added to the queue. The regions panel is also the action queue. When an action is selected, an action block is added to the end of the action queue. The block with information about the current region appears directly below the last item in the action queue.
+
+Action queue blocks contain the name of the region, the name of the action, and a progress bar. Clicking on an action block will expand it back into the region information block.
+
+The action queue runs continuously. Another feature to consider adding later is a pause button. As actions are performed, the relevant information is updated. If the player runs out of mana, then the queue starts over from the beginning. If the queue finishes, then it starts over from the beginning.
+
+If a player obtains a new inventory item, they will keep that item through loop resets. This is true whether the player obtains the item themselves, or receives it from another player.
+
+I'm currently planning for there to be no way for the player to die other than running out of mana. Actions that would cause the player to run out of health would simply not be allowed.
+
+Once the game's json data is generated, there is no randomness in the game. The game will allow the player to queue actions that they might not have enough mana for, but won't allow the player to queue actions that are invalid for any other reason.
+
+Actions can be removed from the queue at any time, but removing an action from the middle of the queue will also remove any actions that come after it.
+
+I also want there to be a way for the players to increase their max mana.  The simplest way to do this is to repurpose some of the items in the item pool that aren't required for progression to instead increase the players max mana.
+
+It's still unclear how much strategy is involved in playing the game. The game might still be a little bit fun even if there is no strategy involved, but it would be preferable if the players had at least something to optimize. I was considering adding an option for the game to automatically queue the next incomplete action, and I might as well still do that, but it would be nice if there was something the player could choose to do differently to get better results than that.
+
+There are also some formulas involved that I haven't figured out how to balance yet. I could start by directly copying the formulas from Idle Loops, which is open source, and then seeing what needs adjusting from there. Maybe that will be good enough, and I can just scale things according to how long I want the game to last.
+
+A core feature of the project is that the json file with the game data is extracted from Archipelago, which generates randomized games. I plan for this system to be fully compatible with Archipelago. That imposes some restrictions on how I can design the game, but is a nice source of variety.
+
+Another idea for later is to make a version of the game where instead of giving out items, it only tells the player what item is at that location. Location access rules would also be relaxed in this version. The idea is to give players something to do while they're stuck in BK mode in the main Archipelago game. Players could also run this version of the game with the json file from the other worlds in the multiworld, to get hints about the items in those worlds.
+
+----
+
+Implementation plan:
+
+The Python script to export the game data to the rules.json file is mostly working, but there are still bugs.
+
+The JavaScript frontend rule evaluation script is currently mostly working, but there are still bugs.
+
+The Archipidle interface is basically functional, but currently it only shows some basic information about the inventory and available locations.
+
+Before I start implementing any of the incremental game features, I'll want to update the Archipidle interface to show as much information as possible about the game state.  This information could help with the process of fixing the remaining bugs.
+
+I'll still want to keep the general layout of the Archipidle Loops game.
+
+I'll want the location panel to become the region panel, with a vertically scrollable list of regions blocks.
+
+The region blocks will contain subcomponents for all of the data we have about the region. Including, but not limited to:
+Exits
+Locations
+
+The exits and locations will be clickable buttons, in the style of the current interface. Color coded by accessibility.
+
+Currently, it takes about a full second for the game state to finish updating whenever a new location is checked. I'll want the interface to update the display more often than that, maybe ten times per second. I want it to show the current state of the accessibility logic as it is being processed. The buttons will show red for inaccessible or green for accessible. But we'll also add a blue color for elements that are still in the update queue and whose state is not yet determined.
+
+Ideally, I would want a way to display the full accessibility logic, including the branching “and” and “or” trees, with their conditions color coded red or green for passed or failed. I'm undecided whether to have this always fully expanded, or whether to expand it only when the button is pressed. Always expanded would be simpler to implement, but collapsed until clicked would be cleaner.
+
+Another trivial change to make is to add a checkbox to toggle between showing all inventory items, and only the ones that are currently owned. And maybe an option to enable or disable grouping. Disabling grouping would also remove duplicates for items that appear in multiple groups.
+
+We'll also want to add the event items to the inventory panel.
+
+We'll want to keep the ability to click on locations to perform that location's check, and then update the status of everything else. And also the ability to click inventory items to add one more of them to the inventory and update the status of everything else.
+
+Once all this is implemented, hopefully it will help us track down the remaining bugs in the game logic.
+
+We won't start implementing the incremental game features until the game logic is working well enough that it's possible to simulate playing through the game in the simplified interface, confirming that none of the locations are entirely inaccessible.
+
+It would be nice if we could get all of the tests from the test runner interface to pass, but it's not critical for the frontend logic to exactly match the backend logic. It's good enough for the logic to mostly match, as long as all of the locations are accessible in some way.
+
+----
+
+I'll want you to generate the code for a first draft of these changes.
+
+But first, ask any questions you need to ask, in order to resolve ambiguity in the implementation details.

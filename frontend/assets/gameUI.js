@@ -1,17 +1,24 @@
 // gameUI.js
-import { Inventory } from './inventory.js';
+
 import { ALTTPInventory } from './games/alttp/inventory.js';
 import { ALTTPState } from './games/alttp/state.js';
-import { evaluateRule } from './ruleEngine.js';
 import { LocationManager } from './locationManager.js';
+import { RegionManager } from './regionManager.js';
 
-class GameUI {
+export class GameUI {
   constructor() {
-    // Initialize core game state
+    // Inventory & state
     this.inventory = new ALTTPInventory();
     this.inventory.state =
       new ALTTPState(/* optionally pass a logger if available */);
+    // Managers for each view mode:
     this.locationManager = new LocationManager();
+    this.regionManager = new RegionManager();
+
+    // Keep track of the current view: 'locations' or 'regions'
+    this.currentViewMode = 'locations';
+
+    // For item counts in the UI
     this.itemCounts = {};
     this.debugMode = false;
     this.itemData = null; // Store the full item data from JSON
@@ -21,7 +28,11 @@ class GameUI {
     this.startRegions = null;
     this.checkedLocations = new Set(); // Add this line
 
-    // Initialize UI
+    // The main container for region blocks
+    // We'll assume you have <div id="regions-panel"></div> in index.html
+    this.regionsContainer = document.getElementById('regions-panel');
+
+    // Attach event listeners
     this.attachEventListeners();
 
     // If we have access to the console manager, register our commands
@@ -102,24 +113,28 @@ class GameUI {
   }
 
   attachEventListeners() {
-    // File upload
-    document
-      .getElementById('json-upload')
-      .addEventListener('change', this.handleFileUpload.bind(this));
+    // File upload for JSON data
+    const jsonUpload = document.getElementById('json-upload');
+    if (jsonUpload) {
+      jsonUpload.addEventListener('change', (e) => this.handleFileUpload(e));
+    }
 
     // Debug toggle
-    document.getElementById('debug-toggle').addEventListener('click', () => {
-      this.debugMode = !this.debugMode;
-      document.getElementById('debug-toggle').textContent = this.debugMode
-        ? 'Hide Debug'
-        : 'Show Debug';
-      // Update modal if it's open
-      if (
-        !document.getElementById('location-modal').classList.contains('hidden')
-      ) {
-        this.updateModalDebugView();
-      }
-    });
+    const debugToggle = document.getElementById('debug-toggle');
+    if (debugToggle) {
+      debugToggle.addEventListener('click', () => {
+        this.debugMode = !this.debugMode;
+        debugToggle.textContent = this.debugMode ? 'Hide Debug' : 'Show Debug';
+      });
+    }
+
+    // View toggle
+    const viewToggle = document.getElementById('view-toggle');
+    if (viewToggle) {
+      viewToggle.addEventListener('change', (e) => {
+        this.setViewMode(e.target.value);
+      });
+    }
 
     // Sorting and filtering
     document
@@ -244,7 +259,21 @@ class GameUI {
 
       this.initializeUI(jsonData);
       this.locationManager.loadFromJSON(jsonData);
-      this.updateLocationDisplay();
+
+      // Load region-based data
+      if (jsonData.regions && jsonData.regions['1']) {
+        this.regionManager.loadFromJSON(jsonData.regions['1']);
+      }
+
+      // Initialize the “start region” in RegionManager
+      // e.g., "Links House" or "Menu" or whatever your JSON has
+      const startRegionName = 'Links House';
+      this.regionManager.showStartRegion(startRegionName);
+
+      console.log('Loaded default data. Current view =', this.currentViewMode);
+
+      // Render the correct view initially
+      this.updateViewDisplay();
 
       if (window.consoleManager) {
         window.consoleManager.print(
@@ -263,8 +292,28 @@ class GameUI {
     }
   }
 
-  // Add this method to GameUI class
+  setViewMode(mode) {
+    // 'locations' or 'regions'
+    this.currentViewMode = mode;
+    console.log(`Switching to view mode: ${mode}`);
+    this.updateViewDisplay();
+  }
+
   clearExistingData() {
+    // Clear location manager & region manager
+    //this.locationManager.clear();
+    this.regionManager.visitedRegions = [];
+
+    // Also clear UI containers if desired
+    const locationsContainer = document.getElementById('locations-grid');
+    //if (locationsContainer) {
+    //  locationsContainer.innerHTML = '';
+    //}
+    const regionsContainer = document.getElementById('regions-panel');
+    if (regionsContainer) {
+      regionsContainer.innerHTML = '';
+    }
+
     // Clear inventory state
     this.inventory = null;
     this.itemCounts = {};
@@ -291,6 +340,35 @@ class GameUI {
     const inventoryGroups = document.getElementById('inventory-groups');
     if (inventoryGroups) {
       inventoryGroups.innerHTML = '';
+    }
+  }
+
+  updateViewDisplay() {
+    // Show/hide HTML containers based on current view mode
+    const locationsContainer = document.getElementById('locations-grid');
+    // Typically your old “#locations-column” or “#locations-grid”
+    const regionsContainer = document.getElementById('regions-panel');
+
+    if (!locationsContainer || !regionsContainer) {
+      console.warn('Missing container elements for toggling views.');
+      return;
+    }
+
+    if (this.currentViewMode === 'locations') {
+      // Show location-based UI, hide region-based UI
+      locationsContainer.style.display = 'grid';
+      regionsContainer.style.display = 'none';
+
+      // Re-render the old location UI if needed
+      //this.locationManager.updateLocationDisplay(this.inventory);
+      this.updateLocationDisplay();
+    } else {
+      // Show region-based UI, hide location-based UI
+      locationsContainer.style.display = 'none';
+      regionsContainer.style.display = 'block';
+
+      // Re-render the region-based UI
+      this.regionManager.renderAllRegions();
     }
   }
 
@@ -323,7 +401,14 @@ class GameUI {
 
           // Load locations
           this.locationManager.loadFromJSON(jsonData);
-          this.updateLocationDisplay();
+          // Load region approach
+          if (jsonData.regions && jsonData.regions['1']) {
+            this.regionManager.loadFromJSON(jsonData.regions['1']);
+          }
+          this.regionManager.showStartRegion('Links House');
+
+          // Render correct view
+          this.updateViewDisplay();
 
           if (window.consoleManager) {
             window.consoleManager.print(
@@ -351,6 +436,19 @@ class GameUI {
         );
       }
     }
+  }
+
+  /**
+   * Called when an item is picked up. We add it to the inventory,
+   * then refresh whichever UI is visible.
+   */
+  toggleItem(itemName) {
+    const count = this.itemCounts[itemName] || 0;
+    this.itemCounts[itemName] = count + 1;
+    this.inventory.addItem(itemName);
+
+    // Re-render whichever UI is active
+    this.updateViewDisplay();
   }
 
   handleLocationClick(location) {
