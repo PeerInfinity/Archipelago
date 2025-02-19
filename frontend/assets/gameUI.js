@@ -3,45 +3,36 @@
 import { ALTTPInventory } from './games/alttp/inventory.js';
 import { ALTTPState } from './games/alttp/state.js';
 import { LocationManager } from './locationManager.js';
-import { RegionManager } from './regionManager.js';
+import { LocationUI } from './locationUI.js';
+import { RegionUI } from './regionUI.js';
 
 export class GameUI {
   constructor() {
-    // Inventory & state
+    // Core game state
     this.inventory = new ALTTPInventory();
-    this.inventory.state =
-      new ALTTPState(/* optionally pass a logger if available */);
-    // Managers for each view mode:
-    this.locationManager = new LocationManager();
-    this.regionManager = new RegionManager();
+    this.inventory.state = new ALTTPState();
 
-    // Keep track of the current view: 'locations' or 'regions'
+    // UI Managers
+    this.locationUI = new LocationUI(this);
+    this.regionUI = new RegionUI(this);
+
+    // Game state
     this.currentViewMode = 'locations';
-
-    // For item counts in the UI
     this.itemCounts = {};
     this.debugMode = false;
-    this.itemData = null; // Store the full item data from JSON
+    this.itemData = null;
     this.regions = {};
     this.mode = null;
     this.settings = null;
     this.startRegions = null;
-    this.checkedLocations = new Set(); // Add this line
 
-    // The main container for region blocks
-    // We'll assume you have <div id="regions-panel"></div> in index.html
-    this.regionsContainer = document.getElementById('regions-panel');
-
-    // Attach event listeners
+    // Initialize UI
     this.attachEventListeners();
-
-    // If we have access to the console manager, register our commands
     if (window.consoleManager) {
       this.registerConsoleCommands();
     }
-
-    // Load default rules
     this.loadDefaultRules();
+    this.updateViewDisplay();
   }
 
   initializeUI(jsonData) {
@@ -58,15 +49,15 @@ export class GameUI {
     // Initialize inventory UI
     this.initializeInventoryUI(player1Items, groups);
 
-    // Initialize regions/locations UI
-    this.initializeLocationUI();
+    // Initialize view-specific UIs
+    this.locationUI.initialize(jsonData);
+    this.regionUI.initialize(jsonData.regions['1']);
   }
 
   initializeInventoryUI(itemData, groups) {
     const inventoryContainer = document.getElementById('inventory-groups');
-    inventoryContainer.innerHTML = ''; // Clear existing content
+    inventoryContainer.innerHTML = '';
 
-    // Sort groups alphabetically
     groups.sort();
 
     groups.forEach((group) => {
@@ -79,41 +70,34 @@ export class GameUI {
       groupDiv.innerHTML = `
                 <h3>${group}</h3>
                 <div class="inventory-items">
-          ${groupItems
-            .map(
-              ([name, data]) => `
+                    ${groupItems
+                      .map(
+                        ([name, data]) => `
                         <div class="item-container">
                             <button 
                                 class="item-button" 
-                data-item="${name}"
-                title="${name}"
-                data-advancement="${data.advancement}"
-                data-priority="${data.priority}"
-                data-useful="${data.useful}"
+                                data-item="${name}"
+                                title="${name}"
+                                data-advancement="${data.advancement}"
+                                data-priority="${data.priority}"
+                                data-useful="${data.useful}"
                             >
-                ${name}
+                                ${name}
                             </button>
                         </div>
                     `
-            )
-            .join('')}
+                      )
+                      .join('')}
                 </div>
             `;
       inventoryContainer.appendChild(groupDiv);
     });
 
-    // Reattach event listeners for new buttons
     this.attachItemEventListeners();
   }
 
-  initializeLocationUI() {
-    // Build region-based location display if needed
-    // For now, we'll continue using the flat location list from LocationManager
-    this.updateLocationDisplay();
-  }
-
   attachEventListeners() {
-    // File upload for JSON data
+    // File upload
     const jsonUpload = document.getElementById('json-upload');
     if (jsonUpload) {
       jsonUpload.addEventListener('change', (e) => this.handleFileUpload(e));
@@ -128,55 +112,13 @@ export class GameUI {
       });
     }
 
-    // View toggle
-    const viewToggle = document.getElementById('view-toggle');
-    if (viewToggle) {
-      viewToggle.addEventListener('change', (e) => {
-        this.setViewMode(e.target.value);
-      });
-    }
-
-    // Sorting and filtering
-    document
-      .getElementById('sort-select')
-      .addEventListener('change', () => this.updateLocationDisplay());
-    document
-      .getElementById('show-checked')
-      .addEventListener('change', () => this.updateLocationDisplay());
-    document
-      .getElementById('show-reachable')
-      .addEventListener('change', () => this.updateLocationDisplay());
-    document
-      .getElementById('show-unreachable')
-      .addEventListener('change', () => this.updateLocationDisplay());
-    document
-      .getElementById('show-highlights')
-      .addEventListener('change', () => this.updateLocationDisplay());
-
-    // Modal close
-    document.getElementById('modal-close').addEventListener('click', () => {
-      document.getElementById('location-modal').classList.add('hidden');
-    });
-
-    // Close modal when clicking outside
-    document.getElementById('location-modal').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('location-modal')) {
-        document.getElementById('location-modal').classList.add('hidden');
-      }
-    });
-
-    document.getElementById('locations-grid').addEventListener('click', (e) => {
-      const locationCard = e.target.closest('.location-card');
-      if (locationCard) {
-        try {
-          const encoded = locationCard.dataset.location.replace(/&quot;/g, '"');
-          const locationData = JSON.parse(decodeURIComponent(encoded));
-          this.handleLocationClick(locationData);
-        } catch (error) {
-          console.error('Error parsing location data:', error);
-          console.error('Failed location card:', locationCard.dataset.location);
+    // View toggle radio buttons
+    document.querySelectorAll('input[name="view-mode"]').forEach((radio) => {
+      radio.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          this.setViewMode(e.target.value);
         }
-      }
+      });
     });
   }
 
@@ -194,20 +136,16 @@ export class GameUI {
 
     const currentCount = this.itemCounts[itemName] || 0;
 
-    // Find all buttons for this item
     const buttons = document.querySelectorAll(`[data-item="${itemName}"]`);
     const containers = Array.from(buttons).map((button) =>
       button.closest('.item-container')
     );
 
-    // Add item or increment count
     this.inventory.addItem(itemName);
     this.itemCounts[itemName] = currentCount + 1;
 
-    // Update all instances of this item
     buttons.forEach((button) => button.classList.add('active'));
 
-    // Update count display for all instances
     containers.forEach((container) => {
       let countBadge = container.querySelector('.count-badge');
       if (!countBadge) {
@@ -224,7 +162,6 @@ export class GameUI {
       }
     });
 
-    // Log to console if available
     if (window.consoleManager) {
       window.consoleManager.print(
         `${itemName} count: ${this.itemCounts[itemName]}`,
@@ -232,7 +169,7 @@ export class GameUI {
       );
     }
 
-    this.updateLocationDisplay();
+    this.updateViewDisplay();
   }
 
   async loadDefaultRules() {
@@ -243,37 +180,18 @@ export class GameUI {
       }
       const jsonData = await response.json();
 
-      // Clear any existing data first
       this.clearExistingData();
 
-      // Initialize inventory and UI with the JSON data
       this.inventory = new ALTTPInventory(
         [], // Initial items
         [], // Excluded items
-        jsonData.progression_mapping['1'], // Player 1's progression mapping
-        jsonData.items['1'] // Player 1's item data
+        jsonData.progression_mapping['1'],
+        jsonData.items['1']
       );
 
-      this.inventory.state =
-        new ALTTPState(/* optionally pass a logger if available */);
+      this.inventory.state = new ALTTPState();
 
       this.initializeUI(jsonData);
-      this.locationManager.loadFromJSON(jsonData);
-
-      // Load region-based data
-      if (jsonData.regions && jsonData.regions['1']) {
-        this.regionManager.loadFromJSON(jsonData.regions['1']);
-      }
-
-      // Initialize the “start region” in RegionManager
-      // e.g., "Links House" or "Menu" or whatever your JSON has
-      const startRegionName = 'Links House';
-      this.regionManager.showStartRegion(startRegionName);
-
-      console.log('Loaded default data. Current view =', this.currentViewMode);
-
-      // Render the correct view initially
-      this.updateViewDisplay();
 
       if (window.consoleManager) {
         window.consoleManager.print(
@@ -293,31 +211,13 @@ export class GameUI {
   }
 
   setViewMode(mode) {
-    // 'locations' or 'regions'
     this.currentViewMode = mode;
-    console.log(`Switching to view mode: ${mode}`);
     this.updateViewDisplay();
   }
 
   clearExistingData() {
-    // Clear location manager & region manager
-    //this.locationManager.clear();
-    this.regionManager.visitedRegions = [];
-
-    // Also clear UI containers if desired
-    const locationsContainer = document.getElementById('locations-grid');
-    //if (locationsContainer) {
-    //  locationsContainer.innerHTML = '';
-    //}
-    const regionsContainer = document.getElementById('regions-panel');
-    if (regionsContainer) {
-      regionsContainer.innerHTML = '';
-    }
-
-    // Clear inventory state
     this.inventory = null;
     this.itemCounts = {};
-    this.checkedLocations = new Set();
 
     // Clear UI elements
     document.querySelectorAll('.item-button').forEach((button) => {
@@ -330,23 +230,19 @@ export class GameUI {
       }
     });
 
-    // Clear locations grid
-    const locationsGrid = document.getElementById('locations-grid');
-    if (locationsGrid) {
-      locationsGrid.innerHTML = '';
-    }
+    // Clear UI containers
+    ['inventory-groups', 'locations-grid', 'regions-panel'].forEach((id) => {
+      const container = document.getElementById(id);
+      if (container) container.innerHTML = '';
+    });
 
-    // Clear inventory groups
-    const inventoryGroups = document.getElementById('inventory-groups');
-    if (inventoryGroups) {
-      inventoryGroups.innerHTML = '';
-    }
+    // Clear view-specific data
+    this.locationUI.clear();
+    this.regionUI.clear();
   }
 
   updateViewDisplay() {
-    // Show/hide HTML containers based on current view mode
     const locationsContainer = document.getElementById('locations-grid');
-    // Typically your old “#locations-column” or “#locations-grid”
     const regionsContainer = document.getElementById('regions-panel');
 
     if (!locationsContainer || !regionsContainer) {
@@ -354,31 +250,33 @@ export class GameUI {
       return;
     }
 
+    // Toggle view containers
     if (this.currentViewMode === 'locations') {
-      // Show location-based UI, hide region-based UI
       locationsContainer.style.display = 'grid';
       regionsContainer.style.display = 'none';
 
-      // Re-render the old location UI if needed
-      //this.locationManager.updateLocationDisplay(this.inventory);
-      this.updateLocationDisplay();
+      // Show location controls, hide region controls
+      document.querySelector('.location-controls').style.display = 'flex';
+      document.querySelector('.region-controls').style.display = 'none';
+
+      this.locationUI.update();
     } else {
-      // Show region-based UI, hide location-based UI
       locationsContainer.style.display = 'none';
       regionsContainer.style.display = 'block';
 
-      // Re-render the region-based UI
-      this.regionManager.renderAllRegions();
+      // Show region controls, hide location controls
+      document.querySelector('.location-controls').style.display = 'none';
+      document.querySelector('.region-controls').style.display = 'flex';
+
+      this.regionUI.update();
     }
   }
 
-  // Modify the handleFileUpload method in GameUI class to use clearExistingData
   async handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
     try {
-      // Clear existing data before loading new file
       this.clearExistingData();
 
       const reader = new FileReader();
@@ -386,29 +284,15 @@ export class GameUI {
         try {
           const jsonData = JSON.parse(e.target.result);
 
-          // Initialize inventory and UI with the JSON data
           this.inventory = new ALTTPInventory(
-            [], // Initial items
-            [], // Excluded items
-            jsonData.progression_mapping['1'], // Player 1's progression mapping
-            jsonData.items['1'] // Player 1's item data
+            [],
+            [],
+            jsonData.progression_mapping['1'],
+            jsonData.items['1']
           );
 
-          this.inventory.state =
-            new ALTTPState(/* optionally pass a logger if available */);
-
+          this.inventory.state = new ALTTPState();
           this.initializeUI(jsonData);
-
-          // Load locations
-          this.locationManager.loadFromJSON(jsonData);
-          // Load region approach
-          if (jsonData.regions && jsonData.regions['1']) {
-            this.regionManager.loadFromJSON(jsonData.regions['1']);
-          }
-          this.regionManager.showStartRegion('Links House');
-
-          // Render correct view
-          this.updateViewDisplay();
 
           if (window.consoleManager) {
             window.consoleManager.print(
@@ -436,219 +320,6 @@ export class GameUI {
         );
       }
     }
-  }
-
-  /**
-   * Called when an item is picked up. We add it to the inventory,
-   * then refresh whichever UI is visible.
-   */
-  toggleItem(itemName) {
-    const count = this.itemCounts[itemName] || 0;
-    this.itemCounts[itemName] = count + 1;
-    this.inventory.addItem(itemName);
-
-    // Re-render whichever UI is active
-    this.updateViewDisplay();
-  }
-
-  handleLocationClick(location) {
-    // Don't do anything if already checked
-    if (this.checkedLocations.has(location.name)) {
-      return;
-    }
-
-    // Only allow checking reachable locations
-    const isAccessible = this.locationManager.isLocationAccessible(
-      location,
-      this.inventory
-    );
-    if (!isAccessible) {
-      return;
-    }
-
-    // Check if location has an item
-    if (location.item) {
-      // Add item to inventory
-      this.toggleItem(location.item.name);
-
-      // Mark location as checked
-      this.checkedLocations.add(location.name);
-
-      // Update display
-      this.updateLocationDisplay();
-
-      // Show details
-      this.showLocationDetails(location);
-
-      // Log to console if available
-      if (window.consoleManager) {
-        window.consoleManager.print(
-          `Checked ${location.name} - Found ${location.item.name}`,
-          'success'
-        );
-      }
-    }
-  }
-
-  updateLocationDisplay() {
-    const showChecked = document.getElementById('show-checked').checked;
-    const showReachable = document.getElementById('show-reachable').checked;
-    const showUnreachable = document.getElementById('show-unreachable').checked;
-    const showHighlights = document.getElementById('show-highlights').checked;
-    const sorting = document.getElementById('sort-select').value;
-
-    const locations = this.locationManager.getProcessedLocations(
-      this.inventory,
-      sorting,
-      showReachable,
-      showUnreachable
-    );
-
-    const newlyReachable = this.locationManager.getNewlyReachableLocations(
-      this.inventory
-    );
-
-    const locationsGrid = document.getElementById('locations-grid');
-
-    if (locations.length === 0) {
-      locationsGrid.innerHTML = `
-                <div class="empty-message">
-                    Upload a JSON file to see locations or adjust filters
-                </div>
-            `;
-      return;
-    }
-
-    const filteredLocations = locations.filter((location) => {
-      const isChecked = this.checkedLocations.has(location.name);
-      return isChecked ? showChecked : true;
-    });
-
-    locationsGrid.innerHTML = filteredLocations
-      .map((location) => {
-        const isAccessible = this.locationManager.isLocationAccessible(
-          location,
-          this.inventory
-        );
-        const isNewlyReachable =
-          showHighlights &&
-          newlyReachable.has(`${location.player}-${location.name}`);
-        const isChecked = this.checkedLocations.has(location.name);
-
-        let stateClass = isChecked
-          ? 'checked'
-          : isNewlyReachable
-          ? 'newly-reachable'
-          : isAccessible
-          ? 'reachable'
-          : 'unreachable';
-
-        return `
-            <div 
-                class="location-card ${stateClass}"
-                data-location="${encodeURIComponent(
-                  JSON.stringify(location)
-                ).replace(/"/g, '&quot;')}"
-            >
-                <div class="font-medium">${location.name}</div>
-                <div class="text-sm">Player ${location.player}</div>
-                <div class="text-sm">
-                    ${
-                      isChecked
-                        ? 'Checked'
-                        : isAccessible
-                        ? 'Available'
-                        : 'Locked'
-                    }
-                </div>
-            </div>
-            `;
-      })
-      .join('');
-  }
-
-  showLocationDetails(location) {
-    const modal = document.getElementById('location-modal');
-    const title = document.getElementById('modal-title');
-    const debug = document.getElementById('modal-debug');
-    const info = document.getElementById('modal-info');
-
-    title.textContent = location.name;
-
-    // Get region data for additional details
-    const region = this.regions[location.region];
-
-    if (this.debugMode) {
-      debug.classList.remove('hidden');
-      debug.textContent = JSON.stringify(
-        {
-          access_rule: location.access_rule,
-          path_rules: location.path_rules,
-          region_rules: region?.region_rules,
-          dungeon: region?.dungeon,
-          shop: region?.shop,
-        },
-        null,
-        2
-      );
-    } else {
-      debug.classList.add('hidden');
-    }
-
-    const isAccessible = this.locationManager.isLocationAccessible(
-      location,
-      this.inventory
-    );
-    const isChecked = this.checkedLocations.has(location.name);
-
-    info.innerHTML = `
-            <div class="space-y-2">
-                <div>
-                    <span class="font-semibold">Status: </span>
-          ${
-            this.checkedLocations.has(location.name)
-              ? 'Checked'
-              : this.locationManager.isLocationAccessible(
-                  location,
-                  this.inventory
-                )
-              ? 'Available'
-              : 'Locked'
-          }
-                </div>
-                <div>
-          <span class="font-semibold">Player: </span>${location.player}
-                </div>
-                    <div>
-          <span class="font-semibold">Region: </span>${location.region}
-          ${region?.is_light_world ? ' (Light World)' : ''}
-          ${region?.is_dark_world ? ' (Dark World)' : ''}
-        </div>
-        ${
-          region?.dungeon
-            ? `
-          <div>
-            <span class="font-semibold">Dungeon: </span>${region.dungeon.name}
-                    </div>
-                `
-            : ''
-        }
-        ${
-          location.item &&
-          (this.checkedLocations.has(location.name) || this.debugMode)
-            ? `
-                    <div>
-            <span class="font-semibold">Item: </span>${location.item.name}
-            ${location.item.advancement ? ' (Progression)' : ''}
-            ${location.item.priority ? ' (Priority)' : ''}
-                    </div>
-                `
-            : ''
-        }
-            </div>
-        `;
-
-    modal.classList.remove('hidden');
   }
 
   registerConsoleCommands() {
@@ -680,14 +351,7 @@ export class GameUI {
         description: 'Clear all items from inventory',
         usage: 'clear',
         handler: () => {
-          this.itemCounts = {};
-          document.querySelectorAll('.item-button').forEach((button) => {
-            button.classList.remove('active');
-            const countSpan = button.querySelector('.item-count');
-            if (countSpan) countSpan.remove();
-          });
-          this.inventory.items.clear();
-          this.updateLocationDisplay();
+          this.clearExistingData();
           return 'Inventory cleared';
         },
       },

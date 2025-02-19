@@ -87,18 +87,24 @@
       <div id="locations-column">
         <div class="locations-header">
           <div class="control-group">
+            <label>
+              <input type="radio" name="view-mode" value="locations" checked />
+              Locations View
+            </label>
+            <label>
+              <input type="radio" name="view-mode" value="regions" />
+              Regions View
+            </label>
             <input type="file" id="json-upload" accept=".json" class="hidden" />
             <label for="json-upload" class="button">Load JSON</label>
             <button id="debug-toggle" class="button">Show Debug</button>
           </div>
-          <div class="control-group">
+
+          <!-- Location-specific controls -->
+          <div class="control-group location-controls">
             <select id="sort-select">
               <option value="original">Original Order</option>
               <option value="accessibility">Sort by Accessibility</option>
-            </select>
-            <select id="view-toggle">
-              <option value="locations">Locations View</option>
-              <option value="regions">Regions View</option>
             </select>
             <label>
               <input type="checkbox" id="show-checked" checked />
@@ -115,6 +121,14 @@
             <label>
               <input type="checkbox" id="show-highlights" checked />
               Show Highlights
+            </label>
+          </div>
+
+          <!-- Region-specific controls -->
+          <div class="control-group region-controls">
+            <label>
+              <input type="checkbox" id="show-all-regions" />
+              Show All Regions
             </label>
           </div>
         </div>

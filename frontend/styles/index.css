@@ -201,6 +201,42 @@ body {
   border: 1px solid #666;
 }
 
+.check-mark {
+  color: #22c55e; /* A nice green color */
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.view-selector {
+  display: flex;
+  gap: 1rem; /* Space between the radio buttons */
+}
+
+.view-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* Space between radio button and text */
+}
+
+.view-selector input[type='radio'] {
+  margin: 0; /* Remove default margins */
+}
+
+.location-controls,
+.region-controls {
+  display: none; /* Hidden by default */
+}
+
+/* When locations view is active */
+.location-controls.active {
+  display: flex;
+}
+
+/* When regions view is active */
+.region-controls.active {
+  display: flex;
+}
+
 /* Locations Column */
 #locations-column {
   flex-grow: 1;
