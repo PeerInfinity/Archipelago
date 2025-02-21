@@ -1,24 +1,17 @@
 // gameUI.js
 
-import { ALTTPInventory } from './games/alttp/inventory.js';
-import { ALTTPState } from './games/alttp/state.js';
-import locationManager from './locationManagerSingleton.js';
 import { LocationUI } from './locationUI.js';
 import { RegionUI } from './regionUI.js';
+import stateManager from './stateManagerSingleton.js';
 
 export class GameUI {
   constructor() {
-    // Core game state
-    this.inventory = new ALTTPInventory();
-    this.inventory.state = new ALTTPState();
-
     // UI Managers
     this.locationUI = new LocationUI(this);
     this.regionUI = new RegionUI(this);
 
     // Game state
     this.currentViewMode = 'locations';
-    this.itemCounts = {};
     this.debugMode = false;
     this.itemData = null;
     this.regions = {};
@@ -134,15 +127,14 @@ export class GameUI {
   toggleItem(itemName) {
     if (!this.itemData || !this.itemData[itemName]) return;
 
-    const currentCount = this.itemCounts[itemName] || 0;
+    const currentCount = stateManager.getItemCount(itemName);
 
     const buttons = document.querySelectorAll(`[data-item="${itemName}"]`);
     const containers = Array.from(buttons).map((button) =>
       button.closest('.item-container')
     );
 
-    this.inventory.addItem(itemName);
-    this.itemCounts[itemName] = currentCount + 1;
+    stateManager.addItemToInventory(itemName);
 
     buttons.forEach((button) => button.classList.add('active'));
 
@@ -154,8 +146,8 @@ export class GameUI {
         container.appendChild(countBadge);
       }
 
-      if (this.itemCounts[itemName] > 1) {
-        countBadge.textContent = this.itemCounts[itemName];
+      if (currentCount + 1 > 1) {
+        countBadge.textContent = currentCount + 1;
         countBadge.style.display = 'flex';
       } else {
         countBadge.style.display = 'none';
@@ -164,7 +156,7 @@ export class GameUI {
 
     if (window.consoleManager) {
       window.consoleManager.print(
-        `${itemName} count: ${this.itemCounts[itemName]}`,
+        `${itemName} count: ${currentCount + 1}`,
         'info'
       );
     }
@@ -183,14 +175,12 @@ export class GameUI {
 
       this.clearExistingData();
 
-      this.inventory = new ALTTPInventory(
+      stateManager.initializeInventory(
         [], // Initial items
         [], // Excluded items
         jsonData.progression_mapping['1'],
         jsonData.items['1']
       );
-
-      this.inventory.state = new ALTTPState();
 
       this.initializeUI(jsonData);
 
@@ -217,8 +207,7 @@ export class GameUI {
   }
 
   clearExistingData() {
-    this.inventory = null;
-    this.itemCounts = {};
+    stateManager.clearInventory();
 
     // Clear UI elements
     document.querySelectorAll('.item-button').forEach((button) => {
@@ -285,14 +274,13 @@ export class GameUI {
         try {
           const jsonData = JSON.parse(e.target.result);
 
-          this.inventory = new ALTTPInventory(
+          stateManager.initializeInventory(
             [],
             [],
             jsonData.progression_mapping['1'],
             jsonData.items['1']
           );
 
-          this.inventory.state = new ALTTPState();
           this.initializeUI(jsonData);
 
           if (window.consoleManager) {

@@ -2,9 +2,9 @@
 
 // Base class for game-specific helper implementations
 export class GameHelpers {
-  constructor(inventory, state) {
+  constructor(inventory) {
+    // Remove state parameter
     this.inventory = inventory;
-    this.state = state;
     this.debug = inventory?.debug;
   }
 
@@ -89,41 +89,5 @@ export class GameInventory {
     const count = this.items.get(itemName) || 0;
     this.log(`Count of ${itemName}: ${count}`);
     return count;
-  }
-}
-
-// Base class for game-specific state tracking
-export class GameState {
-  constructor(debugLog = null) {
-    this.flags = new Set();
-    // Properly set up debug object if debugLog is provided
-    this.debug = debugLog
-      ? {
-          log: (msg) => {
-            if (typeof msg === 'object') {
-              debugLog.log(JSON.stringify(msg));
-            } else {
-              debugLog.log(msg);
-            }
-          },
-        }
-      : null;
-  }
-
-  log(message) {
-    if (this.debug?.log) {
-      this.debug.log(message);
-    }
-  }
-
-  setFlag(flag) {
-    this.flags.add(flag);
-    this.log(`Set flag: ${flag}`);
-  }
-
-  hasFlag(flag) {
-    const hasFlag = this.flags.has(flag);
-    this.log(`Checking flag ${flag}: ${hasFlag}`);
-    return hasFlag;
   }
 }

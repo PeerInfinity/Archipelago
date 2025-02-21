@@ -1,5 +1,5 @@
 // regionUI.js
-import locationManager from './locationManagerSingleton.js';
+import stateManager from './stateManagerSingleton.js';
 import { evaluateRule } from './ruleEngine.js';
 
 export class RegionUI {
@@ -221,9 +221,9 @@ export class RegionUI {
     regionBlock.classList.add(expanded ? 'expanded' : 'collapsed');
 
     // Check if the region is accessible
-    const isAccessible = locationManager.isRegionReachable(
+    const isAccessible = stateManager.isRegionReachable(
       regionName,
-      this.gameUI.inventory
+      stateManager.inventory
     );
 
     // Header
@@ -280,7 +280,7 @@ export class RegionUI {
 
           const canAccess = evaluateRule(
             exit.access_rule,
-            this.gameUI.inventory
+            stateManager.inventory
           );
           const colorClass = canAccess ? 'accessible' : 'inaccessible';
 
@@ -397,7 +397,7 @@ export class RegionUI {
       return root;
     }
 
-    const result = evaluateRule(rule, this.gameUI.inventory);
+    const result = evaluateRule(rule, stateManager.inventory);
     root.classList.toggle('pass', !!result);
     root.classList.toggle('fail', !result);
 

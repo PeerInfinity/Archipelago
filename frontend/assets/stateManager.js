@@ -1,25 +1,70 @@
-// locationManager.js
 import { evaluateRule } from './ruleEngine.js';
+import { ALTTPInventory } from './games/alttp/inventory.js';
 
-export class LocationManager {
+/**
+ * Manages game state including inventory and reachable regions/locations.
+ * Handles automatic collection of event items when their locations become accessible.
+ * All state (including events) is tracked through the inventory system.
+ */
+export class StateManager {
   constructor() {
-    this.locations = [];
-    this.regions = {};
+    // Core state storage
+    this.inventory = new ALTTPInventory();
+
+    // Region and location data
+    this.locations = []; // Flat array of all locations
+    this.regions = {}; // Map of region name -> region data
+    this.eventLocations = new Map(); // Map of location name -> event location data
+
+    // Region reachability tracking
+    this.knownReachableRegions = new Set();
+    this.knownUnreachableRegions = new Set();
     this.previousReachable = new Set();
+    this.cacheValid = false;
+
+    // Game configuration
     this.mode = null;
     this.settings = null;
     this.startRegions = null;
-    this.eventLocations = new Map(); // name -> location
-    this.knownReachableRegions = new Set();
-    this.knownUnreachableRegions = new Set();
-    this.cacheValid = false;
   }
 
+  /**
+   * Initializes inventory with loaded game data
+   */
+  initializeInventory(items, excludeItems, progressionMapping, itemData) {
+    this.inventory = new ALTTPInventory(
+      items,
+      excludeItems,
+      progressionMapping,
+      itemData
+    );
+  }
+
+  clearInventory() {
+    this.inventory = new ALTTPInventory();
+  }
+
+  clearState() {
+    this.inventory = new ALTTPInventory();
+    this.invalidateCache();
+  }
+
+  addItemToInventory(itemName) {
+    this.inventory.addItem(itemName);
+  }
+
+  getItemCount(itemName) {
+    const count = this.inventory.count(itemName);
+    return count;
+  }
+
+  /**
+   * Loads and processes region/location data from a JSON file
+   */
   loadFromJSON(jsonData) {
     if (!jsonData.version || jsonData.version !== 3) {
       throw new Error('Invalid JSON format: requires version 3');
     }
-
     this.regions = jsonData.regions['1'];
     this.itemData = jsonData.items['1'];
     this.groupData = jsonData.item_groups['1'];
@@ -27,11 +72,8 @@ export class LocationManager {
     this.mode = jsonData.mode?.['1'];
     this.settings = jsonData.settings?.['1'];
     this.startRegions = jsonData.start_regions?.['1'];
-
-    // Convert region-based locations into a flat array
     this.locations = [];
     this.eventLocations.clear();
-
     Object.values(this.regions).forEach((region) => {
       region.locations.forEach((loc) => {
         const locationData = {
@@ -40,15 +82,11 @@ export class LocationManager {
           player: region.player,
         };
         this.locations.push(locationData);
-
-        // If location's item is type 'Event', store it for easy reference
         if (locationData.item && locationData.item.type === 'Event') {
           this.eventLocations.set(locationData.name, locationData);
         }
       });
     });
-
-    // Invalidate cache
     this.invalidateCache();
   }
 
@@ -58,37 +96,31 @@ export class LocationManager {
     this.knownUnreachableRegions.clear();
   }
 
+  /**
+   * Core pathfinding logic: determines which regions are reachable
+   * Also handles automatic collection of event items
+   */
   computeReachableRegions(inventory) {
     if (this.cacheValid) {
       return this.knownReachableRegions;
     }
 
-    let newEventCollected = true;
     let finalReachableRegions = new Set(this.knownReachableRegions);
+    let newEventCollected = true;
 
-    // Repeat BFS until stable
+    // Keep checking regions until no new events are collected
     while (newEventCollected) {
       newEventCollected = false;
-
-      // 1. Run a single BFS pass
       const reachableSet = this.runSingleBFS(inventory);
 
-      // 2. Check all event locations that are in reachable regions
+      // Auto-collect events in reachable locations
       for (const loc of this.eventLocations.values()) {
         if (reachableSet.has(loc.region)) {
           const canAccessLoc = evaluateRule(loc.access_rule, inventory);
-          if (canAccessLoc) {
-            const eventName = loc.item.name;
-            // If we haven't already collected this event
-            if (!inventory.state.hasEvent(eventName)) {
-              // Mark it as collected
-              inventory.state.setEvent(eventName);
-              console.log(`Collected event item: ${eventName}`);
-
-              // We need another pass, because collecting an event
-              // can unlock new regions or conditions
-              newEventCollected = true;
-            }
+          if (canAccessLoc && !inventory.has(loc.item.name)) {
+            this.addItemToInventory(loc.item.name);
+            console.log(`Collected event item: ${loc.item.name}`);
+            newEventCollected = true;
           }
         }
       }
@@ -99,79 +131,66 @@ export class LocationManager {
       ]);
     }
 
-    // Update known reachable and unreachable regions
+    // Cache results
     this.knownReachableRegions = finalReachableRegions;
     this.knownUnreachableRegions = new Set(
       Object.keys(this.regions).filter(
         (region) => !finalReachableRegions.has(region)
       )
     );
-
-    // Cache the result
     this.cacheValid = true;
 
-    // Return the final stable set of reachable regions
     return finalReachableRegions;
   }
 
+  getStartRegions() {
+    // Return an array of start region names, default to 'Menu'
+    if (!this.startRegions || !Array.isArray(this.startRegions)) {
+      return ['Menu'];
+    }
+    return this.startRegions;
+  }
+
+  /**
+   * Single pass of breadth-first search to find reachable regions
+   */
   runSingleBFS(inventory) {
     const start = this.getStartRegions();
     const reachable = new Set(start);
     const queue = [...start];
     const seenExits = new Set();
-
     while (queue.length > 0) {
       const currentRegionName = queue.shift();
       const currentRegion = this.regions[currentRegionName];
-
       if (!currentRegion) continue;
-
-      // Process exits from this region
       for (const exit of currentRegion.exits || []) {
         const exitKey = `${currentRegionName}->${exit.name}`;
         if (seenExits.has(exitKey)) continue;
         seenExits.add(exitKey);
-
         if (!exit.connected_region) continue;
-
-        // Check if exit can be used
         if (exit.access_rule && !evaluateRule(exit.access_rule, inventory)) {
           continue;
         }
-
         const targetRegion = exit.connected_region;
         if (!reachable.has(targetRegion)) {
           reachable.add(targetRegion);
           queue.push(targetRegion);
         }
       }
-
-      // Also consider region entrances (some logic uses them)
       for (const entrance of currentRegion.entrances || []) {
-        // If the entrance leads to a region that isn't visited
         if (!entrance.connected_region) continue;
         if (reachable.has(entrance.connected_region)) continue;
-
         if (
           entrance.access_rule &&
           !evaluateRule(entrance.access_rule, inventory)
         ) {
           continue;
         }
-
         reachable.add(entrance.connected_region);
         queue.push(entrance.connected_region);
       }
     }
-
     return reachable;
-  }
-
-  getStartRegions() {
-    if (this.startRegions && this.startRegions.default) {
-      return this.startRegions.default;
-    }
-    return ['Menu', 'Links House'];
   }
 
   isRegionReachable(regionName, inventory) {
@@ -180,25 +199,14 @@ export class LocationManager {
   }
 
   isLocationAccessible(location, inventory) {
-    // Check if the region is reachable
     const reachableRegions = this.computeReachableRegions(inventory);
     if (!reachableRegions.has(location.region)) {
       return false;
     }
 
-    // Check location's access rule
-    const ruleResult = evaluateRule(location.access_rule, inventory);
-
-    // Handle event collection if location is accessible
-    if (
-      ruleResult &&
-      location.item?.type === 'Event' &&
-      !inventory.state.hasEvent(location.item.name)
-    ) {
-      inventory.state.setEvent(location.item.name);
-    }
-
-    return ruleResult;
+    // Simply return the rule evaluation result
+    // Don't auto-collect events here since computeReachableRegions handles that
+    return evaluateRule(location.access_rule, inventory);
   }
 
   getProcessedLocations(
@@ -231,11 +239,9 @@ export class LocationManager {
         .filter((loc) => this.isLocationAccessible(loc, inventory))
         .map((loc) => `${loc.player}-${loc.name}`)
     );
-
     const newlyReachable = new Set(
       [...currentReachable].filter((x) => !this.previousReachable.has(x))
     );
-
     this.previousReachable = currentReachable;
     return newlyReachable;
   }

@@ -35,6 +35,17 @@ class RuleTrace {
   }
 }
 
+function safeLog(message, level = 'debug') {
+  if (
+    window.consoleManager &&
+    typeof window.consoleManager[level] === 'function'
+  ) {
+    window.consoleManager[level](message);
+  } else {
+    console[level] ? console[level](message) : console.log(message);
+  }
+}
+
 export const evaluateRule = (rule, inventory, depth = 0) => {
   if (!rule) {
     return true;
@@ -43,19 +54,8 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
   // Create trace object for this evaluation
   const trace = new RuleTrace(rule, depth);
 
-  const log = (message, details = null) => {
-    if (inventory.debug?.log) {
-      const logEntry = {
-        message,
-        details,
-        timestamp: new Date().toISOString(),
-      };
-      trace.addChild(logEntry);
-      inventory.debug.log(JSON.stringify(logEntry, null, 2));
-    }
-  };
-
-  log(`Evaluating ${rule.type} rule at depth ${depth}`, rule);
+  // Remove debug logging and just use safeLog
+  safeLog(`Evaluating ${rule.type} rule at depth ${depth}`);
 
   let result = false;
   switch (rule.type) {
@@ -68,12 +68,12 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
           rule.name,
           ...(rule.args || [])
         );
-        log(`Helper ${rule.name} returned: ${result}`, {
+        safeLog(`Helper ${rule.name} returned: ${result}`, {
           args: rule.args,
           helpers: Object.keys(inventory.helpers),
         });
       } else {
-        log(`No helper implementation available for: ${rule.name}`, {
+        safeLog(`No helper implementation available for: ${rule.name}`, {
           availableHelpers: inventory.helpers
             ? Object.keys(inventory.helpers)
             : [],
@@ -84,38 +84,38 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
     }
 
     case 'and': {
-      log(`Evaluating AND with ${rule.conditions.length} conditions`);
+      safeLog(`Evaluating AND with ${rule.conditions.length} conditions`);
       const results = rule.conditions.map((condition, index) => {
         const conditionResult = evaluateRule(condition, inventory, depth + 1);
-        log(`AND condition ${index + 1}: ${conditionResult}`, condition);
+        safeLog(`AND condition ${index + 1}: ${conditionResult}`, condition);
         trace.addChild(
           new RuleTrace(condition, depth + 1).complete(conditionResult)
         );
         return conditionResult;
       });
       result = results.every(Boolean);
-      log(`AND final result: ${result}`, { individualResults: results });
+      safeLog(`AND final result: ${result}`, { individualResults: results });
       break;
     }
 
     case 'or': {
-      log(`Evaluating OR with ${rule.conditions.length} conditions`);
+      safeLog(`Evaluating OR with ${rule.conditions.length} conditions`);
       const results = rule.conditions.map((condition, index) => {
         const conditionResult = evaluateRule(condition, inventory, depth + 1);
-        log(`OR condition ${index + 1}: ${conditionResult}`, condition);
+        safeLog(`OR condition ${index + 1}: ${conditionResult}`, condition);
         trace.addChild(
           new RuleTrace(condition, depth + 1).complete(conditionResult)
         );
         return conditionResult;
       });
       result = results.some(Boolean);
-      log(`OR final result: ${result}`, { individualResults: results });
+      safeLog(`OR final result: ${result}`, { individualResults: results });
       break;
     }
 
     case 'item_check': {
       result = rule.item && inventory.has(rule.item);
-      log(`Item check ${rule.item}: ${result}`, {
+      safeLog(`Item check ${rule.item}: ${result}`, {
         itemState: inventory.getItemState(rule.item),
       });
       break;
@@ -123,7 +123,7 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
 
     case 'count_check': {
       result = rule.item && inventory.count(rule.item) >= (rule.count || 1);
-      log(`Count check ${rule.item} (need ${rule.count || 1}): ${result}`, {
+      safeLog(`Count check ${rule.item} (need ${rule.count || 1}): ${result}`, {
         actual: inventory.count(rule.item),
       });
       break;
@@ -132,7 +132,7 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
     case 'group_check': {
       result =
         rule.group && inventory.countGroup(rule.group) >= (rule.count || 1);
-      log(`Group check ${rule.group}: ${result}`, {
+      safeLog(`Group check ${rule.group}: ${result}`, {
         actual: inventory.countGroup(rule.group),
       });
       break;
@@ -140,7 +140,7 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
 
     case 'constant': {
       result = rule.value;
-      log(`Constant rule returns: ${result}`);
+      safeLog(`Constant rule returns: ${result}`);
       break;
     }
 
@@ -154,7 +154,7 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
           ? evaluateRule(rule.right, inventory, depth + 1)
           : rule.right;
 
-      log('Evaluating comparison', {
+      safeLog('Evaluating comparison', {
         operator: rule.op,
         left: leftValue,
         right: rightValue,
@@ -180,19 +180,19 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
           result = false;
       }
 
-      log(`Comparison ${rule.op} result: ${result}`);
+      safeLog(`Comparison ${rule.op} result: ${result}`);
       break;
     }
 
     case 'count': {
       result = inventory.count(rule.item);
-      log(`Count for ${rule.item}: ${result}`);
+      safeLog(`Count for ${rule.item}: ${result}`);
       break;
     }
 
     case 'state_flag': {
       result = rule.flag && inventory.state?.hasFlag(rule.flag);
-      log(`State flag check ${rule.flag}: ${result}`, {
+      safeLog(`State flag check ${rule.flag}: ${result}`, {
         flag: rule.flag,
         hasState: !!inventory.state,
         stateFlags: inventory.state ? Array.from(inventory.state.flags) : null,
@@ -201,18 +201,13 @@ export const evaluateRule = (rule, inventory, depth = 0) => {
     }
 
     default: {
-      log(`Unknown rule type: ${rule.type}`);
+      safeLog(`Unknown rule type: ${rule.type}`);
       result = false;
     }
   }
 
-  // Complete the trace with the final result
+  // Complete the trace but don't try to add it to inventory debug
   trace.complete(result);
-
-  // Add full trace to inventory's debug history if available
-  if (inventory.debug?.addTrace) {
-    inventory.debug.addTrace(trace);
-  }
 
   return result;
 };

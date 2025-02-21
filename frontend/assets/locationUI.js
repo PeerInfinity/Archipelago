@@ -1,5 +1,5 @@
 // locationUI.js
-import locationManager from './locationManagerSingleton.js';
+import stateManager from './stateManagerSingleton.js';
 import { evaluateRule } from './ruleEngine.js';
 
 export class LocationUI {
@@ -12,7 +12,7 @@ export class LocationUI {
   }
 
   initialize(jsonData) {
-    locationManager.loadFromJSON(jsonData);
+    stateManager.loadFromJSON(jsonData);
     this.updateLocationDisplay();
   }
 
@@ -92,9 +92,9 @@ export class LocationUI {
       return;
     }
 
-    const isAccessible = locationManager.isLocationAccessible(
+    const isAccessible = stateManager.isLocationAccessible(
       location,
-      this.gameUI.inventory
+      stateManager.inventory
     );
 
     if (!isAccessible) {
@@ -102,9 +102,10 @@ export class LocationUI {
     }
 
     if (location.item) {
+      // Use gameUI.toggleItem instead of directly adding to stateManager
       this.gameUI.toggleItem(location.item.name);
       this.checkedLocations.add(location.name);
-      locationManager.invalidateCache(); // Invalidate cache when an item is added
+      stateManager.invalidateCache();
       this.updateLocationDisplay();
       this.showLocationDetails(location);
 
@@ -124,15 +125,15 @@ export class LocationUI {
     const showHighlights = document.getElementById('show-highlights').checked;
     const sorting = document.getElementById('sort-select').value;
 
-    const locations = locationManager.getProcessedLocations(
-      this.gameUI.inventory,
+    const locations = stateManager.getProcessedLocations(
+      stateManager.inventory,
       sorting,
       showReachable,
       showUnreachable
     );
 
-    const newlyReachable = locationManager.getNewlyReachableLocations(
-      this.gameUI.inventory
+    const newlyReachable = stateManager.getNewlyReachableLocations(
+      stateManager.inventory
     );
 
     const locationsGrid = document.getElementById('locations-grid');
@@ -154,22 +155,22 @@ export class LocationUI {
 
     if (sorting === 'accessibility') {
       filteredLocations.sort((a, b) => {
-        const aRegionAccessible = locationManager.isRegionReachable(
+        const aRegionAccessible = stateManager.isRegionReachable(
           a.region,
-          this.gameUI.inventory
+          stateManager.inventory
         );
-        const bRegionAccessible = locationManager.isRegionReachable(
+        const bRegionAccessible = stateManager.isRegionReachable(
           b.region,
-          this.gameUI.inventory
+          stateManager.inventory
         );
 
-        const aLocationAccessible = locationManager.isLocationAccessible(
+        const aLocationAccessible = stateManager.isLocationAccessible(
           a,
-          this.gameUI.inventory
+          stateManager.inventory
         );
-        const bLocationAccessible = locationManager.isLocationAccessible(
+        const bLocationAccessible = stateManager.isLocationAccessible(
           b,
-          this.gameUI.inventory
+          stateManager.inventory
         );
 
         if (aLocationAccessible && bLocationAccessible) {
@@ -192,13 +193,13 @@ export class LocationUI {
 
     locationsGrid.innerHTML = filteredLocations
       .map((location) => {
-        const isRegionAccessible = locationManager.isRegionReachable(
+        const isRegionAccessible = stateManager.isRegionReachable(
           location.region,
-          this.gameUI.inventory
+          stateManager.inventory
         );
-        const isLocationAccessible = locationManager.isLocationAccessible(
+        const isLocationAccessible = stateManager.isLocationAccessible(
           location,
-          this.gameUI.inventory
+          stateManager.inventory
         );
         const isNewlyReachable =
           showHighlights &&
@@ -258,7 +259,8 @@ export class LocationUI {
       return root;
     }
 
-    const result = evaluateRule(rule, this.gameUI.inventory);
+    // Use stateManager.inventory instead of gameUI.inventory
+    const result = evaluateRule(rule, stateManager.inventory);
     root.classList.toggle('pass', !!result);
     root.classList.toggle('fail', !result);
 
@@ -347,7 +349,7 @@ export class LocationUI {
                     ${
                       this.checkedLocations.has(location.name)
                         ? 'Checked'
-                        : locationManager.isLocationAccessible(
+                        : stateManager.isLocationAccessible(
                             location,
                             this.gameUI.inventory
                           )

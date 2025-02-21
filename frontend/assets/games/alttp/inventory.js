@@ -21,13 +21,9 @@ export class ALTTPInventory extends GameInventory {
       progressionMapping: this.progressionMapping,
     });
 
-    // Process each initial item and handle events
+    // Process each initial item
     for (const item of items) {
       this.addItem(item);
-      // Also process events for these items
-      if (this.state) {
-        this.state.processEventItem(item);
-      }
     }
   }
 
@@ -37,8 +33,6 @@ export class ALTTPInventory extends GameInventory {
       isExcluded: this.excludeSet.has(itemName),
       progressiveInfo: this.getProgressiveItemInfo(itemName),
       itemData: this.itemData[itemName],
-      // Include event state for this item
-      isEvent: this.state?.hasEvent(itemName) || false,
     };
   }
 
@@ -79,12 +73,6 @@ export class ALTTPInventory extends GameInventory {
     if (this.excludeSet.has(itemName)) {
       this.log(`${itemName} is excluded`);
       return false;
-    }
-
-    // Check if it's an event first
-    if (this.state?.hasEvent(itemName)) {
-      this.log(`${itemName} is an event and is active`);
-      return true;
     }
 
     // Direct check
@@ -128,11 +116,6 @@ export class ALTTPInventory extends GameInventory {
       const count = (this.items.get(item) || 0) + 1;
       this.items.set(item, count);
       this.log(`Added item ${item}, new count: ${count}`);
-
-      // Process event if applicable
-      if (this.state) {
-        this.state.processEventItem(item);
-      }
     }
   }
 
