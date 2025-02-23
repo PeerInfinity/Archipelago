@@ -27,8 +27,19 @@
             <input type="checkbox" id="hide-unowned" checked />
             Hide unowned items
           </label>
+          <div class="checkbox-container">
+            <input type="checkbox" id="hide-categories" />
+            <label for="hide-categories">Hide categories</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="sort-alphabetically" />
+            <label for="sort-alphabetically">Sort alphabetically</label>
+          </div>
         </div>
         <div id="inventory-groups" class="sidebar-content">
+          <!-- Populated by JS -->
+        </div>
+        <div id="inventory-flat" class="sidebar-content" style="display: none">
           <!-- Populated by JS -->
         </div>
       </div>
