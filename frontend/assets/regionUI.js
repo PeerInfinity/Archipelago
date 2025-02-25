@@ -577,6 +577,7 @@ export class RegionUI {
         <button class="show-paths-btn">Show Paths</button>
         <span class="paths-count" style="display: none;"></span>
         <button class="clear-paths-btn" style="display: none;">Clear Paths</button>
+        <button class="show-exit-rules-btn" style="display: none;">Show Exit Rules</button>
       </div>
     `;
       detailEl.appendChild(pathsControlDiv);
@@ -592,9 +593,13 @@ export class RegionUI {
       // Add Show Paths button functionality
       const showPathsBtn = pathsControlDiv.querySelector('.show-paths-btn');
       const clearPathsBtn = pathsControlDiv.querySelector('.clear-paths-btn');
+      const showExitRulesBtn = pathsControlDiv.querySelector(
+        '.show-exit-rules-btn'
+      );
       const pathsCountSpan = pathsControlDiv.querySelector('.paths-count');
       let cachedPaths = null;
       let pathsShown = 0;
+      let exitRulesVisible = false;
 
       showPathsBtn.addEventListener('click', () => {
         // First click, calculate all paths
@@ -612,6 +617,7 @@ export class RegionUI {
           // Update button text and show Clear button
           showPathsBtn.textContent = 'Show More';
           clearPathsBtn.style.display = 'inline';
+          showExitRulesBtn.style.display = 'inline';
 
           // Make the paths container visible and add header
           pathsContainer.style.display = 'block';
@@ -627,41 +633,7 @@ export class RegionUI {
         const pathsToShow = Math.min(10, cachedPaths.length - pathsShown);
         for (let i = 0; i < pathsToShow; i++) {
           const path = cachedPaths[pathsShown + i];
-          const pathEl = document.createElement('div');
-          pathEl.classList.add('region-path');
-
-          // Create a path representation with colored region names
-          const pathText = document.createElement('div');
-          path.forEach((region, index) => {
-            // Check if the region is accessible
-            const regionAccessible = stateManager.isRegionReachable(
-              region,
-              stateManager.inventory
-            );
-
-            // Create a span for the region with the appropriate color
-            const regionSpan = document.createElement('span');
-            regionSpan.textContent = region;
-            regionSpan.style.color = regionAccessible ? '#4caf50' : '#f44336';
-            regionSpan.classList.add('region-link');
-            regionSpan.dataset.region = region;
-            regionSpan.addEventListener('click', (e) => {
-              e.stopPropagation();
-              this.navigateToRegion(region);
-            });
-
-            // Add the region to the path
-            pathText.appendChild(regionSpan);
-
-            // Add an arrow between regions (except for the last one)
-            if (index < path.length - 1) {
-              const arrow = document.createElement('span');
-              arrow.textContent = ' → ';
-              pathText.appendChild(arrow);
-            }
-          });
-
-          pathEl.appendChild(pathText);
+          const pathEl = this.renderPath(path, pathsShown + i);
           pathsContainer.appendChild(pathEl);
         }
 
@@ -689,16 +661,150 @@ export class RegionUI {
         // Reset the buttons and counter
         pathsCountSpan.style.display = 'none';
         clearPathsBtn.style.display = 'none';
+        showExitRulesBtn.style.display = 'none';
         showPathsBtn.textContent = 'Show Paths';
         showPathsBtn.disabled = false;
 
         // Reset the cached data
         cachedPaths = null;
         pathsShown = 0;
+        exitRulesVisible = false;
+      });
+
+      // Show Exit Rules button functionality
+      showExitRulesBtn.addEventListener('click', () => {
+        exitRulesVisible = !exitRulesVisible;
+        showExitRulesBtn.textContent = exitRulesVisible
+          ? 'Hide Exit Rules'
+          : 'Show Exit Rules';
+
+        // Toggle visibility of all exit rule containers
+        document
+          .querySelectorAll('.path-exit-rule-container')
+          .forEach((container) => {
+            container.style.display = exitRulesVisible ? 'block' : 'none';
+          });
       });
     }
 
     return regionBlock;
+  }
+
+  /**
+   * Renders a path with support for showing exit rules
+   * @param {Array} path - Array of region names in the path
+   * @param {Number} pathIndex - Index of this path
+   * @return {HTMLElement} - The path element
+   */
+  renderPath(path, pathIndex) {
+    const pathEl = document.createElement('div');
+    pathEl.classList.add('region-path');
+    pathEl.dataset.pathIndex = pathIndex;
+
+    // Create a path representation with colored region names
+    const pathText = document.createElement('div');
+    pathText.classList.add('path-regions');
+
+    // Analyze the path to find transitions between accessible and inaccessible regions
+    const transitionPoint = this.findAccessibilityTransition(path);
+
+    path.forEach((region, index) => {
+      // Check if the region is accessible
+      const regionAccessible = stateManager.isRegionReachable(
+        region,
+        stateManager.inventory
+      );
+
+      // Create a span for the region with the appropriate color
+      const regionSpan = document.createElement('span');
+      regionSpan.textContent = region;
+      regionSpan.style.color = regionAccessible ? '#4caf50' : '#f44336';
+      regionSpan.classList.add('region-link');
+      regionSpan.dataset.region = region;
+      regionSpan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.navigateToRegion(region);
+      });
+
+      // Add the region to the path
+      pathText.appendChild(regionSpan);
+
+      // Add an arrow between regions (except for the last one)
+      if (index < path.length - 1) {
+        const arrow = document.createElement('span');
+        arrow.textContent = ' → ';
+        pathText.appendChild(arrow);
+      }
+    });
+
+    pathEl.appendChild(pathText);
+
+    // Add exit rule container if there's a transition
+    if (transitionPoint) {
+      const { fromRegion, toRegion, exit } = transitionPoint;
+
+      const exitRuleContainer = document.createElement('div');
+      exitRuleContainer.classList.add('path-exit-rule-container');
+      exitRuleContainer.style.display = 'none'; // Hidden by default
+
+      // Create header showing which exit is blocked
+      const exitHeader = document.createElement('div');
+      exitHeader.classList.add('path-exit-header');
+      exitHeader.innerHTML = `<strong>Blocked Exit:</strong> ${fromRegion} → ${exit.name} → ${toRegion}`;
+      exitRuleContainer.appendChild(exitHeader);
+
+      // Show the exit rule
+      if (exit.access_rule) {
+        const ruleContainer = document.createElement('div');
+        ruleContainer.classList.add('path-exit-rule');
+        ruleContainer.appendChild(this.renderLogicTree(exit.access_rule));
+        exitRuleContainer.appendChild(ruleContainer);
+      } else {
+        exitRuleContainer.innerHTML +=
+          '<div class="path-exit-rule">(No rule defined)</div>';
+      }
+
+      pathEl.appendChild(exitRuleContainer);
+    }
+
+    return pathEl;
+  }
+
+  /**
+   * Finds the transition point between accessible and inaccessible regions in a path
+   * @param {Array} path - Array of region names in the path
+   * @return {Object|null} - Object containing the transition information or null if no transition
+   */
+  findAccessibilityTransition(path) {
+    for (let i = 0; i < path.length - 1; i++) {
+      const fromRegion = path[i];
+      const toRegion = path[i + 1];
+
+      const fromAccessible = stateManager.isRegionReachable(
+        fromRegion,
+        stateManager.inventory
+      );
+      const toAccessible = stateManager.isRegionReachable(
+        toRegion,
+        stateManager.inventory
+      );
+
+      // Found transition from accessible to inaccessible
+      if (fromAccessible && !toAccessible) {
+        // Find the exit from fromRegion to toRegion
+        const fromRegionData = this.regionData[fromRegion];
+        if (fromRegionData && fromRegionData.exits) {
+          const exit = fromRegionData.exits.find(
+            (e) => e.connected_region === toRegion
+          );
+          if (exit) {
+            return { fromRegion, toRegion, exit };
+          }
+        }
+      }
+    }
+
+    return null; // No transition found
   }
 
   _suffixIfDuplicate(regionName, uid) {
