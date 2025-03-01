@@ -193,7 +193,7 @@ export class InventoryUI {
     document.querySelectorAll('.item-button').forEach((button) => {
       button.addEventListener('click', (event) => {
         const itemName = button.dataset.item;
-        this.toggleItem(itemName, event.shiftKey);
+        this.modifyItemCount(itemName, event.shiftKey);
       });
     });
   }
@@ -250,7 +250,7 @@ export class InventoryUI {
     }
   }
 
-  toggleItem(itemName, isShiftPressed = false) {
+  modifyItemCount(itemName, isShiftPressed = false) {
     if (!this.itemData || !this.itemData[itemName]) return;
 
     const currentCount = stateManager.getItemCount(itemName);

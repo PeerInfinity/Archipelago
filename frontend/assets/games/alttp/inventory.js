@@ -88,6 +88,14 @@ export class ALTTPInventory {
     return false;
   }
 
+  has_any(itemList) {
+    if (!Array.isArray(itemList)) {
+      return false;
+    }
+
+    return itemList.some((itemName) => this.has(itemName));
+  }
+
   getItemState(itemName) {
     return {
       directCount: this.items.get(itemName) || 0,

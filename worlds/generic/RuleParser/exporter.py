@@ -16,11 +16,284 @@ from .games import get_game_helpers
 
 logger = logging.getLogger(__name__)
 
+# Create a dedicated debug file for mode and settings data
+def debug_mode_settings(message, data=None):
+    """Write debug information about mode and settings to a dedicated file."""
+    with open("debug_mode_settings.txt", "a") as debug_file:
+        debug_file.write(f"{message}\n")
+        if data is not None:
+            debug_file.write(f"  Data: {data}\n")
+            debug_file.write(f"  Type: {type(data)}\n")
+            
+            # For dictionaries, show keys and some values
+            if isinstance(data, dict):
+                debug_file.write(f"  Keys: {list(data.keys())}\n")
+                # If it has mode or settings, show those specifically
+                for key in ['mode', 'settings']:
+                    if key in data:
+                        debug_file.write(f"  {key}: {data[key]}\n")
+                        debug_file.write(f"  {key} type: {type(data[key])}\n")
+                        
+                        # If this is also a dictionary, go one level deeper
+                        if isinstance(data[key], dict):
+                            for subkey, value in data[key].items():
+                                debug_file.write(f"  {key}[{subkey}]: {value}\n")
+                                debug_file.write(f"  {key}[{subkey}] type: {type(value)}\n")
+                                
+                                # For objects with helpful attributes
+                                if hasattr(value, 'value'):
+                                    debug_file.write(f"  {key}[{subkey}].value: {value.value}\n")
+                                if hasattr(value, '__dict__'):
+                                    debug_file.write(f"  {key}[{subkey}].__dict__: {value.__dict__}\n")
+            
+            # For objects with helpful attributes
+            if hasattr(data, 'value'):
+                debug_file.write(f"  .value: {data.value}\n")
+            if hasattr(data, '__dict__'):
+                debug_file.write(f"  .__dict__: {data.__dict__}\n")
+        
+        debug_file.write("\n")  # Add a blank line for readability
+
+def is_serializable(obj):
+    """Check if an object can be serialized to JSON."""
+    try:
+        json.dumps(obj)
+        return True
+    except (TypeError, OverflowError, ValueError):
+        return False
+
+def make_serializable(obj):
+    """
+    Recursively convert an object to be JSON serializable.
+    Extracts values from enums and custom objects intelligently.
+    """
+    # Only log top-level field processing (not recursive calls)
+    if isinstance(obj, dict) and ('mode' in obj or 'settings' in obj):
+        debug_mode_settings("make_serializable: processing dictionary with mode/settings", 
+                          {"has_mode": 'mode' in obj, 
+                           "has_settings": 'settings' in obj})
+        
+        if 'mode' in obj:
+            debug_mode_settings("make_serializable: mode field", obj['mode'])
+            
+            # If mode is not a dictionary, log this but don't modify
+            # The cleanup function can handle it with proper error messages
+            if not isinstance(obj['mode'], dict):
+                debug_mode_settings("WARNING: mode is not a dictionary", 
+                                  {"type": type(obj['mode']), "value": obj['mode']})
+            
+            # Now log the mode value details for each player
+            if isinstance(obj['mode'], dict):
+                for player, mode_value in obj['mode'].items():
+                    debug_mode_settings(f"mode[{player}] details", 
+                                     {"type": type(mode_value), 
+                                      "value": mode_value,
+                                      "has_value_attr": hasattr(mode_value, 'value'),
+                                      "has_dict_attr": hasattr(mode_value, '__dict__')})
+                    
+                    if hasattr(mode_value, 'value'):
+                        debug_mode_settings(f"mode[{player}].value", mode_value.value)
+                    if hasattr(mode_value, '__dict__'):
+                        debug_mode_settings(f"mode[{player}].__dict__", mode_value.__dict__)
+    
+    # Handle basic types directly
+    if obj is None or isinstance(obj, (bool, int, float, str)):
+        return obj
+    
+    # Handle dictionaries
+    if isinstance(obj, dict):
+        serialized_dict = {str(k): make_serializable(v) for k, v in obj.items()}
+        
+        # Debug the mode field if present after serialization
+        if 'mode' in serialized_dict:
+            debug_mode_settings("make_serializable: mode after dict processing", 
+                              {"type": type(serialized_dict['mode']), 
+                               "value": serialized_dict['mode']})
+            
+            # Special check for when mode is not a dict anymore
+            if not isinstance(serialized_dict['mode'], dict):
+                debug_mode_settings("ERROR: mode is not a dictionary anymore", serialized_dict['mode'])
+                # Don't try to fix - just log the issue
+        
+        # Check for mode in settings and log information
+        if 'settings' in serialized_dict and isinstance(serialized_dict['settings'], dict):
+            for player, settings in serialized_dict['settings'].items():
+                if isinstance(settings, dict) and 'mode' in settings:
+                    debug_mode_settings(f"settings[{player}]['mode']", 
+                                     {"type": type(settings['mode']), 
+                                      "value": settings['mode']})
+        
+        return serialized_dict
+    
+    # Handle lists, tuples, and sets
+    if isinstance(obj, (list, tuple, set)):
+        return [make_serializable(i) for i in obj]
+    
+    # Handle objects with __dict__ attribute (custom classes)
+    if hasattr(obj, '__dict__'):
+        # Debug for special objects related to mode or settings
+        if str(obj).lower().find('mode') >= 0 or str(type(obj)).lower().find('mode') >= 0:
+            debug_mode_settings("Processing mode-related object", 
+                              {"type": type(obj), 
+                               "str_rep": str(obj),
+                               "has_value": hasattr(obj, 'value')})
+                    
+        # First check for value attribute (common in enums)
+        if hasattr(obj, 'value'):
+            return make_serializable(obj.value)
+        
+        # Try to extract value from string representation like "Type(Value)"
+        str_rep = str(obj)
+        if '(' in str_rep and ')' in str_rep:
+            try:
+                # Extract value inside parentheses
+                extracted = str_rep.split('(', 1)[1].split(')', 1)[0]
+                
+                # For mode-related objects, log the extraction
+                if str_rep.lower().find('mode') >= 0:
+                    debug_mode_settings("Extracted value from mode parentheses", extracted)
+                
+                # Try to convert to appropriate type
+                if extracted.lower() in ('yes', 'no', 'true', 'false'):
+                    return extracted.lower() == 'yes' or extracted.lower() == 'true'
+                elif extracted.isdigit():
+                    return int(extracted)
+                else:
+                    return extracted
+            except Exception as e:
+                # If extraction fails, log and use string representation
+                if str_rep.lower().find('mode') >= 0:
+                    debug_mode_settings(f"Failed to extract mode value: {str(e)}", str_rep)
+                return str_rep
+        
+        # If no special handling applies, use string representation
+        return str_rep
+    
+    # If all else fails, convert to string
+    if not is_serializable(obj):
+        return str(obj)
+    
+    return obj
+
+def debug_export_data(data, prefix=""):
+    """
+    Recursively checks each field of the export data to find non-serializable parts.
+    Logs detailed information about which fields might be causing issues.
+    """
+    if isinstance(data, dict):
+        for key, value in data.items():
+            current_path = f"{prefix}.{key}" if prefix else str(key)
+            try:
+                # Try to serialize just this item
+                json.dumps({key: value})
+                # If it succeeded, go deeper
+                debug_export_data(value, current_path)
+            except (TypeError, OverflowError, ValueError) as e:
+                logger.error(f"Non-serializable field at {current_path}: {str(e)}")
+                # Try to diagnose deeper
+                debug_export_data(value, current_path)
+    elif isinstance(data, (list, tuple)):
+        for i, item in enumerate(data):
+            current_path = f"{prefix}[{i}]"
+            try:
+                json.dumps(item)
+                debug_export_data(item, current_path)
+            except (TypeError, OverflowError, ValueError) as e:
+                logger.error(f"Non-serializable item at {current_path}: {str(e)}")
+                debug_export_data(item, current_path)
+    else:
+        # For leaf nodes, just check if they're serializable
+        try:
+            json.dumps(data)
+        except (TypeError, OverflowError, ValueError) as e:
+            logger.error(f"Non-serializable value at {prefix}: {data} (type: {type(data)}) - {str(e)}")
+
+def write_field_by_field(export_data, filepath):
+    """
+    Tries to write each major section of the export_data to the file separately,
+    to ensure at least some data is saved even if one section is problematic.
+    """
+    debug_mode_settings("Starting write_field_by_field")
+    serializable_data = {"version": export_data.get("version", 1)}
+    fields_written = []
+    
+    # Try each field separately
+    for field in ["regions", "items", "item_groups", "progression_mapping", "mode", "settings", "start_regions"]:
+        if field in export_data:
+            try:
+                debug_mode_settings(f"Processing field: {field}")
+                serializable_field = make_serializable(export_data[field])
+                # Test if it's serializable
+                json.dumps(serializable_field)
+                serializable_data[field] = serializable_field
+                fields_written.append(field)
+                logger.info(f"Successfully processed field: {field}")
+                debug_mode_settings(f"Successfully processed field: {field}")
+            except Exception as e:
+                error_msg = f"Failed to process field {field}: {str(e)}"
+                logger.error(error_msg)
+                debug_mode_settings(f"ERROR: {error_msg}")
+                
+                # For complex fields, try to process each player separately
+                if field in ["mode", "settings"] and isinstance(export_data.get(field, {}), dict):
+                    debug_mode_settings(f"Attempting to process {field} player by player")
+                    # Initialize with empty dict
+                    serializable_data[field] = {}
+                    
+                    # Try each player separately
+                    for player_id in export_data.get(field, {}):
+                        try:
+                            debug_mode_settings(f"Processing {field} for player {player_id}")
+                            player_data = make_serializable(export_data[field][player_id])
+                            json.dumps(player_data)  # Test serialization
+                            serializable_data[field][player_id] = player_data
+                            logger.info(f"Added {field} data for player {player_id}")
+                            debug_mode_settings(f"Successfully processed {field} for player {player_id}", player_data)
+                        except Exception as player_error:
+                            error_msg = f"Failed to process {field} for player {player_id}: {str(player_error)}"
+                            logger.error(error_msg)
+                            debug_mode_settings(f"ERROR: {error_msg}")
+                            # Use error message instead of default
+                            serializable_data[field][player_id] = f"ERROR: {error_msg}"
+    
+    # Debug the final serializable data
+    debug_mode_settings("Final serializable data structure", 
+                       {"keys": list(serializable_data.keys())})
+    
+    # Write what we have
+    try:
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(serializable_data, f, indent=2)
+        logger.info(f"Wrote partial data ({', '.join(fields_written)}) to {filepath}")
+        debug_mode_settings(f"Successfully wrote partial data to {filepath}", fields_written)
+        return True
+    except Exception as e:
+        error_msg = f"Failed to write even partial data: {str(e)}"
+        logger.error(error_msg)
+        debug_mode_settings(f"ERROR: {error_msg}")
+        return False
+
 def prepare_export_data(multiworld) -> Dict[str, Any]:
     """
     Prepares complete game data for export to JSON format.
     Preserves as much of the Python backend's structure as possible.
     """
+    # Start with a clean debug file
+    with open("debug_mode_settings.txt", "w") as debug_file:
+        debug_file.write(f"DEBUG - Starting prepare_export_data\n")
+        debug_file.write(f"DEBUG - multiworld attributes: {dir(multiworld)}\n")
+        debug_file.write(f"DEBUG - player_ids: {multiworld.player_ids}\n")
+        
+    # Debug the mode attribute specifically
+    if hasattr(multiworld, 'mode'):
+        debug_mode_settings("Examining multiworld.mode", multiworld.mode)
+        # Check the first player's mode if available
+        if multiworld.player_ids and multiworld.player_ids[0] in multiworld.mode:
+            first_player = multiworld.player_ids[0]
+            debug_mode_settings(f"Examining mode for player {first_player}", multiworld.mode[first_player])
+    else:
+        debug_mode_settings("WARNING: multiworld has no 'mode' attribute")
+    
     export_data = {
         'version': 3,
         'regions': {},  # Full region graph
@@ -42,25 +315,174 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         export_data['progression_mapping'][str(player)] = process_progression_mapping(multiworld, player)
 
         # Game settings
-        '''
-        export_data['mode'][str(player)] = multiworld.mode[player]
-        export_data['settings'][str(player)] = {
-            'dark_room_logic': multiworld.dark_room_logic[player],
-            #'can_take_damage': multiworld.can_take_damage[player],
-            'retro_bow': multiworld.retro_bow[player],
-            'swordless': multiworld.swordless[player],
-            'enemy_shuffle': multiworld.enemy_shuffle[player],
-            'enemy_health': multiworld.enemy_health[player],
-            'enemy_damage': multiworld.enemy_damage[player],
-            'pot_shuffle': multiworld.pot_shuffle[player],
-            'dungeon_counters': multiworld.dungeon_counters[player],
-            'glitch_boots': multiworld.glitch_boots[player],
-            'glitches_required': multiworld.glitches_required[player],
-            'accessibility': multiworld.accessibility[player],
-            #'placement_file': getattr(multiworld, 'placement_file', None),
-            # Add more settings as needed
-        }
-        '''
+        try:
+            # Build settings dictionary with direct value extraction
+            settings_dict = {}
+            
+            # Helper function to extract value from enum-like objects
+            def extract_value(obj):
+                if hasattr(obj, 'value'):  # Check if it's an enum with a value attribute
+                    return obj.value
+                
+                # Handle string representation with parentheses like Mode(Open)
+                str_rep = str(obj)
+                if '(' in str_rep and ')' in str_rep:
+                    extracted = str_rep.split('(', 1)[1].split(')', 1)[0]
+                    
+                    # Convert to appropriate type
+                    if extracted.lower() in ('yes', 'no', 'true', 'false'):
+                        return extracted.lower() == 'yes' or extracted.lower() == 'true'
+                    elif extracted.isdigit():
+                        return int(extracted)
+                    else:
+                        return extracted
+                
+                return obj  # Return as is if no special handling needed
+            
+            # Handle common settings
+            common_settings = [
+                'dark_room_logic', 'retro_bow', 'swordless', 'enemy_shuffle',
+                'enemy_health', 'enemy_damage', 'bombless_start', 'glitches_required',
+                'pot_shuffle', 'dungeon_counters', 'glitch_boots', 'accessibility'
+            ]
+            
+            # Debug before processing settings
+            debug_mode_settings(f"Processing settings for player {player}")
+            
+            for setting in common_settings:
+                if hasattr(multiworld, setting) and player in getattr(multiworld, setting, {}):
+                    value = getattr(multiworld, setting)[player]
+                    settings_dict[setting] = extract_value(value)
+                    debug_mode_settings(f"Setting '{setting}' found", value)
+                else:
+                    debug_mode_settings(f"Setting '{setting}' not found for player {player}")
+            
+            # Handle game mode
+            if hasattr(multiworld, 'mode') and player in multiworld.mode:
+                original_mode = multiworld.mode[player]
+                settings_dict['mode'] = extract_value(original_mode)
+                debug_mode_settings(f"Game mode for player {player}", original_mode)
+            else:
+                error_msg = f"Could not read game mode for player {player}"
+                logger.error(error_msg)
+                debug_mode_settings(f"ERROR: {error_msg}")
+                settings_dict['mode'] = f"ERROR: {error_msg}"
+            
+            # Add world-specific attributes if they exist
+            try:
+                if player in multiworld.worlds:
+                    world = multiworld.worlds.get(player)
+                    debug_mode_settings(f"World object for player {player}", world)
+                    
+                    if world:
+                        # Handle shuffle_capacity_upgrades
+                        try:
+                            if hasattr(world, 'options') and hasattr(world.options, 'shuffle_capacity_upgrades'):
+                                debug_mode_settings("shuffle_capacity_upgrades found", world.options.shuffle_capacity_upgrades)
+                                settings_dict['shuffle_capacity_upgrades'] = extract_value(world.options.shuffle_capacity_upgrades)
+                        except Exception as e:
+                            error_msg = f"Error extracting shuffle_capacity_upgrades: {str(e)}"
+                            logger.error(error_msg)
+                            debug_mode_settings(f"ERROR: {error_msg}")
+                            settings_dict['shuffle_capacity_upgrades'] = f"ERROR: {error_msg}"
+                        
+                        # Handle treasure_hunt_required
+                        try:
+                            if hasattr(world, 'treasure_hunt_required'):
+                                debug_mode_settings("treasure_hunt_required found", world.treasure_hunt_required)
+                                settings_dict['treasure_hunt_required'] = world.treasure_hunt_required
+                        except Exception as e:
+                            error_msg = f"Error extracting treasure_hunt_required: {str(e)}"
+                            logger.error(error_msg)
+                            debug_mode_settings(f"ERROR: {error_msg}")
+                            settings_dict['treasure_hunt_required'] = f"ERROR: {error_msg}"
+                        
+                        # Handle difficulty requirements
+                        try:
+                            if hasattr(world, 'difficulty_requirements'):
+                                debug_mode_settings("difficulty_requirements found", world.difficulty_requirements)
+                                difficulty_reqs = {
+                                    'progressive_bottle_limit': getattr(world.difficulty_requirements, 'progressive_bottle_limit', None),
+                                    'boss_heart_container_limit': getattr(world.difficulty_requirements, 'boss_heart_container_limit', None),
+                                    'heart_piece_limit': getattr(world.difficulty_requirements, 'heart_piece_limit', None),
+                                }
+                                # Check if any values are None and replace with error message
+                                for key, value in difficulty_reqs.items():
+                                    if value is None:
+                                        difficulty_reqs[key] = f"ERROR: Failed to read {key}"
+                                settings_dict['difficulty_requirements'] = difficulty_reqs
+                        except Exception as e:
+                            error_msg = f"Error getting difficulty requirements: {str(e)}"
+                            logger.error(error_msg)
+                            debug_mode_settings(f"ERROR: {error_msg}")
+                            settings_dict['difficulty_requirements'] = {
+                                'error': f"Failed to read difficulty requirements: {str(e)}"
+                            }
+                        
+                        # Handle medallions
+                        try:
+                            if hasattr(world, 'required_medallions'):
+                                debug_mode_settings("required_medallions found", world.required_medallions)
+                                # Direct extraction of medallion names
+                                medallions = []
+                                for medallion in world.required_medallions:
+                                    medallions.append(extract_value(medallion))
+                                
+                                if not medallions:
+                                    error_msg = "No medallions found"
+                                    logger.error(error_msg)
+                                    debug_mode_settings(f"ERROR: {error_msg}")
+                                    raise ValueError(error_msg)
+                                    
+                                settings_dict['required_medallions'] = medallions
+                                settings_dict['misery_mire_medallion'] = medallions[0]
+                                settings_dict['turtle_rock_medallion'] = medallions[1] if len(medallions) > 1 else medallions[0]
+                        except Exception as e:
+                            error_msg = f"Error getting medallions: {str(e)}"
+                            logger.error(error_msg)
+                            debug_mode_settings(f"ERROR: {error_msg}")
+                            settings_dict['required_medallions'] = [f"ERROR: Failed to read medallions: {str(e)}"]
+                            settings_dict['misery_mire_medallion'] = "ERROR: Failed to read medallion"
+                            settings_dict['turtle_rock_medallion'] = "ERROR: Failed to read medallion"
+            except Exception as e:
+                error_msg = f"Error accessing world for player {player}: {str(e)}"
+                logger.error(error_msg)
+                debug_mode_settings(f"ERROR: {error_msg}")
+                settings_dict['error'] = f"Failed to access world data: {str(e)}"
+            
+            export_data['settings'][str(player)] = settings_dict
+            debug_mode_settings(f"Final settings_dict for player {player}", settings_dict)
+            
+        except Exception as e:
+            error_msg = f"Error exporting settings for player {player}: {str(e)}"
+            logger.error(error_msg)
+            debug_mode_settings(f"ERROR: {error_msg}")
+            export_data['settings'][str(player)] = {
+                'error': error_msg,
+                'details': "Failed to read game settings. Check logs for more information."
+            }
+
+        # Game mode handling - add error message approach
+        try:
+            if hasattr(multiworld, 'mode') and player in multiworld.mode:
+                original_mode = multiworld.mode[player]
+                debug_mode_settings(f"Processing mode for player {player}", original_mode)
+                
+                # Extract the mode value using our helper
+                extract_mode = extract_value(original_mode)
+                debug_mode_settings(f"Extracted mode value", extract_mode)
+                
+                export_data['mode'][str(player)] = extract_mode
+            else:
+                error_msg = f"Game mode not found for player {player}"
+                logger.error(error_msg)
+                debug_mode_settings(f"ERROR: {error_msg}")
+                export_data['mode'][str(player)] = f"ERROR: {error_msg}"
+        except Exception as e:
+            error_msg = f"Error processing game mode for player {player}: {str(e)}"
+            logger.error(error_msg)
+            debug_mode_settings(f"ERROR: {error_msg}")
+            export_data['mode'][str(player)] = f"ERROR: {error_msg}"
 
         # Start regions
         try:
@@ -137,6 +559,26 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
             logger.error(f"Error expanding rule: {str(e)}")
         return None
 
+    def extract_type_value(type_obj):
+        """Extract clean type value from region type objects."""
+        # If it's already an integer or string, return it directly
+        if isinstance(type_obj, int) or isinstance(type_obj, str) and type_obj.isdigit():
+            return int(type_obj)
+        
+        # If it has a value attribute (like an enum might), use that
+        if hasattr(type_obj, 'value'):
+            return type_obj.value
+        
+        # Try to extract value if it's in the format "Type(1)"
+        str_rep = str(type_obj)
+        if '(' in str_rep and ')' in str_rep:
+            type_value = str_rep.split('(', 1)[1].split(')', 1)[0]
+            if type_value.isdigit():
+                return int(type_value)
+        
+        # Default: convert to string
+        return str(type_obj)
+
     try:
         regions_data = {}
         logger.debug(f"Getting game helpers for {multiworld.game[player]}")
@@ -156,7 +598,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                 logger.debug(f"Processing region: {region.name}")
                 region_data = {
                     'name': getattr(region, 'name', 'Unknown'),
-                    'type': getattr(region, 'type', 'Region'),
+                    'type': extract_type_value(getattr(region, 'type', 'Region')),
                     'player': getattr(region, 'player', player),
                     'is_light_world': getattr(region, 'is_light_world', False),
                     'is_dark_world': getattr(region, 'is_dark_world', False),
@@ -243,7 +685,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 'parent_region': getattr(entrance.parent_region, 'name', None) if hasattr(entrance, 'parent_region') else None,
                                 'access_rule': safe_expand_rule(helper_expander, getattr(entrance, 'access_rule', None)),
                                 'connected_region': getattr(entrance.connected_region, 'name', None) if hasattr(entrance, 'connected_region') else None,
-                                'reverse': getattr(entrance.reverse, 'name', None) if hasattr(entrance, 'reverse') else None,
+                                'reverse': getattr(entrance, 'reverse', 'name', None) if hasattr(entrance, 'reverse') else None,
                                 'assumed': getattr(entrance, 'assumed', False),
                                 'type': getattr(entrance, 'type', 'Entrance'),
                                 #'addresses': getattr(entrance, 'addresses', None)
@@ -276,12 +718,10 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                         try:
                             location_data = {
                                 'name': getattr(location, 'name', None),
-                                #'address': getattr(location, 'address', None),
                                 'crystal': getattr(location, 'crystal', None),
                                 'access_rule': safe_expand_rule(helper_expander, getattr(location, 'access_rule', None)),
                                 'item_rule': safe_expand_rule(helper_expander, getattr(location, 'item_rule', None)),
-                                'progress_type': getattr(location, 'progress_type', None),
-                                #'event': getattr(location, 'event', False), # This is always false
+                                'progress_type': extract_type_value(getattr(location, 'progress_type', None)),
                                 'locked': getattr(location, 'locked', False),
                                 'item': None
                             }
@@ -292,8 +732,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                     'player': getattr(location.item, 'player', None),
                                     'advancement': getattr(location.item, 'advancement', False),
                                     'priority': getattr(location.item, 'priority', None),
-                                    'type': getattr(location.item, 'type', None),
-                                    #'code': getattr(location.item, 'code', None)
+                                    'type': extract_type_value(getattr(location.item, 'type', None))
                                 }
                             
                             region_data['locations'].append(location_data)
@@ -422,6 +861,138 @@ def process_progression_mapping(multiworld, player: int) -> Dict[str, Any]:
     
     return mapping_data
 
+def cleanup_export_data(data):
+    """
+    Clean up specific fields in the export data that need special handling.
+    This is applied after the initial serialization.
+    """
+    # Debug output to a separate diagnostics file
+    with open("debug_cleanup_data.txt", "w") as debug_file:
+        debug_file.write(f"DEBUG - cleanup_export_data called\n")
+        if 'mode' in data:
+            debug_file.write(f"DEBUG - mode before cleanup: {data['mode']}\n")
+            debug_file.write(f"DEBUG - mode type before cleanup: {type(data['mode'])}\n")
+        if 'settings' in data:
+            debug_file.write(f"DEBUG - settings before cleanup: {str(data['settings'])}\n")
+    
+    # Define mappings for numeric settings values to readable strings
+    setting_mappings = {
+        'dark_room_logic': {0: 'lamp', 1: 'torches', 2: 'none'},
+        'enemy_health': {0: 'default', 1: 'easy', 2: 'hard', 3: 'expert'},
+        'enemy_damage': {0: 'default', 1: 'shuffled', 2: 'chaos'},
+        'glitches_required': {0: 'none', 1: 'overworld_glitches', 2: 'major_glitches', 3: 'no_logic'},
+        'accessibility': {0: 'items', 1: 'locations', 2: 'none'},
+        'dungeon_counters': {0: 'default', 1: 'on', 2: 'off'},
+        'pot_shuffle': {0: 'off', 1: 'on'},
+        'mode': {0: 'standard', 1: 'open', 2: 'inverted', 3: 'retro'},
+        'glitch_boots': {0: 'off', 1: 'on'},
+        'shuffle_capacity_upgrades': {0: 'off', 1: 'on', 2: 'progressive'}
+    }
+    
+    # Boolean settings that should be actual booleans
+    boolean_settings = [
+        'retro_bow', 'swordless', 'enemy_shuffle', 'bombless_start'
+    ]
+    
+    # Clean up mode field
+    if 'mode' in data:
+        # Record the original state for debugging
+        debug_mode_settings("Mode field before cleanup", data['mode'])
+        
+        # Check the structure - if it's not a dictionary, don't attempt to fix
+        # Instead, log an error and leave it as-is for debugging
+        if not isinstance(data['mode'], dict):
+            error_msg = f"Mode field has unexpected type: {type(data['mode'])}"
+            logger.error(error_msg)
+            debug_mode_settings(f"ERROR: {error_msg}")
+            with open("debug_cleanup_data.txt", "a") as debug_file:
+                debug_file.write(f"ERROR: {error_msg}\n")
+            # Don't modify the field - better to have wrong data than silently "fixed" data
+        else:
+            # Process the dictionary format
+            for player, mode_value in data['mode'].items():
+                debug_mode_settings(f"Cleaning up mode for player {player}", mode_value)
+                
+                # If it's an error message, keep it as is
+                if isinstance(mode_value, str) and mode_value.startswith("ERROR:"):
+                    debug_mode_settings(f"Keeping error message", mode_value)
+                    continue
+                
+                # Ensure mode is a clean string or number based on mappings
+                if isinstance(mode_value, str) and '(' in mode_value:
+                    # Extract from string like Mode(Open)
+                    extracted = mode_value.split('(', 1)[1].split(')', 1)[0].lower()
+                    data['mode'][player] = extracted
+                    debug_mode_settings(f"Extracted mode from string", extracted)
+                    
+                # Convert from integer to string using the mapping
+                elif isinstance(mode_value, int) and mode_value in setting_mappings['mode']:
+                    mapped_value = setting_mappings['mode'][mode_value]
+                    data['mode'][player] = mapped_value
+                    debug_mode_settings(f"Mapped mode from int {mode_value}", mapped_value)
+    
+    # Clean up settings fields
+    if 'settings' in data:
+        for player, settings in data['settings'].items():
+            debug_mode_settings(f"Cleaning up settings for player {player}", settings)
+            
+            # Skip if it's an error object
+            if 'error' in settings:
+                debug_mode_settings("Skipping settings with error")
+                continue
+                
+            # Convert numeric settings to descriptive strings
+            for setting_name, value in list(settings.items()):
+                # Skip if it's already an error message
+                if isinstance(value, str) and value.startswith("ERROR:"):
+                    debug_mode_settings(f"Keeping error message for {setting_name}", value)
+                    continue
+                    
+                # Convert numeric settings using mapping
+                if setting_name in setting_mappings and isinstance(value, int):
+                    if value in setting_mappings[setting_name]:
+                        mapped_value = setting_mappings[setting_name][value]
+                        settings[setting_name] = mapped_value
+                        debug_mode_settings(f"Mapped {setting_name} from {value}", mapped_value)
+                    else:
+                        error_msg = f"Unknown {setting_name} value: {value}"
+                        logger.warning(error_msg)
+                        debug_mode_settings(f"WARNING: {error_msg}")
+                        settings[setting_name] = f"unknown_{value}"
+                
+                # Ensure boolean settings are actual booleans
+                if setting_name in boolean_settings:
+                    if isinstance(value, int):
+                        settings[setting_name] = bool(value)
+                        debug_mode_settings(f"Converted {setting_name} to boolean", bool(value))
+    
+    # Clean up region types
+    if 'regions' in data:
+        for player, regions in data['regions'].items():
+            for region_name, region in regions.items():
+                # Convert region type to int if possible
+                if 'type' in region and isinstance(region['type'], str):
+                    if region['type'].isdigit():
+                        region['type'] = int(region['type'])
+                
+                # Clean up location progress_type
+                if 'locations' in region:
+                    for location in region['locations']:
+                        if 'progress_type' in location and isinstance(location['progress_type'], str):
+                            if location['progress_type'].isdigit():
+                                location['progress_type'] = int(location['progress_type'])
+    
+    # Debug output after cleanup
+    with open("debug_cleanup_data.txt", "a") as debug_file:
+        if 'mode' in data:
+            debug_file.write(f"DEBUG - mode after cleanup: {data['mode']}\n")
+            debug_file.write(f"DEBUG - mode type after cleanup: {type(data['mode'])}\n")
+        if 'settings' in data:
+            debug_file.write(f"DEBUG - settings after cleanup: {str(data['settings'])}\n")
+    
+    debug_mode_settings("Export data after cleanup", data)
+    return data
+
 def export_test_data(multiworld, access_pool, output_dir, filename_base="test_output"):
     """
     Exports rules and test data files for frontend testing.
@@ -435,19 +1006,119 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     Returns:
         bool: True if export successful
     """
+    # Start with a clean debug file
+    with open("debug_mode_settings.txt", "w") as debug_file:
+        debug_file.write(f"DEBUG - Starting export_test_data\n")
+        debug_file.write(f"DEBUG - output_dir: {output_dir}\n")
+        debug_file.write(f"DEBUG - filename_base: {filename_base}\n")
+    
+    # Debug the mode attribute specifically
+    if hasattr(multiworld, 'mode'):
+        debug_mode_settings("Examining multiworld.mode in export_test_data", multiworld.mode)
+        # Examine mode data type and structure in detail
+        debug_mode_settings("multiworld.mode type", type(multiworld.mode))
+        
+        # Check each player's mode
+        for player in multiworld.player_ids:
+            if player in multiworld.mode:
+                player_mode = multiworld.mode[player]
+                debug_mode_settings(f"Mode for player {player}", player_mode)
+                debug_mode_settings(f"Mode type for player {player}", type(player_mode))
+                
+                # Check for special attributes on the mode object
+                if hasattr(player_mode, 'value'):
+                    debug_mode_settings(f"Mode.value for player {player}", player_mode.value)
+                if hasattr(player_mode, 'name'):
+                    debug_mode_settings(f"Mode.name for player {player}", player_mode.name)
+                if hasattr(player_mode, '__dict__'):
+                    debug_mode_settings(f"Mode.__dict__ for player {player}", player_mode.__dict__)
+    else:
+        debug_mode_settings("WARNING: multiworld has no 'mode' attribute in export_test_data")
 
     import os
     os.makedirs(output_dir, exist_ok=True)
     
-    # Export the rules data
-    #from worlds.generic.RuleParser import export_game_rules
-    #rules_result = export_game_rules(multiworld, output_dir, filename_base)
-
     # Export rules data with explicit region connections
+    debug_mode_settings("Calling prepare_export_data")
     export_data = prepare_export_data(multiworld)
     rules_path = os.path.join(output_dir, f"{filename_base}_rules.json")
-    with open(rules_path, 'w', encoding='utf-8') as f:
-        json.dump(export_data, f, indent=2)    
+    
+    # Check the structure of export_data before proceeding
+    debug_mode_settings("Export data structure after prepare_export_data", 
+                        {"keys": list(export_data.keys())})
+    
+    # Verify mode format
+    if 'mode' in export_data:
+        debug_mode_settings("Mode data after prepare_export_data", export_data['mode'])
+        # Examine what's in the mode data
+        if isinstance(export_data['mode'], dict):
+            for player, mode in export_data['mode'].items():
+                debug_mode_settings(f"Mode for player {player} type", type(mode))
+                debug_mode_settings(f"Mode for player {player} value", mode)
+    else:
+        debug_mode_settings("WARNING: No mode field in export_data")
+    
+    # Check for non-serializable parts before writing
+    debug_export_data(export_data)
+    
+    # Make the export data serializable and clean
+    success = False
+    try:
+        logger.info("Starting serialization of export data")
+        
+        # First pass: general serialization
+        debug_mode_settings("Calling make_serializable")
+        serializable_data = make_serializable(export_data)
+        
+        # Debug after serialization
+        debug_mode_settings("Data structure after serialization", 
+                           {"keys": list(serializable_data.keys())})
+        
+        if 'mode' in serializable_data:
+            debug_mode_settings("Mode data after serialization", serializable_data['mode'])
+            if isinstance(serializable_data['mode'], dict):
+                for player, mode in serializable_data['mode'].items():
+                    debug_mode_settings(f"Serialized mode for player {player}", mode)
+        
+        # Apply cleanup
+        debug_mode_settings("Calling cleanup_export_data")
+        serializable_data = cleanup_export_data(serializable_data)
+        
+        # Final verification before writing
+        debug_mode_settings("Data structure after cleanup", 
+                           {"keys": list(serializable_data.keys())})
+        
+        if 'mode' in serializable_data:
+            debug_mode_settings("Mode data after cleanup", serializable_data['mode'])
+        
+        # Write the data to file
+        logger.info("Writing serialized data to file")
+        with open(rules_path, 'w', encoding='utf-8') as f:
+            json.dump(serializable_data, f, indent=2)
+        logger.info(f"Successfully wrote rules to {rules_path}")
+        success = True
+        
+    except Exception as e:
+        error_msg = f"Error serializing or writing JSON: {str(e)}"
+        logger.error(error_msg)
+        debug_mode_settings(f"ERROR: {error_msg}")
+        
+        # Log the exception details
+        import traceback
+        debug_mode_settings("Exception traceback", traceback.format_exc())
+        
+        if 'serializable_data' in locals():
+            if 'mode' in serializable_data:
+                debug_mode_settings("Mode data at time of error", serializable_data['mode'])
+        
+        # Try to save using field-by-field method as a fallback
+        logger.error("Attempting to save field-by-field...")
+        success = write_field_by_field(export_data, rules_path)
+    
+    # If we couldn't write the data, return failure
+    if not success:
+        logger.error("Failed to export rule data. See debug logs for details.")
+        return False
     
     # Convert test cases to the format needed for JSON
     test_cases = []
@@ -462,9 +1133,17 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     # Write to test cases JSON file
     test_cases_data = {"location_tests": test_cases}
     test_cases_path = os.path.join(output_dir, "test_cases.json")
-    with open(test_cases_path, 'w') as f:
-        json.dump(test_cases_data, f, indent=2)
-    #asyncio.run(run_frontend_tests())
-    print("Automated frontend tests finished.")
     
+    try:
+        with open(test_cases_path, 'w') as f:
+            json.dump(test_cases_data, f, indent=2)
+        logger.info(f"Successfully wrote test cases to {test_cases_path}")
+    except Exception as e:
+        error_msg = f"Error writing test cases: {str(e)}"
+        logger.error(error_msg)
+        debug_mode_settings(f"ERROR: {error_msg}")
+        return False
+
+    debug_mode_settings("Export process completed successfully")
+    print("Export process completed.")
     return True

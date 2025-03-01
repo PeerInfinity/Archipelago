@@ -2,48 +2,8 @@ That's the end of the files you need for context.  Now here are your instruction
 
 ----
 
-Here is the next batch of changes we’re currently working on.  We’re currently partway through the process of making these changes.  Before you write any code, please make a list of which of these updates are already complete, and which ones aren’t:
+I want you to implement the rest of the helpers from worlds/alttp/StateHelpers.py into frontend/assets/games/alttp/helpers.js
 
-None of the functions should be asynchronous.  Most of the code needs to be run sequentially to maintain a consistent state, and introducing asynchronous functions risks the data getting out of sync.
+I want the helpers to appear in the same order in helpers.js as they appear in StateHelpers.py
 
-We want there to be only one instance of the data that stores the game state.  That includes all of the data we load from the json file, the current inventory, the current GameState, and any cached data like the accessible regions.  We also don’t want more than one instance of the helper functions.
-
-We don’t want any functions to pass the inventory as a parameter, unless we’re updating the inventory in stateManager.
-
-We don’t want computeReachableRegions to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-We don’t want runSingleBFS to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-We don’t want isRegionReachable to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-We don’t want isLocationAccessible to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-We don’t want getProcessedLocations to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-We don’t want getNewlyReachableLocations to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-We don’t want evaluateRule to take inventory as a parameter.  We want it to use stateManager’s inventory.
-
-updateInventoryFromList can take a list of items as a parameter.  That’s its intended purpose.
-
-initializeInventoryForTest can take a list of required items and excluded items as parameters.  That’s its intended purpose.
-
-We want the code in stateManager to be able to run as normal even if inventoryUI, locationUI, regionUI, and testCaseUI haven’t been created.
-
-We don’t want the inventory class to track excluded items.  The only function that does anything with excluded items is initializeInventoryForTest.  We don’t want excluded items to be a parameter to any other function.  Not locationTest’s createInventory, not the ALTTPInventory constructor, not the other inventory constructors.  runSingleTest is one other function that is allowed to take excluded items as a parameter.
-
-We don’t want the helper class to have its own inventory or state.  We want it to use the stateManager’s inventory and state.  That means that helpers.js will need to include the stateManager singleton.
-
-stateManager should not be a parameter to displayResults.  It should use the singleton.
-
-ruleEngine.js had so many issues that I reverted it to a previous state.  It will need some updates to make it compatible with the other files.  All of the instructions I gave about the other files also apply to this file.
-
-Since we want there to be just one instance of GameState and helpers, these will need to be added to stateManager, which is a singleton.
-
-We don’t want the inventory class to have its own helpers instance.  We want it to use the one from stateManager.
-
-It looks like the GameState class doesn’t currently need to use StateManager for anything, but we might want to include the stateManager singleton in that file for consistency.
-
-We’ll also want to include ruleEngine at the start of stateManager.
-
-For files that have a base class and a alttp-specific version of the class, we will want to apply these changes to both files, and both versions of the class.
+Make a note of anything that prevents you from being able to copy the logic of the original Python code exactly.

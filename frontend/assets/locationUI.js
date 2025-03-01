@@ -97,7 +97,7 @@ export class LocationUI {
     }
 
     if (location.item) {
-      this.gameUI.inventoryUI.toggleItem(location.item.name);
+      this.gameUI.inventoryUI.modifyItemCount(location.item.name);
       stateManager.checkLocation(location.name);
 
       // Update both inventory and location displays

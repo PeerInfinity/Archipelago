@@ -538,7 +538,7 @@ export class RegionUI {
           checkBtn.disabled = !canAccess;
           checkBtn.addEventListener('click', () => {
             if (canAccess && !isChecked && loc.item) {
-              this.gameUI.inventoryUI.toggleItem(loc.item.name);
+              this.gameUI.inventoryUI.modifyItemCount(loc.item.name);
               stateManager.checkLocation(loc.name);
               this.renderAllRegions();
             }

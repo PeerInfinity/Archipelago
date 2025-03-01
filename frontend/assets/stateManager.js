@@ -144,30 +144,61 @@ export class StateManager {
     if (!jsonData.version || jsonData.version !== 3) {
       throw new Error('Invalid JSON format: requires version 3');
     }
+
+    // Load region and location data
     this.regions = jsonData.regions['1'];
     this.itemData = jsonData.items['1'];
     this.groupData = jsonData.item_groups['1'];
     this.progressionMapping = jsonData.progression_mapping['1'];
-    this.mode = jsonData.mode?.['1'];
-    this.settings = jsonData.settings?.['1'];
-    this.startRegions = jsonData.start_regions?.['1'];
+
+    // Process locations and events
     this.locations = [];
     this.eventLocations.clear();
 
-    // Process locations and events
-    Object.values(this.regions).forEach((region) => {
-      region.locations.forEach((loc) => {
-        const locationData = {
-          ...loc,
-          region: region.name,
-          player: region.player,
-        };
-        this.locations.push(locationData);
-        if (locationData.item && locationData.item.type === 'Event') {
-          this.eventLocations.set(locationData.name, locationData);
+    // Extract shop data from regions
+    const shops = [];
+    if (this.regions) {
+      Object.values(this.regions).forEach((region) => {
+        if (region.shop) {
+          shops.push(region.shop);
         }
+
+        // Process locations in this region
+        region.locations.forEach((loc) => {
+          const locationData = {
+            ...loc,
+            region: region.name,
+            player: region.player,
+          };
+          this.locations.push(locationData);
+          if (locationData.item && locationData.item.type === 'Event') {
+            this.eventLocations.set(locationData.name, locationData);
+          }
+        });
       });
-    });
+    }
+
+    // Initialize the state object with settings and data
+    // This avoids duplicating data in both stateManager and state
+    if (this.state) {
+      // Pass the settings to the state for loading
+      this.state.loadSettings(jsonData.settings?.['1']);
+
+      // Pass shop data to the state
+      this.state.loadShops(shops);
+
+      // Store game mode in state, not in stateManager
+      if (jsonData.mode?.['1']) {
+        this.state.gameMode = jsonData.mode['1'];
+      }
+
+      // Store start regions in state
+      if (jsonData.start_regions?.['1']?.default) {
+        this.state.startRegions = jsonData.start_regions['1'].default;
+      } else {
+        this.state.startRegions = ['Menu'];
+      }
+    }
 
     // Initialize helper state with settings
     this.initializeHelperState();
@@ -190,8 +221,7 @@ export class StateManager {
         getFlag: (flag) => (this.settings ? this.settings[flag] : null),
       };
 
-      const ruleEngine = require('./ruleEngine.js');
-      if (ruleEngine.updateHelperState) {
+      if (typeof updateHelperState === 'function') {
         ruleEngine.updateHelperState(stateData);
         console.log(
           'Helper state initialized successfully with settings:',
@@ -268,11 +298,11 @@ export class StateManager {
   }
 
   getStartRegions() {
-    // Return an array of start region names, default to 'Menu'
-    if (!this.startRegions || !Array.isArray(this.startRegions)) {
-      return ['Menu'];
+    // Get start regions from state object if available, or use default
+    if (this.state && this.state.startRegions) {
+      return this.state.startRegions;
     }
-    return this.startRegions;
+    return ['Menu'];
   }
 
   /**

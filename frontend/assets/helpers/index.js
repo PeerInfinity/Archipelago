@@ -21,7 +21,7 @@ export class GameHelpers {
       return false;
     }
     const result = this[name](...args);
-    console.log(`Helper ${name}(${args.join(', ')}) returned ${result}`);
+    //console.log(`Helper ${name}(${args.join(', ')}) returned ${result}`);
     return result;
   }
 }

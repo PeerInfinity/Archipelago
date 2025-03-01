@@ -245,7 +245,7 @@ export class GameUI {
             this.inventoryUI.itemData &&
             this.inventoryUI.itemData[itemName]
           ) {
-            this.inventoryUI.toggleItem(itemName);
+            this.inventoryUI.modifyItemCount(itemName);
             return `Toggled ${itemName}`;
           } else {
             return `Item "${itemName}" not found`;

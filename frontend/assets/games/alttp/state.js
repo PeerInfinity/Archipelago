@@ -7,11 +7,74 @@ export class ALTTPState extends GameState {
     this.flags = new Set();
     this.events = new Set();
 
+    // Game settings and configuration
+    this.gameMode = null;
+    this.gameSettings = {};
+    this.difficultyRequirements = {
+      progressive_bottle_limit: 4,
+      boss_heart_container_limit: 10,
+      heart_piece_limit: 24,
+    };
+    this.requiredMedallions = ['Ether', 'Quake']; // Default medallions
+    this.shops = [];
+    this.treasureHuntRequired = 20;
+
     // Initialize with the flags we know we need
     this.log('Initializing ALTTPState');
 
     // Set default flags
     this.setFlag('bombless_start'); // Default in current test setup
+  }
+
+  /**
+   * Load game settings from the JSON data
+   * @param {Object} settings - Game settings from the rules JSON
+   */
+  loadSettings(settings) {
+    if (!settings) return;
+
+    this.gameSettings = settings;
+
+    // Set common flags based on settings
+    if (settings.bombless_start) this.setFlag('bombless_start');
+    if (settings.retro_bow) this.setFlag('retro_bow');
+    if (settings.swordless) this.setFlag('swordless');
+    if (settings.enemy_shuffle) this.setFlag('enemy_shuffle');
+
+    // Store game mode
+    this.gameMode = settings.game_mode || 'standard';
+
+    // Store difficulty requirements
+    if (settings.difficulty_requirements) {
+      this.difficultyRequirements = {
+        ...this.difficultyRequirements,
+        ...settings.difficulty_requirements,
+      };
+    }
+
+    // Store medallions
+    if (
+      settings.required_medallions &&
+      Array.isArray(settings.required_medallions)
+    ) {
+      this.requiredMedallions = settings.required_medallions;
+    }
+
+    // Store treasure hunt count
+    if (typeof settings.treasure_hunt_required === 'number') {
+      this.treasureHuntRequired = settings.treasure_hunt_required;
+    }
+
+    this.log('Settings loaded:', settings);
+  }
+
+  /**
+   * Load shop data from regions
+   * @param {Array} shops - Array of shop data objects
+   */
+  loadShops(shops) {
+    this.shops = shops || [];
+    this.log(`Loaded ${this.shops.length} shops`);
   }
 
   hasEvent(eventName) {
@@ -88,8 +151,20 @@ export class ALTTPState extends GameState {
 
   hasFlag(flagName) {
     const hasFlag = this.flags.has(flagName);
-    this.log(`Checking flag ${flagName}: ${hasFlag}`);
+    //this.log(`Checking flag ${flagName}: ${hasFlag}`);
     return hasFlag;
+  }
+
+  /**
+   * Gets a setting value with a fallback default
+   * @param {string} settingName - Name of the setting
+   * @param {any} defaultValue - Default value if setting not found
+   * @returns {any} - The setting value or default
+   */
+  getSetting(settingName, defaultValue) {
+    return this.gameSettings[settingName] !== undefined
+      ? this.gameSettings[settingName]
+      : defaultValue;
   }
 
   // Debug helper
@@ -97,6 +172,11 @@ export class ALTTPState extends GameState {
     return {
       flags: this.getFlags(),
       events: this.getEvents(),
+      gameMode: this.gameMode,
+      settings: this.gameSettings,
+      requirements: this.difficultyRequirements,
+      medallions: this.requiredMedallions,
+      shops: this.shops.map((s) => s.type),
     };
   }
 }
