@@ -1,138 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>ArchipIDLE</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="styles/index.css" />
     <link rel="stylesheet" type="text/css" href="styles/widgets.css" />
     <script src="https://unpkg.com/cursor-effects@latest/dist/browser.js"></script>
+    <script type="application/ecmascript" src="assets/storage.js"></script>
     <script type="application/ecmascript" src="assets/globals.js"></script>
     <script type="application/ecmascript" src="assets/serverSocket.js"></script>
     <script type="application/ecmascript" src="assets/console.js"></script>
     <script type="application/ecmascript" src="assets/widgets.js"></script>
     <script type="application/ecmascript" src="assets/idle.js"></script>
     <script type="module" src="assets/gameUI.js"></script>
-</head>
-<body>
-<div id="page-layout">
-    <!-- Left Column - Inventory -->
-    <div id="inventory-column">
+    <link rel="icon" href="data:," type="image/x-icon" />
+  </head>
+  <body>
+    <div id="page-layout">
+      <!-- Left Column - Inventory -->
+      <div id="inventory-column">
         <div class="sidebar-header">
-            <h2>Inventory</h2>
+          <h2>Inventory</h2>
+        </div>
+        <div class="inventory-controls">
+          <label>
+            <input type="checkbox" id="hide-unowned" checked />
+            Hide unowned items
+          </label>
+          <div class="checkbox-container">
+            <input type="checkbox" id="hide-categories" />
+            <label for="hide-categories">Hide categories</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="sort-alphabetically" />
+            <label for="sort-alphabetically">Sort alphabetically</label>
+          </div>
         </div>
         <div id="inventory-groups" class="sidebar-content">
-            <!-- Populated by JS -->
+          <!-- Populated by JS -->
         </div>
-    </div>
+        <div id="inventory-flat" class="sidebar-content" style="display: none">
+          <!-- Populated by JS -->
+        </div>
+      </div>
 
-    <!-- Center Column - Original ArchipIDLE -->
-    <div id="main-content">
+      <!-- Center Column - Original ArchipIDLE -->
+      <div id="main-content">
         <h2 id="header-text">
-            <span class="l0">A</span>
-            <span class="l1">r</span>
-            <span class="l2">c</span>
-            <span class="l3">h</span>
-            <span class="l4">i</span>
-            <span class="l5">p</span>
-            <span class="l6">I</span>
-            <span class="l7">D</span>
-            <span class="l8">L</span>
-            <span class="l9">E</span>
-            &nbsp;
-            <span class="n0">2</span>
-            <span class="n1">0</span>
-            <span class="n2">2</span>
-            <span class="n3">4</span>
+          <span class="l0">A</span>
+          <span class="l1">r</span>
+          <span class="l2">c</span>
+          <span class="l3">h</span>
+          <span class="l4">i</span>
+          <span class="l5">p</span>
+          <span class="l6">I</span>
+          <span class="l7">D</span>
+          <span class="l8">L</span>
+          <span class="l9">E</span>
+          &nbsp;
+          <span class="n0">2</span>
+          <span class="n1">0</span>
+          <span class="n2">2</span>
+          <span class="n3">4</span>
         </h2>
-        
-        <div id="status-bar">
-            <div>AP Server: <span id="server-status" class="red">Not Connected</span></div>
-            <div>
-                <label for="server-address">Server Address:</label>
-                <input id="server-address" />
-            </div>
-        </div>
-        
-        <div id="visitor-count-wrapper">
-            <div id="visitor-count">
-                VISITOR COUNT: <span id="visitor-count-number">0</span>
-            </div>
-        </div>
-        
-        <div id="progress-container">
-            <h3 id="progress-container-header">Location Check Progress</h3>
-            <progress id="progress-bar" value="0" max="30000"></progress>
-            Checks sent: <span id="checks-sent">0</span> / 200<br />
-            <button id="control-button" disabled="disabled">Begin!</button>
-        </div>
-        
-        <div id="console">
-            <!-- Populated by JS -->
-        </div>
-        
-        <div id="command-wrapper">
-            <label for="console-input"></label>
-            <input id="console-input" placeholder="Enter a command here, then press enter." />
-        </div>
-    </div>
 
-    <!-- Right Column - Location Management -->
-    <div id="locations-column">
+        <div id="status-bar">
+          <div>
+            AP Server: <span id="server-status" class="red">Not Connected</span>
+          </div>
+          <div>
+            <label for="server-address">Server Address:</label>
+            <input id="server-address" />
+          </div>
+        </div>
+
+        <div id="visitor-count-wrapper">
+          <div id="visitor-count">
+            VISITOR COUNT: <span id="visitor-count-number">0</span>
+          </div>
+        </div>
+
+        <div id="progress-container">
+          <h3 id="progress-container-header">Location Check Progress</h3>
+          <progress id="progress-bar" value="0" max="30000"></progress>
+          Checks sent: <span id="checks-sent">0</span> / 200<br />
+          <button id="control-button" disabled="disabled">Begin!</button>
+        </div>
+
+        <div id="console">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="command-wrapper">
+          <label for="console-input"></label>
+          <input
+            id="console-input"
+            placeholder="Enter a command here, then press enter."
+          />
+        </div>
+      </div>
+
+      <!-- Right Column - Location Management -->
+      <div id="locations-column">
         <div class="locations-header">
-            <div class="control-group">
-                <input type="file" id="json-upload" accept=".json" class="hidden">
-                <label for="json-upload" class="button">Load JSON</label>
-                <button id="debug-toggle" class="button">Show Debug</button>
-            </div>
-            <div class="control-group">
-                <select id="sort-select">
-                    <option value="original">Original Order</option>
-                    <option value="accessibility">Sort by Accessibility</option>
-                </select>
-                <label>
-                    <input type="checkbox" id="show-checked" checked>
-                    Show Checked
-                </label>
-                <label>
-                    <input type="checkbox" id="show-reachable" checked>
-                    Show Reachable
-                </label>
-                <label>
-                    <input type="checkbox" id="show-unreachable" checked>
-                    Show Unreachable
-                </label>
-                <label>
-                    <input type="checkbox" id="show-highlights" checked>
-                    Show Highlights
-                </label>
-            </div>
+          <div class="control-group">
+            <label>
+              <input type="radio" name="view-mode" value="locations" checked />
+              Locations View
+            </label>
+            <label>
+              <input type="radio" name="view-mode" value="regions" />
+              Regions View
+            </label>
+            <label>
+              <input type="radio" name="view-mode" value="test-cases" />
+              Test Cases
+            </label>
+            <input type="file" id="json-upload" accept=".json" class="hidden" />
+            <label for="json-upload" class="button">Load JSON</label>
+            <button id="debug-toggle" class="button">Show Debug</button>
+          </div>
+
+          <!-- Location-specific controls -->
+          <div class="control-group location-controls">
+            <select id="sort-select">
+              <option value="original">Original Order</option>
+              <option value="accessibility">Sort by Accessibility</option>
+            </select>
+            <label>
+              <input type="checkbox" id="show-checked" checked />
+              Show Checked
+            </label>
+            <label>
+              <input type="checkbox" id="show-reachable" checked />
+              Show Reachable
+            </label>
+            <label>
+              <input type="checkbox" id="show-unreachable" checked />
+              Show Unreachable
+            </label>
+            <label>
+              <input type="checkbox" id="show-highlights" checked />
+              Show Highlights
+            </label>
+            <button id="decrease-columns">-</button>
+            <button id="increase-columns">+</button>
+          </div>
+
+          <!-- Region-specific controls -->
+          <div class="control-group region-controls">
+            <label>
+              <input type="checkbox" id="show-all-regions" />
+              Show All Regions
+            </label>
+            <button id="expand-collapse-all">Expand All</button>
+          </div>
         </div>
         <div id="locations-grid">
-            <!-- Populated by JS -->
+          <!-- Populated by JS -->
         </div>
+        <div id="regions-panel" style="display: none">
+          <!-- Region blocks are injected here by regionManager -->
+        </div>
+        <div id="test-cases-panel" style="display: none">
+          <div id="test-cases-list"></div>
+        </div>
+      </div>
     </div>
-</div>
 
-<!-- Modal -->
-<div id="location-modal" class="modal hidden">
-    <div class="modal-content">
+    <!-- Modal -->
+    <div id="location-modal" class="modal hidden">
+      <div class="modal-content">
         <h3 id="modal-title"></h3>
         <pre id="modal-debug" class="hidden"></pre>
         <div id="modal-info"></div>
         <button id="modal-close" class="button">Close</button>
+      </div>
     </div>
-</div>
 
-<!-- Footer images -->
-<img id="netscape" alt="This site works best in Netscape Navigator 3.0" src="static/netscape-ie.JPG" />
-<img id="dolphin-left" alt="Dolphin" src="static/dolphin-left.gif" />
-<img id="dolphin-right" alt="Dolphin" src="static/dolphin-right.gif" />
-<img id="fairy" alt="fairy" src="static/fairyfla.gif" />
-<img id="baby" alt="baby" src="static/babykick.gif" />
+    <!-- Footer images -->
+    <img
+      id="netscape"
+      alt="This site works best in Netscape Navigator 3.0"
+      src="static/netscape-ie.JPG"
+    />
+    <img id="dolphin-left" alt="Dolphin" src="static/dolphin-left.gif" />
+    <img id="dolphin-right" alt="Dolphin" src="static/dolphin-right.gif" />
+    <img id="fairy" alt="fairy" src="static/fairyfla.gif" />
+    <img id="baby" alt="baby" src="static/babykick.gif" />
 
-<div id="cookie-message">
-    <span>This website uses cookies to store information about displayed content.</span>
-    <span>❌</span>
-</div>
-</body>
+    <div id="cookie-message">
+      <span
+        >This website uses cookies to store information about displayed
+        content.</span
+      >
+      <span>❌</span>
+    </div>
+  </body>
 </html>

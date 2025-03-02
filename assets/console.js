@@ -7,19 +7,39 @@ window.addEventListener('load', () => {
   commandInput.addEventListener('keydown', (event) => {
     // Only perform events on desired keys
     const allowedKeys = ['ArrowUp', 'ArrowDown'];
-    if (allowedKeys.indexOf(event.key) === -1) { return; }
+    if (allowedKeys.indexOf(event.key) === -1) {
+      return;
+    }
 
     switch (event.key) {
       case 'ArrowUp':
-        if (cachedCommands.length === 0 || commandCursor === maxCachedCommands) { return; }
-        if (commandCursor < maxCachedCommands && commandCursor < cachedCommands.length) { commandCursor++; }
-        commandInput.value = commandCursor ? cachedCommands[cachedCommands.length - commandCursor] : '';
+        if (
+          cachedCommands.length === 0 ||
+          commandCursor === maxCachedCommands
+        ) {
+          return;
+        }
+        if (
+          commandCursor < maxCachedCommands &&
+          commandCursor < cachedCommands.length
+        ) {
+          commandCursor++;
+        }
+        commandInput.value = commandCursor
+          ? cachedCommands[cachedCommands.length - commandCursor]
+          : '';
         return;
 
       case 'ArrowDown':
-        if (cachedCommands.length === 0 || commandCursor === 0) { return; }
-        if (commandCursor > 0) { commandCursor--; }
-        commandInput.value = commandCursor ? cachedCommands[cachedCommands.length - commandCursor] : '';
+        if (cachedCommands.length === 0 || commandCursor === 0) {
+          return;
+        }
+        if (commandCursor > 0) {
+          commandCursor--;
+        }
+        commandInput.value = commandCursor
+          ? cachedCommands[cachedCommands.length - commandCursor]
+          : '';
         return;
 
       default:
@@ -29,10 +49,14 @@ window.addEventListener('load', () => {
 
   commandInput.addEventListener('keyup', async (event) => {
     // Ignore non-enter keyup events and empty commands
-    if (event.key !== 'Enter' || !event.target.value) { return; }
+    if (event.key !== 'Enter' || !event.target.value) {
+      return;
+    }
 
     // Ignore events related to the keydown listener
-    if (event.key === 'Up' || event.key === 'Down') { return; }
+    if (event.key === 'Up' || event.key === 'Down') {
+      return;
+    }
 
     // Detect slash commands and perform their actions
     if (event.target.value[0] === '/') {
@@ -50,8 +74,12 @@ window.addEventListener('load', () => {
 
         case '/help':
           appendConsoleMessage('Available commands:');
-          appendConsoleMessage('/connect [server] [password] - Connect to an AP server with an optional password');
-          appendConsoleMessage('/sync - Force the client to synchronize with the AP server');
+          appendConsoleMessage(
+            '/connect [server] [password] - Connect to an AP server with an optional password'
+          );
+          appendConsoleMessage(
+            '/sync - Force the client to synchronize with the AP server'
+          );
           appendConsoleMessage('/help - Print this message');
           break;
 
@@ -77,7 +105,9 @@ window.addEventListener('load', () => {
 
   const consoleWindow = document.getElementById('console');
   consoleWindow.addEventListener('scroll', () => {
-    autoScrollPaused = Math.ceil(consoleWindow.scrollTop + consoleWindow.offsetHeight) < consoleWindow.scrollHeight;
+    autoScrollPaused =
+      Math.ceil(consoleWindow.scrollTop + consoleWindow.offsetHeight) <
+      consoleWindow.scrollHeight;
   });
 });
 
@@ -93,7 +123,9 @@ const appendConsoleMessage = (message) => {
   messageDiv.classList.add('console-message');
   messageDiv.innerText = message;
   monitor.appendChild(messageDiv);
-  if (!autoScrollPaused) { messageDiv.scrollIntoView(false); }
+  if (!autoScrollPaused) {
+    messageDiv.scrollIntoView(false);
+  }
 };
 
 const appendFormattedConsoleMessage = (messageParts) => {
@@ -111,10 +143,12 @@ const appendFormattedConsoleMessage = (messageParts) => {
   for (const part of messageParts) {
     const span = document.createElement('span');
     if (part.hasOwnProperty('type')) {
-      switch(part.type){
+      switch (part.type) {
         case 'player_id':
           const playerIsClient = parseInt(part.text, 10) === playerSlot;
-          if (playerIsClient) { span.style.fontWeight = 'bold'; }
+          if (playerIsClient) {
+            span.style.fontWeight = 'bold';
+          }
           span.style.color = playerIsClient ? '#ffa565' : '#52b44c';
           span.innerText = players[parseInt(part.text, 10) - 1].alias;
           break;
@@ -137,13 +171,17 @@ const appendFormattedConsoleMessage = (messageParts) => {
 
   // Append the message div to the monitor
   monitor.appendChild(messageDiv);
-  if (!autoScrollPaused) { messageDiv.scrollIntoView(false); }
+  if (!autoScrollPaused) {
+    messageDiv.scrollIntoView(false);
+  }
 };
 
 const cacheCommand = (command) => {
-  appendConsoleMessage(`Command: ${command}`)
+  appendConsoleMessage(`Command: ${command}`);
   // Limit stored command count to five
-  while (cachedCommands.length > maxCachedCommands) { cachedCommands.shift(); }
+  while (cachedCommands.length > maxCachedCommands) {
+    cachedCommands.shift();
+  }
 
   // Store the command
   cachedCommands.push(command);

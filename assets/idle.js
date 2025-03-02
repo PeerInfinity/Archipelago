@@ -2,14 +2,16 @@
 let gameInterval = null;
 
 window.addEventListener('load', () => {
-  document.getElementById('control-button').addEventListener('click', beginGame);
+  document
+    .getElementById('control-button')
+    .addEventListener('click', beginGame);
 
   // Cookie message controller
-  if (!localStorage.getItem('cookie-notice')) {
+  if (!safeStorage.getItem('cookie-notice')) {
     const cookieMessage = document.getElementById('cookie-message');
     cookieMessage.style.display = 'flex';
     cookieMessage.addEventListener('click', () => {
-      localStorage.setItem('cookie-notice', '1');
+      safeStorage.setItem('cookie-notice', '1');
       cookieMessage.style.display = 'none';
     });
   }
@@ -17,7 +19,9 @@ window.addEventListener('load', () => {
 
 const beginGame = () => {
   // Disable the "Begin!" button
-  document.getElementById('control-button').setAttribute('disabled', "disabled");
+  document
+    .getElementById('control-button')
+    .setAttribute('disabled', 'disabled');
 
   // ID of the next location to be sent
   let currentLocation = parseInt(missingLocations[0], 10);
@@ -25,7 +29,7 @@ const beginGame = () => {
   // Progress tracking data
   const progressBar = document.getElementById('progress-bar');
   let startTime = new Date().getTime();
-  let endTime = startTime + Math.floor((Math.random() * 30000) + 30000);
+  let endTime = startTime + Math.floor(Math.random() * 30000 + 30000);
   progressBar.setAttribute('max', (endTime - startTime).toString());
 
   // Update item counter
@@ -41,11 +45,18 @@ const beginGame = () => {
 
   gameInterval = setInterval(() => {
     // If the last item has been sent, send the victory condition and stop the interval
-    if (currentLocation > parseInt(missingLocations[missingLocations.length - 1], 10)) {
-      serverSocket.send(JSON.stringify([{
-        cmd: 'StatusUpdate',
-        status: CLIENT_STATUS.CLIENT_GOAL,
-      }]));
+    if (
+      currentLocation >
+      parseInt(missingLocations[missingLocations.length - 1], 10)
+    ) {
+      serverSocket.send(
+        JSON.stringify([
+          {
+            cmd: 'StatusUpdate',
+            status: CLIENT_STATUS.CLIENT_GOAL,
+          },
+        ])
+      );
       clearInterval(gameInterval);
       gameInterval = null;
       progressBar.setAttribute('max', '30000');
@@ -57,25 +68,32 @@ const beginGame = () => {
     const currentTime = new Date().getTime();
 
     // If the item timer has expired or there are immediate items waiting, send the current location check
-    if ((immediateItems > 0) || (currentTime >= endTime)) {
-      if (immediateItems > 0) { --immediateItems; }
+    if (immediateItems > 0 || currentTime >= endTime) {
+      if (immediateItems > 0) {
+        --immediateItems;
+      }
 
       // Send location check
       sendLocationChecks([currentLocation]);
 
       // Update the item counters
-      itemCounter.innerText = (parseInt(itemCounter.innerText, 10) + 1).toString();
+      itemCounter.innerText = (
+        parseInt(itemCounter.innerText, 10) + 1
+      ).toString();
       currentLocation++;
 
       // Update timers
       startTime = currentTime;
-      endTime = currentTime + Math.floor((Math.random() * 30000) + 30000);
+      endTime = currentTime + Math.floor(Math.random() * 30000 + 30000);
 
       // Update progress bar maximum
       progressBar.setAttribute('max', (endTime - startTime).toString());
     }
 
     // Update the progress bar value
-    progressBar.setAttribute('value', ((endTime - startTime) - (endTime - currentTime)).toString());
+    progressBar.setAttribute(
+      'value',
+      (endTime - startTime - (endTime - currentTime)).toString()
+    );
   });
 };

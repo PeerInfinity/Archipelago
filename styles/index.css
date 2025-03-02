@@ -2,327 +2,683 @@
    Priority order: old-index.css → index.css → gameUI.css */
 
 /* Base layout */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #9a9a9a;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #9a9a9a;
 }
 
 /* Page Layout */
 #page-layout {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    padding: 1rem;
-    height: 100%;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 /* Main Content Area */
 #main-content {
-    width: 30em;
-    min-width: 30em;
-    background-color: #2d2d2d;
-    border: 2px solid #cecece;
-    border-radius: 4px;
-    padding: 1em;
-    margin: 0;
-    color: #cecece;
-    display: flex;
-    flex-direction: column;
+  width: 30em;
+  min-width: 30em;
+  background-color: #2d2d2d;
+  border: 2px solid #cecece;
+  border-radius: 4px;
+  padding: 1em;
+  margin: 0;
+  color: #cecece;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header Elements */
 #header-text {
-    text-align: center;
-    margin: 0;
-    padding: 0;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 /* Status Bar */
 #status-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1em;
 }
 
 /* Progress Container */
 #progress-container {
-    text-align: center;
+  text-align: center;
 }
 
 #progress-container #progress-container-header {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #progress-container #progress-bar {
-    width: 100%;
+  width: 100%;
 }
 
 #progress-container #control-button {
-    padding-left: 1em;
-    padding-right: 1em;
-    margin-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-top: 1em;
 }
 
 /* Console Area */
 #console {
-    width: 100%;
-    height: 500px;
-    max-height: 500px;
-    margin-top: 1em;
-    border-radius: 4px;
-    border: 2px solid #cecece;
-    overflow-y: auto;
-    background-color: #2d2d2d;
+  width: 100%;
+  height: 500px;
+  max-height: 500px;
+  margin-top: 1em;
+  border-radius: 4px;
+  border: 2px solid #cecece;
+  overflow-y: auto;
+  background-color: #2d2d2d;
 }
 
 #console .console-message {
-    padding: 0.25em 0.5em;
-    border-bottom: 1px solid #cecece;
+  padding: 0.25em 0.5em;
+  border-bottom: 1px solid #cecece;
 }
 
 /* Command Input Area */
 #command-wrapper {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1em;
 }
 
 #command-wrapper #console-input {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 /* Inventory Column */
 #inventory-column {
-    width: 250px;
-    min-width: 250px;
-    height: 100%;
-    background-color: #2d2d2d;
-    border: 2px solid #cecece;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
+  width: 250px;
+  min-width: 250px;
+  height: 100%;
+  background-color: #2d2d2d;
+  border: 2px solid #cecece;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory-controls {
+  padding: 0.5rem;
+  border-bottom: 1px solid #666;
+  color: #cecece;
 }
 
 /* Sidebar Components */
 .sidebar-header {
-    padding: 0.5rem;
-    background: #2d2d2d;
-    border-bottom: 1px solid #cecece;
-    flex-shrink: 0;
+  padding: 0.5rem;
+  background: #2d2d2d;
+  border-bottom: 1px solid #cecece;
+  flex-shrink: 0;
+  color: #cecece;
 }
 
 .sidebar-header h2 {
-    margin: 0;
-    font-size: 1rem;
-    color: #cecece;
+  margin: 0;
+  font-size: 1rem;
+  color: #cecece;
 }
 
 .sidebar-content {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 0.5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
 }
 
 /* Inventory Items */
 .inventory-group h3 {
-    color: #cecece;
-    margin: 0 0 0.5rem 0;
-    font-size: 0.9rem;
+  color: #cecece;
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
 }
 
 .inventory-items {
-    position: relative;
-    display: flex;  /* Switch back to flex */
-    flex-direction: column;
-    gap: 0.25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .item-container {
-    display: flex;  /* Horizontal flex for item and its badge */
-    align-items: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .item-button {
-    position: relative;
-    background-color: #1a1a1a;
-    color: #cecece;
-    border: 1px solid #666;
-    padding: 0.25rem 0.5rem;
-    text-align: left;
-    cursor: pointer;
-    font-size: 0.8rem;
-    flex-grow: 1;  /* Take up remaining space */
+  position: relative;
+  background-color: #1a1a1a;
+  color: #cecece;
+  border: 1px solid #666;
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.8rem;
+  flex-grow: 1;
 }
 
 .count-badge {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    background: #ffd700;
-    color: #000;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    padding: 0 4px;
-    margin-left: 4px;
-    flex-shrink: 0;  /* Prevent badge from shrinking */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  background: #ffd700;
+  color: #000;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  padding: 0 4px;
+  margin-left: 4px;
 }
 
 .item-button:hover {
-    background-color: #2a2a2a;
+  background-color: #2a2a2a;
 }
 
 .item-button.active {
-    background-color: #000080;
-    color: #cecece;
+  background-color: #000080;
+  color: #cecece;
 }
 
 .item-count {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background: #ffd700;
-    color: black;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    border: 1px solid #666;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ffd700;
+  color: black;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  border: 1px solid #666;
+}
+
+.check-mark {
+  color: #22c55e; /* A nice green color */
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.view-selector {
+  display: flex;
+  gap: 1rem; /* Space between the radio buttons */
+}
+
+.view-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* Space between radio button and text */
+}
+
+.view-selector input[type='radio'] {
+  margin: 0; /* Remove default margins */
+}
+
+.location-controls,
+.region-controls {
+  display: none; /* Hidden by default */
+}
+
+/* When locations view is active */
+.location-controls.active {
+  display: flex;
+}
+
+/* When regions view is active */
+.region-controls.active {
+  display: flex;
 }
 
 /* Locations Column */
 #locations-column {
-    flex-grow: 1;
-    height: 100%;
-    background-color: #2d2d2d;
-    border: 2px solid #cecece;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
+  flex-grow: 1;
+  height: 100%;
+  background-color: #2d2d2d;
+  border: 2px solid #cecece;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
 }
 
 .locations-header {
-    padding: 1rem;
-    background-color: #2d2d2d;
-    border-bottom: 1px solid #cecece;
-    flex-shrink: 0;
-    color: #cecece;
+  padding: 1rem;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #cecece;
+  flex-shrink: 0;
+  color: #cecece;
 }
 
 #locations-grid {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 0.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem;
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
 
 /* Location Cards */
 .location-card {
-    padding: 0.5rem;
-    cursor: pointer;
-    border: 1px solid #cecece;
-    color: #cecece;
+  padding: 0.5rem;
+  cursor: pointer;
+  border: 1px solid #cecece;
+  color: #cecece;
 }
 
 .location-card.reachable {
-    background-color: #0a3318;
+  background-color: #0a3318;
 }
 
 .location-card.unreachable {
-    background-color: #3a0808;
+  background-color: #3a0808;
 }
 
 .location-card.newly-reachable {
-    background-color: #3a2808;
+  background-color: #3a2808;
 }
 
 .location-card.checked {
-    background-color: #000000;
-    color: #cecece;
-    border-color: #666;
+  background-color: #000000;
+  color: #cecece;
+  border-color: #666;
 }
 
 .location-card.checked:hover {
-    background-color: #1a1a1a;
+  background-color: #1a1a1a;
+}
+
+#regions-panel {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  gap: 0.5rem;
+  background: #222;
+  color: #ccc;
+}
+
+.region-block {
+  border: 1px solid #555;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.region-block.expanded {
+  background: #333;
+}
+.region-block.collapsed {
+  background: #444;
+}
+
+.region-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.region-details {
+  margin-left: 1rem;
+}
+
+.accessible {
+  color: #0f0; /* green */
+}
+.inaccessible {
+  color: #f00; /* red */
+}
+
+.logic-node {
+  margin-left: 1rem;
+  padding: 2px 0;
+}
+.logic-node.pass {
+  border-left: 4px solid green;
+}
+.logic-node.fail {
+  border-left: 4px solid red;
 }
 
 /* Buttons and Controls */
 .button {
-    background-color: #000080;
-    color: #cecece;
-    border: 1px solid #666;
-    padding: 0.25rem 0.5rem;
-    cursor: pointer;
-    font-size: 0.8rem;
+  background-color: #000080;
+  color: #cecece;
+  border: 1px solid #666;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .button:hover {
-    background-color: #0000a0;
+  background-color: #0000a0;
 }
 
 /* Form Controls */
-select, input[type="checkbox"] {
-    border: 1px solid #666;
+select,
+input[type='checkbox'] {
+  border: 1px solid #666;
 }
 
 select {
-    padding: 0.25rem;
-    background: white;
+  padding: 0.25rem;
+  background: white;
 }
 
 /* Utility Classes */
 .red {
-    color: #ff0000;
+  color: #ff0000;
 }
 
 .green {
-    color: #008000;
+  color: #008000;
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 /* Cookie Message */
 #cookie-message {
-    display: none;
-    flex-direction: row;
-    justify-content: space-between;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    line-height: 2rem;
-    border-top: 1px solid #c3c3c3;
-    background-color: #2d2d2d;
-    color: #c3c3c3;
-    width: 100%;
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  line-height: 2rem;
+  border-top: 1px solid #c3c3c3;
+  background-color: #2d2d2d;
+  color: #c3c3c3;
+  width: 100%;
 }
 
 #cookie-message:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #cookie-message span {
-    padding: 0 0.5rem;
+  padding: 0 0.5rem;
 }
 
 /* Empty State */
 .empty-message {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    font-style: italic;
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Test Cases Panel */
+#test-cases-panel {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: #222;
+  color: #ccc;
+}
+
+.test-case-item {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.test-case-details {
+  margin: 0.5rem 0;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.test-case-details ul {
+  margin: 0.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.test-case-item {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.test-case-item button {
+  margin-bottom: 8px;
+  padding: 5px 10px;
+}
+
+.test-status {
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.test-success {
+  color: #4caf50;
+}
+
+.test-failure {
+  color: #f44336;
+}
+
+.test-error {
+  color: #ff9800;
+}
+
+.location-test-group {
+  margin-bottom: 1.5rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.location-test-group h4 {
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #444;
+  color: #cecece;
+}
+
+.test-status {
+  white-space: pre-line;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Region Navigation - CONSOLIDATED VERSION */
+.region-link,
+.location-link,
+.item-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.region-link:hover,
+.location-link:hover,
+.item-link:hover {
+  text-decoration: underline;
+  color: #007bff;
+}
+
+.region-paths {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #555; /* Kept from first definition */
+}
+
+.region-path {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.highlight-region,
+.highlight-location {
+  animation: highlight-animation 2s;
+}
+
+@keyframes highlight-animation {
+  0%,
+  100% {
+    background-color: inherit;
+  }
+  50% {
+    background-color: rgba(255, 255, 0, 0.3);
+  }
+}
+
+.region-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Path controls */
+.paths-control {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #555;
+}
+
+.paths-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.paths-count {
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+.clear-paths-btn {
+  background-color: #722; /* Darker red */
+  color: #fff;
+}
+
+.clear-paths-btn:hover {
+  background-color: #933; /* Lighter red on hover */
+}
+
+/* Show More button appearance */
+button.show-paths-btn:not(:disabled) {
+  background-color: #064; /* Darker green */
+  color: #fff;
+}
+
+button.show-paths-btn:not(:disabled):hover {
+  background-color: #075; /* Lighter green on hover */
+}
+
+button.show-paths-btn:disabled {
+  background-color: #444;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Improve existing location card styles */
+.location-card .location-link {
+  font-weight: 500;
+}
+
+/* Make region and location links more noticeable in test cases */
+.results-table .location-link,
+.results-table .region-link,
+.results-table .item-link {
+  color: #4da6ff;
+}
+
+.checked-loc {
+  color: #22c55e; /* Green */
+  text-decoration: line-through;
+}
+
+/* Region Path Exit Rules */
+.path-exit-rule-container {
+  margin: 0.5rem 0 0.5rem 1rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-left: 3px solid #f44336;
+  border-radius: 0 4px 4px 0;
+}
+
+.path-exit-header {
+  margin-bottom: 0.5rem;
+  color: #f44336;
+  font-size: 0.9em;
+}
+
+.path-exit-rule {
+  margin-left: 1rem;
+}
+
+.show-exit-rules-btn {
+  background-color: #555;
+  color: #fff;
+}
+
+.show-exit-rules-btn:hover {
+  background-color: #666;
+}
+
+/* Compiled Rules List */
+.compiled-rules-list {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: rgba(244, 67, 54, 0.1);
+  border-left: 3px solid #f44336;
+  border-radius: 4px;
+}
+
+.compiled-rules-list h4 {
+  margin-top: 0;
+  color: #f44336;
+  font-weight: 500;
+}
+
+.compiled-rules-items {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.compiled-rule-item {
+  margin-bottom: 0.25rem;
+}
+
+.item-related-rule {
+  color: #ffc107;
+  font-weight: 500;
+}
+
+.compiled-rules-empty {
+  font-style: italic;
+  color: #aaa;
+  padding: 0.5rem 0;
+}
+
+.compile-list-btn {
+  background-color: #7b1fa2;
+  color: #fff;
+}
+
+.compile-list-btn:hover {
+  background-color: #9c27b0;
 }

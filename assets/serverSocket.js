@@ -22,46 +22,56 @@ const CLIENT_STATUS = {
 
 window.addEventListener('load', async () => {
   // Handle server address change
-  document.getElementById('server-address').addEventListener('keydown', async (event) => {
-    if (event.key !== 'Enter') { return; }
-
-    // If the input value is empty, do not attempt to reconnect
-    if (!event.target.value) {
-      preventReconnect = true;
-      lastServerAddress = null;
-
-      // If the socket is open, close it
-      if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
-        serverSocket.close();
-        serverSocket = null;
+  document
+    .getElementById('server-address')
+    .addEventListener('keydown', async (event) => {
+      if (event.key !== 'Enter') {
+        return;
       }
 
-      // If the user did not specify a server address, do not attempt to connect
-      return;
-    }
+      // If the input value is empty, do not attempt to reconnect
+      if (!event.target.value) {
+        preventReconnect = true;
+        lastServerAddress = null;
 
-    // User specified a server. Attempt to connect
-    preventReconnect = false;
-    await connectToServer(event.target.value);
-  });
+        // If the socket is open, close it
+        if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
+          serverSocket.close();
+          serverSocket = null;
+        }
+
+        // If the user did not specify a server address, do not attempt to connect
+        return;
+      }
+
+      // User specified a server. Attempt to connect
+      preventReconnect = false;
+      await connectToServer(event.target.value);
+    });
 });
 
-const connectToServer = async (address, password=null) => {
+const connectToServer = async (address, password = null) => {
   if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
     serverSocket.close();
     serverSocket = null;
   }
 
   // If an empty string is passed as the address, do not attempt to connect
-  if (!address) { return; }
+  if (!address) {
+    return;
+  }
 
   // This is a new connection attempt, no auth error has occurred yet
   serverAuthError = false;
 
   // Determine the server address
   let serverAddress = address;
-  if (serverAddress.search(/^\/connect /) > -1) { serverAddress = serverAddress.substring(9); }
-  if (serverAddress.search(/:\d+$/) === -1) { serverAddress = `${serverAddress}:${DEFAULT_SERVER_PORT}`;}
+  if (serverAddress.search(/^\/connect /) > -1) {
+    serverAddress = serverAddress.substring(9);
+  }
+  if (serverAddress.search(/:\d+$/) === -1) {
+    serverAddress = `${serverAddress}:${DEFAULT_SERVER_PORT}`;
+  }
 
   // Determine connection protocol, default to secure websocket
   const protocol = /^ws:\/\//.test(serverAddress) ? 'ws' : 'wss';
@@ -85,15 +95,21 @@ const connectToServer = async (address, password=null) => {
     const commands = JSON.parse(event.data);
     for (let command of commands) {
       const serverStatus = document.getElementById('server-status');
-      switch(command.cmd) {
+      switch (command.cmd) {
         case 'RoomInfo':
           // Update the local cache of location and item maps if necessary
-          if (!localStorage.getItem('dataPackageVersion') || !localStorage.getItem('dataPackage') ||
-            command.datapackage_version !== localStorage.getItem('dataPackageVersion')) {
+          if (
+            !localStorage.getItem('dataPackageVersion') ||
+            !localStorage.getItem('dataPackage') ||
+            command.datapackage_version !==
+              localStorage.getItem('dataPackageVersion')
+          ) {
             requestDataPackage();
           } else {
             // Load the location and item maps into memory
-            buildItemAndLocationData(JSON.parse(localStorage.getItem('dataPackage')));
+            buildItemAndLocationData(
+              JSON.parse(localStorage.getItem('dataPackage'))
+            );
           }
 
           // Set tags for this client
@@ -145,12 +161,17 @@ const connectToServer = async (address, password=null) => {
           serverStatus.classList.add('disconnected');
           if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
             if (command.errors.includes('InvalidPassword')) {
-              appendConsoleMessage(serverPassword === null ?
-                'This server requires a password. Please use /connect [server] [password] to connect.' :
-                'Your provided password is incorrect. Please try again.'
+              appendConsoleMessage(
+                serverPassword === null
+                  ? 'This server requires a password. Please use /connect [server] [password] to connect.'
+                  : 'Your provided password is incorrect. Please try again.'
               );
             } else {
-              appendConsoleMessage(`Error while connecting to AP server: ${command.errors.join(', ')}.`);
+              appendConsoleMessage(
+                `Error while connecting to AP server: ${command.errors.join(
+                  ', '
+                )}.`
+              );
             }
             serverAuthError = true;
             serverSocket.close();
@@ -163,9 +184,9 @@ const connectToServer = async (address, password=null) => {
             // Ignore items in this packet if it is the result of a reconnection, unless the item
             // is the GeoCities item, because the user deserves to revisit the year 2001.
             if (
-              (command.items.length > 5) &&
-              (command.index === 0) &&
-              (item.item !== 9000)
+              command.items.length > 5 &&
+              command.index === 0 &&
+              item.item !== 9000
             ) {
               return;
             }
@@ -204,7 +225,8 @@ const connectToServer = async (address, password=null) => {
 
         case 'DataPackage':
           // Save updated location and item maps into localStorage
-          if (command.data.version !== 0) { // Unless this is a custom package, denoted by version zero
+          if (command.data.version !== 0) {
+            // Unless this is a custom package, denoted by version zero
             localStorage.setItem('dataPackageVersion', command.data.version);
             localStorage.setItem('dataPackage', JSON.stringify(command.data));
           }
@@ -230,12 +252,16 @@ const connectToServer = async (address, password=null) => {
     serverStatus.classList.add('red');
 
     // Clear game interval
-    if (gameInterval) { clearInterval(gameInterval); }
+    if (gameInterval) {
+      clearInterval(gameInterval);
+    }
     document.getElementById('progress-bar').setAttribute('value', '0');
 
     // If the user cleared the server address, do nothing
     const serverAddress = document.getElementById('server-address').value;
-    if (preventReconnect || !serverAddress) { return; }
+    if (preventReconnect || !serverAddress) {
+      return;
+    }
 
     if (reconnectTimeout) {
       clearTimeout(reconnectTimeout);
@@ -245,51 +271,67 @@ const connectToServer = async (address, password=null) => {
     reconnectTimeout = setTimeout(() => {
       // Do not attempt to reconnect if a server connection exists already. This can happen if a user attempts
       // to connect to a new server after connecting to a previous one
-      if (serverSocket && serverSocket.readyState === WebSocket.OPEN) { return; }
-
-      // If the socket was closed in response to an auth error, do not reconnect
-      if (serverAuthError) { return }
-
-      // If reconnection is currently prohibited for any other reason, do not attempt to reconnect
-      if (preventReconnect) { return; }
-
-      // Do not exceed the limit of reconnection attempts
-      if (++reconnectAttempts > maxReconnectAttempts) {
-        appendConsoleMessage('Archipelago server connection lost. The connection closed unexpectedly. ' +
-          'Please try to reconnect, or restart the client.');
+      if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
         return;
       }
 
-      appendConsoleMessage(`Connection to AP server lost. Attempting to reconnect ` +
-        `(${reconnectAttempts} of ${maxReconnectAttempts})`);
+      // If the socket was closed in response to an auth error, do not reconnect
+      if (serverAuthError) {
+        return;
+      }
+
+      // If reconnection is currently prohibited for any other reason, do not attempt to reconnect
+      if (preventReconnect) {
+        return;
+      }
+
+      // Do not exceed the limit of reconnection attempts
+      if (++reconnectAttempts > maxReconnectAttempts) {
+        appendConsoleMessage(
+          'Archipelago server connection lost. The connection closed unexpectedly. ' +
+            'Please try to reconnect, or restart the client.'
+        );
+        return;
+      }
+
+      appendConsoleMessage(
+        `Connection to AP server lost. Attempting to reconnect ` +
+          `(${reconnectAttempts} of ${maxReconnectAttempts})`
+      );
       connectToServer(address);
     }, 5000);
   };
 
   serverSocket.onerror = () => {
     if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
-      appendConsoleMessage('Archipelago server connection lost. The connection closed unexpectedly. ' +
-        'Please try to reconnect, or restart the client.');
+      appendConsoleMessage(
+        'Archipelago server connection lost. The connection closed unexpectedly. ' +
+          'Please try to reconnect, or restart the client.'
+      );
       serverSocket.close();
     }
   };
 };
 
 const getClientId = () => {
-  let clientId = localStorage.getItem('clientId');
+  let clientId = safeStorage.getItem('clientId');
   if (!clientId) {
     clientId = (Math.random() * 10000000000000000).toString();
-    localStorage.setItem('clientId', clientId);
+    safeStorage.setItem('clientId', clientId);
   }
   return clientId;
 };
 
 const sendMessageToServer = (message) => {
   if (serverSocket && serverSocket.readyState === WebSocket.OPEN) {
-    serverSocket.send(JSON.stringify([{
-      cmd: 'Say',
-      text: message,
-    }]));
+    serverSocket.send(
+      JSON.stringify([
+        {
+          cmd: 'Say',
+          text: message,
+        },
+      ])
+    );
   }
 };
 
@@ -300,27 +342,38 @@ const serverSync = () => {
 };
 
 const requestDataPackage = () => {
-  if (!serverSocket || serverSocket.readyState !== WebSocket.OPEN) { return; }
-  serverSocket.send(JSON.stringify([{
-    cmd: 'GetDataPackage',
-  }]));
+  if (!serverSocket || serverSocket.readyState !== WebSocket.OPEN) {
+    return;
+  }
+  serverSocket.send(
+    JSON.stringify([
+      {
+        cmd: 'GetDataPackage',
+      },
+    ])
+  );
 };
 
 const sendLocationChecks = (locationIds) => {
   locationIds.forEach((id) => checkedLocations.push(id));
-  serverSocket.send(JSON.stringify([{
-    cmd: 'LocationChecks',
-    locations: locationIds,
-  }]));
+  serverSocket.send(
+    JSON.stringify([
+      {
+        cmd: 'LocationChecks',
+        locations: locationIds,
+      },
+    ])
+  );
 };
 
 const buildItemAndLocationData = (dataPackage) => {
   // Save updated location and item maps into storage
-  if (command.data.version !== 0) { // Unless this is a custom package, denoted by version zero
-    localStorage.setItem('dataPackageVersion', command.data.version);
-    localStorage.setItem('dataPackage', JSON.stringify(command.data));
+  if (command.data.version !== 0) {
+    // Unless this is a custom package, denoted by version zero
+    safeStorage.setItem('dataPackageVersion', command.data.version);
+    safeStorage.setItem('dataPackage', JSON.stringify(command.data));
   }
-  
+
   Object.values(dataPackage.games).forEach((game) => {
     Object.keys(game.item_name_to_id).forEach((item) => {
       apItemsById[game.item_name_to_id[item]] = item;

@@ -1,8 +1,9 @@
 window.addEventListener('load', () => {
-  let visitorCount = parseInt(localStorage.getItem('visitor-count') || '1', 10);
+  let visitorCount = parseInt(safeStorage.getItem('visitor-count') || '1', 10);
   ++visitorCount;
-  localStorage.setItem('visitor-count', (visitorCount).toString());
-  document.querySelector('#visitor-count-number').innerText = visitorCount.toString();
+  safeStorage.setItem('visitor-count', visitorCount.toString());
+  document.querySelector('#visitor-count-number').innerText =
+    visitorCount.toString();
 });
 
 const motivationalVideos = [
@@ -52,7 +53,9 @@ const motivatePlayer = (playerName = 'a dead player') => {
   message.innerText = `A motivational message from ${playerName}!`;
   closeBar.appendChild(message);
   const closeButton = document.createElement('button');
-  closeButton.addEventListener('click', () => container.parentElement.removeChild(container));
+  closeButton.addEventListener('click', () =>
+    container.parentElement.removeChild(container)
+  );
   closeButton.innerText = '❌';
   closeBar.appendChild(closeButton);
   container.appendChild(closeBar);
@@ -61,30 +64,34 @@ const motivatePlayer = (playerName = 'a dead player') => {
   motivationalVideo.setAttribute('width', '560');
   motivationalVideo.setAttribute('height', '315');
   motivationalVideo.setAttribute('frameborder', '0');
-  const videoUrl = `${motivationalVideos[Math.floor(Math.random() * motivationalVideos.length)]}?controls=0&autoplay=1`;
+  const videoUrl = `${
+    motivationalVideos[Math.floor(Math.random() * motivationalVideos.length)]
+  }?controls=0&autoplay=1`;
   console.info(videoUrl);
   motivationalVideo.setAttribute('src', videoUrl);
-  motivationalVideo.setAttribute('allow', 'autoplay; encrypted-media; repeat; picture-in-picture; web-share;')
+  motivationalVideo.setAttribute(
+    'allow',
+    'autoplay; encrypted-media; repeat; picture-in-picture; web-share;'
+  );
   container.appendChild(motivationalVideo);
   document.body.appendChild(container);
 };
 
 const tellDadJoke = () => {
-  fetch('https://dadjokeslideshow.com/api/')
-    .then(async (res) => {
-      if (res.ok) {
-        const joke = await res.json();
-        const jokeText = `${joke.setup} ... ${joke.punchline}`;
-        const voices = window.speechSynthesis.getVoices();
-        if (voices.length === 0) {
-          window.speechSynthesis.speak(new SpeechSynthesisUtterance(jokeText));
-        }
-
-        const utterance = new SpeechSynthesisUtterance(jokeText);
-        utterance.voice = voices[Math.floor(Math.random() * voices.length)];
-        window.speechSynthesis.speak(utterance);
+  fetch('https://dadjokeslideshow.com/api/').then(async (res) => {
+    if (res.ok) {
+      const joke = await res.json();
+      const jokeText = `${joke.setup} ... ${joke.punchline}`;
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length === 0) {
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance(jokeText));
       }
-    });
+
+      const utterance = new SpeechSynthesisUtterance(jokeText);
+      utterance.voice = voices[Math.floor(Math.random() * voices.length)];
+      window.speechSynthesis.speak(utterance);
+    }
+  });
 };
 
 const goBackInTime = () => {
@@ -94,18 +101,45 @@ const goBackInTime = () => {
     color: ['#ccc333'],
   });
 
-  const letterClasses = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l0', 'n0', 'n1', 'n2', 'n3'].reverse();
-  const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+  const letterClasses = [
+    'l1',
+    'l2',
+    'l3',
+    'l4',
+    'l5',
+    'l6',
+    'l7',
+    'l8',
+    'l9',
+    'l0',
+    'n0',
+    'n1',
+    'n2',
+    'n3',
+  ].reverse();
+  const colors = [
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'blue',
+    'indigo',
+    'violet',
+  ];
   let colorStartIndex = 0;
   let colorIndex = 0;
   const letters = [];
   letterClasses.forEach((c) => letters.push(document.querySelector(`.${c}`)));
   setInterval(() => {
-    if (colorStartIndex === colors.length) { colorStartIndex = 0; }
+    if (colorStartIndex === colors.length) {
+      colorStartIndex = 0;
+    }
     colorIndex = colorStartIndex;
 
     letters.forEach((letter) => {
-      if (colorIndex === colors.length) { colorIndex = 0; }
+      if (colorIndex === colors.length) {
+        colorIndex = 0;
+      }
       letter.style.color = colors[colorIndex];
       ++colorIndex;
     });
