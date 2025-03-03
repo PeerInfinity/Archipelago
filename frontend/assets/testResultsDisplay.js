@@ -2,8 +2,31 @@ import stateManager from './stateManagerSingleton.js';
 
 // testResultsDisplay.js
 export class TestResultsDisplay {
-  constructor(resultsElementId = 'test-results') {
-    this.resultsElement = document.getElementById(resultsElementId);
+  constructor(resultsElement = 'test-results') {
+    // Handle both element ID strings and direct DOM element references
+    if (typeof resultsElement === 'string') {
+      this.resultsElement = document.getElementById(resultsElement);
+    } else if (resultsElement instanceof HTMLElement) {
+      this.resultsElement = resultsElement;
+    } else {
+      this.resultsElement = document.getElementById('test-results');
+      console.warn(
+        'Invalid results element provided, using default "test-results"'
+      );
+    }
+
+    // Create a fallback element if the specified one doesn't exist
+    if (!this.resultsElement) {
+      console.warn(
+        `Results element "${resultsElement}" not found, creating a fallback element`
+      );
+      this.resultsElement = document.createElement('div');
+      this.resultsElement.id =
+        typeof resultsElement === 'string'
+          ? resultsElement
+          : 'test-results-fallback';
+      document.body.appendChild(this.resultsElement);
+    }
   }
 
   displayResults(results) {

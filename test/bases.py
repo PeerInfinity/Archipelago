@@ -47,7 +47,7 @@ class TestBase(unittest.TestCase):
         return list(pathpairs)
 
     def run_location_tests(self, access_pool):
-        output_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend')
+        output_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'tests')
         export_test_data(self.multiworld, access_pool, output_dir)
 
         for i, (location, access, *item_pool) in enumerate(access_pool):

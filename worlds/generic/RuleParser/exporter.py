@@ -7,6 +7,7 @@ import collections
 import json
 import os
 import asyncio
+import inspect
 from automate_frontend_tests import run_frontend_tests
 from typing import Any, Dict, List, Set, Optional
 from collections import defaultdict
@@ -1037,11 +1038,77 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
 
     import os
     os.makedirs(output_dir, exist_ok=True)
+
+    # Set the filename base to the caller function name two levels up
+    # This is the name of the test that we're currently running
+    try:
+        # Get the caller two levels up in the stack (the test function calling this export function)
+        caller = inspect.stack()[2]
+        if caller and hasattr(caller, 'function') and caller.function:
+            # Use the test function name as the filename base
+            filename_base = caller.function
+            caller_filename = caller.filename
+            
+            # Extract the directory name containing the test file
+            # Example path: [..., 'alttp', 'test', 'vanilla', 'TestLightWorld.py']
+            # We want 'vanilla', which is the directory containing the test file
+            parent_directory = os.path.basename(os.path.dirname(os.path.abspath(caller_filename)))
+            
+            # Log the extracted information for debugging
+            debug_mode_settings("Caller information", {
+                "function": caller.function,
+                "filename": caller_filename,
+                "parent_directory": parent_directory
+            })
+        else:
+            logger.warning("Could not determine caller function name, using default filename base")
+            filename_base = filename_base or "test_output"
+    except IndexError as e:
+        # Specific handling for stack inspection errors
+        logger.error(f"Stack inspection error (not enough frames): {e}")
+        filename_base = filename_base or "test_output"
+    except Exception as e:
+        # General error handling
+        logger.error(f"Error getting caller information: {e}")
+        filename_base = filename_base or "test_output"
+
+    # Create or update test_files.json to track test files
+    test_files_path = os.path.join(output_dir, "test_files.json")
+    test_files_data = {}
+    
+    # Load existing test files data if it exists
+    if os.path.exists(test_files_path):
+        try:
+            with open(test_files_path, 'r', encoding='utf-8') as f:
+                test_files_data = json.load(f)
+        except json.JSONDecodeError:
+            logger.warning(f"Could not parse existing test_files.json, creating new file")
+        except Exception as e:
+            logger.error(f"Error reading test_files.json: {e}")
+    
+    # Add current filename_base as a subentry of parent_directory
+    if parent_directory not in test_files_data:
+        test_files_data[parent_directory] = {}
+    
+    if filename_base not in test_files_data[parent_directory]:
+        test_files_data[parent_directory][filename_base] = True
+        
+        # Write updated test files data
+        try:
+            with open(test_files_path, 'w', encoding='utf-8') as f:
+                json.dump(test_files_data, f, indent=2)
+            logger.debug(f"Updated test_files.json with {parent_directory}/{filename_base}")
+        except Exception as e:
+            logger.error(f"Error writing to test_files.json: {e}")
     
     # Export rules data with explicit region connections
     debug_mode_settings("Calling prepare_export_data")
     export_data = prepare_export_data(multiworld)
-    rules_path = os.path.join(output_dir, f"{filename_base}_rules.json")
+
+    # Create a subdirectory for the parent_directory if it doesn't exist
+    parent_dir_path = os.path.join(output_dir, parent_directory)
+    os.makedirs(parent_dir_path, exist_ok=True)
+    rules_path = os.path.join(parent_dir_path, f"{filename_base}_rules.json")
     
     # Check the structure of export_data before proceeding
     debug_mode_settings("Export data structure after prepare_export_data", 
@@ -1132,7 +1199,12 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     
     # Write to test cases JSON file
     test_cases_data = {"location_tests": test_cases}
-    test_cases_path = os.path.join(output_dir, "test_cases.json")
+
+    # Create a subdirectory for the parent_directory if it doesn't exist
+    parent_dir_path = os.path.join(output_dir, parent_directory)
+    os.makedirs(parent_dir_path, exist_ok=True)
+    test_cases_path = os.path.join(parent_dir_path, f"{filename_base}_tests.json")
+
     
     try:
         with open(test_cases_path, 'w') as f:

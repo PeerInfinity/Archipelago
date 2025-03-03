@@ -1544,3 +1544,29 @@ I want the helpers to appear in the same order in helpers.js as they appear in S
 
 Make a note of anything that prevents you from being able to copy the logic of the original Python code exactly.
 
+----
+
+Mar. 2, 2025:
+
+I want you to examine the current state of the source code, and update the documentation with the progress so far. Please ask any clarifying questions you think might be helpful.
+
+----
+
+I want to change the way that testCaseUI works.  The old version read the test rules from test_output_rules.json and the test cases from test_cases.json.  I want to change it so that first it reads the file test_files.json, which contains a list of files with the test data.  This is what the contents of the file currently look like:
+
+{
+  "testLightWorld": true,
+  "testEastDarkWorld": true,
+  "testMireArea": true,
+  "testSouthDarkWorld": true,
+  "testWestDarkWorld": true
+}
+
+When testCaseUI is loaded, instead of immediately loading and displaying the data from test_output_rules.json and test_cases.json, I want it to start out showing a list of the available test data files.  When the user selects one of these files, I want it to then load the data from the files, and display the interface that it normally displays.  I also want there to be a button to clear the current test data and return to the test file selector.  If the user selects “testLightWorld”, then the files it loads would be testLightWorld_rules.json and testLightWorld_tests.json, instead of test_output_rules.json and test_cases.json.  The other test files follow the same naming pattern.
+
+----
+
+Thanks.  It looks like the changes to testCaseUI are working properly.  Now can you change locationTester so that instead of just running the tests from one of the files, it runs the tests from all of the files, and displays the results of all of them?  The tests from each file should be displayed in its own section, in the same format they're displayed in now, along with the total tests, passed tests, and failed tests.  And at the top of the page, it should report the totals for all of the test sets combined.  Make this change only to locationTester.js, not to testCaseUI.js.
+
+Also, please add a way for the page to show its progress, at least in the console.
+
