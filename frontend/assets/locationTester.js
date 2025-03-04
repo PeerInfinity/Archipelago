@@ -12,13 +12,6 @@ export class LocationTester {
   constructor() {
     this.logger = new TestLogger();
     this.display = new TestResultsDisplay();
-    this.regions = null;
-    this.mode = null;
-    this.settings = null;
-    this.startRegions = null;
-    this.progressionMapping = null;
-    this.rulesData = null;
-    this.currentLocation = null;
     this.availableTestSets = null;
     this.currentTestSet = null;
     this.currentFolder = null;
@@ -164,14 +157,6 @@ export class LocationTester {
           } top-level keys)`
         );
 
-        // Store all relevant data
-        this.regions = rulesData.regions['1'];
-        this.mode = rulesData.mode?.['1'];
-        this.settings = rulesData.settings?.['1'];
-        this.startRegions = rulesData.start_regions?.['1'];
-        this.progressionMapping = rulesData.progression_mapping['1'];
-        this.rulesData = rulesData;
-
         // Initialize state manager with the rules data
         stateManager.loadFromJSON(rulesData);
         console.log(
@@ -198,15 +183,29 @@ export class LocationTester {
       );
 
       // Store all relevant data
-      this.regions = rulesData.regions['1'];
-      this.mode = rulesData.mode?.['1'];
-      this.settings = rulesData.settings?.['1'];
-      this.startRegions = rulesData.start_regions?.['1'];
-      this.progressionMapping = rulesData.progression_mapping['1'];
       this.rulesData = rulesData;
 
       // Initialize state manager with the rules data
+      console.log(
+        'Before loadFromJSON - stateManager.inventory.progressionMapping:',
+        stateManager.inventory?.progressionMapping
+      );
+      console.log(
+        'Before loadFromJSON - rulesData.progression_mapping:',
+        rulesData.progression_mapping?.['1']
+      );
+
       stateManager.loadFromJSON(rulesData);
+
+      console.log(
+        'After loadFromJSON - stateManager.inventory.progressionMapping:',
+        stateManager.inventory?.progressionMapping
+      );
+      console.log(
+        'After loadFromJSON - stateManager state.gameSettings:',
+        stateManager.state?.gameSettings
+      );
+
       console.log(`Rules data loaded into state manager for ${testSet}`);
 
       return true;
@@ -239,8 +238,6 @@ export class LocationTester {
         requiredItems = [],
         excludedItems = [],
       ] of testCases) {
-        this.currentLocation = location;
-
         // Update progress counter
         progressCounter++;
         if (
@@ -300,8 +297,12 @@ export class LocationTester {
 
   runSingleTest(location, expectedAccess, requiredItems, excludedItems) {
     try {
-      // Ensure we're using a clean state
-      stateManager.clearState();
+      // Instead of clearing the state, we'll set up a new state with the rulesData
+      // This ensures that stateManager has the proper settings and progression mapping
+      if (this.rulesData) {
+        // First load the full rules data to ensure settings and progression mapping are loaded
+        stateManager.loadFromJSON(this.rulesData);
+      }
 
       // Start logging this test
       this.logger.startTest({
@@ -309,17 +310,12 @@ export class LocationTester {
         expectedAccess,
         requiredItems,
         excludedItems,
-        progressionMapping: this.progressionMapping,
+        progressionMapping: stateManager.inventory.progressionMapping,
         itemData: stateManager.itemData,
       });
 
-      // Use stateManager's inventory directly (matching testCaseUI.js)
-      stateManager.initializeInventoryForTest(
-        requiredItems,
-        excludedItems,
-        this.progressionMapping,
-        stateManager.itemData
-      );
+      // Now initialize the inventory for testing with the specific items
+      stateManager.initializeInventoryForTest(requiredItems, excludedItems);
 
       // Force cache invalidation to ensure clean state
       stateManager.invalidateCache();
@@ -366,9 +362,7 @@ export class LocationTester {
           // Initialize stateManager with partial inventory
           stateManager.initializeInventoryForTest(
             requiredItems.filter((item) => item !== missingItem),
-            excludedItems,
-            this.progressionMapping,
-            stateManager.itemData
+            excludedItems
           );
 
           // Force cache invalidation

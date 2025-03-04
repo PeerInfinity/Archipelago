@@ -43,36 +43,6 @@ export class StateManager {
   initializeInventory(items, progressionMapping, itemData) {
     // Create the inventory first
     this.inventory = new ALTTPInventory(items, progressionMapping, itemData);
-
-    // Then load state and helpers
-    this.loadStateAndHelpers();
-  }
-
-  /**
-   * Create and connect state and helper objects
-   */
-  loadStateAndHelpers() {
-    try {
-      // Create state object
-      this.state = new ALTTPState();
-      this.state.setFlag('bombless_start');
-
-      // Create helpers
-      this.helpers = new ALTTPHelpers();
-
-      // Make the helpers globally available for debug purposes
-      window.gameHelpers = this.helpers;
-
-      console.log('State and helpers initialized:', {
-        state: this.state,
-        helpers: this.helpers,
-      });
-
-      // Refresh any cached values that might depend on helpers
-      this.invalidateCache();
-    } catch (error) {
-      console.error('Error initializing state and helpers:', error);
-    }
   }
 
   registerUICallback(name, callback) {
@@ -147,9 +117,16 @@ export class StateManager {
 
     // Load region and location data
     this.regions = jsonData.regions['1'];
-    this.itemData = jsonData.items['1'];
-    this.groupData = jsonData.item_groups['1'];
-    this.progressionMapping = jsonData.progression_mapping['1'];
+    const itemData = jsonData.items['1'];
+    const groupData = jsonData.item_groups['1'];
+    const progressionMapping = jsonData.progression_mapping['1'];
+
+    // Update the inventory's progression mapping and item data if inventory exists
+    if (this.inventory) {
+      this.inventory.progressionMapping = progressionMapping;
+      this.inventory.itemData = itemData;
+      this.inventory.groupData = groupData;
+    }
 
     // Process locations and events
     this.locations = [];
@@ -181,6 +158,12 @@ export class StateManager {
     // Initialize the state object with settings and data
     // This avoids duplicating data in both stateManager and state
     if (this.state) {
+      // Log the settings being passed to loadSettings
+      console.log(
+        'Settings being passed to loadSettings:',
+        jsonData.settings?.['1']
+      );
+
       // Pass the settings to the state for loading
       this.state.loadSettings(jsonData.settings?.['1']);
 
@@ -200,39 +183,10 @@ export class StateManager {
       }
     }
 
-    // Initialize helper state with settings
-    this.initializeHelperState();
-
     this.invalidateCache();
 
     // Immediately compute reachable regions to collect initial events
     this.computeReachableRegions();
-  }
-
-  /**
-   * Initialize the state object for helper functions
-   */
-  initializeHelperState() {
-    try {
-      // Create a state object with all our settings
-      const stateData = {
-        settings: this.settings || {},
-        hasFlag: (flag) => this.settings && !!this.settings[flag],
-        getFlag: (flag) => (this.settings ? this.settings[flag] : null),
-      };
-
-      if (typeof updateHelperState === 'function') {
-        ruleEngine.updateHelperState(stateData);
-        console.log(
-          'Helper state initialized successfully with settings:',
-          Object.keys(this.settings || {}).filter((k) => this.settings[k])
-        );
-      } else {
-        console.warn('updateHelperState not found in ruleEngine');
-      }
-    } catch (error) {
-      console.error('Failed to initialize helper state:', error);
-    }
   }
 
   invalidateCache() {
@@ -422,35 +376,25 @@ export class StateManager {
   }
 
   /**
-   * Initializes inventory state for running a test case.
+   * Initializes the inventory with a specific set of items for testing
    */
-  initializeInventoryForTest(
-    requiredItems = [],
-    excludedItems = [],
-    progressionMapping,
-    itemData
-  ) {
+  initializeInventoryForTest(requiredItems = [], excludedItems = []) {
+    // Preserve the current progression mapping and item data when clearing state
     this.clearState();
-
-    // Create fresh inventory with the test items
-    this.inventory = new ALTTPInventory([], progressionMapping, itemData);
-
-    // Load state and helpers first before adding items
-    this.loadStateAndHelpers();
 
     // Begin batch updates - defer region computation until the end
     this.beginBatchUpdate(true);
 
     // First, if we have excludedItems, start with ALL items except those
     if (excludedItems?.length > 0) {
-      Object.keys(itemData).forEach((itemName) => {
+      Object.keys(this.inventory.itemData).forEach((itemName) => {
         if (
           !excludedItems.includes(itemName) &&
           !(
             itemName.includes('Bottle') && excludedItems.includes('AnyBottle')
           ) &&
-          !itemData[itemName].event && // Skip event items
-          itemData[itemName].type !== 'Event' // Additional check using type
+          !this.inventory.itemData[itemName].event && // Skip event items
+          this.inventory.itemData[itemName].type !== 'Event' // Additional check using type
         ) {
           this.addItemToInventory(itemName);
 
@@ -499,7 +443,7 @@ export class StateManager {
 
     // Make sure bombless_start flag is set
     if (this.state) {
-      this.state.setFlag('bombless_start');
+      //this.state.setFlag('bombless_start');
     }
 
     // Now finally compute regions once at the end

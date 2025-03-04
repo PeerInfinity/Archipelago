@@ -47,9 +47,12 @@ export class RegionUI {
     }
   }
 
-  initialize(regionData) {
-    this.regionData = regionData;
-    this.log(`RegionUI: Loaded ${Object.keys(regionData).length} regions.`);
+  initialize() {
+    // Get region data from stateManager instead of parameter
+    this.regionData = stateManager.regions;
+    this.log(
+      `RegionUI: Loaded ${Object.keys(this.regionData).length} regions.`
+    );
     this.showStartRegion('Menu');
   }
 

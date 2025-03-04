@@ -23,7 +23,7 @@ export class ALTTPState extends GameState {
     this.log('Initializing ALTTPState');
 
     // Set default flags
-    this.setFlag('bombless_start'); // Default in current test setup
+    //this.setFlag('bombless_start'); // Default in current test setup
   }
 
   /**
@@ -31,6 +31,7 @@ export class ALTTPState extends GameState {
    * @param {Object} settings - Game settings from the rules JSON
    */
   loadSettings(settings) {
+    console.log('loadSettings called with:', settings);
     if (!settings) return;
 
     this.gameSettings = settings;

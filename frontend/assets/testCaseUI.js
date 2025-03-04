@@ -241,12 +241,7 @@ export class TestCaseUI {
       stateManager.loadFromJSON(this.testRules);
 
       // Then set up the test case inventory state
-      stateManager.initializeInventoryForTest(
-        requiredItems,
-        excludedItems,
-        this.testRules.progression_mapping['1'],
-        this.testRules.items['1']
-      );
+      stateManager.initializeInventoryForTest(requiredItems, excludedItems);
 
       // Force UI sync and cache invalidation
       stateManager.invalidateCache();
@@ -291,9 +286,7 @@ export class TestCaseUI {
           // Create inventory without this item
           stateManager.initializeInventoryForTest(
             requiredItems.filter((item) => item !== missingItem),
-            excludedItems,
-            this.testRules.progression_mapping['1'],
-            this.testRules.items['1']
+            excludedItems
           );
 
           // Check if still accessible

@@ -27,10 +27,6 @@ export class GameUI {
     // Game state
     this.currentViewMode = 'locations';
     this.debugMode = false;
-    this.regions = {};
-    this.mode = null;
-    this.settings = null;
-    this.startRegions = null;
     this.currentRules = null; // Track current rules data
 
     // Initialize UI
@@ -53,19 +49,17 @@ export class GameUI {
   }
 
   initializeUI(jsonData) {
-    // Store complete data
-    this.regions = jsonData.regions['1'];
-    this.mode = jsonData.mode?.['1'];
-    this.settings = jsonData.settings?.['1'];
-    this.startRegions = jsonData.start_regions?.['1'];
-
+    // Don't store duplicate data locally - stateManager should be the single source of truth
     const player1Items = jsonData.items['1'];
     const groups = jsonData.item_groups['1'];
 
     // Initialize view-specific UIs
+    // Pass the items data for display purposes, but use stateManager for game state
     this.inventoryUI.initialize(player1Items, groups);
-    this.locationUI.initialize(jsonData);
-    this.regionUI.initialize(jsonData.regions['1']);
+
+    // Have UI components get data from stateManager instead of passing jsonData
+    this.locationUI.initialize();
+    this.regionUI.initialize();
   }
 
   attachEventListeners() {
@@ -161,6 +155,10 @@ export class GameUI {
         jsonData.items['1']
       );
 
+      // Load the complete rules data into the state manager
+      // This ensures settings are properly loaded into the state
+      stateManager.loadFromJSON(jsonData);
+
       this.initializeUI(jsonData);
 
       if (window.consoleManager) {
@@ -198,6 +196,10 @@ export class GameUI {
             jsonData.progression_mapping['1'],
             jsonData.items['1']
           );
+
+          // Load the complete rules data into the state manager
+          // This ensures settings are properly loaded into the state
+          stateManager.loadFromJSON(jsonData);
 
           this.initializeUI(jsonData);
 
