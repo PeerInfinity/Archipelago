@@ -63,6 +63,9 @@ export class GameUI {
   }
 
   attachEventListeners() {
+    // Initialize collapsible center column
+    this.initializeCollapsibleCenter();
+
     // File upload
     const jsonUpload = document.getElementById('json-upload');
     if (jsonUpload) {
@@ -277,6 +280,49 @@ export class GameUI {
     Object.entries(commands).forEach(([name, command]) => {
       window.consoleManager.registerCommand(name, command);
     });
+  }
+
+  /**
+   * Initialize collapse/expand functionality for the center column
+   */
+  initializeCollapsibleCenter() {
+    const collapseBtn = document.getElementById('main-content-collapse-btn');
+    const expandBtn = document.getElementById('main-content-expand-btn');
+    const mainContent = document.getElementById('main-content');
+    const inventoryHeader = document.querySelector('.sidebar-header');
+
+    if (collapseBtn && expandBtn && mainContent && inventoryHeader) {
+      // Initial state: hide the expand button
+      expandBtn.style.display = 'none';
+
+      // Setup event listeners
+      collapseBtn.addEventListener('click', () => {
+        mainContent.classList.add('collapsed');
+        expandBtn.style.display = 'flex';
+      });
+
+      expandBtn.addEventListener('click', () => {
+        mainContent.classList.remove('collapsed');
+        expandBtn.style.display = 'none';
+      });
+
+      // Auto-collapse for small screens (mobile)
+      const checkWindowSize = () => {
+        if (window.innerWidth <= 1480) {
+          // Auto-collapse on small screens
+          if (!mainContent.classList.contains('collapsed')) {
+            mainContent.classList.add('collapsed');
+            expandBtn.style.display = 'flex';
+          }
+        }
+      };
+
+      // Check on initial load
+      checkWindowSize();
+
+      // Check when window is resized
+      window.addEventListener('resize', checkWindowSize);
+    }
   }
 }
 

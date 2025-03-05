@@ -124,49 +124,32 @@ export class LocationTester {
         checkXhr.send();
         if (checkXhr.status !== 200) {
           console.warn(
-            `Rules file for ${testSet} does not exist (status: ${checkXhr.status})`
+            `Rules file for ${testSet} in folder ${
+              folder || 'default'
+            } does not exist (status: ${checkXhr.status})`
           );
           fileExists = false;
         }
       } catch (e) {
-        console.warn(`Error checking if rules file exists for ${testSet}:`, e);
+        console.warn(
+          `Error checking if rules file exists for ${testSet} in folder ${
+            folder || 'default'
+          }:`,
+          e
+        );
         fileExists = false;
       }
 
-      // If the file doesn't exist, try to load the default test_output_rules.json instead
+      // Don't fall back to a default file - this ensures consistency with folder-specific tests
       if (!fileExists) {
-        console.warn(
-          `${testSet}_rules.json not found, falling back to test_output_rules.json`
+        throw new Error(
+          `${testSet}_rules.json not found in folder ${
+            folder || 'default'
+          }. No fallback will be used to ensure consistency.`
         );
-
-        // Use synchronous XMLHttpRequest
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', './tests/test_output_rules.json', false);
-        xhr.send();
-
-        if (xhr.status !== 200) {
-          throw new Error(
-            `Failed to load fallback rules file: HTTP ${xhr.status}`
-          );
-        }
-
-        const rulesData = JSON.parse(xhr.responseText);
-        console.log(
-          `Successfully loaded fallback rules data (${
-            Object.keys(rulesData).length
-          } top-level keys)`
-        );
-
-        // Initialize state manager with the rules data
-        stateManager.loadFromJSON(rulesData);
-        console.log(
-          `Fallback rules data loaded into state manager for ${testSet}`
-        );
-
-        return true;
       }
 
-      // Use synchronous XMLHttpRequest to load the normal test file
+      // Use synchronous XMLHttpRequest to load the test file
       const xhr = new XMLHttpRequest();
       xhr.open('GET', `./tests/${folderPath}${testSet}_rules.json`, false);
       xhr.send();
@@ -230,7 +213,19 @@ export class LocationTester {
       let progressCounter = 0;
       const progressInterval = Math.max(1, Math.floor(totalTests / 10)); // Show progress every ~10% of tests
 
-      console.log(`Test progress: 0/${totalTests} (0%)`);
+      // Get current folder and file information for progress display
+      const folderName = this.currentFolder || 'default';
+      const testSetName = this.currentTestSet || 'unknown';
+
+      // Get the global context from the window if available
+      const folderCount = window.testProgress?.totalFolders || '?';
+      const folderIndex = window.testProgress?.currentFolderIndex || '?';
+      const fileCount = window.testProgress?.totalFilesInFolder || '?';
+      const fileIndex = window.testProgress?.currentFileIndex || '?';
+
+      console.log(
+        `Test progress: Folder ${folderIndex} of ${folderCount}, File ${fileIndex} of ${fileCount}, Test 0/${totalTests} (0%)`
+      );
 
       for (const [
         location,
@@ -246,7 +241,7 @@ export class LocationTester {
         ) {
           const percent = Math.round((progressCounter / totalTests) * 100);
           console.log(
-            `Test progress: ${progressCounter}/${totalTests} (${percent}%)`
+            `Test progress: Folder ${folderIndex} of ${folderCount}, File ${fileIndex} of ${fileCount}, Test ${progressCounter}/${totalTests} (${percent}%)`
           );
         }
 
@@ -297,11 +292,11 @@ export class LocationTester {
 
   runSingleTest(location, expectedAccess, requiredItems, excludedItems) {
     try {
-      // Instead of clearing the state, we'll set up a new state with the rulesData
-      // This ensures that stateManager has the proper settings and progression mapping
+      // clearState is probably faster, loadFromJSON is probably safer
+      stateManager.clearState();
+
       if (this.rulesData) {
-        // First load the full rules data to ensure settings and progression mapping are loaded
-        stateManager.loadFromJSON(this.rulesData);
+        //stateManager.loadFromJSON(this.rulesData);
       }
 
       // Start logging this test
@@ -406,6 +401,15 @@ export class LocationTester {
       console.log('Starting loadAndRunAllTests...');
       window.testsStarted = true;
       window.testsCompleted = false;
+
+      // Create a global test progress object to track folder and file indices
+      window.testProgress = {
+        totalFolders: 0,
+        currentFolderIndex: 0,
+        totalFilesInFolder: 0,
+        currentFileIndex: 0,
+      };
+
       const tester = new LocationTester();
 
       // Create results container if it doesn't exist
@@ -445,39 +449,89 @@ export class LocationTester {
       overallSummaryElement.className = 'overall-test-summary';
       overallSummaryElement.innerHTML = '<h2>Running All Test Sets...</h2>';
 
-      // Create container for all test sets
-      const testSetsList = document.createElement('div');
-      testSetsList.className = 'all-test-sets';
+      // Create a container for all tests
+      const testContainer = document.createElement('div');
+      testContainer.className = 'all-tests-container';
 
       // Add to DOM
       resultsContainer.innerHTML = '';
       resultsContainer.appendChild(overallSummaryElement);
-      resultsContainer.appendChild(testSetsList);
+      resultsContainer.appendChild(testContainer);
+
+      // Add expand/collapse controls
+      const controlsDiv = document.createElement('div');
+      controlsDiv.className = 'test-controls';
+      controlsDiv.innerHTML = `
+        <button id="collapse-all-tests" class="test-control-btn">Collapse All</button>
+        <button id="expand-all-tests" class="test-control-btn">Expand All</button>
+      `;
+      testContainer.appendChild(controlsDiv);
+
+      // Create a container for the test sets
+      const testSetsList = document.createElement('div');
+      testSetsList.className = 'test-sets-list';
+      testContainer.appendChild(testSetsList);
+
+      // Setup event listeners for the control buttons after they're added to the DOM
+      document
+        .getElementById('collapse-all-tests')
+        .addEventListener('click', () => {
+          document.querySelectorAll('.test-set-section').forEach((section) => {
+            section.classList.add('collapsed');
+            const icon = section.querySelector('.toggle-icon');
+            if (icon) icon.textContent = '▶';
+          });
+        });
+
+      document
+        .getElementById('expand-all-tests')
+        .addEventListener('click', () => {
+          document.querySelectorAll('.test-set-section').forEach((section) => {
+            section.classList.remove('collapsed');
+            const icon = section.querySelector('.toggle-icon');
+            if (icon) icon.textContent = '▼';
+          });
+        });
 
       // Add styles for the test sets
       const style = document.createElement('style');
       style.textContent = `
         .test-set-section {
-          margin-bottom: 20px;
-          background-color: rgba(0, 0, 0, 0.1);
-          border-radius: 8px;
-          padding: 16px;
+          margin-bottom: 15px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          overflow: hidden;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .test-set-header {
-          margin-top: 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          padding-bottom: 8px;
-          margin-bottom: 16px;
+          cursor: pointer;
+          padding: 12px 15px;
+          background-color: #f8f9fa;
+          margin: 0;
+          border-bottom: 1px solid #ddd;
+          user-select: none;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
-        .folder-header {
-          margin-top: 30px;
-          margin-bottom: 10px;
-          font-size: 1.4em;
-          padding-bottom: 8px;
-          border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        .header-title {
+          font-weight: bold;
+          flex-grow: 1;
+          color: #2c3e50;
         }
-        .first-folder .folder-header {
-          margin-top: 0;
+        .header-stats {
+          display: flex;
+          gap: 12px;
+          margin-right: 15px;
+          font-size: 0.9rem;
+        }
+        .header-stat {
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-weight: 500;
+          min-width: 60px;
+          text-align: center;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .test-set-results {
           margin-top: 12px;
@@ -495,6 +549,180 @@ export class LocationTester {
           white-space: pre-wrap;
           overflow-x: auto;
         }
+        /* Styles for the test results */
+        .test-set-header {
+          color: #2c3e50;
+          margin-bottom: 8px;
+        }
+        .test-set-status {
+          margin-bottom: 10px;
+          font-weight: 500;
+        }
+        .test-set-results {
+          margin-bottom: 20px;
+        }
+        .test-error {
+          color: #e74c3c;
+          font-weight: bold;
+        }
+        .test-summary {
+          font-weight: 500;
+        }
+        .test-passed {
+          color: #27ae60;
+        }
+        .test-failed {
+          color: #e74c3c;
+        }
+        /* Styles for the test interface */
+        .all-tests-container {
+          padding: 10px;
+          margin-bottom: 20px;
+        }
+        .test-controls {
+          margin-bottom: 15px;
+          padding: 5px 0;
+          border-bottom: 1px solid #ddd;
+        }
+        .test-control-btn {
+          background-color: #f8f9fa;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px 10px;
+          margin-right: 10px;
+          cursor: pointer;
+          font-size: 0.9rem;
+        }
+        .test-control-btn:hover {
+          background-color: #e2e6ea;
+        }
+        .test-sets-list {
+          margin-top: 10px;
+        }
+        .test-set-section {
+          margin-bottom: 15px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          overflow: hidden;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .test-set-header {
+          cursor: pointer;
+          padding: 12px 15px;
+          background-color: #f8f9fa;
+          margin: 0;
+          border-bottom: 1px solid #ddd;
+          user-select: none;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .header-title {
+          font-weight: bold;
+          flex-grow: 1;
+          color: #2c3e50;
+        }
+        .header-stats {
+          display: flex;
+          gap: 12px;
+          margin-right: 15px;
+          font-size: 0.9rem;
+        }
+        .header-stat {
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-weight: 500;
+          min-width: 60px;
+          text-align: center;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .header-stat.passed {
+          background-color: rgba(39, 174, 96, 0.15);
+          color: #27ae60;
+          border: 1px solid rgba(39, 174, 96, 0.2);
+        }
+        .header-stat.failed {
+          background-color: rgba(231, 76, 60, 0.15);
+          color: #e74c3c;
+          border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+        .header-stat.error {
+          background-color: rgba(231, 76, 60, 0.15);
+          color: #e74c3c;
+          font-weight: bold;
+          border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+        .test-set-header:hover {
+          background-color: #e9ecef;
+        }
+        .toggle-icon {
+          margin-left: 10px;
+          font-size: 1rem;
+          color: #6c757d;
+          width: 20px;
+          text-align: center;
+        }
+        .test-set-content {
+          padding: 10px;
+        }
+        .test-set-section.collapsed .test-set-content {
+          display: none;
+        }
+        .test-set-status {
+          margin-bottom: 10px;
+          font-weight: 500;
+          padding: 5px;
+          border-radius: 4px;
+          background-color: #f8f9fa;
+        }
+        .test-summary {
+          padding: 5px;
+        }
+        .test-passed {
+          color: #27ae60;
+        }
+        .test-failed {
+          color: #e74c3c;
+        }
+        .test-error {
+          color: #e74c3c;
+          font-weight: bold;
+        }
+        /* Styles for the UI */
+        .overall-summary {
+          background-color: #f8f9fa;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          padding: 10px 15px;
+          margin-bottom: 20px;
+        }
+        .summary-container h2 {
+          margin-top: 0;
+          color: #2c3e50;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 10px;
+        }
+        .summary-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+        .stat-item {
+          font-size: 1rem;
+          padding: 5px 10px;
+          background-color: #fff;
+          border-radius: 4px;
+          border: 1px solid #eee;
+        }
+        .stat-value {
+          font-weight: bold;
+        }
+        .stat-passed {
+          color: #27ae60;
+        }
+        .stat-failed {
+          color: #e74c3c;
+        }
       `;
       document.head.appendChild(style);
 
@@ -505,11 +733,43 @@ export class LocationTester {
       let processedSets = 0;
       let firstFolder = true;
 
-      // Process each folder of test sets
+      // Now process each folder and its test sets
+      let totalTestSetCount = 0;
+      let processedTestSetCount = 0;
+
+      // Count all enabled test sets across all folders first
+      let totalEnabledFolders = 0;
+      let totalEnabledFiles = 0;
+
+      for (const [folderName, folderTestSets] of Object.entries(testSets)) {
+        const enabledTestSets = Object.entries(folderTestSets).filter(
+          ([name, isEnabled]) => {
+            const enabled =
+              isEnabled === true ||
+              isEnabled === 'true' ||
+              isEnabled === 1 ||
+              isEnabled === '1';
+            return enabled;
+          }
+        );
+
+        if (enabledTestSets.length > 0) {
+          totalEnabledFolders++;
+          totalEnabledFiles += enabledTestSets.length;
+        }
+      }
+
+      // Update the global test progress
+      window.testProgress.totalFolders = totalEnabledFolders;
+      console.log(`Total enabled folders: ${totalEnabledFolders}`);
+
+      // Now process each folder
+      let currentFolderIndex = 0;
+
       for (const [folderName, folderTestSets] of Object.entries(testSets)) {
         console.log(`Processing folder: ${folderName}`);
 
-        // Create a folder header
+        // Create a header for this folder
         const folderHeader = document.createElement('div');
         folderHeader.className = `folder-header ${
           firstFolder ? 'first-folder' : ''
@@ -534,27 +794,65 @@ export class LocationTester {
           }
         );
 
+        // Skip folders with no enabled test sets
+        if (enabledTestSets.length === 0) {
+          console.log(
+            `No enabled test sets found in folder ${folderName}, skipping`
+          );
+          continue;
+        }
+
+        // Update folder progress
+        currentFolderIndex++;
+        window.testProgress.currentFolderIndex = currentFolderIndex;
+        window.testProgress.totalFilesInFolder = enabledTestSets.length;
+        window.testProgress.currentFileIndex = 0;
+
         console.log(
           `Found ${enabledTestSets.length} enabled test sets in folder ${folderName}`
         );
 
         // Process each enabled test set in this folder
+        let currentFileIndex = 0;
+
         for (const [testSetName, _] of enabledTestSets) {
+          // Update file progress
+          currentFileIndex++;
+          window.testProgress.currentFileIndex = currentFileIndex;
+
           console.log(
-            `Processing test set: ${testSetName} in folder: ${folderName}`
+            `Processing test set: ${testSetName} in folder: ${folderName} (${currentFileIndex}/${enabledTestSets.length})`
           );
 
-          // Create section for this test set
+          // Create the container for this test set
           const testSetSection = document.createElement('div');
           testSetSection.className = 'test-set-section';
           testSetSection.innerHTML = `
-            <h3 class="test-set-header">${testSetName
-              .replace(/^test/, '')
-              .replace(/([A-Z])/g, ' $1')
-              .trim()}</h3>
-            <div class="test-set-status">Loading...</div>
-            <div class="test-set-results"></div>
+            <div class="test-set-header">
+              <span class="toggle-icon">▼</span>
+              <span class="header-title">${testSetName
+                .replace(/^test/, '')
+                .replace(/([A-Z])/g, ' $1')
+                .trim()} (${folderName})</span>
+              <div class="header-stats">
+                <span class="header-stat">Loading...</span>
+              </div>
+            </div>
+            <div class="test-set-content">
+              <div class="test-set-status">Loading...</div>
+              <div class="test-set-results"></div>
+            </div>
           `;
+
+          // Add toggle functionality
+          const header = testSetSection.querySelector('.test-set-header');
+          header.addEventListener('click', () => {
+            testSetSection.classList.toggle('collapsed');
+            const icon = header.querySelector('.toggle-icon');
+            icon.textContent = testSetSection.classList.contains('collapsed')
+              ? '▶'
+              : '▼';
+          });
 
           testSetsList.appendChild(testSetSection);
 
@@ -600,16 +898,14 @@ export class LocationTester {
               fileExists = false;
             }
 
-            // If the test file doesn't exist, try to load test_cases.json instead
-            let testFilePath;
+            // Always use the folder-specific test file path, don't fall back to a generic file
+            // This ensures test files with the same name in different folders are handled correctly
             const folderPath = folderName ? `${folderName}/` : '';
+            const testFilePath = `./tests/${folderPath}${testSetName}_tests.json`;
 
-            if (fileExists) {
-              testFilePath = `./tests/${folderPath}${testSetName}_tests.json`;
-            } else {
-              testFilePath = './tests/test_cases.json';
-              console.warn(
-                `${testSetName}_tests.json not found in folder ${folderName}, falling back to test_cases.json`
+            if (!fileExists) {
+              throw new Error(
+                `${testSetName}_tests.json not found in folder ${folderName}. No fallback will be used to ensure consistency.`
               );
             }
 
@@ -645,13 +941,24 @@ export class LocationTester {
               testSetSection.querySelector('.test-set-status');
 
             // Setup custom display for this test set
-            const testSetResultsId = `test-set-results-${testSetName}`;
+            const testSetResultsId = `test-set-results-${testSetName}-${folderName}`;
             console.log(`Creating display for ${testSetResultsId}`);
-            setTester.display = new TestResultsDisplay(testSetResultsId);
+
+            // Create a custom container for this test set's results
+            const resultsContainer = document.createElement('div');
+            resultsContainer.id = testSetResultsId;
+            testSetResults.appendChild(resultsContainer);
+
+            // Create a new TestResultsDisplay instance for this specific test set
+            setTester.display = new TestResultsDisplay(resultsContainer);
+
+            // Make sure the current test set and folder are correctly set
+            setTester.currentTestSet = testSetName;
+            setTester.currentFolder = folderName;
 
             // Run tests and get results
             console.log(
-              `Running ${testCases.location_tests.length} location tests for ${testSetName}...`
+              `Running ${testCases.location_tests.length} location tests for ${testSetName} in folder ${folderName}...`
             );
             const failedCount = setTester.runLocationTests(
               testCases.location_tests
@@ -662,6 +969,19 @@ export class LocationTester {
             console.log(
               `Updating status for ${testSetName}: ${passedCount} passed, ${failedCount} failed`
             );
+
+            // Update the status message to show results instead of "Loading..."
+            testSetStatus.innerHTML = `<div class="test-summary">
+              <span class="test-passed">${passedCount} passed</span>, 
+              <span class="test-failed">${failedCount} failed</span>
+            </div>`;
+
+            // Also update the header stats to be visible when collapsed
+            const headerStats = testSetSection.querySelector('.header-stats');
+            headerStats.innerHTML = `
+              <span class="header-stat passed">${passedCount} ✓</span>
+              <span class="header-stat failed">${failedCount} ✗</span>
+            `;
 
             // Update overall stats
             totalTests += testCases.location_tests.length;
@@ -676,12 +996,32 @@ export class LocationTester {
               testSetSection.querySelector('.test-set-results');
             const testSetStatus =
               testSetSection.querySelector('.test-set-status');
+            const headerStats = testSetSection.querySelector('.header-stats');
 
+            // Update status with error message
             testSetStatus.innerHTML = `<div class="test-error">Error: ${error.message}</div>`;
-            testSetResults.innerHTML = `<pre class="error-details">${error.stack}</pre>`;
+
+            // Update header stats to show error
+            headerStats.innerHTML = `<span class="header-stat error">Error</span>`;
 
             processedSets++;
           }
+        }
+
+        // Update final stats when all sets are processed
+        if (processedSets === testSets.length) {
+          // All test sets have been processed, update the overall summary
+          const passRate = Math.round((totalPassed / totalTests) * 100);
+          overallSummaryElement.innerHTML = `
+            <div class="summary-container">
+              <h2>All Tests Complete</h2>
+              <div class="summary-stats">
+                <div class="stat-item">Total Tests: <span class="stat-value">${totalTests}</span></div>
+                <div class="stat-item">Passed: <span class="stat-value stat-passed">${totalPassed}</span> (${passRate}%)</div>
+                <div class="stat-item">Failed: <span class="stat-value stat-failed">${totalFailed}</span></div>
+              </div>
+            </div>
+          `;
         }
       }
 
@@ -700,7 +1040,16 @@ export class LocationTester {
 
       console.log('All tests completed');
       window.testsCompleted = true;
-      return { success: true, totalTests, totalPassed, totalFailed };
+
+      // Reset the test progress object
+      window.testProgress = {
+        totalFolders: 0,
+        currentFolderIndex: 0,
+        totalFilesInFolder: 0,
+        currentFileIndex: 0,
+      };
+
+      return true;
     } catch (error) {
       console.error('Error in loadAndRunAllTests:', error);
       const resultsContainer = document.getElementById('test-results');

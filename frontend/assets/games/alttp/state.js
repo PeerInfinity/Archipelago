@@ -84,7 +84,7 @@ export class ALTTPState extends GameState {
   }
 
   setEvent(eventName) {
-    this.log(`Setting event flag: ${eventName}`);
+    //this.log(`Setting event flag: ${eventName}`);
     this.events.add(eventName);
   }
 
