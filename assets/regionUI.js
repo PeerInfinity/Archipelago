@@ -5,7 +5,6 @@ import { evaluateRule } from './ruleEngine.js';
 export class RegionUI {
   constructor(gameUI) {
     this.gameUI = gameUI;
-    this.regionData = {};
 
     /**
      * visitedRegions is an array of objects:
@@ -47,9 +46,7 @@ export class RegionUI {
     }
   }
 
-  initialize(regionData) {
-    this.regionData = regionData;
-    this.log(`RegionUI: Loaded ${Object.keys(regionData).length} regions.`);
+  initialize() {
     this.showStartRegion('Menu');
   }
 
@@ -75,9 +72,9 @@ export class RegionUI {
   }
 
   showStartRegion(startRegionName) {
-    if (!this.regionData[startRegionName]) {
+    if (!stateManager.regions[startRegionName]) {
       this.log(
-        `Warning: start region ${startRegionName} not found in regionData.`
+        `Warning: start region ${startRegionName} not found in stateManager.regions.`
       );
       return;
     }
@@ -129,7 +126,7 @@ export class RegionUI {
 
   expandAllRegions() {
     if (this.showAll) {
-      Object.keys(this.regionData).forEach((regionName, index) => {
+      Object.keys(stateManager.regions).forEach((regionName, index) => {
         const uid = `all_${index}`;
         const regionObj = this.visitedRegions.find((r) => r.uid === uid);
         if (regionObj) {
@@ -152,7 +149,7 @@ export class RegionUI {
 
   collapseAllRegions() {
     if (this.showAll) {
-      Object.keys(this.regionData).forEach((regionName, index) => {
+      Object.keys(stateManager.regions).forEach((regionName, index) => {
         const uid = `all_${index}`;
         const regionObj = this.visitedRegions.find((r) => r.uid === uid);
         if (regionObj) {
@@ -183,8 +180,8 @@ export class RegionUI {
 
     if (this.showAll) {
       // Show all regions ignoring path logic
-      Object.keys(this.regionData).forEach((regionName, index) => {
-        const rData = this.regionData[regionName];
+      Object.keys(stateManager.regions).forEach((regionName, index) => {
+        const rData = stateManager.regions[regionName];
         const uid = `all_${index}`; // or any stable unique key
         const regionObj = this.visitedRegions.find((r) => r.uid === uid);
         const expanded = regionObj ? regionObj.expanded : true; // expand all by default
@@ -200,7 +197,7 @@ export class RegionUI {
       // Normal visited chain
       for (const regionObj of this.visitedRegions) {
         const { name: regionName, expanded, uid } = regionObj;
-        const rData = this.regionData[regionName];
+        const rData = stateManager.regions[regionName];
         if (!rData) continue;
         const regionBlock = this.buildRegionBlock(
           rData,
@@ -247,7 +244,7 @@ export class RegionUI {
 
     if (allPaths.length >= maxPaths) return;
 
-    const regionData = this.regionData[currentRegion];
+    const regionData = stateManager.regions[currentRegion];
     if (!regionData) return;
 
     for (const exit of regionData.exits || []) {
@@ -827,7 +824,7 @@ export class RegionUI {
       // Found transition from accessible to inaccessible
       if (fromAccessible && !toAccessible) {
         // Find the exit from fromRegion to toRegion
-        const fromRegionData = this.regionData[fromRegion];
+        const fromRegionData = stateManager.regions[fromRegion];
         if (fromRegionData && fromRegionData.exits) {
           const exit = fromRegionData.exits.find(
             (e) => e.connected_region === toRegion

@@ -33,6 +33,58 @@ body {
   color: #cecece;
   display: flex;
   flex-direction: column;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+#main-content.collapsed {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  margin: 0;
+  opacity: 0;
+}
+
+#main-content-collapse-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(50, 50, 50, 0.7);
+  border: 1px solid #cecece;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 200;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  color: #cecece;
+}
+
+#main-content.collapsed #main-content-collapse-btn {
+  position: fixed;
+  left: calc(260px + 1rem);
+  top: 50px;
+  right: auto;
+  transform: rotate(180deg);
+  background-color: #2d2d2d;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #cecece;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+#main-content-collapse-btn:hover {
+  background-color: rgba(80, 80, 80, 0.9);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 /* Header Elements */
@@ -122,6 +174,7 @@ body {
   border-bottom: 1px solid #cecece;
   flex-shrink: 0;
   color: #cecece;
+  position: relative;
 }
 
 .sidebar-header h2 {
@@ -236,36 +289,94 @@ body {
 /* When locations view is active */
 .location-controls.active {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 /* When regions view is active */
 .region-controls.active {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 /* Locations Column */
 #locations-column {
-  flex-grow: 1;
-  height: 100%;
+  flex: 1;
   background-color: #2d2d2d;
   border: 2px solid #cecece;
   border-radius: 4px;
+  padding: 1em;
+  color: #cecece;
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  overflow: hidden;
+  transition: flex 0.3s ease-in-out;
 }
 
+/* Enhance locations header scrollability */
 .locations-header {
-  padding: 1rem;
+  padding: 1px;
   background-color: #2d2d2d;
   border-bottom: 1px solid #cecece;
-  flex-shrink: 0;
   color: #cecece;
+  min-height: 4rem; /* Compact but sufficient */
+  max-height: 200px; /* Cap the maximum height */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: thin; /* Firefox */
+}
+
+/* Custom scrollbar for better visibility */
+.locations-header::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.locations-header::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.locations-header::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.locations-header::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Better spacing for form controls */
+.locations-header select,
+.locations-header input,
+.locations-header button {
+  margin: 3px;
+}
+
+/* Adjust control groups for better layout */
+.control-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0rem;
+  align-items: center;
+}
+
+/* Improve hover states for better touch feedback */
+.button:hover,
+button:hover,
+select:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 #locations-grid {
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   padding: 0.5rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -306,6 +417,7 @@ body {
 #regions-panel {
   flex-grow: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   padding: 1rem;
   gap: 0.5rem;
   background: #222;
@@ -427,6 +539,7 @@ select {
 #test-cases-panel {
   flex-grow: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   padding: 1rem;
   background: #222;
   color: #ccc;
@@ -681,4 +794,62 @@ button.show-paths-btn:disabled {
 
 .compile-list-btn:hover {
   background-color: #9c27b0;
+}
+
+/* Fix for the right column layout */
+#locations-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Fix for iOS momentum scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make sure touch targets are appropriately sized */
+button,
+select,
+input[type='checkbox'],
+input[type='radio'],
+label {
+  touch-action: manipulation;
+}
+
+#main-content-expand-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 300;
+  display: none; /* Hidden by default, shown via JS */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #2d2d2d;
+  border: 2px solid #cecece;
+  width: 26px;
+  height: 26px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+#main-content-expand-btn:hover {
+  background-color: rgba(80, 80, 80, 0.9);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* Clean up iOS scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make touch targets appropriately sized */
+button,
+select,
+input[type='checkbox'],
+input[type='radio'],
+label {
+  touch-action: manipulation;
 }

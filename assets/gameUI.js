@@ -27,10 +27,6 @@ export class GameUI {
     // Game state
     this.currentViewMode = 'locations';
     this.debugMode = false;
-    this.regions = {};
-    this.mode = null;
-    this.settings = null;
-    this.startRegions = null;
     this.currentRules = null; // Track current rules data
 
     // Initialize UI
@@ -53,22 +49,23 @@ export class GameUI {
   }
 
   initializeUI(jsonData) {
-    // Store complete data
-    this.regions = jsonData.regions['1'];
-    this.mode = jsonData.mode?.['1'];
-    this.settings = jsonData.settings?.['1'];
-    this.startRegions = jsonData.start_regions?.['1'];
-
+    // Don't store duplicate data locally - stateManager should be the single source of truth
     const player1Items = jsonData.items['1'];
     const groups = jsonData.item_groups['1'];
 
     // Initialize view-specific UIs
+    // Pass the items data for display purposes, but use stateManager for game state
     this.inventoryUI.initialize(player1Items, groups);
-    this.locationUI.initialize(jsonData);
-    this.regionUI.initialize(jsonData.regions['1']);
+
+    // Have UI components get data from stateManager instead of passing jsonData
+    this.locationUI.initialize();
+    this.regionUI.initialize();
   }
 
   attachEventListeners() {
+    // Initialize collapsible center column
+    this.initializeCollapsibleCenter();
+
     // File upload
     const jsonUpload = document.getElementById('json-upload');
     if (jsonUpload) {
@@ -161,6 +158,10 @@ export class GameUI {
         jsonData.items['1']
       );
 
+      // Load the complete rules data into the state manager
+      // This ensures settings are properly loaded into the state
+      stateManager.loadFromJSON(jsonData);
+
       this.initializeUI(jsonData);
 
       if (window.consoleManager) {
@@ -198,6 +199,10 @@ export class GameUI {
             jsonData.progression_mapping['1'],
             jsonData.items['1']
           );
+
+          // Load the complete rules data into the state manager
+          // This ensures settings are properly loaded into the state
+          stateManager.loadFromJSON(jsonData);
 
           this.initializeUI(jsonData);
 
@@ -275,6 +280,49 @@ export class GameUI {
     Object.entries(commands).forEach(([name, command]) => {
       window.consoleManager.registerCommand(name, command);
     });
+  }
+
+  /**
+   * Initialize collapse/expand functionality for the center column
+   */
+  initializeCollapsibleCenter() {
+    const collapseBtn = document.getElementById('main-content-collapse-btn');
+    const expandBtn = document.getElementById('main-content-expand-btn');
+    const mainContent = document.getElementById('main-content');
+    const inventoryHeader = document.querySelector('.sidebar-header');
+
+    if (collapseBtn && expandBtn && mainContent && inventoryHeader) {
+      // Initial state: hide the expand button
+      expandBtn.style.display = 'none';
+
+      // Setup event listeners
+      collapseBtn.addEventListener('click', () => {
+        mainContent.classList.add('collapsed');
+        expandBtn.style.display = 'flex';
+      });
+
+      expandBtn.addEventListener('click', () => {
+        mainContent.classList.remove('collapsed');
+        expandBtn.style.display = 'none';
+      });
+
+      // Auto-collapse for small screens (mobile)
+      const checkWindowSize = () => {
+        if (window.innerWidth <= 1480) {
+          // Auto-collapse on small screens
+          if (!mainContent.classList.contains('collapsed')) {
+            mainContent.classList.add('collapsed');
+            expandBtn.style.display = 'flex';
+          }
+        }
+      };
+
+      // Check on initial load
+      checkWindowSize();
+
+      // Check when window is resized
+      window.addEventListener('resize', checkWindowSize);
+    }
   }
 }
 

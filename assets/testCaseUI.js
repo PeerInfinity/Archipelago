@@ -6,11 +6,14 @@ export class TestCaseUI {
     this.testCases = null;
     this.testRules = null;
     this.currentTest = null;
+    this.availableTestSets = null;
+    this.currentTestSet = null;
+    this.currentFolder = null;
   }
 
   initialize() {
     try {
-      // Use synchronous XMLHttpRequest instead of fetch
+      // Load the test_files.json which contains the list of available test sets
       const loadJSON = (url) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url, false); // false makes it synchronous
@@ -22,15 +25,203 @@ export class TestCaseUI {
         }
       };
 
-      this.testCases = loadJSON('./test_cases.json');
-      this.testRules = loadJSON('./test_output_rules.json');
+      // Load the list of available test sets
+      this.availableTestSets = loadJSON('./tests/test_files.json');
 
-      // Render the test cases list once during initialization
-      this.renderTestCasesList();
+      // Render the test set selector instead of loading test cases immediately
+      this.renderTestSetSelector();
       return true;
     } catch (error) {
-      console.error('Error loading test data:', error);
+      console.error('Error loading test sets data:', error);
       return false;
+    }
+  }
+
+  renderTestSetSelector() {
+    const container = document.getElementById('test-cases-list');
+    if (!container) {
+      console.error('Test cases list container not found');
+      return;
+    }
+
+    // Create a header
+    let html = `
+      <div class="test-header">
+        <h3>Select a Test Set</h3>
+      </div>
+      <div class="test-sets-container">
+    `;
+
+    // Process each folder of test sets
+    Object.entries(this.availableTestSets).forEach(([folderName, testSets]) => {
+      // Create a section for each folder
+      html += `
+        <div class="test-folder">
+          <h4 class="folder-name">${this.escapeHtml(
+            folderName.replace(/([A-Z])/g, ' $1').trim()
+          )}</h4>
+          <div class="folder-test-sets">
+      `;
+
+      // Add all test sets in this folder
+      Object.entries(testSets).forEach(([testSetName, isEnabled]) => {
+        if (isEnabled) {
+          const displayName = testSetName
+            .replace(/^test/, '')
+            .replace(/([A-Z])/g, ' $1')
+            .trim();
+
+          html += `
+            <button class="test-set-button" 
+                    data-folder="${this.escapeHtml(folderName)}" 
+                    data-testset="${this.escapeHtml(testSetName)}">
+              ${this.escapeHtml(displayName)}
+            </button>
+          `;
+        }
+      });
+
+      // Close the folder section
+      html += `
+          </div>
+        </div>
+      `;
+    });
+
+    // Close the container
+    html += '</div>';
+
+    // Add styles for the test set selector
+    html += `
+      <style>
+        .test-sets-container {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          margin-top: 16px;
+        }
+        .test-folder {
+          background-color: rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          padding: 16px;
+          margin-bottom: 16px;
+        }
+        .folder-name {
+          margin-top: 0;
+          margin-bottom: 16px;
+          color: #ddd;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          padding-bottom: 8px;
+          text-transform: capitalize;
+        }
+        .folder-test-sets {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 12px;
+        }
+        .test-set-button {
+          background-color: rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          color: white;
+          cursor: pointer;
+          padding: 10px;
+          text-align: left;
+          transition: background-color 0.2s;
+        }
+        .test-set-button:hover {
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      </style>
+    `;
+
+    // Set the HTML content
+    container.innerHTML = html;
+
+    // Add event listeners to the test set buttons
+    const buttons = container.querySelectorAll('.test-set-button');
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const folder = button.getAttribute('data-folder');
+        const testSet = button.getAttribute('data-testset');
+        console.log(`Loading test set ${testSet} from folder ${folder}`);
+        this.currentFolder = folder;
+        this.loadTestSet(testSet);
+      });
+    });
+  }
+
+  loadTestSet(testSetName) {
+    try {
+      const container = document.getElementById('test-cases-list');
+      if (container) {
+        container.innerHTML = '<p>Loading test set...</p>';
+      }
+
+      // Use synchronous XMLHttpRequest to load the test files
+      const loadJSON = (url) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, false); // false makes it synchronous
+        xhr.send();
+        if (xhr.status === 200) {
+          return JSON.parse(xhr.responseText);
+        } else {
+          throw new Error(`Failed to load ${url}: ${xhr.status}`);
+        }
+      };
+
+      // Construct folder path if we have a current folder
+      const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+
+      // Load the test rules and test cases based on the test set name and folder
+      this.testRules = loadJSON(
+        `./tests/${folderPath}${testSetName}_rules.json`
+      );
+      this.testCases = loadJSON(
+        `./tests/${folderPath}${testSetName}_tests.json`
+      );
+      this.currentTestSet = testSetName;
+
+      // Render the list of test cases
+      this.renderTestCasesList();
+      this.updateDataSourceIndicator();
+
+      return true;
+    } catch (error) {
+      console.error('Failed to load test set:', error);
+      const container = document.getElementById('test-cases-list');
+      if (container) {
+        container.innerHTML = `
+          <div class="error">
+            <h3>Error Loading Test Set</h3>
+            <p>${error.message}</p>
+            <button id="back-to-test-sets" class="button">Back to Test Sets</button>
+          </div>
+        `;
+
+        // Add event listener for the back button
+        const backButton = container.querySelector('#back-to-test-sets');
+        if (backButton) {
+          backButton.onclick = () => this.renderTestSetSelector();
+        }
+      }
+      return false;
+    }
+  }
+
+  clearTestData() {
+    this.testCases = null;
+    this.testRules = null;
+    this.currentTestSet = null;
+    this.currentFolder = null;
+
+    // Return to the test set selector
+    this.renderTestSetSelector();
+
+    // If the test data was loaded in the game UI, clear it
+    if (this.isUsingTestData()) {
+      this.gameUI.clearExistingData();
+      this.gameUI.initializeUI(this.gameUI.defaultRules);
     }
   }
 
@@ -50,12 +241,7 @@ export class TestCaseUI {
       stateManager.loadFromJSON(this.testRules);
 
       // Then set up the test case inventory state
-      stateManager.initializeInventoryForTest(
-        requiredItems,
-        excludedItems,
-        this.testRules.progression_mapping['1'],
-        this.testRules.items['1']
-      );
+      stateManager.initializeInventoryForTest(requiredItems, excludedItems);
 
       // Force UI sync and cache invalidation
       stateManager.invalidateCache();
@@ -100,9 +286,7 @@ export class TestCaseUI {
           // Create inventory without this item
           stateManager.initializeInventoryForTest(
             requiredItems.filter((item) => item !== missingItem),
-            excludedItems,
-            this.testRules.progression_mapping['1'],
-            this.testRules.items['1']
+            excludedItems
           );
 
           // Check if still accessible
@@ -138,8 +322,12 @@ export class TestCaseUI {
     const dataSource = document.getElementById('data-source');
     if (dataSource) {
       const isTestData = this.isUsingTestData();
+
+      // Include folder in path if available
+      const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+
       dataSource.textContent = isTestData
-        ? 'test_output_rules.json'
+        ? `tests/${folderPath}${this.currentTestSet}_rules.json`
         : 'default_rules.json';
       dataSource.className = isTestData
         ? 'data-source-correct'
@@ -200,9 +388,31 @@ export class TestCaseUI {
   renderTestCasesList() {
     const container = document.getElementById('test-cases-list');
 
+    // Format folder and test set names for display
+    const folderDisplay = this.currentFolder
+      ? this.escapeHtml(this.currentFolder.replace(/([A-Z])/g, ' $1').trim())
+      : '';
+
+    const testSetDisplay = this.escapeHtml(
+      this.currentTestSet
+        .replace(/^test/, '')
+        .replace(/([A-Z])/g, ' $1')
+        .trim()
+    );
+
     let html = `
       <div class="test-header">
-        <h3>Available Test Cases</h3>
+        <div class="test-header-row">
+          <h3>
+            ${
+              folderDisplay
+                ? `<span class="folder-label">${folderDisplay} /</span> `
+                : ''
+            }
+            ${testSetDisplay}
+          </h3>
+          <button id="back-to-test-sets" class="button">Back to Test Sets</button>
+        </div>
         <div class="test-controls">
           <button id="load-test-data" class="button">Load Test Data</button>
           <button id="run-all-tests" class="button">Run All Tests</button>
@@ -284,9 +494,14 @@ export class TestCaseUI {
       <style>
         .test-header {
           display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+        .test-header-row {
+          display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1rem;
         }
         .test-header h3 {
           margin: 0;
@@ -367,10 +582,71 @@ export class TestCaseUI {
         .highlight-location {
           animation: highlight-animation 2s;
         }
+        .folder-label {
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: normal;
+          text-transform: capitalize;
+        }
+        .test-header-row h3 {
+          margin: 0;
+          display: flex;
+          align-items: baseline;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        .test-case {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 8px 0;
+        }
+        .test-case:last-child {
+          border-bottom: none;
+        }
+        .test-case-header {
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px;
+          background-color: rgba(0, 0, 0, 0.1);
+          border-radius: 4px;
+        }
+        .test-case.expanded .test-case-header {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        .test-details {
+          padding: 12px;
+          background-color: rgba(0, 0, 0, 0.05);
+          border-bottom-left-radius: 4px;
+          border-bottom-right-radius: 4px;
+          display: none;
+          overflow: hidden;
+        }
+        .test-case.expanded .test-details {
+          display: block;
+        }
+        .items-list {
+          margin: 4px 0;
+          padding-left: 24px;
+        }
+        .items-list li {
+          margin-bottom: 2px;
+        }
+        .passed {
+          color: #4CAF50;
+        }
+        .failed {
+          color: #F44336;
+        }
       </style>
     `;
 
     container.innerHTML = html;
+
+    // Attach event listener for the back button
+    document
+      .getElementById('back-to-test-sets')
+      ?.addEventListener('click', () => this.clearTestData());
 
     // Attach event listeners for run test buttons
     container.querySelectorAll('.run-test').forEach((button) => {
@@ -388,48 +664,67 @@ export class TestCaseUI {
       ?.addEventListener('click', () => this.runAllTests());
 
     // Add test data loader listener
-    document.getElementById('load-test-data')?.addEventListener('click', () => {
-      try {
-        // Use synchronous XMLHttpRequest instead of fetch
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', './test_output_rules.json', false);
-        xhr.send();
+    const loadDataButton = document.getElementById('load-test-data');
+    if (loadDataButton) {
+      loadDataButton.addEventListener('click', () => {
+        const statusElement = document.getElementById('test-results-summary');
+        statusElement.textContent = 'Loading test data...';
 
-        if (xhr.status !== 200) {
-          throw new Error(`HTTP error! status: ${xhr.status}`);
+        try {
+          // Use synchronous XMLHttpRequest instead of fetch
+          const xhr = new XMLHttpRequest();
+
+          // Construct folder path if we have a current folder
+          const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+
+          // Load the test rules for the current test set
+          xhr.open(
+            'GET',
+            `./tests/${folderPath}${this.currentTestSet}_rules.json`,
+            false
+          );
+          xhr.send();
+
+          if (xhr.status !== 200) {
+            throw new Error(`HTTP error! status: ${xhr.status}`);
+          }
+
+          const jsonData = JSON.parse(xhr.responseText);
+
+          // Use gameUI's initialization code
+          this.gameUI.clearExistingData();
+          this.gameUI.initializeUI(jsonData);
+          this.gameUI.currentRules = jsonData; // Track current rules
+
+          // Update test cases with synchronous request
+          const testXhr = new XMLHttpRequest();
+          testXhr.open(
+            'GET',
+            `./tests/${folderPath}${this.currentTestSet}_tests.json`,
+            false
+          );
+          testXhr.send();
+
+          if (testXhr.status === 200) {
+            this.testCases = JSON.parse(testXhr.responseText);
+          } else {
+            throw new Error(`Failed to load test cases: ${testXhr.status}`);
+          }
+
+          this.testRules = jsonData;
+
+          // Update UI and data source indicator
+          this.updateDataSourceIndicator();
+        } catch (error) {
+          console.error('Error loading test data:', error);
+          const dataSource = document.getElementById('data-source');
+          if (dataSource) {
+            dataSource.innerHTML = `Error loading ${this.currentTestSet} test data`;
+            dataSource.className = 'data-source-wrong';
+          }
         }
-
-        const jsonData = JSON.parse(xhr.responseText);
-
-        // Use gameUI's initialization code
-        this.gameUI.clearExistingData();
-        this.gameUI.initializeUI(jsonData);
-        this.gameUI.currentRules = jsonData; // Track current rules
-
-        // Update test cases with synchronous request
-        const testXhr = new XMLHttpRequest();
-        testXhr.open('GET', './test_cases.json', false);
-        testXhr.send();
-
-        if (testXhr.status === 200) {
-          this.testCases = JSON.parse(testXhr.responseText);
-        } else {
-          throw new Error(`Failed to load test cases: ${testXhr.status}`);
-        }
-
-        this.testRules = jsonData;
-
-        // Update UI and data source indicator
-        this.updateDataSourceIndicator();
-      } catch (error) {
-        console.error('Error loading test data:', error);
-        const dataSource = document.getElementById('data-source');
-        if (dataSource) {
-          dataSource.innerHTML = 'Error loading test_output_rules.json';
-          dataSource.className = 'data-source-wrong';
-        }
-      }
-    });
+      });
+    }
 
     // Add event listeners for region and location links
     setTimeout(() => {

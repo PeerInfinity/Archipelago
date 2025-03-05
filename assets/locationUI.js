@@ -10,8 +10,9 @@ export class LocationUI {
     this.attachEventListeners();
   }
 
-  initialize(jsonData) {
-    stateManager.loadFromJSON(jsonData);
+  initialize() {
+    // Don't need to call loadFromJSON since gameUI.js already does this
+    // stateManager.loadFromJSON(jsonData);
     this.updateLocationDisplay();
   }
 

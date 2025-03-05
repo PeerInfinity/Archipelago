@@ -405,4 +405,35 @@ export class ALTTPHelpers extends GameHelpers {
 
     return hasRequiredItems.every(Boolean);
   }
+
+  // And now the helpers from worlds/alttp/Rules.py
+
+  can_reach(region) {
+    return stateManager.isRegionReachable(region);
+  }
+
+  item_name_in_location_names(item) {
+    // Placeholder.  Todo - copy the logic from Rules.py
+    return true;
+  }
+
+  location() {
+    // Placeholder.  Todo - figure out what the logic should be
+    return true;
+  }
+
+  player() {
+    // Placeholder.  Todo - figure out what the logic should be
+    return false;
+  }
+
+  old_man() {
+    // Placeholder.  Todo - copy the logic from Rules.py
+    return stateManager.isRegionReachable('Old Man');
+  }
+
+  basement_key_rule() {
+    // Placeholder.  Todo - copy the logic from Rules.py
+    return true;
+  }
 }
