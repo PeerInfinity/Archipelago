@@ -212,6 +212,15 @@ class RuleAnalyzer(ast.NodeVisitor):
                     }
                     print(f"Created helper: {self.current_result}")
                     return
+            else:
+                # Create a helper node even if function not in closure vars
+                self.current_result = {
+                    'type': 'helper',
+                    'name': func_name,
+                    'args': processed_args
+                }
+                print(f"Created helper for unknown function: {self.current_result}")
+                return
             # If not in closure_vars, continue below.
         
         # Handle state methods (e.g. state.has, state._lttp_has_key, etc.)

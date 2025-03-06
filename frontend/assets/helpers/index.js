@@ -24,6 +24,17 @@ export class GameHelpers {
     //console.log(`Helper ${name}(${args.join(', ')}) returned ${result}`);
     return result;
   }
+
+  // Helper method to execute a state method by name
+  executeStateMethod(method, ...args) {
+    if (typeof this[method] !== 'function') {
+      console.log(`Unknown state method: ${method}`);
+      return false;
+    }
+    const result = this[method](...args);
+    //console.log(`Helper ${method}(${args.join(', ')}) returned ${result}`);
+    return result;
+  }
 }
 
 // Base class for game-specific state tracking

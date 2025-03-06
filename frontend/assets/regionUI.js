@@ -600,8 +600,203 @@ export class RegionUI {
   }
 
   /**
-   * Comprehensive handler for the Analyze Paths button
-   * This replaces the separate Show Paths, Show Exit Rules, and Compile List functionality
+   * Process each path and create collapsible exit lists
+   * @param {Array} path - The path to process
+   * @param {HTMLElement} pathsDiv - The container for all paths
+   * @param {Object} allNodes - Object containing node categories
+   * @returns {HTMLElement} - The created path element
+   */
+  _processPath(path, pathsDiv, allNodes) {
+    // Create path element
+    const pathEl = document.createElement('div');
+    pathEl.classList.add('region-path');
+    pathEl.style.marginBottom = '10px';
+
+    // Create the path visualization with collapsible header
+    const pathHeader = document.createElement('div');
+    pathHeader.classList.add('path-header');
+    pathHeader.style.display = 'flex';
+    pathHeader.style.alignItems = 'center';
+    pathHeader.style.cursor = 'pointer';
+    pathHeader.style.padding = '5px';
+    pathHeader.style.borderRadius = '4px';
+    pathHeader.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+
+    // Add toggle indicator
+    const toggleIndicator = document.createElement('span');
+    toggleIndicator.classList.add('path-toggle-indicator');
+    toggleIndicator.textContent = '▼'; // Down arrow for expanded
+    toggleIndicator.style.marginRight = '8px';
+    toggleIndicator.style.fontSize = '10px';
+    toggleIndicator.style.transition = 'transform 0.2s';
+    pathHeader.appendChild(toggleIndicator);
+
+    // Create the path visualization
+    const pathText = document.createElement('div');
+    pathText.classList.add('path-regions');
+    pathText.style.flex = '1';
+
+    // Analyze the transitions in this path
+    const transitions = this._findAllTransitions(path);
+
+    // Create container for exit rules (this will be toggled)
+    const exitRulesContainer = document.createElement('div');
+    exitRulesContainer.classList.add('path-exit-rules');
+    exitRulesContainer.style.display = 'block'; // Start expanded
+
+    // Track if the path chain is unbroken so far
+    let pathChainIntact = true;
+    let lastAccessibleRegionIndex = -1;
+
+    // Display the path regions
+    path.forEach((region, index) => {
+      // Check region's general accessibility
+      const regionAccessible = stateManager.isRegionReachable(region);
+
+      // Determine color based on accessibility and path integrity
+      let regionColor;
+
+      if (!regionAccessible) {
+        // Region is completely inaccessible: RED
+        regionColor = '#f44336';
+        pathChainIntact = false;
+      } else if (index === 0) {
+        // First region is accessible, start of path: GREEN
+        regionColor = '#4caf50';
+        lastAccessibleRegionIndex = 0;
+      } else if (pathChainIntact) {
+        // We need to check if the transition from the previous region works
+        const prevRegion = path[index - 1];
+
+        // Find the transition between these regions
+        const transition = transitions.find(
+          (t) => t.fromRegion === prevRegion && t.toRegion === region
+        );
+
+        if (transition && transition.exitAccessible) {
+          // This link in the chain works - region is accessible via this path: GREEN
+          regionColor = '#4caf50';
+          lastAccessibleRegionIndex = index;
+        } else {
+          // Transition doesn't work - region is accessible but not via this path: ORANGE
+          regionColor = '#ff9800';
+          pathChainIntact = false;
+        }
+      } else {
+        // Previous link was broken - region is accessible but not via this path: ORANGE
+        regionColor = '#ff9800';
+      }
+
+      // Create a span for the region with the appropriate color
+      const regionSpan = document.createElement('span');
+      regionSpan.textContent = region;
+      regionSpan.style.color = regionColor;
+      regionSpan.classList.add('region-link');
+      regionSpan.dataset.region = region;
+      regionSpan.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.navigateToRegion(region);
+      });
+
+      // Add the region to the path
+      pathText.appendChild(regionSpan);
+
+      // Add an arrow between regions (except for the last one)
+      if (index < path.length - 1) {
+        const arrow = document.createElement('span');
+        arrow.textContent = ' → ';
+        pathText.appendChild(arrow);
+      }
+    });
+
+    // Add path text to header
+    pathHeader.appendChild(pathText);
+
+    // Add click handler for toggling exit rules
+    pathHeader.addEventListener('click', () => {
+      const isExpanded = exitRulesContainer.style.display !== 'none';
+
+      // Toggle visibility
+      exitRulesContainer.style.display = isExpanded ? 'none' : 'block';
+
+      // Update toggle indicator
+      toggleIndicator.textContent = isExpanded ? '►' : '▼'; // Right arrow when collapsed, down when expanded
+      toggleIndicator.style.transform = isExpanded
+        ? 'rotate(0deg)'
+        : 'rotate(0deg)';
+    });
+
+    // Add header to path element
+    pathEl.appendChild(pathHeader);
+
+    // Add exit rule for transitions if any
+    if (transitions.length > 0) {
+      transitions.forEach((transition) => {
+        if (!transition.exit.access_rule) return;
+
+        // Evaluate the rule to determine accessibility
+        const exitAccessible = transition.exitAccessible;
+
+        // Create exit rule container with appropriate class based on accessibility
+        const exitRuleContainer = document.createElement('div');
+        exitRuleContainer.classList.add('path-exit-rule-container');
+        exitRuleContainer.classList.add(
+          exitAccessible ? 'passing-exit' : 'failing-exit'
+        );
+        exitRuleContainer.style.display = 'block'; // Always show by default
+        exitRuleContainer.style.marginLeft = '20px';
+        exitRuleContainer.style.marginTop = '5px';
+        exitRuleContainer.style.marginBottom = '10px';
+        exitRuleContainer.style.padding = '5px';
+        exitRuleContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+
+        // Set the border color based on rule evaluation
+        exitRuleContainer.style.borderLeft = exitAccessible
+          ? '3px solid #4caf50' // Green for accessible exits
+          : '3px solid #f44336'; // Red for inaccessible exits
+
+        // Create header for exit
+        const exitHeader = document.createElement('div');
+        exitHeader.classList.add('path-exit-header');
+
+        // Set exit header color based on accessibility
+        exitHeader.style.color = exitAccessible ? '#4caf50' : '#f44336';
+
+        exitHeader.innerHTML = `<strong>${
+          transition.isBlocking ? 'Blocked Exit' : 'Exit'
+        }:</strong> ${transition.fromRegion} → ${transition.exit.name} → ${
+          transition.toRegion
+        }`;
+        exitRuleContainer.appendChild(exitHeader);
+
+        // Show the exit rule
+        const ruleContainer = document.createElement('div');
+        ruleContainer.classList.add('path-exit-rule');
+
+        // Create a DOM representation of the rule for both display and analysis
+        const ruleElement = this.renderLogicTree(transition.exit.access_rule);
+        ruleContainer.appendChild(ruleElement);
+        exitRuleContainer.appendChild(ruleContainer);
+
+        // Add to exit rules container
+        exitRulesContainer.appendChild(exitRuleContainer);
+
+        // Analyze rules from this transition for our categories
+        const nodeResults = this.extractCategorizedNodes(ruleElement);
+        Object.keys(allNodes).forEach((key) => {
+          allNodes[key].push(...nodeResults[key]);
+        });
+      });
+    }
+
+    // Add exit rules container to path element
+    pathEl.appendChild(exitRulesContainer);
+
+    return pathEl;
+  }
+
+  /**
+   * Comprehensive handler for the Analyze Paths button with toggle controls
    */
   setupAnalyzePathsButton(
     analyzePathsBtn,
@@ -617,6 +812,13 @@ export class RegionUI {
         pathsContainer.innerHTML = '';
         pathsCountSpan.style.display = 'none';
         analyzePathsBtn.textContent = 'Analyze Paths';
+
+        // Find and remove any toggle controls if they exist
+        const toggleContainer = document.querySelector('.path-toggle-controls');
+        if (toggleContainer) {
+          toggleContainer.remove();
+        }
+
         return;
       }
 
@@ -655,10 +857,12 @@ export class RegionUI {
       // 3. Create section for the requirement analysis
       const requirementsDiv = document.createElement('div');
       requirementsDiv.classList.add('compiled-results-container');
+      requirementsDiv.id = 'path-summary-section';
       requirementsDiv.innerHTML = '<h4>Path Requirements Analysis:</h4>';
 
       // 4. Display paths with their transitions
       const pathsDiv = document.createElement('div');
+      pathsDiv.classList.add('path-regions-container');
       pathsDiv.innerHTML = '<h4>Paths to this region:</h4>';
 
       // Show path count
@@ -671,94 +875,8 @@ export class RegionUI {
 
       // Process each path - both for display and analysis
       allPaths.forEach((path, pathIndex) => {
-        // Create path element
-        const pathEl = document.createElement('div');
-        pathEl.classList.add('region-path');
-        pathEl.style.marginBottom = '10px';
-
-        // Create the path visualization
-        const pathText = document.createElement('div');
-        pathText.classList.add('path-regions');
-
-        // Analyze the transitions in this path
-        const transitions = this._findAllTransitions(path);
-
-        // Display the path regions
-        path.forEach((region, index) => {
-          // Check if the region is accessible
-          const regionAccessible = stateManager.isRegionReachable(region);
-
-          // Create a span for the region with the appropriate color
-          const regionSpan = document.createElement('span');
-          regionSpan.textContent = region;
-          regionSpan.style.color = regionAccessible ? '#4caf50' : '#f44336';
-          regionSpan.classList.add('region-link');
-          regionSpan.dataset.region = region;
-          regionSpan.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.navigateToRegion(region);
-          });
-
-          // Add the region to the path
-          pathText.appendChild(regionSpan);
-
-          // Add an arrow between regions (except for the last one)
-          if (index < path.length - 1) {
-            const arrow = document.createElement('span');
-            arrow.textContent = ' → ';
-            pathText.appendChild(arrow);
-          }
-        });
-
-        pathEl.appendChild(pathText);
-
-        // Add exit rule for transitions if any
-        if (transitions.length > 0) {
-          transitions.forEach((transition) => {
-            if (!transition.exit.access_rule) return;
-
-            // Create exit rule container
-            const exitRuleContainer = document.createElement('div');
-            exitRuleContainer.classList.add('path-exit-rule-container');
-            exitRuleContainer.style.display = 'block'; // Always show by default
-            exitRuleContainer.style.marginLeft = '20px';
-            exitRuleContainer.style.marginTop = '5px';
-            exitRuleContainer.style.marginBottom = '10px';
-            exitRuleContainer.style.padding = '5px';
-            exitRuleContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-            exitRuleContainer.style.borderLeft = '3px solid #f44336';
-
-            // Create header for exit
-            const exitHeader = document.createElement('div');
-            exitHeader.classList.add('path-exit-header');
-            exitHeader.innerHTML = `<strong>${
-              transition.isBlocking ? 'Blocked Exit' : 'Exit'
-            }:</strong> ${transition.fromRegion} → ${transition.exit.name} → ${
-              transition.toRegion
-            }`;
-            exitRuleContainer.appendChild(exitHeader);
-
-            // Show the exit rule
-            const ruleContainer = document.createElement('div');
-            ruleContainer.classList.add('path-exit-rule');
-
-            // Create a DOM representation of the rule for both display and analysis
-            const ruleElement = this.renderLogicTree(
-              transition.exit.access_rule
-            );
-            ruleContainer.appendChild(ruleElement);
-            exitRuleContainer.appendChild(ruleContainer);
-
-            // Add to path element
-            pathEl.appendChild(exitRuleContainer);
-
-            // Analyze rules from this transition for our categories
-            const nodeResults = this.extractCategorizedNodes(ruleElement);
-            Object.keys(allNodes).forEach((key) => {
-              allNodes[key].push(...nodeResults[key]);
-            });
-          });
-        }
+        // Use the new method to process each path
+        const pathEl = this._processPath(path, pathsDiv, allNodes);
 
         // Add path to paths container
         pathsDiv.appendChild(pathEl);
@@ -772,10 +890,118 @@ export class RegionUI {
       pathsContainer.appendChild(requirementsDiv);
       pathsContainer.appendChild(pathsDiv);
 
-      // 7. Done analyzing - update button
+      // 7. Create toggle controls
+      this._createToggleControls(pathsContainer);
+
+      // 8. Done analyzing - update button
       analyzePathsBtn.textContent = 'Clear Analysis';
       analyzePathsBtn.disabled = false;
     });
+  }
+
+  /**
+   * Create toggle controls for the path analysis view
+   * @param {HTMLElement} container - Container to add the toggle controls to
+   */
+  _createToggleControls(container) {
+    // Create container for toggle buttons
+    const toggleContainer = document.createElement('div');
+    toggleContainer.classList.add('path-toggle-controls');
+    toggleContainer.style.display = 'flex';
+    toggleContainer.style.gap = '10px';
+    toggleContainer.style.marginBottom = '15px';
+    toggleContainer.style.flexWrap = 'wrap';
+
+    // Create toggle buttons
+    const toggles = [
+      {
+        id: 'toggle-summary',
+        initialText: 'Hide Summary',
+        selector: '#path-summary-section',
+        showText: 'Show Summary',
+        hideText: 'Hide Summary',
+      },
+      {
+        id: 'toggle-passing-exits',
+        initialText: 'Hide Passing Exits',
+        selector: '.passing-exit',
+        showText: 'Show Passing Exits',
+        hideText: 'Hide Passing Exits',
+      },
+      {
+        id: 'toggle-failing-exits',
+        initialText: 'Hide Failing Exits',
+        selector: '.failing-exit',
+        showText: 'Show Failing Exits',
+        hideText: 'Hide Failing Exits',
+      },
+    ];
+
+    // Create each toggle button
+    toggles.forEach((toggle) => {
+      const button = document.createElement('button');
+      button.id = toggle.id;
+      button.textContent = toggle.initialText;
+      button.style.padding = '5px 10px';
+      button.style.backgroundColor = '#333';
+      button.style.color = '#fff';
+      button.style.border = '1px solid #666';
+      button.style.borderRadius = '4px';
+      button.style.cursor = 'pointer';
+
+      // Set up the toggle functionality
+      let isHidden = false;
+      button.addEventListener('click', () => {
+        isHidden = !isHidden;
+        button.textContent = isHidden ? toggle.showText : toggle.hideText;
+
+        // Toggle visibility of the targeted elements
+        const elements = document.querySelectorAll(toggle.selector);
+        elements.forEach((el) => {
+          el.style.display = isHidden ? 'none' : 'block';
+        });
+      });
+
+      toggleContainer.appendChild(button);
+    });
+
+    // Add "Collapse All" button
+    const collapseAllButton = document.createElement('button');
+    collapseAllButton.id = 'toggle-collapse-all';
+    collapseAllButton.textContent = 'Collapse All';
+    collapseAllButton.style.padding = '5px 10px';
+    collapseAllButton.style.backgroundColor = '#333';
+    collapseAllButton.style.color = '#fff';
+    collapseAllButton.style.border = '1px solid #666';
+    collapseAllButton.style.borderRadius = '4px';
+    collapseAllButton.style.cursor = 'pointer';
+
+    // Add collapse/expand functionality
+    let allCollapsed = false;
+    collapseAllButton.addEventListener('click', () => {
+      allCollapsed = !allCollapsed;
+      collapseAllButton.textContent = allCollapsed
+        ? 'Expand All'
+        : 'Collapse All';
+
+      // Get all exit rule containers
+      const exitContainers = document.querySelectorAll('.path-exit-rules');
+      exitContainers.forEach((container) => {
+        container.style.display = allCollapsed ? 'none' : 'block';
+      });
+
+      // Update all toggle indicators
+      const indicators = document.querySelectorAll('.path-toggle-indicator');
+      indicators.forEach((indicator) => {
+        indicator.textContent = allCollapsed ? '►' : '▼';
+      });
+    });
+
+    toggleContainer.appendChild(collapseAllButton);
+
+    // Insert toggle controls at the very beginning of the container,
+    // before the summary section
+    container.insertBefore(toggleContainer, container.firstChild);
   }
 
   /**
@@ -808,6 +1034,10 @@ export class RegionUI {
         toRegion,
         exit,
         isBlocking: fromAccessible && !toAccessible,
+        // Pre-evaluate the exit accessibility for consistent coloring
+        exitAccessible: exit.access_rule
+          ? evaluateRule(exit.access_rule)
+          : true,
       });
     }
 
@@ -1895,6 +2125,14 @@ export class RegionUI {
     container.appendChild(listContainer);
   }
 
+  /**
+   * Displays a section of nodes in the compiled list
+   * @param {HTMLElement} container - Container to add the section to
+   * @param {Array} nodes - List of nodes to display
+   * @param {string} title - Section title
+   * @param {string} description - Section description
+   * @param {string} sectionColor - Color for this section
+   */
   _createNodeListSection(container, nodes, title, description, sectionColor) {
     if (nodes.length === 0) return;
 
@@ -1939,8 +2177,20 @@ export class RegionUI {
         // Find all value spans (the second child of each container)
         const valueSpans = clonedElement.querySelectorAll('span:nth-child(2)');
         valueSpans.forEach((span) => {
-          // Override the color based on the section
-          span.style.color = sectionColor;
+          // Skip region links when setting the section color
+          if (!span.classList.contains('region-link')) {
+            span.style.color = sectionColor;
+          }
+        });
+
+        // Ensure all region links have correct colors based on accessibility
+        const regionLinks = clonedElement.querySelectorAll('.region-link');
+        regionLinks.forEach((link) => {
+          const regionName = link.dataset.region;
+          if (regionName) {
+            const regionAccessible = stateManager.isRegionReachable(regionName);
+            link.style.color = regionAccessible ? '#4caf50' : '#f44336';
+          }
         });
 
         item.appendChild(clonedElement);

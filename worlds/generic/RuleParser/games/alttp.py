@@ -33,7 +33,8 @@ class ALttPHelperExpander(BaseHelperExpander):
             'has_crystals',
             'item_name_in_location_names',
             'location_item_name', 
-            'shop_price_rules'
+            'shop_price_rules',
+            'cross_peg_bridge'
         }
 
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:

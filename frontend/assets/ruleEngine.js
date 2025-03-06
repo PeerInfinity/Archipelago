@@ -169,6 +169,29 @@ export const evaluateRule = (rule, depth = 0) => {
       break;
     }
 
+    case 'state_method': {
+      if (
+        stateManager.helpers &&
+        typeof stateManager.helpers.executeStateMethod === 'function'
+      ) {
+        result = stateManager.helpers.executeStateMethod(
+          rule.method,
+          ...(rule.args || [])
+        );
+      } else {
+        safeLog(
+          `No state method implementation available for: ${rule.method}`,
+          {
+            availableHelpers: stateManager.helpers
+              ? Object.keys(stateManager.helpers)
+              : [],
+          }
+        );
+        result = false;
+      }
+      break;
+    }
+
     default: {
       safeLog(`Unknown rule type: ${rule.type}`);
       result = false;
