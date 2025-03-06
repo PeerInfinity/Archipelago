@@ -1570,3 +1570,81 @@ Thanks.  It looks like the changes to testCaseUI are working properly.  Now can 
 
 Also, please add a way for the page to show its progress, at least in the console.
 
+----
+
+Mar. 5, 2025:
+
+Current Implementation Description
+
+The "Compile List" button in regionUI currently compiles four separate lists that categorize leaf nodes based on their status and impact on the overall logic:
+
+1. A list of failed leaf nodes that are sole blockers in their path. These nodes not only fail individually but actually cause their logic tree to evaluate to false.
+
+2. A list of failed leaf nodes that are blockers but have at least one other blocker in their path. The code only counts nodes that directly cause the tree to fail, excluding failed nodes in "or" branches that pass due to other passing nodes.
+
+3. A list of passed leaf nodes that are critical to the tree's success - if any of these were to fail instead, the whole tree would fail.
+
+4. A list of passed leaf nodes that aren't critical - if any of these were to fail instead, the tree would still pass (for example, nodes in "or" branches where another node passes).
+
+The algorithm processes data from all path transitions across all possible paths, not just the currently displayed ones. It stops after processing 100 paths (this number is stored as a variable for potential future adjustment).
+
+All four lists are deduplicated, removing any redundant entries.
+
+That was a description of what the current version of the algorithm is trying to do. Now here is a description of how I want to change the algorithm:
+
+
+Here is how the algorithm should work:
+
+Read the region data from stateManager
+
+Generate a list of all possible paths from the start region to the destination region, with no region appearing twice in the path. Stop when there are no more paths, or when 100 paths have already been generated.
+
+Initialize an empty list for each of the six categories of leaf nodes. It's possible for a node to be in more than one category.
+
+The categories are:
+Primary blocker
+Secondary blocker
+Tertiary blocker
+Primary requirement
+Secondary requirement
+Tertiary requirement
+
+Then, for each path p:
+
+For each exit rule e for a transition on that path from one region to the next:
+
+Get the logic tree t for that transition, from the region’s exit rule
+
+For each leaf node l on the tree:
+
+Check if the node is a pass or a fail.
+
+If node l is a fail:
+
+If the tree t already evaluates to true, then classify l as a tertiary blocker
+
+Otherwise calculate what the tree would have evaluated to if node l was a pass instead of a fail
+
+If the result becomes a pass, then classify l as a primary blocker
+
+Otherwise classify it as a secondary blocker
+
+If node l is a pass:
+
+If the tree t already evaluates to false, then classify l as a tertiary requirement 
+
+Otherwise calculate what the tree would have evaluated to if node l was a pass instead of a fail
+
+If the result becomes a fail, then classify l as a primary requirement 
+
+Otherwise classify it as a secondary requirement
+
+Iterate for the rest of the leaf nodes on that tree
+
+Iterate for the rest of the transitions in that path
+
+Iterate for the rest of the paths
+
+Deduplicate each of the six lists
+
+Treat instances of a function with different parameters as not being duplicates.

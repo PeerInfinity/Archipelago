@@ -2,3 +2,103 @@ That's the end of the files you need for context.  Now here are your instruction
 
 ----
 
+We’re currently working on a set of path analysis tools in regionUI.js.
+
+Here is a description of the first version:
+
+Current Implementation Description
+
+The "Analyze Paths" button in regionUI currently compiles four separate lists that categorize leaf nodes based on their status and impact on the overall logic:
+
+1. A list of failed leaf nodes that are sole blockers in their path. These nodes not only fail individually but actually cause their logic tree to evaluate to false.
+
+2. A list of failed leaf nodes that are blockers but have at least one other blocker in their path. The code only counts nodes that directly cause the tree to fail, excluding failed nodes in "or" branches that pass due to other passing nodes.
+
+3. A list of passed leaf nodes that are critical to the tree's success - if any of these were to fail instead, the whole tree would fail.
+
+4. A list of passed leaf nodes that aren't critical - if any of these were to fail instead, the tree would still pass (for example, nodes in "or" branches where another node passes).
+
+The algorithm processes data from all path transitions across all possible paths, not just the currently displayed ones. It stops after processing 100 paths (this number is stored as a variable for potential future adjustment).
+
+All four lists are deduplicated, removing any redundant entries.
+
+That was a description of what the current version of the algorithm is trying to do. Now here is a description of how I want to change the algorithm:
+
+
+Here is a description of the second version:
+
+Read the region data from stateManager
+
+Generate a list of all possible paths from the start region to the destination region, with no region appearing twice in the path. Stop when there are no more paths, or when 100 paths have already been generated.
+
+Initialize an empty list for each of the six categories of leaf nodes. It's possible for a node to be in more than one category.
+
+The categories are:
+Primary blocker
+Secondary blocker
+Tertiary blocker
+Primary requirement
+Secondary requirement
+Tertiary requirement
+
+Then, for each path p:
+
+For each exit rule e for a transition on that path from one region to the next:
+
+Get the logic tree t for that transition, from the region’s exit rule
+
+For each leaf node l on the tree:
+
+Check if the node is a pass or a fail.
+
+If node l is a fail:
+
+If the tree t already evaluates to true, then classify l as a tertiary blocker
+
+Otherwise calculate what the tree would have evaluated to if node l was a pass instead of a fail
+
+If the result becomes a pass, then classify l as a primary blocker
+
+Otherwise classify it as a secondary blocker
+
+If node l is a pass:
+
+If the tree t already evaluates to false, then classify l as a tertiary requirement 
+
+Otherwise calculate what the tree would have evaluated to if node l was a pass instead of a fail
+
+If the result becomes a fail, then classify l as a primary requirement 
+
+Otherwise classify it as a secondary requirement
+
+Iterate for the rest of the leaf nodes on that tree
+
+Iterate for the rest of the transitions in that path
+
+Iterate for the rest of the paths
+
+Deduplicate each of the six lists
+
+Treat instances of a function with different parameters as not being duplicates.
+
+
+
+And now here is a new set of changes I want to make to this feature:
+
+
+
+In regionUI, I'll want to rename “primary blockers” to “region blockers”. And I'll want to add two categories above that: “path blockers” and “full blockers”.
+
+To check if a node is a path blockers, check if the destination region would become reachable if the node was changed to true.
+
+To check if a node is a full blocker, check if the destination region would be reachable if this node was false, but every other node in every exit rule in every path was true.
+
+Similarly, I'll want to rename “primary requirements” to “region requirements”. And I'll want to add two categories above that: “path requirements” and “full requirements”.
+
+To check if a node is a path requirement, check if the destination region would become unreachable if the node was changed to false.
+
+To check if a node is a full requirement, check if the destination region would be reachable if this node was true, but every other node in every exit rule in every path was false.
+
+Nodes can satisfy the requirements of more than one category, but count them only in the highest category that they meet the requirements for. Assign them to the relevant blocker category if the node is false, and to the relevant requirement category if the node is true.
+
+Skip processing a node if an identical node has already been assigned a category.
