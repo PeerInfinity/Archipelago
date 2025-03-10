@@ -408,10 +408,6 @@ export class ALTTPHelpers extends GameHelpers {
 
   // And now the helpers from worlds/alttp/Rules.py
 
-  can_reach(region) {
-    return stateManager.isRegionReachable(region);
-  }
-
   item_name_in_location_names(item) {
     // Placeholder.  Todo - copy the logic from Rules.py
     return true;
@@ -429,11 +425,104 @@ export class ALTTPHelpers extends GameHelpers {
 
   old_man() {
     // Placeholder.  Todo - copy the logic from Rules.py
-    return stateManager.isRegionReachable('Old Man');
+    return stateManager.isLocationAccessible('Old Man');
   }
 
   basement_key_rule() {
     // Placeholder.  Todo - copy the logic from Rules.py
     return true;
+  }
+
+  cross_peg_bridge() {
+    // Placeholder.  Todo - copy the logic from Rules.py
+    return true;
+  }
+
+  any() {
+    // Placeholder.  Todo - copy the logic from Rules.py
+    return true;
+  }
+
+  add_rule() {
+    // Placeholder.  Todo - copy the logic from Rules.py
+    return false;
+  }
+
+  // And now the state_methods:
+
+  can_reach(region, type = 'Region', player = 1) {
+    // The context-aware state manager handles position-specific constraints correctly
+    if (type === 'Region') {
+      return stateManager.isRegionReachable(region);
+    } else if (type === 'Location') {
+      // Find the location object
+      const location = stateManager.locations.find(
+        (loc) => loc.name === region
+      );
+      return location && stateManager.isLocationAccessible(location);
+    }
+
+    return false;
+  }
+
+  /*
+    def can_reach(self,
+                  spot: Union[Location, Entrance, Region, str],
+                  resolution_hint: Optional[str] = None,
+                  player: Optional[int] = None) -> bool:
+        if isinstance(spot, str):
+            assert isinstance(player, int), "can_reach: player is required if spot is str"
+            # try to resolve a name
+            if resolution_hint == 'Location':
+                return self.can_reach_location(spot, player)
+            elif resolution_hint == 'Entrance':
+                return self.can_reach_entrance(spot, player)
+            else:
+                # default to Region
+                return self.can_reach_region(spot, player)
+        return spot.can_reach(self)
+
+    def can_reach_location(self, spot: str, player: int) -> bool:
+        return self.multiworld.get_location(spot, player).can_reach(self)
+
+    def can_reach_entrance(self, spot: str, player: int) -> bool:
+        return self.multiworld.get_entrance(spot, player).can_reach(self)
+
+    def can_reach_region(self, spot: str, player: int) -> bool:
+        return self.multiworld.get_region(spot, player).can_reach(self)
+
+  */
+
+  _lttp_has_key(key, player, count) {
+    // Untested
+    return stateManager.inventory.count(key) >= count;
+  }
+
+  multiworld() {
+    // Placeholder!
+    return true;
+  }
+
+  has_any(item, playerId) {
+    // Placeholder!
+    return true;
+
+    /*
+    // Handle case where item is a constant object
+    const itemName =
+      typeof item === 'object' && item.type === 'constant' ? item.value : item;
+
+    // Convert player to numeric ID if it's a string like "player"
+    const player =
+      playerId === 'player' ? stateManager.playerSlot : parseInt(playerId, 10);
+
+    // Check if the player has the item in their inventory
+    if (stateManager.inventory) {
+      const count = stateManager.inventory.count(itemName, player);
+      return count > 0;
+    }
+
+    return false;
+    */
   }
 }

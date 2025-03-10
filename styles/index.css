@@ -853,3 +853,66 @@ input[type='radio'],
 label {
   touch-action: manipulation;
 }
+
+/* Alternative Exits Styling */
+.alternative-exits-indicator {
+  font-size: 0.8em;
+  color: #ffc107;
+  margin-left: 5px;
+  cursor: help;
+}
+
+.alternative-exits {
+  margin: 5px 0;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-left: 3px solid #ffc107;
+  font-size: 0.9em;
+}
+
+/* Performance Warning Styling */
+.performance-warning {
+  background-color: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 14px;
+}
+
+.warning-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.warning-buttons .button {
+  background-color: #666;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.warning-buttons .button:hover {
+  background-color: #888;
+}
+
+#proceed-analysis {
+  background-color: #ff9800;
+}
+
+#proceed-analysis:hover {
+  background-color: #f57c00;
+}
+
+#cancel-analysis {
+  background-color: #666;
+}
+
+#cancel-analysis:hover {
+  background-color: #888;
+}

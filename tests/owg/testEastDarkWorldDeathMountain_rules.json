@@ -4441,48 +4441,28 @@
             "name": "Capacity Upgrade Left",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: Expr",
-                "\n--- Generic Visit: Expr ---",
-                "Node details: {'value': <ast.Call object at 0x00000197B80E9270>, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 76}",
-                "\n--- Analyzing Lambda ---",
-                "Lambda args: ['state', 'spot']",
-                "Lambda body type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "add_rule",
+              "args": [
+                "loc",
+                {
+                  "type": "helper",
+                  "name": "shop_price_rules",
+                  "args": [
+                    "spot"
+                  ]
+                }
+              ]
             },
             "item_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: Assign",
-                "\n--- Generic Visit: Assign ---",
-                "Node details: {'targets': [<ast.Attribute object at 0x00000197B80E8EB0>], 'value': <ast.Lambda object at 0x00000197B80E9300>, 'type_comment': None, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 114}",
-                "\n--- Analyzing Lambda ---",
-                "Lambda args: ['item', 'spot']",
-                "Lambda body type: UnaryOp",
-                "\n--- Generic Visit: UnaryOp ---",
-                "Node details: {'op': <ast.Not object at 0x00000197947DAE00>, 'operand': <ast.Call object at 0x00000197B80E93C0>, 'lineno': 1, 'col_offset': 39, 'end_lineno': 1, 'end_col_offset': 114}",
-                "\n--- Generic Visit: Not ---",
-                "Node details: {}",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Name object at 0x00000197B80E9DE0>, 'generators': [<ast.comprehension object at 0x00000197B80E8970>], 'lineno': 1, 'col_offset': 46, 'end_lineno': 1, 'end_col_offset': 114}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B80EA890>, 'iter': <ast.Subscript object at 0x00000197B80E8490>, 'ifs': [<ast.Compare object at 0x00000197B80E8DF0>], 'is_async': 0}",
-                "\n--- Generic Visit: Subscript ---",
-                "Node details: {'value': <ast.Name object at 0x00000197B80E8760>, 'slice': <ast.Attribute object at 0x00000197B80E9E10>, 'ctx': <ast.Load object at 0x00000197949B24D0>, 'lineno': 1, 'col_offset': 58, 'end_lineno': 1, 'end_col_offset': 95}",
-                "\n--- Generic Visit: Load ---",
-                "Node details: {}",
-                "\n--- Generic Visit: Compare ---",
-                "Node details: {'left': <ast.Name object at 0x00000197B80E8E20>, 'ops': [<ast.In object at 0x00000197947DBD60>], 'comparators': [<ast.Attribute object at 0x00000197B80E9150>], 'lineno': 1, 'col_offset': 99, 'end_lineno': 1, 'end_col_offset': 113}",
-                "\n--- Generic Visit: In ---",
-                "Node details: {}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "item"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -4492,48 +4472,28 @@
             "name": "Capacity Upgrade Right",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: Expr",
-                "\n--- Generic Visit: Expr ---",
-                "Node details: {'value': <ast.Call object at 0x00000197B80E8D00>, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 76}",
-                "\n--- Analyzing Lambda ---",
-                "Lambda args: ['state', 'spot']",
-                "Lambda body type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "add_rule",
+              "args": [
+                "loc",
+                {
+                  "type": "helper",
+                  "name": "shop_price_rules",
+                  "args": [
+                    "spot"
+                  ]
+                }
+              ]
             },
             "item_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: Assign",
-                "\n--- Generic Visit: Assign ---",
-                "Node details: {'targets': [<ast.Attribute object at 0x00000197B80EA860>], 'value': <ast.Lambda object at 0x00000197B80EA980>, 'type_comment': None, 'lineno': 1, 'col_offset': 0, 'end_lineno': 1, 'end_col_offset': 114}",
-                "\n--- Analyzing Lambda ---",
-                "Lambda args: ['item', 'spot']",
-                "Lambda body type: UnaryOp",
-                "\n--- Generic Visit: UnaryOp ---",
-                "Node details: {'op': <ast.Not object at 0x00000197947DAE00>, 'operand': <ast.Call object at 0x00000197B80E94B0>, 'lineno': 1, 'col_offset': 39, 'end_lineno': 1, 'end_col_offset': 114}",
-                "\n--- Generic Visit: Not ---",
-                "Node details: {}",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Name object at 0x00000197B80EACB0>, 'generators': [<ast.comprehension object at 0x00000197B80E8340>], 'lineno': 1, 'col_offset': 46, 'end_lineno': 1, 'end_col_offset': 114}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B80E8D60>, 'iter': <ast.Subscript object at 0x00000197B80E8220>, 'ifs': [<ast.Compare object at 0x00000197B80E9090>], 'is_async': 0}",
-                "\n--- Generic Visit: Subscript ---",
-                "Node details: {'value': <ast.Name object at 0x00000197B80EAD70>, 'slice': <ast.Attribute object at 0x00000197B80E8FD0>, 'ctx': <ast.Load object at 0x00000197949B24D0>, 'lineno': 1, 'col_offset': 58, 'end_lineno': 1, 'end_col_offset': 95}",
-                "\n--- Generic Visit: Load ---",
-                "Node details: {}",
-                "\n--- Generic Visit: Compare ---",
-                "Node details: {'left': <ast.Name object at 0x00000197B80E87F0>, 'ops': [<ast.In object at 0x00000197947DBD60>], 'comparators': [<ast.Attribute object at 0x00000197B80E8820>], 'lineno': 1, 'col_offset': 99, 'end_lineno': 1, 'end_col_offset': 113}",
-                "\n--- Generic Visit: In ---",
-                "Node details: {}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "item"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -5237,18 +5197,14 @@
           "boss": {
             "name": "Lanmolas",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -5322,18 +5278,14 @@
           "boss": {
             "name": "Lanmolas",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -5415,18 +5367,14 @@
           "boss": {
             "name": "Lanmolas",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -5618,6 +5566,11 @@
                       "item": "Big Key (Desert Palace)"
                     },
                     {
+                      "type": "helper",
+                      "name": "has_fire_source",
+                      "args": []
+                    },
+                    {
                       "type": "state_method",
                       "method": "multiworld",
                       "args": [
@@ -5657,18 +5610,14 @@
           "boss": {
             "name": "Lanmolas",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -5786,6 +5735,13 @@
                     {
                       "type": "item_check",
                       "item": "Big Key (Eastern Palace)"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_kill_most_things",
+                      "args": [
+                        1
+                      ]
                     }
                   ]
                 }
@@ -5812,6 +5768,13 @@
                 {
                   "type": "and",
                   "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_kill_most_things",
+                      "args": [
+                        5
+                      ]
+                    },
                     {
                       "type": "or",
                       "conditions": [
@@ -5950,18 +5913,14 @@
           "boss": {
             "name": "Armos Knights",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -7022,6 +6981,11 @@
                   "type": "and",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "has_sword",
+                      "args": []
+                    },
+                    {
                       "type": "state_method",
                       "method": "_lttp_has_key",
                       "args": [
@@ -7079,6 +7043,13 @@
                   "type": "and",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "can_kill_most_things",
+                      "args": [
+                        4
+                      ]
+                    },
+                    {
                       "type": "state_method",
                       "method": "_lttp_has_key",
                       "args": [
@@ -7111,6 +7082,13 @@
                 {
                   "type": "and",
                   "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_kill_most_things",
+                      "args": [
+                        4
+                      ]
+                    },
                     {
                       "type": "state_method",
                       "method": "_lttp_has_key",
@@ -7146,6 +7124,13 @@
                   "type": "and",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "can_kill_most_things",
+                      "args": [
+                        4
+                      ]
+                    },
+                    {
                       "type": "state_method",
                       "method": "_lttp_has_key",
                       "args": [
@@ -7176,18 +7161,14 @@
           "boss": {
             "name": "Agahnim",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -7217,6 +7198,11 @@
                 {
                   "type": "and",
                   "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_sword",
+                      "args": []
+                    },
                     {
                       "type": "state_method",
                       "method": "_lttp_has_key",
@@ -7264,18 +7250,14 @@
           "boss": {
             "name": "Agahnim",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -9691,11 +9673,21 @@
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "has_melee_weapon",
+                      "args": []
+                    },
+                    {
                       "type": "and",
                       "conditions": [
                         {
                           "type": "item_check",
                           "item": "Silver Bow"
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_shoot_arrows",
+                          "args": []
                         }
                       ]
                     },
@@ -9712,6 +9704,11 @@
                 {
                   "type": "and",
                   "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_activate_crystal_switch",
+                      "args": []
+                    },
                     {
                       "type": "item_check",
                       "item": "Big Key (Tower of Hera)"
@@ -9776,18 +9773,14 @@
           "boss": {
             "name": "Moldorm",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -9869,18 +9862,14 @@
           "boss": {
             "name": "Moldorm",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -9907,11 +9896,21 @@
                   "type": "or",
                   "conditions": [
                     {
+                      "type": "helper",
+                      "name": "has_melee_weapon",
+                      "args": []
+                    },
+                    {
                       "type": "and",
                       "conditions": [
                         {
                           "type": "item_check",
                           "item": "Silver Bow"
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_shoot_arrows",
+                          "args": []
                         }
                       ]
                     },
@@ -9928,6 +9927,11 @@
                 {
                   "type": "and",
                   "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_activate_crystal_switch",
+                      "args": []
+                    },
                     {
                       "type": "item_check",
                       "item": "Big Key (Tower of Hera)"
@@ -10026,18 +10030,14 @@
           "boss": {
             "name": "Moldorm",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -10128,6 +10128,11 @@
                       "type": "or",
                       "conditions": [
                         {
+                          "type": "helper",
+                          "name": "can_lift_rocks",
+                          "args": []
+                        },
+                        {
                           "type": "item_check",
                           "item": "Hammer"
                         }
@@ -10136,18 +10141,9 @@
                   ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_boots_clip_dw",
+                  "args": []
                 }
               ]
             },
@@ -10477,32 +10473,14 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_lift_rocks",
+                  "args": []
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_boots_clip_dw",
+                  "args": []
                 }
               ]
             },
@@ -10555,32 +10533,14 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_lift_rocks",
+                  "args": []
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_boots_clip_dw",
+                  "args": []
                 }
               ]
             },
@@ -10670,6 +10630,11 @@
                       "type": "or",
                       "conditions": [
                         {
+                          "type": "helper",
+                          "name": "can_lift_rocks",
+                          "args": []
+                        },
+                        {
                           "type": "item_check",
                           "item": "Hammer"
                         }
@@ -10678,18 +10643,9 @@
                   ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_boots_clip_dw",
+                  "args": []
                 }
               ]
             },
@@ -12837,22 +12793,14 @@
             "name": "Pyramid Fairy - Left",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                "Function args: ['state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Call object at 0x00000197B8109810>, 'generators': [<ast.comprehension object at 0x00000197B810BA90>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B810A920>, 'iter': <ast.Name object at 0x00000197B8109270>, 'ifs': [], 'is_async': 0}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "options"
+                }
+              ]
             },
             "item_rule": {
               "type": "constant",
@@ -12866,22 +12814,14 @@
             "name": "Pyramid Fairy - Right",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                "Function args: ['state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Call object at 0x00000197B810A980>, 'generators': [<ast.comprehension object at 0x00000197B80E94B0>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B80EA410>, 'iter': <ast.Name object at 0x00000197B80E80D0>, 'ifs': [], 'is_async': 0}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "options"
+                }
+              ]
             },
             "item_rule": {
               "type": "constant",
@@ -12978,22 +12918,14 @@
             "name": "C-Shaped House",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                "Function args: ['state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Call object at 0x00000197B80E91E0>, 'generators': [<ast.comprehension object at 0x00000197B80E8F40>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B80EAA70>, 'iter': <ast.Name object at 0x00000197B80EB040>, 'ifs': [], 'is_async': 0}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "options"
+                }
+              ]
             },
             "item_rule": {
               "type": "constant",
@@ -13036,22 +12968,14 @@
             "name": "Chest Game",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                "Function args: ['state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Call object at 0x00000197B80E8130>, 'generators': [<ast.comprehension object at 0x00000197B80EB850>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B80E8A90>, 'iter': <ast.Name object at 0x00000197B80EAFB0>, 'ifs': [], 'is_async': 0}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "options"
+                }
+              ]
             },
             "item_rule": {
               "type": "constant",
@@ -13702,22 +13626,14 @@
             "name": "Mire Shed - Left",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                "Function args: ['state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Call object at 0x00000197B810A350>, 'generators': [<ast.comprehension object at 0x00000197B81096F0>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B810A6E0>, 'iter': <ast.Name object at 0x00000197B810BDF0>, 'ifs': [], 'is_async': 0}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "options"
+                }
+              ]
             },
             "item_rule": {
               "type": "constant",
@@ -13731,22 +13647,14 @@
             "name": "Mire Shed - Right",
             "crystal": false,
             "access_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                "Function args: ['state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call",
-                "\n--- Generic Visit: GeneratorExp ---",
-                "Node details: {'elt': <ast.Call object at 0x00000197B8109B70>, 'generators': [<ast.comprehension object at 0x00000197B810B370>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                "\n--- Generic Visit: comprehension ---",
-                "Node details: {'target': <ast.Name object at 0x00000197B8109300>, 'iter': <ast.Name object at 0x00000197B810B670>, 'ifs': [], 'is_async': 0}"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "options"
+                }
+              ]
             },
             "item_rule": {
               "type": "constant",
@@ -14075,22 +13983,14 @@
                   "value": "or"
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call",
-                    "\n--- Generic Visit: Subscript ---",
-                    "Node details: {'value': <ast.Attribute object at 0x00000197B80E8130>, 'slice': <ast.Name object at 0x00000197B80EBCD0>, 'ctx': <ast.Load object at 0x00000197949B24D0>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}",
-                    "\n--- Generic Visit: Load ---",
-                    "Node details: {}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "has_crystals",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "player"
+                    }
+                  ]
                 }
               ]
             },
@@ -14160,6 +14060,16 @@
                       "item": "Moon Pearl"
                     },
                     {
+                      "type": "helper",
+                      "name": "has_sword",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_turtle_rock_medallion",
+                      "args": []
+                    },
+                    {
                       "type": "state_method",
                       "method": "can_reach",
                       "args": [
@@ -14201,18 +14111,9 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_get_glitched_speed_dw",
+                  "args": []
                 },
                 {
                   "type": "item_check",
@@ -14268,18 +14169,9 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_get_glitched_speed_dw",
+                  "args": []
                 },
                 {
                   "type": "item_check",
@@ -14548,40 +14440,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call",
-                    "\n--- Generic Visit: GeneratorExp ---",
-                    "Node details: {'elt': <ast.Call object at 0x00000197B8109F90>, 'generators': [<ast.comprehension object at 0x00000197B810B430>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                    "\n--- Generic Visit: comprehension ---",
-                    "Node details: {'target': <ast.Name object at 0x00000197B810ADA0>, 'iter': <ast.Name object at 0x00000197B810AF80>, 'ifs': [], 'is_async': 0}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "any",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "options"
+                    }
+                  ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call",
-                    "\n--- Generic Visit: GeneratorExp ---",
-                    "Node details: {'elt': <ast.Call object at 0x00000197B810A860>, 'generators': [<ast.comprehension object at 0x00000197B810A800>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                    "\n--- Generic Visit: comprehension ---",
-                    "Node details: {'target': <ast.Name object at 0x00000197B810BB20>, 'iter': <ast.Name object at 0x00000197B810A260>, 'ifs': [], 'is_async': 0}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "any",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "options"
+                    }
+                  ]
                 }
               ]
             },
@@ -14600,40 +14476,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call",
-                    "\n--- Generic Visit: GeneratorExp ---",
-                    "Node details: {'elt': <ast.Call object at 0x00000197B810BF10>, 'generators': [<ast.comprehension object at 0x00000197B810A950>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                    "\n--- Generic Visit: comprehension ---",
-                    "Node details: {'target': <ast.Name object at 0x00000197B810B2B0>, 'iter': <ast.Name object at 0x00000197B810BA30>, 'ifs': [], 'is_async': 0}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "any",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "options"
+                    }
+                  ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call",
-                    "\n--- Generic Visit: GeneratorExp ---",
-                    "Node details: {'elt': <ast.Call object at 0x00000197B810A770>, 'generators': [<ast.comprehension object at 0x00000197B8109180>], 'lineno': 2, 'col_offset': 14, 'end_lineno': 2, 'end_col_offset': 47}",
-                    "\n--- Generic Visit: comprehension ---",
-                    "Node details: {'target': <ast.Name object at 0x00000197B8109330>, 'iter': <ast.Name object at 0x00000197B810AA10>, 'ifs': [], 'is_async': 0}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "any",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "options"
+                    }
+                  ]
                 }
               ]
             },
@@ -14739,6 +14599,11 @@
                       "item": "Hammer"
                     },
                     {
+                      "type": "helper",
+                      "name": "can_lift_rocks",
+                      "args": []
+                    },
+                    {
                       "type": "or",
                       "conditions": [
                         {
@@ -14747,6 +14612,14 @@
                             {
                               "type": "item_check",
                               "item": "Cape"
+                            },
+                            {
+                              "type": "helper",
+                              "name": "can_extend_magic",
+                              "args": [
+                                16,
+                                true
+                              ]
                             }
                           ]
                         },
@@ -14761,6 +14634,14 @@
                               "type": "or",
                               "conditions": [
                                 {
+                                  "type": "helper",
+                                  "name": "can_extend_magic",
+                                  "args": [
+                                    12,
+                                    true
+                                  ]
+                                },
+                                {
                                   "type": "and",
                                   "conditions": [
                                     {
@@ -14773,6 +14654,13 @@
                                         {
                                           "type": "item_check",
                                           "item": "Pegasus Boots"
+                                        },
+                                        {
+                                          "type": "helper",
+                                          "name": "has_hearts",
+                                          "args": [
+                                            4
+                                          ]
                                         }
                                       ]
                                     }
@@ -14867,18 +14755,9 @@
                   "item": "Moon Pearl"
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_use_bombs",
+                  "args": []
                 }
               ]
             },
@@ -15016,18 +14895,9 @@
                   "item": "Moon Pearl"
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_use_bombs",
+                  "args": []
                 }
               ]
             },
@@ -15468,18 +15338,14 @@
           "boss": {
             "name": "Arrghus",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -15581,18 +15447,14 @@
           "boss": {
             "name": "Arrghus",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -15717,18 +15579,14 @@
           "boss": {
             "name": "Arrghus",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -15819,26 +15677,16 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: Expr",
-                    "\n--- Generic Visit: Expr ---",
-                    "Node details: {'value': <ast.Call object at 0x00000197B80EB400>, 'lineno': 1, 'col_offset': 0, 'end_lineno': 2, 'end_col_offset': 99}",
-                    "\n--- Analyzing Lambda ---",
-                    "Lambda args: ['state', 'item_name']",
-                    "Lambda body type: Compare",
-                    "\n--- Generic Visit: Compare ---",
-                    "Node details: {'left': <ast.Call object at 0x00000197B80EB5B0>, 'ops': [<ast.Eq object at 0x00000197947DA680>], 'comparators': [<ast.Tuple object at 0x00000197B80EA230>], 'lineno': 2, 'col_offset': 21, 'end_lineno': 2, 'end_col_offset': 92}",
-                    "\n--- Generic Visit: Eq ---",
-                    "Node details: {}",
-                    "\n--- Generic Visit: Tuple ---",
-                    "Node details: {'elts': [<ast.Name object at 0x00000197B80EB4F0>, <ast.Name object at 0x00000197B80EBBE0>], 'ctx': <ast.Load object at 0x00000197949B24D0>, 'lineno': 2, 'col_offset': 73, 'end_lineno': 2, 'end_col_offset': 92}",
-                    "\n--- Generic Visit: Load ---",
-                    "Node details: {}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "add_rule",
+                  "args": [
+                    "area",
+                    {
+                      "type": "name",
+                      "name": "player"
+                    },
+                    "or"
+                  ]
                 },
                 {
                   "type": "item_check",
@@ -15913,18 +15761,14 @@
           "boss": {
             "name": "Arrghus",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16005,18 +15849,14 @@
           "boss": {
             "name": "Arrghus",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16138,18 +15978,9 @@
                   ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "location",
+                  "args": []
                 }
               ]
             },
@@ -16177,18 +16008,9 @@
                   ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "location",
+                  "args": []
                 }
               ]
             },
@@ -16223,18 +16045,14 @@
           "boss": {
             "name": "Arrghus",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16356,18 +16174,14 @@
           "boss": {
             "name": "Blind",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16560,18 +16374,14 @@
           "boss": {
             "name": "Blind",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16670,18 +16480,14 @@
           "boss": {
             "name": "Blind",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16855,18 +16661,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -16982,18 +16784,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17121,18 +16919,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17193,26 +16987,16 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: Expr",
-                    "\n--- Generic Visit: Expr ---",
-                    "Node details: {'value': <ast.Call object at 0x00000197B80EB9A0>, 'lineno': 1, 'col_offset': 0, 'end_lineno': 2, 'end_col_offset': 99}",
-                    "\n--- Analyzing Lambda ---",
-                    "Lambda args: ['state', 'item_name']",
-                    "Lambda body type: Compare",
-                    "\n--- Generic Visit: Compare ---",
-                    "Node details: {'left': <ast.Call object at 0x00000197B80E8A60>, 'ops': [<ast.Eq object at 0x00000197947DA680>], 'comparators': [<ast.Tuple object at 0x00000197B80E8430>], 'lineno': 2, 'col_offset': 21, 'end_lineno': 2, 'end_col_offset': 92}",
-                    "\n--- Generic Visit: Eq ---",
-                    "Node details: {}",
-                    "\n--- Generic Visit: Tuple ---",
-                    "Node details: {'elts': [<ast.Name object at 0x00000197B80EBBE0>, <ast.Name object at 0x00000197B80EAEF0>], 'ctx': <ast.Load object at 0x00000197949B24D0>, 'lineno': 2, 'col_offset': 73, 'end_lineno': 2, 'end_col_offset': 92}",
-                    "\n--- Generic Visit: Load ---",
-                    "Node details: {}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "add_rule",
+                  "args": [
+                    "area",
+                    {
+                      "type": "name",
+                      "name": "player"
+                    },
+                    "or"
+                  ]
                 },
                 {
                   "type": "and",
@@ -17220,6 +17004,11 @@
                     {
                       "type": "item_check",
                       "item": "Big Key (Skull Woods)"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_bombs",
+                      "args": []
                     }
                   ]
                 }
@@ -17249,18 +17038,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17317,18 +17102,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17449,18 +17230,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17570,18 +17347,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17663,18 +17436,9 @@
                   ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "location",
+                  "args": []
                 }
               ]
             },
@@ -17702,18 +17466,9 @@
                   ]
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "location",
+                  "args": []
                 }
               ]
             },
@@ -17750,18 +17505,14 @@
           "boss": {
             "name": "Mothula",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17890,18 +17641,14 @@
           "boss": {
             "name": "Kholdstare",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -17996,18 +17743,14 @@
           "boss": {
             "name": "Kholdstare",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -18223,18 +17966,14 @@
           "boss": {
             "name": "Kholdstare",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -18355,18 +18094,14 @@
           "boss": {
             "name": "Kholdstare",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -18467,18 +18202,14 @@
           "boss": {
             "name": "Kholdstare",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -18611,18 +18342,14 @@
           "boss": {
             "name": "Kholdstare",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -18745,18 +18472,14 @@
           "boss": {
             "name": "Vitreous",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19044,18 +18767,14 @@
           "boss": {
             "name": "Vitreous",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19137,18 +18856,14 @@
           "boss": {
             "name": "Vitreous",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19195,6 +18910,11 @@
                     {
                       "type": "item_check",
                       "item": "Cane of Somaria"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_bombs",
+                      "args": []
                     }
                   ]
                 }
@@ -19216,18 +18936,14 @@
           "boss": {
             "name": "Vitreous",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19260,6 +18976,11 @@
                     {
                       "type": "item_check",
                       "item": "Cane of Somaria"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_bombs",
+                      "args": []
                     }
                   ]
                 }
@@ -19327,18 +19048,14 @@
           "boss": {
             "name": "Vitreous",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19392,6 +19109,16 @@
                     {
                       "type": "item_check",
                       "item": "Moon Pearl"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_sword",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_turtle_rock_medallion",
+                      "args": []
                     },
                     {
                       "type": "state_method",
@@ -19477,18 +19204,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19660,18 +19383,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19790,18 +19509,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -19939,18 +19654,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -20169,18 +19880,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -20366,18 +20073,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -20496,18 +20199,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -20610,18 +20309,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -20649,18 +20344,9 @@
                   "value": true
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_use_bombs",
+                  "args": []
                 }
               ]
             },
@@ -20809,18 +20495,9 @@
                   "value": true
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "can_use_bombs",
+                  "args": []
                 }
               ]
             },
@@ -20958,18 +20635,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21087,18 +20760,14 @@
           "boss": {
             "name": "Trinexx",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21205,18 +20874,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21352,6 +21017,11 @@
                       "item": "Big Key (Palace of Darkness)"
                     },
                     {
+                      "type": "helper",
+                      "name": "can_shoot_arrows",
+                      "args": []
+                    },
+                    {
                       "type": "item_check",
                       "item": "Hammer"
                     }
@@ -21409,18 +21079,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21521,18 +21187,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21632,18 +21294,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21802,18 +21460,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -21930,18 +21584,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -22032,18 +21682,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -22085,6 +21731,11 @@
                     {
                       "type": "item_check",
                       "item": "Big Key (Palace of Darkness)"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_shoot_arrows",
+                      "args": []
                     },
                     {
                       "type": "item_check",
@@ -22159,18 +21810,14 @@
           "boss": {
             "name": "Helmasaur King",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -22198,22 +21845,14 @@
                   "value": "or"
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call",
-                    "\n--- Generic Visit: Subscript ---",
-                    "Node details: {'value': <ast.Attribute object at 0x00000197B810BAC0>, 'slice': <ast.Name object at 0x00000197B810A110>, 'ctx': <ast.Load object at 0x00000197949B24D0>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}",
-                    "\n--- Generic Visit: Load ---",
-                    "Node details: {}"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "has_crystals",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "player"
+                    }
+                  ]
                 }
               ]
             },
@@ -22370,18 +22009,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -22441,7 +22076,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22498,18 +22147,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -22555,7 +22200,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22602,7 +22261,21 @@
                       "type": "helper",
                       "name": "item_name_in_location_names",
                       "args": [
-                        "Big Key (Ganons Tower)"
+                        "Big Key (Ganons Tower)",
+                        {
+                          "type": "helper",
+                          "name": "zip",
+                          "args": [
+                            "back_chests",
+                            {
+                              "type": "helper",
+                              "name": "len",
+                              "args": [
+                                "back_chests"
+                              ]
+                            }
+                          ]
+                        }
                       ]
                     },
                     {
@@ -22665,7 +22338,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22734,7 +22421,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22803,7 +22504,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22872,7 +22587,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22941,7 +22670,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "compass_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "compass_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -22987,18 +22730,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -23204,18 +22943,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -23310,18 +23045,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -23388,7 +23119,27 @@
                       "type": "helper",
                       "name": "item_name_in_location_names",
                       "args": [
-                        "Big Key (Ganons Tower)"
+                        "Big Key (Ganons Tower)",
+                        {
+                          "type": "helper",
+                          "name": "zip",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "back_chests"
+                            },
+                            {
+                              "type": "helper",
+                              "name": "len",
+                              "args": [
+                                {
+                                  "type": "name",
+                                  "name": "back_chests"
+                                }
+                              ]
+                            }
+                          ]
+                        }
                       ]
                     },
                     {
@@ -23433,7 +23184,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "randomizer_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "randomizer_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -23490,18 +23255,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -23540,7 +23301,27 @@
                       "type": "helper",
                       "name": "item_name_in_location_names",
                       "args": [
-                        "Big Key (Ganons Tower)"
+                        "Big Key (Ganons Tower)",
+                        {
+                          "type": "helper",
+                          "name": "zip",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "back_chests"
+                            },
+                            {
+                              "type": "helper",
+                              "name": "len",
+                              "args": [
+                                {
+                                  "type": "name",
+                                  "name": "back_chests"
+                                }
+                              ]
+                            }
+                          ]
+                        }
                       ]
                     },
                     {
@@ -23604,7 +23385,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "randomizer_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "randomizer_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -23660,7 +23455,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "randomizer_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "randomizer_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -23716,7 +23525,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "randomizer_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "randomizer_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -23772,7 +23595,21 @@
                           "type": "helper",
                           "name": "item_name_in_location_names",
                           "args": [
-                            "Big Key (Ganons Tower)"
+                            "Big Key (Ganons Tower)",
+                            {
+                              "type": "helper",
+                              "name": "zip",
+                              "args": [
+                                "randomizer_room_chests",
+                                {
+                                  "type": "helper",
+                                  "name": "len",
+                                  "args": [
+                                    "randomizer_room_chests"
+                                  ]
+                                }
+                              ]
+                            }
                           ]
                         },
                         {
@@ -23818,18 +23655,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -23868,7 +23701,21 @@
                       "type": "helper",
                       "name": "item_name_in_location_names",
                       "args": [
-                        "Big Key (Ganons Tower)"
+                        "Big Key (Ganons Tower)",
+                        {
+                          "type": "helper",
+                          "name": "zip",
+                          "args": [
+                            "back_chests",
+                            {
+                              "type": "helper",
+                              "name": "len",
+                              "args": [
+                                "back_chests"
+                              ]
+                            }
+                          ]
+                        }
                       ]
                     },
                     {
@@ -24017,18 +23864,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -24112,18 +23955,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -24291,18 +24130,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -24383,18 +24218,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -24482,18 +24313,14 @@
           "boss": {
             "name": "Agahnim2",
             "defeat_rule": {
-              "type": "error",
-              "debug_log": [
-                "\n--- Starting Module Analysis ---",
-                "Module body length: 1",
-                "Module body node 0: FunctionDef",
-                "\n--- Analyzing Function Definition: can_defeat ---",
-                "Function args: ['self', 'state']",
-                "Function body node 0: Return",
-                "\n--- Analyzing Return ---",
-                "Return value type: Call"
-              ],
-              "error_log": []
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
             }
           },
           "medallion_check": null
@@ -24547,18 +24374,9 @@
                   "item": "Moon Pearl"
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "has_beam_sword",
+                  "args": []
                 }
               ]
             },
@@ -24639,18 +24457,9 @@
                   "item": "Moon Pearl"
                 },
                 {
-                  "type": "error",
-                  "debug_log": [
-                    "\n--- Starting Module Analysis ---",
-                    "Module body length: 1",
-                    "Module body node 0: FunctionDef",
-                    "\n--- Analyzing Function Definition: __analyzed_func__ ---",
-                    "Function args: ['state']",
-                    "Function body node 0: Return",
-                    "\n--- Analyzing Return ---",
-                    "Return value type: Call"
-                  ],
-                  "error_log": []
+                  "type": "helper",
+                  "name": "has_beam_sword",
+                  "args": []
                 }
               ]
             },

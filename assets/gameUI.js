@@ -10,7 +10,7 @@ export class GameUI {
   constructor() {
     // UI Managers
     this.locationUI = new LocationUI(this);
-    this.regionUI = new RegionUI(this);
+    this.regionUI = new RegionUI(this); // The RegionUI component uses PathAnalyzerUI internally for path analysis functionality
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
 
@@ -78,6 +78,11 @@ export class GameUI {
       debugToggle.addEventListener('click', () => {
         this.debugMode = !this.debugMode;
         debugToggle.textContent = this.debugMode ? 'Hide Debug' : 'Show Debug';
+
+        // Set debug mode on pathAnalyzer too
+        if (this.regionUI && this.regionUI.pathAnalyzer) {
+          this.regionUI.pathAnalyzer.setDebugMode(this.debugMode);
+        }
       });
     }
 

@@ -20,11 +20,21 @@ export class StateManager {
     this.regions = {}; // Map of region name -> region data
     this.eventLocations = new Map(); // Map of location name -> event location data
 
-    // Region reachability tracking
+    // Enhance the indirectConnections to match Python implementation
+    this.indirectConnections = new Map(); // Map of region name -> set of entrances affected by that region
+
+    // Enhanced region reachability tracking with path context
     this.knownReachableRegions = new Set();
     this.knownUnreachableRegions = new Set();
     this.previousReachable = new Set();
     this.cacheValid = false;
+
+    // Path tracking similar to Python implementation
+    this.path = new Map(); // Map of region name -> {name, entrance, previousRegion}
+    this.blockedConnections = new Set(); // Set of entrances that are currently blocked
+
+    // Flag to prevent recursion during computation
+    this._computing = false;
 
     // Game configuration
     this.mode = null;
@@ -35,6 +45,14 @@ export class StateManager {
     this.checkedLocations = new Set();
 
     this._uiCallbacks = {};
+
+    // Batch update support
+    this._batchMode = false;
+    this._deferRegionComputation = false;
+    this._batchedUpdates = new Map();
+
+    // Add debug mode flag
+    this.debugMode = false; // Set to true to enable detailed logging
   }
 
   /**
@@ -69,6 +87,7 @@ export class StateManager {
     const itemData = this.inventory.itemData || {};
     this.inventory = new ALTTPInventory([], progressionMapping, itemData);
     this.clearCheckedLocations();
+    this.indirectConnections = new Map(); // Clear indirect connections
     this.invalidateCache();
     this.notifyUI('inventoryChanged');
   }
@@ -131,6 +150,11 @@ export class StateManager {
     // Process locations and events
     this.locations = [];
     this.eventLocations.clear();
+    this.indirectConnections = new Map(); // Clear indirect connections
+
+    // Build indirect connections map to match Python implementation
+    // This maps regions to exits that depend on those regions in their access rules
+    this.buildIndirectConnections();
 
     // Extract shop data from regions
     const shops = [];
@@ -156,14 +180,7 @@ export class StateManager {
     }
 
     // Initialize the state object with settings and data
-    // This avoids duplicating data in both stateManager and state
     if (this.state) {
-      // Log the settings being passed to loadSettings
-      console.log(
-        'Settings being passed to loadSettings:',
-        jsonData.settings?.['1']
-      );
-
       // Pass the settings to the state for loading
       this.state.loadSettings(jsonData.settings?.['1']);
 
@@ -189,14 +206,95 @@ export class StateManager {
     this.computeReachableRegions();
   }
 
+  /**
+   * Build indirect connections map similar to Python implementation
+   * Identifies exits that depend on regions in their access rules
+   */
+  buildIndirectConnections() {
+    // Analyze all exits to find indirect dependencies
+    for (const regionName in this.regions) {
+      const region = this.regions[regionName];
+
+      // Skip if region has no exits
+      if (!region.exits || !region.exits.length) continue;
+
+      for (const exit of region.exits) {
+        // Skip if no access rule
+        if (!exit.access_rule) continue;
+
+        // Analyze rule to find region dependencies
+        const dependencies = this.findRegionDependencies(exit.access_rule);
+
+        // Register dependencies
+        for (const depRegion of dependencies) {
+          if (!this.indirectConnections.has(depRegion)) {
+            this.indirectConnections.set(depRegion, new Set());
+          }
+          this.indirectConnections.get(depRegion).add({
+            fromRegion: regionName,
+            exit: exit,
+          });
+        }
+      }
+    }
+
+    if (this.debugMode) {
+      console.log(
+        'Built indirect connections map:',
+        Object.fromEntries(
+          [...this.indirectConnections].map(([k, v]) => [
+            k,
+            [...v].map((e) => `${e.fromRegion}->${e.exit.name}`),
+          ])
+        )
+      );
+    }
+  }
+
+  /**
+   * Find regions that a rule depends on through can_reach state methods
+   */
+  findRegionDependencies(rule) {
+    const dependencies = new Set();
+
+    if (!rule) return dependencies;
+
+    // Check for direct state_method can_reach
+    if (
+      rule.type === 'state_method' &&
+      rule.method === 'can_reach' &&
+      rule.args &&
+      rule.args.length > 0 &&
+      typeof rule.args[0] === 'string' &&
+      rule.args[1] === 'Region'
+    ) {
+      dependencies.add(rule.args[0]);
+    }
+
+    // Check children recursively for composite rules
+    if ((rule.type === 'and' || rule.type === 'or') && rule.conditions) {
+      for (const condition of rule.conditions) {
+        const childDeps = this.findRegionDependencies(condition);
+        for (const dep of childDeps) {
+          dependencies.add(dep);
+        }
+      }
+    }
+
+    return dependencies;
+  }
+
   invalidateCache() {
     this.cacheValid = false;
     this.knownReachableRegions.clear();
     this.knownUnreachableRegions.clear();
+    this.path.clear();
+    this.blockedConnections.clear();
   }
 
   /**
    * Core pathfinding logic: determines which regions are reachable
+   * Closely mirrors Python's update_reachable_regions method
    * Also handles automatic collection of event items
    */
   computeReachableRegions() {
@@ -206,26 +304,52 @@ export class StateManager {
       return this.knownReachableRegions;
     }
 
+    // Recursion protection
     if (this._computing) {
       return this.knownReachableRegions;
     }
 
-    // Only set computing flag for main inventory
     this._computing = true;
 
-    // Create a local result set - only store in state if it's the main inventory
-    let localReachable = new Set();
-    let newEventCollected = true;
-
     try {
+      // Get start regions and initialize BFS
+      const startRegions = this.getStartRegions();
+
+      // Initialize path tracking
+      this.path.clear();
+      this.blockedConnections.clear();
+
+      // Initialize reachable regions with start regions
+      this.knownReachableRegions = new Set(startRegions);
+
+      // Add exits from start regions to blocked connections
+      for (const startRegion of startRegions) {
+        const region = this.regions[startRegion];
+        if (region && region.exits) {
+          // Add all exits from this region to blocked connections
+          for (const exit of region.exits) {
+            this.blockedConnections.add({
+              fromRegion: startRegion,
+              exit: exit,
+            });
+          }
+        }
+      }
+
+      // Start BFS process
+      let newEventCollected = true;
+
       while (newEventCollected) {
         newEventCollected = false;
-        const reachableSet = this.runSingleBFS();
 
-        // Auto-collect events if using main inventory
+        // Process reachability with BFS
+        const newlyReachable = this.runBFSPass();
+
+        // Auto-collect events
         for (const loc of this.eventLocations.values()) {
-          if (reachableSet.has(loc.region)) {
-            const canAccessLoc = evaluateRule(loc.access_rule);
+          if (this.knownReachableRegions.has(loc.region)) {
+            const canAccessLoc =
+              !loc.access_rule || evaluateRule(loc.access_rule);
             if (canAccessLoc && !this.inventory.has(loc.item.name)) {
               this.inventory.addItem(loc.item.name);
               newEventCollected = true;
@@ -234,21 +358,121 @@ export class StateManager {
           }
         }
 
-        localReachable = new Set([...localReachable, ...reachableSet]);
+        // If any new regions or events were found, continue searching
+        if (newlyReachable || newEventCollected) {
+          continue;
+        }
+
+        // When no more progress is made, we're done
+        break;
       }
 
-      // Only update cache for main inventory
-      this.knownReachableRegions = localReachable;
+      // Finalize unreachable regions set
       this.knownUnreachableRegions = new Set(
-        Object.keys(this.regions).filter((r) => !localReachable.has(r))
+        Object.keys(this.regions).filter(
+          (region) => !this.knownReachableRegions.has(region)
+        )
       );
+
       this.cacheValid = true;
     } finally {
       this._computing = false;
     }
 
     this.notifyUI('reachableRegionsComputed');
-    return localReachable;
+    return this.knownReachableRegions;
+  }
+
+  /**
+   * Run a single BFS pass to find reachable regions
+   * Implements Python's _update_reachable_regions_auto_indirect_conditions approach
+   */
+  runBFSPass() {
+    let newRegionsFound = false;
+
+    // Exactly match Python's nested loop structure
+    let newConnection = true;
+    while (newConnection) {
+      newConnection = false;
+
+      let queue = [...this.blockedConnections];
+      while (queue.length > 0) {
+        const connection = queue.shift();
+        const { fromRegion, exit } = connection;
+        const targetRegion = exit.connected_region;
+
+        // Skip if the target region is already reachable
+        if (this.knownReachableRegions.has(targetRegion)) {
+          this.blockedConnections.delete(connection);
+          continue;
+        }
+
+        // Check if exit is traversable
+        const canTraverse = !exit.access_rule || evaluateRule(exit.access_rule);
+
+        if (canTraverse) {
+          // Region is now reachable
+          this.knownReachableRegions.add(targetRegion);
+          newRegionsFound = true;
+          newConnection = true; // Signal that we found a new connection
+
+          // Remove from blocked connections
+          this.blockedConnections.delete(connection);
+
+          // Record the path taken to reach this region
+          this.path.set(targetRegion, {
+            name: targetRegion,
+            entrance: exit.name,
+            previousRegion: fromRegion,
+          });
+
+          // Add all exits from the newly reachable region
+          const region = this.regions[targetRegion];
+          if (region && region.exits) {
+            for (const newExit of region.exits) {
+              const newConnection = {
+                fromRegion: targetRegion,
+                exit: newExit,
+              };
+              this.blockedConnections.add(newConnection);
+              queue.push(newConnection);
+            }
+          }
+
+          // Check for indirect connections affected by this region
+          if (this.indirectConnections.has(targetRegion)) {
+            for (const indirectExit of this.indirectConnections.get(
+              targetRegion
+            )) {
+              // Only process if the exit's source region is reachable
+              if (this.knownReachableRegions.has(indirectExit.fromRegion)) {
+                queue.push(indirectExit);
+              }
+            }
+          }
+        }
+      }
+
+      // Python equivalent: queue.extend(blocked_connections)
+      // We've finished the current queue, next iteration will recheck all blocked connections
+      if (this.debugMode && newConnection) {
+        this._logDebug(
+          'BFS pass: Found new regions, rechecking blocked connections'
+        );
+      }
+    }
+
+    return newRegionsFound;
+  }
+
+  /**
+   * Evaluate a rule with awareness of the current path context
+   * This is no longer needed with our new BFS approach, but kept for backwards
+   * compatibility with the rest of the code
+   */
+  evaluateRuleWithPathContext(rule, context) {
+    // Standard rule evaluation is now sufficient with our improved BFS
+    return evaluateRule(rule);
   }
 
   getStartRegions() {
@@ -257,45 +481,6 @@ export class StateManager {
       return this.state.startRegions;
     }
     return ['Menu'];
-  }
-
-  /**
-   * Single pass of breadth-first search to find reachable regions
-   */
-  runSingleBFS() {
-    const start = this.getStartRegions();
-    const reachable = new Set(start);
-    const queue = [...start];
-    const seenExits = new Set();
-    while (queue.length > 0) {
-      const currentRegionName = queue.shift();
-      const currentRegion = this.regions[currentRegionName];
-      if (!currentRegion) continue;
-      for (const exit of currentRegion.exits || []) {
-        const exitKey = `${currentRegionName}->${exit.name}`;
-        if (seenExits.has(exitKey)) continue;
-        seenExits.add(exitKey);
-        if (!exit.connected_region) continue;
-        if (exit.access_rule && !evaluateRule(exit.access_rule)) {
-          continue;
-        }
-        const targetRegion = exit.connected_region;
-        if (!reachable.has(targetRegion)) {
-          reachable.add(targetRegion);
-          queue.push(targetRegion);
-        }
-      }
-      for (const entrance of currentRegion.entrances || []) {
-        if (!entrance.connected_region) continue;
-        if (reachable.has(entrance.connected_region)) continue;
-        if (entrance.access_rule && !evaluateRule(entrance.access_rule)) {
-          continue;
-        }
-        reachable.add(entrance.connected_region);
-        queue.push(entrance.connected_region);
-      }
-    }
-    return reachable;
   }
 
   /**
@@ -320,8 +505,7 @@ export class StateManager {
     }
 
     // Simply return the rule evaluation result
-    // Don't auto-collect events here since computeReachableRegions handles that
-    return evaluateRule(location.access_rule);
+    return !location.access_rule || evaluateRule(location.access_rule);
   }
 
   getProcessedLocations(
@@ -360,32 +544,71 @@ export class StateManager {
     return newlyReachable;
   }
 
-  updateInventoryFromList(items) {
-    // Clear existing inventory items
-    Object.keys(this.inventory.items).forEach((key) => {
-      this.inventory.items[key] = 0;
-    });
+  /**
+   * Get the path used to reach a region
+   * Similar to Python's get_path method
+   */
+  getPathToRegion(regionName) {
+    if (!this.knownReachableRegions.has(regionName)) {
+      return null; // Region not reachable
+    }
 
-    // Add each item from the list
-    items.forEach((item) => {
-      this.addItemToInventory(item);
-    });
+    // Build path by following previous regions
+    const pathSegments = [];
+    let currentRegion = regionName;
 
-    // Invalidate cache since inventory changed
-    this.invalidateCache();
+    while (currentRegion) {
+      const pathEntry = this.path.get(currentRegion);
+      if (!pathEntry) break;
+
+      // Add this segment
+      pathSegments.unshift({
+        from: pathEntry.previousRegion,
+        entrance: pathEntry.entrance,
+        to: currentRegion,
+      });
+
+      // Move to previous region
+      currentRegion = pathEntry.previousRegion;
+    }
+
+    return pathSegments;
   }
 
   /**
-   * Initializes the inventory with a specific set of items for testing
+   * Get all path info for debug/display purposes
+   */
+  getAllPaths() {
+    const paths = {};
+
+    for (const region of this.knownReachableRegions) {
+      paths[region] = this.getPathToRegion(region);
+    }
+
+    return paths;
+  }
+
+  /**
+   * Updates the inventory with multiple items at once
+   */
+  updateInventoryFromList(items) {
+    this.beginBatchUpdate();
+    items.forEach((item) => {
+      this.addItemToInventory(item);
+    });
+    this.commitBatchUpdate();
+  }
+
+  /**
+   * Initialize the inventory with a specific set of items for testing
    */
   initializeInventoryForTest(requiredItems = [], excludedItems = []) {
-    // Preserve the current progression mapping and item data when clearing state
-    this.clearState();
+    this.clearState(); // Use clearState instead of clearInventory
 
-    // Begin batch updates - defer region computation until the end
+    // Begin batch updates
     this.beginBatchUpdate(true);
 
-    // First, if we have excludedItems, start with ALL items except those
+    // Handle excludedItems by adding all other items
     if (excludedItems?.length > 0) {
       Object.keys(this.inventory.itemData).forEach((itemName) => {
         if (
@@ -393,12 +616,12 @@ export class StateManager {
           !(
             itemName.includes('Bottle') && excludedItems.includes('AnyBottle')
           ) &&
-          !this.inventory.itemData[itemName].event && // Skip event items
-          this.inventory.itemData[itemName].type !== 'Event' // Additional check using type
+          !this.inventory.itemData[itemName].event &&
+          this.inventory.itemData[itemName].type !== 'Event'
         ) {
           this.addItemToInventory(itemName);
 
-          // Process as event if applicable
+          // Process events
           if (this.state?.processEventItem) {
             this.state.processEventItem(itemName);
           }
@@ -406,16 +629,14 @@ export class StateManager {
       });
     }
 
-    // Apply these updates to the inventory but don't recompute regions yet
     this.commitBatchUpdate();
 
-    // Now that items are in the inventory, process excluded progressive items
+    // Handle progressive items for exclusions
     if (excludedItems?.length > 0) {
       excludedItems.forEach((excludedItem) => {
         if (this.inventory.isProgressiveBaseItem(excludedItem)) {
           const providedItems =
             this.inventory.getProgressiveProvidedItems(excludedItem);
-
           providedItems.forEach((providedItem) => {
             if (this.inventory.items.has(providedItem)) {
               this.inventory.items.set(providedItem, 0);
@@ -425,79 +646,387 @@ export class StateManager {
       });
     }
 
-    // Start second batch for required items
+    // Add required items in second batch
     this.beginBatchUpdate(true);
-
-    // Add all required items
     requiredItems.forEach((itemName) => {
       this.addItemToInventory(itemName);
-
-      // Process as event if applicable
       if (this.state?.processEventItem) {
         this.state.processEventItem(itemName);
       }
     });
-
-    // Commit with region computation deferred
     this.commitBatchUpdate();
 
-    // Make sure bombless_start flag is set
-    if (this.state) {
-      //this.state.setFlag('bombless_start');
-    }
-
-    // Now finally compute regions once at the end
+    // Update regions and UI
     this.invalidateCache();
     this.computeReachableRegions();
+    this.notifyUI('inventoryChanged');
   }
 
+  /**
+   * Check if a location has been marked as checked
+   */
   isLocationChecked(locationName) {
     return this.checkedLocations.has(locationName);
   }
 
+  /**
+   * Mark a location as checked
+   */
   checkLocation(locationName) {
     this.checkedLocations.add(locationName);
   }
 
+  /**
+   * Clear all checked locations
+   */
   clearCheckedLocations() {
     this.checkedLocations.clear();
   }
 
   /**
-   * Begins a batch update operation for adding multiple items efficiently.
-   * This prevents UI updates until commitBatchUpdate is called.
-   * @param {boolean} deferRegionComputation - If true, won't recompute regions during commit (default: true)
+   * Start a batch update to collect inventory changes without triggering UI updates
+   * @param {boolean} deferRegionComputation - Whether to defer region computation until commit
    */
   beginBatchUpdate(deferRegionComputation = true) {
     this._batchMode = true;
     this._deferRegionComputation = deferRegionComputation;
-    this._batchedUpdates = new Map(); // store item -> count updates
+    this._batchedUpdates = new Map();
   }
 
   /**
-   * Commits all pending updates from a batch operation.
-   * Triggers UI updates through callbacks and optionally updates region cache.
+   * Commit a batch update and process all collected inventory changes
    */
   commitBatchUpdate() {
-    if (!this._batchMode) return;
-
-    // Apply all batched updates at once to inventory
-    this._batchedUpdates.forEach((count, itemName) => {
-      this.inventory.items.set(itemName, count);
-    });
-
-    // Clear inventory caches
-    this.invalidateCache();
-
-    // Only recompute regions if not deferred
-    if (!this._deferRegionComputation) {
-      this.computeReachableRegions();
+    if (!this._batchMode) {
+      return; // Not in batch mode, nothing to do
     }
 
-    this.notifyUI('inventoryChanged');
+    // Process all batched updates
+    for (const [itemName, count] of this._batchedUpdates.entries()) {
+      const existingCount = this.inventory.count(itemName);
+      const diff = count - existingCount;
+
+      for (let i = 0; i < diff; i++) {
+        this.inventory.addItem(itemName);
+      }
+    }
 
     this._batchMode = false;
     this._deferRegionComputation = false;
     this._batchedUpdates = new Map();
+  }
+
+  /**
+   * Log debug information during region accessibility calculations
+   * @private
+   */
+  _logDebug(message, data = null) {
+    if (this.debugMode) {
+      const timestamp = new Date().toISOString().slice(11, 23); // Get time in HH:MM:SS.mmm format
+      const logMsg = `[StateManager ${timestamp}] ${message}`;
+
+      if (data !== null) {
+        if (typeof data === 'object' && data !== null) {
+          // For objects, provide more readable format
+          if (data instanceof Set) {
+            console.log(logMsg, [...data]);
+          } else if (data instanceof Map) {
+            console.log(logMsg, Object.fromEntries([...data]));
+          } else {
+            // For any other object
+            console.log(logMsg, JSON.parse(JSON.stringify(data)));
+          }
+        } else {
+          // For primitives
+          console.log(logMsg, data);
+        }
+      } else {
+        console.log(logMsg);
+      }
+
+      // In ultra verbose mode, also log stack trace for certain messages
+      if (
+        this.debugMode === 'ultra' &&
+        (message.includes('reachable') || message.includes('path'))
+      ) {
+        console.trace(logMsg);
+      }
+    }
+  }
+
+  /**
+   * Helper method to execute a state method by name
+   */
+  executeStateMethod(method, ...args) {
+    if (method === 'can_reach' && args.length >= 1) {
+      const targetName = args[0];
+      const targetType = args[1] || 'Region';
+      const player = args[2] || 1;
+
+      return this.can_reach(targetName, targetType, player);
+    }
+
+    if (typeof this[method] === 'function') {
+      return this[method](...args);
+    }
+
+    if (this.debugMode) {
+      console.log(`Unknown state method: ${method}`);
+    }
+    return false;
+  }
+
+  /**
+   * Implementation of can_reach state method that mirrors Python
+   */
+  can_reach(region, type = 'Region', player = 1) {
+    // The context-aware state manager handles position-specific constraints correctly
+    if (type === 'Region') {
+      return this.isRegionReachable(region);
+    } else if (type === 'Location') {
+      // Find the location object
+      const location = this.locations.find((loc) => loc.name === region);
+      return location && this.isLocationAccessible(location);
+    } else if (type === 'Entrance') {
+      // Find the entrance across all regions
+      for (const regionName in this.regions) {
+        const regionData = this.regions[regionName];
+        if (regionData.exits) {
+          const exit = regionData.exits.find((e) => e.name === region);
+          if (exit) {
+            return (
+              this.isRegionReachable(regionName) &&
+              (!exit.access_rule || evaluateRule(exit.access_rule))
+            );
+          }
+        }
+      }
+      return false;
+    }
+
+    return false;
+  }
+
+  /**
+   * Set debug mode for detailed logging
+   * @param {boolean|string} mode - true for basic debug, 'ultra' for verbose, false to disable
+   */
+  setDebugMode(mode) {
+    this.debugMode = mode;
+    this._logDebug(`Debug mode set to: ${mode}`);
+  }
+
+  /**
+   * Debug specific critical regions to understand evaluation discrepancies
+   */
+  debugCriticalRegions() {
+    // List of regions that are causing issues
+    const criticalRegions = [
+      'Pyramid Fairy',
+      'Big Bomb Shop',
+      'Inverted Big Bomb Shop',
+    ];
+
+    console.log('============ CRITICAL REGIONS DEBUG ============');
+
+    // Log the current inventory state
+    console.log('Current inventory:');
+    const inventoryItems = [];
+    this.inventory.items.forEach((count, item) => {
+      if (count > 0) {
+        inventoryItems.push(`${item} (${count})`);
+      }
+    });
+    console.log(inventoryItems.join(', '));
+
+    // Check each critical region
+    criticalRegions.forEach((regionName) => {
+      const region = this.regions[regionName];
+      if (!region) {
+        console.log(`Region "${regionName}" not found in loaded regions`);
+        return;
+      }
+
+      console.log(`\nAnalyzing "${regionName}":`);
+      console.log(
+        `- Reachable according to stateManager: ${this.isRegionReachable(
+          regionName
+        )}`
+      );
+
+      // Check incoming paths
+      console.log(`\nIncoming connections to ${regionName}:`);
+      let hasIncomingPaths = false;
+
+      Object.keys(this.regions).forEach((sourceRegionName) => {
+        const sourceRegion = this.regions[sourceRegionName];
+        if (!sourceRegion || !sourceRegion.exits) return;
+
+        const connectingExits = sourceRegion.exits.filter(
+          (exit) => exit.connected_region === regionName
+        );
+
+        if (connectingExits.length > 0) {
+          hasIncomingPaths = true;
+          const sourceReachable = this.isRegionReachable(sourceRegionName);
+          console.log(
+            `- From ${sourceRegionName} (${
+              sourceReachable ? 'REACHABLE' : 'UNREACHABLE'
+            }):`
+          );
+
+          connectingExits.forEach((exit) => {
+            const exitAccessible =
+              !exit.access_rule || evaluateRule(exit.access_rule);
+            console.log(
+              `  - Exit: ${exit.name} (${
+                exitAccessible ? 'ACCESSIBLE' : 'BLOCKED'
+              })`
+            );
+
+            if (exit.access_rule) {
+              console.log(
+                '    Rule:',
+                JSON.stringify(exit.access_rule, null, 2)
+              );
+              this.debugRuleEvaluation(exit.access_rule);
+            }
+          });
+        }
+      });
+
+      if (!hasIncomingPaths) {
+        console.log('  No incoming paths found.');
+      }
+
+      // Check region's own rules if any
+      if (region.region_rules && region.region_rules.length > 0) {
+        console.log(
+          `\n${regionName} has ${region.region_rules.length} region rules:`
+        );
+        region.region_rules.forEach((rule, i) => {
+          const ruleResult = evaluateRule(rule);
+          console.log(`- Rule #${i + 1}: ${ruleResult ? 'PASSES' : 'FAILS'}`);
+          this.debugRuleEvaluation(rule);
+        });
+      }
+
+      // Check path from stateManager
+      const path = this.getPathToRegion(regionName);
+      if (path && path.length > 0) {
+        console.log(`\nPath found to ${regionName}:`);
+        path.forEach((segment) => {
+          console.log(
+            `- ${segment.from} → ${segment.entrance} → ${segment.to}`
+          );
+        });
+      } else {
+        console.log(`\nNo path found to ${regionName}`);
+      }
+    });
+
+    console.log('===============================================');
+  }
+
+  /**
+   * Debug evaluation of a specific rule
+   */
+  debugRuleEvaluation(rule, depth = 0) {
+    if (!rule) return;
+
+    const indent = '    ' + '  '.repeat(depth);
+
+    switch (rule.type) {
+      case 'and':
+      case 'or':
+        console.log(
+          `${indent}${rule.type.toUpperCase()} rule with ${
+            rule.conditions.length
+          } conditions`
+        );
+        let allResults = [];
+        rule.conditions.forEach((condition, i) => {
+          const result = evaluateRule(condition);
+          allResults.push(result);
+          console.log(
+            `${indent}- Condition #${i + 1}: ${result ? 'PASS' : 'FAIL'}`
+          );
+          this.debugRuleEvaluation(condition, depth + 1);
+        });
+
+        if (rule.type === 'and') {
+          console.log(
+            `${indent}AND result: ${
+              allResults.every((r) => r) ? 'PASS' : 'FAIL'
+            }`
+          );
+        } else {
+          console.log(
+            `${indent}OR result: ${allResults.some((r) => r) ? 'PASS' : 'FAIL'}`
+          );
+        }
+        break;
+
+      case 'item_check':
+        const hasItem = this.inventory.has(rule.item);
+        console.log(
+          `${indent}ITEM CHECK: ${rule.item} - ${hasItem ? 'HAVE' : 'MISSING'}`
+        );
+        break;
+
+      case 'count_check':
+        const count = this.inventory.count(rule.item);
+        console.log(
+          `${indent}COUNT CHECK: ${rule.item} (${count}) >= ${rule.count} - ${
+            count >= rule.count ? 'PASS' : 'FAIL'
+          }`
+        );
+        break;
+
+      case 'helper':
+        const helperResult = this.helpers.executeHelper(
+          rule.name,
+          ...(rule.args || [])
+        );
+        console.log(
+          `${indent}HELPER: ${rule.name}(${JSON.stringify(rule.args)}) - ${
+            helperResult ? 'PASS' : 'FAIL'
+          }`
+        );
+        break;
+
+      case 'state_method':
+        const methodResult = this.helpers.executeStateMethod(
+          rule.method,
+          ...(rule.args || [])
+        );
+        console.log(
+          `${indent}STATE METHOD: ${rule.method}(${JSON.stringify(
+            rule.args
+          )}) - ${methodResult ? 'PASS' : 'FAIL'}`
+        );
+
+        // Special debug for can_reach which is often the source of problems
+        if (rule.method === 'can_reach' && rule.args && rule.args.length > 0) {
+          const targetRegion = rule.args[0];
+          const targetType = rule.args[1] || 'Region';
+
+          if (targetType === 'Region') {
+            console.log(
+              `${indent}  -> Checking can_reach for region "${targetRegion}": ${
+                this.isRegionReachable(targetRegion)
+                  ? 'REACHABLE'
+                  : 'UNREACHABLE'
+              }`
+            );
+          }
+        }
+        break;
+
+      default:
+        console.log(
+          `${indent}${rule.type} - ${evaluateRule(rule) ? 'PASS' : 'FAIL'}`
+        );
+    }
   }
 }

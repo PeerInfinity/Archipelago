@@ -80,26 +80,34 @@ export const evaluateRule = (rule, depth = 0) => {
     }
 
     case 'and': {
-      const results = rule.conditions.map((condition, index) => {
+      // For AND rules, short-circuit on first failure
+      result = true;
+      for (const condition of rule.conditions) {
         const conditionResult = evaluateRule(condition, depth + 1);
         trace.addChild(
           new RuleTrace(condition, depth + 1).complete(conditionResult)
         );
-        return conditionResult;
-      });
-      result = results.every(Boolean);
+        if (!conditionResult) {
+          result = false;
+          break; // Short-circuit on first false condition
+        }
+      }
       break;
     }
 
     case 'or': {
-      const results = rule.conditions.map((condition, index) => {
+      // For OR rules, short-circuit on first success
+      result = false;
+      for (const condition of rule.conditions) {
         const conditionResult = evaluateRule(condition, depth + 1);
         trace.addChild(
           new RuleTrace(condition, depth + 1).complete(conditionResult)
         );
-        return conditionResult;
-      });
-      result = results.some(Boolean);
+        if (conditionResult) {
+          result = true;
+          break; // Short-circuit on first true condition
+        }
+      }
       break;
     }
 
@@ -166,6 +174,40 @@ export const evaluateRule = (rule, depth = 0) => {
 
     case 'state_flag': {
       result = rule.flag && stateManager.state?.hasFlag(rule.flag);
+      break;
+    }
+
+    case 'state_method': {
+      // First try using stateManager's direct method for better accuracy
+      if (
+        stateManager &&
+        typeof stateManager.executeStateMethod === 'function'
+      ) {
+        result = stateManager.executeStateMethod(
+          rule.method,
+          ...(rule.args || [])
+        );
+      }
+      // Fall back to helpers if stateManager doesn't have the method
+      else if (
+        stateManager.helpers &&
+        typeof stateManager.helpers.executeStateMethod === 'function'
+      ) {
+        result = stateManager.helpers.executeStateMethod(
+          rule.method,
+          ...(rule.args || [])
+        );
+      } else {
+        safeLog(
+          `No state method implementation available for: ${rule.method}`,
+          {
+            availableHelpers: stateManager.helpers
+              ? Object.keys(stateManager.helpers)
+              : [],
+          }
+        );
+        result = false;
+      }
       break;
     }
 

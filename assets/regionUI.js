@@ -1,6 +1,7 @@
 // regionUI.js
 import stateManager from './stateManagerSingleton.js';
 import { evaluateRule } from './ruleEngine.js';
+import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -17,6 +18,12 @@ export class RegionUI {
 
     // If set to true, we'll show **all** regions, ignoring the visited chain
     this.showAll = false;
+
+    // Add colorblind mode property
+    this.colorblindMode = false;
+
+    // Create the path analyzer
+    this.pathAnalyzer = new PathAnalyzerUI(this);
 
     this.attachEventListeners();
   }
@@ -47,7 +54,40 @@ export class RegionUI {
   }
 
   initialize() {
+    this.clear();
     this.showStartRegion('Menu');
+
+    // Add CSS styles for multiple exits
+    const styles = document.createElement('style');
+    styles.innerHTML = `
+      .transition-header {
+        padding: 5px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+      
+      .path-exit-rule-container {
+        position: relative;
+      }
+      
+      .path-exit-rule-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -10px;
+        width: 10px;
+        height: 50%;
+        border-bottom: 1px solid #555;
+        border-left: 1px solid #555;
+      }
+      
+      .path-exit-rule-container:first-of-type::before {
+        display: none;
+      }
+    `;
+    document.head.appendChild(styles);
   }
 
   clear() {
@@ -210,62 +250,6 @@ export class RegionUI {
     }
   }
 
-  findPathsToRegion(targetRegion, maxPaths = 100) {
-    const startRegions = stateManager.getStartRegions();
-    const allPaths = [];
-
-    for (const startRegion of startRegions) {
-      if (allPaths.length >= maxPaths) break;
-      this._findPathsDFS(
-        startRegion,
-        targetRegion,
-        [startRegion],
-        new Set([startRegion]),
-        allPaths,
-        maxPaths
-      );
-    }
-
-    return allPaths;
-  }
-
-  _findPathsDFS(
-    currentRegion,
-    targetRegion,
-    currentPath,
-    visited,
-    allPaths,
-    maxPaths
-  ) {
-    if (currentRegion === targetRegion && currentPath.length > 1) {
-      allPaths.push([...currentPath]);
-      return;
-    }
-
-    if (allPaths.length >= maxPaths) return;
-
-    const regionData = stateManager.regions[currentRegion];
-    if (!regionData) return;
-
-    for (const exit of regionData.exits || []) {
-      const nextRegion = exit.connected_region;
-      if (!nextRegion || visited.has(nextRegion)) continue;
-
-      currentPath.push(nextRegion);
-      visited.add(nextRegion);
-      this._findPathsDFS(
-        nextRegion,
-        targetRegion,
-        currentPath,
-        visited,
-        allPaths,
-        maxPaths
-      );
-      currentPath.pop();
-      visited.delete(nextRegion);
-    }
-  }
-
   createRegionLink(regionName) {
     const link = document.createElement('span');
     link.textContent = regionName;
@@ -280,23 +264,6 @@ export class RegionUI {
 
     return link;
   }
-  /*
-  createLocationLink(locationName, regionName) {
-    const link = document.createElement('span');
-    link.textContent = locationName;
-    link.classList.add('location-link');
-    link.dataset.location = locationName;
-    link.dataset.region = regionName;
-    link.title = `Click to view the ${regionName} region containing this location`;
-
-    link.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.navigateToRegion(regionName);
-    });
-
-    return link;
-  }
-*/
 
   /**
    * Navigate to a specific region in the regions panel
@@ -389,8 +356,6 @@ export class RegionUI {
     return link;
   }
 
-  // Update buildRegionBlock method to move the Show Paths button to the bottom
-  // and implement the new path display functionality
   buildRegionBlock(rData, regionName, expanded, uid) {
     // Outer container
     const regionBlock = document.createElement('div');
@@ -415,7 +380,15 @@ export class RegionUI {
     headerEl.innerHTML = `
     <span class="region-name" style="color: ${
       isAccessible ? 'inherit' : 'red'
-    }">${regionLabel}</span>
+    }">${regionLabel}${
+      this.colorblindMode
+        ? `<span class="colorblind-symbol ${
+            isAccessible ? 'accessible' : 'inaccessible'
+          }">
+        ${isAccessible ? ' ✓' : ' ✗'}
+      </span>`
+        : ''
+    }</span>
     <button class="collapse-btn">${expanded ? 'Collapse' : 'Expand'}</button>
   `;
     regionBlock.appendChild(headerEl);
@@ -567,10 +540,8 @@ export class RegionUI {
       pathsControlDiv.classList.add('paths-control');
       pathsControlDiv.innerHTML = `
       <div class="paths-buttons">
-        <button class="show-paths-btn">Show Paths</button>
+        <button class="analyze-paths-btn">Analyze Paths</button>
         <span class="paths-count" style="display: none;"></span>
-        <button class="clear-paths-btn" style="display: none;">Clear Paths</button>
-        <button class="show-exit-rules-btn" style="display: none;">Show Exit Rules</button>
       </div>
     `;
       detailEl.appendChild(pathsControlDiv);
@@ -581,262 +552,39 @@ export class RegionUI {
       pathsContainer.style.display = 'none';
       detailEl.appendChild(pathsContainer);
 
-      regionBlock.appendChild(detailEl);
-
-      // Add Show Paths button functionality
-      const showPathsBtn = pathsControlDiv.querySelector('.show-paths-btn');
-      const clearPathsBtn = pathsControlDiv.querySelector('.clear-paths-btn');
-      const showExitRulesBtn = pathsControlDiv.querySelector(
-        '.show-exit-rules-btn'
-      );
+      // Comprehensive "Analyze Paths" button functionality
+      const analyzePathsBtn =
+        pathsControlDiv.querySelector('.analyze-paths-btn');
       const pathsCountSpan = pathsControlDiv.querySelector('.paths-count');
-      let cachedPaths = null;
-      let pathsShown = 0;
-      let exitRulesVisible = false;
 
-      showPathsBtn.addEventListener('click', () => {
-        // First click, calculate all paths
-        if (!cachedPaths) {
-          // Calculate paths with a higher limit
-          cachedPaths = this.findPathsToRegion(regionName, 101); // Get one extra to check if we have more than 100
+      // Set up the path analysis button using the PathAnalyzerUI
+      this.setupAnalyzePathsButton(
+        analyzePathsBtn,
+        pathsCountSpan,
+        pathsContainer,
+        regionName
+      );
 
-          // Format the count display
-          const totalPaths = cachedPaths.length;
-          const countDisplay =
-            totalPaths > 100 ? '100+' : totalPaths.toString();
-          pathsCountSpan.textContent = `(0/${countDisplay})`;
-          pathsCountSpan.style.display = 'inline';
-
-          // Update button text and show Clear button
-          showPathsBtn.textContent = 'Show More';
-          clearPathsBtn.style.display = 'inline';
-          showExitRulesBtn.style.display = 'inline';
-
-          // Make the paths container visible and add header
-          pathsContainer.style.display = 'block';
-          pathsContainer.innerHTML = '<h4>Paths to this region:</h4>';
-
-          // If we have more than 100 paths, trim the list
-          if (cachedPaths.length > 100) {
-            cachedPaths = cachedPaths.slice(0, 100);
-          }
-        }
-
-        // Show up to 10 more paths
-        const pathsToShow = Math.min(10, cachedPaths.length - pathsShown);
-        for (let i = 0; i < pathsToShow; i++) {
-          const path = cachedPaths[pathsShown + i];
-          const pathEl = this.renderPath(path, pathsShown + i);
-          pathsContainer.appendChild(pathEl);
-        }
-
-        // Update the count of displayed paths
-        pathsShown += pathsToShow;
-
-        // Update the paths count display
-        const totalPaths =
-          cachedPaths.length > 100 ? '100+' : cachedPaths.length.toString();
-        pathsCountSpan.textContent = `(${pathsShown}/${totalPaths})`;
-
-        // Disable the Show More button if we've shown all paths
-        if (pathsShown >= cachedPaths.length) {
-          showPathsBtn.disabled = true;
-          showPathsBtn.textContent = 'All Paths Shown';
-        }
-      });
-
-      // Clear paths button functionality
-      clearPathsBtn.addEventListener('click', () => {
-        // Hide and clear the paths container
-        pathsContainer.style.display = 'none';
-        pathsContainer.innerHTML = '';
-
-        // Reset the buttons and counter
-        pathsCountSpan.style.display = 'none';
-        clearPathsBtn.style.display = 'none';
-        showExitRulesBtn.style.display = 'none';
-        showPathsBtn.textContent = 'Show Paths';
-        showPathsBtn.disabled = false;
-
-        // Reset the cached data
-        cachedPaths = null;
-        pathsShown = 0;
-        exitRulesVisible = false;
-      });
-
-      // Show Exit Rules button functionality
-      showExitRulesBtn.addEventListener('click', () => {
-        exitRulesVisible = !exitRulesVisible;
-        showExitRulesBtn.textContent = exitRulesVisible
-          ? 'Hide Exit Rules'
-          : 'Show Exit Rules';
-
-        // Toggle visibility of all exit rule containers
-        document
-          .querySelectorAll('.path-exit-rule-container')
-          .forEach((container) => {
-            container.style.display = exitRulesVisible ? 'block' : 'none';
-          });
-
-        // Show/hide the Compile List button based on exitRulesVisible state
-        compileListBtn.style.display = exitRulesVisible ? 'inline' : 'none';
-
-        // Hide the compiled list container if we're hiding exit rules
-        if (!exitRulesVisible) {
-          const compiledListContainer = pathsContainer.querySelector(
-            '.compiled-rules-list'
-          );
-          if (compiledListContainer) {
-            compiledListContainer.style.display = 'none';
-          }
-        }
-      });
-
-      // Add Compile List button after the Show Exit Rules button
-      const compileListBtn = document.createElement('button');
-      compileListBtn.classList.add('compile-list-btn');
-      compileListBtn.textContent = 'Compile List';
-      compileListBtn.style.display = 'none';
-      showExitRulesBtn.after(compileListBtn);
-
-      // Compile List button functionality
-      compileListBtn.addEventListener('click', () => {
-        // Find all visible exit rule containers
-        const exitRuleContainers = pathsContainer.querySelectorAll(
-          '.path-exit-rule-container'
-        );
-
-        // Extract failing nodes from all visible containers
-        const failingNodes = [];
-        exitRuleContainers.forEach((container) => {
-          if (container.style.display === 'block') {
-            const ruleContainer = container.querySelector('.path-exit-rule');
-            if (ruleContainer && ruleContainer.firstChild) {
-              const failingNodesFromRule = this.extractFailingLeafNodes(
-                ruleContainer.firstChild
-              );
-              failingNodes.push(...failingNodesFromRule);
-            }
-          }
-        });
-
-        // Deduplicate the failing nodes
-        const uniqueFailingNodes = this.deduplicateFailingNodes(failingNodes);
-
-        // Display the compiled list
-        this.displayCompiledList(uniqueFailingNodes, pathsContainer);
-      });
+      // Append detailEl to regionBlock
+      regionBlock.appendChild(detailEl);
     }
 
     return regionBlock;
   }
 
-  /**
-   * Renders a path with support for showing exit rules
-   * @param {Array} path - Array of region names in the path
-   * @param {Number} pathIndex - Index of this path
-   * @return {HTMLElement} - The path element
-   */
-  renderPath(path, pathIndex) {
-    const pathEl = document.createElement('div');
-    pathEl.classList.add('region-path');
-    pathEl.dataset.pathIndex = pathIndex;
-
-    // Create a path representation with colored region names
-    const pathText = document.createElement('div');
-    pathText.classList.add('path-regions');
-
-    // Analyze the path to find transitions between accessible and inaccessible regions
-    const transitionPoint = this.findAccessibilityTransition(path);
-
-    path.forEach((region, index) => {
-      // Check if the region is accessible
-      const regionAccessible = stateManager.isRegionReachable(region);
-
-      // Create a span for the region with the appropriate color
-      const regionSpan = document.createElement('span');
-      regionSpan.textContent = region;
-      regionSpan.style.color = regionAccessible ? '#4caf50' : '#f44336';
-      regionSpan.classList.add('region-link');
-      regionSpan.dataset.region = region;
-      regionSpan.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.navigateToRegion(region);
-      });
-
-      // Add the region to the path
-      pathText.appendChild(regionSpan);
-
-      // Add an arrow between regions (except for the last one)
-      if (index < path.length - 1) {
-        const arrow = document.createElement('span');
-        arrow.textContent = ' → ';
-        pathText.appendChild(arrow);
-      }
-    });
-
-    pathEl.appendChild(pathText);
-
-    // Add exit rule container if there's a transition
-    if (transitionPoint) {
-      const { fromRegion, toRegion, exit } = transitionPoint;
-
-      const exitRuleContainer = document.createElement('div');
-      exitRuleContainer.classList.add('path-exit-rule-container');
-      exitRuleContainer.style.display = 'none'; // Hidden by default
-
-      // Create header showing which exit is blocked
-      const exitHeader = document.createElement('div');
-      exitHeader.classList.add('path-exit-header');
-      exitHeader.innerHTML = `<strong>Blocked Exit:</strong> ${fromRegion} → ${exit.name} → ${toRegion}`;
-      exitRuleContainer.appendChild(exitHeader);
-
-      // Show the exit rule
-      if (exit.access_rule) {
-        const ruleContainer = document.createElement('div');
-        ruleContainer.classList.add('path-exit-rule');
-        ruleContainer.appendChild(this.renderLogicTree(exit.access_rule));
-        exitRuleContainer.appendChild(ruleContainer);
-      } else {
-        exitRuleContainer.innerHTML +=
-          '<div class="path-exit-rule">(No rule defined)</div>';
-      }
-
-      pathEl.appendChild(exitRuleContainer);
-    }
-
-    return pathEl;
-  }
-
-  /**
-   * Finds the transition point between accessible and inaccessible regions in a path
-   * @param {Array} path - Array of region names in the path
-   * @return {Object|null} - Object containing the transition information or null if no transition
-   */
-  findAccessibilityTransition(path) {
-    for (let i = 0; i < path.length - 1; i++) {
-      const fromRegion = path[i];
-      const toRegion = path[i + 1];
-
-      const fromAccessible = stateManager.isRegionReachable(fromRegion);
-      const toAccessible = stateManager.isRegionReachable(toRegion);
-
-      // Found transition from accessible to inaccessible
-      if (fromAccessible && !toAccessible) {
-        // Find the exit from fromRegion to toRegion
-        const fromRegionData = stateManager.regions[fromRegion];
-        if (fromRegionData && fromRegionData.exits) {
-          const exit = fromRegionData.exits.find(
-            (e) => e.connected_region === toRegion
-          );
-          if (exit) {
-            return { fromRegion, toRegion, exit };
-          }
-        }
-      }
-    }
-
-    return null; // No transition found
+  setupAnalyzePathsButton(
+    analyzePathsBtn,
+    pathsCountSpan,
+    pathsContainer,
+    regionName
+  ) {
+    // Delegate to PathAnalyzerUI
+    this.pathAnalyzer.setupAnalyzePathsButton(
+      analyzePathsBtn,
+      pathsCountSpan,
+      pathsContainer,
+      regionName
+    );
   }
 
   _suffixIfDuplicate(regionName, uid) {
@@ -866,6 +614,22 @@ export class RegionUI {
     label.classList.add('logic-label');
     label.textContent = `Type: ${rule.type}`;
     root.appendChild(label);
+
+    // Add colorblind symbol if colorblind mode is enabled
+    if (this.colorblindMode) {
+      const symbolSpan = document.createElement('span');
+      symbolSpan.classList.add('colorblind-symbol');
+
+      if (result) {
+        symbolSpan.textContent = '✓ ';
+        symbolSpan.classList.add('accessible');
+      } else {
+        symbolSpan.textContent = '✗ ';
+        symbolSpan.classList.add('inaccessible');
+      }
+
+      root.insertBefore(symbolSpan, root.firstChild); // Insert at beginning
+    }
 
     switch (rule.type) {
       case 'constant':
@@ -914,237 +678,64 @@ export class RegionUI {
   }
 
   /**
-   * Extracts failing leaf nodes from a logic tree element
-   * @param {HTMLElement} treeElement - The logic tree DOM element to analyze
-   * @return {Array} - Array of failing leaf node information
+   * Toggles colorblind mode and updates the UI
    */
-  extractFailingLeafNodes(treeElement) {
-    const failingNodes = [];
+  toggleColorblindMode() {
+    this.colorblindMode = !this.colorblindMode;
 
-    // Check if this is a failing node
-    const isFailing = treeElement.classList.contains('fail');
+    // Update the path analyzer's colorblind mode as well
+    this.pathAnalyzer.setColorblindMode(this.colorblindMode);
 
-    // Process based on node type
-    if (isFailing) {
-      const nodeType = this.getNodeType(treeElement);
-
-      if (nodeType && this.isLeafNodeType(nodeType)) {
-        // This is a failing leaf node, extract its data
-        const nodeData = this.extractNodeData(treeElement, nodeType);
-        if (nodeData) {
-          failingNodes.push(nodeData);
-        }
-      } else {
-        // For non-leaf nodes, recursively check children
-        const childLists = treeElement.querySelectorAll('ul');
-        childLists.forEach((ul) => {
-          ul.querySelectorAll('li').forEach((li) => {
-            if (li.firstChild) {
-              const childFailingNodes = this.extractFailingLeafNodes(
-                li.firstChild
-              );
-              failingNodes.push(...childFailingNodes);
-            }
-          });
-        });
-      }
-    }
-
-    return failingNodes;
+    // Update colorblind indicators in the UI
+    this._updateColorblindIndicators();
   }
 
   /**
-   * Determines the type of a logic node from its DOM element
-   * @param {HTMLElement} element - The DOM element representing a logic node
-   * @return {string|null} - The type of the logic node or null if not found
+   * Helper method to update colorblind indicators across the UI
    */
-  getNodeType(element) {
-    const logicLabel = element.querySelector('.logic-label');
-    if (logicLabel) {
-      const typeMatch = logicLabel.textContent.match(/Type: (\w+)/);
-      if (typeMatch && typeMatch[1]) {
-        return typeMatch[1];
-      }
-    }
-    return null;
-  }
+  _updateColorblindIndicators() {
+    // Update all region link indicators
+    document.querySelectorAll('.region-link').forEach((link) => {
+      // Remove any existing colorblind symbols
+      const existingSymbol = link.querySelector('.colorblind-symbol');
+      if (existingSymbol) existingSymbol.remove();
 
-  /**
-   * Checks if a node type is a leaf node type
-   * @param {string} nodeType - The type of the logic node
-   * @return {boolean} - True if it's a leaf node type, false otherwise
-   */
-  isLeafNodeType(nodeType) {
-    return [
-      'constant',
-      'item_check',
-      'count_check',
-      'group_check',
-      'helper',
-      'state_method',
-    ].includes(nodeType);
-  }
+      // Get the region name and check if it's reachable
+      const regionName = link.dataset.region;
+      if (!regionName) return;
 
-  /**
-   * Extracts data from a leaf node element based on its type
-   * @param {HTMLElement} element - The DOM element representing a logic node
-   * @param {string} nodeType - The type of the logic node
-   * @return {Object|null} - The extracted node data or null if extraction failed
-   */
-  extractNodeData(element, nodeType) {
-    const textContent = element.textContent;
+      const isReachable = stateManager.isRegionReachable(regionName);
 
-    switch (nodeType) {
-      case 'constant':
-        const valueMatch = textContent.match(/value: (true|false)/i);
-        if (valueMatch) {
-          return {
-            type: 'constant',
-            value: valueMatch[1].toLowerCase() === 'true',
-            display: `Constant: ${valueMatch[1]}`,
-            identifier: `constant_${valueMatch[1]}`,
-          };
-        }
-        break;
-
-      case 'item_check':
-        const itemMatch = textContent.match(/item: (.+?)($|\s)/);
-        if (itemMatch) {
-          return {
-            type: 'item_check',
-            item: itemMatch[1],
-            display: `Missing item: ${itemMatch[1]}`,
-            identifier: `item_${itemMatch[1]}`,
-          };
-        }
-        break;
-
-      case 'count_check':
-        const countMatch = textContent.match(/(\w+) >= (\d+)/);
-        if (countMatch) {
-          return {
-            type: 'count_check',
-            item: countMatch[1],
-            count: parseInt(countMatch[2], 10),
-            display: `Need ${countMatch[2]}× ${countMatch[1]}`,
-            identifier: `count_${countMatch[1]}_${countMatch[2]}`,
-          };
-        }
-        break;
-
-      case 'group_check':
-        const groupMatch = textContent.match(/group: (.+?)($|\s)/);
-        if (groupMatch) {
-          return {
-            type: 'group_check',
-            group: groupMatch[1],
-            display: `Missing group: ${groupMatch[1]}`,
-            identifier: `group_${groupMatch[1]}`,
-          };
-        }
-        break;
-
-      case 'helper':
-        const helperMatch = textContent.match(/helper: (.+?), args:/);
-        if (helperMatch) {
-          return {
-            type: 'helper',
-            name: helperMatch[1],
-            display: `Helper function: ${helperMatch[1]} not satisfied`,
-            identifier: `helper_${helperMatch[1]}`,
-          };
-        }
-        break;
-
-      case 'state_method':
-        const methodMatch = textContent.match(/method: (.+?), args:/);
-        if (methodMatch) {
-          return {
-            type: 'state_method',
-            method: methodMatch[1],
-            display: `State method: ${methodMatch[1]} not satisfied`,
-            identifier: `method_${methodMatch[1]}`,
-          };
-        }
-        break;
-    }
-
-    return null;
-  }
-
-  /**
-   * Removes duplicate failing nodes
-   * @param {Array} nodes - Array of failing node information
-   * @return {Array} - Deduplicated array of failing nodes
-   */
-  deduplicateFailingNodes(nodes) {
-    const uniqueNodes = [];
-    const seenIdentifiers = new Set();
-
-    nodes.forEach((node) => {
-      if (!seenIdentifiers.has(node.identifier)) {
-        seenIdentifiers.add(node.identifier);
-        uniqueNodes.push(node);
+      // Add colorblind symbol if needed
+      if (this.colorblindMode) {
+        const symbolSpan = document.createElement('span');
+        symbolSpan.classList.add('colorblind-symbol');
+        symbolSpan.textContent = isReachable ? ' ✓' : ' ✗';
+        symbolSpan.classList.add(isReachable ? 'accessible' : 'inaccessible');
+        link.appendChild(symbolSpan);
       }
     });
 
-    return uniqueNodes;
-  }
+    // Update logic nodes
+    document.querySelectorAll('.logic-node').forEach((node) => {
+      const isPassing = node.classList.contains('pass');
 
-  /**
-   * Displays the compiled list of failing nodes
-   * @param {Array} nodes - Array of failing node information to display
-   * @param {HTMLElement} container - Container element to place the list
-   */
-  displayCompiledList(nodes, container) {
-    // Check if the list already exists
-    let compiledListContainer = container.querySelector('.compiled-rules-list');
+      // Remove existing symbol
+      const existingSymbol = node.querySelector('.colorblind-symbol');
+      if (existingSymbol) existingSymbol.remove();
 
-    // If it doesn't exist, create it
-    if (!compiledListContainer) {
-      compiledListContainer = document.createElement('div');
-      compiledListContainer.classList.add('compiled-rules-list');
-
-      // Insert at the top of the paths container
-      if (container.firstChild) {
-        container.insertBefore(compiledListContainer, container.firstChild);
-      } else {
-        container.appendChild(compiledListContainer);
+      // Add new symbol if needed
+      if (
+        this.colorblindMode &&
+        (node.classList.contains('pass') || node.classList.contains('fail'))
+      ) {
+        const symbolSpan = document.createElement('span');
+        symbolSpan.classList.add('colorblind-symbol');
+        symbolSpan.textContent = isPassing ? ' ✓' : ' ✗';
+        symbolSpan.classList.add(isPassing ? 'accessible' : 'inaccessible');
+        node.insertBefore(symbolSpan, node.firstChild); // Insert at beginning
       }
-    }
-
-    // Clear the container and add the header
-    compiledListContainer.innerHTML = '<h4>Blockers Preventing Access:</h4>';
-    compiledListContainer.style.display = 'block';
-
-    // If there are no failing nodes, show a message
-    if (nodes.length === 0) {
-      const emptyMessage = document.createElement('div');
-      emptyMessage.classList.add('compiled-rules-empty');
-      emptyMessage.textContent =
-        'No failing conditions found. This might be due to a region connection without a rule.';
-      compiledListContainer.appendChild(emptyMessage);
-      return;
-    }
-
-    // Create the list of failing nodes
-    const failingList = document.createElement('ul');
-    failingList.classList.add('compiled-rules-items');
-
-    nodes.forEach((node) => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('compiled-rule-item');
-      listItem.textContent = node.display;
-
-      // Add special class for item-related rules
-      if (node.type === 'item_check' || node.type === 'count_check') {
-        listItem.classList.add('item-related-rule');
-      }
-
-      failingList.appendChild(listItem);
     });
-
-    compiledListContainer.appendChild(failingList);
   }
 }
 

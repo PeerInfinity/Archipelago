@@ -274,6 +274,19 @@ export class TestCaseUI {
         stateManager.isLocationAccessible(locationData);
       const passed = locationAccessible === expectedResult;
 
+      // SAVE THE CURRENT INVENTORY STATE BEFORE PARTIAL TESTING
+      const saveInventoryState = () => {
+        // Create a deep copy of the current inventory state
+        const savedItems = new Map();
+        stateManager.inventory.items.forEach((count, item) => {
+          savedItems.set(item, count);
+        });
+        return savedItems;
+      };
+
+      // Save the inventory state after initial test
+      const savedInventory = saveInventoryState();
+
       // If accessible and required items specified, also validate that all items are truly required
       let validationFailed = null;
       if (
@@ -296,6 +309,29 @@ export class TestCaseUI {
           }
         }
       }
+
+      // RESTORE THE SAVED INVENTORY STATE
+      const restoreInventoryState = (savedItems) => {
+        // Clear the current inventory first
+        stateManager.inventory.items.forEach((_, item) => {
+          stateManager.inventory.items.set(item, 0);
+        });
+
+        // Restore the saved counts
+        savedItems.forEach((count, item) => {
+          stateManager.inventory.items.set(item, count);
+        });
+
+        // Force UI sync and cache invalidation
+        stateManager.invalidateCache();
+        stateManager.computeReachableRegions();
+
+        // This will update the UI to match the restored inventory
+        this.gameUI.inventoryUI?.syncWithState();
+      };
+
+      // Restore inventory state after all tests
+      restoreInventoryState(savedInventory);
 
       // Show appropriate result
       if (validationFailed) {
@@ -383,6 +419,9 @@ export class TestCaseUI {
         runAllButton.textContent = 'Run All Tests';
       }
     }
+
+    // Add debug button
+    this.addDebugButton();
   }
 
   renderTestCasesList() {
@@ -654,7 +693,33 @@ export class TestCaseUI {
       const testCase = this.testCases.location_tests[index];
       const statusElement = document.getElementById(`test-status-${index}`);
       if (testCase && statusElement) {
-        button.onclick = () => this.loadTestCase(testCase, statusElement);
+        button.onclick = () => {
+          // Run the test
+          const result = this.loadTestCase(testCase, statusElement);
+
+          // Update summary for a single test
+          const resultsElement = document.getElementById(
+            'test-results-summary'
+          );
+          if (resultsElement) {
+            resultsElement.innerHTML = `
+              <div class="test-summary ${
+                result ? 'all-passed' : 'has-failures'
+              }">
+                Test completed: 
+                <span class="${result ? 'passed' : 'failed'}">${
+              result ? 'PASSED' : 'FAILED'
+            }</span>
+                (Location: ${testCase[0]})
+              </div>
+            `;
+          }
+
+          // Add the debug button after running an individual test
+          this.addDebugButton();
+
+          return result;
+        };
       }
     });
 
@@ -765,5 +830,28 @@ export class TestCaseUI {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  /**
+   * Adds a debug button to the test results summary panel
+   * This allows users to debug critical regions with a click
+   */
+  addDebugButton() {
+    const container = document.getElementById('test-results-summary');
+    if (!container) return;
+
+    const debugButton = document.createElement('button');
+    debugButton.textContent = 'Debug Critical Regions';
+    debugButton.className = 'button';
+    debugButton.style.marginTop = '10px';
+    debugButton.style.backgroundColor = '#9c27b0';
+    debugButton.style.color = '#fff';
+
+    debugButton.addEventListener('click', () => {
+      stateManager.debugCriticalRegions();
+    });
+
+    container.appendChild(debugButton);
+    console.log('Debug button added to test UI');
   }
 }
