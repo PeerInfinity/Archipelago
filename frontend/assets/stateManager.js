@@ -603,14 +603,62 @@ export class StateManager {
    * Initialize the inventory with a specific set of items for testing
    */
   initializeInventoryForTest(requiredItems = [], excludedItems = []) {
-    this.clearInventory();
+    this.clearState(); // Use clearState instead of clearInventory
 
-    // Add all required items
-    requiredItems.forEach((item) => {
-      this.addItemToInventory(item);
+    // Begin batch updates
+    this.beginBatchUpdate(true);
+
+    // Handle excludedItems by adding all other items
+    if (excludedItems?.length > 0) {
+      Object.keys(this.inventory.itemData).forEach((itemName) => {
+        if (
+          !excludedItems.includes(itemName) &&
+          !(
+            itemName.includes('Bottle') && excludedItems.includes('AnyBottle')
+          ) &&
+          !this.inventory.itemData[itemName].event &&
+          this.inventory.itemData[itemName].type !== 'Event'
+        ) {
+          this.addItemToInventory(itemName);
+
+          // Process events
+          if (this.state?.processEventItem) {
+            this.state.processEventItem(itemName);
+          }
+        }
+      });
+    }
+
+    this.commitBatchUpdate();
+
+    // Handle progressive items for exclusions
+    if (excludedItems?.length > 0) {
+      excludedItems.forEach((excludedItem) => {
+        if (this.inventory.isProgressiveBaseItem(excludedItem)) {
+          const providedItems =
+            this.inventory.getProgressiveProvidedItems(excludedItem);
+          providedItems.forEach((providedItem) => {
+            if (this.inventory.items.has(providedItem)) {
+              this.inventory.items.set(providedItem, 0);
+            }
+          });
+        }
+      });
+    }
+
+    // Add required items in second batch
+    this.beginBatchUpdate(true);
+    requiredItems.forEach((itemName) => {
+      this.addItemToInventory(itemName);
+      if (this.state?.processEventItem) {
+        this.state.processEventItem(itemName);
+      }
     });
+    this.commitBatchUpdate();
 
+    // Update regions and UI
     this.invalidateCache();
+    this.computeReachableRegions();
     this.notifyUI('inventoryChanged');
   }
 

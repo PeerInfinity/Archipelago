@@ -2502,3 +2502,135 @@ item: Crystal 6
 Can you figure out what might be causing this?
 
 
+----
+
+We just finished making some major changes to stateManager.js, to make its logic more closely match the Python code.  This brought the failing test cases down from 396 to 296, but now the data displayed in regionUI and in pathAnalyzer isn’t matching the data displayed in testCaseUI.
+
+For example, in this case:
+   [
+      "Pyramid Fairy - Left",
+      true,
+      [
+        "Moon Pearl",
+        "Crystal 5",
+        "Crystal 6",
+        "Beat Agahnim 1",
+        "Hammer"
+      ]
+    ],
+
+I load the index.html page, then I click on the “Test Cases” radio button, then I click on the vanilla East Dark World test set, then I click the “Load Test Data” button, then I click the “Run Test” button for the test case listed above.  It says the test passes.  The test was failing before the recent batch of code changes.  Anyway, next I click on the “Pyramid Fairy - Left” link, which opens Regions View, enables “Show All Regions”, and scrolls to the “Pyramid Fairy” region.  Next, I click the “Analyze Paths” button for that region, then I click the “Enable Colorblind Mode” button.
+
+When I ran the test, this test case passes, meaning that "Pyramid Fairy - Left" is accessible with these inventory items.  But then when I go to Regions View immediately after running the test, it displays the “Pyramid Fairy” region as inaccessible, and shows this data in the path analysis tool:
+
+Pyramid Fairy
+Collapse
+Light world? false
+Dark world? true
+Locations
+Pyramid Fairy - LeftCheck
+✓
+Type: item_check
+item: Moon Pearl
+Pyramid Fairy - RightCheck
+✓
+Type: item_check
+item: Moon Pearl
+Clear Analysis
+(48 paths)
+✗ Region Unreachable
+This region is currently unreachable. Review the paths below to understand what's blocking access.
+Primary Blockers (9)
+These items directly block access. Acquiring them would unblock the path.
+
+Need item: Hammer
+Helper function: can_lift_rocks
+Need item: Magic Mirror
+State method: can_reach
+Need item: Flippers
+Helper function: can_lift_heavy_rocks
+Helper function: old_man
+Constant: false
+Need item: Lamp
+Primary Requirements (7)
+These items are critical for access. Removing them would block the path.
+
+Constant: true
+Need item: Moon Pearl
+Need item: Beat Agahnim 1
+Helper function: cross_peg_bridge
+State method: can_reach
+Need item: Crystal 5
+Need item: Crystal 6
+Hide Summary
+Hide Passing Exits
+Hide Failing Exits
+Collapse All
+Disable Colorblind Mode
+Show All Rules
+Hide All Rules
+▼
+Menu✓ → Links House✓ → Light World✓ → East Dark World✓ → Pyramid Fairy✗
+Transition: Menu → Links House (Accessible)
+Exit: Menu → Links House S&Q → Links House✓
+✓
+Type: constant
+value: true
+Transition: Links House → Light World (Accessible)
+Exit: Links House → Links House Exit → Light World✓
+✓
+Type: constant
+value: true
+Transition: Light World → East Dark World (Accessible) [1/2 exits available]
+Exit 1/2: Light World → East Hyrule Teleporter → East Dark World✗
+✗
+Type: and
+✗
+Type: item_check
+item: Hammer
+✗
+Type: helper
+helper: can_lift_rocks, args: []
+✓
+Type: item_check
+item: Moon Pearl
+Exit 2/2: Light World → Top of Pyramid → East Dark World✓
+✓
+Type: item_check
+item: Beat Agahnim 1
+Transition: East Dark World → Pyramid Fairy (Blocked)
+Exit: East Dark World → Pyramid Fairy → Pyramid Fairy✗
+✗
+Type: and
+✓
+Type: or
+✓
+Type: helper
+helper: cross_peg_bridge, args: []
+✗
+Type: and
+✗
+Type: item_check
+item: Magic Mirror
+✓
+Type: item_check
+item: Beat Agahnim 1
+✗
+Type: and
+✓
+Type: state_method
+method: can_reach, args: ["East Dark World","Region","player"]
+✗
+Type: state_method
+method: can_reach, args: ["Big Bomb Shop","Region","player"]
+✓
+Type: item_check
+item: Crystal 5
+✓
+Type: item_check
+item: Crystal 6
+
+Can you figure out what might be causing this?
+
+
+

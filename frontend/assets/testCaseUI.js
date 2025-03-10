@@ -274,6 +274,19 @@ export class TestCaseUI {
         stateManager.isLocationAccessible(locationData);
       const passed = locationAccessible === expectedResult;
 
+      // SAVE THE CURRENT INVENTORY STATE BEFORE PARTIAL TESTING
+      const saveInventoryState = () => {
+        // Create a deep copy of the current inventory state
+        const savedItems = new Map();
+        stateManager.inventory.items.forEach((count, item) => {
+          savedItems.set(item, count);
+        });
+        return savedItems;
+      };
+
+      // Save the inventory state after initial test
+      const savedInventory = saveInventoryState();
+
       // If accessible and required items specified, also validate that all items are truly required
       let validationFailed = null;
       if (
@@ -296,6 +309,29 @@ export class TestCaseUI {
           }
         }
       }
+
+      // RESTORE THE SAVED INVENTORY STATE
+      const restoreInventoryState = (savedItems) => {
+        // Clear the current inventory first
+        stateManager.inventory.items.forEach((_, item) => {
+          stateManager.inventory.items.set(item, 0);
+        });
+
+        // Restore the saved counts
+        savedItems.forEach((count, item) => {
+          stateManager.inventory.items.set(item, count);
+        });
+
+        // Force UI sync and cache invalidation
+        stateManager.invalidateCache();
+        stateManager.computeReachableRegions();
+
+        // This will update the UI to match the restored inventory
+        this.gameUI.inventoryUI?.syncWithState();
+      };
+
+      // Restore inventory state after all tests
+      restoreInventoryState(savedInventory);
 
       // Show appropriate result
       if (validationFailed) {
