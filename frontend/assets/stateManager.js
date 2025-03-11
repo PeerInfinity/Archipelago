@@ -222,6 +222,16 @@ export class StateManager {
 
     // Immediately compute reachable regions to collect initial events
     this.computeReachableRegions();
+
+    // Add this line at the end of the method to enhance locations with shop data
+    if (
+      this.helpers &&
+      typeof this.helpers.enhanceLocationsWithShopData === 'function'
+    ) {
+      this.helpers.enhanceLocationsWithShopData();
+    }
+
+    return true;
   }
 
   /**
@@ -630,10 +640,10 @@ export class StateManager {
     if (excludedItems?.length > 0) {
       // Check if we have itempool_counts data directly on the stateManager
       if (this.itempool_counts) {
-        console.log(
-          'Using itempool_counts data for test inventory:',
-          this.itempool_counts
-        );
+        //console.log(
+        //  'Using itempool_counts data for test inventory:',
+        //  this.itempool_counts
+        //);
 
         // Process special maximum values first to ensure state is properly configured
         if (this.itempool_counts['__max_progressive_bottle']) {

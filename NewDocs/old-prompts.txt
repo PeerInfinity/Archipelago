@@ -2638,4 +2638,419 @@ The javascript frontend is currently using a simple algorithm to fill the invent
 
 We already started to update exporter.py to export this data to the json file.  The next step is to update the frontend to read the data and use it when initializing the inventory for excluded tests.
 
+----
 
+The next issue to fix is that some of the helper functions aren’t getting their parameters successfully parsed by exporter.py.
+
+For example:
+has_crystals(state, 7, player)
+
+Or
+
+   set_rule(ganons_tower, lambda state: has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player))
+
+
+This gets parsed in the json file as:
+           "access_rule": {
+              "type": "helper",
+              "name": "has_crystals",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+
+Here is some relevant data form the debug file:
+
+--- Starting Rule Analysis ---
+Rule function: <function set_rules.<locals>.<lambda> at 0x00000273EEDE4CC0>
+Extracted closure vars: ['player', 'has_crystals']
+Original source: '    set_rule(ganons_tower, lambda state: has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player))\n'
+Cleaned source: 'def __analyzed_func__(state):\n    return has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player)'
+AST parsed successfully
+DEBUG    root:analyzer.py:67 
+--- Starting Module Analysis ---
+
+--- Starting Module Analysis ---
+DEBUG    root:analyzer.py:67 Module body length: 1
+Module body length: 1
+DEBUG    root:analyzer.py:67 Module body node 0: FunctionDef
+Module body node 0: FunctionDef
+DEBUG    root:analyzer.py:67 
+--- Analyzing Function Definition: __analyzed_func__ ---
+
+--- Analyzing Function Definition: __analyzed_func__ ---
+DEBUG    root:analyzer.py:67 Function args: ['state']
+Function args: ['state']
+DEBUG    root:analyzer.py:67 Function body node 0: Return
+Function body node 0: Return
+DEBUG    root:analyzer.py:67 
+--- Analyzing Return ---
+
+--- Analyzing Return ---
+DEBUG    root:analyzer.py:67 Return value type: Call
+Return value type: Call
+
+visit_Call called:
+Function: Name(id='has_crystals', ctx=Load())
+Args: ["Name(id='state', ctx=Load())", "Subscript(value=Attribute(value=Attribute(value=Name(id='state', ctx=Load()), attr='multiworld', ctx=Load()), attr='crystals_needed_for_gt', ctx=Load()), slice=Name(id='player', ctx=Load()), ctx=Load())", "Name(id='player', ctx=Load())"]
+
+visit_Name called: has_crystals
+Name result: {'type': 'name', 'name': 'has_crystals'}
+Function info after visit: {'type': 'name', 'name': 'has_crystals'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Subscript ---
+
+--- Generic Visit: Subscript ---
+DEBUG    root:analyzer.py:67 Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <ast.Name object at 0x00000273EEE1F1F0>, 'ctx': <ast.Load object at 0x00000273DFC97550>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}
+Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <ast.Name object at 0x00000273EEE1F1F0>, 'ctx': <ast.Load object at 0x00000273DFC97550>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}
+
+visit_Attribute called:
+Value: Attribute(value=Name(id='state', ctx=Load()), attr='multiworld', ctx=Load())
+Attr: crystals_needed_for_gt
+
+visit_Attribute called:
+Value: Name(id='state', ctx=Load())
+Attr: multiworld
+
+visit_Name called: state
+Name result: {'type': 'name', 'name': 'state'}
+Value info after visit: {'type': 'name', 'name': 'state'}
+Value info after visit: {'type': 'state_method', 'method': 'multiworld'}
+Unhandled attribute access: crystals_needed_for_gt on {'type': 'state_method', 'method': 'multiworld'}
+
+visit_Name called: player
+Name result: {'type': 'name', 'name': 'player'}
+DEBUG    root:analyzer.py:67 
+--- Generic Visit: Load ---
+
+--- Generic Visit: Load ---
+DEBUG    root:analyzer.py:67 Node details: {}
+Node details: {}
+Collected args: ['state', {'type': 'name', 'name': 'player'}, 'player']
+Processed args (without state/player): [{'type': 'name', 'name': 'player'}]
+Checking helper: has_crystals
+Available closure vars: ['player', 'has_crystals']
+Created helper: {'type': 'helper', 'name': 'has_crystals', 'args': [{'type': 'name', 'name': 'player'}]}
+Debug log:
+
+--- Starting Module Analysis ---
+Module body length: 1
+Module body node 0: FunctionDef
+
+--- Analyzing Function Definition: __analyzed_func__ ---
+Function args: ['state']
+Function body node 0: Return
+
+--- Analyzing Return ---
+Return value type: Call
+
+--- Generic Visit: Subscript ---
+Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <ast.Name object at 0x00000273EEE1F1F0>, 'ctx': <ast.Load object at 0x00000273DFC97550>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}
+
+--- Generic Visit: Load ---
+Node details: {}
+DEBUG    worlds.generic.RuleParser.exporter:exporter.py:617 Successfully expanded rule
+DEBUG    worlds.generic.RuleParser.exporter:exporter.py:771 Successfully processed exit: Ganons Tower
+
+
+
+
+Here is a proposed solution by o1.  If you think it makes sense, then can you turn it into a clearer set of instructions for changes to make:
+
+Below is a **conceptual** fix you can apply in your `RuleAnalyzer` to recognize and serialize expressions like:
+
+```python
+has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player)
+```
+
+so that the second argument isn’t silently dropped or turned into just `{"type": "name", "name": "player"}`. In short, you need to implement a visitor for **Subscript** nodes (and optionally for chained attributes) that returns something like an `"index_access"` or `"subscript"` structure, which you can place into the rule’s “args.”
+
+---
+
+## 1) Add a `visit_Subscript` Method
+
+When Python sees something like:
+
+```python
+state.multiworld.crystals_needed_for_gt[player]
+```
+
+the AST node is (roughly):
+
+- A `Subscript` node
+- whose `.value` is an `Attribute` node representing `state.multiworld.crystals_needed_for_gt`,
+- whose `.slice` is typically an `ast.Name` (if we do `[player]`) or an `ast.Constant` (if `[7]`), or even a more complex expression.
+
+By default, your analyzer logs “**Unhandled attribute access**” or does a “**Generic Visit**,” producing no meaningful parse object. The fix: create a method like this:
+
+```python
+def visit_Subscript(self, node: ast.Subscript):
+    """
+    Convert something like "foo.bar[baz]" into a structured node:
+    {
+        'type': 'index',
+        'value': <the visited .value>,
+        'index': <the visited .slice>,
+    }
+    """
+    # First, visit the node.value (the thing being indexed)
+    self.visit(node.value)
+    value_info = self.current_result  # e.g. might be a 'state_method', 'helper', 'attribute_chain', etc.
+
+    # Then, visit the node.slice (whatever is in the brackets)
+    self.visit(node.slice)
+    slice_info = self.current_result
+
+    # Build an "index" or "subscript" node
+    result = {
+        'type': 'index',
+        'value': value_info,
+        'index': slice_info,
+    }
+    self.current_result = result
+```
+
+This ensures that after we return from `visit_Subscript`, `self.current_result` is the new JSON-ish data structure describing the subscript. So your final call-arg becomes an `{"type": "index", "value": {...}, "index": {...}}` object instead of just `{"type": "name", "name": "player"}`.
+
+---
+
+## 2) Pass the “Subscript” Node up Through `visit_Call`
+
+When you do:
+
+```python
+has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player)
+```
+
+the middle argument is an AST `Subscript`.  After adding `visit_Subscript` as above, your code in `visit_Call` will do:
+
+- `self.visit(arg)` → sees it’s a `Subscript` → calls `visit_Subscript` → sets `self.current_result` to your `{'type': 'index', ...}`
+
+Hence, inside your `visit_Call`:
+
+```python
+# snippet of your existing code in visit_Call
+for arg in node.args:
+    self.visit(arg)
+    if self.current_result is not None:
+        args.append(self.current_result)
+```
+
+Now `args[-1]` will be that `'index'` dict if the call-argument was a subscript. So you will get something like:
+
+```json
+{
+  "type": "helper",
+  "name": "has_crystals",
+  "args": [
+    {
+      "type": "name", 
+      "name": "state"
+    },
+    {
+      "type": "index",
+      "value": {
+        "type": "attribute", 
+        "object": {
+          "type": "attribute",
+          "object": {
+             "type": "name",
+             "name": "state"
+          },
+          "attr": "multiworld"
+        },
+        "attr": "crystals_needed_for_gt"
+      },
+      "index": {
+        "type": "name",
+        "name": "player"
+      }
+    },
+    {
+      "type": "name",
+      "name": "player"
+    }
+  ]
+}
+```
+
+*(The above snippet also shows one way to handle multi-level Attribute chaining, described next.)*
+
+---
+
+## 3) Improve `visit_Attribute` to Return a Chained “attribute” Node
+
+Right now your code shows an “Unhandled attribute access: crystals_needed_for_gt.”  That happens when you have `value_info` = `{'type': 'state_method', 'method': 'multiworld'}`, but then see `.attr = crystals_needed_for_gt`.  
+
+A simpler approach is: treat any `Attribute` as `"type": "attribute"`, storing `.object` plus `.attr`. If that object is already `"type": "attribute"`, you can nest them or flatten them into a “chain.”  For example:
+
+```python
+def visit_Attribute(self, node: ast.Attribute):
+    """
+    Builds up a chain of attributes, e.g. state.multiworld.crystals_needed_for_gt
+    turning into something like:
+    {
+      'type': 'attribute',
+      'object': {
+         'type': 'attribute',
+         'object': {'type': 'name', 'name': 'state'},
+         'attr': 'multiworld'
+      },
+      'attr': 'crystals_needed_for_gt'
+    }
+    """
+    # first visit the node.value
+    self.visit(node.value)
+    value_info = self.current_result
+
+    self.current_result = {
+      'type': 'attribute',
+      'object': value_info,
+      'attr': node.attr
+    }
+```
+
+That way you do **not** store `"type": "state_method"` for “multiworld.”  Instead, it’s just “attribute” node on top of an attribute node on top of a `'name'` node. This allows arbitrarily deep chaining: `foo.bar.baz.quux` → `attribute( object=attribute(...), attr='quux' )`.
+
+If you prefer, you can detect if `value_info` is `'type': 'attribute'` and just combine them into a single “attrs”: `[ "foo", "bar", "baz", "quux" ]`. But either approach works.  
+
+---
+
+## 4) Example Adjusted Snippet in `analyzer.py`
+
+Here’s a minimal patch to illustrate:
+
+```python
+class RuleAnalyzer(ast.NodeVisitor):
+    ...
+
+    def visit_Subscript(self, node: ast.Subscript):
+        """Handles expressions like x[y] or x[y:z]. For typical usage, we only expect x[y]."""
+        # Visit the container
+        self.visit(node.value)
+        container_info = self.current_result
+
+        # Visit the index
+        self.visit(node.slice)
+        index_info = self.current_result
+
+        # Build our 'index' node structure
+        self.current_result = {
+            'type': 'index',
+            'value': container_info,
+            'index': index_info
+        }
+
+    def visit_Attribute(self, node: ast.Attribute):
+        """Collects something like foo.bar as 
+           {'type': 'attribute', 'object': <visit(foo)>, 'attr': 'bar'} 
+        """
+        self.visit(node.value)
+        base_info = self.current_result  # Could be a 'name', another 'attribute', etc.
+        self.current_result = {
+            'type': 'attribute',
+            'object': base_info,
+            'attr': node.attr
+        }
+
+    def visit_Name(self, node: ast.Name):
+        """Simple use: record that it's a named variable or symbol."""
+        self.current_result = {
+            'type': 'name',
+            'name': node.id
+        }
+
+    def visit_Call(self, node: ast.Call):
+        """We already have some logic. 
+           Just be sure that if an arg is Subscript, we get your newly minted structure from visit_Subscript.
+        """
+        # first figure out the function name or 'object'
+        self.visit(node.func)
+        func_info = self.current_result
+
+        args = []
+        for arg in node.args:
+            self.visit(arg)
+            if self.current_result is not None:
+                args.append(self.current_result)
+        # build something akin to: { 'type': 'helper', 'name': ..., 'args': ... }
+        ...
+```
+
+With that in place, your “`has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player)`” call becomes a helper node that passes three arguments:
+
+1. `{'type': 'name', 'name': 'state'}`  
+2. `{'type': 'index', 'value': {...}, 'index': {...}}`  
+3. `{'type': 'name', 'name': 'player'}`  
+
+Where the second argument’s “value” is something like:
+
+```json
+{ "type": "attribute",
+  "object": {
+    "type": "attribute",
+    "object": {"type": "name", "name": "state"},
+    "attr": "multiworld"
+  },
+  "attr": "crystals_needed_for_gt"
+}
+```
+
+And the “index” is `{ "type": "name", "name": "player" }`.  
+
+Thus you’ll see them properly in your final rules JSON.  From there, your front end can interpret `"type": "index"` or `"type": "attribute"` as you like.
+
+---
+
+### Summary of the Fix
+
+1. **Implement `visit_Subscript`** to produce an `"index"` or `"subscript"` node with `.value` and `.index`.
+2. **Use `visit_Attribute`** for multi-level attribute chains rather than “unhandled attribute access,” returning a consistent structure.
+3. Continue returning simpler `'type': 'name'` for bare variable references.
+4. In `visit_Call`, each argument that you visit might produce `'type': 'index', 'type': 'attribute', 'type': 'name', etc., so you just store them in the call’s arg list.
+
+That way, a call to:
+
+```python
+set_rule(ganons_tower,
+  lambda state: has_crystals(
+      state,
+      state.multiworld.crystals_needed_for_gt[player],
+      player
+  )
+)
+```
+
+will become:
+
+```json
+{
+  "type": "helper",
+  "name": "has_crystals",
+  "args": [
+    { "type": "name", "name": "state" },
+    {
+      "type": "index",
+      "value": {
+        "type": "attribute",
+        "attr": "crystals_needed_for_gt",
+        "object": {
+          "type": "attribute",
+          "attr": "multiworld",
+          "object": {
+            "type": "name",
+            "name": "state"
+          }
+        }
+      },
+      "index": { "type": "name", "name": "player" }
+    },
+    { "type": "name", "name": "player" }
+  ]
+}
+```
+
+…and thus no longer missing that second argument.

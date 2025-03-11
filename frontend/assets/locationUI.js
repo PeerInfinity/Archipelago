@@ -279,24 +279,252 @@ export class LocationUI {
       case 'constant':
         root.appendChild(document.createTextNode(` value: ${rule.value}`));
         break;
-      case 'item_check':
-        root.appendChild(document.createTextNode(` item: ${rule.item}`));
+
+      case 'item_check': {
+        let itemText = '';
+        if (typeof rule.item === 'string') {
+          itemText = rule.item;
+        } else if (rule.item && rule.item.type === 'constant') {
+          itemText = rule.item.value;
+        } else if (rule.item) {
+          itemText = `(complex expression)`;
+
+          // Add visualization for complex item expression
+          const itemExprLabel = document.createElement('div');
+          itemExprLabel.textContent = 'Item Expression:';
+          itemExprLabel.style.marginLeft = '10px';
+          root.appendChild(itemExprLabel);
+
+          const itemExpr = document.createElement('div');
+          itemExpr.style.marginLeft = '20px';
+          itemExpr.appendChild(this.renderLogicTree(rule.item));
+          root.appendChild(itemExpr);
+        }
+
+        root.appendChild(document.createTextNode(` item: ${itemText}`));
         break;
-      case 'count_check':
+      }
+
+      case 'count_check': {
+        let itemText = '';
+        let countText = rule.count || 1;
+
+        if (typeof rule.item === 'string') {
+          itemText = rule.item;
+        } else if (rule.item && rule.item.type === 'constant') {
+          itemText = rule.item.value;
+        } else if (rule.item) {
+          itemText = `(complex expression)`;
+        }
+
+        if (typeof rule.count === 'number') {
+          countText = rule.count;
+        } else if (rule.count && rule.count.type === 'constant') {
+          countText = rule.count.value;
+        } else if (rule.count) {
+          countText = '(complex expression)';
+        }
+
         root.appendChild(
-          document.createTextNode(` ${rule.item} >= ${rule.count}`)
+          document.createTextNode(` ${itemText} >= ${countText}`)
         );
+
+        // Add visualization for complex expressions
+        const hasComplexItem =
+          rule.item && typeof rule.item === 'object' && rule.item.type;
+        const hasComplexCount =
+          rule.count && typeof rule.count === 'object' && rule.count.type;
+
+        if (hasComplexItem || hasComplexCount) {
+          const exprsContainer = document.createElement('div');
+          exprsContainer.style.marginLeft = '10px';
+
+          if (hasComplexItem) {
+            const itemLabel = document.createElement('div');
+            itemLabel.textContent = 'Item Expression:';
+            exprsContainer.appendChild(itemLabel);
+
+            const itemExpr = document.createElement('div');
+            itemExpr.style.marginLeft = '10px';
+            itemExpr.appendChild(this.renderLogicTree(rule.item));
+            exprsContainer.appendChild(itemExpr);
+          }
+
+          if (hasComplexCount) {
+            const countLabel = document.createElement('div');
+            countLabel.textContent = 'Count Expression:';
+            exprsContainer.appendChild(countLabel);
+
+            const countExpr = document.createElement('div');
+            countExpr.style.marginLeft = '10px';
+            countExpr.appendChild(this.renderLogicTree(rule.count));
+            exprsContainer.appendChild(countExpr);
+          }
+
+          root.appendChild(exprsContainer);
+        }
         break;
-      case 'group_check':
-        root.appendChild(document.createTextNode(` group: ${rule.group}`));
+      }
+
+      case 'group_check': {
+        let groupText = '';
+        if (typeof rule.group === 'string') {
+          groupText = rule.group;
+        } else if (rule.group && rule.group.type === 'constant') {
+          groupText = rule.group.value;
+        } else if (rule.group) {
+          groupText = '(complex expression)';
+
+          // Add visualization for complex group expression
+          const groupExprLabel = document.createElement('div');
+          groupExprLabel.textContent = 'Group Expression:';
+          groupExprLabel.style.marginLeft = '10px';
+          root.appendChild(groupExprLabel);
+
+          const groupExpr = document.createElement('div');
+          groupExpr.style.marginLeft = '20px';
+          groupExpr.appendChild(this.renderLogicTree(rule.group));
+          root.appendChild(groupExpr);
+        }
+
+        root.appendChild(document.createTextNode(` group: ${groupText}`));
         break;
-      case 'helper':
+      }
+
+      case 'helper': {
+        let argsText = (rule.args || [])
+          .map((arg) => {
+            if (typeof arg === 'string' || typeof arg === 'number') {
+              return arg;
+            } else if (arg && arg.type === 'constant') {
+              return arg.value;
+            } else {
+              return '(complex)';
+            }
+          })
+          .join(', ');
+
         root.appendChild(
-          document.createTextNode(
-            ` helper: ${rule.name}, args: ${JSON.stringify(rule.args)}`
-          )
+          document.createTextNode(` helper: ${rule.name}, args: [${argsText}]`)
         );
+
+        // For complex arguments, render them in more detail
+        const hasComplexArgs =
+          rule.args &&
+          rule.args.some(
+            (arg) =>
+              arg &&
+              typeof arg === 'object' &&
+              arg.type &&
+              arg.type !== 'constant'
+          );
+
+        if (hasComplexArgs) {
+          const argsContainer = document.createElement('div');
+          argsContainer.style.marginLeft = '20px';
+
+          rule.args.forEach((arg, i) => {
+            if (
+              arg &&
+              typeof arg === 'object' &&
+              arg.type &&
+              arg.type !== 'constant'
+            ) {
+              const argLabel = document.createElement('div');
+              argLabel.textContent = `Arg ${i + 1}:`;
+              argsContainer.appendChild(argLabel);
+
+              const argTree = this.renderLogicTree(arg);
+              argsContainer.appendChild(argTree);
+            }
+          });
+
+          root.appendChild(argsContainer);
+        }
         break;
+      }
+
+      case 'attribute': {
+        root.appendChild(document.createTextNode(` object.${rule.attr}`));
+        // Recursively render the object
+        const objectEl = document.createElement('div');
+        objectEl.classList.add('attribute-object');
+        objectEl.style.marginLeft = '10px';
+        objectEl.appendChild(this.renderLogicTree(rule.object));
+        root.appendChild(objectEl);
+        break;
+      }
+
+      case 'subscript': {
+        root.appendChild(document.createTextNode(` array[index]`));
+        // Create container for array and index
+        const container = document.createElement('div');
+        container.style.marginLeft = '10px';
+
+        // Render array
+        const arrayLabel = document.createElement('div');
+        arrayLabel.textContent = 'Array:';
+        container.appendChild(arrayLabel);
+
+        const arrayEl = document.createElement('div');
+        arrayEl.style.marginLeft = '10px';
+        arrayEl.appendChild(this.renderLogicTree(rule.value));
+        container.appendChild(arrayEl);
+
+        // Render index
+        const indexLabel = document.createElement('div');
+        indexLabel.textContent = 'Index:';
+        container.appendChild(indexLabel);
+
+        const indexEl = document.createElement('div');
+        indexEl.style.marginLeft = '10px';
+        indexEl.appendChild(this.renderLogicTree(rule.index));
+        container.appendChild(indexEl);
+
+        root.appendChild(container);
+        break;
+      }
+
+      case 'function_call': {
+        root.appendChild(document.createTextNode(' function call'));
+
+        // Render function
+        const functionLabel = document.createElement('div');
+        functionLabel.textContent = 'Function:';
+        functionLabel.style.marginLeft = '10px';
+        root.appendChild(functionLabel);
+
+        const functionEl = document.createElement('div');
+        functionEl.style.marginLeft = '20px';
+        functionEl.appendChild(this.renderLogicTree(rule.function));
+        root.appendChild(functionEl);
+
+        // Render arguments
+        if (rule.args && rule.args.length > 0) {
+          const argsLabel = document.createElement('div');
+          argsLabel.textContent = 'Arguments:';
+          argsLabel.style.marginLeft = '10px';
+          root.appendChild(argsLabel);
+
+          const argsList = document.createElement('ol');
+          argsList.style.marginLeft = '20px';
+
+          for (const arg of rule.args) {
+            const argItem = document.createElement('li');
+            argItem.appendChild(this.renderLogicTree(arg));
+            argsList.appendChild(argItem);
+          }
+
+          root.appendChild(argsList);
+        }
+        break;
+      }
+
+      case 'name': {
+        root.appendChild(document.createTextNode(` variable: ${rule.name}`));
+        break;
+      }
+
       case 'and':
       case 'or': {
         const ul = document.createElement('ul');
@@ -308,13 +536,63 @@ export class LocationUI {
         root.appendChild(ul);
         break;
       }
-      case 'state_method':
+
+      case 'state_method': {
+        // Process arguments for display
+        let argsText = (rule.args || [])
+          .map((arg) => {
+            if (typeof arg === 'string' || typeof arg === 'number') {
+              return arg;
+            } else if (arg && arg.type === 'constant') {
+              return arg.value;
+            } else {
+              return '(complex)';
+            }
+          })
+          .join(', ');
+
         root.appendChild(
           document.createTextNode(
-            ` method: ${rule.method}, args: ${JSON.stringify(rule.args)}`
+            ` method: ${rule.method}, args: [${argsText}]`
           )
         );
+
+        // For complex arguments, render them in more detail
+        const hasComplexArgs =
+          rule.args &&
+          rule.args.some(
+            (arg) =>
+              arg &&
+              typeof arg === 'object' &&
+              arg.type &&
+              arg.type !== 'constant'
+          );
+
+        if (hasComplexArgs) {
+          const argsContainer = document.createElement('div');
+          argsContainer.style.marginLeft = '20px';
+
+          rule.args.forEach((arg, i) => {
+            if (
+              arg &&
+              typeof arg === 'object' &&
+              arg.type &&
+              arg.type !== 'constant'
+            ) {
+              const argLabel = document.createElement('div');
+              argLabel.textContent = `Arg ${i + 1}:`;
+              argsContainer.appendChild(argLabel);
+
+              const argTree = this.renderLogicTree(arg);
+              argsContainer.appendChild(argTree);
+            }
+          });
+
+          root.appendChild(argsContainer);
+        }
         break;
+      }
+
       default:
         root.appendChild(document.createTextNode(' [unhandled rule type] '));
     }

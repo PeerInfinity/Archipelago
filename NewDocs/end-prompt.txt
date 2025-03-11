@@ -2,18 +2,707 @@ That's the end of the files you need for context.  Now here are your instruction
 
 ----
 
-The next issue to fix is that some of the helper functions aren’t getting their parameters successfully parsed by exporter.py.
+We’re currently in the process of making some major changes to the structure of the data in the JSON file.  It’s mostly working now, but there are still some changes left to make
 
-For example:
-has_crystals(state, 7, player)
+Here is some of the new data we’re getting in the json file:
 
-Or
+Old:
 
-   set_rule(ganons_tower, lambda state: has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player))
+         {
+            "name": "Old Man S&Q",
+            "connected_region": "Old Man House",
+            "access_rule": {
+              "type": "helper",
+              "name": "old_man",
+              "args": []
+            },
+            "type": "Exit"
+          }
 
+New:
 
-This gets parsed in the json file as:
-           "access_rule": {
+         {
+            "name": "Old Man S&Q",
+            "connected_region": "Old Man House",
+            "access_rule": {
+              "type": "function_call",
+              "function": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "old_man"
+                },
+                "attr": "can_reach"
+              },
+              "args": []
+            },
+            "type": "Exit"
+          }
+
+Old:
+
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Flippers"
+                },
+
+New:
+
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Flippers"
+                  }
+                },
+
+Old:
+
+               {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    "Blacksmiths Hut",
+                    "Region",
+                    "player"
+                  ]
+                }
+
+New:
+
+               {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Blacksmiths Hut"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                }
+
+Old:
+
+         {
+            "name": "Mini Moldorm Cave - Far Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_kill_most_things",
+              "args": [
+                4
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+New:
+
+         {
+            "name": "Mini Moldorm Cave - Far Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_kill_most_things",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+Old:
+
+         {
+            "name": "Capacity Upgrade Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "add_rule",
+              "args": [
+                "loc",
+                {
+                  "type": "helper",
+                  "name": "shop_price_rules",
+                  "args": [
+                    "spot"
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "item"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+New:
+
+         {
+            "name": "Capacity Upgrade Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "add_rule",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "loc"
+                },
+                {
+                  "type": "helper",
+                  "name": "shop_price_rules",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "spot"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "item"
+                  },
+                  "attr": "name"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+Old:
+
+         {
+            "name": "Desert Palace East Wing",
+            "connected_region": "Desert Palace East",
+            "access_rule": {
+              "type": "state_method",
+              "method": "_lttp_has_key",
+              "args": [
+                "Small Key (Desert Palace)",
+                "player",
+                4
+              ]
+            },
+            "type": "Exit"
+          }
+
+New:
+
+         {
+            "name": "Desert Palace East Wing",
+            "connected_region": "Desert Palace East",
+            "access_rule": {
+              "type": "count_check",
+              "item": {
+                "type": "constant",
+                "value": "Small Key (Desert Palace)"
+              },
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "type": "Exit"
+          }
+
+Old:
+
+       "dungeon": {
+          "name": "Desert Palace",
+          "regions": [
+            "Desert Palace North",
+            "Desert Palace Main (Inner)",
+            "Desert Palace Main (Outer)",
+            "Desert Palace East"
+          ],
+          "boss": {
+            "name": "Lanmolas",
+            "defeat_rule": {
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
+            }
+          },
+          "medallion_check": null
+        },
+
+New:
+
+       "dungeon": {
+          "name": "Desert Palace",
+          "regions": [
+            "Desert Palace North",
+            "Desert Palace Main (Inner)",
+            "Desert Palace Main (Outer)",
+            "Desert Palace East"
+          ],
+          "boss": {
+            "name": "Lanmolas",
+            "defeat_rule": {
+              "type": "function_call",
+              "function": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "defeat_rule"
+              },
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            }
+          },
+          "medallion_check": null
+        },
+
+Old:
+
+         {
+            "name": "Desert Palace - Boss",
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_lttp_has_key",
+                  "args": [
+                    "Small Key (Desert Palace)",
+                    "player",
+                    4
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Big Key (Desert Palace)"
+                },
+                {
+                  "type": "helper",
+                  "name": "has_fire_source",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "multiworld",
+                  "args": [
+                    "state"
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+          {
+            "name": "Desert Palace - Prize",
+            "crystal": true,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "multiworld",
+                  "args": [
+                    "state"
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "_lttp_has_key",
+                      "args": [
+                        "Small Key (Desert Palace)",
+                        "player",
+                        4
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Big Key (Desert Palace)"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_fire_source",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "multiworld",
+                      "args": [
+                        "state"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "name",
+                  "name": "crystals_and_pendants"
+                },
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          }
+
+New:
+
+         {
+            "name": "Desert Palace - Boss",
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "count_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Small Key (Desert Palace)"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Big Key (Desert Palace)"
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "has_fire_source",
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "function_call",
+                            "function": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "attribute",
+                                "object": {
+                                  "type": "name",
+                                  "name": "state"
+                                },
+                                "attr": "multiworld"
+                              },
+                              "attr": "get_location"
+                            },
+                            "args": [
+                              {
+                                "type": "constant",
+                                "value": "Desert Palace - Boss"
+                              }
+                            ]
+                          },
+                          "attr": "parent_region"
+                        },
+                        "attr": "dungeon"
+                      },
+                      "attr": "boss"
+                    },
+                    "attr": "can_defeat"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+          {
+            "name": "Desert Palace - Prize",
+            "crystal": true,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "function_call",
+                      "function": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "name",
+                            "name": "state"
+                          },
+                          "attr": "multiworld"
+                        },
+                        "attr": "get_region"
+                      },
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Desert Palace Main (Outer)"
+                        }
+                      ]
+                    },
+                    "attr": "can_reach"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "count_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Small Key (Desert Palace)"
+                      },
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Big Key (Desert Palace)"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_fire_source",
+                      "args": []
+                    },
+                    {
+                      "type": "function_call",
+                      "function": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "function_call",
+                                "function": {
+                                  "type": "attribute",
+                                  "object": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "name",
+                                      "name": "state"
+                                    },
+                                    "attr": "multiworld"
+                                  },
+                                  "attr": "get_location"
+                                },
+                                "args": [
+                                  {
+                                    "type": "constant",
+                                    "value": "Desert Palace - Prize"
+                                  }
+                                ]
+                              },
+                              "attr": "parent_region"
+                            },
+                            "attr": "dungeon"
+                          },
+                          "attr": "boss"
+                        },
+                        "attr": "can_defeat"
+                      },
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "name",
+                  "name": "crystals_and_pendants"
+                },
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          }
+
+Old:
+
+         {
+            "name": "Sewers Door",
+            "connected_region": "Sewers",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_lttp_has_key",
+                  "args": [
+                    "Small Key (Hyrule Castle)",
+                    "player",
+                    4
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "name",
+                      "name": "small_key_shuffle"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "standard"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+
+New:
+
+         {
+            "name": "Sewers Door",
+            "connected_region": "Sewers",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "count_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Small Key (Hyrule Castle)"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "small_key_shuffle"
+                      },
+                      "attr": "option_universal"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "standard"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+
+Old:
+
+         {
+            "name": "Ganons Tower",
+            "connected_region": "Ganons Tower (Entrance)",
+            "access_rule": {
               "type": "helper",
               "name": "has_crystals",
               "args": [
@@ -23,97 +712,119 @@ This gets parsed in the json file as:
                 }
               ]
             },
+            "type": "Exit"
+          },
 
-Here is some relevant data form the debug file:
+New:
 
---- Starting Rule Analysis ---
-Rule function: <function set_rules.<locals>.<lambda> at 0x00000273EEDE4CC0>
-Extracted closure vars: ['player', 'has_crystals']
-Original source: '    set_rule(ganons_tower, lambda state: has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player))\n'
-Cleaned source: 'def __analyzed_func__(state):\n    return has_crystals(state, state.multiworld.crystals_needed_for_gt[player], player)'
-AST parsed successfully
-DEBUG    root:analyzer.py:67 
---- Starting Module Analysis ---
+         {
+            "name": "Ganons Tower",
+            "connected_region": "Ganons Tower (Entrance)",
+            "access_rule": {
+              "type": "helper",
+              "name": "has_crystals",
+              "args": [
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "state"
+                      },
+                      "attr": "multiworld"
+                    },
+                    "attr": "crystals_needed_for_gt"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
 
---- Starting Module Analysis ---
-DEBUG    root:analyzer.py:67 Module body length: 1
-Module body length: 1
-DEBUG    root:analyzer.py:67 Module body node 0: FunctionDef
-Module body node 0: FunctionDef
-DEBUG    root:analyzer.py:67 
---- Analyzing Function Definition: __analyzed_func__ ---
 
---- Analyzing Function Definition: __analyzed_func__ ---
-DEBUG    root:analyzer.py:67 Function args: ['state']
-Function args: ['state']
-DEBUG    root:analyzer.py:67 Function body node 0: Return
-Function body node 0: Return
-DEBUG    root:analyzer.py:67 
---- Analyzing Return ---
+One minor issue is that we’re getting a lot of these error messages:
+Invalid location argument to shop_price_rules: false
 
---- Analyzing Return ---
-DEBUG    root:analyzer.py:67 Return value type: Call
-Return value type: Call
+Here is the Python code that initializes the shop data:
 
-visit_Call called:
-Function: Name(id='has_crystals', ctx=Load())
-Args: ["Name(id='state', ctx=Load())", "Subscript(value=Attribute(value=Attribute(value=Name(id='state', ctx=Load()), attr='multiworld', ctx=Load()), attr='crystals_needed_for_gt', ctx=Load()), slice=Name(id='player', ctx=Load()), ctx=Load())", "Name(id='player', ctx=Load())"]
+def shop_price_rules(state: CollectionState, player: int, location: ALttPLocation):
+    if location.shop_price_type == ShopPriceType.Hearts:
+        return has_hearts(state, player, (location.shop_price / 8) + 1)
+    elif location.shop_price_type == ShopPriceType.Bombs:
+        return can_use_bombs(state, player, location.shop_price)
+    elif location.shop_price_type == ShopPriceType.Arrows:
+        return can_hold_arrows(state, player, location.shop_price)
+    return True
 
-visit_Name called: has_crystals
-Name result: {'type': 'name', 'name': 'has_crystals'}
-Function info after visit: {'type': 'name', 'name': 'has_crystals'}
-DEBUG    root:analyzer.py:67 
---- Generic Visit: Subscript ---
+…
 
---- Generic Visit: Subscript ---
-DEBUG    root:analyzer.py:67 Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <ast.Name object at 0x00000273EEE1F1F0>, 'ctx': <ast.Load object at 0x00000273DFC97550>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}
-Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <ast.Name object at 0x00000273EEE1F1F0>, 'ctx': <ast.Load object at 0x00000273DFC97550>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}
+def create_shops(multiworld, player: int):
+    from .Options import RandomizeShopInventories
+    player_shop_table = shop_table.copy()
+    if multiworld.include_witch_hut[player]:
+        player_shop_table["Potion Shop"] = player_shop_table["Potion Shop"]._replace(locked=False)
+        dynamic_shop_slots = total_dynamic_shop_slots + 3
+    else:
+        dynamic_shop_slots = total_dynamic_shop_slots
+    if multiworld.shuffle_capacity_upgrades[player]:
+        player_shop_table["Capacity Upgrade"] = player_shop_table["Capacity Upgrade"]._replace(locked=False)
 
-visit_Attribute called:
-Value: Attribute(value=Name(id='state', ctx=Load()), attr='multiworld', ctx=Load())
-Attr: crystals_needed_for_gt
+    num_slots = min(dynamic_shop_slots, multiworld.shop_item_slots[player])
+    single_purchase_slots: List[bool] = [True] * num_slots + [False] * (dynamic_shop_slots - num_slots)
+    multiworld.random.shuffle(single_purchase_slots)
 
-visit_Attribute called:
-Value: Name(id='state', ctx=Load())
-Attr: multiworld
+    if multiworld.randomize_shop_inventories[player]:
+        default_shop_table = [i for l in
+                              [shop_generation_types[x] for x in ['arrows', 'bombs', 'potions', 'shields', 'bottle'] if
+                               not multiworld.retro_bow[player] or x != 'arrows'] for i in l]
+        new_basic_shop = multiworld.random.sample(default_shop_table, k=3)
+        new_dark_shop = multiworld.random.sample(default_shop_table, k=3)
+        for name, shop in player_shop_table.items():
+            typ, shop_id, keeper, custom, locked, items, sram_offset = shop
+            if not locked:
+                new_items = multiworld.random.sample(default_shop_table, k=len(items))
+                if multiworld.randomize_shop_inventories[player] == RandomizeShopInventories.option_randomize_by_shop_type:
+                    if items == _basic_shop_defaults:
+                        new_items = new_basic_shop
+                    elif items == _dark_world_shop_defaults:
+                        new_items = new_dark_shop
+                keeper = multiworld.random.choice([0xA0, 0xC1, 0xFF])
+                player_shop_table[name] = ShopData(typ, shop_id, keeper, custom, locked, new_items, sram_offset)
+    if multiworld.mode[player] == "inverted":
+        # make sure that blue potion is available in inverted, special case locked = None; lock when done.
+        player_shop_table["Dark Lake Hylia Shop"] = \
+            player_shop_table["Dark Lake Hylia Shop"]._replace(items=_inverted_hylia_shop_defaults, locked=None)
+    for region_name, (room_id, type, shopkeeper, custom, locked, inventory, sram_offset) in player_shop_table.items():
+        region = multiworld.get_region(region_name, player)
+        shop: Shop = shop_class_mapping[type](region, room_id, shopkeeper, custom, locked, sram_offset)
+        # special case: allow shop slots, but do not allow overwriting of base inventory behind them
+        if locked is None:
+            shop.locked = True
+        region.shop = shop
+        multiworld.shops.append(shop)
+        for index, item in enumerate(inventory):
+            shop.add_inventory(index, *item)
+            if not locked and (num_slots or type == ShopType.UpgradeShop):
+                slot_name = f"{region.name}{shop.slot_names[index]}"
+                loc = ALttPLocation(player, slot_name, address=shop_table_by_location[slot_name],
+                                    parent=region, hint_text="for sale")
+                loc.shop_price_type, loc.shop_price = get_price(multiworld, None, player)
+                loc.item_rule = lambda item, spot=loc: not any(i for i in price_blacklist[spot.shop_price_type] if i in item.name)
+                add_rule(loc, lambda state, spot=loc: shop_price_rules(state, player, spot))
+                loc.shop = shop
+                loc.shop_slot = index
+                if ((not (multiworld.shuffle_capacity_upgrades[player] and type == ShopType.UpgradeShop))
+                        and not single_purchase_slots.pop()):
+                    loc.shop_slot_disabled = True
+                    loc.locked = True
+                else:
+                    shop.region.locations.append(loc)
 
-visit_Name called: state
-Name result: {'type': 'name', 'name': 'state'}
-Value info after visit: {'type': 'name', 'name': 'state'}
-Value info after visit: {'type': 'state_method', 'method': 'multiworld'}
-Unhandled attribute access: crystals_needed_for_gt on {'type': 'state_method', 'method': 'multiworld'}
-
-visit_Name called: player
-Name result: {'type': 'name', 'name': 'player'}
-DEBUG    root:analyzer.py:67 
---- Generic Visit: Load ---
-
---- Generic Visit: Load ---
-DEBUG    root:analyzer.py:67 Node details: {}
-Node details: {}
-Collected args: ['state', {'type': 'name', 'name': 'player'}, 'player']
-Processed args (without state/player): [{'type': 'name', 'name': 'player'}]
-Checking helper: has_crystals
-Available closure vars: ['player', 'has_crystals']
-Created helper: {'type': 'helper', 'name': 'has_crystals', 'args': [{'type': 'name', 'name': 'player'}]}
-Debug log:
-
---- Starting Module Analysis ---
-Module body length: 1
-Module body node 0: FunctionDef
-
---- Analyzing Function Definition: __analyzed_func__ ---
-Function args: ['state']
-Function body node 0: Return
-
---- Analyzing Return ---
-Return value type: Call
-
---- Generic Visit: Subscript ---
-Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <ast.Name object at 0x00000273EEE1F1F0>, 'ctx': <ast.Load object at 0x00000273DFC97550>, 'lineno': 2, 'col_offset': 31, 'end_lineno': 2, 'end_col_offset': 78}
-
---- Generic Visit: Load ---
-Node details: {}
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:617 Successfully expanded rule
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:771 Successfully processed exit: Ganons Tower
-
+Can you figure out how the shops are supposed to work?  If not, then we can leave this for later and move on to a more important issue.

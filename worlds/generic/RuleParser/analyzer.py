@@ -135,14 +135,7 @@ class RuleAnalyzer(ast.NodeVisitor):
 
     def visit_Call(self, node):
         """
-        Updated visit_Call method.
-
-        This version first visits the function node to determine its type.
-        If the function is a simple Name and its name is one of our special
-        closure names (e.g. "rule" or "old_rule"), then we retrieve the actual
-        function from the closure_vars and recursively analyze it. To avoid
-        infinite recursion, we check if the function object has already been
-        seen (using its id).
+        Updated visit_Call method that properly handles complex arguments.
         """
         print(f"\nvisit_Call called:")
         print(f"Function: {ast.dump(node.func)}")
@@ -156,29 +149,15 @@ class RuleAnalyzer(ast.NodeVisitor):
         args = []
         processed_args = []
         for arg in node.args:
-            if isinstance(arg, ast.Constant):
-                args.append(arg.value)
-            elif isinstance(arg, ast.Name):
-                args.append(arg.id)
-            elif isinstance(arg, ast.Str):
-                args.append(arg.s)
-            else:
-                self.visit(arg)
-                if self.current_result is not None:
-                    args.append(self.current_result)
-
-            # For processed_args, skip names "state" and "player"
-            if isinstance(arg, ast.Name) and arg.id in ['state', 'player']:
-                continue
-            if isinstance(arg, ast.Constant):
-                processed_args.append(arg.value)
-            elif isinstance(arg, ast.Name):
-                processed_args.append(arg.id)
-            elif isinstance(arg, ast.Str):
-                processed_args.append(arg.s)
-            else:
-                if self.current_result is not None:
-                    processed_args.append(self.current_result)
+            # Visit each argument, which might now return complex structures
+            self.visit(arg)
+            if self.current_result is not None:
+                args.append(self.current_result)
+                
+                # For processed_args, still skip names "state" and "player"
+                if isinstance(arg, ast.Name) and arg.id in ['state', 'player']:
+                    continue
+                processed_args.append(self.current_result)
 
         print(f"Collected args: {args}")
         print(f"Processed args (without state/player): {processed_args}")
@@ -221,65 +200,70 @@ class RuleAnalyzer(ast.NodeVisitor):
                 }
                 print(f"Created helper for unknown function: {self.current_result}")
                 return
-            # If not in closure_vars, continue below.
         
         # Handle state methods (e.g. state.has, state._lttp_has_key, etc.)
-        if func_info and func_info.get('type') == 'state_method':
-            method = func_info['method']
-
-            # 1) state.has('Item', player)
-            if method == 'has':
-                if len(args) >= 2 and args[1] == 'player':
-                    self.current_result = {
-                        'type': 'item_check',
-                        'item': args[0]
-                    }
-                    return
-
-            # 2) state.has_group('GroupName', player)
-            elif method == 'has_group':
-                if len(args) >= 2 and args[1] == 'player':
-                    self.current_result = {
-                        'type': 'group_check',
-                        'group': args[0]
-                    }
-                    return
-
-            # 3) state.has_any([...], player)
-            elif method == 'has_any':
-                if len(args) >= 2 and args[1] == 'player':
-                    items = args[0]
-                    if isinstance(items, list):
+        if func_info and func_info.get('type') == 'attribute':
+            # Check if the base object is state
+            if func_info['object'].get('type') == 'name' and func_info['object'].get('name') == 'state':
+                method = func_info['attr']
+                
+                # 1) state.has('Item', player)
+                if method == 'has':
+                    if len(processed_args) >= 1:
                         self.current_result = {
-                            'type': 'or',
-                            'conditions': [
-                                {'type': 'item_check', 'item': item}
-                                for item in items
-                            ]
+                            'type': 'item_check',
+                            'item': processed_args[0]
                         }
                         return
 
-            # 4) state._lttp_has_key('Small Key (Swamp)', count, player)
-            elif method == '_lttp_has_key':
-                # Example usage: state._lttp_has_key('Small Key (Palace)', 2, player)
-                if len(args) >= 3 and args[2] == 'player':
-                    self.current_result = {
-                        'type': 'count_check',
-                        'item': args[0],
-                        'count': args[1]
-                    }
-                    return
+                # 2) state.has_group('GroupName', player)
+                elif method == 'has_group':
+                    if len(processed_args) >= 1:
+                        self.current_result = {
+                            'type': 'group_check',
+                            'group': processed_args[0]
+                        }
+                        return
 
-            # Any unhandled method on state -> fallback
-            self.current_result = {
-                'type': 'state_method',
-                'method': method,
-                'args': args
-            }
-            return
+                # 3) state.has_any([...], player)
+                elif method == 'has_any':
+                    if len(processed_args) >= 1:
+                        items = processed_args[0]
+                        if isinstance(items, list):
+                            self.current_result = {
+                                'type': 'or',
+                                'conditions': [
+                                    {'type': 'item_check', 'item': item}
+                                    for item in items
+                                ]
+                            }
+                            return
 
-        # Fallback: if no recognized pattern, set current_result to None.
-        self.current_result = None
+                # 4) state._lttp_has_key('Small Key (Swamp)', count, player)
+                elif method == '_lttp_has_key':
+                    # Example usage: state._lttp_has_key('Small Key (Palace)', 2, player)
+                    if len(processed_args) >= 2:
+                        self.current_result = {
+                            'type': 'count_check',
+                            'item': processed_args[0],
+                            'count': processed_args[1]
+                        }
+                        return
+
+                # Any unhandled method on state -> create state_method node
+                self.current_result = {
+                    'type': 'state_method',
+                    'method': method,
+                    'args': processed_args
+                }
+                return
+        
+        # Fallback case for unrecognized function types
+        self.current_result = {
+            'type': 'function_call',
+            'function': func_info,
+            'args': processed_args
+        }
 
     def visit_Attribute(self, node):
         print(f"\nvisit_Attribute called:")
@@ -291,13 +275,14 @@ class RuleAnalyzer(ast.NodeVisitor):
         value_info = self.current_result
         print(f"Value info after visit: {value_info}")
 
-        if value_info and value_info.get('type') == 'name' and value_info['name'] == 'state':
-            self.current_result = {
-                'type': 'state_method',
-                'method': node.attr
-            }
-        else:
-            print(f"Unhandled attribute access: {node.attr} on {value_info}")
+        # Create an attribute node that can be chained
+        self.current_result = {
+            'type': 'attribute',
+            'object': value_info,
+            'attr': node.attr
+        }
+        
+        print(f"Attribute result: {self.current_result}")
 
     def visit_Name(self, node):
         print(f"\nvisit_Name called: {node.id}")
@@ -315,6 +300,31 @@ class RuleAnalyzer(ast.NodeVisitor):
             'value': node.value
         }
         print(f"Constant result: {self.current_result}")
+
+    def visit_Subscript(self, node):
+        """
+        Handle subscript expressions like foo[bar]
+        """
+        print(f"\nvisit_Subscript called:")
+        print(f"Value: {ast.dump(node.value)}")
+        print(f"Slice: {ast.dump(node.slice)}")
+        
+        # First visit the value (the object being subscripted)
+        self.visit(node.value)
+        value_info = self.current_result
+        
+        # Then visit the slice (the index)
+        self.visit(node.slice)
+        index_info = self.current_result
+        
+        # Create a subscript node
+        self.current_result = {
+            'type': 'subscript',
+            'value': value_info,
+            'index': index_info
+        }
+        
+        print(f"Subscript result: {self.current_result}")
 
     def visit_BoolOp(self, node):
         """Handle boolean operations (AND/OR) between conditions"""
