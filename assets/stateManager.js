@@ -140,6 +140,24 @@ export class StateManager {
     const groupData = jsonData.item_groups['1'];
     const progressionMapping = jsonData.progression_mapping['1'];
 
+    // NEW: Store the itempool counts if available
+    this.itempool_counts = jsonData.itempool_counts?.['1'] || null;
+
+    // Debug logging for itempool_counts
+    console.log('Loaded JSON data:', {
+      hasItemPoolCounts: Boolean(jsonData.itempool_counts),
+      itemPoolCountsKeys: jsonData.itempool_counts
+        ? Object.keys(jsonData.itempool_counts)
+        : [],
+    });
+
+    if (jsonData.itempool_counts?.['1']) {
+      console.log(
+        'Sample itempool_counts data:',
+        Object.entries(jsonData.itempool_counts['1']).slice(0, 5)
+      );
+    }
+
     // Update the inventory's progression mapping and item data if inventory exists
     if (this.inventory) {
       this.inventory.progressionMapping = progressionMapping;
@@ -204,6 +222,16 @@ export class StateManager {
 
     // Immediately compute reachable regions to collect initial events
     this.computeReachableRegions();
+
+    // Add this line at the end of the method to enhance locations with shop data
+    if (
+      this.helpers &&
+      typeof this.helpers.enhanceLocationsWithShopData === 'function'
+    ) {
+      this.helpers.enhanceLocationsWithShopData();
+    }
+
+    return true;
   }
 
   /**
@@ -608,25 +636,75 @@ export class StateManager {
     // Begin batch updates
     this.beginBatchUpdate(true);
 
-    // Handle excludedItems by adding all other items
+    // Handle excludedItems by using itempool_counts
     if (excludedItems?.length > 0) {
-      Object.keys(this.inventory.itemData).forEach((itemName) => {
-        if (
-          !excludedItems.includes(itemName) &&
-          !(
-            itemName.includes('Bottle') && excludedItems.includes('AnyBottle')
-          ) &&
-          !this.inventory.itemData[itemName].event &&
-          this.inventory.itemData[itemName].type !== 'Event'
-        ) {
-          this.addItemToInventory(itemName);
+      // Check if we have itempool_counts data directly on the stateManager
+      if (this.itempool_counts) {
+        //console.log(
+        //  'Using itempool_counts data for test inventory:',
+        //  this.itempool_counts
+        //);
 
-          // Process events
-          if (this.state?.processEventItem) {
-            this.state.processEventItem(itemName);
-          }
+        // Process special maximum values first to ensure state is properly configured
+        if (this.itempool_counts['__max_progressive_bottle']) {
+          this.state.difficultyRequirements.progressive_bottle_limit =
+            this.itempool_counts['__max_progressive_bottle'];
         }
-      });
+        if (this.itempool_counts['__max_boss_heart_container']) {
+          this.state.difficultyRequirements.boss_heart_container_limit =
+            this.itempool_counts['__max_boss_heart_container'];
+        }
+        if (this.itempool_counts['__max_heart_piece']) {
+          this.state.difficultyRequirements.heart_piece_limit =
+            this.itempool_counts['__max_heart_piece'];
+        }
+
+        // Add items based on their counts from the pool
+        Object.entries(this.itempool_counts).forEach(([itemName, count]) => {
+          // Skip special max values that start with __
+          if (itemName.startsWith('__')) return;
+
+          // Skip excluded items
+          if (excludedItems.includes(itemName)) return;
+
+          // Skip bottles if AnyBottle is excluded
+          if (
+            itemName.includes('Bottle') &&
+            excludedItems.includes('AnyBottle')
+          )
+            return;
+
+          // Skip event items
+          if (
+            this.inventory.itemData[itemName]?.event ||
+            this.inventory.itemData[itemName]?.type === 'Event'
+          ) {
+            return;
+          }
+
+          // Add the correct count of each item
+          for (let i = 0; i < count; i++) {
+            this.addItemToInventory(itemName);
+          }
+        });
+      } else {
+        console.warn(
+          'No itempool_counts data available, falling back to default behavior'
+        );
+        // Fallback to original behavior if itempool_counts not available
+        Object.keys(this.inventory.itemData).forEach((itemName) => {
+          if (
+            !excludedItems.includes(itemName) &&
+            !(
+              itemName.includes('Bottle') && excludedItems.includes('AnyBottle')
+            ) &&
+            !this.inventory.itemData[itemName].event &&
+            this.inventory.itemData[itemName].type !== 'Event'
+          ) {
+            this.addItemToInventory(itemName);
+          }
+        });
+      }
     }
 
     this.commitBatchUpdate();
@@ -758,21 +836,67 @@ export class StateManager {
    * Helper method to execute a state method by name
    */
   executeStateMethod(method, ...args) {
-    if (method === 'can_reach' && args.length >= 1) {
-      const targetName = args[0];
-      const targetType = args[1] || 'Region';
-      const player = args[2] || 1;
+    // For consistency, we should check multiple places systematically
 
-      return this.can_reach(targetName, targetType, player);
-    }
-
+    // 1. Check if it's a direct method on stateManager
     if (typeof this[method] === 'function') {
       return this[method](...args);
     }
 
-    if (this.debugMode) {
-      console.log(`Unknown state method: ${method}`);
+    // 2. Check special case for can_reach since it's commonly used
+    if (method === 'can_reach' && args.length >= 1) {
+      const targetName = args[0];
+      const targetType = args[1] || 'Region';
+      const player = args[2] || 1;
+      return this.can_reach(targetName, targetType, player);
     }
+
+    // 3. Look in helpers - handle both underscore and non-underscore versions
+    // Some helper methods might be defined with leading underscores
+    if (this.helpers) {
+      // Try exact method name first
+      if (typeof this.helpers[method] === 'function') {
+        return this.helpers[method](...args);
+      }
+
+      // If method starts with underscore and no match found, try without underscore
+      if (
+        method.startsWith('_') &&
+        typeof this.helpers[method.substring(1)] === 'function'
+      ) {
+        return this.helpers[method.substring(1)](...args);
+      }
+
+      // If method doesn't start with underscore, try with underscore
+      if (
+        !method.startsWith('_') &&
+        typeof this.helpers['_' + method] === 'function'
+      ) {
+        return this.helpers['_' + method](...args);
+      }
+    }
+
+    // 4. Check in state object if helpers didn't have the method
+    if (this.state && typeof this.state[method] === 'function') {
+      return this.state[method](...args);
+    }
+
+    // Log failure in debug mode
+    if (this.debugMode) {
+      console.log(`Unknown state method: ${method}`, {
+        args: args,
+        stateManagerHas: typeof this[method] === 'function',
+        helpersHas: this.helpers
+          ? typeof this.helpers[method] === 'function' ||
+            (method.startsWith('_') &&
+              typeof this.helpers[method.substring(1)] === 'function') ||
+            (!method.startsWith('_') &&
+              typeof this.helpers['_' + method] === 'function')
+          : false,
+        stateHas: this.state ? typeof this.state[method] === 'function' : false,
+      });
+    }
+
     return false;
   }
 

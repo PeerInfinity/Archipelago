@@ -1,6 +1,7 @@
 // locationUI.js
 import stateManager from './stateManagerSingleton.js';
 import { evaluateRule } from './ruleEngine.js';
+import commonUI from './commonUI.js';
 
 export class LocationUI {
   constructor(gameUI) {
@@ -217,7 +218,9 @@ export class LocationUI {
         }</span> (${isRegionAccessible ? 'Accessible' : 'Inaccessible'})
             </div>
             <div class="text-sm">
-              Location: ${this.renderLogicTree(location.access_rule).outerHTML}
+              Location: ${
+                commonUI.renderLogicTree(location.access_rule).outerHTML
+              }
             </div>
             <div class="text-sm">
               ${
@@ -256,71 +259,6 @@ export class LocationUI {
     });
   }
 
-  renderLogicTree(rule) {
-    const root = document.createElement('div');
-    root.classList.add('logic-node');
-
-    if (!rule) {
-      root.textContent = '(no rule)';
-      return root;
-    }
-
-    // Remove inventory parameter
-    const result = evaluateRule(rule);
-    root.classList.toggle('pass', !!result);
-    root.classList.toggle('fail', !result);
-
-    const label = document.createElement('div');
-    label.classList.add('logic-label');
-    label.textContent = `Type: ${rule.type}`;
-    root.appendChild(label);
-
-    switch (rule.type) {
-      case 'constant':
-        root.appendChild(document.createTextNode(` value: ${rule.value}`));
-        break;
-      case 'item_check':
-        root.appendChild(document.createTextNode(` item: ${rule.item}`));
-        break;
-      case 'count_check':
-        root.appendChild(
-          document.createTextNode(` ${rule.item} >= ${rule.count}`)
-        );
-        break;
-      case 'group_check':
-        root.appendChild(document.createTextNode(` group: ${rule.group}`));
-        break;
-      case 'helper':
-        root.appendChild(
-          document.createTextNode(
-            ` helper: ${rule.name}, args: ${JSON.stringify(rule.args)}`
-          )
-        );
-        break;
-      case 'and':
-      case 'or': {
-        const ul = document.createElement('ul');
-        rule.conditions.forEach((cond) => {
-          const li = document.createElement('li');
-          li.appendChild(this.renderLogicTree(cond));
-          ul.appendChild(li);
-        });
-        root.appendChild(ul);
-        break;
-      }
-      case 'state_method':
-        root.appendChild(
-          document.createTextNode(
-            ` method: ${rule.method}, args: ${JSON.stringify(rule.args)}`
-          )
-        );
-        break;
-      default:
-        root.appendChild(document.createTextNode(' [unhandled rule type] '));
-    }
-    return root;
-  }
-
   showLocationDetails(location) {
     const modal = document.getElementById('location-modal');
     const title = document.getElementById('modal-title');
@@ -329,7 +267,7 @@ export class LocationUI {
 
     title.textContent = location.name;
 
-    const region = this.gameUI.regions[location.region];
+    const region = stateManager.regions[location.region];
 
     if (this.gameUI.debugMode) {
       debug.classList.remove('hidden');

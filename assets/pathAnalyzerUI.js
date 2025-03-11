@@ -2,6 +2,7 @@
 import { PathAnalyzerLogic } from './pathAnalyzerLogic.js';
 import stateManager from './stateManagerSingleton.js';
 import { evaluateRule } from './ruleEngine.js';
+import commonUI from './commonUI.js';
 
 /**
  * Handles UI aspects of path analysis for regions in the game
@@ -32,6 +33,8 @@ export class PathAnalyzerUI {
    */
   setColorblindMode(mode) {
     this.colorblindMode = mode;
+    // Sync with commonUI
+    commonUI.setColorblindMode(mode);
   }
 
   /**
@@ -688,7 +691,7 @@ export class PathAnalyzerUI {
           if (exit.access_rule) {
             const ruleContainer = document.createElement('div');
             ruleContainer.classList.add('path-exit-rule');
-            const ruleElement = this.regionUI.renderLogicTree(exit.access_rule);
+            const ruleElement = commonUI.renderLogicTree(exit.access_rule);
             ruleContainer.appendChild(ruleElement);
             exitRuleContainer.appendChild(ruleContainer);
 
@@ -752,7 +755,7 @@ export class PathAnalyzerUI {
         ruleDiv.style.marginLeft = '20px';
         ruleDiv.style.marginBottom = '10px';
 
-        const ruleElement = this.regionUI.renderLogicTree(rule);
+        const ruleElement = commonUI.renderLogicTree(rule);
         ruleDiv.appendChild(ruleElement);
         rulesContainer.appendChild(ruleDiv);
 
@@ -785,9 +788,7 @@ export class PathAnalyzerUI {
           entranceDiv.appendChild(header);
 
           // Show the rule
-          const ruleElement = this.regionUI.renderLogicTree(
-            entrance.access_rule
-          );
+          const ruleElement = commonUI.renderLogicTree(entrance.access_rule);
           entranceDiv.appendChild(ruleElement);
           entrancesContainer.appendChild(entranceDiv);
 

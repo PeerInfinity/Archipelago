@@ -5,6 +5,7 @@ import { RegionUI } from './regionUI.js';
 import { InventoryUI } from './inventoryUI.js';
 import stateManager from './stateManagerSingleton.js';
 import { TestCaseUI } from './testCaseUI.js';
+import commonUI from './commonUI.js';
 
 export class GameUI {
   constructor() {
@@ -13,6 +14,9 @@ export class GameUI {
     this.regionUI = new RegionUI(this); // The RegionUI component uses PathAnalyzerUI internally for path analysis functionality
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
+
+    // Initialize commonUI colorblind mode
+    commonUI.setColorblindMode(true); // Enable colorblind mode by default
 
     // Register with stateManager for UI updates
     stateManager.registerUICallback('gameUI', (eventType) => {

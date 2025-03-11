@@ -186,6 +186,14 @@ export class TestCaseUI {
       this.renderTestCasesList();
       this.updateDataSourceIndicator();
 
+      // Automatically trigger the "Reload Test Data" button after rendering
+      setTimeout(() => {
+        const loadDataButton = document.getElementById('load-test-data');
+        if (loadDataButton) {
+          loadDataButton.click();
+        }
+      }, 100);
+
       return true;
     } catch (error) {
       console.error('Failed to load test set:', error);
@@ -236,6 +244,14 @@ export class TestCaseUI {
         statusElement.innerHTML = `<div class="test-error">Error: No test rules loaded</div>`;
         return false;
       }
+
+      // Debug log the test rules data
+      console.log('Test rules data structure:', {
+        hasItemPoolCounts: Boolean(this.testRules.itempool_counts),
+        itemPoolCountsKeys: this.testRules.itempool_counts
+          ? Object.keys(this.testRules.itempool_counts)
+          : [],
+      });
 
       // First initialize inventory with the test rules data
       stateManager.loadFromJSON(this.testRules);
@@ -453,7 +469,7 @@ export class TestCaseUI {
           <button id="back-to-test-sets" class="button">Back to Test Sets</button>
         </div>
         <div class="test-controls">
-          <button id="load-test-data" class="button">Load Test Data</button>
+          <button id="load-test-data" class="button">Reload Test Data</button>
           <button id="run-all-tests" class="button">Run All Tests</button>
         </div>
         <div id="data-source-info" class="data-source-info">

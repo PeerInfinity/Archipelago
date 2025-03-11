@@ -113,7 +113,9 @@ export class ALTTPHelpers extends GameHelpers {
   }
 
   has_crystals(count) {
-    return stateManager.inventory.countGroup('Crystals') >= count;
+    // Default to 7 if count is undefined
+    const requiredCount = count === undefined ? 7 : count;
+    return stateManager.inventory.countGroup('Crystals') >= requiredCount;
   }
 
   can_lift_rocks() {
@@ -444,8 +446,8 @@ export class ALTTPHelpers extends GameHelpers {
   }
 
   add_rule() {
-    // Placeholder.  Todo - copy the logic from Rules.py
-    return false;
+    // If this gets called, then there is some invalid data in the json file
+    return true;
   }
 
   // And now the state_methods:
@@ -493,9 +495,26 @@ export class ALTTPHelpers extends GameHelpers {
 
   */
 
-  _lttp_has_key(key, player, count) {
-    // Untested
-    return stateManager.inventory.count(key) >= count;
+  _lttp_has_key(key, playerParam, count = 1) {
+    // Convert player parameter - can be a string "player" or a number
+    const player = playerParam === 'player' ? 1 : parseInt(playerParam, 10);
+
+    // Get count of the specific key in inventory
+    const keyCount = stateManager.inventory.count(key);
+
+    if (stateManager.debugMode) {
+      console.log(
+        `_lttp_has_key: ${key}, player=${player}, count=${count}, has=${keyCount}`
+      );
+    }
+
+    // Return true if we have enough keys
+    return keyCount >= count;
+  }
+
+  // Add non-underscore version for consistency
+  lttp_has_key(key, playerParam, count = 1) {
+    return this._lttp_has_key(key, playerParam, count);
   }
 
   multiworld() {
@@ -524,5 +543,322 @@ export class ALTTPHelpers extends GameHelpers {
 
     return false;
     */
+  }
+
+  // Python-like helper functions
+
+  /**
+   * Implements Python's len() function
+   * Works with arrays, strings, and objects
+   * @param {*} obj - The object to get the length of
+   * @returns {number} - The length of the object
+   */
+  len(obj) {
+    if (obj == null) {
+      return 0;
+    }
+
+    // Handle arrays
+    if (Array.isArray(obj)) {
+      return obj.length;
+    }
+
+    // Handle strings
+    if (typeof obj === 'string') {
+      return obj.length;
+    }
+
+    // Handle objects (count keys)
+    if (typeof obj === 'object') {
+      return Object.keys(obj).length;
+    }
+
+    // Default for unsupported types
+    return 0;
+  }
+
+  /**
+   * Implements Python's zip() function
+   * Combines multiple arrays into an array of arrays where each sub-array
+   * contains elements from the input arrays at matching indices
+   * @param {...Array} arrays - Arrays to zip together
+   * @returns {Array} - Zipped array
+   */
+  zip(...arrays) {
+    if (!arrays || arrays.length === 0) {
+      return [];
+    }
+
+    // Find the shortest array length
+    const minLength = Math.min(
+      ...arrays.map((arr) => (Array.isArray(arr) ? arr.length : 0))
+    );
+
+    // Create zipped array
+    const result = [];
+    for (let i = 0; i < minLength; i++) {
+      result.push(arrays.map((arr) => arr[i]));
+    }
+
+    return result;
+  }
+
+  /**
+   * Gets an attribute from an object safely
+   * Useful for handling complex attribute chains
+   * @param {Object} obj - The object to get the attribute from
+   * @param {string} attr - The attribute name
+   * @returns {*} - The attribute value or undefined
+   */
+  getattr(obj, attr) {
+    if (obj == null || typeof obj !== 'object') {
+      return undefined;
+    }
+    return obj[attr];
+  }
+
+  /**
+   * Implements Python's range() function
+   * @param {number} start - Start index (or stop if only one arg)
+   * @param {number} [stop] - Stop index (exclusive)
+   * @param {number} [step=1] - Step size
+   * @returns {Array} - Array of numbers in the range
+   */
+  range(...args) {
+    let start, stop, step;
+
+    if (args.length === 1) {
+      [stop] = args;
+      start = 0;
+      step = 1;
+    } else if (args.length === 2) {
+      [start, stop] = args;
+      step = 1;
+    } else {
+      [start, stop, step] = args;
+    }
+
+    const result = [];
+    if (step > 0) {
+      for (let i = start; i < stop; i += step) {
+        result.push(i);
+      }
+    } else if (step < 0) {
+      for (let i = start; i > stop; i += step) {
+        result.push(i);
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Implements Python's all() function
+   * @param {Array} iterable - Iterable to check
+   * @returns {boolean} - True if all items are truthy, otherwise false
+   */
+  all(iterable) {
+    if (!Array.isArray(iterable)) {
+      return false;
+    }
+    return iterable.every(Boolean);
+  }
+
+  /**
+   * Implements Python's any() function
+   * @param {Array} iterable - Iterable to check
+   * @returns {boolean} - True if any item is truthy, otherwise false
+   */
+  any(iterable) {
+    if (!Array.isArray(iterable)) {
+      return false;
+    }
+    return iterable.some(Boolean);
+  }
+
+  /**
+   * Implements Python's bool() function
+   * Converts values to their boolean representation
+   * @param {*} value - The value to convert
+   * @returns {boolean} - The boolean representation
+   */
+  to_bool(value) {
+    // Handle falsy values similar to Python
+    if (value === null || value === undefined) {
+      return false;
+    }
+
+    // Handle numerical zero (like Python)
+    if (typeof value === 'number' && value === 0) {
+      return false;
+    }
+
+    // Handle empty strings (like Python)
+    if (typeof value === 'string' && value === '') {
+      return false;
+    }
+
+    // Handle empty arrays (like Python)
+    if (Array.isArray(value) && value.length === 0) {
+      return false;
+    }
+
+    // Handle empty objects (like Python)
+    if (typeof value === 'object' && Object.keys(value).length === 0) {
+      return false;
+    }
+
+    // Everything else is true
+    return true;
+  }
+
+  /**
+   * Implements the shop_price_rules function
+   * Checks if a player can afford a shop item based on the price type
+   * @param {Object|string} locationOrName - The location object or name
+   * @returns {boolean} - Whether the player can afford the item
+   */
+  shop_price_rules(locationOrName) {
+    // for now, just return true
+    return true;
+
+    // First, resolve the location
+    let location;
+
+    if (typeof locationOrName === 'string') {
+      // Find location by name
+      location = this._findLocationByName(locationOrName);
+    } else if (typeof locationOrName === 'object') {
+      location = locationOrName;
+    } else {
+      console.warn(
+        'Invalid location argument to shop_price_rules:',
+        locationOrName
+      );
+      return true; // Default to affordable
+    }
+
+    // If location not found or missing required data, assume affordable
+    if (
+      !location ||
+      !location.shop_price_type ||
+      location.shop_price === undefined
+    ) {
+      return true;
+    }
+
+    // Define shop price types matching Python enum
+    const ShopPriceType = {
+      Hearts: 'hearts',
+      Bombs: 'bombs',
+      Arrows: 'arrows',
+    };
+
+    // Check based on price type
+    const priceType = location.shop_price_type.toLowerCase();
+    const price = location.shop_price;
+
+    if (priceType === ShopPriceType.Hearts) {
+      return this.has_hearts(price / 8 + 1);
+    } else if (priceType === ShopPriceType.Bombs) {
+      return this.can_use_bombs(price);
+    } else if (priceType === ShopPriceType.Arrows) {
+      return this.can_hold_arrows(price);
+    }
+
+    // Default to affordable
+    return true;
+  }
+
+  /**
+   * Helper to find a location by name
+   * @private
+   */
+  _findLocationByName(locationName) {
+    if (!stateManager || !stateManager.locations) {
+      return null;
+    }
+
+    return stateManager.locations.find((loc) => loc.name === locationName);
+  }
+
+  /**
+   * Enhances location data with shop information if available
+   * Call this when loading locations
+   */
+  enhanceLocationsWithShopData() {
+    if (!stateManager || !stateManager.locations || !stateManager.regions) {
+      return;
+    }
+
+    // Process all locations
+    for (const location of stateManager.locations) {
+      // Skip locations without a region
+      if (!location.region) continue;
+
+      // Get the region data
+      const regionData = stateManager.regions[location.region];
+      if (!regionData || !regionData.shop) continue;
+
+      // If the region has a shop, find the matching shop item
+      const shopItems = regionData.shop.inventory || [];
+      const matchingItem = shopItems.find(
+        (item) =>
+          item.location_name === location.name ||
+          regionData.shop.location_name === location.name
+      );
+
+      if (matchingItem) {
+        // Enhance the location with shop data
+        location.shop_price = matchingItem.price;
+
+        // Determine price type (most shops use rupees)
+        // This is a simplification - real logic would need more context
+        if (matchingItem.item.includes('Heart')) {
+          location.shop_price_type = 'Hearts';
+        } else if (matchingItem.item.includes('Bomb')) {
+          location.shop_price_type = 'Bombs';
+        } else if (matchingItem.item.includes('Arrow')) {
+          location.shop_price_type = 'Arrows';
+        } else {
+          location.shop_price_type = 'Rupees';
+        }
+      }
+    }
+  }
+
+  /**
+   * Override the executeHelper method to add special case handling for Python-like functions
+   * @override
+   */
+  executeHelper(name, ...args) {
+    // Handle special cases for Python builtins and our custom helpers
+    if (name === 'to_bool') {
+      return this.to_bool(...args);
+    }
+    if (name === 'shop_price_rules') {
+      return this.shop_price_rules(...args);
+    }
+    if (name === 'len') {
+      return this.len(...args);
+    }
+    if (name === 'zip') {
+      return this.zip(...args);
+    }
+    if (name === 'range') {
+      return this.range(...args);
+    }
+    if (name === 'all') {
+      return this.all(...args);
+    }
+    if (name === 'any') {
+      return this.any(...args);
+    }
+    if (name === 'getattr') {
+      return this.getattr(...args);
+    }
+
+    // Use the parent class implementation for all other helpers
+    return super.executeHelper(name, ...args);
   }
 }

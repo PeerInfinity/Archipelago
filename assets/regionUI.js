@@ -2,6 +2,7 @@
 import stateManager from './stateManagerSingleton.js';
 import { evaluateRule } from './ruleEngine.js';
 import { PathAnalyzerUI } from './pathAnalyzerUI.js';
+import commonUI from './commonUI.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -251,18 +252,14 @@ export class RegionUI {
   }
 
   createRegionLink(regionName) {
-    const link = document.createElement('span');
-    link.textContent = regionName;
-    link.classList.add('region-link');
-    link.dataset.region = regionName;
-    link.title = `Click to view the ${regionName} region`;
-
-    link.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.navigateToRegion(regionName);
-    });
-
-    return link;
+    return commonUI.createRegionLink(
+      regionName,
+      this.colorblindMode,
+      (regionName, e) => {
+        e.stopPropagation();
+        this.navigateToRegion(regionName);
+      }
+    );
   }
 
   /**
@@ -341,19 +338,15 @@ export class RegionUI {
    * @returns {HTMLElement} - A clickable span element
    */
   createLocationLink(locationName, regionName) {
-    const link = document.createElement('span');
-    link.textContent = locationName;
-    link.classList.add('location-link');
-    link.dataset.location = locationName;
-    link.dataset.region = regionName;
-    link.title = `Click to view ${locationName} in the ${regionName} region`;
-
-    link.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.navigateToLocation(locationName, regionName);
-    });
-
-    return link;
+    return commonUI.createLocationLink(
+      locationName,
+      regionName,
+      this.colorblindMode,
+      (locationName, regionName, e) => {
+        e.stopPropagation();
+        this.navigateToLocation(locationName, regionName);
+      }
+    );
   }
 
   buildRegionBlock(rData, regionName, expanded, uid) {
@@ -415,7 +408,7 @@ export class RegionUI {
           const logicDiv = document.createElement('div');
           logicDiv.classList.add('logic-tree');
           logicDiv.innerHTML = `<strong>Rule #${idx + 1}:</strong>`;
-          logicDiv.appendChild(this.renderLogicTree(rule));
+          logicDiv.appendChild(commonUI.renderLogicTree(rule));
           rrContainer.appendChild(logicDiv);
         });
         detailEl.appendChild(rrContainer);
@@ -466,7 +459,9 @@ export class RegionUI {
           if (exit.access_rule) {
             const logicTreeDiv = document.createElement('div');
             logicTreeDiv.classList.add('logic-tree');
-            logicTreeDiv.appendChild(this.renderLogicTree(exit.access_rule));
+            logicTreeDiv.appendChild(
+              commonUI.renderLogicTree(exit.access_rule)
+            );
             exitWrapper.appendChild(logicTreeDiv);
           }
 
@@ -525,7 +520,7 @@ export class RegionUI {
           if (loc.access_rule) {
             const logicTreeDiv = document.createElement('div');
             logicTreeDiv.classList.add('logic-tree');
-            logicTreeDiv.appendChild(this.renderLogicTree(loc.access_rule));
+            logicTreeDiv.appendChild(commonUI.renderLogicTree(loc.access_rule));
             locDiv.appendChild(logicTreeDiv);
           }
 
@@ -597,86 +592,6 @@ export class RegionUI {
     return countSoFar > 1 ? ` (${countSoFar})` : '';
   }
 
-  renderLogicTree(rule) {
-    const root = document.createElement('div');
-    root.classList.add('logic-node');
-
-    if (!rule) {
-      root.textContent = '(no rule)';
-      return root;
-    }
-
-    const result = evaluateRule(rule);
-    root.classList.toggle('pass', !!result);
-    root.classList.toggle('fail', !result);
-
-    const label = document.createElement('div');
-    label.classList.add('logic-label');
-    label.textContent = `Type: ${rule.type}`;
-    root.appendChild(label);
-
-    // Add colorblind symbol if colorblind mode is enabled
-    if (this.colorblindMode) {
-      const symbolSpan = document.createElement('span');
-      symbolSpan.classList.add('colorblind-symbol');
-
-      if (result) {
-        symbolSpan.textContent = '✓ ';
-        symbolSpan.classList.add('accessible');
-      } else {
-        symbolSpan.textContent = '✗ ';
-        symbolSpan.classList.add('inaccessible');
-      }
-
-      root.insertBefore(symbolSpan, root.firstChild); // Insert at beginning
-    }
-
-    switch (rule.type) {
-      case 'constant':
-        root.appendChild(document.createTextNode(` value: ${rule.value}`));
-        break;
-      case 'item_check':
-        root.appendChild(document.createTextNode(` item: ${rule.item}`));
-        break;
-      case 'count_check':
-        root.appendChild(
-          document.createTextNode(` ${rule.item} >= ${rule.count}`)
-        );
-        break;
-      case 'group_check':
-        root.appendChild(document.createTextNode(` group: ${rule.group}`));
-        break;
-      case 'helper':
-        root.appendChild(
-          document.createTextNode(
-            ` helper: ${rule.name}, args: ${JSON.stringify(rule.args)}`
-          )
-        );
-        break;
-      case 'and':
-      case 'or': {
-        const ul = document.createElement('ul');
-        rule.conditions.forEach((cond) => {
-          const li = document.createElement('li');
-          li.appendChild(this.renderLogicTree(cond));
-          ul.appendChild(li);
-        });
-        root.appendChild(ul);
-        break;
-      }
-      case 'state_method':
-        root.appendChild(
-          document.createTextNode(
-            ` method: ${rule.method}, args: ${JSON.stringify(rule.args)}`
-          )
-        );
-        break;
-      default:
-        root.appendChild(document.createTextNode(' [unhandled rule type] '));
-    }
-    return root;
-  }
-
   /**
    * Toggles colorblind mode and updates the UI
    */
@@ -685,6 +600,9 @@ export class RegionUI {
 
     // Update the path analyzer's colorblind mode as well
     this.pathAnalyzer.setColorblindMode(this.colorblindMode);
+
+    // Sync with commonUI
+    commonUI.setColorblindMode(this.colorblindMode);
 
     // Update colorblind indicators in the UI
     this._updateColorblindIndicators();
