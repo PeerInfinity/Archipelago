@@ -14,7 +14,7 @@ from worlds.AutoWorld import World, call_all
 from BaseClasses import Location, MultiWorld, CollectionState, ItemClassification, Item
 from worlds.alttp.Items import item_factory
 
-from worlds.generic.RuleParser.exporter import export_test_data
+from exporter import export_test_data
 
 class TestBase(unittest.TestCase):
     multiworld: MultiWorld

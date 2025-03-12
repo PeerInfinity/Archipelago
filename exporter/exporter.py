@@ -1,4 +1,4 @@
-# worlds/generic/RuleParser/exporter.py
+# exporter/exporter.py
 
 """Handles preparation and formatting of rule data for export."""
 
@@ -363,6 +363,9 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
                     itempool_counts['__max_boss_heart_container'] = world.difficulty_requirements.boss_heart_container_limit
                 if hasattr(world.difficulty_requirements, 'heart_piece_limit'):
                     itempool_counts['__max_heart_piece'] = world.difficulty_requirements.heart_piece_limit
+
+            # sort the itempool counts by item name
+            itempool_counts = dict(sorted(itempool_counts.items(), key=lambda x: x[0]))
             
             export_data['itempool_counts'][str(player)] = dict(itempool_counts)
             
@@ -1306,3 +1309,80 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     debug_mode_settings("Export process completed successfully")
     print("Export process completed.")
     return True
+
+def export_game_rules(multiworld, output_dir: str, filename_base: str) -> Dict[str, str]:
+    """
+    Exports game rules and test data to JSON files for frontend consumption.
+    Also saves a copy of rules to frontend/presets with game name as prefix.
+    
+    Args:
+        multiworld: MultiWorld instance containing game rules
+        output_dir: Directory to write output files
+        filename_base: Base name for output files
+        
+    Returns:
+        Dict containing paths to generated files
+    """
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Export rules to the original location
+    rules_path = os.path.join(output_dir, f'{filename_base}_rules.json')
+    export_data = prepare_export_data(multiworld)
+    
+    try:
+        with open(rules_path, 'w', encoding='utf-8') as f:
+            json.dump(export_data, f, indent=2)
+    except Exception as e:
+        logger.error(f"Error writing rules export file: {e}")
+        raise
+
+    # Also save a copy in frontend/presets with game name as prefix
+    try:
+        # Get the game name from the first player
+        if multiworld.game:
+            first_player = min(multiworld.game.keys())
+            game_name = multiworld.game[first_player]
+            
+            # Clean the game name for use in a filename 
+            clean_game_name = game_name.lower().replace(' ', '_')
+            
+            # Determine the frontend presets directory
+            presets_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'presets')
+            os.makedirs(presets_dir, exist_ok=True)
+            
+            # Save the preset file
+            preset_rules_path = os.path.join(presets_dir, f'{clean_game_name}_rules.json')
+            with open(preset_rules_path, 'w', encoding='utf-8') as f:
+                json.dump(export_data, f, indent=2)
+            
+            # Update preset_files.json index
+            preset_index_path = os.path.join(presets_dir, 'preset_files.json')
+            preset_index = {}
+            
+            # Load existing index if available
+            if os.path.exists(preset_index_path):
+                try:
+                    with open(preset_index_path, 'r', encoding='utf-8') as f:
+                        preset_index = json.load(f)
+                except json.JSONDecodeError:
+                    logger.warning("Could not parse existing preset_files.json, creating new file")
+            
+            # Add this game to the index
+            preset_index[clean_game_name] = {
+                "name": game_name,
+                "filename": f"{clean_game_name}_rules.json"
+            }
+            
+            # Write updated index
+            with open(preset_index_path, 'w', encoding='utf-8') as f:
+                json.dump(preset_index, f, indent=2)
+            
+            logger.info(f"Saved game preset rules to {preset_rules_path}")
+            
+    except Exception as e:
+        # Log but don't fail the entire export if preset saving fails
+        logger.error(f"Error saving game preset: {e}")
+
+    results = {'rules': rules_path}
+
+    return results

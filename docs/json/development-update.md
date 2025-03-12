@@ -106,8 +106,8 @@ frontend/assets/games/alttp/state.js     - ALTTP state tracking
 ### Key Modifications
 
 ```
-worlds/generic/RuleParser/analyzer.py  - Improved rule parsing
-worlds/generic/RuleParser/exporter.py  - Enhanced region data export
+exporter/analyzer.py  - Improved rule parsing
+exporter/exporter.py  - Enhanced region data export
 frontend/assets/ruleEngine.js          - Updated to support helpers
 frontend/assets/locationTester.js      - Updated for new tests
 ```

@@ -18,7 +18,7 @@ from Utils import __version__, output_path, version_tuple, get_settings
 from settings import get_settings
 from worlds import AutoWorld
 from worlds.generic.Rules import exclusion_rules, locality_rules
-from worlds.generic.RuleParser import export_game_rules
+from exporter import export_game_rules
 
 __all__ = ["main"]
 
@@ -396,9 +396,6 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
                     f.write(bytes([3]))  # version of format
                     f.write(multidata)
 
-                # Usage: After writing the .archipelago file
-                export_game_rules(multiworld, temp_dir, outfilebase)
-
             output_file_futures.append(pool.submit(write_multidata))
             if not check_accessibility_task.result():
                 if not multiworld.can_beat_game():
@@ -418,6 +415,9 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
 
         if args.spoiler:
             multiworld.spoiler.to_file(os.path.join(temp_dir, '%s_Spoiler.txt' % outfilebase))
+
+        # New: export the rules data to a json file
+        export_game_rules(multiworld, temp_dir, outfilebase)
 
         output_filename = output_path(f"AP_{multiworld.seed_name}.zip")
         use_zip = False  # Set this to False to save to folder instead

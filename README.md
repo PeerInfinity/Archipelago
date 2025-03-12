@@ -47,7 +47,7 @@ A development tool for validating rule conversion:
 ## Architecture
 
 ```
-worlds/generic/RuleParser/  # Backend rule extraction
+exporter/                  # Backend rule extraction
   analyzer.py             # Rule function analysis using AST
   exporter.py             # Region graph and rule export
   games/                  # Game-specific helper handling

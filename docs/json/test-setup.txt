@@ -17,15 +17,15 @@ The tests use functions like run_location_tests, which is in:
 test/bases.py
 
 This calls export_game_rules, which is in:
-worlds/generic/RuleParser/__init__.py
+exporter/__init__.py
 
 That file uses these other files:
-worlds/generic/RuleParser/exporter.py
-worlds/generic/RuleParser/analyzer.py
-worlds/generic/RuleParser/games/__init__.py
-worlds/generic/RuleParser/games/alttp.py
-worlds/generic/RuleParser/games/base.py
-worlds/generic/RuleParser/games/generic.py
+exporter/exporter.py
+exporter/analyzer.py
+exporter/games/__init__.py
+exporter/games/alttp.py
+exporter/games/base.py
+exporter/games/generic.py
 
 This file exports two json files for the frontend to use, one with the data for the rules:
 frontend/test_output_rules.json

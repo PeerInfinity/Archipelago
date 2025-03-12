@@ -1,4 +1,4 @@
-# worlds/generic/RuleParser/analyzer.py
+# exporter/analyzer.py
 
 """
 Rule Parser Analyzer

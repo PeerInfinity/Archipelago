@@ -21,9 +21,9 @@ Identify at least one issue that's contributing to the test failures.
 
 Propose an outline of a plan for how to begin work on fixing the issues.
 
-The code to propose changes to is in worlds/generic/RuleParser and in frontend.
+The code to propose changes to is in exporter and in frontend.
 
-There is no restriction on proposing dramatic changes to the way the RuleParser or frontend are implemented, if that's what's required to fix the issues.
+There is no restriction on proposing dramatic changes to the way the exporter or frontend are implemented, if that's what's required to fix the issues.
 
 If you want to see the contents of other files, please tell me and I will provide them.
 
@@ -53,7 +53,7 @@ Make incremental improvements instead of wholesale rewrites when possible
 Focus on building up knowledge about the full set of cases that need to be handled
 Avoid dropping important details that were addressed in earlier iterations
 
-I'm including the file "worlds/generic/RuleParser/analyzer - before sonnet edits.py", to help with checking if any important functionality was lost during the edits so far.
+I'm including the file "exporter/analyzer - before sonnet edits.py", to help with checking if any important functionality was lost during the edits so far.
 
 ----
 
@@ -87,9 +87,9 @@ Identify at least one issue that's contributing to the test failures.
 
 Propose an outline of a plan for how to begin work on fixing the issues.
 
-The code to propose changes to is in worlds/generic/RuleParser and in frontend.
+The code to propose changes to is in exporter and in frontend.
 
-There is no restriction on proposing dramatic changes to the way the RuleParser or frontend are implemented, if that's what's required to fix the issues.
+There is no restriction on proposing dramatic changes to the way the exporter or frontend are implemented, if that's what's required to fix the issues.
 
 If you want to see the contents of other files, please tell me and I will provide them.
 
@@ -402,7 +402,7 @@ Examine the code.
 
 Examine how the Python code determines which locations are accessible.  This logic is mainly in test/bases.py
 
-Examine the data exported by worlds/generic/RuleParser/exporter.py
+Examine the data exported by exporter/exporter.py
 
 Also examine the typescript file frontend/assets/types/alttp.d.ts
 
@@ -416,7 +416,7 @@ If there is no data missing, then describe the changes that need to be made to t
 
 Feb. 13, 2025:
 
-We recently changed the format of the data exported by worlds/generic/RuleParser/exporter.py
+We recently changed the format of the data exported by exporter/exporter.py
 
 The old format is documented in frontend/assets/types/alttp.d-old.ts
 
@@ -967,7 +967,7 @@ Values: ["Call(func=Name(id='rule', ctx=Load()), args=[Name(id='state', ctx=Load
 Boolean operation result: {'type': 'and', 'conditions': [{'type': 'helper', 'name': 'rule', 'args': []}, {'type': 'helper', 'name': 'old_rule', 'args': []}]}
 Unknown ALTTP helper: rule
 Unknown ALTTP helper: old_rule
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:134 Successfully expanded rule
+DEBUG    exporter.exporter:exporter.py:134 Successfully expanded rule
 
 
 Propose a plan for how to fix this issue.
@@ -1199,8 +1199,8 @@ Node details: {'left': <ast.Name object at 0x000002994EF769B0>, 'ops': [<ast.In 
 
 --- Generic Visit: In ---
 Node details: {}
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:134 Successfully expanded rule
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:300 Successfully processed location: Capacity Upgrade Left
+DEBUG    exporter.exporter:exporter.py:134 Successfully expanded rule
+DEBUG    exporter.exporter:exporter.py:300 Successfully processed location: Capacity Upgrade Left
 
 
 Propose a plan for how to fix this issue.
@@ -2752,8 +2752,8 @@ Node details: {'value': <ast.Attribute object at 0x00000273EEE1E410>, 'slice': <
 
 --- Generic Visit: Load ---
 Node details: {}
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:617 Successfully expanded rule
-DEBUG    worlds.generic.RuleParser.exporter:exporter.py:771 Successfully processed exit: Ganons Tower
+DEBUG    exporter.exporter:exporter.py:617 Successfully expanded rule
+DEBUG    exporter.exporter:exporter.py:771 Successfully processed exit: Ganons Tower
 
 
 
@@ -3058,3 +3058,977 @@ will become:
 ----
 
 Currently, there are two places in the code that define a function renderLogicTree.  One is in locationUI.js, and the other is in regionUI.js.  I think I’ll want to move that function to a new file, commonUI.js.  Also, the two versions currently work differently.  For now, let’s use the version from locationUI, which shows the full tree, rather than the abridged version in regionUI.js.  Also, we’ll want it to use the colorblind symbols if that’s enabled.  Also, for now, let’s have them enabled by default.  I’ll also want to make some changes to how the logic trees are displayed, but let’s get the function moved to the new file first, and then we can discuss more details.
+
+----
+
+Mar. 11:
+
+We’re currently in the process of making some major changes to the structure of the data in the JSON file.  It’s mostly working now, but there are still some changes left to make.
+
+Here is some of the new data we’re getting in the json file:
+
+Old:
+
+         {
+            "name": "Old Man S&Q",
+            "connected_region": "Old Man House",
+            "access_rule": {
+              "type": "helper",
+              "name": "old_man",
+              "args": []
+            },
+            "type": "Exit"
+          }
+
+New:
+
+         {
+            "name": "Old Man S&Q",
+            "connected_region": "Old Man House",
+            "access_rule": {
+              "type": "function_call",
+              "function": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "old_man"
+                },
+                "attr": "can_reach"
+              },
+              "args": []
+            },
+            "type": "Exit"
+          }
+
+Old:
+
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Flippers"
+                },
+
+New:
+
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Flippers"
+                  }
+                },
+
+Old:
+
+               {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    "Blacksmiths Hut",
+                    "Region",
+                    "player"
+                  ]
+                }
+
+New:
+
+               {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Blacksmiths Hut"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                }
+
+Old:
+
+         {
+            "name": "Mini Moldorm Cave - Far Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_kill_most_things",
+              "args": [
+                4
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+New:
+
+         {
+            "name": "Mini Moldorm Cave - Far Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "can_kill_most_things",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": 4
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+Old:
+
+         {
+            "name": "Capacity Upgrade Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "add_rule",
+              "args": [
+                "loc",
+                {
+                  "type": "helper",
+                  "name": "shop_price_rules",
+                  "args": [
+                    "spot"
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "item"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+New:
+
+         {
+            "name": "Capacity Upgrade Left",
+            "crystal": false,
+            "access_rule": {
+              "type": "helper",
+              "name": "add_rule",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "loc"
+                },
+                {
+                  "type": "helper",
+                  "name": "shop_price_rules",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "spot"
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "item"
+                  },
+                  "attr": "name"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+
+Old:
+
+         {
+            "name": "Desert Palace East Wing",
+            "connected_region": "Desert Palace East",
+            "access_rule": {
+              "type": "state_method",
+              "method": "_lttp_has_key",
+              "args": [
+                "Small Key (Desert Palace)",
+                "player",
+                4
+              ]
+            },
+            "type": "Exit"
+          }
+
+New:
+
+         {
+            "name": "Desert Palace East Wing",
+            "connected_region": "Desert Palace East",
+            "access_rule": {
+              "type": "count_check",
+              "item": {
+                "type": "constant",
+                "value": "Small Key (Desert Palace)"
+              },
+              "count": {
+                "type": "constant",
+                "value": 4
+              }
+            },
+            "type": "Exit"
+          }
+
+Old:
+
+       "dungeon": {
+          "name": "Desert Palace",
+          "regions": [
+            "Desert Palace North",
+            "Desert Palace Main (Inner)",
+            "Desert Palace Main (Outer)",
+            "Desert Palace East"
+          ],
+          "boss": {
+            "name": "Lanmolas",
+            "defeat_rule": {
+              "type": "helper",
+              "name": "self",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "self"
+                }
+              ]
+            }
+          },
+          "medallion_check": null
+        },
+
+New:
+
+       "dungeon": {
+          "name": "Desert Palace",
+          "regions": [
+            "Desert Palace North",
+            "Desert Palace Main (Inner)",
+            "Desert Palace Main (Outer)",
+            "Desert Palace East"
+          ],
+          "boss": {
+            "name": "Lanmolas",
+            "defeat_rule": {
+              "type": "function_call",
+              "function": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "defeat_rule"
+              },
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            }
+          },
+          "medallion_check": null
+        },
+
+Old:
+
+         {
+            "name": "Desert Palace - Boss",
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_lttp_has_key",
+                  "args": [
+                    "Small Key (Desert Palace)",
+                    "player",
+                    4
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Big Key (Desert Palace)"
+                },
+                {
+                  "type": "helper",
+                  "name": "has_fire_source",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "multiworld",
+                  "args": [
+                    "state"
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+          {
+            "name": "Desert Palace - Prize",
+            "crystal": true,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "multiworld",
+                  "args": [
+                    "state"
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "_lttp_has_key",
+                      "args": [
+                        "Small Key (Desert Palace)",
+                        "player",
+                        4
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Big Key (Desert Palace)"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_fire_source",
+                      "args": []
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "multiworld",
+                      "args": [
+                        "state"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "name",
+                  "name": "crystals_and_pendants"
+                },
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          }
+
+New:
+
+         {
+            "name": "Desert Palace - Boss",
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "count_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Small Key (Desert Palace)"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Big Key (Desert Palace)"
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "has_fire_source",
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "function_call",
+                            "function": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "attribute",
+                                "object": {
+                                  "type": "name",
+                                  "name": "state"
+                                },
+                                "attr": "multiworld"
+                              },
+                              "attr": "get_location"
+                            },
+                            "args": [
+                              {
+                                "type": "constant",
+                                "value": "Desert Palace - Boss"
+                              }
+                            ]
+                          },
+                          "attr": "parent_region"
+                        },
+                        "attr": "dungeon"
+                      },
+                      "attr": "boss"
+                    },
+                    "attr": "can_defeat"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          },
+          {
+            "name": "Desert Palace - Prize",
+            "crystal": true,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "function_call",
+                      "function": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "name",
+                            "name": "state"
+                          },
+                          "attr": "multiworld"
+                        },
+                        "attr": "get_region"
+                      },
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Desert Palace Main (Outer)"
+                        }
+                      ]
+                    },
+                    "attr": "can_reach"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "count_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Small Key (Desert Palace)"
+                      },
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Big Key (Desert Palace)"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_fire_source",
+                      "args": []
+                    },
+                    {
+                      "type": "function_call",
+                      "function": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "function_call",
+                                "function": {
+                                  "type": "attribute",
+                                  "object": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "name",
+                                      "name": "state"
+                                    },
+                                    "attr": "multiworld"
+                                  },
+                                  "attr": "get_location"
+                                },
+                                "args": [
+                                  {
+                                    "type": "constant",
+                                    "value": "Desert Palace - Prize"
+                                  }
+                                ]
+                              },
+                              "attr": "parent_region"
+                            },
+                            "attr": "dungeon"
+                          },
+                          "attr": "boss"
+                        },
+                        "attr": "can_defeat"
+                      },
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "name",
+                  "name": "crystals_and_pendants"
+                },
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          }
+
+Old:
+
+         {
+            "name": "Sewers Door",
+            "connected_region": "Sewers",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_lttp_has_key",
+                  "args": [
+                    "Small Key (Hyrule Castle)",
+                    "player",
+                    4
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "name",
+                      "name": "small_key_shuffle"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "standard"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+
+New:
+
+         {
+            "name": "Sewers Door",
+            "connected_region": "Sewers",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "count_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Small Key (Hyrule Castle)"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "small_key_shuffle"
+                      },
+                      "attr": "option_universal"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "standard"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+
+Old:
+
+         {
+            "name": "Ganons Tower",
+            "connected_region": "Ganons Tower (Entrance)",
+            "access_rule": {
+              "type": "helper",
+              "name": "has_crystals",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+
+New:
+
+         {
+            "name": "Ganons Tower",
+            "connected_region": "Ganons Tower (Entrance)",
+            "access_rule": {
+              "type": "helper",
+              "name": "has_crystals",
+              "args": [
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "state"
+                      },
+                      "attr": "multiworld"
+                    },
+                    "attr": "crystals_needed_for_gt"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+
+
+Here is one case I’m still confused by:
+
+         {
+            "name": "Desert Palace - Prize",
+            "crystal": true,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "function_call",
+                      "function": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "name",
+                            "name": "state"
+                          },
+                          "attr": "multiworld"
+                        },
+                        "attr": "get_region"
+                      },
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Desert Palace Main (Outer)"
+                        }
+                      ]
+                    },
+                    "attr": "can_reach"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "count_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Small Key (Desert Palace)"
+                      },
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Big Key (Desert Palace)"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "has_fire_source",
+                      "args": []
+                    },
+                    {
+                      "type": "function_call",
+                      "function": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "function_call",
+                                "function": {
+                                  "type": "attribute",
+                                  "object": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "name",
+                                      "name": "state"
+                                    },
+                                    "attr": "multiworld"
+                                  },
+                                  "attr": "get_location"
+                                },
+                                "args": [
+                                  {
+                                    "type": "constant",
+                                    "value": "Desert Palace - Prize"
+                                  }
+                                ]
+                              },
+                              "attr": "parent_region"
+                            },
+                            "attr": "dungeon"
+                          },
+                          "attr": "boss"
+                        },
+                        "attr": "can_defeat"
+                      },
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "item_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "name",
+                  "name": "crystals_and_pendants"
+                },
+                {
+                  "type": "name",
+                  "name": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": null
+          }
+
+I think that comes from this code:
+    add_rule(multiworld.get_location('Desert Palace - Prize', player), lambda state: state._lttp_has_key('Small Key (Desert Palace)', player, 4) and state.has('Big Key (Desert Palace)', player) and has_fire_source(state, player) and state.multiworld.get_location('Desert Palace - Prize', player).parent_region.dungeon.boss.can_defeat(state))
+
+    # logic patch to prevent placing a crystal in Desert that's required to reach the required keys
+    if not (multiworld.small_key_shuffle[player] and multiworld.big_key_shuffle[player]):
+        add_rule(multiworld.get_location('Desert Palace - Prize', player), lambda state: state.multiworld.get_region('Desert Palace Main (Outer)', player).can_reach(state))
+
+It's evaluating to false even when the inventory is full, and I'm not sure what conditions would make it evaluate to true.  I suspect that the problem is that something is failing to parse.
+
+Here is what the logic tree looks like in the UI:
+
+Desert Palace - Prize
+Player 1
+Region: Desert Palace North (Accessible)
+Location:
+✗
+Type: and
+✗
+Type: function_call
+function call
+Function:
+✗
+Type: attribute
+object.can_reach
+✓
+Type: function_call
+function call
+Function:
+✗
+Type: attribute
+object.get_region
+✗
+Type: attribute
+object.multiworld
+✓
+Type: name
+variable: state
+Arguments:
+✓
+Type: constant
+value: Desert Palace Main (Outer)
+✓
+Type: and
+✓
+Type: count_check
+Small Key (Desert Palace) >= 4
+Item Expression:
+✓
+Type: constant
+value: Small Key (Desert Palace)
+Count Expression:
+✓
+Type: constant
+value: 4
+✓
+Type: item_check
+item: Big Key (Desert Palace)
+✓
+Type: helper
+helper: has_fire_source, args: []
+✓
+Type: function_call
+function call
+Function:
+✗
+Type: attribute
+object.can_defeat
+✗
+Type: attribute
+object.boss
+✗
+Type: attribute
+object.dungeon
+✗
+Type: attribute
+object.parent_region
+✗
+Type: function_call
+function call
+Function:
+✗
+Type: attribute
+object.get_location
+✗
+Type: attribute
+object.multiworld
+✓
+Type: name
+variable: state
+Arguments:
+✓
+Type: constant
+value: Desert Palace - Prize
+Locked
+
+Can you figure out how we can get this rule to evaluate to true when the inventory is full?

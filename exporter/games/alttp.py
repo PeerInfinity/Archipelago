@@ -1,4 +1,4 @@
-# worlds/generic/RuleParser/games/alttp.py
+# exporter/games/alttp.py
 
 from .base import BaseHelperExpander
 from typing import Any, Dict, Optional, Set
