@@ -56,6 +56,13 @@ class FF1World(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
+        # Import the skip_required_files flag
+        from settings import skip_required_files
+        
+        # Skip validation if we're skipping required files
+        if skip_required_files:
+            return
+            
         # Fail generation if there are no items in the pool
         for player in multiworld.get_game_players(cls.game):
             items = multiworld.worlds[player].options.items.value

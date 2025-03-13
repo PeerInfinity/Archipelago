@@ -283,14 +283,27 @@ class ALTTPWorld(World):
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
         rom_file = get_base_rom_path()
+        # Check if ROM exists or skip_required_files is set
+        from settings import skip_required_files
+        
+        rom_available = os.path.exists(rom_file) or skip_required_files
+        # Store this information for later access
+        setattr(multiworld, 'alttp_rom_exists', os.path.exists(rom_file))
+        
         if not os.path.exists(rom_file):
-            raise FileNotFoundError(rom_file)
-        if multiworld.is_race:
+            if skip_required_files:
+                lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+            else:
+                lttp_logger.warning("ALTTP ROM file not found at %s. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+        elif multiworld.is_race:
             import xxtea  # noqa
-        for player in multiworld.get_game_players(cls.game):
-            if multiworld.worlds[player].use_enemizer:
-                check_enemizer(multiworld.worlds[player].enemizer_path)
-                break
+        
+        # Only check enemizer if ROM is available
+        if os.path.exists(rom_file):
+            for player in multiworld.get_game_players(cls.game):
+                if multiworld.worlds[player].use_enemizer and not skip_required_files:
+                    check_enemizer(multiworld.worlds[player].enemizer_path)
+                    break
 
     def generate_early(self):
         # write old options
@@ -556,6 +569,19 @@ class ALTTPWorld(World):
 
         self.pushed_shop_inventories.wait()
 
+        # Check if ROM exists and skip ROM-dependent steps if not
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            from settings import skip_required_files
+            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
+            lttp_logger.warning("ALTTP ROM file not found at %s (%s). Skipping ROM generation for player %s.", 
+                                rom_file, reason, player)
+            # Set a placeholder ROM name to indicate ROM wasn't generated
+            self.rom_name = "ALTTP_ROM_NOT_GENERATED"
+            # Make sure the event is set so the process can continue
+            self.rom_name_available_event.set()
+            return
+
         try:
             use_enemizer = self.use_enemizer
 
@@ -662,8 +688,8 @@ class ALTTPWorld(World):
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)
-        # we skip in case of error, so that the original error in the output thread is the one that gets raised
-        if rom_name:
+        # we skip in case of error, or if ROM generation was skipped
+        if rom_name and rom_name != "ALTTP_ROM_NOT_GENERATED":
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 

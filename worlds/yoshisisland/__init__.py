@@ -2,6 +2,7 @@ import base64
 import os
 import typing
 import threading
+import logging
 
 from typing import List, Set, TextIO, Dict
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
@@ -84,8 +85,12 @@ class YoshisIslandWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
+        # Import the skip_required_files flag
+        from settings import skip_required_files
+        
         rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
+        # Only check for ROM file if we're not skipping required files
+        if not skip_required_files and not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def fill_slot_data(self) -> Dict[str, List[int]]:
@@ -339,11 +344,23 @@ class YoshisIslandWorld(World):
         self.multiworld.itempool += pool
 
     def generate_output(self, output_directory: str) -> None:
+        # Check if ROM file exists
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            yi_logger = logging.getLogger("Yoshi's Island")
+            from settings import skip_required_files
+            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
+            yi_logger.warning("Yoshi's Island ROM file not found at %s (%s). Skipping ROM generation for player %d.", 
+                            rom_file, reason, self.player)
+            # Set the event so the process can continue
+            self.rom_name_available_event.set()
+            return
+            
         rompath = ""  # if variable is not declared finally clause may fail
         try:
             world = self.multiworld
             player = self.player
-            rom = LocalRom(get_base_rom_path())
+            rom = LocalRom(rom_file)
             patch_rom(self, rom, self.player)
 
             rompath = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.sfc")
@@ -362,6 +379,7 @@ class YoshisIslandWorld(World):
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)
+        # Skip if ROM generation was skipped or there was an error
         if rom_name:
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]

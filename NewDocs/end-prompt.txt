@@ -2,4 +2,77 @@ That's the end of the files you need for context.  Now here are your instruction
 
 ----
 
-The code in exporter/exporter.py can be called in one of two ways.  One way is that test/bases.py calls export_test_data in exporter/exporter.py.  The other is that Main.py calls export_game_rules in exporter/__init__.py.  I'll want to add some of the code from export_test_data into export_game_rules, but I think the working folders are different in these two functions.  Can you figure out how that works?  Also, does it make sense for there to be a separate __init__.py file?  Do you have any suggestions for how to organize the files and functions better?
+I recently created a set of preset rules.json files for several different games.  I’ll want to update the frontend to add a convenient tool for loading these preset files.
+
+I think a good way to do this would be to create a new file, presetUI, that works similarly to testCaseUI.
+
+In the UI, I’ll want to rename the “Test Cases” radio button to “Files”.  
+
+Currently we have location-controls and region-controls in the HTML.  I’ll want to add a new group, file-controls, to be displayed when the “Files” radio button is selected.
+
+When “Files” is selected, I want two radio button options to appear in file-controls: “Test Cases”, which will load the current testCaseUI, and “Presets”, which will load the new presetsUI.
+
+The file frontend/presets/preset_files.json works similarly to the file frontend/tests/test_files.json, but is organized differently.  Here are some of its contents:
+
+{
+  "a_link_to_the_past": {
+    "name": "A Link to the Past",
+    "folders": {
+      "AP_58905882502144787839": {
+        "description": "Generated preset for A Link to the Past - AP_58905882502144787839",
+        "files": [
+          "AP_58905882502144787839.archipelago",
+          "AP_58905882502144787839_rules.json",
+          "AP_58905882502144787839_Spoiler.txt"
+        ]
+      },
+      "AP_86738888435278792634": {
+        "description": "Generated preset for A Link to the Past - AP_86738888435278792634",
+        "files": [
+          "AP_86738888435278792634.archipelago",
+          "AP_86738888435278792634_rules.json",
+          "AP_86738888435278792634_Spoiler.txt"
+        ]
+      },
+      "AP_04438134361142846936": {
+        "description": "Generated preset for A Link to the Past - AP_04438134361142846936",
+        "files": [
+          "AP_04438134361142846936.archipelago",
+          "AP_04438134361142846936_rules.json",
+          "AP_04438134361142846936_Spoiler.txt"
+        ]
+      }
+    }
+  },
+  "a_hat_in_time": {
+    "name": "A Hat in Time",
+    "folders": {
+      "AP_28111439424749324374": {
+        "description": "Generated preset for A Hat in Time - AP_28111439424749324374",
+        "files": [
+          "AP_28111439424749324374.archipelago",
+          "AP_28111439424749324374_rules.json",
+          "AP_28111439424749324374_Spoiler.txt"
+        ]
+      }
+    }
+  }
+}
+
+When the presetsUI is loaded, I want it to display the list of games, with one game per row.  After the title of the game, I want a button for each of the existing presets for that game.  The naming system is currently ugly, and maybe we’ll change that later.  For now, let’s just number the buttons for the individual presets, starting from 1.  So for this data, it would look like this:
+
+A Link to the Past: [1] [2] [3]
+A Hat in Time: [1]
+
+Once the user clicks one of these numbered buttons, I want the presetsUI to change to a panel showing information about the preset.  Currently there’s not much to show.  The important thing is to have clickable links to the files, in case the user wants to view or download them.
+
+The files are stored in frontend/presets/
+
+So for the first alttp preset, the path to the rules.json file would be:
+frontend/presets/a_link_to_the_past/AP_58905882502144787839/AP_58905882502144787839_rules.json
+
+Also, when the user clicks on the numbered button to load the preset, the rules.json file will be loaded, the same way it would be if the user had manually selected the rules.json file from the “Load JSON” button.
+
+Do you have any questions to ask before you begin implementing these changes?
+
+

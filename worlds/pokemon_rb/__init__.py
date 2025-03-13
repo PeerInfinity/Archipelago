@@ -114,13 +114,19 @@ class PokemonRedBlueWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
+        # Import the skip_required_files flag
+        from settings import skip_required_files
+        
         versions = set()
         for player in multiworld.player_ids:
             if multiworld.worlds[player].game == "Pokemon Red and Blue":
                 versions.add(multiworld.worlds[player].options.game_version.current_key)
-        for version in versions:
-            if not os.path.exists(get_base_rom_path(version)):
-                raise FileNotFoundError(get_base_rom_path(version))
+                
+        # Only check for ROM files if we're not skipping required files
+        if not skip_required_files:
+            for version in versions:
+                if not os.path.exists(get_base_rom_path(version)):
+                    raise FileNotFoundError(get_base_rom_path(version))
 
     @classmethod
     def stage_generate_early(cls, multiworld: MultiWorld):
@@ -587,9 +593,29 @@ class PokemonRedBlueWorld(World):
         level_scaling(multiworld)
 
     def generate_output(self, output_directory: str):
+        # Check if ROM file exists based on game version
+        from settings import skip_required_files
+        
+        game_version = self.options.game_version.current_key
+        rom_file = get_base_rom_path(game_version)
+        
+        if not os.path.exists(rom_file):
+            import logging
+            pokemon_logger = logging.getLogger("Pokemon Red and Blue")
+            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
+            pokemon_logger.warning("Pokemon %s ROM file not found at %s (%s). Skipping ROM generation for player %d.", 
+                                 game_version.title(), rom_file, reason, self.player)
+            # Set a placeholder ROM name to indicate ROM wasn't generated
+            self.rom_name = f"PKMN_{game_version.upper()}_ROM_NOT_GENERATED"
+            return
+            
         generate_output(self, output_directory)
 
     def modify_multidata(self, multidata: dict):
+        # If ROM generation was skipped, don't add the connect name
+        if hasattr(self, 'rom_name') and self.rom_name and self.rom_name.startswith('PKMN_') and self.rom_name.endswith('_ROM_NOT_GENERATED'):
+            return
+            
         rom_name = bytearray(f'AP{__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0',
                              'utf8')[:21]
         rom_name.extend([0] * (21 - len(rom_name)))

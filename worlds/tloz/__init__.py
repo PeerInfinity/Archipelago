@@ -119,8 +119,12 @@ class TLoZWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
+        # Import the skip_required_files flag
+        from settings import skip_required_files
+        
         rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
+        # Only check for ROM file if we're not skipping required files
+        if not skip_required_files and not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def create_item(self, name: str):
@@ -286,6 +290,19 @@ class TLoZWorld(World):
         return rom_data
 
     def generate_output(self, output_directory: str):
+        # Check if ROM file exists
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            import logging
+            tloz_logger = logging.getLogger("The Legend of Zelda")
+            from settings import skip_required_files
+            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
+            tloz_logger.warning("The Legend of Zelda ROM file not found at %s (%s). Skipping ROM generation for player %d.", 
+                             rom_file, reason, self.player)
+            # Set the event so the process can continue
+            self.rom_name_available_event.set()
+            return
+            
         try:
             patched_rom = self.apply_randomizer()
             outfilebase = 'AP_' + self.multiworld.seed_name
@@ -316,6 +333,7 @@ class TLoZWorld(World):
         import base64
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)
+        # Skip if ROM generation was skipped or there was an error
         if rom_name:
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]

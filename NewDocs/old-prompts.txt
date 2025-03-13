@@ -4032,3 +4032,9 @@ value: Desert Palace - Prize
 Locked
 
 Can you figure out how we can get this rule to evaluate to true when the inventory is full?
+
+----
+
+Mar. 12:
+
+The code in exporter/exporter.py can be called in one of two ways.  One way is that test/bases.py calls export_test_data in exporter/exporter.py.  The other is that Main.py calls export_game_rules in exporter/__init__.py.  I'll want to add some of the code from export_test_data into export_game_rules, but I think the working folders are different in these two functions.  Can you figure out how that works?  Also, does it make sense for there to be a separate __init__.py file?  Do you have any suggestions for how to organize the files and functions better?

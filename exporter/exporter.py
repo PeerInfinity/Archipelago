@@ -8,6 +8,7 @@ import json
 import os
 import asyncio
 import inspect
+import shutil
 from automate_frontend_tests import run_frontend_tests
 from typing import Any, Dict, List, Set, Optional
 from collections import defaultdict
@@ -1310,19 +1311,21 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     print("Export process completed.")
     return True
 
-def export_game_rules(multiworld, output_dir: str, filename_base: str) -> Dict[str, str]:
+def export_game_rules(multiworld, output_dir: str, filename_base: str, save_presets: bool = False) -> Dict[str, str]:
     """
     Exports game rules and test data to JSON files for frontend consumption.
-    Also saves a copy of rules to frontend/presets with game name as prefix.
+    Also saves a copy of rules to frontend/presets with game name as prefix if save_presets is True.
     
     Args:
         multiworld: MultiWorld instance containing game rules
         output_dir: Directory to write output files
         filename_base: Base name for output files
+        save_presets: Whether to save copies of files to the presets directory
         
     Returns:
         Dict containing paths to generated files
     """
+    
     os.makedirs(output_dir, exist_ok=True)
 
     # Export rules to the original location
@@ -1335,54 +1338,99 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str) -> Dict[s
     except Exception as e:
         logger.error(f"Error writing rules export file: {e}")
         raise
+    
+    results = {'rules': rules_path}
 
-    # Also save a copy in frontend/presets with game name as prefix
+    # If save_presets is False, skip the preset saving parts
+    if not save_presets:
+        return results
+
+    # Save presets
     try:
         # Get the game name from the first player
-        if multiworld.game:
-            first_player = min(multiworld.game.keys())
-            game_name = multiworld.game[first_player]
+        if not multiworld.game:
+            logger.warning("No game data found in multiworld object, skipping preset save")
+            return results
             
-            # Clean the game name for use in a filename 
-            clean_game_name = game_name.lower().replace(' ', '_')
+        first_player = min(multiworld.game.keys())
+        game_name = multiworld.game[first_player]
+        
+        if not game_name:
+            logger.warning(f"Empty game name for player {first_player}, skipping preset save")
+            return results
+        
+        # Clean the game name for use in a filename 
+        clean_game_name = game_name.lower().replace(' ', '_')
+        
+        # Determine the frontend presets directory
+        presets_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'presets')
+        os.makedirs(presets_dir, exist_ok=True)
+        
+        # Create game-specific directory
+        game_dir = os.path.join(presets_dir, clean_game_name)
+        os.makedirs(game_dir, exist_ok=True)
+        
+        # Create a folder for this specific preset
+        preset_dir = os.path.join(game_dir, filename_base)
+        
+        # Create/update the preset directory
+        files_copied = 0
+        if not os.path.exists(preset_dir):
+            os.makedirs(preset_dir)
+            logger.info(f"Created new preset directory: {preset_dir}")
+        else:
+            logger.info(f"Using existing preset directory: {preset_dir}")
             
-            # Determine the frontend presets directory
-            presets_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'presets')
-            os.makedirs(presets_dir, exist_ok=True)
-            
-            # Save the preset file
-            preset_rules_path = os.path.join(presets_dir, f'{clean_game_name}_rules.json')
-            with open(preset_rules_path, 'w', encoding='utf-8') as f:
-                json.dump(export_data, f, indent=2)
-            
-            # Update preset_files.json index
-            preset_index_path = os.path.join(presets_dir, 'preset_files.json')
-            preset_index = {}
-            
-            # Load existing index if available
-            if os.path.exists(preset_index_path):
-                try:
-                    with open(preset_index_path, 'r', encoding='utf-8') as f:
-                        preset_index = json.load(f)
-                except json.JSONDecodeError:
-                    logger.warning("Could not parse existing preset_files.json, creating new file")
-            
-            # Add this game to the index
+        # Copy all files from output_dir to preset_dir
+        for file_name in os.listdir(output_dir):
+            src_file = os.path.join(output_dir, file_name)
+            if os.path.isfile(src_file):
+                dst_file = os.path.join(preset_dir, file_name)
+                shutil.copy2(src_file, dst_file)
+                files_copied += 1
+        
+        logger.info(f"Copied {files_copied} files to preset directory {preset_dir}")
+        
+        # Get list of files in the preset directory after copying
+        preset_files = [f for f in os.listdir(preset_dir) if os.path.isfile(os.path.join(preset_dir, f))]
+        
+        # Update preset_files.json index
+        preset_index_path = os.path.join(presets_dir, 'preset_files.json')
+        preset_index = {}
+        
+        # Load existing index if available
+        if os.path.exists(preset_index_path):
+            try:
+                with open(preset_index_path, 'r', encoding='utf-8') as f:
+                    preset_index = json.load(f)
+            except json.JSONDecodeError:
+                logger.warning("Could not parse existing preset_files.json, creating new file")
+        
+        # Initialize game entry if it doesn't exist
+        if clean_game_name not in preset_index:
             preset_index[clean_game_name] = {
                 "name": game_name,
-                "filename": f"{clean_game_name}_rules.json"
+                "folders": {}
             }
-            
-            # Write updated index
-            with open(preset_index_path, 'w', encoding='utf-8') as f:
-                json.dump(preset_index, f, indent=2)
-            
-            logger.info(f"Saved game preset rules to {preset_rules_path}")
-            
+        # Make sure folders key exists
+        elif "folders" not in preset_index[clean_game_name]:
+            preset_index[clean_game_name]["folders"] = {}
+        
+        # Add or update the folder entry with file list
+        preset_index[clean_game_name]["folders"][filename_base] = {
+            "description": f"Generated preset for {game_name} - {filename_base}",
+            "files": preset_files
+        }
+        
+        logger.info(f"Updated preset_files.json with {len(preset_files)} files for {filename_base}")
+        
+        # Write updated index
+        with open(preset_index_path, 'w', encoding='utf-8') as f:
+            json.dump(preset_index, f, indent=2)
+        
     except Exception as e:
         # Log but don't fail the entire export if preset saving fails
-        logger.error(f"Error saving game preset: {e}")
-
-    results = {'rules': rules_path}
+        logger.error(f"Error saving preset: {e}")
+        logger.exception("Exception details:")
 
     return results

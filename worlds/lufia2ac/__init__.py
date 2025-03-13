@@ -73,8 +73,11 @@ class L2ACWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
+        # Import the skip_required_files flag
+        from settings import skip_required_files
         rom_file: str = get_base_rom_path()
-        if not os.path.exists(rom_file):
+        # Only raise the error if we're not skipping required files
+        if not skip_required_files and not os.path.exists(rom_file):
             raise FileNotFoundError(f"Could not find base ROM for {cls.game}: {rom_file}")
 
         # # uncomment this section to recreate the basepatch
@@ -191,6 +194,16 @@ class L2ACWorld(World):
                                state.has_group("Iris treasures", self.player, int(self.o.iris_treasures_required)))
 
     def generate_output(self, output_directory: str) -> None:
+        # Check if ROM exists and skip ROM-dependent steps if not
+        rom_file: str = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            import logging
+            lufia_logger = logging.getLogger("Lufia II Ancient Cave")
+            lufia_logger.warning("ROM file not found. Skipping ROM generation for player %d.", self.player)
+            # Set a special ROM name to indicate ROM generation was skipped
+            self.rom_name = bytearray(b"L2AC_ROM_NOT_GENERATED")
+            return
+
         rom_path: str = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.sfc")
 
         try:
@@ -255,6 +268,9 @@ class L2ACWorld(World):
                 os.unlink(rom_path)
 
     def modify_multidata(self, multidata: Dict[str, Any]) -> None:
+        # Skip adding a connect name if ROM generation was skipped
+        if self.rom_name == bytearray(b"L2AC_ROM_NOT_GENERATED"):
+            return
         b64_name: str = base64.b64encode(bytes(self.rom_name)).decode()
         multidata["connect_names"][b64_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 

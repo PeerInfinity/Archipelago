@@ -117,8 +117,8 @@
               Regions View
             </label>
             <label>
-              <input type="radio" name="view-mode" value="test-cases" />
-              Test Cases
+              <input type="radio" name="view-mode" value="files" />
+              Files
             </label>
             <input type="file" id="json-upload" accept=".json" class="hidden" />
             <label for="json-upload" class="button">Load JSON</label>
@@ -159,6 +159,23 @@
             </label>
             <button id="expand-collapse-all">Expand All</button>
           </div>
+
+          <!-- File-specific controls -->
+          <div class="control-group file-controls" style="display: none">
+            <label>
+              <input
+                type="radio"
+                name="file-view-mode"
+                value="test-cases"
+                checked
+              />
+              Test Cases
+            </label>
+            <label>
+              <input type="radio" name="file-view-mode" value="presets" />
+              Presets
+            </label>
+          </div>
         </div>
         <div id="locations-grid">
           <!-- Populated by JS -->
@@ -166,8 +183,13 @@
         <div id="regions-panel" style="display: none">
           <!-- Region blocks are injected here by regionManager -->
         </div>
-        <div id="test-cases-panel" style="display: none">
-          <div id="test-cases-list"></div>
+        <div id="files-panel" style="display: none">
+          <div id="test-cases-panel">
+            <div id="test-cases-list"></div>
+          </div>
+          <div id="presets-panel" style="display: none">
+            <div id="presets-list"></div>
+          </div>
         </div>
       </div>
     </div>

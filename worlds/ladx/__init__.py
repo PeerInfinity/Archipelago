@@ -460,11 +460,24 @@ class LinksAwakeningWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
+        # Import the skip_required_files flag
+        from settings import skip_required_files
         rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
+        # Only raise the error if we're not skipping required files
+        if not skip_required_files and not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def generate_output(self, output_directory: str):
+        # Check if ROM exists and skip ROM-dependent steps if not
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            ladx_logger = logging.getLogger("Link's Awakening")
+            ladx_logger.warning("ROM file not found. Skipping ROM generation for player %d.", self.player)
+            # We can't set rom_name since it's not a class variable in this world
+            # But we can set multi_key to identify skipped ROM generation
+            self.multi_key = bytearray(b'LADX_ROM_NOT_GENERATED') + self.player.to_bytes(2, 'big')
+            return
+
         # copy items back to locations
         for r in self.multiworld.get_regions(self.player):
             for loc in r.locations:
@@ -526,6 +539,9 @@ class LinksAwakeningWorld(World):
         return bytearray(self.random.getrandbits(8) for _ in range(10)) + self.player.to_bytes(2, 'big')
 
     def modify_multidata(self, multidata: dict):
+        # Skip adding a connect name if ROM generation was skipped
+        if self.multi_key.startswith(b'LADX_ROM_NOT_GENERATED'):
+            return
         multidata["connect_names"][binascii.hexlify(self.multi_key).decode()] = multidata["connect_names"][self.player_name]
 
     def collect(self, state, item: Item) -> bool:

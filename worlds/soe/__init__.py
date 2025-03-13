@@ -219,8 +219,12 @@ class SoEWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, _: "MultiWorld") -> None:
+        # Import the skip_required_files flag
+        from settings import skip_required_files
+        
         rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
+        # Only check for ROM file if we're not skipping required files
+        if not skip_required_files and not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def create_regions(self) -> None:
@@ -410,6 +414,18 @@ class SoEWorld(World):
         while len(self.connect_name.encode('utf-8')) > 32:
             self.connect_name = self.connect_name[:-1]
         self.connect_name_available_event.set()
+        
+        # Check if ROM file exists
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            import logging
+            soe_logger = logging.getLogger("Secret of Evermore")
+            from settings import skip_required_files
+            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
+            soe_logger.warning("Secret of Evermore ROM file not found at %s (%s). Skipping ROM generation for player %d.", 
+                             rom_file, reason, self.player)
+            return
+            
         placement_file = ""
         out_file = ""
         try:
@@ -421,7 +437,6 @@ class SoEWorld(World):
             if self.options.energy_core == EnergyCore.option_fragments:
                 switches.extend(('--available-fragments', str(self.options.available_fragments.value),
                                  '--required-fragments', str(self.options.required_fragments.value)))
-            rom_file = get_base_rom_path()
             out_base = output_path(output_directory, self.multiworld.get_out_file_name_base(self.player))
             out_file = out_base + '.sfc'
             placement_file = out_base + '.txt'
@@ -443,8 +458,6 @@ class SoEWorld(World):
                         line = f'{loc.type},{loc.index}:{soe_item.type},{soe_item.index}\n'
                     f.write(line.encode('utf-8'))
 
-            if not os.path.exists(rom_file):
-                raise FileNotFoundError(rom_file)
             if (pyevermizer.main(rom_file, out_file, placement_file, self.multiworld.seed_name, self.connect_name,
                                  self.evermizer_seed, flags, money, exp, switches)):
                 raise RuntimeError()

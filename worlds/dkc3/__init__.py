@@ -73,8 +73,11 @@ class DKC3World(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
+        # Import the skip_required_files flag we added to settings.py
+        from settings import skip_required_files
         rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
+        # Only raise the error if we're not skipping required files
+        if not skip_required_files and not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def _get_slot_data(self):
@@ -156,6 +159,17 @@ class DKC3World(World):
         self.multiworld.itempool += itempool
 
     def generate_output(self, output_directory: str):
+        # Check if ROM exists and skip ROM-dependent steps if not
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            import logging
+            dkc3_logger = logging.getLogger("Donkey Kong Country 3")
+            dkc3_logger.warning("ROM file not found. Skipping ROM generation for player %d.", self.player)
+            self.rom_name = "DKC3_ROM_NOT_GENERATED"
+            # Make sure the event is set so the process can continue
+            self.rom_name_available_event.set()
+            return
+
         try:
             rom = LocalRom(get_base_rom_path())
             patch_rom(self, rom, self.active_level_list)
@@ -181,8 +195,8 @@ class DKC3World(World):
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)
-        # we skip in case of error, so that the original error in the output thread is the one that gets raised
-        if rom_name:
+        # we skip in case of error or if ROM generation was skipped
+        if rom_name and rom_name != "DKC3_ROM_NOT_GENERATED":
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 

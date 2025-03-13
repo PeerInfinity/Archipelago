@@ -7,6 +7,7 @@ import typing
 from typing import Optional, List, AbstractSet, Union  # remove when 3.8 support is dropped
 from collections import Counter, deque
 from string import printable
+import os
 
 logger = logging.getLogger("Ocarina of Time")
 
@@ -201,7 +202,11 @@ class OOTWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
-        rom = Rom(file=get_settings()['oot_options']['rom_file'])
+        # Import the skip_required_files flag
+        from settings import skip_required_files
+        # Only check for ROM file if we're not skipping required files
+        if not skip_required_files:
+            rom = Rom(file=get_settings()['oot_options']['rom_file'])
 
 
     # Option parsing, handling incompatible options, building useful-item table
@@ -1075,6 +1080,19 @@ class OOTWorld(World):
             self.hint_data_available.wait()
 
         with i_o_limiter:
+            # Check if ROM file exists
+            rom_file = get_settings()['oot_options']['rom_file']
+            if not os.path.exists(rom_file):
+                logger.warning("ROM file not found. Skipping ROM generation for player %d.", self.player)
+                # Initialize attributes needed by fill_slot_data with defaults
+                self.collectible_override_flags = {}
+                self.collectible_flag_offsets = {}
+                self.trap_appearances = {}
+                self.hint_rng = self.random
+                # Make sure to set this event so that fill_slot_data doesn't hang
+                self.collectible_flags_available.set()
+                return
+
             # Make traps appear as other random items
             trap_location_ids = [loc.address for loc in self.get_locations() if loc.item.trap]
             self.trap_appearances = {}
@@ -1085,7 +1103,7 @@ class OOTWorld(World):
             self.hint_rng = self.random
 
             outfile_name = self.multiworld.get_out_file_name_base(self.player)
-            rom = Rom(file=get_settings()['oot_options']['rom_file'])
+            rom = Rom(file=rom_file)
             try:
                 if self.hints != 'none':
                     buildWorldGossipHints(self)
