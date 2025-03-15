@@ -923,3 +923,10 @@ label {
 #cancel-analysis:hover {
   background-color: #888;
 }
+
+#files-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* or a specific height value based on your layout */
+  overflow-y: auto;
+}
