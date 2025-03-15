@@ -6,6 +6,7 @@ import { InventoryUI } from './inventoryUI.js';
 import stateManager from './stateManagerSingleton.js';
 import { TestCaseUI } from './testCaseUI.js';
 import commonUI from './commonUI.js';
+import { PresetUI } from './presetUI.js';
 
 export class GameUI {
   constructor() {
@@ -14,6 +15,8 @@ export class GameUI {
     this.regionUI = new RegionUI(this); // The RegionUI component uses PathAnalyzerUI internally for path analysis functionality
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
+    this.presetUI = new PresetUI(this);
+    this.currentFileView = 'test-cases'; // Track which file view is active
 
     // Initialize commonUI colorblind mode
     commonUI.setColorblindMode(true); // Enable colorblind mode by default
@@ -98,6 +101,17 @@ export class GameUI {
         }
       });
     });
+
+    // File view toggle radio buttons
+    document
+      .querySelectorAll('input[name="file-view-mode"]')
+      .forEach((radio) => {
+        radio.addEventListener('change', (e) => {
+          if (e.target.checked) {
+            this.setFileViewMode(e.target.value);
+          }
+        });
+      });
   }
 
   clearExistingData() {
@@ -112,9 +126,9 @@ export class GameUI {
   updateViewDisplay() {
     const locationsContainer = document.getElementById('locations-grid');
     const regionsContainer = document.getElementById('regions-panel');
-    const testCasesContainer = document.getElementById('test-cases-panel');
+    const filesPanel = document.getElementById('files-panel');
 
-    if (!locationsContainer || !regionsContainer || !testCasesContainer) {
+    if (!locationsContainer || !regionsContainer || !filesPanel) {
       console.warn('Missing container elements for toggling views.');
       return;
     }
@@ -122,25 +136,28 @@ export class GameUI {
     // Toggle view containers
     locationsContainer.style.display = 'none';
     regionsContainer.style.display = 'none';
-    testCasesContainer.style.display = 'none';
+    filesPanel.style.display = 'none';
+
+    // Toggle control containers
+    document.querySelector('.location-controls').style.display = 'none';
+    document.querySelector('.region-controls').style.display = 'none';
+    document.querySelector('.file-controls').style.display = 'none';
 
     switch (this.currentViewMode) {
       case 'locations':
         locationsContainer.style.display = 'grid';
         document.querySelector('.location-controls').style.display = 'flex';
-        document.querySelector('.region-controls').style.display = 'none';
         this.locationUI.update();
         break;
       case 'regions':
         regionsContainer.style.display = 'block';
-        document.querySelector('.location-controls').style.display = 'none';
         document.querySelector('.region-controls').style.display = 'flex';
         this.regionUI.update();
         break;
-      case 'test-cases':
-        testCasesContainer.style.display = 'block';
-        document.querySelector('.location-controls').style.display = 'none';
-        document.querySelector('.region-controls').style.display = 'none';
+      case 'files':
+        filesPanel.style.display = 'block';
+        document.querySelector('.file-controls').style.display = 'flex';
+        this.updateFileViewDisplay();
         break;
     }
   }
@@ -331,6 +348,38 @@ export class GameUI {
 
       // Check when window is resized
       window.addEventListener('resize', checkWindowSize);
+    }
+  }
+
+  setFileViewMode(mode) {
+    this.currentFileView = mode;
+    this.updateFileViewDisplay();
+  }
+
+  updateFileViewDisplay() {
+    const testCasesPanel = document.getElementById('test-cases-panel');
+    const presetsPanel = document.getElementById('presets-panel');
+
+    if (!testCasesPanel || !presetsPanel) {
+      console.warn('Missing file view containers.');
+      return;
+    }
+
+    // Toggle between test cases and presets
+    testCasesPanel.style.display =
+      this.currentFileView === 'test-cases' ? 'block' : 'none';
+    presetsPanel.style.display =
+      this.currentFileView === 'presets' ? 'block' : 'none';
+
+    // Initialize the appropriate UI if needed
+    if (this.currentFileView === 'test-cases') {
+      if (!this.testCaseUI.testCases && !this.testCaseUI.availableTestSets) {
+        this.testCaseUI.initialize();
+      }
+    } else if (this.currentFileView === 'presets') {
+      if (!this.presetUI.presets) {
+        this.presetUI.initialize();
+      }
     }
   }
 }
