@@ -4,13 +4,10 @@
     <title>ArchipIDLE</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="styles/index.css" />
-    <link rel="stylesheet" type="text/css" href="styles/widgets.css" />
-    <script src="https://unpkg.com/cursor-effects@latest/dist/browser.js"></script>
     <script type="application/ecmascript" src="assets/storage.js"></script>
     <script type="application/ecmascript" src="assets/globals.js"></script>
     <script type="application/ecmascript" src="assets/serverSocket.js"></script>
     <script type="application/ecmascript" src="assets/console.js"></script>
-    <script type="application/ecmascript" src="assets/widgets.js"></script>
     <script type="application/ecmascript" src="assets/idle.js"></script>
     <script type="module" src="assets/gameUI.js"></script>
     <link rel="icon" href="data:," type="image/x-icon" />
@@ -62,10 +59,10 @@
           <span class="l8">L</span>
           <span class="l9">E</span>
           &nbsp;
-          <span class="n0">2</span>
-          <span class="n1">0</span>
-          <span class="n2">2</span>
-          <span class="n3">4</span>
+          <span class="n0">J</span>
+          <span class="n1">S</span>
+          <span class="n2">O</span>
+          <span class="n3">N</span>
         </h2>
 
         <div id="status-bar">
@@ -74,13 +71,7 @@
           </div>
           <div>
             <label for="server-address">Server Address:</label>
-            <input id="server-address" />
-          </div>
-        </div>
-
-        <div id="visitor-count-wrapper">
-          <div id="visitor-count">
-            VISITOR COUNT: <span id="visitor-count-number">0</span>
+            <input id="server-address" value="ws://localhost:38281" />
           </div>
         </div>
 
@@ -88,7 +79,12 @@
           <h3 id="progress-container-header">Location Check Progress</h3>
           <progress id="progress-bar" value="0" max="30000"></progress>
           Checks sent: <span id="checks-sent">0</span> / 200<br />
-          <button id="control-button" disabled="disabled">Begin!</button>
+          <div class="button-container">
+            <button id="control-button" disabled="disabled">Begin!</button>
+            <button id="quick-check-button" disabled="disabled">
+              Quick Check
+            </button>
+          </div>
         </div>
 
         <div id="console">
@@ -203,17 +199,6 @@
         <button id="modal-close" class="button">Close</button>
       </div>
     </div>
-
-    <!-- Footer images -->
-    <img
-      id="netscape"
-      alt="This site works best in Netscape Navigator 3.0"
-      src="static/netscape-ie.JPG"
-    />
-    <img id="dolphin-left" alt="Dolphin" src="static/dolphin-left.gif" />
-    <img id="dolphin-right" alt="Dolphin" src="static/dolphin-right.gif" />
-    <img id="fairy" alt="fairy" src="static/fairyfla.gif" />
-    <img id="baby" alt="baby" src="static/babykick.gif" />
 
     <div id="cookie-message">
       <span

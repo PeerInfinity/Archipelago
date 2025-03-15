@@ -115,7 +115,7 @@ const connectToServer = async (address, password = null) => {
           // Set tags for this client
           const tags = ['ArchipIDLE'];
 
-          slotName = prompt('Enter your slot name:');
+          slotName = prompt('Enter your slot name:', 'Player1');
 
           // Authenticate with the server
           const connectionData = {
@@ -194,18 +194,26 @@ const connectToServer = async (address, password = null) => {
             switch (item.item) {
               // Handle GeoCities Website
               case 9000:
-                goBackInTime();
+                // April Fools functionality removed
+                console.log(
+                  'Received GeoCities item (9000) but April Fools functionality was removed'
+                );
                 break;
 
               // Handle joke API calls
               case 9001:
-                tellDadJoke();
+                // April Fools functionality removed
+                console.log(
+                  'Received Dad Joke item (9001) but April Fools functionality was removed'
+                );
                 break;
 
               // Handle motivational videos
               case 9002:
-                const player = players.find((p) => p.slot === item.player);
-                motivatePlayer(player?.alias || 'an unknown player');
+                // April Fools functionality removed
+                console.log(
+                  'Received Motivational Video item (9002) but April Fools functionality was removed'
+                );
                 break;
             }
           });
