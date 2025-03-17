@@ -1,5 +1,5 @@
 import { GameState } from '../../helpers/index.js';
-import stateManager from '../../stateManagerSingleton.js';
+import stateManager from '../../core/stateManagerSingleton.js';
 
 export class ALTTPState extends GameState {
   constructor(logger = null) {

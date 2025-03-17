@@ -1,5 +1,5 @@
 import { GameHelpers } from '../../helpers/index.js';
-import stateManager from '../../stateManagerSingleton.js';
+import stateManager from '../../core/stateManagerSingleton.js';
 
 export class ALTTPHelpers extends GameHelpers {
   // Following the same order as StateHelpers.py

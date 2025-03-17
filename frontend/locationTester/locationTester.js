@@ -1,6 +1,6 @@
 // locationTester.js
-import { evaluateRule } from './ruleEngine.js';
-import stateManager from './stateManagerSingleton.js';
+import { evaluateRule } from '../app/core/ruleEngine.js';
+import stateManager from '../app/core/stateManagerSingleton.js';
 import { TestLogger } from './testLogger.js';
 import { TestResultsDisplay } from './testResultsDisplay.js';
 

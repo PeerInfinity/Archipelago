@@ -1,7 +1,7 @@
 // pathAnalyzerUI.js
-import { PathAnalyzerLogic } from './pathAnalyzerLogic.js';
-import stateManager from './stateManagerSingleton.js';
-import { evaluateRule } from './ruleEngine.js';
+import { PathAnalyzerLogic } from '../core/pathAnalyzerLogic.js';
+import stateManager from '../core/stateManagerSingleton.js';
+import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
 
 /**

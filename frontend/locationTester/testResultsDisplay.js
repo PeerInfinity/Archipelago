@@ -1,4 +1,4 @@
-import stateManager from './stateManagerSingleton.js';
+import stateManager from '../app/core/stateManagerSingleton.js';
 
 // testResultsDisplay.js
 export class TestResultsDisplay {

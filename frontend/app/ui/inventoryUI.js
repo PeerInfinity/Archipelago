@@ -1,4 +1,4 @@
-import stateManager from './stateManagerSingleton.js';
+import stateManager from '../core/stateManagerSingleton.js';
 
 export class InventoryUI {
   // Add constants for special groups

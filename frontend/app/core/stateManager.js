@@ -1,7 +1,7 @@
 import { evaluateRule } from './ruleEngine.js';
-import { ALTTPInventory } from './games/alttp/inventory.js';
-import { ALTTPState } from './games/alttp/state.js';
-import { ALTTPHelpers } from './games/alttp/helpers.js';
+import { ALTTPInventory } from '../games/alttp/inventory.js';
+import { ALTTPState } from '../games/alttp/state.js';
+import { ALTTPHelpers } from '../games/alttp/helpers.js';
 
 /**
  * Manages game state including inventory and reachable regions/locations.

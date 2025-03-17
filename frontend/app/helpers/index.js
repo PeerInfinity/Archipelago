@@ -1,4 +1,4 @@
-import stateManager from '../stateManagerSingleton.js';
+import stateManager from '../core/stateManagerSingleton.js';
 
 /**
  * Base class for game-specific helpers

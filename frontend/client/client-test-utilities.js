@@ -1,11 +1,11 @@
 // client-test-utilities.js
 // Import the client modules we'll need for testing
-import eventBus from './client/core/eventBus.js';
-import connectionModule from './client/core/connection.js';
-import messageHandlerModule from './client/core/messageHandler.js';
-import locationManagerModule from './client/core/locationManager.js';
-import ConsoleUIModule from './client/ui/consoleUI.js';
-import ProgressUIModule from './client/ui/progressUI.js';
+import eventBus from './core/eventBus.js';
+import connectionModule from './core/connection.js';
+import messageHandlerModule from './core/messageHandler.js';
+import locationManagerModule from './core/locationManager.js';
+import ConsoleUIModule from './ui/consoleUI.js';
+import ProgressUIModule from './ui/progressUI.js';
 
 // Create a test client object with various utility functions
 class TestClient {

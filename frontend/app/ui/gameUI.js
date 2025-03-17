@@ -1,9 +1,9 @@
 // gameUI.js
 
+import stateManager from '../core/stateManagerSingleton.js';
 import { LocationUI } from './locationUI.js';
 import { RegionUI } from './regionUI.js';
 import { InventoryUI } from './inventoryUI.js';
-import stateManager from './stateManagerSingleton.js';
 import { TestCaseUI } from './testCaseUI.js';
 import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
