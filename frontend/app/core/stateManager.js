@@ -53,6 +53,10 @@ export class StateManager {
 
     // Add debug mode flag
     this.debugMode = false; // Set to true to enable detailed logging
+
+    // New maps for item and location IDs
+    this.itemNameToId = {};
+    this.locationNameToId = {};
   }
 
   /**
@@ -96,6 +100,12 @@ export class StateManager {
    * Adds an item and notifies all registered callbacks
    */
   addItemToInventory(itemName) {
+    // Skip adding if we don't have valid item data for this item
+    if (!this.inventory.itemData || !this.inventory.itemData[itemName]) {
+      console.warn(`Attempted to add unknown item: ${itemName}`);
+      return false;
+    }
+
     if (this._batchMode) {
       // In batch mode, collect updates without triggering callbacks
       const currentCount =
@@ -110,6 +120,8 @@ export class StateManager {
 
       this.notifyUI('inventoryChanged');
     }
+
+    return true;
   }
 
   /**
@@ -158,11 +170,38 @@ export class StateManager {
       );
     }
 
+    // Create a map of item names to IDs for fast lookup
+    this.itemNameToId = {};
+    if (itemData) {
+      Object.entries(itemData).forEach(([itemName, data]) => {
+        if (data.id !== undefined && data.id !== null) {
+          this.itemNameToId[itemName] = data.id;
+        }
+      });
+      console.log(`Loaded ${Object.keys(this.itemNameToId).length} item IDs`);
+
+      // Debug: Print first 5 item ID entries
+      const itemEntries = Object.entries(this.itemNameToId).slice(0, 5);
+      console.log('First 5 item ID mappings:', itemEntries);
+    }
+
+    // Create a map of location names to IDs for fast lookup
+    this.locationNameToId = {};
+
     // Update the inventory's progression mapping and item data if inventory exists
     if (this.inventory) {
       this.inventory.progressionMapping = progressionMapping;
       this.inventory.itemData = itemData;
       this.inventory.groupData = groupData;
+
+      // Store item IDs directly on item data objects for easier access
+      if (this.itemNameToId) {
+        Object.entries(this.itemNameToId).forEach(([itemName, id]) => {
+          if (this.inventory.itemData[itemName]) {
+            this.inventory.itemData[itemName].id = id;
+          }
+        });
+      }
     }
 
     // Process locations and events
@@ -189,12 +228,27 @@ export class StateManager {
             region: region.name,
             player: region.player,
           };
+
+          // Location ID is already part of the location object from the backend
+          // Just ensure it's included in the lookup map
+          if (loc.id !== undefined && loc.id !== null) {
+            this.locationNameToId[loc.name] = loc.id;
+          }
+
           this.locations.push(locationData);
           if (locationData.item && locationData.item.type === 'Event') {
             this.eventLocations.set(locationData.name, locationData);
           }
         });
       });
+
+      console.log(
+        `Loaded ${Object.keys(this.locationNameToId).length} location IDs`
+      );
+
+      // Debug: Print first 5 location ID entries
+      const locationEntries = Object.entries(this.locationNameToId).slice(0, 5);
+      console.log('First 5 location ID mappings:', locationEntries);
     }
 
     // Initialize the state object with settings and data
@@ -379,9 +433,25 @@ export class StateManager {
             const canAccessLoc =
               !loc.access_rule || evaluateRule(loc.access_rule);
             if (canAccessLoc && !this.inventory.has(loc.item.name)) {
+              // 1. Add the item to inventory
               this.inventory.addItem(loc.item.name);
+
+              // 2. Mark location as checked LOCALLY only
+              this.checkedLocations.add(loc.name);
+
+              // 3. Set flags for UI refresh
               newEventCollected = true;
+
+              // 4. Log for debugging
+              if (this.debugMode) {
+                console.log(
+                  `Auto-collected event item: ${loc.item.name} from ${loc.name}`
+                );
+              }
+
+              // 5. Notify UI of changes (both inventory and location)
               this.notifyUI('inventoryChanged');
+              this.notifyUI('locationChecked');
             }
           }
         }
@@ -1152,5 +1222,53 @@ export class StateManager {
           `${indent}${rule.type} - ${evaluateRule(rule) ? 'PASS' : 'FAIL'}`
         );
     }
+  }
+
+  /**
+   * Get an item ID from its name
+   * @param {string} itemName - Name of the item
+   * @returns {number|null} - The item ID or null if not found
+   */
+  getItemId(itemName) {
+    return this.itemNameToId[itemName] ?? null;
+  }
+
+  /**
+   * Get an item name from its ID
+   * @param {number} itemId - ID of the item
+   * @returns {string|null} - The item name or null if not found
+   */
+  getItemNameFromId(itemId) {
+    // Look up name by ID
+    for (const [name, id] of Object.entries(this.itemNameToId)) {
+      if (id === itemId) {
+        return name;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Get a location ID from its name
+   * @param {string} locationName - Name of the location
+   * @returns {number|null} - The location ID or null if not found
+   */
+  getLocationId(locationName) {
+    return this.locationNameToId[locationName] ?? null;
+  }
+
+  /**
+   * Get a location name from its ID
+   * @param {number} locationId - ID of the location
+   * @returns {string|null} - The location name or null if not found
+   */
+  getLocationNameFromId(locationId) {
+    // Look up name by ID
+    for (const [name, id] of Object.entries(this.locationNameToId)) {
+      if (id === locationId) {
+        return name;
+      }
+    }
+    return null;
   }
 }

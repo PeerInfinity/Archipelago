@@ -1,6 +1,6 @@
 // pathAnalyzerLogic.js
-import { evaluateRule } from './ruleEngine.js';
-import stateManager from './stateManagerSingleton.js';
+import { evaluateRule } from '../core/ruleEngine.js';
+import stateManager from '../core/stateManagerSingleton.js';
 
 /**
  * Core logic for path analysis, separated from UI concerns

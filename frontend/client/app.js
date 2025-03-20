@@ -1,13 +1,14 @@
-// client/app.js
+// client/app.js - Updated to properly initialize mappings
 import Config from './core/config.js';
 import storage from './core/storage.js';
 import eventBus from './core/eventBus.js';
 import connection from './core/connection.js';
 import messageHandler from './core/messageHandler.js';
-import gameState from './core/gameState.js';
+import { gameState } from './core/gameState.js'; // Updated to use named import
 import locationManager from './core/locationManager.js';
 import ConsoleUI from './ui/consoleUI.js';
 import ProgressUI from './ui/progressUI.js';
+import { loadMappingsFromStorage } from './utils/idMapping.js';
 
 /**
  * Main application controller for the client modules.
@@ -16,20 +17,36 @@ import ProgressUI from './ui/progressUI.js';
 class App {
   constructor() {
     console.log('Initializing client modules...');
+    this.stateManager = null;
   }
 
   /**
    * Initialize all modules in dependency order
    */
-  initialize() {
+  async initialize() {
     try {
-      // Core modules first
+      // Load stateManager first
+      await this._initializeStateManager();
+
+      // Core modules next
       storage.initialize();
       eventBus.initialize();
       connection.initialize();
+
+      // Load data package mappings before messageHandler initialization
+      this._loadDataPackageMappings();
+
+      // Initialize remaining modules
       messageHandler.initialize();
       locationManager.initialize();
-      gameState.initialize();
+
+      // Initialize gameState (now using the instance)
+      if (gameState) {
+        // Call the initialize method through the instance
+        gameState.initialize();
+      } else {
+        console.warn('gameState instance not available');
+      }
 
       // UI modules next
       ConsoleUI.initialize();
@@ -42,6 +59,67 @@ class App {
     } catch (error) {
       console.error('Error initializing client modules:', error);
     }
+  }
+
+  /**
+   * Initialize stateManager
+   * @private
+   */
+  async _initializeStateManager() {
+    try {
+      // Try to pre-initialize with cached data package
+      await this._preInitializeClient();
+
+      // Import stateManager
+      const module = await import('../app/core/stateManagerSingleton.js');
+      this.stateManager = module.default;
+
+      // Give access to other modules
+      window.stateManager = this.stateManager;
+
+      console.log('StateManager loaded successfully');
+      return true;
+    } catch (error) {
+      console.error('Error initializing stateManager:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Load mappings from data package
+   * @private
+   */
+  _loadDataPackageMappings() {
+    try {
+      if (loadMappingsFromStorage()) {
+        console.log('Successfully loaded mappings from cached data package');
+      } else {
+        console.log(
+          'No cached data package available, will request from server when connected'
+        );
+      }
+    } catch (error) {
+      console.warn('Error loading data package mappings:', error);
+    }
+  }
+
+  /**
+   * Pre-initialize the client with data from storage
+   */
+  async _preInitializeClient() {
+    // Try to load data package from storage
+    try {
+      const dataPackageStr = localStorage.getItem('dataPackage');
+      if (dataPackageStr) {
+        const dataPackage = JSON.parse(dataPackageStr);
+        console.log('Pre-initialized client with cached data package');
+        return true;
+      }
+    } catch (e) {
+      console.warn('Error pre-initializing client:', e);
+    }
+
+    return false;
   }
 
   /**
@@ -105,14 +183,16 @@ class App {
         serverStatus.classList.add('red');
       }
 
-      if (data.errors.includes('InvalidPassword')) {
+      if (data.errors && data.errors.includes('InvalidPassword')) {
         ConsoleUI.appendMessage(
           'This server requires a password. Please use /connect [server] [password] to connect.'
         );
-      } else {
+      } else if (data.errors) {
         ConsoleUI.appendMessage(
           `Error while connecting to AP server: ${data.errors.join(', ')}.`
         );
+      } else {
+        ConsoleUI.appendMessage('Connection refused by the server.');
       }
     });
 
@@ -134,7 +214,18 @@ class App {
       ConsoleUI.appendMessage(
         `${data.checkedLocations.length} locations checked, ${data.missingLocations.length} remaining`
       );
+
+      // Enable controls
+      ProgressUI.enableControls(true);
     });
+
+    // Listen for data package events to initialize mappings
+    eventBus.subscribe('game:dataPackageReceived', (dataPackage) => {
+      console.log('Data package received, updating client...');
+    });
+
+    // Set up Death Link tracking if needed
+    this._setupDeathLink();
 
     // Cookie message controller
     const cookieMessage = document.getElementById('cookie-message');
@@ -145,6 +236,35 @@ class App {
         cookieMessage.style.display = 'none';
       });
     }
+  }
+
+  /**
+   * Set up Death Link functionality
+   * @private
+   */
+  _setupDeathLink() {
+    // Death Link is simpler now - just listen for bounced events
+    eventBus.subscribe('game:bounced', (data) => {
+      // Check if this is a DeathLink message
+      if (data.tags && data.tags.includes('DeathLink') && data.data) {
+        const deathData = data.data;
+
+        // Process death link
+        const text = deathData.cause || '';
+        if (text) {
+          console.log(`DeathLink: ${text}`);
+          ConsoleUI.appendMessage(`DeathLink: ${text}`);
+        } else {
+          console.log(`DeathLink received from ${deathData.source}`);
+          ConsoleUI.appendMessage(
+            `DeathLink received from ${deathData.source}`
+          );
+        }
+
+        // Trigger any UI updates or game effects here
+        eventBus.publish('game:deathLink', deathData);
+      }
+    });
   }
 }
 

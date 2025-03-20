@@ -657,6 +657,15 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
         ]
         logger.debug(f"Successfully found {len(player_regions)} regions")
 
+        # Create a location name to ID mapping for this player
+        location_name_to_id = {}
+        if player in multiworld.worlds:
+            world = multiworld.worlds[player]
+            if hasattr(world, 'location_id_to_name'):
+                # Create a reverse mapping from name to ID
+                location_name_to_id = {name: id for id, name in world.location_id_to_name.items()}
+                logger.debug(f"Created location_name_to_id mapping with {len(location_name_to_id)} entries")
+
         # Process each region
         for region in player_regions:
             try:
@@ -781,8 +790,10 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                 if hasattr(region, 'locations'):
                     for location in region.locations:
                         try:
+                            location_name = getattr(location, 'name', None)
                             location_data = {
-                                'name': getattr(location, 'name', None),
+                                'name': location_name,
+                                'id': location_name_to_id.get(location_name, None),  # Add location ID from mapping
                                 'crystal': getattr(location, 'crystal', None),
                                 'access_rule': safe_expand_rule(helper_expander, getattr(location, 'access_rule', None)),
                                 'item_rule': safe_expand_rule(helper_expander, getattr(location, 'item_rule', None)),

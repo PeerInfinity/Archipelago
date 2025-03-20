@@ -1,4 +1,4 @@
-// gameUI.js
+// gameUI.js - Updated to work directly with console client
 
 import stateManager from '../core/stateManagerSingleton.js';
 import { LocationUI } from './locationUI.js';
@@ -7,12 +7,14 @@ import { InventoryUI } from './inventoryUI.js';
 import { TestCaseUI } from './testCaseUI.js';
 import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
+import connection from '../../client/core/connection.js';
+import messageHandler from '../../client/core/messageHandler.js';
 
 export class GameUI {
   constructor() {
     // UI Managers
     this.locationUI = new LocationUI(this);
-    this.regionUI = new RegionUI(this); // The RegionUI component uses PathAnalyzerUI internally for path analysis functionality
+    this.regionUI = new RegionUI(this);
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
     this.presetUI = new PresetUI(this);
@@ -36,11 +38,11 @@ export class GameUI {
     this.debugMode = false;
     this.currentRules = null; // Track current rules data
 
+    // Initialize tracking set for user clicked items
+    window._userClickedItems = new Set();
+
     // Initialize UI
     this.attachEventListeners();
-    if (window.consoleManager) {
-      this.registerConsoleCommands();
-    }
     this.loadDefaultRules();
     this.updateViewDisplay();
 
@@ -85,6 +87,9 @@ export class GameUI {
       debugToggle.addEventListener('click', () => {
         this.debugMode = !this.debugMode;
         debugToggle.textContent = this.debugMode ? 'Hide Debug' : 'Show Debug';
+
+        // Set debug mode on stateManager
+        stateManager.setDebugMode?.(this.debugMode);
 
         // Set debug mode on pathAnalyzer too
         if (this.regionUI && this.regionUI.pathAnalyzer) {
@@ -266,6 +271,8 @@ export class GameUI {
   }
 
   registerConsoleCommands() {
+    if (!window.consoleManager) return;
+
     const commands = {
       item: {
         description: 'Toggle an item in your inventory',
@@ -383,8 +390,3 @@ export class GameUI {
     }
   }
 }
-
-// Initialize and expose to window for event handlers
-window.gameUI = new GameUI();
-
-export default GameUI;

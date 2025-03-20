@@ -1,85 +1,195 @@
-// client/core/locationManager.js
+// client/core/locationManager.js - Updated to handle null ID locations locally
+
 import eventBus from './eventBus.js';
+import connection from './connection.js';
 import messageHandler from './messageHandler.js';
+import { getServerLocationId } from '../utils/idMapping.js';
 
 export class LocationManager {
-  constructor() {
-    // Private variables
-    this.checkedLocations = [];
-    this.missingLocations = [];
-  }
+  static stateManager = null;
 
-  initialize() {
-    // Register for game connected event
-    eventBus.subscribe('game:connected', () => {
-      this._updateLocationsFromMessageHandler();
-    });
+  /**
+   * Get the stateManager instance dynamically
+   * @returns {Promise<Object>} - The stateManager instance or null
+   */
+  static async _getStateManager() {
+    if (this.stateManager) {
+      return this.stateManager;
+    }
 
-    console.log('LocationManager module initialized');
-  }
-
-  // Private helper function
-  _updateLocationsFromMessageHandler() {
-    this.checkedLocations = messageHandler.getCheckedLocations();
-    this.missingLocations = messageHandler.getMissingLocations();
-  }
-
-  // Public API
-  getCheckedLocations() {
-    return [...this.checkedLocations];
-  }
-
-  getMissingLocations() {
-    return [...this.missingLocations];
-  }
-
-  markLocationChecked(locationId) {
-    if (!this.checkedLocations.includes(locationId)) {
-      this.checkedLocations.push(locationId);
-
-      // Remove from missing locations if present
-      const missingIndex = this.missingLocations.indexOf(locationId);
-      if (missingIndex > -1) {
-        this.missingLocations.splice(missingIndex, 1);
-      }
-
-      // Notify about the change
-      eventBus.publish('game:locationChecked', { location: locationId });
+    try {
+      const module = await import('../../app/core/stateManagerSingleton.js');
+      this.stateManager = module.default;
+      return this.stateManager;
+    } catch (error) {
+      console.error('Error loading stateManager:', error);
+      return null;
     }
   }
 
-  checkLocation(locationId) {
-    if (!this.checkedLocations.includes(locationId)) {
-      messageHandler.sendLocationChecks([locationId]);
-      this.markLocationChecked(locationId);
+  static initialize() {
+    console.log('LocationManager module initialized');
+
+    // Subscribe to events for UI updates
+    eventBus.subscribe('game:connected', () => {
+      // Just trigger UI updates
+      eventBus.publish('locations:updated', {});
+    });
+  }
+
+  static async getCheckedLocations() {
+    // Get the checked locations from stateManager
+    const stateManager = await this._getStateManager();
+    if (!stateManager || !stateManager.checkedLocations) {
+      return [];
+    }
+
+    // Convert to array of IDs
+    const checkedIds = [];
+    for (const locName of stateManager.checkedLocations) {
+      // Find the location in locations array
+      const location = stateManager.locations.find(
+        (loc) => loc.name === locName
+      );
+      // Only include locations with valid IDs
+      if (location && location.id !== null && location.id !== undefined) {
+        checkedIds.push(location.id);
+      }
+    }
+
+    return checkedIds;
+  }
+
+  static async getMissingLocations() {
+    // Get the missing locations from stateManager
+    const stateManager = await this._getStateManager();
+    if (!stateManager || !stateManager.missing_locations) {
+      return [];
+    }
+
+    // Missing locations should already be IDs from the server
+    return Array.from(stateManager.missing_locations);
+  }
+
+  static async markLocationChecked(locationId) {
+    const stateManager = await this._getStateManager();
+    if (!stateManager) {
+      console.error('Cannot mark location checked: stateManager not available');
+      return false;
+    }
+
+    // Find location in locations array
+    const location = stateManager.locations.find(
+      (loc) => Number(loc.id) === Number(locationId)
+    );
+    if (location) {
+      stateManager.checkLocation(location.name);
+      stateManager.invalidateCache();
+      stateManager.notifyUI('locationChecked');
       return true;
     }
+
+    console.warn(`Location with ID ${locationId} not found`);
     return false;
   }
 
-  checkQuickLocation() {
-    if (this.missingLocations.length > 0) {
-      const locationId = this.missingLocations[0];
-      return this.checkLocation(locationId);
+  static async checkLocation(location) {
+    const stateManager = await this._getStateManager();
+    if (!stateManager) {
+      console.error('Failed to check location: stateManager not available');
+      return false;
     }
+
+    // Check if location is already marked as checked
+    if (stateManager.isLocationChecked(location.name)) {
+      console.log(`Location ${location.name} already checked, skipping`);
+      return true;
+    }
+
+    // CASE 1: Handle local-only locations (null ID)
+    if (location.id === null || location.id === undefined) {
+      console.log(`Processing local-only location: ${location.name}`);
+
+      // Mark location as checked
+      stateManager.checkLocation(location.name);
+
+      // If it has an item, add it to inventory
+      if (location.item) {
+        console.log(
+          `Local event location contains item: ${location.item.name}`
+        );
+        stateManager.addItemToInventory(location.item.name);
+
+        // Process event in state if applicable
+        if (
+          stateManager.state &&
+          typeof stateManager.state.processEventItem === 'function'
+        ) {
+          stateManager.state.processEventItem(location.item.name);
+        }
+      }
+
+      // Update UI
+      stateManager.invalidateCache();
+      stateManager.notifyUI('locationChecked');
+      stateManager.notifyUI('inventoryChanged');
+
+      return true;
+    }
+
+    // CASE 2: Networked locations - ONLY mark checked, don't add items
+    console.log(`Processing networked location: ${location.name}`);
+
+    // Mark the location as checked locally
+    stateManager.checkLocation(location.name);
+
+    // Send to server if connected - server will send back the item
+    if (connection.isConnected()) {
+      console.log(`Sending location check to server: ${location.id}`);
+      messageHandler.sendLocationChecks([location.id]);
+    } else {
+      console.log('Not connected to server');
+      // In offline mode, we would handle the item locally here
+    }
+
+    // Update UI for the checked location
+    stateManager.invalidateCache();
+    stateManager.notifyUI('locationChecked');
+
+    return true;
+  }
+
+  static async checkQuickLocation() {
+    // Delegate to gameState
+    try {
+      const gameStateModule = await import('./gameState.js');
+      const gameState = gameStateModule.gameState;
+      if (gameState && typeof gameState.checkQuickLocation === 'function') {
+        return gameState.checkQuickLocation();
+      }
+    } catch (error) {
+      console.error('Error calling checkQuickLocation:', error);
+    }
+
     return false;
   }
 
-  getRemainingLocationsCount() {
-    return this.missingLocations.length;
+  static async getRemainingLocationsCount() {
+    const stateManager = await this._getStateManager();
+    return stateManager?.missing_locations?.size || 0;
   }
 
-  getCompletedLocationsCount() {
-    return this.checkedLocations.length;
+  static async getCompletedLocationsCount() {
+    const stateManager = await this._getStateManager();
+    return stateManager?.checkedLocations?.size || 0;
   }
 
-  getTotalLocationsCount() {
-    return this.checkedLocations.length + this.missingLocations.length;
+  static async getTotalLocationsCount() {
+    const checkedCount = await this.getCompletedLocationsCount();
+    const missingCount = await this.getRemainingLocationsCount();
+    return checkedCount + missingCount;
   }
 }
 
-// Create and export a singleton instance
-export const locationManager = new LocationManager();
-
-// Export as default for convenience
-export default locationManager;
+// Export as both class and default
+export default LocationManager;

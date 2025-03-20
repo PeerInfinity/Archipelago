@@ -1,4 +1,6 @@
 import stateManager from '../core/stateManagerSingleton.js';
+import connection from '../../client/core/connection.js';
+import messageHandler from '../../client/core/messageHandler.js';
 
 export class InventoryUI {
   // Add constants for special groups
@@ -253,59 +255,45 @@ export class InventoryUI {
   }
 
   modifyItemCount(itemName, isShiftPressed = false) {
-    if (!this.itemData || !this.itemData[itemName]) return;
-
-    const currentCount = stateManager.getItemCount(itemName);
-    const buttons = document.querySelectorAll(`[data-item="${itemName}"]`);
-    const containers = Array.from(buttons)
-      .map((button) => button.closest('.item-container'))
-      .filter((container) => container !== null);
-
-    if (isShiftPressed) {
-      // Subtract item if shift is pressed and count is positive
-      if (currentCount > 0) {
-        // Use the proper remove method to handle progressive items
-        if (stateManager.inventory) {
-          // Remove the item using our new method
+    if (!connection.isConnected() || isShiftPressed) {
+      // For removing items or when not connected, use local logic
+      if (isShiftPressed) {
+        // Remove the item
+        if (stateManager.inventory && stateManager.inventory.removeItem) {
           stateManager.inventory.removeItem(itemName);
-
-          const newCount = stateManager.getItemCount(itemName);
-
-          // Update UI elements
-          if (newCount === 0) {
-            buttons.forEach((button) => button.classList.remove('active'));
-          }
-
-          containers.forEach((container) =>
-            this.createOrUpdateCountBadge(container, newCount)
-          );
-
+          // Update UI
+          this.syncWithState();
           if (window.consoleManager) {
-            window.consoleManager.print(
-              `${itemName} count: ${newCount}`,
-              'info'
-            );
+            window.consoleManager.print(`Removed item: ${itemName}`, 'info');
           }
+        }
+      } else {
+        // Add item locally
+        stateManager.addItemToInventory(itemName);
+        // Update UI
+        this.syncWithState();
+        if (window.consoleManager) {
+          window.consoleManager.print(`Added item: ${itemName}`, 'info');
         }
       }
     } else {
-      // Original behavior: add item
+      // For adding items when connected to server:
+      // 1. Mark this item as clicked by user to prevent double-processing
+      window._userClickedItems.add(itemName);
+      // 2. Update the inventory locally
       stateManager.addItemToInventory(itemName);
-      buttons.forEach((button) => button.classList.add('active'));
-      containers.forEach((container) =>
-        this.createOrUpdateCountBadge(container, currentCount + 1)
-      );
-
+      // 3. Update UI
+      this.syncWithState();
+      // 4. Send to server via messageHandler
+      messageHandler.sendMessage(`!getitem ${itemName}`);
+      // 5. Remove from tracking after a delay
+      setTimeout(() => {
+        window._userClickedItems.delete(itemName);
+      }, 5000);
       if (window.consoleManager) {
-        window.consoleManager.print(
-          `${itemName} count: ${currentCount + 1}`,
-          'info'
-        );
+        window.consoleManager.print(`Sent item request: ${itemName}`, 'info');
       }
     }
-
-    stateManager.invalidateCache();
-    this.syncWithState(); // This will now update all UI components
   }
 
   clear() {

@@ -1,13 +1,33 @@
-// client/ui/progressUI.js
+// client/ui/progressUI.js - Modified to work directly with stateManager
 import eventBus from '../core/eventBus.js';
 import locationManager from '../core/locationManager.js';
-import gameState from '../core/gameState.js';
+import { gameState } from '../core/gameState.js';
 
 export class ProgressUI {
   static progressBar = null;
   static checksCounter = null;
   static controlButton = null;
   static quickCheckButton = null;
+  static stateManager = null;
+
+  /**
+   * Get the stateManager instance dynamically
+   * @returns {Promise<Object>} - The stateManager instance or null
+   */
+  static async _getStateManager() {
+    if (this.stateManager) {
+      return this.stateManager;
+    }
+
+    try {
+      const module = await import('../../app/core/stateManagerSingleton.js');
+      this.stateManager = module.default;
+      return this.stateManager;
+    } catch (error) {
+      console.error('Error loading stateManager:', error);
+      return null;
+    }
+  }
 
   static initialize() {
     // Get UI elements
@@ -27,15 +47,42 @@ export class ProgressUI {
 
     if (this.controlButton) {
       this.controlButton.setAttribute('disabled', 'disabled');
-      this.controlButton.addEventListener('click', () => {
-        gameState.begin();
+
+      // Remove any existing event listeners to prevent duplicates
+      this.controlButton.replaceWith(this.controlButton.cloneNode(true));
+
+      // Get fresh reference after replacement
+      this.controlButton = document.getElementById('control-button');
+
+      // Add click event listener with proper toggle logic
+      this.controlButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        console.log(
+          'Control button clicked, running state:',
+          gameState.isRunning()
+        );
+
+        if (gameState.isRunning()) {
+          console.log('Stopping timer...');
+          gameState.stop();
+        } else {
+          console.log('Starting timer...');
+          gameState.begin();
+        }
       });
     }
 
     if (this.quickCheckButton) {
       this.quickCheckButton.setAttribute('disabled', 'disabled');
+
+      // Remove any existing event listeners to prevent duplicates
+      this.quickCheckButton.replaceWith(this.quickCheckButton.cloneNode(true));
+
+      // Get fresh reference after replacement
+      this.quickCheckButton = document.getElementById('quick-check-button');
+
       this.quickCheckButton.addEventListener('click', () => {
-        locationManager.checkQuickLocation();
+        gameState.checkQuickLocation();
       });
     }
 
@@ -64,17 +111,26 @@ export class ProgressUI {
       this.updateProgress();
     });
 
+    // Subscribe to inventory change events from stateManager
+    eventBus.subscribe('stateManager:locationChecked', () => {
+      this.updateProgress();
+    });
+
     // Subscribe to game completion
     eventBus.subscribe('game:complete', () => {
       this.setComplete();
     });
   }
 
-  static updateProgress() {
+  static async updateProgress() {
     if (!this.checksCounter) return;
 
-    const checkedCount = locationManager.getCompletedLocationsCount();
-    const totalCount = locationManager.getTotalLocationsCount();
+    const stateManager = await this._getStateManager();
+    if (!stateManager) return;
+
+    // Get counts directly from stateManager
+    const checkedCount = stateManager.checkedLocations?.size || 0;
+    const totalCount = stateManager.locations?.length || 0;
 
     this.checksCounter.innerText = `${checkedCount}`;
 

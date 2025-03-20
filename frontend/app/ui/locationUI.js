@@ -2,6 +2,8 @@
 import stateManager from '../core/stateManagerSingleton.js';
 import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
+import connection from '../../client/core/connection.js';
+import messageHandler from '../../client/core/messageHandler.js';
 
 export class LocationUI {
   constructor(gameUI) {
@@ -88,31 +90,36 @@ export class LocationUI {
   }
 
   handleLocationClick(location) {
-    if (stateManager.isLocationChecked(location.name)) {
-      return;
-    }
-
+    // If location is already checked, do nothing
+    if (stateManager.isLocationChecked(location.name)) return;
     const isAccessible = stateManager.isLocationAccessible(location);
+    if (!isAccessible) return;
 
-    if (!isAccessible) {
-      return;
-    }
-
-    if (location.item) {
-      this.gameUI.inventoryUI.modifyItemCount(location.item.name);
-      stateManager.checkLocation(location.name);
-
-      // Update both inventory and location displays
-      this.gameUI.inventoryUI.syncWithState();
-      this.updateLocationDisplay();
-
-      this.showLocationDetails(location);
-
-      if (window.consoleManager) {
-        window.consoleManager.print(
-          `Checked ${location.name} - Found ${location.item.name}`,
-          'success'
-        );
+    if (connection.isConnected()) {
+      // When connected to server, send through messageHandler
+      messageHandler.checkLocation(location).then((success) => {
+        if (success) {
+          // Show location details after successful check
+          this.showLocationDetails(location);
+        } else {
+          console.warn(`Failed to check location ${location.name} via server`);
+        }
+      });
+    } else {
+      // Local-only logic - just update stateManager
+      if (location.item) {
+        this.gameUI.inventoryUI.modifyItemCount(location.item.name);
+        stateManager.checkLocation(location.name);
+        // Update UI
+        this.updateLocationDisplay();
+        // Show location details
+        this.showLocationDetails(location);
+        if (window.consoleManager) {
+          window.consoleManager.print(
+            `Checked ${location.name} - Found ${location.item.name}`,
+            'success'
+          );
+        }
       }
     }
   }
