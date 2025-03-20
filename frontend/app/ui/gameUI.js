@@ -9,6 +9,7 @@ import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
+import eventBus from '../../client/core/eventBus.js';
 
 export class GameUI {
   constructor() {
@@ -195,12 +196,29 @@ export class GameUI {
 
       this.initializeUI(jsonData);
 
+      // Directly update the progress UI
+      try {
+        import('../../client/ui/progressUI.js').then((module) => {
+          const ProgressUI = module.default;
+          console.log('Directly updating progress UI after JSON load');
+          ProgressUI.updateProgress();
+        });
+      } catch (error) {
+        console.error('Error directly updating progress UI:', error);
+      }
+
       if (window.consoleManager) {
         window.consoleManager.print(
           'Successfully loaded default rules',
           'success'
         );
       }
+
+      // Trigger rules:loaded event to enable offline play
+      eventBus.publish('rules:loaded', {});
+
+      // Directly enable the control buttons
+      this._enableControlButtons();
     } catch (error) {
       console.error('Error loading default rules:', error);
       if (window.consoleManager) {
@@ -209,6 +227,21 @@ export class GameUI {
           'error'
         );
       }
+    }
+  }
+
+  // Helper method to directly enable control buttons
+  _enableControlButtons() {
+    // Enable the Begin! button
+    const controlButton = document.getElementById('control-button');
+    if (controlButton) {
+      controlButton.removeAttribute('disabled');
+    }
+
+    // Enable the Quick Check button
+    const quickCheckButton = document.getElementById('quick-check-button');
+    if (quickCheckButton) {
+      quickCheckButton.removeAttribute('disabled');
     }
   }
 
@@ -237,12 +270,29 @@ export class GameUI {
 
           this.initializeUI(jsonData);
 
+          // Directly update the progress UI
+          try {
+            import('../../client/ui/progressUI.js').then((module) => {
+              const ProgressUI = module.default;
+              console.log('Directly updating progress UI after JSON load');
+              ProgressUI.updateProgress();
+            });
+          } catch (error) {
+            console.error('Error directly updating progress UI:', error);
+          }
+
           if (window.consoleManager) {
             window.consoleManager.print(
               'Successfully loaded game data',
               'success'
             );
           }
+
+          // Trigger rules:loaded event to enable offline play
+          eventBus.publish('rules:loaded', {});
+
+          // Directly enable the control buttons
+          this._enableControlButtons();
         } catch (error) {
           console.error('Error parsing JSON file:', error);
           if (window.consoleManager) {

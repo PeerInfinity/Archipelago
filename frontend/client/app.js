@@ -52,6 +52,23 @@ class App {
       ConsoleUI.initialize();
       ProgressUI.initialize();
 
+      // Directly enable buttons if we have loaded rules
+      setTimeout(() => {
+        // Enable buttons after a short delay to ensure everything is initialized
+        const controlButton = document.getElementById('control-button');
+        const quickCheckButton = document.getElementById('quick-check-button');
+
+        if (controlButton) {
+          controlButton.removeAttribute('disabled');
+        }
+
+        if (quickCheckButton) {
+          quickCheckButton.removeAttribute('disabled');
+        }
+
+        console.log('Control buttons enabled on startup');
+      }, 500);
+
       // Set up event listeners
       this._setupEventListeners();
 

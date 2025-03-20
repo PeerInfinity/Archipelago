@@ -29,7 +29,7 @@ export class ProgressUI {
     }
   }
 
-  static initialize() {
+  static async initialize() {
     // Get UI elements
     this.progressBar = document.getElementById('progress-bar');
     this.checksCounter = document.getElementById('checks-sent');
@@ -43,7 +43,8 @@ export class ProgressUI {
 
     // Reset UI state
     this.progressBar.setAttribute('value', '0');
-    this.checksCounter.innerText = '0';
+    this.checksCounter.innerText =
+      'Checked: 0/0, Reachable: 0, Unreachable: 0, Events: 0/0';
 
     if (this.controlButton) {
       this.controlButton.setAttribute('disabled', 'disabled');
@@ -89,20 +90,45 @@ export class ProgressUI {
     // Subscribe to events
     this._setupEventListeners();
 
+    // Check if stateManager already has rules loaded, and enable buttons if so
+    const stateManager = await this._getStateManager();
+    if (
+      stateManager &&
+      stateManager.locations &&
+      stateManager.locations.length > 0
+    ) {
+      console.log('Rules are already loaded, enabling controls');
+      this.enableControls(true);
+    }
+
     console.log('ProgressUI module initialized');
   }
 
   static _setupEventListeners() {
     // Subscribe to connection events
     eventBus.subscribe('game:connected', () => {
-      if (this.controlButton) {
-        this.controlButton.removeAttribute('disabled');
-      }
+      // Enable controls when connected
+      this.enableControls(true);
+      // Update progress when connected to server
+      this.updateProgress();
+    });
 
-      if (this.quickCheckButton) {
-        this.quickCheckButton.removeAttribute('disabled');
-      }
+    // Enable controls when a rules file is loaded,
+    // even without a server connection
+    eventBus.subscribe('rules:loaded', () => {
+      this.enableControls(true);
+      this.updateProgress();
+    });
 
+    // Update progress when JSON data is loaded
+    eventBus.subscribe('stateManager:jsonDataLoaded', () => {
+      console.log('JSON data loaded, updating progress');
+      this.updateProgress();
+    });
+
+    // Listen for PrintJSON processing completion
+    eventBus.subscribe('messageHandler:printJSONProcessed', () => {
+      console.log('PrintJSON processed, updating progress');
       this.updateProgress();
     });
 
@@ -113,6 +139,16 @@ export class ProgressUI {
 
     // Subscribe to inventory change events from stateManager
     eventBus.subscribe('stateManager:locationChecked', () => {
+      this.updateProgress();
+    });
+
+    // Update when inventory changes (might make new locations accessible)
+    eventBus.subscribe('stateManager:inventoryChanged', () => {
+      this.updateProgress();
+    });
+
+    // Update when regions are recomputed (affects accessibility)
+    eventBus.subscribe('stateManager:reachableRegionsComputed', () => {
       this.updateProgress();
     });
 
@@ -128,16 +164,52 @@ export class ProgressUI {
     const stateManager = await this._getStateManager();
     if (!stateManager) return;
 
-    // Get counts directly from stateManager
-    const checkedCount = stateManager.checkedLocations?.size || 0;
-    const totalCount = stateManager.locations?.length || 0;
+    // Initialize counters
+    let checkedCount = 0;
+    let reachableCount = 0;
+    let unreachableCount = 0;
+    let totalCount = 0;
 
-    this.checksCounter.innerText = `${checkedCount}`;
+    // Event locations (locations with no ID)
+    let checkedEventCount = 0;
+    let totalEventCount = 0;
 
-    // If we're displaying a total count, add that
-    if (totalCount > 0) {
-      this.checksCounter.innerText += ` / ${totalCount}`;
+    if (stateManager.locations) {
+      // Process each location
+      stateManager.locations.forEach((loc) => {
+        // Determine if this is an event location (no ID)
+        const isEventLocation = loc.id === null || loc.id === undefined;
+
+        // Process event locations separately
+        if (isEventLocation) {
+          totalEventCount++;
+          if (stateManager.isLocationChecked(loc.name)) {
+            checkedEventCount++;
+          }
+        } else {
+          // Regular locations
+          totalCount++;
+
+          // Track checked locations
+          if (stateManager.isLocationChecked(loc.name)) {
+            checkedCount++;
+          }
+
+          // Track reachable/unreachable locations
+          if (stateManager.isLocationAccessible(loc)) {
+            reachableCount++;
+          } else {
+            unreachableCount++;
+          }
+        }
+      });
     }
+
+    // Update the counter with all the statistics
+    this.checksCounter.innerText = `Checked: ${checkedCount}/${totalCount}, Reachable: ${reachableCount}, Unreachable: ${unreachableCount}, Events: ${checkedEventCount}/${totalEventCount}`;
+
+    // Add tooltip with additional information
+    this.checksCounter.title = `Checked ${checkedCount} of ${totalCount} locations (${reachableCount} reachable, ${unreachableCount} unreachable)\nEvents: ${checkedEventCount} of ${totalEventCount} event locations collected`;
   }
 
   static setProgress(value, max) {

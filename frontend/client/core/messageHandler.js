@@ -354,6 +354,9 @@ export class MessageHandler {
     // Get stateManager
     const stateManager = await this._getStateManager();
 
+    // Flag to track if we need to update the progress UI
+    let shouldUpdateProgress = false;
+
     // Handle item/location data in PrintJSON
     if (stateManager && data.type === 'ItemSend' && data.item) {
       // For ItemSend type messages, we'll ONLY mark the location as checked,
@@ -370,6 +373,7 @@ export class MessageHandler {
           stateManager.checkLocation(locationName);
           stateManager.invalidateCache();
           stateManager.notifyUI('locationChecked');
+          shouldUpdateProgress = true;
         }
       }
 
@@ -379,6 +383,13 @@ export class MessageHandler {
 
     // Forward to UI
     eventBus.publish('console:formattedMessage', data.data);
+
+    // Emit a special event for PrintJSON processing that ProgressUI can listen for
+    if (shouldUpdateProgress) {
+      eventBus.publish('messageHandler:printJSONProcessed', {
+        type: data.type,
+      });
+    }
   }
 
   _handleDataPackage(data) {
@@ -713,11 +724,9 @@ export class MessageHandler {
     }
 
     // Case 3: Regular location with valid ID
-    // For networked locations:
-    // 1. ONLY mark the location as checked locally
-    // 2. Don't add the item locally - the server will send it back via ReceivedItems
+    console.log(`Processing networked location: ${location.name}`);
 
-    // Mark locally
+    // Mark the location as checked locally
     stateManager.checkLocation(location.name);
 
     // Add this location ID to a temporary tracking set to avoid duplicate processing
@@ -737,7 +746,13 @@ export class MessageHandler {
     if (connection.isConnected()) {
       this.sendLocationChecks([location.id]);
     } else {
-      console.log('Not connected to server, checking location locally only');
+      console.log('OFFLINE MODE: Processing networked location locally');
+      // Add the item locally when offline
+      if (location.item) {
+        console.log(`Adding item locally: ${location.item.name}`);
+        stateManager.addItemToInventory(location.item.name);
+        stateManager.notifyUI('inventoryChanged');
+      }
     }
 
     // Update state and UI

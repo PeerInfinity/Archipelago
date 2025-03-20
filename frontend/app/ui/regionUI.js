@@ -3,6 +3,7 @@ import stateManager from '../core/stateManagerSingleton.js';
 import { evaluateRule } from '../core/ruleEngine.js';
 import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 import commonUI from './commonUI.js';
+import messageHandler from '../../client/core/messageHandler.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -501,10 +502,27 @@ export class RegionUI {
           checkBtn.textContent = 'Check';
           checkBtn.style.display = isChecked ? 'none' : '';
           checkBtn.disabled = !canAccess;
-          checkBtn.addEventListener('click', () => {
-            if (canAccess && !isChecked && loc.item) {
-              this.gameUI.inventoryUI.modifyItemCount(loc.item.name);
-              stateManager.checkLocation(loc.name);
+          checkBtn.addEventListener('click', async () => {
+            if (canAccess && !isChecked) {
+              try {
+                // Use the already imported messageHandler
+                if (
+                  messageHandler &&
+                  typeof messageHandler.checkLocation === 'function'
+                ) {
+                  // This will handle server communication and prevent duplicates
+                  await messageHandler.checkLocation(loc);
+                } else {
+                  // Fallback to original behavior if messageHandler not available
+                  this._handleLocalCheck(loc);
+                }
+              } catch (error) {
+                console.error('Error checking location:', error);
+                // Fallback to original behavior on error
+                this._handleLocalCheck(loc);
+              }
+
+              // Always update the UI after checking
               this.renderAllRegions();
             }
           });
@@ -654,6 +672,20 @@ export class RegionUI {
         node.insertBefore(symbolSpan, node.firstChild); // Insert at beginning
       }
     });
+  }
+
+  /**
+   * Helper method to handle location checks locally when messageHandler is unavailable
+   * @param {Object} location - The location object to check
+   * @private
+   */
+  _handleLocalCheck(location) {
+    // Only process locally if there's an item
+    if (location.item) {
+      console.log(`Processing location check locally: ${location.name}`);
+      this.gameUI.inventoryUI.modifyItemCount(location.item.name);
+      stateManager.checkLocation(location.name);
+    }
   }
 }
 

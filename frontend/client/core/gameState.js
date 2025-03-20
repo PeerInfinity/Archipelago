@@ -77,7 +77,8 @@ export class GameState {
     }
 
     if (this.itemCounter) {
-      this.itemCounter.innerText = '0';
+      this.itemCounter.innerText =
+        'Checked: 0/0, Reachable: 0, Unreachable: 0, Events: 0/0';
     }
 
     // Re-expose this instance to window
@@ -88,6 +89,20 @@ export class GameState {
     console.log('GameState module initialized');
   }
 
+  // Check if there are any unchecked accessible locations left
+  async _areAnyLocationsLeftToCheck() {
+    const stateManager = await this._getStateManager();
+    if (!stateManager) return false;
+
+    const locations = stateManager.getProcessedLocations();
+    return locations.some(
+      (loc) =>
+        stateManager.isLocationAccessible(loc) &&
+        !stateManager.isLocationChecked(loc.name)
+    );
+  }
+
+  // Update the timer interval check to also check if locations are left
   begin() {
     // Get references to UI elements if not already cached
     this.progressBar =
@@ -107,17 +122,7 @@ export class GameState {
 
     console.log('Starting timer...');
 
-    // Check if connected to server
-    if (!connection.isConnected()) {
-      alert('Not connected to Archipelago server. Please connect first.');
-
-      // Ensure the button is enabled
-      if (controlButton) {
-        controlButton.removeAttribute('disabled');
-      }
-      return;
-    }
-
+    // Remove connection check to allow offline operation
     // Get timing settings from instance variables
     const minDelay = this.minCheckDelay;
     const maxDelay = this.maxCheckDelay;
@@ -163,7 +168,7 @@ export class GameState {
 
     // Start interval for checking progress
     try {
-      this.gameInterval = setInterval(() => {
+      this.gameInterval = setInterval(async () => {
         const currentTime = new Date().getTime();
 
         // Update progress bar
@@ -176,6 +181,21 @@ export class GameState {
 
         // Check if timer has expired
         if (currentTime >= this.endTime) {
+          // Check if there are any locations left to check before proceeding
+          const locationsLeft = await this._areAnyLocationsLeftToCheck();
+
+          if (!locationsLeft) {
+            console.log('No locations left to check, stopping timer...');
+            this.stop();
+
+            // Update button text to indicate completion
+            if (controlButton) {
+              controlButton.innerText = 'All Checked!';
+            }
+
+            return;
+          }
+
           // Check a location through stateManager
           this._checkNextAvailableLocation();
 
@@ -232,6 +252,33 @@ export class GameState {
 
     if (!locationToCheck) {
       console.log('No available locations to check');
+
+      // Check if we're running the timer
+      if (this.isRunning()) {
+        console.log('All locations checked, stopping timer...');
+
+        // Stop the timer
+        this.stop();
+
+        // Notify the user that all locations have been checked
+        const controlButton = document.getElementById('control-button');
+        if (controlButton) {
+          controlButton.innerText = 'All Checked!';
+        }
+
+        // Optionally, update the item counter for visual confirmation
+        this._updateItemCount();
+
+        // Show a notification (if available in the UI)
+        try {
+          if (window.eventBus) {
+            window.eventBus.publish('game:allLocationsChecked', {});
+          }
+        } catch (e) {
+          console.warn('Could not publish event:', e);
+        }
+      }
+
       return;
     }
 
@@ -269,12 +316,38 @@ export class GameState {
       // Send to server if connected
       if (connection.isConnected()) {
         console.log(`Sending location check to server: ${locationToCheck.id}`);
+
+        // Track pending location for duplicate prevention
+        if (!window._pendingLocationChecks) {
+          window._pendingLocationChecks = new Set();
+        }
+        window._pendingLocationChecks.add(locationToCheck.id);
+
+        // Set a timeout to remove from pending set (in case server never responds)
+        setTimeout(() => {
+          if (window._pendingLocationChecks) {
+            window._pendingLocationChecks.delete(locationToCheck.id);
+          }
+        }, 10000); // 10 second timeout
+
         connection.send([
           {
             cmd: 'LocationChecks',
             locations: [locationToCheck.id],
           },
         ]);
+      } else {
+        // OFFLINE MODE: Process locally even for networked locations
+        console.log(`OFFLINE MODE: Processing networked location locally`);
+
+        // Add item if present
+        if (locationToCheck.item) {
+          console.log(`Adding item: ${locationToCheck.item.name}`);
+          stateManager.addItemToInventory(locationToCheck.item.name);
+        }
+
+        // Update inventory UI
+        stateManager.notifyUI('inventoryChanged');
       }
 
       // Update UI
@@ -288,19 +361,14 @@ export class GameState {
 
   // Update the item counter from stateManager data
   async _updateItemCount() {
-    if (!this.itemCounter) return;
-
-    // Get stateManager
-    const stateManager = await this._getStateManager();
-    if (!stateManager) return;
-
-    const checkedCount = stateManager.checkedLocations.size;
-    const totalCount = stateManager.locations.length;
-
-    // Update counter
-    this.itemCounter.innerText = `${checkedCount}${
-      totalCount ? ` / ${totalCount}` : ''
-    }`;
+    // Instead of duplicating logic, use ProgressUI's method
+    try {
+      const progressUIModule = await import('../ui/progressUI.js');
+      const ProgressUI = progressUIModule.default;
+      ProgressUI.updateProgress();
+    } catch (error) {
+      console.error('Error updating progress:', error);
+    }
   }
 
   setCheckDelay(minSeconds, maxSeconds = null) {

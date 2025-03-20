@@ -75,6 +75,15 @@ export class StateManager {
     Object.values(this._uiCallbacks).forEach((callback) => {
       if (typeof callback === 'function') callback(eventType);
     });
+
+    // Also emit to eventBus for ProgressUI
+    try {
+      if (window.eventBus) {
+        window.eventBus.publish(`stateManager:${eventType}`, {});
+      }
+    } catch (e) {
+      console.warn('Could not publish to eventBus:', e);
+    }
   }
 
   clearInventory() {
@@ -283,6 +292,19 @@ export class StateManager {
       typeof this.helpers.enhanceLocationsWithShopData === 'function'
     ) {
       this.helpers.enhanceLocationsWithShopData();
+    }
+
+    // Emit a specific event for JSON data load completion
+    try {
+      // Use setTimeout to ensure this event fires after returning from the method
+      setTimeout(() => {
+        if (window.eventBus) {
+          console.log('Publishing stateManager:jsonDataLoaded event');
+          window.eventBus.publish('stateManager:jsonDataLoaded', {});
+        }
+      }, 0);
+    } catch (e) {
+      console.warn('Could not publish jsonDataLoaded event:', e);
     }
 
     return true;
@@ -822,6 +844,16 @@ export class StateManager {
    */
   checkLocation(locationName) {
     this.checkedLocations.add(locationName);
+    this.notifyUI('locationChecked');
+
+    // Also emit to eventBus for ProgressUI
+    try {
+      if (window.eventBus) {
+        window.eventBus.publish(`stateManager:locationChecked`, {});
+      }
+    } catch (e) {
+      console.warn('Could not publish to eventBus:', e);
+    }
   }
 
   /**
