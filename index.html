@@ -4,12 +4,9 @@
     <title>ArchipIDLE</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="styles/index.css" />
-    <script type="application/ecmascript" src="assets/storage.js"></script>
-    <script type="application/ecmascript" src="assets/globals.js"></script>
-    <script type="application/ecmascript" src="assets/serverSocket.js"></script>
-    <script type="application/ecmascript" src="assets/console.js"></script>
-    <script type="application/ecmascript" src="assets/idle.js"></script>
-    <script type="module" src="assets/gameUI.js"></script>
+
+    <script type="module" src="init.js"></script>
+
     <link rel="icon" href="data:," type="image/x-icon" />
   </head>
   <body>
@@ -78,7 +75,7 @@
         <div id="progress-container">
           <h3 id="progress-container-header">Location Check Progress</h3>
           <progress id="progress-bar" value="0" max="30000"></progress>
-          Checks sent: <span id="checks-sent">0</span> / 200<br />
+          <span id="checks-sent">Checked: 0</span><br />
           <div class="button-container">
             <button id="control-button" disabled="disabled">Begin!</button>
             <button id="quick-check-button" disabled="disabled">
