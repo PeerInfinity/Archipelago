@@ -5,6 +5,7 @@ import { LocationUI } from './locationUI.js';
 import { RegionUI } from './regionUI.js';
 import { InventoryUI } from './inventoryUI.js';
 import { TestCaseUI } from './testCaseUI.js';
+import { LoopUI } from './loopUI.js';
 import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
 import connection from '../../client/core/connection.js';
@@ -19,6 +20,7 @@ export class GameUI {
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
     this.presetUI = new PresetUI(this);
+    this.loopUI = new LoopUI(this);
     this.currentFileView = 'test-cases'; // Track which file view is active
 
     // Initialize commonUI colorblind mode
@@ -31,6 +33,9 @@ export class GameUI {
       } else if (eventType === 'reachableRegionsComputed') {
         this.locationUI?.syncWithState();
         this.regionUI?.update();
+        if (this.currentViewMode === 'loop') {
+          this.loopUI?.renderLoopPanel();
+        }
       }
     });
 
@@ -70,6 +75,7 @@ export class GameUI {
     // Have UI components get data from stateManager instead of passing jsonData
     this.locationUI.initialize();
     this.regionUI.initialize();
+    this.loopUI.initialize();
   }
 
   attachEventListeners() {
@@ -132,9 +138,10 @@ export class GameUI {
   updateViewDisplay() {
     const locationsContainer = document.getElementById('locations-grid');
     const regionsContainer = document.getElementById('regions-panel');
+    const loopPanel = document.getElementById('loop-panel');
     const filesPanel = document.getElementById('files-panel');
 
-    if (!locationsContainer || !regionsContainer || !filesPanel) {
+    if (!locationsContainer || !regionsContainer || !loopPanel || !filesPanel) {
       console.warn('Missing container elements for toggling views.');
       return;
     }
@@ -142,11 +149,13 @@ export class GameUI {
     // Toggle view containers
     locationsContainer.style.display = 'none';
     regionsContainer.style.display = 'none';
+    loopPanel.style.display = 'none';
     filesPanel.style.display = 'none';
 
     // Toggle control containers
     document.querySelector('.location-controls').style.display = 'none';
     document.querySelector('.region-controls').style.display = 'none';
+    document.querySelector('.loop-controls').style.display = 'none';
     document.querySelector('.file-controls').style.display = 'none';
 
     switch (this.currentViewMode) {
@@ -159,6 +168,11 @@ export class GameUI {
         regionsContainer.style.display = 'block';
         document.querySelector('.region-controls').style.display = 'flex';
         this.regionUI.update();
+        break;
+      case 'loop':
+        loopPanel.style.display = 'block';
+        document.querySelector('.loop-controls').style.display = 'flex';
+        this.loopUI.renderLoopPanel();
         break;
       case 'files':
         filesPanel.style.display = 'block';

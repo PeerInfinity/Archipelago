@@ -1,0 +1,1823 @@
+// loopUI.js - UI for the Loop mode
+import stateManager from '../core/stateManagerSingleton.js';
+import loopState from '../core/loop/loopState.js';
+import eventBus from '../../client/core/eventBus.js';
+import commonUI from './commonUI.js';
+import { levelFromXP, xpForNextLevel } from '../core/loop/xpFormulas.js';
+
+export class LoopUI {
+  constructor(gameUI) {
+    this.gameUI = gameUI;
+    
+    // UI state
+    this.expandedRegions = new Set();
+    this.regionsInQueue = new Set(); // Track which regions have actions in the queue
+    this.colorblindMode = false;
+    this.isLoopModeActive = false;
+    
+    // Animation state
+    this._animationFrameId = null;
+    this._lastUpdateTime = 0;
+    
+    // Make this instance globally accessible for direct event handlers
+    window.loopUIInstance = this;
+    
+    // Attach event listeners for loop state changes
+    this._setupEventListeners();
+    
+    // Set up animation frame for continuous UI updates
+    this._startAnimationLoop();
+  }
+  
+  /**
+   * Start a continuous animation loop for UI updates
+   */
+  _startAnimationLoop() {
+    const updateUI = (timestamp) => {
+      // Limit to around 10 updates per second to avoid performance issues
+      if (timestamp - this._lastUpdateTime > 100) {
+        this._lastUpdateTime = timestamp;
+        
+        // Update UI for current action if one exists
+        if (loopState.isProcessing && loopState.currentAction) {
+          this._updateActionProgress(loopState.currentAction);
+          this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
+          this._updateCurrentActionDisplay(loopState.currentAction);
+        }
+      }
+      
+      // Continue the animation loop
+      this._animationFrameId = requestAnimationFrame(updateUI);
+    };
+    
+    // Start the animation loop
+    this._animationFrameId = requestAnimationFrame(updateUI);
+  }
+  
+  /**
+   * Initialize the loop UI
+   */
+  initialize() {
+    // Clear UI and prep container
+    this.clear();
+    this.createUIStructure();
+    
+    // Initialize loop state
+    loopState.initialize();
+    
+    // Set initial expanded state for starting region
+    this.expandedRegions.add('Menu');
+    
+    // Store this instance in the window for access from event handlers
+    window.loopUIInstance = this;
+    
+    // Render initial state
+    this.renderLoopPanel();
+    
+    // Re-attach event handlers to any expansion buttons after a short delay
+    // This ensures the DOM is fully built before we try to find and modify buttons
+    setTimeout(() => {
+      console.log('Re-attaching event handlers after initialization');
+      this._attachControlEventListeners();
+    }, 200);
+    
+    return true;
+  }
+  
+  /**
+   * Create the basic structure for the loop UI panel
+   */
+  createUIStructure() {
+    const container = document.getElementById('loop-panel');
+    if (!container) {
+      console.error('Loop panel container not found');
+      return;
+    }
+    
+    // Clear container first
+    container.innerHTML = '';
+    
+    // Set container style to ensure proper layout
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.height = '100%';
+    container.style.overflow = 'hidden';
+    
+    // Create top status area with the fixed controls and mana bar
+    const fixedArea = document.createElement('div');
+    fixedArea.id = 'loop-fixed-area';
+    fixedArea.className = 'loop-fixed-area';
+    
+    fixedArea.innerHTML = `
+      <div class="loop-controls">
+        <button id="toggle-loop-mode" class="button">Enter Loop Mode</button>
+        <button id="toggle-pause" class="button" disabled>Pause</button>
+        <button id="toggle-restart" class="button" disabled>Restart</button>
+        <button id="toggle-auto-restart" class="button">Pause when queue complete</button>
+        <div class="speed-controls">
+          <label for="game-speed">Speed:</label>
+          <input type="range" id="game-speed" min="0.5" max="20" step="0.5" value="1">
+          <span id="speed-value">1.0x</span>
+        </div>
+      </div>
+      <div class="loop-resources">
+        <div class="mana-container">
+          <div class="resource-label">Mana:</div>
+          <div class="mana-bar-container">
+            <div id="mana-bar" class="mana-bar"></div>
+            <span id="mana-value">100 of 100 Mana Remaining</span>
+          </div>
+        </div>
+        <div class="current-action-container" id="current-action-container">
+          <div class="no-action-message">No action in progress</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(fixedArea);
+    
+    // Create scrollable region area
+    const regionsArea = document.createElement('div');
+    regionsArea.id = 'loop-regions-area';
+    regionsArea.className = 'loop-regions-area';
+    // Ensure scrolling works
+    regionsArea.style.overflowY = 'auto';
+    regionsArea.style.flex = '1';
+    regionsArea.style.height = '100%';
+    container.appendChild(regionsArea);
+    
+    // Add expand/collapse all button and other controls at the bottom
+    const controlsArea = document.createElement('div');
+    controlsArea.className = 'loop-controls-area';
+    controlsArea.innerHTML = `
+      <button id="loop-expand-collapse-all" class="button">Expand All</button>
+      <button id="loop-clear-queue" class="button">Clear Queue</button>
+      <button id="loop-save-state" class="button">Save Game</button>
+      <button id="loop-export-state" class="button">Export</button>
+      <button id="loop-import-state" class="button">Import</button>
+    `;
+    container.appendChild(controlsArea);
+    
+    console.log('UI structure created: loop-regions-area exists:', !!document.getElementById('loop-regions-area'));
+    
+    // Add hidden file input for import
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.id = 'loop-state-import';
+    fileInput.className = 'hidden';
+    fileInput.accept = '.json';
+    container.appendChild(fileInput);
+    
+    // Attach event listeners
+    this._attachControlEventListeners();
+    
+    // Add colorblind mode toggle listener
+    const colorblindToggle = document.getElementById('loop-colorblind');
+    if (colorblindToggle) {
+      colorblindToggle.addEventListener('change', (e) => {
+        this.setColorblindMode(e.target.checked);
+      });
+    }
+  }
+  
+  /**
+   * Set up event listeners for loop state changes
+   */
+  _setupEventListeners() {
+    // Mana changes
+    eventBus.subscribe('loopState:manaChanged', (data) => {
+      this._updateManaDisplay(data.current, data.max);
+    });
+    
+    // XP changes
+    eventBus.subscribe('loopState:xpChanged', (data) => {
+      this._updateRegionXPDisplay(data.regionName);
+    });
+    
+    // Queue updates
+    eventBus.subscribe('loopState:queueUpdated', (data) => {
+      console.log('Received loopState:queueUpdated event, queue length:', data.queue.length);
+      // Update regions in queue
+      this._updateRegionsInQueue(data.queue);
+      // Render the entire panel to ensure regions are shown/hidden properly
+      this.renderLoopPanel();
+    });
+    
+    // Auto-restart changes
+    eventBus.subscribe('loopState:autoRestartChanged', (data) => {
+      const autoRestartBtn = document.getElementById('toggle-auto-restart');
+      if (autoRestartBtn) {
+        autoRestartBtn.textContent = data.autoRestart 
+          ? 'Restart when queue complete' 
+          : 'Pause when queue complete';
+      }
+    });
+    
+    // Progress updates
+    eventBus.subscribe('loopState:progressUpdated', (data) => {
+      this._updateActionProgress(data.action);
+      this._updateManaDisplay(data.mana.current, data.mana.max);
+      this._updateCurrentActionDisplay(data.action);
+      
+      // Force a reflow to ensure animations are visible
+      window.requestAnimationFrame(() => {
+        const actionEl = document.getElementById(`action-${data.action.id}`);
+        if (actionEl) {
+          // Force a style recalculation
+          void actionEl.offsetWidth;
+        }
+      });
+    });
+    
+    // Action completion
+    eventBus.subscribe('loopState:actionCompleted', () => {
+      this.renderLoopPanel();
+    });
+    
+    // New action started
+    eventBus.subscribe('loopState:newActionStarted', (data) => {
+      this._updateCurrentActionDisplay(data.action);
+    });
+    
+    // Queue completed
+    eventBus.subscribe('loopState:queueCompleted', () => {
+      const actionContainer = document.getElementById('current-action-container');
+      if (actionContainer) {
+        actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
+      }
+    });
+    
+    // New discoveries
+    eventBus.subscribe('loopState:locationDiscovered', (data) => {
+      this._updateDiscoveredItems(data.regionName);
+    });
+    
+    eventBus.subscribe('loopState:exitDiscovered', (data) => {
+      this._updateDiscoveredItems(data.regionName);
+    });
+    
+    eventBus.subscribe('loopState:regionDiscovered', (data) => {
+      this.renderLoopPanel();
+    });
+    
+    // Loop reset
+    eventBus.subscribe('loopState:loopReset', (data) => {
+      this._handleLoopReset();
+      this._updateManaDisplay(data.mana.current, data.mana.max);
+    });
+    
+    // State loaded
+    eventBus.subscribe('loopState:stateLoaded', () => {
+      this.renderLoopPanel();
+    });
+    
+    // Listen for explore action repeat events
+    eventBus.subscribe('loopState:exploreActionRepeated', (data) => {
+      console.log('Explore action repeated for region:', data.regionName);
+      // Make sure the region is in the queue
+      this.regionsInQueue.add(data.regionName);
+      // Update the UI
+      this.renderLoopPanel();
+    });
+  }
+  
+  /**
+   * Update the set of regions that have actions in the queue
+   * @param {Array} queue - The current action queue
+   */
+  _updateRegionsInQueue(queue) {
+    // Clear current set
+    this.regionsInQueue.clear();
+    
+    // Add all unique regions that have actions in the queue
+    for (const action of queue) {
+      if (action.type === 'moveToRegion') {
+        // For move actions, add the destination region
+        this.regionsInQueue.add(action.destinationRegion);
+      }
+      // Always add the region where the action is performed
+      if (action.regionName) {
+        this.regionsInQueue.add(action.regionName);
+      }
+    }
+    
+    console.log('Updated regions in queue:', [...this.regionsInQueue]);
+  }
+  
+  /**
+   * Handle a loop reset
+   */
+  _handleLoopReset() {
+    // Flash the mana bar to indicate reset
+    const manaBar = document.getElementById('mana-bar');
+    if (manaBar) {
+      manaBar.classList.add('reset-flash');
+      setTimeout(() => {
+        manaBar.classList.remove('reset-flash');
+      }, 1000);
+    }
+    
+    // Add a message to the console
+    if (window.consoleManager) {
+      window.consoleManager.print('Loop reset: out of mana!', 'warning');
+    } else {
+      console.log('Loop reset: out of mana!');
+    }
+    
+    // Reset progress on all action displays
+    document.querySelectorAll('.action-progress-bar').forEach(bar => {
+      bar.style.width = '0%';
+    });
+    
+    // Update all action status indicators
+    document.querySelectorAll('.action-status').forEach(status => {
+      status.textContent = 'Pending';
+      status.className = 'action-status pending';
+    });
+  }
+  
+  /**
+   * Attach event listeners to control elements
+   */
+  _attachControlEventListeners() {
+    // SIMPLER APPROACH: Use direct event listener attachment without button fixing
+    
+    // Store a reference to this for use in event handlers
+    const self = this;
+    
+    // Toggle loop mode button - direct handler
+    const toggleLoopModeBtn = document.getElementById('toggle-loop-mode');
+    if (toggleLoopModeBtn) {
+      console.log('Found toggle loop mode button');
+      
+      // Clear any existing handlers by cloning and replacing
+      const newToggleBtn = toggleLoopModeBtn.cloneNode(true);
+      toggleLoopModeBtn.parentNode.replaceChild(newToggleBtn, toggleLoopModeBtn);
+      
+      // Add a simple click handler
+      newToggleBtn.addEventListener('click', function() {
+        console.log('Toggle loop mode button clicked');
+        self.toggleLoopMode();
+      });
+      
+      console.log('Toggle loop mode button handler attached');
+    } else {
+      console.error('Toggle loop mode button not found');
+    }
+    
+    // Pause button - direct handler
+    const togglePauseBtn = document.getElementById('toggle-pause');
+    if (togglePauseBtn) {
+      console.log('Found pause button');
+      
+      // Clear any existing handlers by cloning and replacing
+      const newPauseBtn = togglePauseBtn.cloneNode(true);
+      togglePauseBtn.parentNode.replaceChild(newPauseBtn, togglePauseBtn);
+      
+      // Add a simple click handler
+      newPauseBtn.addEventListener('click', function() {
+        console.log('Pause button clicked');
+        const isPaused = loopState.isPaused;
+        loopState.setPaused(!isPaused);
+        this.textContent = isPaused ? 'Pause' : 'Resume';
+      });
+      
+      console.log('Pause button handler attached');
+    } else {
+      console.error('Pause button not found');
+    }
+    
+    // Restart button - direct handler
+    const toggleRestartBtn = document.getElementById('toggle-restart');
+    if (toggleRestartBtn) {
+      console.log('Found restart button');
+      
+      // Clear any existing handlers by cloning and replacing
+      const newRestartBtn = toggleRestartBtn.cloneNode(true);
+      toggleRestartBtn.parentNode.replaceChild(newRestartBtn, toggleRestartBtn);
+      
+      // Add a simple click handler for instant restart
+      newRestartBtn.addEventListener('click', function() {
+        console.log('Restart button clicked');
+        
+        try {
+          // Reset the loop state
+          loopState._resetLoop(); // Reset the loop immediately
+          
+          // Reset progress on all actions in the queue
+          document.querySelectorAll('.action-progress-bar').forEach(bar => {
+            bar.style.width = '0%';
+          });
+          
+          // Reset all action status indicators
+          document.querySelectorAll('.action-status').forEach(status => {
+            status.textContent = 'Pending';
+            status.className = 'action-status pending';
+          });
+          
+          // Move all actions back to the beginning of the queue in original order
+          loopState.restartQueueFromBeginning();
+          
+          // Reset all action progress values - more careful approach
+          document.querySelectorAll('.action-progress-value').forEach(value => {
+            const actionItem = value.closest('.action-item');
+            if (actionItem) {
+              const actionId = actionItem.id.replace('action-', '');
+              const action = loopState.actionQueue.find(a => a.id === actionId);
+              if (action) {
+                const actionCost = self._estimateActionCost(action);
+                // Find action index for the "X of Y" text
+                const actionIndex = loopState.actionQueue.findIndex(a => a.id === actionId);
+                const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+                value.textContent = `0/${actionCost}, Action ${displayIndex} of ${loopState.actionQueue.length}`;
+              }
+            }
+          });
+          
+          // If currently paused, resume processing
+          if (loopState.isPaused) {
+            loopState.setPaused(false);
+            togglePauseBtn.textContent = 'Pause';
+          }
+        } catch (error) {
+          console.error('Error during restart:', error);
+        }
+      });
+      
+      console.log('Restart button handler attached');
+    } else {
+      console.error('Restart button not found');
+    }
+    
+    // Auto-restart toggle button
+    const toggleAutoRestartBtn = document.getElementById('toggle-auto-restart');
+    if (toggleAutoRestartBtn) {
+      console.log('Found auto-restart toggle button');
+      
+      // Clear any existing handlers
+      const newAutoRestartBtn = toggleAutoRestartBtn.cloneNode(true);
+      toggleAutoRestartBtn.parentNode.replaceChild(newAutoRestartBtn, toggleAutoRestartBtn);
+      
+      // Update initial text based on current state
+      newAutoRestartBtn.textContent = loopState.autoRestartQueue 
+        ? 'Restart when queue complete' 
+        : 'Pause when queue complete';
+      
+      // Add click handler
+      newAutoRestartBtn.addEventListener('click', function() {
+        const newState = !loopState.autoRestartQueue;
+        loopState.setAutoRestartQueue(newState);
+        this.textContent = newState 
+          ? 'Restart when queue complete' 
+          : 'Pause when queue complete';
+      });
+      
+      console.log('Auto-restart toggle button handler attached');
+    } else {
+      console.error('Auto-restart toggle button not found');
+    }
+    
+    // Game speed slider
+    const speedSlider = document.getElementById('game-speed');
+    const speedValue = document.getElementById('speed-value');
+    if (speedSlider && speedValue) {
+      // Set max speed to 20x
+      speedSlider.max = 20;
+      speedSlider.addEventListener('input', () => {
+        const speed = parseFloat(speedSlider.value);
+        loopState.setGameSpeed(speed);
+        speedValue.textContent = `${speed.toFixed(1)}x`;
+      });
+    }
+    
+    // Expand/collapse all button - direct handler
+    const expandCollapseBtn = document.getElementById('loop-expand-collapse-all');
+    if (expandCollapseBtn) {
+      console.log('Found expand/collapse button');
+      
+      // Clear any existing handlers by cloning and replacing
+      const newExpandCollapseBtn = expandCollapseBtn.cloneNode(true);
+      expandCollapseBtn.parentNode.replaceChild(newExpandCollapseBtn, expandCollapseBtn);
+      
+      // Add a simple click handler
+      newExpandCollapseBtn.addEventListener('click', function() {
+        console.log('Expand/collapse button clicked:', this.textContent);
+        
+        if (this.textContent === 'Expand All') {
+          console.log('Expanding all regions');
+          self.expandAllRegions();
+        } else {
+          console.log('Collapsing all regions');
+          self.collapseAllRegions();
+        }
+      });
+      
+      console.log('Expand/collapse button handler attached');
+    } else {
+      console.error('Expand/collapse button not found');
+    }
+    
+    // Look for possible header expand button as well
+    const headerExpandCollapseBtn = document.querySelector('.loop-controls #loop-expand-collapse-all');
+    if (headerExpandCollapseBtn && headerExpandCollapseBtn !== expandCollapseBtn) {
+      console.log('Found header expand/collapse button');
+      
+      // Clear any existing handlers
+      const newHeaderBtn = headerExpandCollapseBtn.cloneNode(true);
+      headerExpandCollapseBtn.parentNode.replaceChild(newHeaderBtn, headerExpandCollapseBtn);
+      
+      // Add a simple click handler
+      newHeaderBtn.addEventListener('click', function() {
+        console.log('Header expand/collapse button clicked:', this.textContent);
+        
+        if (this.textContent === 'Expand All') {
+          self.expandAllRegions();
+        } else {
+          self.collapseAllRegions();
+        }
+      });
+      
+      console.log('Header expand/collapse button handler attached');
+    }
+    
+    // Store the instance globally for direct access from event handlers
+    window.loopUIInstance = this;
+    
+    // Clear queue button
+    const clearQueueBtn = document.getElementById('loop-clear-queue');
+    if (clearQueueBtn) {
+      clearQueueBtn.addEventListener('click', () => {
+        loopState.removeAction(0); // Remove all actions starting from index 0
+        this.regionsInQueue.clear(); // Clear regions in queue
+        this.renderLoopPanel(); // Force re-render
+      });
+    }
+    
+    // Save state button
+    const saveStateBtn = document.getElementById('loop-save-state');
+    if (saveStateBtn) {
+      // Remove existing listeners
+      const newSaveBtn = saveStateBtn.cloneNode(true);
+      saveStateBtn.parentNode.replaceChild(newSaveBtn, saveStateBtn);
+      
+      newSaveBtn.addEventListener('click', () => {
+        loopState.saveToStorage();
+        if (window.consoleManager) {
+          window.consoleManager.print('Game saved!', 'success');
+        } else {
+          alert('Game saved!');
+        }
+      });
+    }
+    
+    // Export button
+    const exportBtn = document.getElementById('loop-export-state');
+    if (exportBtn) {
+      // Remove existing listeners
+      const newExportBtn = exportBtn.cloneNode(true);
+      exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
+      
+      newExportBtn.addEventListener('click', () => {
+        this._exportState();
+      });
+    }
+    
+    // Import button & file input
+    const importBtn = document.getElementById('loop-import-state');
+    const fileInput = document.getElementById('loop-state-import');
+    if (importBtn && fileInput) {
+      // Remove existing listeners
+      const newImportBtn = importBtn.cloneNode(true);
+      importBtn.parentNode.replaceChild(newImportBtn, importBtn);
+      
+      newImportBtn.addEventListener('click', () => {
+        fileInput.click();
+      });
+      
+      fileInput.addEventListener('change', (event) => {
+        this._importState(event.target.files[0]);
+      });
+    }
+  }
+  
+  /**
+   * Update the display for the current action progress, fixed at the top
+   * @param {Object} action - The current action
+   */
+  _updateCurrentActionDisplay(action) {
+    if (!action) return;
+    
+    const actionContainer = document.getElementById('current-action-container');
+    if (!actionContainer) return;
+    
+    // Calculate cost
+    const actionCost = this._estimateActionCost(action);
+    const manaCostSoFar = (action.progress / 100) * actionCost;
+    
+    // Find action index for the "X of Y" text
+    const actionIndex = loopState.actionQueue.findIndex(a => a.id === action.id);
+    const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+    
+    // Generate action name for display
+    let actionName = '';
+    switch (action.type) {
+      case 'explore':
+        actionName = `Explore ${action.regionName}`;
+        break;
+      case 'checkLocation':
+        actionName = `Check ${action.locationName}`;
+        break;
+      case 'moveToRegion':
+        actionName = `Move to ${action.destinationRegion}`;
+        break;
+      default:
+        actionName = `${action.type}`;
+    }
+    
+    // Create the current action display
+    actionContainer.innerHTML = `
+      <div class="current-action-label">
+        <span>${actionName}</span>
+        <span class="mana-cost">${Math.floor(manaCostSoFar)}/${actionCost} mana</span>
+      </div>
+      <div class="current-action-progress">
+        <div class="current-action-progress-bar" style="width: ${action.progress}%"></div>
+        <span class="current-action-value">Action ${displayIndex} of ${loopState.actionQueue.length}, Progress: ${Math.floor(manaCostSoFar)} of ${actionCost} mana</span>
+      </div>
+    `;
+  }
+  
+  /**
+   * Estimate the mana cost of an action based on the formulas in loopState
+   * @param {Object} action - The action to estimate
+   * @returns {number} - Estimated mana cost
+   */
+  _estimateActionCost(action) {
+    if (!action) return 0;
+    
+    // Use similar logic to loopState._calculateActionCost
+    let baseCost;
+    
+    // Determine base cost by action type
+    switch (action.type) {
+      case 'explore':
+        baseCost = 50; // Changed from 100 to 50
+        break;
+      case 'checkLocation':
+        baseCost = 100;
+        break;
+      case 'moveToRegion':
+        baseCost = 10;
+        break;
+      default:
+        baseCost = 50;
+    }
+    
+    // Apply region XP reduction if applicable
+    if (action.regionName) {
+      const xpData = loopState.getRegionXP(action.regionName);
+      // Simple cost reduction based on level
+      return Math.max(5, Math.floor(baseCost * (1 - (xpData.level * 0.05))));
+    }
+    
+    return baseCost;
+  }
+  
+  /**
+   * Export game state to a JSON file
+   */
+  _exportState() {
+    try {
+      const stateObj = loopState.getSerializableState();
+      const stateJson = JSON.stringify(stateObj, null, 2);
+      
+      // Create a blob and download link
+      const blob = new Blob([stateJson], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'archipidle_save.json';
+      document.body.appendChild(a);
+      a.click();
+      
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 0);
+      
+      if (window.consoleManager) {
+        window.consoleManager.print('Game state exported!', 'success');
+      }
+    } catch (error) {
+      console.error('Failed to export state:', error);
+      if (window.consoleManager) {
+        window.consoleManager.print(`Export failed: ${error.message}`, 'error');
+      }
+    }
+  }
+  
+  /**
+   * Import game state from a JSON file
+   * @param {File} file - The file to import
+   */
+  _importState(file) {
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const stateObj = JSON.parse(e.target.result);
+        loopState.loadFromSerializedState(stateObj);
+        this.renderLoopPanel();
+        
+        if (window.consoleManager) {
+          window.consoleManager.print('Game state imported!', 'success');
+        }
+      } catch (error) {
+        console.error('Failed to import state:', error);
+        if (window.consoleManager) {
+          window.consoleManager.print(`Import failed: ${error.message}`, 'error');
+        }
+      }
+    };
+    
+    reader.readAsText(file);
+  }
+  
+  /**
+   * Toggle loop mode on/off
+   */
+  toggleLoopMode() {
+    this.isLoopModeActive = !this.isLoopModeActive;
+    
+    // Find all toggle-loop-mode buttons and update them
+    const allToggleButtons = document.querySelectorAll('button#toggle-loop-mode');
+    console.log(`Found ${allToggleButtons.length} toggle loop mode buttons`);
+    
+    // Update all toggle buttons
+    allToggleButtons.forEach(btn => {
+      btn.textContent = this.isLoopModeActive ? 'Exit Loop Mode' : 'Enter Loop Mode';
+    });
+    
+    // Fallback to find by ID if querySelector didn't work
+    const toggleBtn = document.getElementById('toggle-loop-mode');
+    if (toggleBtn && !allToggleButtons.length) {
+      toggleBtn.textContent = this.isLoopModeActive ? 'Exit Loop Mode' : 'Enter Loop Mode';
+    }
+    
+    // Update pause button state
+    const pauseBtn = document.getElementById('toggle-pause');
+    if (pauseBtn) {
+      pauseBtn.disabled = !this.isLoopModeActive;
+    }
+    
+    // Update restart button state
+    const restartBtn = document.getElementById('toggle-restart');
+    if (restartBtn) {
+      restartBtn.disabled = !this.isLoopModeActive;
+    }
+    
+    // Update auto-restart button state
+    const autoRestartBtn = document.getElementById('toggle-auto-restart');
+    if (autoRestartBtn) {
+      autoRestartBtn.disabled = !this.isLoopModeActive;
+    }
+    
+    // If entering loop mode, start any queued actions
+    if (this.isLoopModeActive && loopState.actionQueue.length > 0 && !loopState.isProcessing) {
+      loopState.startProcessing();
+    }
+    
+    // If exiting loop mode, pause any active actions
+    if (!this.isLoopModeActive && loopState.isProcessing) {
+      loopState.setPaused(true);
+      
+      // Update all pause buttons
+      const allPauseButtons = document.querySelectorAll('button#toggle-pause');
+      allPauseButtons.forEach(btn => {
+        btn.textContent = 'Resume';
+      });
+      
+      // Fallback
+      if (pauseBtn && !allPauseButtons.length) {
+        pauseBtn.textContent = 'Resume';
+      }
+    }
+    
+    // Notify other UI components about loop mode change
+    eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
+    
+    console.log(`Loop mode ${this.isLoopModeActive ? 'activated' : 'deactivated'}`);
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Clear the loop UI
+   */
+  clear() {
+    const container = document.getElementById('loop-panel');
+    if (container) {
+      container.innerHTML = '';
+    }
+    
+    this.expandedRegions = new Set();
+    this.expandedRegions.add('Menu'); // Always start with Menu expanded
+    this.regionsInQueue = new Set();
+  }
+  
+  /**
+   * Update the mana display
+   * @param {number} current - Current mana
+   * @param {number} max - Maximum mana
+   */
+  _updateManaDisplay(current, max) {
+    // Use requestAnimationFrame to ensure the DOM updates happen in the next paint cycle
+    requestAnimationFrame(() => {
+      const manaBar = document.getElementById('mana-bar');
+      const manaValue = document.getElementById('mana-value');
+      
+      if (manaBar && manaValue) {
+        const percentage = Math.max(0, Math.min(100, (current / max) * 100));
+        
+        // Remove the transition temporarily
+        manaBar.style.transition = 'none';
+        // Force a reflow
+        void manaBar.offsetWidth;
+        // Restore the transition
+        manaBar.style.transition = 'width 0.1s linear';
+        // Update the width for animation
+        manaBar.style.width = `${percentage}%`;
+        
+        // Add color classes based on percentage
+        manaBar.className = 'mana-bar';
+        if (percentage < 25) {
+          manaBar.classList.add('low');
+        } else if (percentage < 50) {
+          manaBar.classList.add('medium');
+        } else {
+          manaBar.classList.add('high');
+        }
+        
+        manaValue.textContent = `${Math.floor(current)} of ${max} Mana Remaining`;
+      }
+    });
+  }
+  
+  /**
+   * Update an action's progress display
+   * @param {Object} action - The action being processed
+   */
+  _updateActionProgress(action) {
+    if (!action) return;
+    
+    // Use requestAnimationFrame to ensure the DOM updates happen in the next paint cycle
+    requestAnimationFrame(() => {
+      try {
+        // Find by valid ID selector
+        const actionElement = document.getElementById(`action-${action.id}`);
+        
+        if (!actionElement) {
+          // Element not found, possibly because the panel was re-rendered
+          return;
+        }
+        
+        const progressBar = actionElement.querySelector('.action-progress-bar');
+        const progressValue = actionElement.querySelector('.action-progress-value');
+        const statusElement = actionElement.querySelector('.action-status');
+        
+        if (progressBar) {
+          // Remove the transition temporarily
+          progressBar.style.transition = 'none';
+          // Force a reflow
+          void progressBar.offsetWidth;
+          // Restore the transition
+          progressBar.style.transition = 'width 0.1s linear';
+          // Update the width for animation
+          progressBar.style.width = `${action.progress}%`;
+        }
+        
+        // Update progress value with mana cost
+        if (progressValue) {
+          const actionCost = this._estimateActionCost(action);
+          const manaCostSoFar = Math.floor((action.progress / 100) * actionCost);
+          // Find action index for the "X of Y" text
+          const actionIndex = loopState.actionQueue.findIndex(a => a.id === action.id);
+          const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+          progressValue.textContent = `Action ${displayIndex} of ${loopState.actionQueue.length}, Progress: ${manaCostSoFar} of ${actionCost} mana`;
+        }
+        
+        if (statusElement && !statusElement.classList.contains('active')) {
+          statusElement.textContent = 'Active';
+          statusElement.className = 'action-status active';
+        }
+      } catch (error) {
+        console.error('Error updating action progress:', error);
+      }
+    });
+  }
+  
+  /**
+   * Update displayed discovered items for a region
+   * @param {string} regionName - Name of the region
+   */
+  _updateDiscoveredItems(regionName) {
+    const regionBlock = document.querySelector(`.loop-region-block[data-region="${regionName}"]`);
+    if (!regionBlock) return;
+    
+    // Update location and exit counts
+    this._updateDiscoveryCountDisplay(regionName);
+    
+    // If the region is expanded, update the discovery lists
+    if (this.expandedRegions.has(regionName)) {
+      const locationsContainer = regionBlock.querySelector('.region-locations-container');
+      const exitsContainer = regionBlock.querySelector('.region-exits-container');
+      
+      if (locationsContainer) {
+        this._updateDiscoveredLocations(regionName, locationsContainer);
+      }
+      
+      if (exitsContainer) {
+        this._updateDiscoveredExits(regionName, exitsContainer);
+      }
+    }
+  }
+  
+  /**
+   * Update discovery count display for a region
+   * @param {string} regionName - Name of the region
+   */
+  _updateDiscoveryCountDisplay(regionName) {
+    const regionBlock = document.querySelector(`.loop-region-block[data-region="${regionName}"]`);
+    if (!regionBlock) return;
+    
+    const discoveryStats = regionBlock.querySelector('.region-discovery-stats');
+    if (!discoveryStats) return;
+    
+    const regionData = stateManager.regions[regionName];
+    if (!regionData) return;
+    
+    // Calculate discovery percentages
+    const totalLocations = regionData.locations ? regionData.locations.length : 0;
+    const totalExits = regionData.exits ? regionData.exits.length : 0;
+    
+    let discoveredLocationCount = 0;
+    if (regionData.locations) {
+      discoveredLocationCount = regionData.locations.filter(
+        loc => loopState.isLocationDiscovered(loc.name)
+      ).length;
+    }
+    
+    let discoveredExitCount = 0;
+    const regionExits = loopState.discoveredExits.get(regionName);
+    if (regionExits) {
+      discoveredExitCount = regionExits.size;
+    }
+    
+    // Calculate exploration percentage
+    const totalItems = totalLocations + totalExits;
+    const discoveredItems = discoveredLocationCount + discoveredExitCount;
+    const explorationPercentage = totalItems > 0 
+      ? Math.floor((discoveredItems / totalItems) * 100) 
+      : 100;
+    
+    // Update display
+    discoveryStats.innerHTML = `
+      <div>Exploration: <span class="stat-value">${explorationPercentage}%</span></div>
+      <div>Locations: <span class="stat-value">${discoveredLocationCount}/${totalLocations}</span></div>
+      <div>Exits: <span class="stat-value">${discoveredExitCount}/${totalExits}</span></div>
+    `;
+  }
+  
+  /**
+   * Update the region XP display
+   * @param {string} regionName - Name of the region
+   */
+  _updateRegionXPDisplay(regionName) {
+    const regionBlock = document.querySelector(`.loop-region-block[data-region="${regionName}"]`);
+    if (!regionBlock) return;
+    
+    const xpData = loopState.getRegionXP(regionName);
+    const xpDisplay = regionBlock.querySelector('.region-xp-display');
+    
+    if (xpDisplay && xpData) {
+      // Calculate percentage to next level
+      const percentage = (xpData.xp / xpData.xpForNextLevel) * 100;
+      
+      // Calculate the mana cost discount
+      const discountPercentage = Math.round(xpData.level * 5); // 5% per level
+      
+      // Animate XP bar by removing transition first
+      const xpBar = xpDisplay.querySelector('.xp-bar');
+      if (xpBar) {
+        // Remove transition temporarily
+        xpBar.style.transition = 'none';
+        // Force a reflow
+        void xpBar.offsetWidth;
+        // Restore transition
+        xpBar.style.transition = 'width 0.3s ease';
+        // Update width
+        xpBar.style.width = `${percentage}%`;
+      }
+      
+      // Update XP text
+      const xpText = xpDisplay.querySelector('.xp-text');
+      if (xpText) {
+        xpText.innerHTML = `Level ${xpData.level} (${Math.floor(xpData.xp)}/${xpData.xpForNextLevel} XP) <span class="discount-text">-${discountPercentage}% mana cost</span>`;
+      } else {
+        // Re-create the entire display if needed
+        xpDisplay.innerHTML = `
+          <div class="xp-text">Level ${xpData.level} (${Math.floor(xpData.xp)}/${xpData.xpForNextLevel} XP) <span class="discount-text">-${discountPercentage}% mana cost</span></div>
+          <div class="xp-bar-container">
+            <div class="xp-bar" style="width: ${percentage}%"></div>
+          </div>
+        `;
+      }
+    }
+  }
+  
+  /**
+   * Update the list of discovered locations in a region
+   * @param {string} regionName - Name of the region
+   * @param {HTMLElement} container - Container element
+   */
+  _updateDiscoveredLocations(regionName, container) {
+    if (!container) return;
+    
+    // Clear existing locations
+    container.innerHTML = '<h4>Locations</h4>';
+    
+    const regionData = stateManager.regions[regionName];
+    if (!regionData || !regionData.locations) return;
+    
+    // Add discovered locations
+    regionData.locations.forEach(loc => {
+      // For locations, we show all but style them differently if not discovered
+      const isDiscovered = loopState.isLocationDiscovered(loc.name);
+      const isChecked = stateManager.isLocationChecked(loc.name);
+      const canAccess = stateManager.isLocationAccessible(loc);
+      
+      const locDiv = document.createElement('div');
+      locDiv.className = 'location-wrapper';
+      
+      // Determine the display name based on discovery status
+      const displayName = isDiscovered ? loc.name : "???";
+      
+      // Create a location link
+      const locLink = commonUI.createLocationLink(
+        displayName, 
+        regionName,
+        this.colorblindMode,
+        (locationName, regionName, e) => {
+          // Clicking on location in loop mode adds a check action to queue
+          e.stopPropagation();
+          if (this.isLoopModeActive && !isChecked && canAccess && isDiscovered) {
+            this._queueCheckLocationAction(regionName, loc.name);
+          }
+        }
+      );
+      
+      // Store the real name as a data attribute
+      locLink.dataset.realName = loc.name;
+      
+      // Add appropriate classes
+      if (isChecked) {
+        locLink.classList.add('checked-loc');
+      } else if (canAccess) {
+        locLink.classList.add('accessible');
+      } else {
+        locLink.classList.add('inaccessible');
+      }
+      
+      // Add undiscovered class if needed
+      if (!isDiscovered) {
+        locLink.classList.add('undiscovered-location');
+      }
+      
+      locDiv.appendChild(locLink);
+      
+      // Add check button only for discovered, unchecked, accessible locations
+      if (isDiscovered && !isChecked && canAccess && this.isLoopModeActive) {
+        const checkBtn = document.createElement('button');
+        checkBtn.className = 'check-loc-btn';
+        checkBtn.textContent = 'Queue Check';
+        checkBtn.addEventListener('click', () => {
+          this._queueCheckLocationAction(regionName, loc.name);
+        });
+        locDiv.appendChild(checkBtn);
+      }
+      
+      // Add check mark for checked locations
+      if (isChecked) {
+        const checkMark = document.createElement('span');
+        checkMark.className = 'check-mark';
+        checkMark.textContent = '✓';
+        locDiv.appendChild(checkMark);
+      }
+      
+      container.appendChild(locDiv);
+    });
+  }
+  
+  /**
+   * Queue a location check action
+   * @param {string} regionName - Name of the region
+   * @param {string} locationName - Name of the location
+   */
+  _queueCheckLocationAction(regionName, locationName) {
+    if (!this.isLoopModeActive) return;
+    
+    console.log(`Queueing check location action for ${locationName} in ${regionName}`);
+    
+    const action = {
+      id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
+      type: 'checkLocation',
+      regionName,
+      locationName,
+      progress: 0,
+      completed: false
+    };
+    
+    loopState.queueAction(action);
+    
+    // Make sure the region appears in the queue
+    this.regionsInQueue.add(regionName);
+    
+    // Force re-render to update UI
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Update the list of discovered exits in a region
+   * @param {string} regionName - Name of the region
+   * @param {HTMLElement} container - Container element
+   */
+  _updateDiscoveredExits(regionName, container) {
+    if (!container) return;
+    
+    // Clear existing exits
+    container.innerHTML = '<h4>Exits</h4>';
+    
+    const regionData = stateManager.regions[regionName];
+    if (!regionData || !regionData.exits) return;
+    
+    const discoveredExits = loopState.discoveredExits.get(regionName) || new Set();
+    
+    // Add exits (both discovered and undiscovered)
+    regionData.exits.forEach(exit => {
+      const isDiscovered = discoveredExits.has(exit.name);
+      const canAccess = !exit.access_rule || stateManager.evaluateRuleWithPathContext(exit.access_rule);
+      
+      const exitWrapper = document.createElement('div');
+      exitWrapper.className = 'exit-wrapper';
+      
+      // Create wrapper for exit info
+      const exitInfo = document.createElement('span');
+      
+      // Add base class based on accessibility
+      if (canAccess) {
+        exitInfo.classList.add('accessible');
+      } else {
+        exitInfo.classList.add('inaccessible');
+      }
+      
+      // Add undiscovered class if needed
+      if (!isDiscovered) {
+        exitInfo.classList.add('undiscovered-location');
+      }
+      
+      // Determine the display name based on discovery status
+      const exitDisplayName = isDiscovered ? exit.name : "???";
+      exitInfo.textContent = `${exitDisplayName} → `;
+      
+      // Add connected region as a link if it exists
+      if (exit.connected_region) {
+        // Determine if the region is discovered
+        const isDestRegionDiscovered = loopState.isRegionDiscovered(exit.connected_region);
+        // Display name based on discovery status
+        const connectedRegionDisplay = isDestRegionDiscovered ? exit.connected_region : "???";
+        
+        const regionLink = commonUI.createRegionLink(
+          connectedRegionDisplay,
+          this.colorblindMode,
+          (connectedRegion, e) => {
+            e.stopPropagation();
+            // In loop mode, clicking a region link queues a move action
+            if (this.isLoopModeActive && canAccess && isDiscovered) {
+              this._queueMoveAction(regionName, exit.name, exit.connected_region);
+            }
+          }
+        );
+        
+        // Store the real region name for click action
+        regionLink.dataset.realRegion = exit.connected_region;
+        
+        // Add classes to region link
+        if (canAccess) {
+          regionLink.classList.add('accessible');
+        } else {
+          regionLink.classList.add('inaccessible');
+        }
+        
+        // Add undiscovered class if needed
+        if (!isDiscovered) {
+          regionLink.classList.add('undiscovered-location');
+        }
+        
+        exitInfo.appendChild(regionLink);
+      } else {
+        exitInfo.textContent += '(none)';
+      }
+      
+      exitWrapper.appendChild(exitInfo);
+      
+      // Add move button only for discovered, accessible exits
+      if (isDiscovered && this.isLoopModeActive && canAccess && exit.connected_region) {
+        const moveBtn = document.createElement('button');
+        moveBtn.className = 'move-btn';
+        moveBtn.textContent = 'Queue Move';
+        moveBtn.addEventListener('click', () => {
+          this._queueMoveAction(regionName, exit.name, exit.connected_region);
+        });
+        exitWrapper.appendChild(moveBtn);
+      }
+      
+      container.appendChild(exitWrapper);
+    });
+  }
+  
+  /**
+   * Queue a move action
+   * @param {string} regionName - Source region name
+   * @param {string} exitName - Exit name
+   * @param {string} destinationRegion - Destination region name
+   */
+  _queueMoveAction(regionName, exitName, destinationRegion) {
+    if (!this.isLoopModeActive) return;
+    
+    // Check if there's already a move action for this region
+    const existingMoveAction = loopState.actionQueue.find(
+      action => action.type === 'moveToRegion' && action.regionName === regionName
+    );
+    
+    if (existingMoveAction) {
+      console.log(`There's already a move action from ${regionName} to ${existingMoveAction.destinationRegion}`);
+      
+      // Create a modal message with don't show again checkbox
+      const message = `You already have a move action from ${regionName} to ${existingMoveAction.destinationRegion}. Remove it first to add a new move action.`;
+      
+      // Check if the user has chosen to hide this message
+      if (localStorage.getItem('hideDoubleMovementWarning') !== 'true') {
+        // Modal for better UI
+        const modalHtml = `
+          <div class="warning-message">${message}</div>
+          <div class="dont-show-again">
+            <input type="checkbox" id="dont-show-move-warning">
+            <label for="dont-show-move-warning">Don't show this message again</label>
+          </div>
+        `;
+        
+        // Show in the console and create a modal dialog
+        if (window.consoleManager) {
+          window.consoleManager.print(message, 'warning');
+          
+          // Show modal
+          const modal = document.getElementById('location-modal');
+          const modalTitle = document.getElementById('modal-title');
+          const modalInfo = document.getElementById('modal-info');
+          
+          if (modal && modalTitle && modalInfo) {
+            modalTitle.textContent = 'Move Action Warning';
+            modalInfo.innerHTML = modalHtml;
+            modal.classList.remove('hidden');
+            
+            // Handle don't show again checkbox
+            const checkbox = document.getElementById('dont-show-move-warning');
+            if (checkbox) {
+              checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                  localStorage.setItem('hideDoubleMovementWarning', 'true');
+                }
+              });
+            }
+          }
+        } else {
+          alert(message);
+        }
+      }
+      
+      return;
+    }
+    
+    // Immediately collapse the source region when adding a move action
+    this.expandedRegions.delete(regionName);
+    
+    console.log(`Queueing move action from ${regionName} to ${destinationRegion} via ${exitName}`);
+    
+    const action = {
+      id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
+      type: 'moveToRegion',
+      regionName,
+      exitName,
+      destinationRegion,
+      progress: 0,
+      completed: false
+    };
+    
+    loopState.queueAction(action);
+    
+    // Update regionsInQueue
+    this.regionsInQueue.add(regionName);
+    this.regionsInQueue.add(destinationRegion);
+    
+    // Immediately expand the destination region
+    this.expandedRegions.add(destinationRegion);
+    
+    // Re-render to update UI
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Expand all regions
+   */
+  expandAllRegions() {
+    console.log('Expanding all regions');
+    const discoveredRegions = loopState.discoveredRegions;
+    console.log('Discovered regions:', [...discoveredRegions]);
+    
+    // Make sure we're getting a Set and not undefined
+    if (!discoveredRegions || typeof discoveredRegions.forEach !== 'function') {
+      console.error('discoveredRegions is not a valid Set:', discoveredRegions);
+      return;
+    }
+    
+    discoveredRegions.forEach(regionName => {
+      console.log('Adding region to expanded set:', regionName);
+      this.expandedRegions.add(regionName);
+    });
+    
+    console.log('Expanded regions after update:', [...this.expandedRegions]);
+    
+    // Update both possible buttons that might exist
+    const loopExpandCollapseBtn = document.getElementById('loop-expand-collapse-all');
+    if (loopExpandCollapseBtn) {
+      loopExpandCollapseBtn.textContent = 'Collapse All';
+    }
+    
+    // The one in the header might also need updating
+    const headerExpandCollapseBtn = document.querySelector('.loop-controls #loop-expand-collapse-all');
+    if (headerExpandCollapseBtn) {
+      headerExpandCollapseBtn.textContent = 'Collapse All';
+    }
+    
+    // Render the panel to apply changes
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Collapse all regions
+   */
+  collapseAllRegions() {
+    console.log('Collapsing all regions');
+    this.expandedRegions.clear();
+    
+    // Update both possible buttons that might exist
+    const loopExpandCollapseBtn = document.getElementById('loop-expand-collapse-all');
+    if (loopExpandCollapseBtn) {
+      loopExpandCollapseBtn.textContent = 'Expand All';
+    }
+    
+    // The one in the header might also need updating
+    const headerExpandCollapseBtn = document.querySelector('.loop-controls #loop-expand-collapse-all');
+    if (headerExpandCollapseBtn) {
+      headerExpandCollapseBtn.textContent = 'Expand All';
+    }
+    
+    // Render the panel to apply changes
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Toggle a region's expanded state
+   * @param {string} regionName - Name of the region
+   */
+  toggleRegionExpanded(regionName) {
+    if (this.expandedRegions.has(regionName)) {
+      this.expandedRegions.delete(regionName);
+    } else {
+      this.expandedRegions.add(regionName);
+    }
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Render the loop panel
+   */
+  renderLoopPanel() {
+    console.log('Rendering complete loop panel');
+    const container = document.getElementById('loop-regions-area');
+    if (!container) {
+      console.error('Container loop-regions-area not found');
+      return;
+    }
+    
+    // Clear container
+    container.innerHTML = '';
+    console.log('Container cleared');
+    
+    // Get all discovered regions
+    const discoveredRegions = loopState.discoveredRegions;
+    console.log('Discovered regions:', [...discoveredRegions]);
+    
+    // Get regions that have actions in the queue
+    console.log('Regions in queue:', [...this.regionsInQueue]);
+    
+    // If no regions yet, show a message
+    if (discoveredRegions.size === 0) {
+      console.log('No regions to display');
+      container.innerHTML = '<div class="no-regions-message">No regions discovered yet.</div>';
+      return;
+    }
+    
+    // Create a container for regions
+    const regionsContainer = document.createElement('div');
+    regionsContainer.id = 'regions-container';
+    regionsContainer.className = 'regions-container';
+    container.appendChild(regionsContainer);
+    
+    // Add each discovered region to the regions container, but only if it's in the queue
+    discoveredRegions.forEach(regionName => {
+      const region = stateManager.regions[regionName];
+      if (!region) return;
+      
+      // Only show regions that are in the action queue, unless it's the Menu
+      const showRegion = regionName === 'Menu' || this.regionsInQueue.has(regionName);
+      
+      if (showRegion) {
+        const isExpanded = this.expandedRegions.has(regionName);
+        console.log(`Building block for region ${regionName}, expanded: ${isExpanded}`);
+        const regionBlock = this._buildRegionBlock(region, isExpanded);
+        regionsContainer.appendChild(regionBlock);
+      }
+    });
+    
+    // Update mana display
+    this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
+    
+    // Update current action display if applicable
+    if (loopState.currentAction) {
+      this._updateCurrentActionDisplay(loopState.currentAction);
+    } else {
+      const actionContainer = document.getElementById('current-action-container');
+      if (actionContainer) {
+        actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
+      }
+    }
+  }
+  
+  /**
+   * Build a region block
+   * @param {Object} region - Region data
+   * @param {boolean} expanded - Whether the region is expanded
+   * @returns {HTMLElement} - The region block element
+   */
+  _buildRegionBlock(region, expanded) {
+    if (!region) return document.createElement('div');
+    
+    const regionName = region.name;
+    const regionBlock = document.createElement('div');
+    regionBlock.className = 'loop-region-block';
+    regionBlock.dataset.region = regionName;
+    regionBlock.classList.add(expanded ? 'expanded' : 'collapsed');
+    
+    // Get XP data for the region
+    const xpData = loopState.getRegionXP(regionName);
+    
+    // Calculate the mana cost discount percentage from XP level
+    const discountPercentage = Math.round(xpData.level * 5); // 5% per level
+    
+    // Calculate discovery stats
+    const totalLocations = region.locations ? region.locations.length : 0;
+    const totalExits = region.exits ? region.exits.length : 0;
+    
+    let discoveredLocationCount = 0;
+    if (region.locations) {
+      discoveredLocationCount = region.locations.filter(
+        loc => loopState.isLocationDiscovered(loc.name)
+      ).length;
+    }
+    
+    let discoveredExitCount = 0;
+    const regionExits = loopState.discoveredExits.get(regionName);
+    if (regionExits) {
+      discoveredExitCount = regionExits.size;
+    }
+    
+    // Calculate exploration percentage
+    const totalItems = totalLocations + totalExits;
+    const discoveredItems = discoveredLocationCount + discoveredExitCount;
+    const explorationPercentage = totalItems > 0 
+      ? Math.floor((discoveredItems / totalItems) * 100) 
+      : 100;
+    
+    // Calculate XP percentage
+    const xpPercentage = (xpData.xp / xpData.xpForNextLevel) * 100;
+    
+    // Create header
+    const headerEl = document.createElement('div');
+    headerEl.className = 'region-header';
+    headerEl.innerHTML = `
+      <span class="region-name">${regionName}</span>
+      <button class="collapse-btn">${expanded ? 'Collapse' : 'Expand'}</button>
+    `;
+    regionBlock.appendChild(headerEl);
+    
+    // Header click event for expanding/collapsing
+    headerEl.addEventListener('click', () => {
+      this.toggleRegionExpanded(regionName);
+    });
+    
+    // Find queued actions for this region
+    // Only show moveToRegion actions in their starting region (not destination)
+    const actionsForRegion = loopState.actionQueue.filter(action => 
+      action.regionName === regionName || 
+      (action.type === 'moveToRegion' && action.destinationRegion === regionName && !action.regionName)
+    );
+    
+    // If there are queued actions for this region, add them at the top
+    if (actionsForRegion.length > 0) {
+      const queuedActionsContainer = document.createElement('div');
+      queuedActionsContainer.className = 'region-queued-actions';
+      
+      actionsForRegion.forEach((action, index) => {
+        const actionItem = this._createActionItem(action);
+        queuedActionsContainer.appendChild(actionItem);
+      });
+      
+      regionBlock.appendChild(queuedActionsContainer);
+    }
+    
+    // If expanded, add details
+    if (expanded) {
+      const detailEl = document.createElement('div');
+      detailEl.className = 'region-details';
+      
+      // Add XP display with discount information
+      const xpDisplay = document.createElement('div');
+      xpDisplay.className = 'region-xp-display';
+      xpDisplay.innerHTML = `
+        <div class="xp-text">Level ${xpData.level} (${Math.floor(xpData.xp)}/${xpData.xpForNextLevel} XP) <span class="discount-text">-${discountPercentage}% mana cost</span></div>
+        <div class="xp-bar-container">
+          <div class="xp-bar" style="width: ${xpPercentage}%"></div>
+        </div>
+      `;
+      detailEl.appendChild(xpDisplay);
+      
+      // Add discovery stats
+      const discoveryStats = document.createElement('div');
+      discoveryStats.className = 'region-discovery-stats';
+      discoveryStats.innerHTML = `
+        <div>Exploration: <span class="stat-value">${explorationPercentage}%</span></div>
+        <div>Locations: <span class="stat-value">${discoveredLocationCount}/${totalLocations}</span></div>
+        <div>Exits: <span class="stat-value">${discoveredExitCount}/${totalExits}</span></div>
+      `;
+      detailEl.appendChild(discoveryStats);
+      
+      // Add actions area
+      const actionsArea = document.createElement('div');
+      actionsArea.className = 'region-actions';
+      
+      // Always allow exploring, but with different message if everything is discovered
+      if (this.isLoopModeActive) {
+        const exploreBtn = document.createElement('button');
+        exploreBtn.className = 'explore-btn';
+        exploreBtn.textContent = discoveredItems < totalItems ? 'Explore Region' : 'Farm Region XP';
+        exploreBtn.addEventListener('click', () => {
+          this._queueExploreAction(regionName);
+        });
+        actionsArea.appendChild(exploreBtn);
+        
+        // Add repeat explore checkbox - using region-specific ID
+        const repeatCheckboxId = `repeat-explore-checkbox-${regionName.replace(/\s+/g, '-')}`;
+        const repeatWrapper = document.createElement('div');
+        repeatWrapper.className = 'checkbox-container';
+        repeatWrapper.innerHTML = `
+          <input type="checkbox" id="${repeatCheckboxId}" class="repeat-explore-checkbox">
+          <label for="${repeatCheckboxId}">Repeat Explore Action</label>
+        `;
+        actionsArea.appendChild(repeatWrapper);
+      }
+      
+      detailEl.appendChild(actionsArea);
+      
+      // Add locations container (show all locations in loop mode)
+      if (totalLocations > 0) {
+        const locationsContainer = document.createElement('div');
+        locationsContainer.className = 'region-locations-container';
+        locationsContainer.innerHTML = '<h4>Locations</h4>';
+        
+        // Add all locations
+        this._updateDiscoveredLocations(regionName, locationsContainer);
+        
+        detailEl.appendChild(locationsContainer);
+      }
+      
+      // Add exits container (show all exits in loop mode)
+      if (totalExits > 0) {
+        const exitsContainer = document.createElement('div');
+        exitsContainer.className = 'region-exits-container';
+        exitsContainer.innerHTML = '<h4>Exits</h4>';
+        
+        // Add all exits
+        this._updateDiscoveredExits(regionName, exitsContainer);
+        
+        detailEl.appendChild(exitsContainer);
+      }
+      
+      regionBlock.appendChild(detailEl);
+    }
+    
+    return regionBlock;
+  }
+  
+  /**
+   * Create an action item element
+   * @param {Object} action - The action data
+   * @returns {HTMLElement} - The action item element
+   */
+  _createActionItem(action) {
+    const actionDiv = document.createElement('div');
+    actionDiv.id = `action-${action.id}`;
+    actionDiv.className = 'action-item';
+    
+    // Determine action name and display
+    let actionName = '';
+    switch (action.type) {
+      case 'explore':
+        actionName = `Explore ${action.regionName}`;
+        break;
+      case 'checkLocation':
+        actionName = `Check ${action.locationName}`;
+        break;
+      case 'moveToRegion':
+        actionName = `Move to ${action.destinationRegion}`;
+        break;
+      default:
+        actionName = `${action.type}`;
+    }
+    
+    // Calculate mana cost
+    const actionCost = this._estimateActionCost(action);
+    const manaCostSoFar = action.completed ? actionCost : (action.progress / 100) * actionCost;
+    
+    // Is this the active action?
+    const isActive = loopState.currentAction && loopState.currentAction.id === action.id;
+    
+    // Determine status text and class
+    let statusText = 'Pending';
+    let statusClass = 'pending';
+    if (action.completed) {
+      statusText = 'Completed';
+      statusClass = 'completed';
+    } else if (isActive) {
+      statusText = 'Active';
+      statusClass = 'active';
+    }
+    
+    // Find the index of this action in the queue
+    const actionIndex = loopState.actionQueue.findIndex(a => a.id === action.id);
+    
+    // Create action content
+    actionDiv.innerHTML = `
+      <div class="action-header">
+        <span class="action-name">${actionName}</span>
+        <span class="action-status ${statusClass}">
+          ${statusText}
+        </span>
+      </div>
+      <div class="action-progress">
+        <div class="action-progress-bar" style="width: ${action.completed ? 100 : action.progress}%"></div>
+        <span class="action-progress-value">Action ${actionIndex !== -1 ? actionIndex + 1 : '?'} of ${loopState.actionQueue.length}, Progress: ${Math.floor(manaCostSoFar)} of ${actionCost} mana</span>
+      </div>
+      <button class="remove-action-btn">✖</button>
+    `;
+    
+    // Add remove button listener
+    const removeBtn = actionDiv.querySelector('.remove-action-btn');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => {
+        // Find the index of this action in the queue
+        const index = loopState.actionQueue.findIndex(a => a.id === action.id);
+        if (index !== -1) {
+          // If this is a move action, we need to handle dependent actions
+          if (action.type === 'moveToRegion') {
+            const destinationRegion = action.destinationRegion;
+            
+            // First collect all regions that will be affected
+            // Starting with the destination of this move
+            const regionsToRemove = new Set([destinationRegion]);
+            
+            // Now collect all regions that would be reached from actions in those regions
+            // This is a recursive process to handle chains of move actions
+            let foundNew = true;
+            while (foundNew) {
+              foundNew = false;
+              
+              // Look through all actions to find moves from any region in our set
+              loopState.actionQueue.forEach(a => {
+                if (a.type === 'moveToRegion' && regionsToRemove.has(a.regionName) && !regionsToRemove.has(a.destinationRegion)) {
+                  // Found a move from one of our affected regions to a new region
+                  regionsToRemove.add(a.destinationRegion);
+                  foundNew = true;
+                }
+              });
+            }
+            
+            console.log('Removing all actions in regions:', [...regionsToRemove]);
+            
+            // Remove this action and all actions in or leading to the affected regions
+            const actionsToRemove = loopState.actionQueue.slice(index).filter(a => 
+              a.id === action.id || // This action
+              regionsToRemove.has(a.regionName) || // Actions in any affected region
+              (a.type === 'moveToRegion' && regionsToRemove.has(a.destinationRegion)) // Move actions to any affected region
+            );
+            
+            // Remove each action individually
+            for (const actionToRemove of actionsToRemove) {
+              const actionIndex = loopState.actionQueue.findIndex(a => a.id === actionToRemove.id);
+              if (actionIndex !== -1) {
+                loopState.removeAction(actionIndex);
+              }
+            }
+          } else {
+            // Just remove this action
+            loopState.removeAction(index);
+          }
+          
+          // Update regionsInQueue
+          this._updateRegionsInQueue(loopState.actionQueue);
+          
+          // Re-render the panel
+          this.renderLoopPanel();
+        }
+      });
+    }
+    
+    return actionDiv;
+  }
+  
+  /**
+   * Queue an explore action
+   * @param {string} regionName - Name of the region to explore
+   */
+  _queueExploreAction(regionName) {
+    if (!this.isLoopModeActive) return;
+    
+    console.log(`Queueing explore action for region ${regionName}`);
+    
+    // Check if we should make this a repeating explore action
+    // Use region-specific checkbox ID
+    const repeatCheckboxId = `repeat-explore-checkbox-${regionName.replace(/\s+/g, '-')}`;
+    const repeatCheckbox = document.getElementById(repeatCheckboxId);
+    const shouldRepeat = repeatCheckbox && repeatCheckbox.checked;
+    
+    console.log(`Queuing explore action for ${regionName}, repeat: ${shouldRepeat}`);
+    
+    const action = {
+      id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
+      type: 'explore',
+      regionName,
+      progress: 0,
+      completed: false,
+      repeatAction: shouldRepeat // Add repeatAction flag for explore actions
+    };
+    loopState.queueAction(action);
+    
+    // Update regionsInQueue
+    this.regionsInQueue.add(regionName);
+    
+    // Re-render to update UI
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Set colorblind mode
+   * @param {boolean} enabled - Whether colorblind mode is enabled
+   */
+  setColorblindMode(enabled) {
+    this.colorblindMode = enabled;
+    this.renderLoopPanel();
+  }
+  
+  /**
+   * Clean up resources when the UI is destroyed
+   */
+  dispose() {
+    if (this._animationFrameId) {
+      cancelAnimationFrame(this._animationFrameId);
+      this._animationFrameId = null;
+    }
+  }
+}
+
+export default LoopUI;
