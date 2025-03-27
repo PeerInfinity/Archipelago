@@ -1,5 +1,5 @@
 // client/ui/consoleUI.js - Updated to use synchronous name lookups
-import eventBus from '../core/eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import Config from '../core/config.js';
 import messageHandler from '../core/messageHandler.js';
 import connection from '../core/connection.js';

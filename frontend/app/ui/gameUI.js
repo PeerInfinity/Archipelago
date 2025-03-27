@@ -10,7 +10,7 @@ import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
-import eventBus from '../../client/core/eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 
 export class GameUI {
   constructor() {

@@ -1,6 +1,6 @@
 // client/core/messageHandler.js - Updated to handle data package properly
 
-import eventBus from './eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import connection from './connection.js';
 import storage from './storage.js';
 import Config from './config.js';

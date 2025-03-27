@@ -1,6 +1,6 @@
 // client/core/connection.js
 import Config from './config.js';
-import eventBus from './eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import storage from './storage.js';
 
 export class Connection {

@@ -1,6 +1,6 @@
 // client/core/locationManager.js - Updated to handle null ID locations locally
 
-import eventBus from './eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import connection from './connection.js';
 import messageHandler from './messageHandler.js';
 import { getServerLocationId } from '../utils/idMapping.js';

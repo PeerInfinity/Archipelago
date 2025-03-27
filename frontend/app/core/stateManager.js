@@ -1,4 +1,5 @@
 import { evaluateRule } from './ruleEngine.js';
+import eventBus from './eventBus.js';
 import { ALTTPInventory } from '../games/alttp/inventory.js';
 import { ALTTPState } from '../games/alttp/state.js';
 import { ALTTPHelpers } from '../games/alttp/helpers.js';
@@ -78,8 +79,8 @@ export class StateManager {
 
     // Also emit to eventBus for ProgressUI
     try {
-      if (window.eventBus) {
-        window.eventBus.publish(`stateManager:${eventType}`, {});
+      if (eventBus) {
+        eventBus.publish(`stateManager:${eventType}`, {});
       }
     } catch (e) {
       console.warn('Could not publish to eventBus:', e);
@@ -298,9 +299,9 @@ export class StateManager {
     try {
       // Use setTimeout to ensure this event fires after returning from the method
       setTimeout(() => {
-        if (window.eventBus) {
+        if (eventBus) {
           console.log('Publishing stateManager:jsonDataLoaded event');
-          window.eventBus.publish('stateManager:jsonDataLoaded', {});
+          eventBus.publish('stateManager:jsonDataLoaded', {});
         }
       }, 0);
     } catch (e) {
@@ -848,8 +849,8 @@ export class StateManager {
 
     // Also emit to eventBus for ProgressUI
     try {
-      if (window.eventBus) {
-        window.eventBus.publish(`stateManager:locationChecked`, {});
+      if (eventBus) {
+        eventBus.publish(`stateManager:locationChecked`, {});
       }
     } catch (e) {
       console.warn('Could not publish to eventBus:', e);

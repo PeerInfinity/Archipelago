@@ -1,7 +1,7 @@
 // client/app.js - Updated to properly initialize mappings
 import Config from './core/config.js';
 import storage from './core/storage.js';
-import eventBus from './core/eventBus.js';
+import eventBus from '../app/core/eventBus.js';
 import connection from './core/connection.js';
 import messageHandler from './core/messageHandler.js';
 import timerState from './core/timerState.js';
@@ -30,7 +30,7 @@ class App {
 
       // Core modules next
       storage.initialize();
-      eventBus.initialize();
+      //eventBus.initialize(); // eventBus is a singleton, no need to initialize
       connection.initialize();
 
       // Load data package mappings before messageHandler initialization

@@ -1,7 +1,7 @@
 // client/core/timerState.js - Updated to work directly with stateManager
 
 import Config from './config.js';
-import eventBus from './eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import connection from './connection.js';
 import messageHandler from './messageHandler.js';
 import locationManager from './locationManager.js';
@@ -271,8 +271,8 @@ export class TimerState {
 
         // Show a notification (if available in the UI)
         try {
-          if (window.eventBus) {
-            window.eventBus.publish('game:allLocationsChecked', {});
+          if (eventBus) {
+            eventBus.publish('game:allLocationsChecked', {});
           }
         } catch (e) {
           console.warn('Could not publish event:', e);

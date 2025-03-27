@@ -1,13 +1,7 @@
-// client/core/eventBus.js
+// eventBus.js
 export class EventBus {
   constructor() {
     this.events = {};
-  }
-
-  initialize() {
-    // Clear any existing events on initialization
-    Object.keys(this.events).forEach((key) => delete this.events[key]);
-    console.log('EventBus module initialized');
   }
 
   subscribe(event, callback) {
