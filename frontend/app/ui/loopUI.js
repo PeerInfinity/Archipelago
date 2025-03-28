@@ -220,18 +220,22 @@ export class LoopUI {
 
     // Progress updates
     eventBus.subscribe('loopState:progressUpdated', (data) => {
-      this._updateActionProgress(data.action);
-      this._updateManaDisplay(data.mana.current, data.mana.max);
-      this._updateCurrentActionDisplay(data.action);
+      if (data.action) {
+        this._updateActionProgress(data.action);
+        this._updateCurrentActionDisplay(data.action);
 
-      // Force a reflow to ensure animations are visible
-      window.requestAnimationFrame(() => {
-        const actionEl = document.getElementById(`action-${data.action.id}`);
-        if (actionEl) {
-          // Force a style recalculation
-          void actionEl.offsetWidth;
-        }
-      });
+        // Force a reflow to ensure animations are visible
+        window.requestAnimationFrame(() => {
+          const actionEl = document.getElementById(`action-${data.action.id}`);
+          if (actionEl) {
+            // Force a style recalculation
+            void actionEl.offsetWidth;
+          }
+        });
+      }
+      
+      // Always update mana display, even if there's no current action
+      this._updateManaDisplay(data.mana.current, data.mana.max);
     });
 
     // Action completion
@@ -241,7 +245,9 @@ export class LoopUI {
 
     // New action started
     eventBus.subscribe('loopState:newActionStarted', (data) => {
-      this._updateCurrentActionDisplay(data.action);
+      if (data.action) {
+        this._updateCurrentActionDisplay(data.action);
+      }
     });
 
     // Queue completed
@@ -338,8 +344,25 @@ export class LoopUI {
 
     // Update all action status indicators
     document.querySelectorAll('.action-status').forEach((status) => {
-      status.textContent = 'Pending';
-      status.className = 'action-status pending';
+      // Get the action element containing this status
+      const actionItem = status.closest('.action-item');
+      if (actionItem) {
+        const actionId = actionItem.id.replace('action-', '');
+        const action = loopState.actionQueue.find(a => a.id === actionId);
+        
+        // Set the first action as Active, all others as Pending
+        if (action && action === loopState.currentAction) {
+          status.textContent = 'Active';
+          status.className = 'action-status active';
+        } else {
+          status.textContent = 'Pending';
+          status.className = 'action-status pending';
+        }
+      } else {
+        // Fallback if we can't find the parent action
+        status.textContent = 'Pending';
+        status.className = 'action-status pending';
+      }
     });
   }
 
@@ -647,11 +670,8 @@ export class LoopUI {
     const actionCost = this._estimateActionCost(action);
     const manaCostSoFar = (action.progress / 100) * actionCost;
 
-    // Find action index for the "X of Y" text
-    const actionIndex = loopState.actionQueue.findIndex(
-      (a) => a.id === action.id
-    );
-    const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+    // Get the action index directly from loopState
+    const displayIndex = loopState.currentActionIndex + 1; // 1-based for display
 
     // Generate action name for display
     let actionName = '';
@@ -841,7 +861,14 @@ export class LoopUI {
       loopState.actionQueue.length > 0 &&
       !loopState.isProcessing
     ) {
-      loopState.startProcessing();
+      try {
+        loopState.startProcessing();
+      } catch (error) {
+        console.error('Error starting processing:', error);
+        if (window.consoleManager) {
+          window.consoleManager.print('Error starting queue processing. Try adding actions first.', 'error');
+        }
+      }
     }
 
     // If exiting loop mode, pause any active actions
@@ -964,17 +991,38 @@ export class LoopUI {
           const manaCostSoFar = Math.floor(
             (action.progress / 100) * actionCost
           );
-          // Find action index for the "X of Y" text
-          const actionIndex = loopState.actionQueue.findIndex(
-            (a) => a.id === action.id
-          );
-          const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+          
+          // Use the provided action's index or determine it from the queue
+          let displayIndex;
+          if (action === loopState.currentAction) {
+            // For the current action, use the tracked index
+            displayIndex = loopState.currentActionIndex + 1; // 1-based for display
+          } else {
+            // For other actions, find their position in the queue
+            const actionIndex = loopState.actionQueue.findIndex(
+              (a) => a.id === action.id
+            );
+            displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+          }
+          
           progressValue.textContent = `Action ${displayIndex} of ${loopState.actionQueue.length}, Progress: ${manaCostSoFar} of ${actionCost} mana`;
         }
 
-        if (statusElement && !statusElement.classList.contains('active')) {
-          statusElement.textContent = 'Active';
-          statusElement.className = 'action-status active';
+        // Only mark as active if this is the currently processing action
+        if (statusElement) {
+          if (action === loopState.currentAction && !statusElement.classList.contains('active')) {
+            statusElement.textContent = 'Active';
+            statusElement.className = 'action-status active';
+          } else if (action !== loopState.currentAction && statusElement.classList.contains('active')) {
+            // Reset if this was active but is no longer the current action
+            if (action.completed) {
+              statusElement.textContent = 'Completed';
+              statusElement.className = 'action-status completed';
+            } else {
+              statusElement.textContent = 'Pending';
+              statusElement.className = 'action-status pending';
+            }
+          }
         }
       } catch (error) {
         console.error('Error updating action progress:', error);
@@ -1839,7 +1887,7 @@ export class LoopUI {
           action.completed ? 100 : action.progress
         }%"></div>
         <span class="action-progress-value">Action ${
-          actionIndex !== -1 ? actionIndex + 1 : '?'
+          actionIndex + 1 // Now always display the actual queue position
         } of ${loopState.actionQueue.length}, Progress: ${Math.floor(
       manaCostSoFar
     )} of ${actionCost} mana</span>

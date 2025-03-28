@@ -28,6 +28,7 @@ class LoopState {
     // Action queue and processing
     this.actionQueue = [];
     this.currentAction = null;
+    this.currentActionIndex = 0; // Index of the current action in the queue
     this.isProcessing = false;
     this.isPaused = false;
     this.autoRestartQueue = false; // Flag to auto-restart queue when complete
@@ -247,15 +248,31 @@ class LoopState {
           this.actionQueue.splice(idx, 1);
         });
 
-      // If we removed the current action, stop processing
-      if (dependentActions.includes(0) && this.isProcessing) {
-        this.stopProcessing();
+      // If we removed the current action or any action before it, adjust the current action index
+      if (this.isProcessing) {
+        const lowestRemovedIndex = Math.min(...dependentActions);
+        if (lowestRemovedIndex <= this.currentActionIndex) {
+          if (lowestRemovedIndex === this.currentActionIndex) {
+            // Removing the current action
+            this.stopProcessing();
+          } else {
+            // Removing an action before the current action
+            // Count how many actions were removed before the current action
+            const removedBeforeCurrent = dependentActions.filter(
+              idx => idx < this.currentActionIndex
+            ).length;
+            this.currentActionIndex -= removedBeforeCurrent;
+          }
+        }
       }
     } else {
       // Standard behavior for non-move actions
       // If removing the current action, stop processing it
-      if (index === 0 && this.isProcessing) {
+      if (index === this.currentActionIndex && this.isProcessing) {
         this.stopProcessing();
+      } else if (index < this.currentActionIndex) {
+        // If removing an action before the current one, adjust the index
+        this.currentActionIndex--;
       }
 
       // Just remove this specific action
@@ -265,8 +282,12 @@ class LoopState {
     // Notify queue updated
     eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });
 
-    // Start processing the next action if needed
-    if (index === 0 && this.actionQueue.length > 0 && !this.isPaused) {
+    // Restart processing if stopped and there are actions to process
+    if (!this.isProcessing && this.actionQueue.length > 0 && !this.isPaused) {
+      // If we removed all actions up to current index, reset to beginning
+      if (this.currentActionIndex >= this.actionQueue.length) {
+        this.currentActionIndex = 0;
+      }
       this.startProcessing();
     }
   }
@@ -280,7 +301,22 @@ class LoopState {
     }
 
     this.isProcessing = true;
-    this.currentAction = this.actionQueue[0];
+    this.currentActionIndex = this.currentActionIndex || 0; // Default to 0 if not set
+    
+    // Make sure the index is valid
+    if (this.currentActionIndex >= this.actionQueue.length) {
+      this.currentActionIndex = 0;
+    }
+    
+    this.currentAction = this.actionQueue[this.currentActionIndex];
+    
+    // Ensure we have a valid action
+    if (!this.currentAction) {
+      console.error('No valid action at index', this.currentActionIndex);
+      this.isProcessing = false;
+      return;
+    }
+    
     // Don't reset progress when resuming from pause
     // Only set to 0 if it's a new action with no progress yet
     if (!this.currentAction.progress) {
@@ -381,8 +417,27 @@ class LoopState {
     const deltaTime = (timestamp - this._lastFrameTime) * this.gameSpeed;
     this._lastFrameTime = timestamp;
 
-    // Process current action
-    if (this.currentAction) {
+    try {
+      // Verify we have a valid current action and index
+      if (!this.currentAction || this.currentActionIndex >= this.actionQueue.length) {
+        console.error('Invalid action state in _processFrame:', { 
+          currentActionIndex: this.currentActionIndex, 
+          queueLength: this.actionQueue.length,
+          hasCurrentAction: !!this.currentAction 
+        });
+        
+        // Try to recover by finding a valid action
+        if (this.actionQueue.length > 0) {
+          this.currentActionIndex = 0;
+          this.currentAction = this.actionQueue[0];
+        } else {
+          // No actions left, stop processing
+          this.stopProcessing();
+          return;
+        }
+      }
+
+      // Process current action
       const actionCost = this._calculateActionCost(this.currentAction);
       // Slow down the action for better visibility - use 20 instead of 100
       const progressIncrement = (deltaTime / 1000) * (20 / actionCost);
@@ -431,15 +486,26 @@ class LoopState {
         );
         return;
       }
-
       // Update UI - important to keep this happening
-      eventBus.publish('loopState:progressUpdated', {
-        action: this.currentAction,
+      // Always include mana data, but only include action if it exists
+      const eventData = {
         mana: {
           current: this.currentMana,
           max: this.maxMana,
-        },
-      });
+        }
+      };
+      
+      // Only include action data if there's a current action
+      if (this.currentAction) {
+        eventData.action = this.currentAction;
+      }
+      
+      eventBus.publish('loopState:progressUpdated', eventData);
+    } catch (error) {
+      console.error('Error in _processFrame:', error);
+      // Try to recover by stopping processing
+      this.stopProcessing();
+      return;
     }
 
     // Request next frame - this must always happen during processing
@@ -465,49 +531,54 @@ class LoopState {
     });
 
     // Check if this is a repeating explore action that just completed
-    const completedAction = this.actionQueue.shift();
-    if (completedAction.type === 'explore' && completedAction.repeatAction) {
+    if (this.currentAction.type === 'explore' && this.currentAction.repeatAction) {
       console.log(
-        `Repeating explore action for ${completedAction.regionName} (repeatAction=${completedAction.repeatAction})`
+        `Repeating explore action for ${this.currentAction.regionName} (repeatAction=${this.currentAction.repeatAction})`
       );
 
-      // For repeating explore actions, reset and put back at the front of the queue
+      // For repeating explore actions, create a new action instance 
       const repeatAction = {
-        ...completedAction, // Copy all properties
+        ...this.currentAction, // Copy all properties
         id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`, // Generate new ID
         progress: 0,
         completed: false,
       };
 
-      // Add the new action to the beginning of the queue
-      this.actionQueue.unshift(repeatAction);
+      // Add the new action right after the current action
+      this.actionQueue.splice(this.currentActionIndex + 1, 0, repeatAction);
 
       // Notify that a new explore action was added
       eventBus.publish('loopState:exploreActionRepeated', {
         action: repeatAction,
         regionName: repeatAction.regionName,
       });
-    } else {
-      // Standard behavior - move to end of queue
-      this.actionQueue.push(completedAction);
     }
 
-    // Move to next action or finish
-    if (this.actionQueue.length > 0) {
-      this.currentAction = this.actionQueue[0];
+    // Move to next action in the queue or wrap around to beginning
+    this.currentActionIndex++;
+    
+    // If we reached the end of the queue
+    if (this.currentActionIndex >= this.actionQueue.length) {
+      // Reset to beginning if auto-restart is enabled
+      if (this.autoRestartQueue) {
+        this.currentActionIndex = 0;
+        this._resetActionsProgress();
+      } else {
+        // Queue completed
+        this.currentAction = null;
+        this.isProcessing = false;
+        eventBus.publish('loopState:queueCompleted', {});
+        return;
+      }
+    }
+    
+    // Start processing next action if there's one available
+    if (this.currentActionIndex < this.actionQueue.length) {
+      this.currentAction = this.actionQueue[this.currentActionIndex];
       this.currentAction.progress = 0;
       eventBus.publish('loopState:newActionStarted', {
         action: this.currentAction,
       });
-    } else {
-      this.currentAction = null;
-      this.isProcessing = false;
-      eventBus.publish('loopState:queueCompleted', {});
-
-      // Only auto-restart if enabled
-      if (this.autoRestartQueue) {
-        this.restartQueueFromBeginning();
-      }
     }
   }
 
@@ -760,22 +831,32 @@ class LoopState {
   }
 
   /**
+   * Reset progress for all actions in the queue
+   */
+  _resetActionsProgress() {
+    // Reset progress for all actions
+    for (const action of this.actionQueue) {
+      action.progress = 0;
+      action.completed = false;
+    }
+  }
+
+  /**
    * Reset the loop when running out of mana
    */
   _resetLoop() {
     // Restore mana to full
     this.currentMana = this.maxMana;
 
-    // Reset progress for all actions in the queue
-    for (const action of this.actionQueue) {
-      action.progress = 0;
-      action.completed = false;
-    }
-
-    // Clear current progress
-    if (this.currentAction) {
-      this.currentAction.progress = 0;
-      this.currentAction.completed = false;
+    // Reset all action progress
+    this._resetActionsProgress();
+    
+    // Reset to first action
+    this.currentActionIndex = 0;
+    
+    // Update current action reference
+    if (this.actionQueue.length > 0) {
+      this.currentAction = this.actionQueue[this.currentActionIndex];
     }
 
     // Notify loop reset
@@ -803,15 +884,20 @@ class LoopState {
    */
   restartQueue() {
     // Don't restart if paused or already processing
-    if (this.isPaused || this.isProcessing) {
+    if (this.isPaused) {
       return;
     }
+    
+    // Stop current processing if active
+    if (this.isProcessing) {
+      this.stopProcessing();
+    }
 
+    // Reset action index to beginning
+    this.currentActionIndex = 0;
+    
     // Reset progress on all actions
-    this.actionQueue.forEach((action) => {
-      action.progress = 0;
-      action.completed = false;
-    });
+    this._resetActionsProgress();
 
     // Start processing if there are actions
     if (this.actionQueue.length > 0) {
@@ -820,57 +906,23 @@ class LoopState {
   }
 
   /**
-   * Restart the queue from the beginning and reorder actions to their original order
+   * Restart the queue from the beginning 
+   * (with no reordering needed since we now maintain original order)
    */
   restartQueueFromBeginning() {
     // Stop current processing
-    this.stopProcessing();
-
-    // Reset progress on all actions
-    this.actionQueue.forEach((action) => {
-      action.progress = 0;
-      action.completed = false;
-    });
-
-    // Re-sort actions to their original order (completed actions are currently at the end)
-    // Here we're assuming the actions should be sorted by region in the original order
-    // First, get all unique regions in the original intended order
-    const regions = [];
-    const regionSet = new Set();
-
-    this.actionQueue.forEach((action) => {
-      if (action.regionName && !regionSet.has(action.regionName)) {
-        regions.push(action.regionName);
-        regionSet.add(action.regionName);
-      }
-    });
-
-    // Now re-sort actions by their region order
-    const sortedActions = [];
-    regions.forEach((region) => {
-      // First add move actions to this region
-      const moveActions = this.actionQueue.filter(
-        (a) => a.type === 'moveToRegion' && a.destinationRegion === region
-      );
-      sortedActions.push(...moveActions);
-
-      // Then add all actions in this region
-      const regionActions = this.actionQueue.filter(
-        (a) => a.regionName === region && a.type !== 'moveToRegion'
-      );
-      sortedActions.push(...regionActions);
-    });
-
-    // Add any remaining actions not captured by region sorting
-    const remainingActions = this.actionQueue.filter(
-      (a) => !sortedActions.includes(a)
-    );
-    sortedActions.push(...remainingActions);
-
-    // Replace the queue with sorted actions
-    if (sortedActions.length === this.actionQueue.length) {
-      this.actionQueue = sortedActions;
+    if (this.isProcessing) {
+      this.stopProcessing();
     }
+
+    // Reset to beginning
+    this.currentActionIndex = 0;
+    
+    // Reset progress on all actions
+    this._resetActionsProgress();
+
+    // Notify about queue update (so UI can refresh)
+    eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });
 
     // Start processing if there are actions
     if (this.actionQueue.length > 0 && !this.isPaused) {
@@ -923,6 +975,8 @@ class LoopState {
       ),
       gameSpeed: this.gameSpeed,
       autoRestartQueue: this.autoRestartQueue,
+      actionQueue: this.actionQueue,
+      currentActionIndex: this.currentActionIndex
     };
   }
 
@@ -957,6 +1011,15 @@ class LoopState {
 
     // Load auto-restart setting
     this.autoRestartQueue = state.autoRestartQueue ?? false;
+    
+    // Load queue state if available
+    if (state.actionQueue) {
+      this.actionQueue = state.actionQueue;
+      this.currentActionIndex = state.currentActionIndex ?? 0;
+      if (this.currentActionIndex < this.actionQueue.length) {
+        this.currentAction = this.actionQueue[this.currentActionIndex];
+      }
+    }
 
     // Notify state loaded
     eventBus.publish('loopState:stateLoaded', {});
