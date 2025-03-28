@@ -165,12 +165,6 @@ class LoopState {
       // Always notify UI of level up
       eventBus.publish('loopState:xpChanged', { regionName, xpData });
     }
-
-    // Small amounts of XP don't need to trigger UI updates - we'll handle that in _processFrame
-    // Only notify for substantial changes (level ups handled above)
-    if (amount > 1) {
-      eventBus.publish('loopState:xpChanged', { regionName, xpData });
-    }
   }
 
   /**

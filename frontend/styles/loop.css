@@ -43,7 +43,7 @@
   flex-grow: 1;
   overflow-y: auto;
   padding-right: 5px;
-  max-height: calc(100% - 170px); /* Increased subtraction to make room for bottom controls */
+  max-height: calc(100% - 170px);
   display: block;
 }
 
@@ -179,7 +179,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.loop-region-block .region-header {
+.loop-region-block .loop-region-header {
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -188,16 +188,16 @@
   border-radius: 4px;
 }
 
-.loop-region-block .region-header:hover {
+.loop-region-block .loop-region-header:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.loop-region-block .region-name {
+.loop-region-block .loop-region-name {
   font-weight: bold;
   font-size: 1.1em;
 }
 
-.loop-region-block .collapse-btn {
+.loop-region-block .loop-collapse-btn {
   padding: 3px 8px;
   background-color: rgba(0, 0, 0, 0.2);
   border: none;
@@ -206,7 +206,7 @@
   cursor: pointer;
 }
 
-.loop-region-block .region-details {
+.loop-region-block .loop-region-details {
   padding: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -219,8 +219,8 @@
   padding: 5px;
 }
 
-.region-block.collapsed .region-queued-actions {
-  display: block; /* Always show, even when region is collapsed */
+.loop-region-block.collapsed .region-queued-actions {
+  display: block;
 }
 
 /* XP display */
@@ -319,7 +319,7 @@
   background-color: #3498db;
   transition: width 0.1s linear;
   will-change: width;
-  transform: translateZ(0); /* Force hardware acceleration */
+  transform: translateZ(0);
 }
 
 .action-progress-value {
@@ -360,21 +360,21 @@
 }
 
 /* Locations and exits */
-.region-locations-container,
-.region-exits-container {
+.loop-region-locations-container,
+.loop-region-exits-container {
   margin-top: 15px;
 }
 
-.region-locations-container h4,
-.region-exits-container h4 {
+.loop-region-locations-container h4,
+.loop-region-exits-container h4 {
   margin-top: 0;
   margin-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 5px;
 }
 
-.location-wrapper,
-.exit-wrapper {
+.loop-location-wrapper,
+.loop-exit-wrapper {
   margin-bottom: 5px;
   padding: 5px;
   border-radius: 3px;
@@ -383,14 +383,14 @@
   align-items: center;
 }
 
-.location-wrapper:hover,
-.exit-wrapper:hover {
+.loop-location-wrapper:hover,
+.loop-exit-wrapper:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.check-loc-btn,
-.move-btn,
-.explore-btn {
+.loop-location-wrapper .loop-check-loc-btn,
+.loop-exit-wrapper .loop-move-btn,
+.region-actions .explore-btn {
   padding: 2px 8px;
   border: none;
   border-radius: 3px;
@@ -399,19 +399,19 @@
   cursor: pointer;
 }
 
-.check-loc-btn:hover,
-.move-btn:hover,
-.explore-btn:hover {
+.loop-location-wrapper .loop-check-loc-btn:hover,
+.loop-exit-wrapper .loop-move-btn:hover,
+.region-actions .explore-btn:hover {
   background-color: rgba(52, 152, 219, 1);
 }
 
-.check-mark {
+.loop-location-wrapper .loop-check-mark {
   color: #2ecc71;
   margin-left: 5px;
 }
 
 /* Collapsed/Expanded states */
-.loop-region-block.collapsed .region-details {
+.loop-region-block.collapsed .loop-region-details {
   display: none;
 }
 
@@ -423,12 +423,12 @@
   margin-bottom: 10px;
 }
 
-.explore-btn {
+.region-actions .explore-btn {
   padding: 5px 15px;
   background-color: #9b59b6;
 }
 
-.explore-btn:hover {
+.region-actions .explore-btn:hover {
   background-color: #8e44ad;
 }
 
@@ -467,19 +467,36 @@
 .undiscovered-location {
   opacity: 0.5;
   pointer-events: none;
+  /* Consider removing pointer-events: none; if you want users
+     to be able to queue actions for undiscovered items */
 }
 
 /* Animations */
 @keyframes flash {
-  0% { background-color: #e74c3c; }
-  50% { background-color: #c0392b; }
-  100% { background-color: #e74c3c; }
+  0% {
+    background-color: #e74c3c;
+  }
+  50% {
+    background-color: #c0392b;
+  }
+  100% {
+    background-color: #e74c3c;
+  }
 }
 
 @keyframes pulse {
-  0% { transform: scaleY(1); opacity: 0.8; }
-  50% { transform: scaleY(1.15); opacity: 1; }
-  100% { transform: scaleY(1); opacity: 0.8; }
+  0% {
+    transform: scaleY(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scaleY(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0.8;
+  }
 }
 
 /* No content message */

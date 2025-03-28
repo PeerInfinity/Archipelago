@@ -224,12 +224,6 @@ export class LoopUI {
       this._updateManaDisplay(data.mana.current, data.mana.max);
       this._updateCurrentActionDisplay(data.action);
 
-      // Directly update the XP display for the region associated with the progressing action
-      if (data.action && data.action.regionName) {
-        // Ensure the update function handles cases where the element might not be found (e.g., region not rendered yet)
-        this._updateRegionXPDisplay(data.action.regionName);
-      }
-
       // Force a reflow to ensure animations are visible
       window.requestAnimationFrame(() => {
         const actionEl = document.getElementById(`action-${data.action.id}`);
@@ -1004,10 +998,10 @@ export class LoopUI {
     // If the region is expanded, update the discovery lists
     if (this.expandedRegions.has(regionName)) {
       const locationsContainer = regionBlock.querySelector(
-        '.region-locations-container'
+        '.loop-region-locations-container'
       );
       const exitsContainer = regionBlock.querySelector(
-        '.region-exits-container'
+        '.loop-region-exits-container'
       );
 
       if (locationsContainer) {
@@ -1146,7 +1140,7 @@ export class LoopUI {
       const canAccess = stateManager.isLocationAccessible(loc);
 
       const locDiv = document.createElement('div');
-      locDiv.className = 'location-wrapper';
+      locDiv.className = 'loop-location-wrapper';
 
       // Determine the display name based on discovery status
       const displayName = isDiscovered ? loc.name : '???';
@@ -1192,7 +1186,7 @@ export class LoopUI {
       // Add check button only for discovered, unchecked, accessible locations
       if (isDiscovered && !isChecked && canAccess && this.isLoopModeActive) {
         const checkBtn = document.createElement('button');
-        checkBtn.className = 'check-loc-btn';
+        checkBtn.className = 'loop-check-loc-btn';
         checkBtn.textContent = 'Queue Check';
         checkBtn.addEventListener('click', () => {
           this._queueCheckLocationAction(regionName, loc.name);
@@ -1203,7 +1197,7 @@ export class LoopUI {
       // Add check mark for checked locations
       if (isChecked) {
         const checkMark = document.createElement('span');
-        checkMark.className = 'check-mark';
+        checkMark.className = 'loop-check-mark';
         checkMark.textContent = '✓';
         locDiv.appendChild(checkMark);
       }
@@ -1267,7 +1261,7 @@ export class LoopUI {
         stateManager.evaluateRuleWithPathContext(exit.access_rule);
 
       const exitWrapper = document.createElement('div');
-      exitWrapper.className = 'exit-wrapper';
+      exitWrapper.className = 'loop-exit-wrapper';
 
       // Create wrapper for exit info
       const exitInfo = document.createElement('span');
@@ -1345,7 +1339,7 @@ export class LoopUI {
         exit.connected_region
       ) {
         const moveBtn = document.createElement('button');
-        moveBtn.className = 'move-btn';
+        moveBtn.className = 'loop-move-btn';
         moveBtn.textContent = 'Queue Move';
         moveBtn.addEventListener('click', () => {
           this._queueMoveAction(regionName, exit.name, exit.connected_region);
@@ -1654,10 +1648,12 @@ export class LoopUI {
 
     // Create header
     const headerEl = document.createElement('div');
-    headerEl.className = 'region-header';
+    headerEl.className = 'loop-region-header';
     headerEl.innerHTML = `
-      <span class="region-name">${regionName}</span>
-      <button class="collapse-btn">${expanded ? 'Collapse' : 'Expand'}</button>
+      <span class="loop-region-name">${regionName}</span>
+      <button class="loop-collapse-btn">${
+        expanded ? 'Collapse' : 'Expand'
+      }</button>
     `;
     regionBlock.appendChild(headerEl);
 
@@ -1692,7 +1688,7 @@ export class LoopUI {
     // If expanded, add details
     if (expanded) {
       const detailEl = document.createElement('div');
-      detailEl.className = 'region-details';
+      detailEl.className = 'loop-region-details';
 
       // Add XP display with discount information
       const xpDisplay = document.createElement('div');
@@ -1751,7 +1747,7 @@ export class LoopUI {
       // Add locations container (show all locations in loop mode)
       if (totalLocations > 0) {
         const locationsContainer = document.createElement('div');
-        locationsContainer.className = 'region-locations-container';
+        locationsContainer.className = 'loop-region-locations-container';
         locationsContainer.innerHTML = '<h4>Locations</h4>';
 
         // Add all locations
@@ -1763,7 +1759,7 @@ export class LoopUI {
       // Add exits container (show all exits in loop mode)
       if (totalExits > 0) {
         const exitsContainer = document.createElement('div');
-        exitsContainer.className = 'region-exits-container';
+        exitsContainer.className = 'loop-region-exits-container';
         exitsContainer.innerHTML = '<h4>Exits</h4>';
 
         // Add all exits
