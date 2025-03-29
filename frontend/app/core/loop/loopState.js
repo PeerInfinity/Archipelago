@@ -373,10 +373,13 @@ class LoopState {
 
     if (isPaused) {
       this.stopProcessing();
-      eventBus.publish('loopState:paused', {});
+      eventBus.publish('loopState:paused', { isPaused: true });
     } else if (this.actionQueue.length > 0) {
       this.startProcessing();
-      eventBus.publish('loopState:resumed', {});
+      eventBus.publish('loopState:resumed', { isPaused: false });
+    } else {
+      // Even if there are no actions, still publish the state change
+      eventBus.publish('loopState:pauseStateChanged', { isPaused: this.isPaused });
     }
   }
 
@@ -385,7 +388,7 @@ class LoopState {
    * @param {number} speed - Speed multiplier (1.0 = normal speed)
    */
   setGameSpeed(speed) {
-    this.gameSpeed = Math.max(0.1, Math.min(10, speed));
+    this.gameSpeed = Math.max(0.1, Math.min(100, speed));
 
     // Reset the _lastFrameTime to ensure smooth speed transitions
     if (this.isProcessing) {
@@ -530,28 +533,48 @@ class LoopState {
       action: this.currentAction,
     });
 
-    // Check if this is a repeating explore action that just completed
-    if (this.currentAction.type === 'explore' && this.currentAction.repeatAction) {
-      console.log(
-        `Repeating explore action for ${this.currentAction.regionName} (repeatAction=${this.currentAction.repeatAction})`
+    // Check if this is an explore action that just completed
+    if (this.currentAction.type === 'explore') {
+      // Get the regionName from the action
+      const regionName = this.currentAction.regionName;
+      
+      // Get the repeat state from LoopUI's map
+      let shouldRepeat = false;
+      if (window.loopUIInstance && window.loopUIInstance.repeatExploreStates) {
+        shouldRepeat = window.loopUIInstance.repeatExploreStates.get(regionName) || false;
+      }
+      
+      // Check if there are already more explore actions for this region in the queue
+      const hasMoreExploreActions = this.actionQueue.some((action, index) => 
+        index > this.currentActionIndex && 
+        action.type === 'explore' && 
+        action.regionName === regionName
       );
+      
+      // Only add a new explore action if shouldRepeat is true AND there are no more explore actions for this region
+      if (shouldRepeat && !hasMoreExploreActions) {
+        console.log(
+          `Repeating explore action for ${regionName} (repeat state is true, no other explore actions pending)`
+        );
 
-      // For repeating explore actions, create a new action instance 
-      const repeatAction = {
-        ...this.currentAction, // Copy all properties
-        id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`, // Generate new ID
-        progress: 0,
-        completed: false,
-      };
+        // Create a new action instance 
+        const repeatAction = {
+          ...this.currentAction, // Copy all properties
+          id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`, // Generate new ID
+          progress: 0,
+          completed: false,
+          repeatAction: true, // Mark for UI purposes
+        };
 
-      // Add the new action right after the current action
-      this.actionQueue.splice(this.currentActionIndex + 1, 0, repeatAction);
+        // Add the new action right after the current action
+        this.actionQueue.splice(this.currentActionIndex + 1, 0, repeatAction);
 
-      // Notify that a new explore action was added
-      eventBus.publish('loopState:exploreActionRepeated', {
-        action: repeatAction,
-        regionName: repeatAction.regionName,
-      });
+        // Notify that a new explore action was added
+        eventBus.publish('loopState:exploreActionRepeated', {
+          action: repeatAction,
+          regionName: repeatAction.regionName,
+        });
+      }
     }
 
     // Move to next action in the queue or wrap around to beginning
@@ -920,6 +943,15 @@ class LoopState {
     
     // Reset progress on all actions
     this._resetActionsProgress();
+    
+    // Restore mana to full
+    this.currentMana = this.maxMana;
+
+    // Notify about mana change
+    eventBus.publish('loopState:manaChanged', {
+      current: this.currentMana,
+      max: this.maxMana,
+    });
 
     // Notify about queue update (so UI can refresh)
     eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });

@@ -101,26 +101,40 @@
       <!-- Right Column - Location Management -->
       <div id="locations-column">
         <div class="locations-header">
-          <div class="control-group">
-            <label>
-              <input type="radio" name="view-mode" value="locations" checked />
-              Locations View
-            </label>
-            <label>
-              <input type="radio" name="view-mode" value="regions" />
-              Regions View
-            </label>
-            <label>
-              <input type="radio" name="view-mode" value="loop" />
-              Loop View
-            </label>
-            <label>
-              <input type="radio" name="view-mode" value="files" />
-              Files
-            </label>
-            <input type="file" id="json-upload" accept=".json" class="hidden" />
-            <label for="json-upload" class="button">Load JSON</label>
-            <button id="debug-toggle" class="button">Show Debug</button>
+          <div class="header-top-row">
+            <div class="control-group">
+              <label>
+                <input type="radio" name="view-mode" value="locations" checked />
+                Locations View
+              </label>
+              <label>
+                <input type="radio" name="view-mode" value="regions" />
+                Regions View
+              </label>
+              <label>
+                <input type="radio" name="view-mode" value="loop" />
+                Loop View
+              </label>
+              <label>
+                <input type="radio" name="view-mode" value="files" />
+                Files
+              </label>
+              <input type="file" id="json-upload" accept=".json" class="hidden" />
+              <label for="json-upload" class="button">Load JSON</label>
+              <button id="debug-toggle" class="button">Show Debug</button>
+            </div>
+            
+            <div class="loop-status-display" style="display: none">
+              <div class="mana-container">
+                <div class="mana-bar-container">
+                  <div id="header-mana-bar" class="mana-bar"></div>
+                </div>
+              </div>
+              <div class="action-progress">
+                <div id="header-action-progress-bar" class="action-progress-bar"></div>
+                <span id="header-action-progress-text" class="action-progress-value"></span>
+              </div>
+            </div>
           </div>
 
           <!-- Location-specific controls -->
@@ -160,7 +174,16 @@
 
           <!-- Loop-specific controls -->
           <div class="control-group loop-controls" style="display: none">
+            <button id="toggle-loop-mode" class="button">Enter Loop Mode</button>
+            <button id="toggle-pause" class="button" disabled>Pause</button>
+            <button id="toggle-restart" class="button" disabled>Restart</button>
+            <button id="toggle-auto-restart" class="button">Pause when queue complete</button>
             <button id="loop-expand-collapse-all" class="button">Expand All</button>
+            <div class="speed-controls">
+              <label for="game-speed">Speed:</label>
+              <input type="range" id="game-speed" min="0.5" max="100" step="0.5" value="1">
+              <span id="speed-value">1.0x</span>
+            </div>
             <label>
               <input type="checkbox" id="loop-colorblind" />
               Colorblind Mode

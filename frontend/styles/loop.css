@@ -19,8 +19,28 @@
 .loop-controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.loop-status-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 10px;
+  min-width: 200px;
+  max-width: 300px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 8px;
 }
 
 .loop-resources {
@@ -98,6 +118,21 @@
 
 .mana-bar.reset-flash {
   animation: flash 0.5s;
+}
+
+.mana-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  pointer-events: none;
 }
 
 #mana-value {
@@ -306,12 +341,19 @@
   background-color: #3498db;
 }
 
+.action-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .action-progress {
   height: 15px;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 3px;
   overflow: hidden;
   position: relative;
+  flex-grow: 1;
 }
 
 .action-progress-bar {
@@ -337,9 +379,6 @@
 }
 
 .remove-action-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   width: 20px;
   height: 20px;
   display: flex;
@@ -352,6 +391,7 @@
   cursor: pointer;
   font-size: 10px;
   opacity: 0.6;
+  flex-shrink: 0;
 }
 
 .remove-action-btn:hover {
@@ -510,4 +550,20 @@
 /* Hidden file input */
 .hidden {
   display: none;
+}
+
+/* Disabled file panel in loop mode */
+.loop-mode-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.loop-mode-disabled-message {
+  padding: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin: 20px;
 }
