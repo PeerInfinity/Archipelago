@@ -1095,7 +1095,7 @@ export class LoopUI {
         headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(current)}/${max} Mana</span>`;
         
         // Log for debugging
-        console.log(`Updated header mana bar: ${Math.floor(current)}/${max} Mana`);
+        //console.log(`Updated header mana bar: ${Math.floor(current)}/${max} Mana`);
       }
       
       // Function to update the main mana bar

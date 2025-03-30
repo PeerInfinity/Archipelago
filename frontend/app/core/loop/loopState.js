@@ -466,13 +466,13 @@ class LoopState {
       }
 
       // Log every few frames for debugging
-      if (Math.random() < 0.05) {
-        console.log(
-          `Action progress: ${this.currentAction.progress.toFixed(
-            2
-          )}%, Mana: ${this.currentMana.toFixed(2)}/${this.maxMana}`
-        );
-      }
+      //if (Math.random() < 0.05) {
+      //  console.log(
+      //    `Action progress: ${this.currentAction.progress.toFixed(
+      //      2
+      //    )}%, Mana: ${this.currentMana.toFixed(2)}/${this.maxMana}`
+      //  );
+      //}
 
       // Check for action completion
       if (this.currentAction.progress >= 100) {

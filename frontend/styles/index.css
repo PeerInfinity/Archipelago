@@ -411,8 +411,20 @@ select:hover {
   background-color: #3a0808;
 }
 
-.location-card.newly-reachable {
-  background-color: #3a2808;
+.location-card.region-accessible-but-locked {
+  background-color: #665508; /* Yellow-ish */
+}
+
+.location-card.region-inaccessible-but-unlocked {
+  background-color: #6e3b00; /* Orange-ish */
+}
+
+.exit-card.region-accessible-but-locked {
+  background-color: #665508; /* Yellow-ish */
+}
+
+.exit-card.region-inaccessible-but-unlocked {
+  background-color: #6e3b00; /* Orange-ish */
 }
 
 .location-card.checked {

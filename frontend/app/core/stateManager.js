@@ -27,7 +27,6 @@ export class StateManager {
     // Enhanced region reachability tracking with path context
     this.knownReachableRegions = new Set();
     this.knownUnreachableRegions = new Set();
-    this.previousReachable = new Set();
     this.cacheValid = false;
 
     // Path tracking similar to Python implementation
@@ -650,19 +649,6 @@ export class StateManager {
           (isAccessible && showReachable) || (!isAccessible && showUnreachable)
         );
       });
-  }
-
-  getNewlyReachableLocations() {
-    const currentReachable = new Set(
-      this.locations
-        .filter((loc) => this.isLocationAccessible(loc))
-        .map((loc) => `${loc.player}-${loc.name}`)
-    );
-    const newlyReachable = new Set(
-      [...currentReachable].filter((x) => !this.previousReachable.has(x))
-    );
-    this.previousReachable = currentReachable;
-    return newlyReachable;
   }
 
   /**

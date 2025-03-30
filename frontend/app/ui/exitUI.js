@@ -3,6 +3,7 @@ import stateManager from '../core/stateManagerSingleton.js';
 import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
 import loopState from '../core/loop/loopState.js';
+import eventBus from '../core/eventBus.js';
 
 export class ExitUI {
   constructor(gameUI) {
@@ -10,6 +11,118 @@ export class ExitUI {
     this.columns = 2; // Default number of columns
 
     this.attachEventListeners();
+  }
+  
+  /**
+   * Handle click on an exit card in loop mode
+   * @param {Object} exit - The exit data
+   */
+  handleExitClick(exit) {
+    // Check if loop mode is active
+    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    
+    if (!isLoopModeActive) return;
+    
+    // Check if the last action in the queue is already handling this exit's region
+    if (loopState.actionQueue.length > 0) {
+      const lastAction = loopState.actionQueue[loopState.actionQueue.length - 1];
+      
+      // If the last action is an explore for this exit's region, do nothing
+      if (lastAction.type === 'explore' && lastAction.regionName === exit.region) {
+        return;
+      }
+    }
+    
+    // Import the path analyzer logic
+    import('../logic/pathAnalyzerLogic.js').then(module => {
+      const pathAnalyzerLogic = new module.PathAnalyzerLogic();
+      
+      // Find path from Menu to the region containing this exit
+      const path = pathAnalyzerLogic.findPathInLoopMode(exit.region);
+      
+      if (path) {
+        // Path found - process it
+        
+        // Pause processing the action queue
+        loopState.setPaused(true);
+        
+        // Clear the current queue
+        loopState.actionQueue = [];
+        loopState.currentAction = null;
+        loopState.currentActionIndex = 0;
+        
+        // Queue move actions for each region transition
+        for (let i = 0; i < path.length - 1; i++) {
+          const fromRegion = path[i];
+          const toRegion = path[i + 1];
+          
+          // Find the exit that connects these regions
+          const regionData = stateManager.regions[fromRegion];
+          const exitToUse = regionData?.exits?.find(e => e.connected_region === toRegion);
+          
+          if (exitToUse) {
+            // Create and queue a move action
+            const moveAction = {
+              id: `action_${Date.now()}_${Math.floor(Math.random() * 10000) + i}`,
+              type: 'moveToRegion',
+              regionName: fromRegion,
+              exitName: exitToUse.name,
+              destinationRegion: toRegion,
+              progress: 0,
+              completed: false
+            };
+            
+            loopState.actionQueue.push(moveAction);
+            
+            // Make sure the loopUI knows these regions are in the queue
+            if (window.loopUIInstance) {
+              window.loopUIInstance.regionsInQueue.add(fromRegion);
+              window.loopUIInstance.regionsInQueue.add(toRegion);
+            }
+          }
+        }
+        
+        // Queue an explore action in the exit's region
+        const exploreAction = {
+          id: `action_${Date.now()}_${Math.floor(Math.random() * 10000) + path.length}`,
+          type: 'explore',
+          regionName: exit.region,
+          progress: 0,
+          completed: false
+        };
+        
+        loopState.actionQueue.push(exploreAction);
+        
+        // Set the region's "repeat explore action" checkbox to checked
+        if (window.loopUIInstance && window.loopUIInstance.repeatExploreStates) {
+          window.loopUIInstance.repeatExploreStates.set(exit.region, true);
+        }
+        
+        // Begin processing the action queue
+        loopState.setPaused(false);
+        loopState.startProcessing();
+        
+        // Notify UI components about queue changes
+        eventBus.publish('loopState:queueUpdated', { queue: loopState.actionQueue });
+        
+        // Update the loop UI
+        if (window.loopUIInstance) {
+          window.loopUIInstance.renderLoopPanel();
+        }
+        
+      } else {
+        // Path not found - display error message
+        const errorMessage = `Cannot find a path to ${exit.region} in loop mode.`;
+        console.error(errorMessage);
+        
+        // Show error in console or alert
+        if (window.consoleManager) {
+          window.consoleManager.print(errorMessage, 'error');
+        } else {
+          alert(errorMessage);
+        }
+      }
+    });
   }
 
   initialize() {
@@ -102,11 +215,14 @@ export class ExitUI {
     // Filter reachable/unreachable
     filteredExits = filteredExits.filter(exit => {
       const regionAccessible = stateManager.isRegionReachable(exit.region);
-      const exitTraversable = !exit.access_rule || evaluateRule(exit.access_rule);
+      const exitRulePasses = !exit.access_rule || evaluateRule(exit.access_rule);
       
-      if (regionAccessible && exitTraversable) {
+      // Reachable = region accessible AND rule passes
+      if (regionAccessible && exitRulePasses) {
         return showReachable;
-      } else {
+      } 
+      // All other cases are considered unreachable
+      else {
         return showUnreachable;
       }
     });
@@ -117,25 +233,30 @@ export class ExitUI {
         const aRegionAccessible = stateManager.isRegionReachable(a.region);
         const bRegionAccessible = stateManager.isRegionReachable(b.region);
 
-        const aExitTraversable = !a.access_rule || evaluateRule(a.access_rule);
-        const bExitTraversable = !b.access_rule || evaluateRule(b.access_rule);
+        const aRulePasses = !a.access_rule || evaluateRule(a.access_rule);
+        const bRulePasses = !b.access_rule || evaluateRule(b.access_rule);
 
-        if (aRegionAccessible && bRegionAccessible) {
-          if (aExitTraversable && bExitTraversable) {
-            return 0;
-          } else if (aExitTraversable) {
-            return -1;
-          } else if (bExitTraversable) {
-            return 1;
-          } else {
-            return 0;
-          }
-        } else if (aRegionAccessible) {
-          return -1;
-        } else if (bRegionAccessible) {
-          return 1;
+        // Fully traversable exits first (region reachable + rule passes)
+        const aFullyTraversable = aRegionAccessible && aRulePasses;
+        const bFullyTraversable = bRegionAccessible && bRulePasses;
+        
+        // Then region accessible but rule fails
+        const aRegionOnlyAccessible = aRegionAccessible && !aRulePasses;
+        const bRegionOnlyAccessible = bRegionAccessible && !bRulePasses;
+        
+        // Then rule passes but region not accessible
+        const aRuleOnlyPasses = !aRegionAccessible && aRulePasses;
+        const bRuleOnlyPasses = !bRegionAccessible && bRulePasses;
+
+        // Compare in priority order
+        if (aFullyTraversable !== bFullyTraversable) {
+          return bFullyTraversable - aFullyTraversable; // true sorts before false
+        } else if (aRegionOnlyAccessible !== bRegionOnlyAccessible) {
+          return bRegionOnlyAccessible - aRegionOnlyAccessible;
+        } else if (aRuleOnlyPasses !== bRuleOnlyPasses) {
+          return bRuleOnlyPasses - aRuleOnlyPasses;
         } else {
-          return 0;
+          return 0; // Same accessibility level
         }
       });
     }
@@ -146,7 +267,19 @@ export class ExitUI {
         const isRegionAccessible = stateManager.isRegionReachable(exit.region);
         const isExitTraversable = !exit.access_rule || evaluateRule(exit.access_rule);
         
-        let stateClass = isExitTraversable ? 'traversable' : 'not-traversable';
+        // Evaluate just the exit rule
+        const exitRulePasses = !exit.access_rule || evaluateRule(exit.access_rule);
+        
+        let stateClass = '';
+        if (isRegionAccessible && exitRulePasses) {
+          stateClass = 'traversable';
+        } else if (isRegionAccessible && !exitRulePasses) {
+          stateClass = 'region-accessible-but-locked';
+        } else if (!isRegionAccessible && exitRulePasses) {
+          stateClass = 'region-inaccessible-but-unlocked';
+        } else {
+          stateClass = 'not-traversable';
+        }
         
         // For Loop Mode, check if the exit is discovered
         let exitName = exit.name;
@@ -206,8 +339,12 @@ export class ExitUI {
             </div>
             <div class="text-sm">
               ${
-                isExitTraversable
+                isRegionAccessible && exitRulePasses
                   ? 'Traversable'
+                  : isRegionAccessible && !exitRulePasses
+                  ? 'Region accessible, but rule fails'
+                  : !isRegionAccessible && exitRulePasses
+                  ? 'Region inaccessible, but rule passes'
                   : 'Not traversable'
               }
             </div>
@@ -235,6 +372,26 @@ export class ExitUI {
         const regionName = link.dataset.region;
         if (exitName && regionName) {
           this.gameUI.regionUI.navigateToRegion(regionName);
+        }
+      });
+    });
+    
+    // Add click handlers for exit cards in loop mode
+    document.querySelectorAll('.exit-card').forEach((card) => {
+      card.addEventListener('click', (e) => {
+        // Only handle clicks that aren't on other clickable elements
+        if (e.target.closest('.region-link') || e.target.closest('.exit-link')) {
+          return;
+        }
+        
+        try {
+          // Get the exit data from the data attribute
+          const exitData = JSON.parse(decodeURIComponent(card.dataset.exit.replace(/&quot;/g, '"')));
+          if (exitData) {
+            this.handleExitClick(exitData);
+          }
+        } catch (error) {
+          console.error('Error parsing exit data:', error);
         }
       });
     });

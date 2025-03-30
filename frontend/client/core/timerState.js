@@ -6,6 +6,9 @@ import connection from './connection.js';
 import messageHandler from './messageHandler.js';
 import locationManager from './locationManager.js';
 
+// Import loopState for loop mode interaction
+import loopState from '../../app/core/loop/loopState.js';
+
 export class TimerState {
   constructor() {
     // Private variables
@@ -24,6 +27,10 @@ export class TimerState {
 
     // Cache for stateManager
     this.stateManager = null;
+
+    // Loop mode timer control
+    this.timerPausedByLoopMode = false;
+    this.loopModeEventHandlersAttached = false;
 
     // Make this instance available globally
     if (typeof window !== 'undefined') {
@@ -66,6 +73,7 @@ export class TimerState {
     }
 
     this.gameComplete = false;
+    this.timerPausedByLoopMode = false;
 
     // Get UI references
     this.progressBar = document.getElementById('progress-bar');
@@ -86,7 +94,60 @@ export class TimerState {
       window.timerState = this;
     }
 
+    // Set up event listeners for loop mode
+    this._setupLoopModeEventListeners();
+
     console.log('TimerState module initialized');
+  }
+
+  // Set up event listeners to handle loop mode events
+  _setupLoopModeEventListeners() {
+    if (this.loopModeEventHandlersAttached) return;
+
+    try {
+      // Listen for action queue completion
+      eventBus.subscribe('loopState:queueEmpty', () => {
+        this._checkLoopModeTimerRestart();
+      });
+
+      // Listen for mana changes
+      eventBus.subscribe('loopState:manaChanged', (data) => {
+        // Check if we should restart the timer
+        this._checkLoopModeTimerRestart();
+      });
+
+      // Listen for loop mode deactivation
+      eventBus.subscribe('loopUI:modeChanged', (data) => {
+        this.stop();
+        this.timerPausedByLoopMode = false;
+      });
+
+      this.loopModeEventHandlersAttached = true;
+      console.log('Loop mode event listeners attached for timer control');
+    } catch (error) {
+      console.error('Error setting up loop mode event listeners:', error);
+    }
+  }
+
+  // Check if we should restart the timer in loop mode
+  _checkLoopModeTimerRestart() {
+    // Only try to restart if we're paused by loop mode
+    if (!this.timerPausedByLoopMode) return;
+
+    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    if (!isLoopModeActive) return;
+
+    // Check conditions to restart:
+    // 1. No actions in queue or not processing
+    // 2. Mana is above zero
+    const queueEmpty = !loopState.isProcessing || loopState.actionQueue.length === 0;
+    const hasMana = loopState.currentMana > 0;
+
+    if (queueEmpty && hasMana) {
+      console.log('Loop mode conditions met, restarting timer');
+      this.timerPausedByLoopMode = false;
+      this.begin();
+    }
   }
 
   // Check if there are any unchecked accessible locations left
@@ -196,8 +257,23 @@ export class TimerState {
             return;
           }
 
-          // Check a location through stateManager
-          this._checkNextAvailableLocation();
+          // Check a location through standard method
+          await this.checkQuickLocation();
+
+          // In loop mode, pause the timer until conditions are right
+          const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+
+          if (isLoopModeActive && loopState) {
+            console.log('Loop mode active, pausing timer until queue empties or mana depletes');
+            this.timerPausedByLoopMode = true;
+            this.stop();
+
+            // Change the button text to indicate waiting for loop mode
+            if (controlButton) {
+              controlButton.innerText = 'Loop Mode Active';
+            }
+            return;
+          }
 
           // Reset timer with a new random delay
           this.startTime = currentTime;
@@ -228,9 +304,117 @@ export class TimerState {
   }
 
   // The "Quick Check" button calls this method
-  checkQuickLocation() {
-    // Forward to internal method
-    this._checkNextAvailableLocation();
+  async checkQuickLocation() {
+    // Check if loop mode is active
+    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    
+    if (isLoopModeActive) {
+      await this._handleLoopModeQuickCheck();
+    } else {
+      // Standard behavior: check next available location
+      await this._checkNextAvailableLocation();
+    }
+  }
+
+  // Handle quick check in loop mode by clicking a random visible location or exit
+  async _handleLoopModeQuickCheck() {
+    console.log('Running quick check in loop mode');
+    
+    // Get all potentially valid location cards and exit cards
+    const allOptions = [];
+    
+    // Get stateManager
+    const stateManager = await this._getStateManager();
+    if (!stateManager) {
+      console.error('Failed to check: stateManager not available');
+      await this._checkNextAvailableLocation();
+      return;
+    }
+    
+    // First get eligible locations
+    const locations = stateManager.getProcessedLocations() || [];
+    
+    locations.forEach(loc => {
+      const isRegionDiscovered = loopState.isRegionDiscovered(loc.region);
+      const isRegionReachable = stateManager.isRegionReachable(loc.region);
+      const isLocationDiscovered = loopState.isLocationDiscovered(loc.name);
+      const isLocationChecked = stateManager.isLocationChecked(loc.name);
+      const isLocationAccessible = stateManager.isLocationAccessible(loc);
+      
+      // Add to options if:
+      // - Region is discovered and reachable
+      // - AND location is either (undiscovered) OR (unchecked and accessible)
+      if (isRegionDiscovered && isRegionReachable && 
+          (!isLocationDiscovered || (!isLocationChecked && isLocationAccessible))) {
+        allOptions.push({
+          type: 'location',
+          data: loc
+        });
+      }
+    });
+    
+    // Then get eligible exits
+    if (stateManager.regions) {
+      Object.entries(stateManager.regions).forEach(([regionName, region]) => {
+        if (region.exits && Array.isArray(region.exits)) {
+          const isRegionDiscovered = loopState.isRegionDiscovered(regionName);
+          const isRegionReachable = stateManager.isRegionReachable(regionName);
+          
+          // Only process exits in discovered and reachable regions
+          if (isRegionDiscovered && isRegionReachable) {
+            region.exits.forEach(exit => {
+              // Check if exit is discovered
+              let isExitDiscovered = false;
+              if (loopState.discoveredExits && loopState.discoveredExits.has(regionName)) {
+                isExitDiscovered = loopState.discoveredExits.get(regionName).has(exit.name);
+              }
+              
+              // Add to options if exit is undiscovered
+              if (!isExitDiscovered) {
+                // Make sure the exit has the region property set correctly
+                // The exitUI.handleExitClick method requires exit.region to be set
+                const exitWithRegion = {
+                  ...exit,
+                  region: regionName
+                };
+                
+                allOptions.push({
+                  type: 'exit',
+                  data: exitWithRegion
+                });
+              }
+            });
+          }
+        }
+      });
+    }
+    
+    console.log(`Found ${allOptions.length} eligible options for quick check (${allOptions.filter(o => o.type === 'location').length} locations, ${allOptions.filter(o => o.type === 'exit').length} exits)`);
+    
+    if (allOptions.length > 0) {
+      // Pick a random option
+      const randomIndex = Math.floor(Math.random() * allOptions.length);
+      const selectedOption = allOptions[randomIndex];
+      
+      console.log(`Selected random option: ${selectedOption.type} - ${selectedOption.data.name}`);
+      
+      if (selectedOption.type === 'location') {
+        // Handle location click
+        if (window.gameUI?.locationUI) {
+          window.gameUI.locationUI.handleLocationClick(selectedOption.data);
+          return;
+        }
+      } else if (selectedOption.type === 'exit') {
+        // Handle exit click
+        if (window.gameUI?.exitUI) {
+          window.gameUI.exitUI.handleExitClick(selectedOption.data);
+          return;
+        }
+      }
+    }
+    
+    // If we get here, we couldn't find a suitable option or there was an error
+    console.log('Loop mode quick check failed');
   }
 
   // Internal method to find and check a location
@@ -444,21 +628,24 @@ export class TimerState {
   }
 
   stop() {
+    // Clear the timer interval
     if (this.gameInterval) {
       clearInterval(this.gameInterval);
       this.gameInterval = null;
     }
 
-    // Reset UI
-    if (this.progressBar) {
-      this.progressBar.setAttribute('value', '0');
-    }
+    // Reset UI only if not paused by loop mode
+    if (!this.timerPausedByLoopMode) {
+      if (this.progressBar) {
+        this.progressBar.setAttribute('value', '0');
+      }
 
-    // Reset control button to "Begin!"
-    const controlButton = document.getElementById('control-button');
-    if (controlButton) {
-      controlButton.innerText = 'Begin!';
-      controlButton.removeAttribute('disabled');
+      // Reset control button to "Begin!"
+      const controlButton = document.getElementById('control-button');
+      if (controlButton) {
+        controlButton.innerText = 'Begin!';
+        controlButton.removeAttribute('disabled');
+      }
     }
   }
 
