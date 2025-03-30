@@ -1007,7 +1007,7 @@ class LoopState {
    */
   getSerializableState() {
     return {
-      maxMana: this.maxMana,
+      // Don't save maxMana as it should be calculated dynamically based on inventory
       currentMana: this.currentMana,
       regionXP: Array.from(this.regionXP.entries()),
       discoveredRegions: Array.from(this.discoveredRegions),
@@ -1029,8 +1029,11 @@ class LoopState {
   loadFromSerializedState(state) {
     if (!state) return;
 
-    this.maxMana = state.maxMana ?? 100;
-    this.currentMana = state.currentMana ?? this.maxMana;
+    // Always recalculate maxMana based on current inventory
+    this.recalculateMaxMana();
+    
+    // Cap current mana at the max value
+    this.currentMana = Math.min(state.currentMana ?? this.maxMana, this.maxMana);
 
     // Load region XP
     this.regionXP = new Map(state.regionXP || []);

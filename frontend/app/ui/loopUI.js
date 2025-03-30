@@ -78,15 +78,12 @@ export class LoopUI {
       headerStatusDisplay.style.display = 'none';
     }
 
-    // Render initial state
+    // Render initial state (without attaching event listeners again)
     this.renderLoopPanel();
 
-    // Re-attach event handlers to any expansion buttons after a short delay
-    // This ensures the DOM is fully built before we try to find and modify buttons
-    setTimeout(() => {
-      console.log('Re-attaching event handlers after initialization');
-      this._attachControlEventListeners();
-    }, 200);
+    // Attach event handlers after ensuring the DOM is fully built
+    // This is separate from renderLoopPanel to avoid duplicate event listeners
+    this._attachControlEventListeners();
 
     return true;
   }
@@ -165,9 +162,6 @@ export class LoopUI {
     fileInput.className = 'hidden';
     fileInput.accept = '.json';
     container.appendChild(fileInput);
-
-    // Attach event listeners
-    this._attachControlEventListeners();
 
     // Add colorblind mode toggle listener
     const colorblindToggle = document.getElementById('loop-colorblind');
@@ -379,218 +373,149 @@ export class LoopUI {
    * Attach event listeners to control elements
    */
   _attachControlEventListeners() {
-    // SIMPLER APPROACH: Use direct event listener attachment without button fixing
-
+    console.log('Attaching all control event listeners');
+    
     // Store a reference to this for use in event handlers
     const self = this;
 
-    // Toggle loop mode button - direct handler
-    const toggleLoopModeBtn = document.getElementById('toggle-loop-mode');
-    if (toggleLoopModeBtn) {
-      console.log('Found toggle loop mode button');
+    // === Attach listeners for control buttons ===
+    // We'll use a helper function to avoid duplicating code
+    const attachButtonHandler = (buttonId, handler) => {
+      const button = document.getElementById(buttonId);
+      if (button) {
+        // Clone and replace to remove existing event listeners
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        // Add the new click handler
+        newButton.addEventListener('click', handler);
+        return newButton;
+      }
+      return null;
+    };
 
-      // Clear any existing handlers by cloning and replacing
-      const newToggleBtn = toggleLoopModeBtn.cloneNode(true);
-      toggleLoopModeBtn.parentNode.replaceChild(
-        newToggleBtn,
-        toggleLoopModeBtn
-      );
+    // Toggle loop mode button
+    attachButtonHandler('toggle-loop-mode', function() {
+      console.log('Toggle loop mode button clicked');
+      self.toggleLoopMode();
+    });
 
-      // Add a simple click handler
-      newToggleBtn.addEventListener('click', function () {
-        console.log('Toggle loop mode button clicked');
-        self.toggleLoopMode();
-      });
+    // Pause button
+    attachButtonHandler('toggle-pause', function() {
+      console.log('Pause button clicked');
+      // Toggle the pause state
+      const newPauseState = !loopState.isPaused;
+      loopState.setPaused(newPauseState);
+      // Update button text based on the new state
+      this.textContent = newPauseState ? 'Resume' : 'Pause';
+    });
 
-      console.log('Toggle loop mode button handler attached');
-    } else {
-      console.error('Toggle loop mode button not found');
-    }
+    // Restart button
+    attachButtonHandler('toggle-restart', function() {
+      console.log('Restart button clicked');
+      try {
+        // Reset the loop state
+        loopState._resetLoop();
 
-    // Pause button - direct handler
-    const togglePauseBtn = document.getElementById('toggle-pause');
-    if (togglePauseBtn) {
-      console.log('Found pause button');
+        // Reset progress on all actions in the queue
+        document.querySelectorAll('.action-progress-bar').forEach((bar) => {
+          bar.style.width = '0%';
+        });
 
-      // Clear any existing handlers by cloning and replacing
-      const newPauseBtn = togglePauseBtn.cloneNode(true);
-      togglePauseBtn.parentNode.replaceChild(newPauseBtn, togglePauseBtn);
+        // Reset all action status indicators
+        document.querySelectorAll('.action-status').forEach((status) => {
+          status.textContent = 'Pending';
+          status.className = 'action-status pending';
+        });
 
-      // Add a simple click handler
-      newPauseBtn.addEventListener('click', function () {
-        console.log('Pause button clicked');
-        // Toggle the pause state
-        const newPauseState = !loopState.isPaused;
-        loopState.setPaused(newPauseState);
-        // Update button text based on the new state
-        this.textContent = newPauseState ? 'Resume' : 'Pause';
-      });
+        // Move all actions back to the beginning of the queue in original order
+        loopState.restartQueueFromBeginning();
 
-      console.log('Pause button handler attached');
-    } else {
-      console.error('Pause button not found');
-    }
-
-    // Restart button - direct handler
-    const toggleRestartBtn = document.getElementById('toggle-restart');
-    if (toggleRestartBtn) {
-      console.log('Found restart button');
-
-      // Clear any existing handlers by cloning and replacing
-      const newRestartBtn = toggleRestartBtn.cloneNode(true);
-      toggleRestartBtn.parentNode.replaceChild(newRestartBtn, toggleRestartBtn);
-
-      // Add a simple click handler for instant restart
-      newRestartBtn.addEventListener('click', function () {
-        console.log('Restart button clicked');
-
-        try {
-          // Reset the loop state
-          loopState._resetLoop(); // Reset the loop immediately
-
-          // Reset progress on all actions in the queue
-          document.querySelectorAll('.action-progress-bar').forEach((bar) => {
-            bar.style.width = '0%';
-          });
-
-          // Reset all action status indicators
-          document.querySelectorAll('.action-status').forEach((status) => {
-            status.textContent = 'Pending';
-            status.className = 'action-status pending';
-          });
-
-          // Move all actions back to the beginning of the queue in original order
-          loopState.restartQueueFromBeginning();
-
-          // Reset all action progress values - more careful approach
-          document
-            .querySelectorAll('.action-progress-value')
-            .forEach((value) => {
-              const actionItem = value.closest('.action-item');
-              if (actionItem) {
-                const actionId = actionItem.id.replace('action-', '');
-                const action = loopState.actionQueue.find(
+        // Reset all action progress values
+        document
+          .querySelectorAll('.action-progress-value')
+          .forEach((value) => {
+            const actionItem = value.closest('.action-item');
+            if (actionItem) {
+              const actionId = actionItem.id.replace('action-', '');
+              const action = loopState.actionQueue.find(
+                (a) => a.id === actionId
+              );
+              if (action) {
+                const actionCost = self._estimateActionCost(action);
+                // Find action index for the "X of Y" text
+                const actionIndex = loopState.actionQueue.findIndex(
                   (a) => a.id === actionId
                 );
-                if (action) {
-                  const actionCost = self._estimateActionCost(action);
-                  // Find action index for the "X of Y" text
-                  const actionIndex = loopState.actionQueue.findIndex(
-                    (a) => a.id === actionId
-                  );
-                  const displayIndex =
-                    actionIndex !== -1 ? actionIndex + 1 : '?';
-                  value.textContent = `0/${actionCost}, Action ${displayIndex} of ${loopState.actionQueue.length}`;
-                }
+                const displayIndex =
+                  actionIndex !== -1 ? actionIndex + 1 : '?';
+                value.textContent = `0/${actionCost}, Action ${displayIndex} of ${loopState.actionQueue.length}`;
               }
-            });
+            }
+          });
 
-          // If currently paused, resume processing
-          if (loopState.isPaused) {
-            loopState.setPaused(false);
-            togglePauseBtn.textContent = 'Pause';
+        // If currently paused, resume processing
+        if (loopState.isPaused) {
+          loopState.setPaused(false);
+          const pauseBtn = document.getElementById('toggle-pause');
+          if (pauseBtn) {
+            pauseBtn.textContent = 'Pause';
           }
-        } catch (error) {
-          console.error('Error during restart:', error);
         }
-      });
-
-      console.log('Restart button handler attached');
-    } else {
-      console.error('Restart button not found');
-    }
+      } catch (error) {
+        console.error('Error during restart:', error);
+      }
+    });
 
     // Auto-restart toggle button
-    const toggleAutoRestartBtn = document.getElementById('toggle-auto-restart');
-    if (toggleAutoRestartBtn) {
-      console.log('Found auto-restart toggle button');
-
-      // Clear any existing handlers
-      const newAutoRestartBtn = toggleAutoRestartBtn.cloneNode(true);
-      toggleAutoRestartBtn.parentNode.replaceChild(
-        newAutoRestartBtn,
-        toggleAutoRestartBtn
-      );
-
-      // Update initial text based on current state
-      newAutoRestartBtn.textContent = loopState.autoRestartQueue
+    attachButtonHandler('toggle-auto-restart', function() {
+      const newState = !loopState.autoRestartQueue;
+      loopState.setAutoRestartQueue(newState);
+      this.textContent = newState
         ? 'Restart when queue complete'
         : 'Pause when queue complete';
-
-      // Add click handler
-      newAutoRestartBtn.addEventListener('click', function () {
-        const newState = !loopState.autoRestartQueue;
-        loopState.setAutoRestartQueue(newState);
-        this.textContent = newState
-          ? 'Restart when queue complete'
-          : 'Pause when queue complete';
-      });
-
-      console.log('Auto-restart toggle button handler attached');
-    } else {
-      console.error('Auto-restart toggle button not found');
-    }
+    });
 
     // Game speed slider
     const speedSlider = document.getElementById('game-speed');
     const speedValue = document.getElementById('speed-value');
     if (speedSlider && speedValue) {
-      // Set max speed to 20x
-      speedSlider.max = 20;
+      // Remove existing listeners by cloning
+      const newSpeedSlider = speedSlider.cloneNode(true);
+      speedSlider.parentNode.replaceChild(newSpeedSlider, speedSlider);
+      
+      // Set max speed to 100x
+      newSpeedSlider.max = 100;
       
       // Set initial value based on loopState
-      speedSlider.value = loopState.gameSpeed;
+      newSpeedSlider.value = loopState.gameSpeed;
       speedValue.textContent = `${loopState.gameSpeed.toFixed(1)}x`;
       
-      speedSlider.addEventListener('input', () => {
-        const speed = parseFloat(speedSlider.value);
+      // Add event listener
+      newSpeedSlider.addEventListener('input', () => {
+        const speed = parseFloat(newSpeedSlider.value);
         loopState.setGameSpeed(speed);
         speedValue.textContent = `${speed.toFixed(1)}x`;
       });
     }
 
-    // Expand/collapse all button - direct handler
-    const expandCollapseBtn = document.getElementById(
-      'loop-expand-collapse-all'
-    );
-    if (expandCollapseBtn) {
-      console.log('Found expand/collapse button');
-
-      // Clear any existing handlers by cloning and replacing
-      const newExpandCollapseBtn = expandCollapseBtn.cloneNode(true);
-      expandCollapseBtn.parentNode.replaceChild(
-        newExpandCollapseBtn,
-        expandCollapseBtn
-      );
-
-      // Add a simple click handler
-      newExpandCollapseBtn.addEventListener('click', function () {
-        console.log('Expand/collapse button clicked:', this.textContent);
-
-        if (this.textContent === 'Expand All') {
-          console.log('Expanding all regions');
-          self.expandAllRegions();
-        } else {
-          console.log('Collapsing all regions');
-          self.collapseAllRegions();
-        }
-      });
-
-      console.log('Expand/collapse button handler attached');
-    } else {
-      console.error('Expand/collapse button not found');
-    }
+    // Expand/collapse all button
+    attachButtonHandler('loop-expand-collapse-all', function() {
+      console.log('Expand/collapse button clicked:', this.textContent);
+      if (this.textContent === 'Expand All') {
+        console.log('Expanding all regions');
+        self.expandAllRegions();
+      } else {
+        console.log('Collapsing all regions');
+        self.collapseAllRegions();
+      }
+    });
 
     // Look for possible header expand button as well
     const headerExpandCollapseBtn = document.querySelector(
       '.loop-controls #loop-expand-collapse-all'
     );
-    if (
-      headerExpandCollapseBtn &&
-      headerExpandCollapseBtn !== expandCollapseBtn
-    ) {
-      console.log('Found header expand/collapse button');
-
+    if (headerExpandCollapseBtn) {
       // Clear any existing handlers
       const newHeaderBtn = headerExpandCollapseBtn.cloneNode(true);
       headerExpandCollapseBtn.parentNode.replaceChild(
@@ -599,91 +524,70 @@ export class LoopUI {
       );
 
       // Add a simple click handler
-      newHeaderBtn.addEventListener('click', function () {
-        console.log('Header expand/collapse button clicked:', this.textContent);
-
+      newHeaderBtn.addEventListener('click', function() {
         if (this.textContent === 'Expand All') {
           self.expandAllRegions();
         } else {
           self.collapseAllRegions();
         }
       });
-
-      console.log('Header expand/collapse button handler attached');
     }
 
     // Store the instance globally for direct access from event handlers
     window.loopUIInstance = this;
 
     // Clear queue button
-    const clearQueueBtn = document.getElementById('loop-clear-queue');
-    if (clearQueueBtn) {
-      clearQueueBtn.addEventListener('click', () => {
-        // Completely reset the queue
-        loopState.actionQueue = [];
-        loopState.currentAction = null;
-        loopState.currentActionIndex = 0;
-        loopState.isProcessing = false;
-        
-        // Refill mana to maximum
-        loopState.currentMana = loopState.maxMana;
-        
-        // Clear regions in queue
-        this.regionsInQueue.clear();
-        
-        // Clear the action progress bar under the mana bar
-        const actionContainer = document.getElementById('current-action-container');
-        if (actionContainer) {
-          actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
-        }
-        
-        // Clear the header progress bar
-        const headerProgressBar = document.getElementById('header-action-progress-bar');
-        const headerProgressText = document.getElementById('header-action-progress-text');
-        if (headerProgressBar && headerProgressText) {
-          headerProgressBar.style.width = '0%';
-          headerProgressText.textContent = '';
-        }
-        
-        // Update mana display
-        this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
-        
-        // Notify queue updated
-        eventBus.publish('loopState:queueUpdated', { queue: loopState.actionQueue });
-        
-        // Force re-render
-        this.renderLoopPanel();
-      });
-    }
+    attachButtonHandler('loop-clear-queue', function() {
+      // Completely reset the queue
+      loopState.actionQueue = [];
+      loopState.currentAction = null;
+      loopState.currentActionIndex = 0;
+      loopState.isProcessing = false;
+      
+      // Refill mana to maximum
+      loopState.currentMana = loopState.maxMana;
+      
+      // Clear regions in queue
+      self.regionsInQueue.clear();
+      
+      // Clear the action progress bar under the mana bar
+      const actionContainer = document.getElementById('current-action-container');
+      if (actionContainer) {
+        actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
+      }
+      
+      // Clear the header progress bar
+      const headerProgressBar = document.getElementById('header-action-progress-bar');
+      const headerProgressText = document.getElementById('header-action-progress-text');
+      if (headerProgressBar && headerProgressText) {
+        headerProgressBar.style.width = '0%';
+        headerProgressText.textContent = '';
+      }
+      
+      // Update mana display
+      self._updateManaDisplay(loopState.currentMana, loopState.maxMana);
+      
+      // Notify queue updated
+      eventBus.publish('loopState:queueUpdated', { queue: loopState.actionQueue });
+      
+      // Force re-render
+      self.renderLoopPanel();
+    });
 
     // Save state button
-    const saveStateBtn = document.getElementById('loop-save-state');
-    if (saveStateBtn) {
-      // Remove existing listeners
-      const newSaveBtn = saveStateBtn.cloneNode(true);
-      saveStateBtn.parentNode.replaceChild(newSaveBtn, saveStateBtn);
-
-      newSaveBtn.addEventListener('click', () => {
-        loopState.saveToStorage();
-        if (window.consoleManager) {
-          window.consoleManager.print('Game saved!', 'success');
-        } else {
-          alert('Game saved!');
-        }
-      });
-    }
+    attachButtonHandler('loop-save-state', function() {
+      loopState.saveToStorage();
+      if (window.consoleManager) {
+        window.consoleManager.print('Game saved!', 'success');
+      } else {
+        alert('Game saved!');
+      }
+    });
 
     // Export button
-    const exportBtn = document.getElementById('loop-export-state');
-    if (exportBtn) {
-      // Remove existing listeners
-      const newExportBtn = exportBtn.cloneNode(true);
-      exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
-
-      newExportBtn.addEventListener('click', () => {
-        this._exportState();
-      });
-    }
+    attachButtonHandler('loop-export-state', function() {
+      self._exportState();
+    });
 
     // Import button & file input
     const importBtn = document.getElementById('loop-import-state');
@@ -692,50 +596,52 @@ export class LoopUI {
       // Remove existing listeners
       const newImportBtn = importBtn.cloneNode(true);
       importBtn.parentNode.replaceChild(newImportBtn, importBtn);
+      
+      const newFileInput = fileInput.cloneNode(true);
+      fileInput.parentNode.replaceChild(newFileInput, fileInput);
 
       newImportBtn.addEventListener('click', () => {
-        fileInput.click();
+        newFileInput.click();
       });
 
-      fileInput.addEventListener('change', (event) => {
-        this._importState(event.target.files[0]);
+      newFileInput.addEventListener('change', (event) => {
+        self._importState(event.target.files[0]);
       });
     }
     
     // Hard Reset button
-    const hardResetBtn = document.getElementById('loop-hard-reset');
-    if (hardResetBtn) {
-      hardResetBtn.addEventListener('click', () => {
-        // Show a confirmation dialog
-        if (confirm("Are you sure you want to hard reset? This will clear all progress, discovery, and XP data.")) {
-          // Clear all loop state
-          loopState.discoveredRegions = new Set(['Menu']);
-          loopState.discoveredLocations = new Set();
-          loopState.discoveredExits = new Map();
-          loopState.discoveredExits.set('Menu', new Set());
-          loopState.regionXP = new Map();
-          loopState.actionQueue = [];
-          loopState.currentAction = null;
-          loopState.currentActionIndex = 0;
-          loopState.currentMana = loopState.maxMana;
-          loopState.isProcessing = false;
-          
-          // Re-initialize discoverable data
-          loopState._initializeDiscoverableData();
-          
-          // Save the reset state to storage
-          loopState.saveToStorage();
-          
-          // Re-render the UI
-          this.renderLoopPanel();
-          
-          // Show a message to the user
-          if (window.consoleManager) {
-            window.consoleManager.print('Game has been hard reset!', 'warning');
-          }
+    attachButtonHandler('loop-hard-reset', function() {
+      // Show a confirmation dialog
+      if (confirm("Are you sure you want to hard reset? This will clear all progress, discovery, and XP data.")) {
+        // Clear all loop state
+        loopState.discoveredRegions = new Set(['Menu']);
+        loopState.discoveredLocations = new Set();
+        loopState.discoveredExits = new Map();
+        loopState.discoveredExits.set('Menu', new Set());
+        loopState.regionXP = new Map();
+        loopState.actionQueue = [];
+        loopState.currentAction = null;
+        loopState.currentActionIndex = 0;
+        loopState.currentMana = loopState.maxMana;
+        loopState.isProcessing = false;
+        
+        // Re-initialize discoverable data
+        loopState._initializeDiscoverableData();
+        
+        // Save the reset state to storage
+        loopState.saveToStorage();
+        
+        // Re-render the UI
+        self.renderLoopPanel();
+        
+        // Show a message to the user
+        if (window.consoleManager) {
+          window.consoleManager.print('Game has been hard reset!', 'warning');
         }
-      });
-    }
+      }
+    });
+    
+    console.log('All control event listeners attached');
   }
 
   /**
@@ -984,17 +890,30 @@ export class LoopUI {
     }
 
     // If entering loop mode, start any queued actions
-    if (
-      this.isLoopModeActive &&
-      loopState.actionQueue.length > 0 &&
-      !loopState.isProcessing
-    ) {
+    if (this.isLoopModeActive) {
       try {
-        loopState.startProcessing();
+        // Set paused state first
+        loopState.setPaused(true);
+        
+        // Update all pause buttons to show "Resume"
+        const allPauseButtons = document.querySelectorAll('button#toggle-pause');
+        allPauseButtons.forEach((btn) => {
+          btn.textContent = 'Resume';
+          btn.disabled = false; // Make sure the button is enabled
+        });
+        
+        // Fallback for single pause button
+        const pauseBtn = document.getElementById('toggle-pause');
+        if (pauseBtn && !allPauseButtons.length) {
+          pauseBtn.textContent = 'Resume';
+          pauseBtn.disabled = false;
+        }
+        
+        console.log('Entered loop mode in paused state');
       } catch (error) {
-        console.error('Error starting processing:', error);
+        console.error('Error initializing loop mode:', error);
         if (window.consoleManager) {
-          window.consoleManager.print('Error starting queue processing. Try adding actions first.', 'error');
+          window.consoleManager.print('Error initializing loop mode.', 'error');
         }
       }
     }
@@ -1010,6 +929,7 @@ export class LoopUI {
       });
 
       // Fallback
+      const pauseBtn = document.getElementById('toggle-pause');
       if (pauseBtn && !allPauseButtons.length) {
         pauseBtn.textContent = 'Resume';
       }
@@ -1036,6 +956,8 @@ export class LoopUI {
     console.log(
       `Loop mode ${this.isLoopModeActive ? 'activated' : 'deactivated'}`
     );
+    
+    // Only render the panel once at the end
     this.renderLoopPanel();
   }
 
