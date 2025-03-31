@@ -967,6 +967,90 @@ export class LoopUI {
       }
     }
 
+    const filesPanel = document.getElementById('files-panel');
+    const testCasesPanel = document.getElementById('test-cases-panel');
+    const presetsPanel = document.getElementById('presets-panel');
+
+    if (this.isLoopModeActive) {
+      // Disable file panels when entering loop mode
+      if (filesPanel) {
+        filesPanel.classList.add('loop-mode-disabled');
+      }
+
+      // Add a notice to the files panel
+      const disabledMessage = document.createElement('div');
+      disabledMessage.className = 'loop-mode-disabled-message';
+      disabledMessage.textContent =
+        'The Files panel is disabled while Loop Mode is active.';
+
+      if (testCasesPanel) {
+        testCasesPanel.innerHTML = ''; // Clear previous content
+        testCasesPanel.appendChild(disabledMessage.cloneNode(true));
+      }
+
+      if (presetsPanel) {
+        presetsPanel.innerHTML = ''; // Clear previous content
+        presetsPanel.appendChild(disabledMessage.cloneNode(true));
+      }
+    } else {
+      // Re-enable file panels when exiting loop mode
+      if (filesPanel) {
+        filesPanel.classList.remove('loop-mode-disabled');
+      }
+
+      // Restore BOTH panel structures
+      if (testCasesPanel) {
+        const message = testCasesPanel.querySelector(
+          '.loop-mode-disabled-message'
+        );
+        if (message) message.remove();
+        // Ensure the inner container exists
+        if (!testCasesPanel.querySelector('#test-cases-list')) {
+          testCasesPanel.innerHTML = '<div id="test-cases-list"></div>';
+        }
+      }
+
+      if (presetsPanel) {
+        const message = presetsPanel.querySelector(
+          '.loop-mode-disabled-message'
+        );
+        if (message) message.remove();
+        // Ensure the inner container exists
+        if (!presetsPanel.querySelector('#presets-list')) {
+          presetsPanel.innerHTML = '<div id="presets-list"></div>';
+        }
+      }
+
+      // Now, render content ONLY for the ACTIVE view
+      if (
+        this.gameUI &&
+        this.gameUI.testCaseUI &&
+        this.gameUI.currentFileView === 'test-cases'
+      ) {
+        if (this.gameUI.testCaseUI.currentTestSet) {
+          this.gameUI.testCaseUI.renderTestCasesList();
+        } else {
+          this.gameUI.testCaseUI.renderTestSetSelector();
+        }
+      } else if (
+        this.gameUI &&
+        this.gameUI.presetUI &&
+        this.gameUI.currentFileView === 'presets'
+      ) {
+        if (
+          this.gameUI.presetUI.currentGame &&
+          this.gameUI.presetUI.currentPreset
+        ) {
+          this.gameUI.presetUI.loadPreset(
+            this.gameUI.presetUI.currentGame,
+            this.gameUI.presetUI.currentPreset
+          );
+        } else {
+          this.gameUI.presetUI.renderGamesList();
+        }
+      }
+    }
+
     // Notify other UI components about loop mode change
     eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
 

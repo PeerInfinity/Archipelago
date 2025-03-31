@@ -12,6 +12,7 @@ import { PresetUI } from './presetUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
 import eventBus from '../../app/core/eventBus.js';
+import loopState from '../core/loop/loopState.js'; // Make sure loopState is imported if not already
 
 export class GameUI {
   constructor() {
@@ -147,7 +148,13 @@ export class GameUI {
     const loopPanel = document.getElementById('loop-panel');
     const filesPanel = document.getElementById('files-panel');
 
-    if (!locationsContainer || !exitsContainer || !regionsContainer || !loopPanel || !filesPanel) {
+    if (
+      !locationsContainer ||
+      !exitsContainer ||
+      !regionsContainer ||
+      !loopPanel ||
+      !filesPanel
+    ) {
       console.warn('Missing container elements for toggling views.');
       return;
     }
@@ -455,14 +462,29 @@ export class GameUI {
     presetsPanel.style.display =
       this.currentFileView === 'presets' ? 'block' : 'none';
 
-    // Initialize the appropriate UI if needed
-    if (this.currentFileView === 'test-cases') {
-      if (!this.testCaseUI.testCases && !this.testCaseUI.availableTestSets) {
-        this.testCaseUI.initialize();
-      }
-    } else if (this.currentFileView === 'presets') {
-      if (!this.presetUI.presets) {
-        this.presetUI.initialize();
+    // Only initialize if Loop Mode is NOT active
+    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    if (!isLoopModeActive) {
+      // Initialize the appropriate UI if needed
+      if (this.currentFileView === 'test-cases') {
+        // Check if initialize needs to be called (e.g., first time viewing)
+        // Using a simple check, might need refinement based on actual UI state needs
+        if (!this.testCaseUI.availableTestSets) {
+          this.testCaseUI.initialize();
+        } else if (
+          !document.getElementById('test-cases-list')?.hasChildNodes()
+        ) {
+          // Or if the list is empty, re-render
+          this.testCaseUI.renderTestSetSelector();
+        }
+      } else if (this.currentFileView === 'presets') {
+        // Check if initialize needs to be called
+        if (!this.presetUI.presets) {
+          this.presetUI.initialize();
+        } else if (!document.getElementById('presets-list')?.hasChildNodes()) {
+          // Or if the list is empty, re-render
+          this.presetUI.renderGamesList();
+        }
       }
     }
   }
