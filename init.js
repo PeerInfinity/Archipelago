@@ -30,6 +30,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     const clientAppModule = await import('./client/app.js');
     window.APP = clientAppModule.default;
     console.log('Client app loaded');
+
+    // Parse URL parameters to check for mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = urlParams.get('mode');
+    
+    // Set a small delay to ensure everything is fully loaded
+    setTimeout(() => {
+      if (mode === 'loop') {
+        // Set the view mode to 'loop'
+        if (gameUI) {
+          // Select the loop radio button to update the UI
+          const loopRadio = document.querySelector('input[name="view-mode"][value="loop"]');
+          if (loopRadio) {
+            loopRadio.checked = true;
+            gameUI.setViewMode('loop');
+            
+            // Trigger the Enter Loop Mode button
+            setTimeout(() => {
+              const toggleLoopModeBtn = document.getElementById('toggle-loop-mode');
+              if (toggleLoopModeBtn && !gameUI.loopUI.isLoopModeActive) {
+                toggleLoopModeBtn.click();
+                console.log('Automatically activated Loop Mode via URL parameter');
+              }
+            }, 500); // Add a small delay to ensure the UI is ready
+          }
+        }
+      }
+    }, 1000); // Wait for everything to initialize
   } catch (error) {
     console.error('Error during application initialization:', error);
   }

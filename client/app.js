@@ -1,10 +1,10 @@
 // client/app.js - Updated to properly initialize mappings
 import Config from './core/config.js';
 import storage from './core/storage.js';
-import eventBus from './core/eventBus.js';
+import eventBus from '../app/core/eventBus.js';
 import connection from './core/connection.js';
 import messageHandler from './core/messageHandler.js';
-import { gameState } from './core/gameState.js'; // Updated to use named import
+import timerState from './core/timerState.js';
 import locationManager from './core/locationManager.js';
 import ConsoleUI from './ui/consoleUI.js';
 import ProgressUI from './ui/progressUI.js';
@@ -30,7 +30,7 @@ class App {
 
       // Core modules next
       storage.initialize();
-      eventBus.initialize();
+      //eventBus.initialize(); // eventBus is a singleton, no need to initialize
       connection.initialize();
 
       // Load data package mappings before messageHandler initialization
@@ -40,12 +40,12 @@ class App {
       messageHandler.initialize();
       locationManager.initialize();
 
-      // Initialize gameState (now using the instance)
-      if (gameState) {
+      // Initialize timerState (now using the instance)
+      if (timerState) {
         // Call the initialize method through the instance
-        gameState.initialize();
+        timerState.initialize();
       } else {
-        console.warn('gameState instance not available');
+        console.warn('timerState instance not available');
       }
 
       // UI modules next

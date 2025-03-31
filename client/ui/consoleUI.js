@@ -1,5 +1,5 @@
 // client/ui/consoleUI.js - Updated to use synchronous name lookups
-import eventBus from '../core/eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import Config from '../core/config.js';
 import messageHandler from '../core/messageHandler.js';
 import connection from '../core/connection.js';
@@ -213,9 +213,9 @@ export class ConsoleUI {
         }
 
         this.appendMessage(`Setting delay to ${delay} seconds...`);
-        // Update the game state delay
-        if (window.gameState) {
-          window.gameState.setCheckDelay?.(delay);
+        // Update the timer state delay
+        if (window.timerState) {
+          window.timerState.setCheckDelay?.(delay);
           this.appendMessage(`Check delay updated to ${delay} seconds.`);
         } else {
           this.appendMessage('Game state not available.');
@@ -628,19 +628,19 @@ export class ConsoleUI {
       }
     }
 
-    // Get reference to gameState
-    const gs = window.gameState || null;
+    // Get reference to timerState
+    const ts = window.timerState || null;
 
-    if (gs && typeof gs.setCheckDelay === 'function') {
+    if (ts && typeof ts.setCheckDelay === 'function') {
       if (maxDelay === null) {
         this.appendMessage(`Setting fixed delay to ${minDelay} seconds...`);
-        gs.setCheckDelay(minDelay);
+        ts.setCheckDelay(minDelay);
         this.appendMessage(`Check delay updated to fixed ${minDelay} seconds.`);
       } else {
         this.appendMessage(
           `Setting delay range to ${minDelay}-${maxDelay} seconds...`
         );
-        gs.setCheckDelay(minDelay, maxDelay);
+        ts.setCheckDelay(minDelay, maxDelay);
         this.appendMessage(
           `Check delay updated to range: ${minDelay}-${maxDelay} seconds.`
         );

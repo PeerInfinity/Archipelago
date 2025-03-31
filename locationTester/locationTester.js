@@ -118,13 +118,13 @@ export class LocationTester {
         const checkXhr = new XMLHttpRequest();
         checkXhr.open(
           'HEAD',
-          `./tests/${folderPath}${testSet}_rules.json`,
+          `./tests/${folderPath}${folder}_rules.json`,
           false
         );
         checkXhr.send();
         if (checkXhr.status !== 200) {
           console.warn(
-            `Rules file for ${testSet} in folder ${
+            `Rules file for ${folder} in folder ${
               folder || 'default'
             } does not exist (status: ${checkXhr.status})`
           );
@@ -132,7 +132,7 @@ export class LocationTester {
         }
       } catch (e) {
         console.warn(
-          `Error checking if rules file exists for ${testSet} in folder ${
+          `Error checking if rules file exists for ${folder} in folder ${
             folder || 'default'
           }:`,
           e
@@ -143,7 +143,7 @@ export class LocationTester {
       // Don't fall back to a default file - this ensures consistency with folder-specific tests
       if (!fileExists) {
         throw new Error(
-          `${testSet}_rules.json not found in folder ${
+          `${folder}_rules.json not found in folder ${
             folder || 'default'
           }. No fallback will be used to ensure consistency.`
         );
@@ -151,7 +151,7 @@ export class LocationTester {
 
       // Use synchronous XMLHttpRequest to load the test file
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', `./tests/${folderPath}${testSet}_rules.json`, false);
+      xhr.open('GET', `./tests/${folderPath}${folder}_rules.json`, false);
       xhr.send();
 
       if (xhr.status !== 200) {
@@ -160,7 +160,7 @@ export class LocationTester {
 
       const rulesData = JSON.parse(xhr.responseText);
       console.log(
-        `Successfully loaded rules data for ${testSet} (${
+        `Successfully loaded rules data for ${folder} (${
           Object.keys(rulesData).length
         } top-level keys)`
       );
@@ -189,11 +189,11 @@ export class LocationTester {
         stateManager.state?.gameSettings
       );
 
-      console.log(`Rules data loaded into state manager for ${testSet}`);
+      console.log(`Rules data loaded into state manager for ${folder}`);
 
       return true;
     } catch (error) {
-      console.error(`Error loading rules data for ${testSet}:`, error);
+      console.error(`Error loading rules data for ${folder}:`, error);
       throw error;
     }
   }

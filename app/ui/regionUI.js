@@ -4,6 +4,7 @@ import { evaluateRule } from '../core/ruleEngine.js';
 import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 import commonUI from './commonUI.js';
 import messageHandler from '../../client/core/messageHandler.js';
+import loopState from '../core/loop/loopState.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -365,6 +366,14 @@ export class RegionUI {
     }
 
     const isAccessible = stateManager.isRegionReachable(regionName);
+    
+    // Check if Loop Mode is active
+    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    
+    // In Loop Mode, only show discovered regions
+    if (isLoopModeActive && !loopState.isRegionDiscovered(regionName)) {
+      return document.createElement('div'); // Return empty div for undiscovered regions
+    }
 
     // Header
     const headerEl = document.createElement('div');
@@ -428,16 +437,51 @@ export class RegionUI {
           // Remove inventory parameter
           const canAccess = evaluateRule(exit.access_rule);
           const colorClass = canAccess ? 'accessible' : 'inaccessible';
+          
+          // In Loop Mode, check if the exit is discovered
+          let isDiscovered = true;
+          const showExplored = document.getElementById('show-explored')?.checked ?? true;
+          
+          if (isLoopModeActive) {
+            isDiscovered = loopState.isExitDiscovered(regionName, exit.name);
+            // Skip this exit if it's not discovered and we're not showing explored
+            if (!isDiscovered && !showExplored) {
+              return; // Using 'return' here inside forEach callback instead of 'continue'
+            }
+          }
 
           // Create wrapper for exit info
           const exitInfo = document.createElement('span');
           exitInfo.classList.add(colorClass);
-          exitInfo.textContent = `${exit.name} → `;
+          
+          // In Loop Mode, show ??? for undiscovered exits
+          const exitName = (isLoopModeActive && !isDiscovered) ? '???' : exit.name;
+          exitInfo.textContent = `${exitName} → `;
+          
+          if (!isDiscovered) {
+            exitInfo.classList.add('undiscovered-exit');
+          }
 
           // Add connected region as a link if it exists
           if (exit.connected_region) {
-            const regionLink = this.createRegionLink(exit.connected_region);
+            let connectedRegionName = exit.connected_region;
+            
+            // In Loop Mode, check if the connected region is discovered
+            if (isLoopModeActive) {
+              const isConnectedRegionDiscovered = loopState.isRegionDiscovered(exit.connected_region);
+              if (!isConnectedRegionDiscovered) {
+                connectedRegionName = '???';
+              }
+            }
+            
+            const regionLink = this.createRegionLink(connectedRegionName);
+            regionLink.dataset.realRegion = exit.connected_region; // Store the real region name
             regionLink.classList.add(colorClass);
+            
+            if (isLoopModeActive && !loopState.isRegionDiscovered(exit.connected_region)) {
+              regionLink.classList.add('undiscovered-region');
+            }
+            
             exitInfo.appendChild(regionLink);
           } else {
             exitInfo.textContent += '(none)';
@@ -450,6 +494,12 @@ export class RegionUI {
           moveBtn.classList.add('move-btn');
           moveBtn.textContent = 'Move';
           moveBtn.disabled = !(canAccess && exit.connected_region);
+          
+          // In Loop Mode, disable the button for undiscovered exits
+          if (isLoopModeActive && !isDiscovered) {
+            moveBtn.disabled = true;
+          }
+          
           moveBtn.addEventListener('click', () => {
             if (canAccess && exit.connected_region) {
               this.moveToRegion(regionName, exit.connected_region);
@@ -490,10 +540,28 @@ export class RegionUI {
             : canAccess
             ? 'accessible'
             : 'inaccessible';
+            
+          // In Loop Mode, check if the location is discovered
+          let isDiscovered = true;
+          const showExplored = document.getElementById('show-explored')?.checked ?? true;
+          
+          if (isLoopModeActive) {
+            isDiscovered = loopState.isLocationDiscovered(loc.name);
+            if (!isDiscovered && !showExplored) {
+              return; // Skip this location if it's not discovered and we're not showing explored
+            }
+          }
 
           // Create a location link instead of a simple span
-          const locLink = this.createLocationLink(loc.name, regionName);
+          const locationName = (isLoopModeActive && !isDiscovered) ? '???' : loc.name;
+          const locLink = this.createLocationLink(locationName, regionName);
+          locLink.dataset.realName = loc.name; // Store the real location name
           locLink.classList.add(colorClass);
+          
+          if (isLoopModeActive && !isDiscovered) {
+            locLink.classList.add('undiscovered-location');
+          }
+          
           locDiv.appendChild(locLink);
 
           // Add check button and check mark
@@ -502,6 +570,12 @@ export class RegionUI {
           checkBtn.textContent = 'Check';
           checkBtn.style.display = isChecked ? 'none' : '';
           checkBtn.disabled = !canAccess;
+          
+          // In Loop Mode, disable the button for undiscovered locations
+          if (isLoopModeActive && !isDiscovered) {
+            checkBtn.disabled = true;
+          }
+          
           checkBtn.addEventListener('click', async () => {
             if (canAccess && !isChecked) {
               try {

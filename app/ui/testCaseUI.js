@@ -173,10 +173,12 @@ export class TestCaseUI {
       // Construct folder path if we have a current folder
       const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
 
-      // Load the test rules and test cases based on the test set name and folder
+      // Load the test rules based on the folder name, not the test set name
       this.testRules = loadJSON(
-        `./tests/${folderPath}${testSetName}_rules.json`
+        `./tests/${folderPath}${this.currentFolder}_rules.json`
       );
+
+      // Load the test cases based on the test set name (unchanged)
       this.testCases = loadJSON(
         `./tests/${folderPath}${testSetName}_tests.json`
       );
@@ -253,16 +255,51 @@ export class TestCaseUI {
           : [],
       });
 
+      // Ensure testRules has all required properties
+      if (!this.testRules.regions || !this.testRules.regions['1']) {
+        console.error('Invalid rules data - missing regions:', this.testRules);
+        statusElement.innerHTML = `<div class="test-error">Error: Invalid rules data structure</div>`;
+        return false;
+      }
+
       // First initialize inventory with the test rules data
+      console.log('Loading rules data into state manager');
       stateManager.loadFromJSON(this.testRules);
 
-      // Then set up the test case inventory state
-      stateManager.initializeInventoryForTest(requiredItems, excludedItems);
+      // Verify state manager was properly initialized
+      if (
+        !stateManager.regions ||
+        Object.keys(stateManager.regions).length === 0
+      ) {
+        console.error('State manager not properly initialized with regions');
+        statusElement.innerHTML = `<div class="test-error">Error: State manager initialization failed</div>`;
+        return false;
+      }
 
-      // Force UI sync and cache invalidation
-      stateManager.invalidateCache();
-      stateManager.computeReachableRegions();
-      this.gameUI.inventoryUI?.syncWithState();
+      // Then set up the test case inventory state
+      console.log('Setting up test inventory with:', {
+        requiredItems,
+        excludedItems,
+      });
+      try {
+        stateManager.initializeInventoryForTest(requiredItems, excludedItems);
+      } catch (inventoryError) {
+        console.error('Error initializing inventory:', inventoryError);
+        statusElement.innerHTML = `<div class="test-error">Error: ${inventoryError.message}</div>`;
+        return false;
+      }
+
+      // Force UI sync and cache invalidation - with additional error handling
+      try {
+        console.log('Invalidating cache and computing reachable regions');
+        stateManager.invalidateCache();
+        stateManager.computeReachableRegions();
+        this.gameUI.inventoryUI?.syncWithState();
+      } catch (reachabilityError) {
+        console.error('Error computing reachability:', reachabilityError);
+        statusElement.innerHTML = `<div class="test-error">Error: ${reachabilityError.message}</div>`;
+        return false;
+      }
 
       // Find the location data in the rules and include its region
       let locationData = null;
@@ -371,20 +408,20 @@ export class TestCaseUI {
   }
 
   updateDataSourceIndicator() {
-    const dataSource = document.getElementById('data-source');
-    if (dataSource) {
-      const isTestData = this.isUsingTestData();
+    const dataSourceElement = document.getElementById('data-source');
+    if (!dataSourceElement) return;
 
-      // Include folder in path if available
-      const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+    const isUsingTestData = this.isUsingTestData();
+    const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
 
-      dataSource.textContent = isTestData
-        ? `tests/${folderPath}${this.currentTestSet}_rules.json`
-        : 'default_rules.json';
-      dataSource.className = isTestData
-        ? 'data-source-correct'
-        : 'data-source-wrong';
-    }
+    // Update text and styling based on data source
+    dataSourceElement.textContent = isUsingTestData
+      ? `tests/${folderPath}${this.currentFolder}_rules.json`
+      : 'default_rules.json';
+
+    dataSourceElement.className = isUsingTestData
+      ? 'data-source-correct'
+      : 'data-source-wrong';
   }
 
   runAllTests() {
@@ -543,6 +580,27 @@ export class TestCaseUI {
     });
 
     html += `</table>`;
+
+    // Define folderPath variable before using it in download links
+    const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+
+    // Add download links
+    html += `
+      <div class="test-links">
+        <a href="./tests/${folderPath}${this.currentFolder}_rules.json" 
+           download 
+           target="_blank" 
+           class="download-link">
+          Download Rules
+        </a>
+        <a href="./tests/${folderPath}${this.currentTestSet}_tests.json" 
+           download 
+           target="_blank" 
+           class="download-link">
+          Download Tests
+        </a>
+      </div>
+    `;
 
     // Add styles
     html += `
@@ -758,10 +816,10 @@ export class TestCaseUI {
           // Construct folder path if we have a current folder
           const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
 
-          // Load the test rules for the current test set
+          // Load the test rules based on the folder name, not the test set name
           xhr.open(
             'GET',
-            `./tests/${folderPath}${this.currentTestSet}_rules.json`,
+            `./tests/${folderPath}${this.currentFolder}_rules.json`,
             false
           );
           xhr.send();

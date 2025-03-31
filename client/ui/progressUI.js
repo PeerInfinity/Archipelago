@@ -1,7 +1,7 @@
 // client/ui/progressUI.js - Modified to work directly with stateManager
-import eventBus from '../core/eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 import locationManager from '../core/locationManager.js';
-import { gameState } from '../core/gameState.js';
+import timerState from '../core/timerState.js';
 
 export class ProgressUI {
   static progressBar = null;
@@ -60,15 +60,15 @@ export class ProgressUI {
         event.preventDefault();
         console.log(
           'Control button clicked, running state:',
-          gameState.isRunning()
+          timerState.isRunning()
         );
 
-        if (gameState.isRunning()) {
+        if (timerState.isRunning()) {
           console.log('Stopping timer...');
-          gameState.stop();
+          timerState.stop();
         } else {
           console.log('Starting timer...');
-          gameState.begin();
+          timerState.begin();
         }
       });
     }
@@ -83,7 +83,7 @@ export class ProgressUI {
       this.quickCheckButton = document.getElementById('quick-check-button');
 
       this.quickCheckButton.addEventListener('click', () => {
-        gameState.checkQuickLocation();
+        timerState.checkQuickLocation();
       });
     }
 
@@ -102,6 +102,9 @@ export class ProgressUI {
     }
 
     console.log('ProgressUI module initialized');
+    
+    // Explicitly update progress after initialization is complete
+    this.updateProgress(); 
   }
 
   static _setupEventListeners() {
@@ -197,7 +200,10 @@ export class ProgressUI {
 
           // Track reachable/unreachable locations
           if (stateManager.isLocationAccessible(loc)) {
-            reachableCount++;
+            // Only count as reachable if it's also not checked
+            if (!stateManager.isLocationChecked(loc.name)) {
+              reachableCount++;
+            }
           } else {
             unreachableCount++;
           }

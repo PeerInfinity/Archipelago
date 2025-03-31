@@ -2,23 +2,27 @@
 
 import stateManager from '../core/stateManagerSingleton.js';
 import { LocationUI } from './locationUI.js';
+import { ExitUI } from './exitUI.js';
 import { RegionUI } from './regionUI.js';
 import { InventoryUI } from './inventoryUI.js';
 import { TestCaseUI } from './testCaseUI.js';
+import { LoopUI } from './loopUI.js';
 import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
-import eventBus from '../../client/core/eventBus.js';
+import eventBus from '../../app/core/eventBus.js';
 
 export class GameUI {
   constructor() {
     // UI Managers
     this.locationUI = new LocationUI(this);
+    this.exitUI = new ExitUI(this);
     this.regionUI = new RegionUI(this);
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
     this.presetUI = new PresetUI(this);
+    this.loopUI = new LoopUI(this);
     this.currentFileView = 'test-cases'; // Track which file view is active
 
     // Initialize commonUI colorblind mode
@@ -30,7 +34,11 @@ export class GameUI {
         this.inventoryUI?.syncWithState();
       } else if (eventType === 'reachableRegionsComputed') {
         this.locationUI?.syncWithState();
+        this.exitUI?.syncWithState();
         this.regionUI?.update();
+        if (this.currentViewMode === 'loop') {
+          this.loopUI?.renderLoopPanel();
+        }
       }
     });
 
@@ -69,7 +77,9 @@ export class GameUI {
 
     // Have UI components get data from stateManager instead of passing jsonData
     this.locationUI.initialize();
+    this.exitUI.initialize();
     this.regionUI.initialize();
+    this.loopUI.initialize();
   }
 
   attachEventListeners() {
@@ -126,27 +136,34 @@ export class GameUI {
     // Clear UI elements
     this.inventoryUI.clear();
     this.locationUI.clear();
+    this.exitUI.clear();
     this.regionUI.clear();
   }
 
   updateViewDisplay() {
     const locationsContainer = document.getElementById('locations-grid');
+    const exitsContainer = document.getElementById('exits-grid');
     const regionsContainer = document.getElementById('regions-panel');
+    const loopPanel = document.getElementById('loop-panel');
     const filesPanel = document.getElementById('files-panel');
 
-    if (!locationsContainer || !regionsContainer || !filesPanel) {
+    if (!locationsContainer || !exitsContainer || !regionsContainer || !loopPanel || !filesPanel) {
       console.warn('Missing container elements for toggling views.');
       return;
     }
 
     // Toggle view containers
     locationsContainer.style.display = 'none';
+    exitsContainer.style.display = 'none';
     regionsContainer.style.display = 'none';
+    loopPanel.style.display = 'none';
     filesPanel.style.display = 'none';
 
     // Toggle control containers
     document.querySelector('.location-controls').style.display = 'none';
+    document.querySelector('.exit-controls').style.display = 'none';
     document.querySelector('.region-controls').style.display = 'none';
+    document.querySelector('.loop-controls').style.display = 'none';
     document.querySelector('.file-controls').style.display = 'none';
 
     switch (this.currentViewMode) {
@@ -155,10 +172,20 @@ export class GameUI {
         document.querySelector('.location-controls').style.display = 'flex';
         this.locationUI.update();
         break;
+      case 'exits':
+        exitsContainer.style.display = 'grid';
+        document.querySelector('.exit-controls').style.display = 'flex';
+        this.exitUI.update();
+        break;
       case 'regions':
         regionsContainer.style.display = 'block';
         document.querySelector('.region-controls').style.display = 'flex';
         this.regionUI.update();
+        break;
+      case 'loop':
+        loopPanel.style.display = 'block';
+        document.querySelector('.loop-controls').style.display = 'flex';
+        this.loopUI.renderLoopPanel();
         break;
       case 'files':
         filesPanel.style.display = 'block';
