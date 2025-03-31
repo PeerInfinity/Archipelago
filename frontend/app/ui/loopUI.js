@@ -150,10 +150,10 @@ export class LoopUI {
     `;
     container.appendChild(controlsArea);
 
-    console.log(
-      'UI structure created: loop-regions-area exists:',
-      !!document.getElementById('loop-regions-area')
-    );
+    //console.log(
+    //  'UI structure created: loop-regions-area exists:',
+    //  !!document.getElementById('loop-regions-area')
+    //);
 
     // Add hidden file input for import
     const fileInput = document.createElement('input');
@@ -201,10 +201,10 @@ export class LoopUI {
 
     // Queue updates
     eventBus.subscribe('loopState:queueUpdated', (data) => {
-      console.log(
-        'Received loopState:queueUpdated event, queue length:',
-        data.queue.length
-      );
+      //console.log(
+      //  'Received loopState:queueUpdated event, queue length:',
+      //  data.queue.length
+      //);
       // Update regions in queue
       this._updateRegionsInQueue(data.queue);
       // Render the entire panel to ensure regions are shown/hidden properly
@@ -289,7 +289,7 @@ export class LoopUI {
 
     // Listen for explore action repeat events
     eventBus.subscribe('loopState:exploreActionRepeated', (data) => {
-      console.log('Explore action repeated for region:', data.regionName);
+      //console.log('Explore action repeated for region:', data.regionName);
       // Make sure the region is in the queue
       this.regionsInQueue.add(data.regionName);
       // Update the UI
@@ -317,7 +317,7 @@ export class LoopUI {
       }
     }
 
-    console.log('Updated regions in queue:', [...this.regionsInQueue]);
+    //console.log('Updated regions in queue:', [...this.regionsInQueue]);
   }
 
   /**
@@ -337,7 +337,7 @@ export class LoopUI {
     if (window.consoleManager) {
       window.consoleManager.print('Loop reset: out of mana!', 'warning');
     } else {
-      console.log('Loop reset: out of mana!');
+      //console.log('Loop reset: out of mana!');
     }
 
     // Reset progress on all action displays
@@ -373,7 +373,7 @@ export class LoopUI {
    * Attach event listeners to control elements
    */
   _attachControlEventListeners() {
-    console.log('Attaching all control event listeners');
+    //console.log('Attaching all control event listeners');
 
     // Store a reference to this for use in event handlers
     const self = this;
@@ -648,7 +648,7 @@ export class LoopUI {
       }
     });
 
-    console.log('All control event listeners attached');
+    //console.log('All control event listeners attached');
   }
 
   /**
@@ -1471,9 +1471,9 @@ export class LoopUI {
   _queueCheckLocationAction(regionName, locationName) {
     if (!this.isLoopModeActive) return;
 
-    console.log(
-      `Queueing check location action for ${locationName} in ${regionName}`
-    );
+    //console.log(
+    //  `Queueing check location action for ${locationName} in ${regionName}`
+    //);
 
     const action = {
       id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
@@ -1677,9 +1677,9 @@ export class LoopUI {
     // Immediately collapse the source region when adding a move action
     this.expandedRegions.delete(regionName);
 
-    console.log(
-      `Queueing move action from ${regionName} to ${destinationRegion} via ${exitName}`
-    );
+    //console.log(
+    //  `Queueing move action from ${regionName} to ${destinationRegion} via ${exitName}`
+    //);
 
     const action = {
       id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
@@ -1710,7 +1710,7 @@ export class LoopUI {
   expandAllRegions() {
     console.log('Expanding all regions');
     const discoveredRegions = loopState.discoveredRegions;
-    console.log('Discovered regions:', [...discoveredRegions]);
+    //console.log('Discovered regions:', [...discoveredRegions]);
 
     // Make sure we're getting a Set and not undefined
     if (!discoveredRegions || typeof discoveredRegions.forEach !== 'function') {
@@ -1719,11 +1719,11 @@ export class LoopUI {
     }
 
     discoveredRegions.forEach((regionName) => {
-      console.log('Adding region to expanded set:', regionName);
+      //console.log('Adding region to expanded set:', regionName);
       this.expandedRegions.add(regionName);
     });
 
-    console.log('Expanded regions after update:', [...this.expandedRegions]);
+    //console.log('Expanded regions after update:', [...this.expandedRegions]);
 
     // Update both possible buttons that might exist
     const loopExpandCollapseBtn = document.getElementById(
@@ -1789,7 +1789,7 @@ export class LoopUI {
    * Render the loop panel
    */
   renderLoopPanel() {
-    console.log('Rendering complete loop panel');
+    //console.log('Rendering complete loop panel');
     const container = document.getElementById('loop-regions-area');
     if (!container) {
       console.error('Container loop-regions-area not found');
@@ -1798,18 +1798,18 @@ export class LoopUI {
 
     // Clear container
     container.innerHTML = '';
-    console.log('Container cleared');
+    //console.log('Container cleared');
 
     // Get all discovered regions
     const discoveredRegions = loopState.discoveredRegions;
-    console.log('Discovered regions:', [...discoveredRegions]);
+    //console.log('Discovered regions:', [...discoveredRegions]);
 
     // Get regions that have actions in the queue
-    console.log('Regions in queue:', [...this.regionsInQueue]);
+    //console.log('Regions in queue:', [...this.regionsInQueue]);
 
     // If no regions yet, show a message
     if (discoveredRegions.size === 0) {
-      console.log('No regions to display');
+      //console.log('No regions to display');
       container.innerHTML =
         '<div class="no-regions-message">No regions discovered yet.</div>';
       return;
@@ -1833,9 +1833,9 @@ export class LoopUI {
 
       if (showRegion) {
         const isExpanded = this.expandedRegions.has(regionName);
-        console.log(
-          `Building block for region ${regionName}, expanded: ${isExpanded}`
-        );
+        //console.log(
+        //  `Building block for region ${regionName}, expanded: ${isExpanded}`
+        //);
         const regionBlock = this._buildRegionBlock(region, isExpanded);
         regionsContainer.appendChild(regionBlock);
       }
@@ -2048,9 +2048,9 @@ export class LoopUI {
         // Add event listener to update our map when checkbox state changes
         checkbox.addEventListener('change', (e) => {
           this.repeatExploreStates.set(regionName, e.target.checked);
-          console.log(
-            `Checkbox for ${regionName} changed to ${e.target.checked}`
-          );
+          //console.log(
+          //  `Checkbox for ${regionName} changed to ${e.target.checked}`
+          //);
         });
 
         // Create the label

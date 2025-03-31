@@ -201,9 +201,9 @@ class LoopState {
       this.actionQueue.push(action);
     }
 
-    console.log('Action queued:', action);
+    //console.log('Action queued:', action);
     eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });
-    console.log('Published loopState:queueUpdated event');
+    //console.log('Published loopState:queueUpdated event');
 
     // Start processing if not already running
     if (!this.isProcessing && !this.isPaused) {
@@ -259,7 +259,7 @@ class LoopState {
             // Removing an action before the current action
             // Count how many actions were removed before the current action
             const removedBeforeCurrent = dependentActions.filter(
-              idx => idx < this.currentActionIndex
+              (idx) => idx < this.currentActionIndex
             ).length;
             this.currentActionIndex -= removedBeforeCurrent;
           }
@@ -302,21 +302,21 @@ class LoopState {
 
     this.isProcessing = true;
     this.currentActionIndex = this.currentActionIndex || 0; // Default to 0 if not set
-    
+
     // Make sure the index is valid
     if (this.currentActionIndex >= this.actionQueue.length) {
       this.currentActionIndex = 0;
     }
-    
+
     this.currentAction = this.actionQueue[this.currentActionIndex];
-    
+
     // Ensure we have a valid action
     if (!this.currentAction) {
       console.error('No valid action at index', this.currentActionIndex);
       this.isProcessing = false;
       return;
     }
-    
+
     // Don't reset progress when resuming from pause
     // Only set to 0 if it's a new action with no progress yet
     if (!this.currentAction.progress) {
@@ -335,7 +335,7 @@ class LoopState {
       this._processFrame.bind(this)
     );
 
-    console.log('Started processing action:', this.currentAction);
+    //console.log('Started processing action:', this.currentAction);
 
     eventBus.publish('loopState:processingStarted', {
       action: this.currentAction,
@@ -379,7 +379,9 @@ class LoopState {
       eventBus.publish('loopState:resumed', { isPaused: false });
     } else {
       // Even if there are no actions, still publish the state change
-      eventBus.publish('loopState:pauseStateChanged', { isPaused: this.isPaused });
+      eventBus.publish('loopState:pauseStateChanged', {
+        isPaused: this.isPaused,
+      });
     }
   }
 
@@ -422,13 +424,16 @@ class LoopState {
 
     try {
       // Verify we have a valid current action and index
-      if (!this.currentAction || this.currentActionIndex >= this.actionQueue.length) {
-        console.error('Invalid action state in _processFrame:', { 
-          currentActionIndex: this.currentActionIndex, 
+      if (
+        !this.currentAction ||
+        this.currentActionIndex >= this.actionQueue.length
+      ) {
+        console.error('Invalid action state in _processFrame:', {
+          currentActionIndex: this.currentActionIndex,
           queueLength: this.actionQueue.length,
-          hasCurrentAction: !!this.currentAction 
+          hasCurrentAction: !!this.currentAction,
         });
-        
+
         // Try to recover by finding a valid action
         if (this.actionQueue.length > 0) {
           this.currentActionIndex = 0;
@@ -451,11 +456,11 @@ class LoopState {
       // Reduce mana based on progress
       const manaCost = (progressIncrement / 100) * actionCost;
       this.currentMana = Math.max(0, this.currentMana - manaCost);
-      
+
       // Publish mana changed event immediately after update
-      eventBus.publish('loopState:manaChanged', { 
-        current: this.currentMana, 
-        max: this.maxMana 
+      eventBus.publish('loopState:manaChanged', {
+        current: this.currentMana,
+        max: this.maxMana,
       });
 
       // Continuous XP gain during action
@@ -482,13 +487,13 @@ class LoopState {
 
       // Check for action completion
       if (this.currentAction.progress >= 100) {
-        console.log('Action completed:', this.currentAction);
+        //console.log('Action completed:', this.currentAction);
         this._completeCurrentAction();
       }
 
       // Check for loop reset (out of mana)
       if (this.currentMana <= 0) {
-        console.log('Loop reset: out of mana');
+        //console.log('Loop reset: out of mana');
         this._resetLoop();
         this._animationFrameId = requestAnimationFrame(
           this._processFrame.bind(this)
@@ -501,14 +506,14 @@ class LoopState {
         mana: {
           current: this.currentMana,
           max: this.maxMana,
-        }
+        },
       };
-      
+
       // Only include action data if there's a current action
       if (this.currentAction) {
         eventData.action = this.currentAction;
       }
-      
+
       eventBus.publish('loopState:progressUpdated', eventData);
     } catch (error) {
       console.error('Error in _processFrame:', error);
@@ -543,27 +548,29 @@ class LoopState {
     if (this.currentAction.type === 'explore') {
       // Get the regionName from the action
       const regionName = this.currentAction.regionName;
-      
+
       // Get the repeat state from LoopUI's map
       let shouldRepeat = false;
       if (window.loopUIInstance && window.loopUIInstance.repeatExploreStates) {
-        shouldRepeat = window.loopUIInstance.repeatExploreStates.get(regionName) || false;
+        shouldRepeat =
+          window.loopUIInstance.repeatExploreStates.get(regionName) || false;
       }
-      
+
       // Check if there are already more explore actions for this region in the queue
-      const hasMoreExploreActions = this.actionQueue.some((action, index) => 
-        index > this.currentActionIndex && 
-        action.type === 'explore' && 
-        action.regionName === regionName
+      const hasMoreExploreActions = this.actionQueue.some(
+        (action, index) =>
+          index > this.currentActionIndex &&
+          action.type === 'explore' &&
+          action.regionName === regionName
       );
-      
+
       // Only add a new explore action if shouldRepeat is true AND there are no more explore actions for this region
       if (shouldRepeat && !hasMoreExploreActions) {
-        console.log(
-          `Repeating explore action for ${regionName} (repeat state is true, no other explore actions pending)`
-        );
+        //console.log(
+        //  `Repeating explore action for ${regionName} (repeat state is true, no other explore actions pending)`
+        //);
 
-        // Create a new action instance 
+        // Create a new action instance
         const repeatAction = {
           ...this.currentAction, // Copy all properties
           id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`, // Generate new ID
@@ -585,8 +592,42 @@ class LoopState {
 
     // Move to next action in the queue or wrap around to beginning
     this.currentActionIndex++;
-    
-    // If we reached the end of the queue
+
+    // Loop to find the next valid, runnable action, skipping checked locations
+    while (this.currentActionIndex < this.actionQueue.length) {
+      const nextAction = this.actionQueue[this.currentActionIndex];
+
+      // Check if it's a checkLocation action for an already checked location
+      if (
+        nextAction.type === 'checkLocation' &&
+        stateManager.isLocationChecked(nextAction.locationName)
+      ) {
+        //console.log(
+        //  `Skipping already checked location: ${nextAction.locationName}. Removing action.`
+        //);
+        // Remove the action from the queue
+        this.actionQueue.splice(this.currentActionIndex, 1);
+        // NOTE: Do NOT increment index here, the next loop iteration will check the new action at the same index
+
+        // If queue became empty, stop processing
+        if (this.actionQueue.length === 0) {
+          this.currentAction = null;
+          this.isProcessing = false;
+          eventBus.publish('loopState:queueCompleted', {});
+          eventBus.publish('loopState:queueUpdated', {
+            queue: this.actionQueue,
+          }); // Notify UI of empty queue
+          return; // Exit the function
+        }
+
+        // Continue the loop to check the next action at the current index
+      } else {
+        // Found a valid action to process
+        break;
+      }
+    }
+
+    // If we reached the end of the queue (possibly after removing checked locations)
     if (this.currentActionIndex >= this.actionQueue.length) {
       // Reset to beginning if auto-restart is enabled
       if (this.autoRestartQueue) {
@@ -600,7 +641,7 @@ class LoopState {
         return;
       }
     }
-    
+
     // Start processing next action if there's one available
     if (this.currentActionIndex < this.actionQueue.length) {
       this.currentAction = this.actionQueue[this.currentActionIndex];
@@ -681,7 +722,7 @@ class LoopState {
     const location = stateManager.locations.find(
       (loc) => loc.name === locationName
     );
-    if (location && location.item && !location.item.player) {
+    if (location && location.item) {
       stateManager.addItemToInventory(location.item.name);
     }
 
@@ -879,10 +920,10 @@ class LoopState {
 
     // Reset all action progress
     this._resetActionsProgress();
-    
+
     // Reset to first action
     this.currentActionIndex = 0;
-    
+
     // Update current action reference
     if (this.actionQueue.length > 0) {
       this.currentAction = this.actionQueue[this.currentActionIndex];
@@ -916,7 +957,7 @@ class LoopState {
     if (this.isPaused) {
       return;
     }
-    
+
     // Stop current processing if active
     if (this.isProcessing) {
       this.stopProcessing();
@@ -924,7 +965,7 @@ class LoopState {
 
     // Reset action index to beginning
     this.currentActionIndex = 0;
-    
+
     // Reset progress on all actions
     this._resetActionsProgress();
 
@@ -935,7 +976,7 @@ class LoopState {
   }
 
   /**
-   * Restart the queue from the beginning 
+   * Restart the queue from the beginning
    * (with no reordering needed since we now maintain original order)
    */
   restartQueueFromBeginning() {
@@ -946,10 +987,10 @@ class LoopState {
 
     // Reset to beginning
     this.currentActionIndex = 0;
-    
+
     // Reset progress on all actions
     this._resetActionsProgress();
-    
+
     // Restore mana to full
     this.currentMana = this.maxMana;
 
@@ -976,7 +1017,7 @@ class LoopState {
   isRegionDiscovered(regionName) {
     // Menu is always discovered
     if (regionName === 'Menu') return true;
-    
+
     return this.discoveredRegions.has(regionName);
   }
 
@@ -988,7 +1029,7 @@ class LoopState {
   isLocationDiscovered(locationName) {
     // If location is checked, consider it discovered
     if (stateManager.isLocationChecked(locationName)) return true;
-    
+
     // Otherwise check discovery state
     return this.discoveredLocations.has(locationName);
   }
@@ -1002,7 +1043,7 @@ class LoopState {
   isExitDiscovered(regionName, exitName) {
     // Exits in Menu are always discovered
     if (regionName === 'Menu') return true;
-    
+
     const regionExits = this.discoveredExits.get(regionName);
     return regionExits ? regionExits.has(exitName) : false;
   }
@@ -1024,7 +1065,7 @@ class LoopState {
       gameSpeed: this.gameSpeed,
       autoRestartQueue: this.autoRestartQueue,
       actionQueue: this.actionQueue,
-      currentActionIndex: this.currentActionIndex
+      currentActionIndex: this.currentActionIndex,
     };
   }
 
@@ -1037,9 +1078,12 @@ class LoopState {
 
     // Always recalculate maxMana based on current inventory
     this.recalculateMaxMana();
-    
+
     // Cap current mana at the max value
-    this.currentMana = Math.min(state.currentMana ?? this.maxMana, this.maxMana);
+    this.currentMana = Math.min(
+      state.currentMana ?? this.maxMana,
+      this.maxMana
+    );
 
     // Load region XP
     this.regionXP = new Map(state.regionXP || []);
@@ -1062,7 +1106,7 @@ class LoopState {
 
     // Load auto-restart setting
     this.autoRestartQueue = state.autoRestartQueue ?? false;
-    
+
     // Load queue state if available
     if (state.actionQueue) {
       this.actionQueue = state.actionQueue;
