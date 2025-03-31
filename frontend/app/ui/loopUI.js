@@ -71,7 +71,7 @@ export class LoopUI {
 
     // Store this instance in the window for access from event handlers
     window.loopUIInstance = this;
-    
+
     // Initialize the loop status display in header - hide it initially
     const headerStatusDisplay = document.querySelector('.loop-status-display');
     if (headerStatusDisplay) {
@@ -185,16 +185,16 @@ export class LoopUI {
     eventBus.subscribe('loopState:xpChanged', (data) => {
       this._updateRegionXPDisplay(data.regionName);
     });
-    
+
     // Pause state changes
     eventBus.subscribe('loopState:paused', (data) => {
       this._updatePauseButtonState(true);
     });
-    
+
     eventBus.subscribe('loopState:resumed', (data) => {
       this._updatePauseButtonState(false);
     });
-    
+
     eventBus.subscribe('loopState:pauseStateChanged', (data) => {
       this._updatePauseButtonState(data.isPaused);
     });
@@ -236,7 +236,7 @@ export class LoopUI {
           }
         });
       }
-      
+
       // Always update mana display, even if there's no current action
       this._updateManaDisplay(data.mana.current, data.mana.max);
     });
@@ -351,8 +351,8 @@ export class LoopUI {
       const actionItem = status.closest('.action-item');
       if (actionItem) {
         const actionId = actionItem.id.replace('action-', '');
-        const action = loopState.actionQueue.find(a => a.id === actionId);
-        
+        const action = loopState.actionQueue.find((a) => a.id === actionId);
+
         // Set the first action as Active, all others as Pending
         if (action && action === loopState.currentAction) {
           status.textContent = 'Active';
@@ -374,7 +374,7 @@ export class LoopUI {
    */
   _attachControlEventListeners() {
     console.log('Attaching all control event listeners');
-    
+
     // Store a reference to this for use in event handlers
     const self = this;
 
@@ -386,7 +386,7 @@ export class LoopUI {
         // Clone and replace to remove existing event listeners
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
-        
+
         // Add the new click handler
         newButton.addEventListener('click', handler);
         return newButton;
@@ -395,13 +395,13 @@ export class LoopUI {
     };
 
     // Toggle loop mode button
-    attachButtonHandler('toggle-loop-mode', function() {
+    attachButtonHandler('toggle-loop-mode', function () {
       console.log('Toggle loop mode button clicked');
       self.toggleLoopMode();
     });
 
     // Pause button
-    attachButtonHandler('toggle-pause', function() {
+    attachButtonHandler('toggle-pause', function () {
       console.log('Pause button clicked');
       // Toggle the pause state
       const newPauseState = !loopState.isPaused;
@@ -411,7 +411,7 @@ export class LoopUI {
     });
 
     // Restart button
-    attachButtonHandler('toggle-restart', function() {
+    attachButtonHandler('toggle-restart', function () {
       console.log('Restart button clicked');
       try {
         // Reset the loop state
@@ -432,27 +432,22 @@ export class LoopUI {
         loopState.restartQueueFromBeginning();
 
         // Reset all action progress values
-        document
-          .querySelectorAll('.action-progress-value')
-          .forEach((value) => {
-            const actionItem = value.closest('.action-item');
-            if (actionItem) {
-              const actionId = actionItem.id.replace('action-', '');
-              const action = loopState.actionQueue.find(
+        document.querySelectorAll('.action-progress-value').forEach((value) => {
+          const actionItem = value.closest('.action-item');
+          if (actionItem) {
+            const actionId = actionItem.id.replace('action-', '');
+            const action = loopState.actionQueue.find((a) => a.id === actionId);
+            if (action) {
+              const actionCost = self._estimateActionCost(action);
+              // Find action index for the "X of Y" text
+              const actionIndex = loopState.actionQueue.findIndex(
                 (a) => a.id === actionId
               );
-              if (action) {
-                const actionCost = self._estimateActionCost(action);
-                // Find action index for the "X of Y" text
-                const actionIndex = loopState.actionQueue.findIndex(
-                  (a) => a.id === actionId
-                );
-                const displayIndex =
-                  actionIndex !== -1 ? actionIndex + 1 : '?';
-                value.textContent = `0/${actionCost}, Action ${displayIndex} of ${loopState.actionQueue.length}`;
-              }
+              const displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
+              value.textContent = `0/${actionCost}, Action ${displayIndex} of ${loopState.actionQueue.length}`;
             }
-          });
+          }
+        });
 
         // If currently paused, resume processing
         if (loopState.isPaused) {
@@ -468,7 +463,7 @@ export class LoopUI {
     });
 
     // Auto-restart toggle button
-    attachButtonHandler('toggle-auto-restart', function() {
+    attachButtonHandler('toggle-auto-restart', function () {
       const newState = !loopState.autoRestartQueue;
       loopState.setAutoRestartQueue(newState);
       this.textContent = newState
@@ -483,14 +478,14 @@ export class LoopUI {
       // Remove existing listeners by cloning
       const newSpeedSlider = speedSlider.cloneNode(true);
       speedSlider.parentNode.replaceChild(newSpeedSlider, speedSlider);
-      
+
       // Set max speed to 100x
       newSpeedSlider.max = 100;
-      
+
       // Set initial value based on loopState
       newSpeedSlider.value = loopState.gameSpeed;
       speedValue.textContent = `${loopState.gameSpeed.toFixed(1)}x`;
-      
+
       // Add event listener
       newSpeedSlider.addEventListener('input', () => {
         const speed = parseFloat(newSpeedSlider.value);
@@ -500,7 +495,7 @@ export class LoopUI {
     }
 
     // Expand/collapse all button
-    attachButtonHandler('loop-expand-collapse-all', function() {
+    attachButtonHandler('loop-expand-collapse-all', function () {
       console.log('Expand/collapse button clicked:', this.textContent);
       if (this.textContent === 'Expand All') {
         console.log('Expanding all regions');
@@ -524,7 +519,7 @@ export class LoopUI {
       );
 
       // Add a simple click handler
-      newHeaderBtn.addEventListener('click', function() {
+      newHeaderBtn.addEventListener('click', function () {
         if (this.textContent === 'Expand All') {
           self.expandAllRegions();
         } else {
@@ -537,45 +532,53 @@ export class LoopUI {
     window.loopUIInstance = this;
 
     // Clear queue button
-    attachButtonHandler('loop-clear-queue', function() {
+    attachButtonHandler('loop-clear-queue', function () {
       // Completely reset the queue
       loopState.actionQueue = [];
       loopState.currentAction = null;
       loopState.currentActionIndex = 0;
       loopState.isProcessing = false;
-      
+
       // Refill mana to maximum
       loopState.currentMana = loopState.maxMana;
-      
+
       // Clear regions in queue
       self.regionsInQueue.clear();
-      
+
       // Clear the action progress bar under the mana bar
-      const actionContainer = document.getElementById('current-action-container');
+      const actionContainer = document.getElementById(
+        'current-action-container'
+      );
       if (actionContainer) {
         actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
       }
-      
+
       // Clear the header progress bar
-      const headerProgressBar = document.getElementById('header-action-progress-bar');
-      const headerProgressText = document.getElementById('header-action-progress-text');
+      const headerProgressBar = document.getElementById(
+        'header-action-progress-bar'
+      );
+      const headerProgressText = document.getElementById(
+        'header-action-progress-text'
+      );
       if (headerProgressBar && headerProgressText) {
         headerProgressBar.style.width = '0%';
         headerProgressText.textContent = '';
       }
-      
+
       // Update mana display
       self._updateManaDisplay(loopState.currentMana, loopState.maxMana);
-      
+
       // Notify queue updated
-      eventBus.publish('loopState:queueUpdated', { queue: loopState.actionQueue });
-      
+      eventBus.publish('loopState:queueUpdated', {
+        queue: loopState.actionQueue,
+      });
+
       // Force re-render
       self.renderLoopPanel();
     });
 
     // Save state button
-    attachButtonHandler('loop-save-state', function() {
+    attachButtonHandler('loop-save-state', function () {
       loopState.saveToStorage();
       if (window.consoleManager) {
         window.consoleManager.print('Game saved!', 'success');
@@ -585,7 +588,7 @@ export class LoopUI {
     });
 
     // Export button
-    attachButtonHandler('loop-export-state', function() {
+    attachButtonHandler('loop-export-state', function () {
       self._exportState();
     });
 
@@ -596,7 +599,7 @@ export class LoopUI {
       // Remove existing listeners
       const newImportBtn = importBtn.cloneNode(true);
       importBtn.parentNode.replaceChild(newImportBtn, importBtn);
-      
+
       const newFileInput = fileInput.cloneNode(true);
       fileInput.parentNode.replaceChild(newFileInput, fileInput);
 
@@ -608,11 +611,15 @@ export class LoopUI {
         self._importState(event.target.files[0]);
       });
     }
-    
+
     // Hard Reset button
-    attachButtonHandler('loop-hard-reset', function() {
+    attachButtonHandler('loop-hard-reset', function () {
       // Show a confirmation dialog
-      if (confirm("Are you sure you want to hard reset? This will clear all progress, discovery, and XP data.")) {
+      if (
+        confirm(
+          'Are you sure you want to hard reset? This will clear all progress, discovery, and XP data.'
+        )
+      ) {
         // Clear all loop state
         loopState.discoveredRegions = new Set(['Menu']);
         loopState.discoveredLocations = new Set();
@@ -624,23 +631,23 @@ export class LoopUI {
         loopState.currentActionIndex = 0;
         loopState.currentMana = loopState.maxMana;
         loopState.isProcessing = false;
-        
+
         // Re-initialize discoverable data
         loopState._initializeDiscoverableData();
-        
+
         // Save the reset state to storage
         loopState.saveToStorage();
-        
+
         // Re-render the UI
         self.renderLoopPanel();
-        
+
         // Show a message to the user
         if (window.consoleManager) {
           window.consoleManager.print('Game has been hard reset!', 'warning');
         }
       }
     });
-    
+
     console.log('All control event listeners attached');
   }
 
@@ -803,20 +810,20 @@ export class LoopUI {
    */
   toggleLoopMode() {
     this.isLoopModeActive = !this.isLoopModeActive;
-    
+
     // --- Update title and header text based on loop mode state ---
     const headerTextElement = document.getElementById('header-text');
     if (this.isLoopModeActive) {
-      const spacedLoopsTitle = "ArchipIDLE Loops".split('').join(' ');
-      const loopsTitleHtml = "A r c h i p I D L E &nbsp; L o o p s"; // Use &nbsp; for the main space
-      document.title = "ArchipIDLE Loops";
+      const spacedLoopsTitle = 'ArchipIDLE Loops'.split('').join(' ');
+      const loopsTitleHtml = 'A r c h i p I D L E &nbsp; L o o p s'; // Use &nbsp; for the main space
+      document.title = 'ArchipIDLE Loops';
       if (headerTextElement) {
         headerTextElement.innerHTML = loopsTitleHtml; // Use innerHTML for &nbsp;
       }
     } else {
-      const spacedJsonTitle = "ArchipIDLE JSON".split('').join(' ');
-      const jsonTitleHtml = "A r c h i p I D L E &nbsp; J S O N"; // Use &nbsp; for the main space
-      document.title = "ArchipIDLE JSON";
+      const spacedJsonTitle = 'ArchipIDLE JSON'.split('').join(' ');
+      const jsonTitleHtml = 'A r c h i p I D L E &nbsp; J S O N'; // Use &nbsp; for the main space
+      document.title = 'ArchipIDLE JSON';
       if (headerTextElement) {
         headerTextElement.innerHTML = jsonTitleHtml; // Use innerHTML for &nbsp;
       }
@@ -848,20 +855,27 @@ export class LoopUI {
     if (autoRestartBtn) {
       autoRestartBtn.disabled = !this.isLoopModeActive;
     }
-    
+
     // Show/hide the loop status display in header
     const headerStatusDisplay = document.querySelector('.loop-status-display');
     if (headerStatusDisplay) {
-      headerStatusDisplay.style.display = this.isLoopModeActive ? 'flex' : 'none';
-      
+      headerStatusDisplay.style.display = this.isLoopModeActive
+        ? 'flex'
+        : 'none';
+
       // If entering loop mode, update the header mana bar
       if (this.isLoopModeActive) {
         const headerManaBar = document.getElementById('header-mana-bar');
         if (headerManaBar) {
-          const percentage = Math.max(0, Math.min(100, (loopState.currentMana / loopState.maxMana) * 100));
+          const percentage = Math.max(
+            0,
+            Math.min(100, (loopState.currentMana / loopState.maxMana) * 100)
+          );
           headerManaBar.style.width = `${percentage}%`;
-          headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(loopState.currentMana)}/${loopState.maxMana} Mana</span>`;
-          
+          headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(
+            loopState.currentMana
+          )}/${loopState.maxMana} Mana</span>`;
+
           // Add color classes
           headerManaBar.className = 'mana-bar';
           if (percentage < 25) {
@@ -871,10 +885,14 @@ export class LoopUI {
           } else {
             headerManaBar.classList.add('high');
           }
-          
+
           // Clear action progress
-          const headerProgressBar = document.getElementById('header-action-progress-bar');
-          const headerProgressText = document.getElementById('header-action-progress-text');
+          const headerProgressBar = document.getElementById(
+            'header-action-progress-bar'
+          );
+          const headerProgressText = document.getElementById(
+            'header-action-progress-text'
+          );
           if (headerProgressBar && headerProgressText) {
             headerProgressBar.style.width = '0%';
             headerProgressText.textContent = '';
@@ -882,17 +900,23 @@ export class LoopUI {
         }
       }
     }
-    
+
     // Toggle visibility of the "Show Explored" checkbox based on Loop Mode
     const showExploredCheckbox = document.getElementById('show-explored');
     if (showExploredCheckbox) {
-      showExploredCheckbox.parentElement.style.display = this.isLoopModeActive ? 'inline' : 'none';
+      showExploredCheckbox.parentElement.style.display = this.isLoopModeActive
+        ? 'inline'
+        : 'none';
     }
-    
+
     // Toggle visibility of the "Exit Show Explored" checkbox based on Loop Mode
-    const exitShowExploredCheckbox = document.getElementById('exit-show-explored');
+    const exitShowExploredCheckbox =
+      document.getElementById('exit-show-explored');
     if (exitShowExploredCheckbox) {
-      exitShowExploredCheckbox.parentElement.style.display = this.isLoopModeActive ? 'inline' : 'none';
+      exitShowExploredCheckbox.parentElement.style.display = this
+        .isLoopModeActive
+        ? 'inline'
+        : 'none';
     }
 
     // If entering loop mode, start any queued actions
@@ -900,21 +924,23 @@ export class LoopUI {
       try {
         // Set paused state first
         loopState.setPaused(true);
-        
+
         // Update all pause buttons to show "Resume"
-        const allPauseButtons = document.querySelectorAll('button#toggle-pause');
+        const allPauseButtons = document.querySelectorAll(
+          'button#toggle-pause'
+        );
         allPauseButtons.forEach((btn) => {
           btn.textContent = 'Resume';
           btn.disabled = false; // Make sure the button is enabled
         });
-        
+
         // Fallback for single pause button
         const pauseBtn = document.getElementById('toggle-pause');
         if (pauseBtn && !allPauseButtons.length) {
           pauseBtn.textContent = 'Resume';
           pauseBtn.disabled = false;
         }
-        
+
         console.log('Entered loop mode in paused state');
       } catch (error) {
         console.error('Error initializing loop mode:', error);
@@ -943,17 +969,17 @@ export class LoopUI {
 
     // Notify other UI components about loop mode change
     eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
-    
+
     // Update all UI components
     if (this.gameUI) {
       if (this.gameUI.locationUI) {
         this.gameUI.locationUI.updateLocationDisplay();
       }
-      
+
       if (this.gameUI.exitUI) {
         this.gameUI.exitUI.updateExitDisplay();
       }
-      
+
       if (this.gameUI.regionUI) {
         this.gameUI.regionUI.renderAllRegions();
       }
@@ -962,7 +988,7 @@ export class LoopUI {
     console.log(
       `Loop mode ${this.isLoopModeActive ? 'activated' : 'deactivated'}`
     );
-    
+
     // Only render the panel once at the end
     this.renderLoopPanel();
   }
@@ -992,12 +1018,12 @@ export class LoopUI {
       // Update the main mana bar
       const manaBar = document.getElementById('mana-bar');
       const manaValue = document.getElementById('mana-value');
-      
+
       // Update the header mana bar - directly, not through the updateBar function
       const headerManaBar = document.getElementById('header-mana-bar');
 
       const percentage = Math.max(0, Math.min(100, (current / max) * 100));
-      
+
       // First update the header mana bar directly
       if (headerManaBar) {
         // Remove the transition temporarily
@@ -1020,16 +1046,18 @@ export class LoopUI {
         }
 
         // Put the text directly inside the mana-bar element for header
-        headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(current)}/${max} Mana</span>`;
-        
+        headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(
+          current
+        )}/${max} Mana</span>`;
+
         // Log for debugging
         //console.log(`Updated header mana bar: ${Math.floor(current)}/${max} Mana`);
       }
-      
+
       // Function to update the main mana bar
       const updateMainBar = (bar, value) => {
         if (!bar || !value) return;
-        
+
         // Remove the transition temporarily
         bar.style.transition = 'none';
         // Force a reflow
@@ -1052,7 +1080,7 @@ export class LoopUI {
         // Update the regular mana display text
         value.textContent = `${Math.floor(current)} of ${max} Mana Remaining`;
       };
-      
+
       // Update the main mana bar
       updateMainBar(manaBar, manaValue);
     });
@@ -1068,7 +1096,7 @@ export class LoopUI {
       pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
     }
   }
-  
+
   /**
    * Update an action's progress display
    * @param {Object} action - The action being processed
@@ -1081,20 +1109,30 @@ export class LoopUI {
       try {
         // Find by valid ID selector
         const actionElement = document.getElementById(`action-${action.id}`);
-        
+
         // Also update the header action progress bar
-        const headerProgressBar = document.getElementById('header-action-progress-bar');
-        const headerProgressText = document.getElementById('header-action-progress-text');
+        const headerProgressBar = document.getElementById(
+          'header-action-progress-bar'
+        );
+        const headerProgressText = document.getElementById(
+          'header-action-progress-text'
+        );
 
         // Update header action progress regardless of whether the individual action element exists
-        if (headerProgressBar && headerProgressText && action === loopState.currentAction) {
+        if (
+          headerProgressBar &&
+          headerProgressText &&
+          action === loopState.currentAction
+        ) {
           // Calculate action cost and progress
           const actionCost = this._estimateActionCost(action);
-          const manaCostSoFar = Math.floor((action.progress / 100) * actionCost);
-          
+          const manaCostSoFar = Math.floor(
+            (action.progress / 100) * actionCost
+          );
+
           // Update header progress bar
           headerProgressBar.style.width = `${action.progress}%`;
-          
+
           // Generate action name for display
           let actionName = '';
           switch (action.type) {
@@ -1110,14 +1148,18 @@ export class LoopUI {
             default:
               actionName = `${action.type}`;
           }
-          
+
           // Calculate the action position in the queue
           const currentIndex = loopState.currentActionIndex + 1; // 1-based for display
           const totalActions = loopState.actionQueue.length;
-          
+
           // Update header progress text with action number
           headerProgressText.textContent = `${currentIndex} of ${totalActions}: ${actionName}: ${manaCostSoFar}/${actionCost} mana`;
-        } else if (headerProgressBar && headerProgressText && !loopState.currentAction) {
+        } else if (
+          headerProgressBar &&
+          headerProgressText &&
+          !loopState.currentAction
+        ) {
           // No current action, clear the header progress
           headerProgressBar.style.width = '0%';
           headerProgressText.textContent = '';
@@ -1152,7 +1194,7 @@ export class LoopUI {
           const manaCostSoFar = Math.floor(
             (action.progress / 100) * actionCost
           );
-          
+
           // Use the provided action's index or determine it from the queue
           let displayIndex;
           if (action === loopState.currentAction) {
@@ -1165,16 +1207,22 @@ export class LoopUI {
             );
             displayIndex = actionIndex !== -1 ? actionIndex + 1 : '?';
           }
-          
+
           progressValue.textContent = `Action ${displayIndex} of ${loopState.actionQueue.length}, Progress: ${manaCostSoFar} of ${actionCost} mana`;
         }
 
         // Only mark as active if this is the currently processing action
         if (statusElement) {
-          if (action === loopState.currentAction && !statusElement.classList.contains('active')) {
+          if (
+            action === loopState.currentAction &&
+            !statusElement.classList.contains('active')
+          ) {
             statusElement.textContent = 'Active';
             statusElement.className = 'action-status active';
-          } else if (action !== loopState.currentAction && statusElement.classList.contains('active')) {
+          } else if (
+            action !== loopState.currentAction &&
+            statusElement.classList.contains('active')
+          ) {
             // Reset if this was active but is no longer the current action
             if (action.completed) {
               statusElement.textContent = 'Completed';
@@ -1806,16 +1854,20 @@ export class LoopUI {
       if (actionContainer) {
         actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
       }
-      
+
       // Clear the header action progress bar if no current action
-      const headerProgressBar = document.getElementById('header-action-progress-bar');
-      const headerProgressText = document.getElementById('header-action-progress-text');
+      const headerProgressBar = document.getElementById(
+        'header-action-progress-bar'
+      );
+      const headerProgressText = document.getElementById(
+        'header-action-progress-text'
+      );
       if (headerProgressBar && headerProgressText) {
         headerProgressBar.style.width = '0%';
         headerProgressText.textContent = '';
       }
     }
-    
+
     // If loop mode is active, make sure file panels are disabled
     if (this.isLoopModeActive) {
       // Make sure file panels are disabled
@@ -1823,20 +1875,21 @@ export class LoopUI {
       if (filesPanel) {
         filesPanel.classList.add('loop-mode-disabled');
       }
-      
+
       // Add a notice to the files panel
       const testCasesPanel = document.getElementById('test-cases-panel');
       const presetsPanel = document.getElementById('presets-panel');
-      
+
       const disabledMessage = document.createElement('div');
       disabledMessage.className = 'loop-mode-disabled-message';
-      disabledMessage.textContent = 'The Files panel is disabled while Loop Mode is active.';
-      
+      disabledMessage.textContent =
+        'The Files panel is disabled while Loop Mode is active.';
+
       if (testCasesPanel) {
         testCasesPanel.innerHTML = '';
         testCasesPanel.appendChild(disabledMessage.cloneNode(true));
       }
-      
+
       if (presetsPanel) {
         presetsPanel.innerHTML = '';
         presetsPanel.appendChild(disabledMessage.cloneNode(true));
@@ -1978,35 +2031,37 @@ export class LoopUI {
           /\s+/g,
           '-'
         )}`;
-        
+
         // Create the checkbox container
         const repeatWrapper = document.createElement('div');
         repeatWrapper.className = 'checkbox-container';
-        
+
         // Create checkbox element separately so we can maintain its state
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = repeatCheckboxId;
         checkbox.className = 'repeat-explore-checkbox';
-        
+
         // Get state from our map
         checkbox.checked = this.repeatExploreStates.get(regionName) || false;
-        
+
         // Add event listener to update our map when checkbox state changes
         checkbox.addEventListener('change', (e) => {
           this.repeatExploreStates.set(regionName, e.target.checked);
-          console.log(`Checkbox for ${regionName} changed to ${e.target.checked}`);
+          console.log(
+            `Checkbox for ${regionName} changed to ${e.target.checked}`
+          );
         });
-        
+
         // Create the label
         const label = document.createElement('label');
         label.htmlFor = repeatCheckboxId;
         label.textContent = 'Repeat Explore Action';
-        
+
         // Append elements to the wrapper
         repeatWrapper.appendChild(checkbox);
         repeatWrapper.appendChild(label);
-        
+
         actionsArea.appendChild(repeatWrapper);
       }
 
