@@ -861,4 +861,25 @@ export class ALTTPHelpers extends GameHelpers {
     // Use the parent class implementation for all other helpers
     return super.executeHelper(name, ...args);
   }
+
+  // This should be moved to a separate file
+
+  /**
+   * Helper function to check if a location is accessible based on inventory size
+   * @param {number} requiredItemCount - The minimum number of items required
+   * @returns {boolean} - Whether the player has more items than required
+   */
+  _archipidle_location_is_accessible(requiredItemCount) {
+    if (!stateManager.inventory) {
+      return false;
+    }
+
+    // Count total items in inventory by summing individual item counts
+    let inventoryItemCount = 0;
+    stateManager.inventory.items.forEach((count) => {
+      inventoryItemCount += count;
+    });
+
+    return inventoryItemCount >= requiredItemCount;
+  }
 }
