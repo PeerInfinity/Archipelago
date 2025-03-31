@@ -232,9 +232,12 @@ export class StateManager {
 
         // Process locations in this region
         region.locations.forEach((loc) => {
+          // Directly add the region name to the original location object within the nested structure
+          loc.region = region.name;
+
           const locationData = {
             ...loc,
-            region: region.name,
+            region: region.name, // This is now slightly redundant but harmless
             player: region.player,
           };
 
