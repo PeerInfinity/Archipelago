@@ -32,7 +32,7 @@ class LoopState {
     this.isProcessing = false;
     this.isPaused = false;
     this.autoRestartQueue = false; // Flag to auto-restart queue when complete
-    this.gameSpeed = 1; // Multiplier for processing speed
+    this.gameSpeed = 10; // Multiplier for processing speed
 
     // Discovery tracking
     this.discoveredRegions = new Set(['Menu']); // Start with Menu discovered
@@ -918,6 +918,25 @@ class LoopState {
     // Restore mana to full
     this.currentMana = this.maxMana;
 
+    // If autoRestartQueue is false (pause when queue complete mode),
+    // just pause processing instead of resetting
+    if (!this.autoRestartQueue) {
+      // Pause processing
+      this.setPaused(true);
+
+      // Notify loop reset but don't reset progress
+      eventBus.publish('loopState:loopReset', {
+        mana: {
+          current: this.currentMana,
+          max: this.maxMana,
+        },
+        paused: true,
+      });
+
+      return;
+    }
+
+    // Otherwise, do a full reset (this is the original behavior)
     // Reset all action progress
     this._resetActionsProgress();
 
@@ -935,6 +954,7 @@ class LoopState {
         current: this.currentMana,
         max: this.maxMana,
       },
+      paused: false,
     });
   }
 
@@ -1102,7 +1122,7 @@ class LoopState {
     this._initializeDiscoverableData();
 
     // Load game speed
-    this.gameSpeed = state.gameSpeed ?? 1;
+    this.gameSpeed = state.gameSpeed ?? 10;
 
     // Load auto-restart setting
     this.autoRestartQueue = state.autoRestartQueue ?? false;

@@ -2,6 +2,7 @@
 import eventBus from '../../app/core/eventBus.js';
 import locationManager from '../core/locationManager.js';
 import timerState from '../core/timerState.js';
+import loopState from '../../app/core/loop/loopState.js';
 
 export class ProgressUI {
   static progressBar = null;
@@ -9,6 +10,7 @@ export class ProgressUI {
   static controlButton = null;
   static quickCheckButton = null;
   static stateManager = null;
+  static isLoopModeActive = false; // Track loop mode state
 
   /**
    * Get the stateManager instance dynamically
@@ -102,9 +104,9 @@ export class ProgressUI {
     }
 
     console.log('ProgressUI module initialized');
-    
+
     // Explicitly update progress after initialization is complete
-    this.updateProgress(); 
+    this.updateProgress();
   }
 
   static _setupEventListeners() {
@@ -159,6 +161,12 @@ export class ProgressUI {
     eventBus.subscribe('game:complete', () => {
       this.setComplete();
     });
+
+    // Subscribe to loop mode changes
+    eventBus.subscribe('loopUI:modeChanged', (data) => {
+      this.isLoopModeActive = data.active;
+      this.updateProgress();
+    });
   }
 
   static async updateProgress() {
@@ -211,11 +219,61 @@ export class ProgressUI {
       });
     }
 
+    // Basic stats line
+    const statsLine = `Checked: ${checkedCount}/${totalCount}, Reachable: ${reachableCount}, Unreachable: ${unreachableCount}, Events: ${checkedEventCount}/${totalEventCount}`;
+
+    // If loop mode is active, add discovery information
+    let displayText = statsLine;
+    let titleText = `Checked ${checkedCount} of ${totalCount} locations (${reachableCount} reachable, ${unreachableCount} unreachable)\nEvents: ${checkedEventCount} of ${totalEventCount} event locations collected`;
+
+    if (this.isLoopModeActive) {
+      // Count total locations and exits in all regions
+      let totalLocationsCount = 0;
+      let totalExitsCount = 0;
+      let discoveredLocationsCount = 0;
+      let discoveredExitsCount = 0;
+
+      // Count discovered regions
+      const discoveredRegionsCount = loopState.discoveredRegions.size || 0;
+      const totalRegionsCount = Object.keys(stateManager.regions).length || 0;
+
+      // Count locations and exits
+      for (const regionName in stateManager.regions) {
+        const region = stateManager.regions[regionName];
+
+        // Count locations
+        if (region.locations) {
+          totalLocationsCount += region.locations.length;
+          region.locations.forEach((loc) => {
+            if (loopState.isLocationDiscovered(loc.name)) {
+              discoveredLocationsCount++;
+            }
+          });
+        }
+
+        // Count exits
+        if (region.exits) {
+          totalExitsCount += region.exits.length;
+
+          // Check discovered exits for this region
+          const regionExits = loopState.discoveredExits.get(regionName);
+          if (regionExits) {
+            discoveredExitsCount += regionExits.size;
+          }
+        }
+      }
+
+      // Add discovery information to display and title
+      const discoveryLine = `Discovered Locations: ${discoveredLocationsCount}/${totalLocationsCount}, Exits: ${discoveredExitsCount}/${totalExitsCount}, Regions: ${discoveredRegionsCount}/${totalRegionsCount}`;
+      displayText = `${statsLine}\n${discoveryLine}`;
+      titleText = `${titleText}\n${discoveryLine}`;
+    }
+
     // Update the counter with all the statistics
-    this.checksCounter.innerText = `Checked: ${checkedCount}/${totalCount}, Reachable: ${reachableCount}, Unreachable: ${unreachableCount}, Events: ${checkedEventCount}/${totalEventCount}`;
+    this.checksCounter.innerText = displayText;
 
     // Add tooltip with additional information
-    this.checksCounter.title = `Checked ${checkedCount} of ${totalCount} locations (${reachableCount} reachable, ${unreachableCount} unreachable)\nEvents: ${checkedEventCount} of ${totalEventCount} event locations collected`;
+    this.checksCounter.title = titleText;
   }
 
   static setProgress(value, max) {

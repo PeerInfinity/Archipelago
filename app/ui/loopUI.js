@@ -278,7 +278,7 @@ export class LoopUI {
 
     // Loop reset
     eventBus.subscribe('loopState:loopReset', (data) => {
-      this._handleLoopReset();
+      this._handleLoopReset(data);
       this._updateManaDisplay(data.mana.current, data.mana.max);
     });
 
@@ -322,8 +322,9 @@ export class LoopUI {
 
   /**
    * Handle a loop reset
+   * @param {Object} data - Reset event data
    */
-  _handleLoopReset() {
+  _handleLoopReset(data = {}) {
     // Flash the mana bar to indicate reset
     const manaBar = document.getElementById('mana-bar');
     if (manaBar) {
@@ -333,13 +334,27 @@ export class LoopUI {
       }, 1000);
     }
 
+    // Show appropriate message based on whether we're paused or restarting
+    const isPaused = data.paused === true;
+    const message = isPaused
+      ? 'Out of mana! Processing paused.'
+      : 'Loop reset: out of mana!';
+
     // Add a message to the console
     if (window.consoleManager) {
-      window.consoleManager.print('Loop reset: out of mana!', 'warning');
-    } else {
-      //console.log('Loop reset: out of mana!');
+      //window.consoleManager.print(message, 'warning');
     }
 
+    // Update pause button if we're paused
+    if (isPaused) {
+      const pauseBtn = document.getElementById('toggle-pause');
+      if (pauseBtn) {
+        pauseBtn.textContent = 'Resume';
+      }
+      return; // Don't reset progress bars if we're paused
+    }
+
+    // If it's a full reset (not a pause), reset all progress displays
     // Reset progress on all action displays
     document.querySelectorAll('.action-progress-bar').forEach((bar) => {
       bar.style.width = '0%';
@@ -854,6 +869,22 @@ export class LoopUI {
     const autoRestartBtn = document.getElementById('toggle-auto-restart');
     if (autoRestartBtn) {
       autoRestartBtn.disabled = !this.isLoopModeActive;
+    }
+
+    // Hide/Show Load JSON and Show Debug buttons
+    const loadJsonBtn = document.querySelector('label[for="json-upload"]');
+    const debugToggleBtn = document.getElementById('debug-toggle');
+
+    if (loadJsonBtn) {
+      loadJsonBtn.style.display = this.isLoopModeActive
+        ? 'none'
+        : 'inline-block';
+    }
+
+    if (debugToggleBtn) {
+      debugToggleBtn.style.display = this.isLoopModeActive
+        ? 'none'
+        : 'inline-block';
     }
 
     // Show/hide the loop status display in header
@@ -1707,6 +1738,13 @@ export class LoopUI {
         action.type === 'moveToRegion' && action.regionName === regionName
     );
 
+    // Check if there's already a move action TO the destination region
+    const existingDestinationAction = loopState.actionQueue.find(
+      (action) =>
+        action.type === 'moveToRegion' &&
+        action.destinationRegion === destinationRegion
+    );
+
     if (existingMoveAction) {
       console.log(
         `There's already a move action from ${regionName} to ${existingMoveAction.destinationRegion}`
@@ -1746,6 +1784,60 @@ export class LoopUI {
               checkbox.addEventListener('change', (e) => {
                 if (e.target.checked) {
                   localStorage.setItem('hideDoubleMovementWarning', 'true');
+                }
+              });
+            }
+          }
+        } else {
+          alert(message);
+        }
+      }
+
+      return;
+    }
+
+    // If there's already a move action TO the destination region, show warning
+    if (existingDestinationAction) {
+      console.log(
+        `There's already a move action to ${destinationRegion} from ${existingDestinationAction.regionName}`
+      );
+
+      // Create a modal message with don't show again checkbox
+      const message = `You already have a move action to ${destinationRegion} from ${existingDestinationAction.regionName}. Remove it first to add a new move action to this region.`;
+
+      // Check if the user has chosen to hide this message
+      if (localStorage.getItem('hideDoubleDestinationWarning') !== 'true') {
+        // Modal for better UI
+        const modalHtml = `
+          <div class="warning-message">${message}</div>
+          <div class="dont-show-again">
+            <input type="checkbox" id="dont-show-destination-warning">
+            <label for="dont-show-destination-warning">Don't show this message again</label>
+          </div>
+        `;
+
+        // Show in the console and create a modal dialog
+        if (window.consoleManager) {
+          window.consoleManager.print(message, 'warning');
+
+          // Show modal
+          const modal = document.getElementById('location-modal');
+          const modalTitle = document.getElementById('modal-title');
+          const modalInfo = document.getElementById('modal-info');
+
+          if (modal && modalTitle && modalInfo) {
+            modalTitle.textContent = 'Move Action Warning';
+            modalInfo.innerHTML = modalHtml;
+            modal.classList.remove('hidden');
+
+            // Handle don't show again checkbox
+            const checkbox = document.getElementById(
+              'dont-show-destination-warning'
+            );
+            if (checkbox) {
+              checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                  localStorage.setItem('hideDoubleDestinationWarning', 'true');
                 }
               });
             }
