@@ -753,10 +753,7 @@ export class LoopUI {
     if (action.regionName) {
       const xpData = loopState.getRegionXP(action.regionName);
       // Use proposedLinearFinalCost formula to match loopState._calculateActionCost
-      return Math.max(
-        5,
-        Math.floor(proposedLinearFinalCost(baseCost, xpData.level))
-      );
+      return Math.floor(proposedLinearFinalCost(baseCost, xpData.level));
     }
 
     return baseCost;
