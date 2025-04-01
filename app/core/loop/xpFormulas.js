@@ -1,5 +1,5 @@
 /**
- * XP formulas for the ArchipIDLE incremental game
+ * XP formulas for the Archipelago Loops incremental game
  * Based on formulas from various idle games including Idle Loops, Stuck in Time, and Increlution
  */
 
@@ -20,10 +20,10 @@ export function levelFromXP(xp) {
   // Level 2: 100 + 120 = 220 XP
   // Level 3: 220 + 140 = 360 XP
   // Formula: xp = 100 * level + 20 * (level * (level - 1) / 2)
-  
+
   // Simplify to quadratic formula: 10*level^2 + 90*level
   // Solve for level: level = (-90 + sqrt(8100 + 40*xp)) / 20
-  
+
   return Math.floor((-90 + Math.sqrt(8100 + 40 * xp)) / 20);
 }
 
@@ -36,19 +36,19 @@ export function totalXPForLevel(level) {
 // Calculate XP needed for the next level
 export function xpForNextLevel(level) {
   // Linear progression: 100 + (level * 20)
-  return 100 + (level * 20);
+  return 100 + level * 20;
 }
 
 // Calculate XP gained from performing an action
 export function calculateXPGain(actionType, baseCost, isFirstTime = false) {
   // Base XP is proportional to the mana cost
   let baseXP = baseCost * 0.1;
-  
+
   // Bonus for first time completing the action in current loop
   if (isFirstTime) {
     baseXP *= 3;
   }
-  
+
   // Different action types provide different amounts of XP
   switch (actionType) {
     case 'explore':

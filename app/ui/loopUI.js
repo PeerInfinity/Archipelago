@@ -773,7 +773,7 @@ export class LoopUI {
 
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'archipidle_save.json';
+      a.download = 'archipelago_save.json';
       document.body.appendChild(a);
       a.click();
 
@@ -834,16 +834,16 @@ export class LoopUI {
     // --- Update title and header text based on loop mode state ---
     const headerTextElement = document.getElementById('header-text');
     if (this.isLoopModeActive) {
-      const spacedLoopsTitle = 'ArchipIDLE Loops'.split('').join(' ');
-      const loopsTitleHtml = 'A r c h i p I D L E &nbsp; L o o p s'; // Use &nbsp; for the main space
-      document.title = 'ArchipIDLE Loops';
+      const spacedLoopsTitle = 'Archipelago Loops'.split('').join(' ');
+      const loopsTitleHtml = 'A r c h i p e l a g o &nbsp; L o o p s'; // Use &nbsp; for the main space
+      document.title = 'Archipelago Loops';
       if (headerTextElement) {
         headerTextElement.innerHTML = loopsTitleHtml; // Use innerHTML for &nbsp;
       }
     } else {
-      const spacedJsonTitle = 'ArchipIDLE JSON'.split('').join(' ');
-      const jsonTitleHtml = 'A r c h i p I D L E &nbsp; J S O N'; // Use &nbsp; for the main space
-      document.title = 'ArchipIDLE JSON';
+      const spacedJsonTitle = 'JSON Web Client'.split('').join(' ');
+      const jsonTitleHtml = 'J S O N &nbsp; W e b &nbsp; C l i e n t'; // Use &nbsp; for the main space
+      document.title = 'JSON Web Client';
       if (headerTextElement) {
         headerTextElement.innerHTML = jsonTitleHtml; // Use innerHTML for &nbsp;
       }

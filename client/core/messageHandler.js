@@ -137,7 +137,7 @@ export class MessageHandler {
       game: 'A Link to the Past',
       name: this.clientSlotName,
       uuid: this._getClientId(),
-      tags: ['ArchipIDLE'],
+      tags: ['JSON Web Client'],
       password: connection.getPassword?.() || null,
       version: Config.PROTOCOL_VERSION,
       items_handling: 0b111,

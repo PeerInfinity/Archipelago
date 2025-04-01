@@ -1,5 +1,5 @@
 /**
- * Loop state manager for the ArchipIDLE incremental game
+ * Loop state manager for the incremental game
  * Manages game state for the loop mode, including:
  * - Experience levels for regions
  * - Action queue
@@ -1147,7 +1147,7 @@ class LoopState {
     try {
       const serializedState = this.getSerializableState();
       localStorage.setItem(
-        'archipidle_loop_state',
+        'archipelago_loop_state',
         JSON.stringify(serializedState)
       );
     } catch (error) {
@@ -1160,7 +1160,7 @@ class LoopState {
    */
   loadFromStorage() {
     try {
-      const savedState = localStorage.getItem('archipidle_loop_state');
+      const savedState = localStorage.getItem('archipelago_loop_state');
       if (savedState) {
         const parsedState = JSON.parse(savedState);
         this.loadFromSerializedState(parsedState);
