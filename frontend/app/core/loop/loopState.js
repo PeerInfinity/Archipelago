@@ -465,8 +465,36 @@ class LoopState {
 
       // Continuous XP gain during action
       if (this.currentAction.regionName) {
-        const xpGain = (progressIncrement / 100) * actionCost * 0.1;
-        this.addRegionXP(this.currentAction.regionName, xpGain);
+        // Award 1 XP per mana spent
+        const xpGain = (progressIncrement / 100) * actionCost;
+
+        // For explore actions on fully explored regions, give 4x XP (Farm Region XP mode)
+        if (this.currentAction.type === 'explore') {
+          const regionName = this.currentAction.regionName;
+          const regionData = stateManager.regions[regionName];
+
+          if (regionData) {
+            // Check if region is fully explored
+            const undiscoveredLocations =
+              this._countUndiscoveredLocations(regionName);
+            const undiscoveredExits = this._countUndiscoveredExits(regionName);
+
+            // If everything is discovered (Farm Region XP mode)
+            if (undiscoveredLocations + undiscoveredExits === 0) {
+              // 4x XP for farming
+              this.addRegionXP(regionName, xpGain * 4);
+            } else {
+              // Normal XP for exploring
+              this.addRegionXP(regionName, xpGain);
+            }
+          } else {
+            // Fallback if region data not found
+            this.addRegionXP(this.currentAction.regionName, xpGain);
+          }
+        } else {
+          // For non-explore actions, normal XP gain
+          this.addRegionXP(this.currentAction.regionName, xpGain);
+        }
 
         // Notify UI about XP change even for small increments
         const xpData = this.getRegionXP(this.currentAction.regionName);
@@ -701,11 +729,9 @@ class LoopState {
         this._revealRandomExit(regionName);
       }
 
-      // Normal XP gain when still discovering
-      this.addRegionXP(regionName, 20);
+      // No XP bonus on completion - XP is awarded continuously during the action
     } else {
-      // Double XP gain when everything is discovered but user continues exploring
-      this.addRegionXP(regionName, 40); // Doubled from 20 to 40
+      // No XP bonus on completion - XP is awarded continuously during the action (at 4x rate)
     }
   }
 
@@ -726,8 +752,7 @@ class LoopState {
       stateManager.addItemToInventory(location.item.name);
     }
 
-    // Add XP for region
-    this.addRegionXP(action.regionName, 30);
+    // No XP bonus on completion - XP is awarded continuously during the action
   }
 
   /**
@@ -738,9 +763,7 @@ class LoopState {
     // Mark destination region as discovered
     this.discoveredRegions.add(action.destinationRegion);
 
-    // Add XP for both regions
-    this.addRegionXP(action.regionName, 10);
-    this.addRegionXP(action.destinationRegion, 10);
+    // No XP bonus on completion - XP is awarded continuously during the action
 
     // Notify region discovery
     eventBus.publish('loopState:regionDiscovered', {
