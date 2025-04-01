@@ -40,26 +40,22 @@ export function xpForNextLevel(level) {
 }
 
 // Calculate XP gained from performing an action
-export function calculateXPGain(actionType, baseCost, isFirstTime = false) {
-  // Base XP is proportional to the mana cost
-  let baseXP = baseCost * 0.1;
+export function calculateXPGain(
+  actionType,
+  baseCost,
+  isFirstTime = false,
+  isFarmingMode = false
+) {
+  // Base XP is equal to mana cost (1:1 ratio)
+  let baseXP = baseCost;
 
-  // Bonus for first time completing the action in current loop
-  if (isFirstTime) {
-    baseXP *= 3;
+  // If in farming mode (fully explored region), apply 4x multiplier
+  if (actionType === 'explore' && isFarmingMode) {
+    return baseXP * 4;
   }
 
-  // Different action types provide different amounts of XP
-  switch (actionType) {
-    case 'explore':
-      return baseXP * 1.2; // Exploration gives more XP
-    case 'checkLocation':
-      return baseXP * 1.5; // Checking locations gives even more XP
-    case 'moveToRegion':
-      return baseXP * 0.8; // Movement gives less XP
-    default:
-      return baseXP;
-  }
+  // Otherwise return the base XP with no type-specific multipliers
+  return baseXP;
 }
 
 // Other utility functions from the formulas list
