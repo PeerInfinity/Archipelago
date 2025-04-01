@@ -3,7 +3,12 @@ import stateManager from '../core/stateManagerSingleton.js';
 import loopState from '../core/loop/loopState.js';
 import eventBus from '../core/eventBus.js';
 import commonUI from './commonUI.js';
-import { levelFromXP, xpForNextLevel } from '../core/loop/xpFormulas.js';
+import {
+  levelFromXP,
+  xpForNextLevel,
+  proposedLinearFinalCost,
+  proposedLinearReduction,
+} from '../core/loop/xpFormulas.js';
 
 export class LoopUI {
   constructor(gameUI) {
@@ -747,8 +752,11 @@ export class LoopUI {
     // Apply region XP reduction if applicable
     if (action.regionName) {
       const xpData = loopState.getRegionXP(action.regionName);
-      // Simple cost reduction based on level
-      return Math.max(5, Math.floor(baseCost * (1 - xpData.level * 0.05)));
+      // Use proposedLinearFinalCost formula to match loopState._calculateActionCost
+      return Math.max(
+        5,
+        Math.floor(proposedLinearFinalCost(baseCost, xpData.level))
+      );
     }
 
     return baseCost;
@@ -1452,8 +1460,8 @@ export class LoopUI {
       // Calculate percentage to next level
       const percentage = (xpData.xp / xpData.xpForNextLevel) * 100;
 
-      // Calculate the mana cost discount
-      const discountPercentage = Math.round(xpData.level * 5); // 5% per level
+      // Calculate the action speed/efficiency bonus (5% per level)
+      const speedBonus = xpData.level * 5;
 
       // Animate XP bar by removing transition first
       const xpBar = xpDisplay.querySelector('.xp-bar');
@@ -1473,7 +1481,7 @@ export class LoopUI {
       if (xpText) {
         xpText.innerHTML = `Level ${xpData.level} (${Math.floor(xpData.xp)}/${
           xpData.xpForNextLevel
-        } XP) <span class="discount-text">-${discountPercentage}% mana cost</span>`;
+        } XP) <span class="discount-text">+${speedBonus}% action efficiency</span>`;
       } else {
         // Re-create the entire display if needed
         xpDisplay.innerHTML = `
@@ -1481,7 +1489,7 @@ export class LoopUI {
           xpData.xp
         )}/${
           xpData.xpForNextLevel
-        } XP) <span class="discount-text">-${discountPercentage}% mana cost</span></div>
+        } XP) <span class="discount-text">+${speedBonus}% action efficiency</span></div>
           <div class="xp-bar-container">
             <div class="xp-bar" style="width: ${percentage}%"></div>
           </div>
@@ -2091,8 +2099,8 @@ export class LoopUI {
     // Get XP data for the region
     const xpData = loopState.getRegionXP(regionName);
 
-    // Calculate the mana cost discount percentage from XP level
-    const discountPercentage = Math.round(xpData.level * 5); // 5% per level
+    // Calculate the action speed/efficiency bonus (5% per level)
+    const speedBonus = xpData.level * 5;
 
     // Calculate discovery stats
     const totalLocations = region.locations ? region.locations.length : 0;
@@ -2170,7 +2178,7 @@ export class LoopUI {
       xpDisplay.innerHTML = `
         <div class="xp-text">Level ${xpData.level} (${Math.floor(xpData.xp)}/${
         xpData.xpForNextLevel
-      } XP) <span class="discount-text">-${discountPercentage}% mana cost</span></div>
+      } XP) <span class="discount-text">+${speedBonus}% action efficiency</span></div>
         <div class="xp-bar-container">
           <div class="xp-bar" style="width: ${xpPercentage}%"></div>
         </div>
