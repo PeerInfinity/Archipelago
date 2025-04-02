@@ -384,6 +384,10 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
             # Build settings dictionary with direct value extraction
             settings_dict = {}
             
+            # Add game information
+            settings_dict['game'] = multiworld.game[player]
+            debug_mode_settings(f"Game for player {player}", multiworld.game[player])
+            
             # Helper function to extract value from enum-like objects
             def extract_value(obj):
                 if hasattr(obj, 'value'):  # Check if it's an enum with a value attribute
@@ -647,6 +651,8 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
     try:
         regions_data = {}
         logger.debug(f"Getting game helpers for {multiworld.game[player]}")
+        # Different games have different levels of rule analysis support
+        # ALTTP has detailed helper expansion, while other games may preserve more helper nodes
         helper_expander = get_game_helpers(multiworld.game[player])
         logger.debug("Successfully got game helpers")
         
@@ -848,11 +854,12 @@ def process_items(multiworld, player: int) -> Dict[str, Any]:
     """Process item data including progression flags and capacity information."""
     items_data = {}
     world = multiworld.worlds[player]
+    game_name = multiworld.game[player]
     
     # First process basic items from item_id_to_name mapping
     for item_id, item_name in getattr(world, 'item_id_to_name', {}).items():
         groups = [
-            group_name for group_name, items in world.item_name_groups.items() 
+            group_name for group_name, items in getattr(world, 'item_name_groups', {}).items() 
             if item_name in items
         ]
         
@@ -869,36 +876,42 @@ def process_items(multiworld, player: int) -> Dict[str, Any]:
             'max_count': 1  # Default max count is 1
         }
 
-    # Add all items from item_table that aren't already added
-    from worlds.alttp.Items import item_table
-    from BaseClasses import ItemClassification
-    
-    for item_name, item_data in item_table.items():
-        if item_name not in items_data:
-            # Get groups this item belongs to
-            groups = [
-                group_name for group_name, items in world.item_name_groups.items() 
-                if item_name in items
-            ]
-            
-            # If no groups and item has a type, add type as a group
-            if not groups and item_data.type:
-                groups = [item_data.type]
+    # Process game-specific item data
+    if game_name == "A Link to the Past":
+        # For ALTTP, add all items from item_table that aren't already added
+        from worlds.alttp.Items import item_table
+        from BaseClasses import ItemClassification
+        
+        for item_name, item_data in item_table.items():
+            if item_name not in items_data:
+                # Get groups this item belongs to
+                groups = [
+                    group_name for group_name, items in getattr(world, 'item_name_groups', {}).items() 
+                    if item_name in items
+                ]
+                
+                # If no groups and item has a type, add type as a group
+                if not groups and item_data.type:
+                    groups = [item_data.type]
 
-            items_data[item_name] = {
-                'name': item_name,
-                'id': None,
-                'groups': sorted(groups),
-                'advancement': item_data.classification == ItemClassification.progression,
-                'priority': False,
-                'useful': False,
-                'trap': False,
-                'event': item_data.type == 'Event',
-                'type': item_data.type,
-                'max_count': 1  # Default max count is 1
-            }
+                items_data[item_name] = {
+                    'name': item_name,
+                    'id': None,
+                    'groups': sorted(groups),
+                    'advancement': item_data.classification == ItemClassification.progression,
+                    'priority': False,
+                    'useful': False,
+                    'trap': False,
+                    'event': item_data.type == 'Event',
+                    'type': item_data.type,
+                    'max_count': 1  # Default max count is 1
+                }
+    else:
+        # For other games, we'll just use the basic items from item_id_to_name
+        # and not add any additional items from item_table
+        logger.debug(f"Using basic item processing for game: {game_name}")
 
-    # Update flags from placed items
+    # Update flags from placed items - this is game-agnostic
     for location in multiworld.get_locations(player):
         if location.item and location.item.name in items_data:
             item_data = items_data[location.item.name]
@@ -908,30 +921,36 @@ def process_items(multiworld, player: int) -> Dict[str, Any]:
             item_data['trap'] = getattr(location.item, 'trap', False)
             #item_data['event'] = getattr(location.item, 'event', False) # Don't overwrite this
     
-    # Add default special max counts for certain item types
-    special_max_counts = {
-        'Piece of Heart': 24,
-        'Boss Heart Container': 10,
-        'Sanctuary Heart Container': 1,
-        'Magic Upgrade (1/2)': 1,
-        'Magic Upgrade (1/4)': 1,
-        'Progressive Sword': 4,
-        'Progressive Shield': 3,
-        'Progressive Glove': 2,
-        'Progressive Mail': 2,
-        'Progressive Bow': 2,
-        'Bottle': 4,
-        'Bottle (Red Potion)': 4,
-        'Bottle (Green Potion)': 4,
-        'Bottle (Blue Potion)': 4,
-        'Bottle (Fairy)': 4,
-        'Bottle (Bee)': 4,
-        'Bottle (Good Bee)': 4,
-    }
-    
-    for item_name, max_count in special_max_counts.items():
-        if item_name in items_data:
-            items_data[item_name]['max_count'] = max_count
+    # Add default special max counts based on game type
+    if game_name == "A Link to the Past":
+        # ALTTP-specific special max counts
+        special_max_counts = {
+            'Piece of Heart': 24,
+            'Boss Heart Container': 10,
+            'Sanctuary Heart Container': 1,
+            'Magic Upgrade (1/2)': 1,
+            'Magic Upgrade (1/4)': 1,
+            'Progressive Sword': 4,
+            'Progressive Shield': 3,
+            'Progressive Glove': 2,
+            'Progressive Mail': 2,
+            'Progressive Bow': 2,
+            'Bottle': 4,
+            'Bottle (Red Potion)': 4,
+            'Bottle (Green Potion)': 4,
+            'Bottle (Blue Potion)': 4,
+            'Bottle (Fairy)': 4,
+            'Bottle (Bee)': 4,
+            'Bottle (Good Bee)': 4,
+        }
+        
+        for item_name, max_count in special_max_counts.items():
+            if item_name in items_data:
+                items_data[item_name]['max_count'] = max_count
+    else:
+        # For other games, we don't add special max counts by default
+        # This could be expanded in the future with game-specific handlers
+        pass
     
     return items_data
 
@@ -944,25 +963,34 @@ def process_item_groups(multiworld, player: int) -> List[str]:
 
 def process_progression_mapping(multiworld, player: int) -> Dict[str, Any]:
     """Extract progression item mapping data."""
-    from worlds.alttp.Items import progression_mapping
+    game_name = multiworld.game[player]
     
-    mapping_data = {}
-    for target_item, (base_item, level) in progression_mapping.items():
-        if base_item not in mapping_data:
-            mapping_data[base_item] = {
-                'items': [],
-                'base_item': base_item
-            }
-        mapping_data[base_item]['items'].append({
-            'name': target_item,
-            'level': level
-        })
-    
-    # Sort items by level
-    for prog_type in mapping_data.values():
-        prog_type['items'].sort(key=lambda x: x['level'])
-    
-    return mapping_data
+    if game_name == "A Link to the Past":
+        # ALTTP-specific progression mapping
+        from worlds.alttp.Items import progression_mapping
+        
+        mapping_data = {}
+        for target_item, (base_item, level) in progression_mapping.items():
+            if base_item not in mapping_data:
+                mapping_data[base_item] = {
+                    'items': [],
+                    'base_item': base_item
+                }
+            mapping_data[base_item]['items'].append({
+                'name': target_item,
+                'level': level
+            })
+        
+        # Sort items by level
+        for prog_type in mapping_data.values():
+            prog_type['items'].sort(key=lambda x: x['level'])
+        
+        return mapping_data
+    else:
+        # For other games, return an empty mapping
+        # This could be expanded in the future with game-specific handlers
+        logger.debug(f"No progression mapping data available for game: {game_name}")
+        return {}
 
 def cleanup_export_data(data):
     """
@@ -978,8 +1006,18 @@ def cleanup_export_data(data):
         if 'settings' in data:
             debug_file.write(f"DEBUG - settings before cleanup: {str(data['settings'])}\n")
     
+    # Track the game type for each player to apply appropriate settings
+    player_games = {}
+    
+    # If we have game info, collect it for each player
+    if 'settings' in data:
+        for player_id, settings in data['settings'].items():
+            if 'game' in settings:
+                player_games[player_id] = settings['game']
+    
     # Define mappings for numeric settings values to readable strings
-    setting_mappings = {
+    # These are primarily ALTTP settings
+    alttp_setting_mappings = {
         'dark_room_logic': {0: 'lamp', 1: 'torches', 2: 'none'},
         'enemy_health': {0: 'default', 1: 'easy', 2: 'hard', 3: 'expert'},
         'enemy_damage': {0: 'default', 1: 'shuffled', 2: 'chaos'},
@@ -992,10 +1030,15 @@ def cleanup_export_data(data):
         'shuffle_capacity_upgrades': {0: 'off', 1: 'on', 2: 'progressive'}
     }
     
-    # Boolean settings that should be actual booleans
-    boolean_settings = [
+    # Boolean settings that should be actual booleans for ALTTP
+    alttp_boolean_settings = [
         'retro_bow', 'swordless', 'enemy_shuffle', 'bombless_start'
     ]
+    
+    # Common setting mappings for all games
+    common_setting_mappings = {
+        'accessibility': {0: 'items', 1: 'locations', 2: 'none'},
+    }
     
     # Clean up mode field
     if 'mode' in data:
@@ -1029,8 +1072,10 @@ def cleanup_export_data(data):
                     debug_mode_settings(f"Extracted mode from string", extracted)
                     
                 # Convert from integer to string using the mapping
-                elif isinstance(mode_value, int) and mode_value in setting_mappings['mode']:
-                    mapped_value = setting_mappings['mode'][mode_value]
+                # Only for ALTTP or if we don't know the game type (backward compatibility)
+                game = player_games.get(player, "A Link to the Past")  # Default to ALTTP for compatibility
+                if game == "A Link to the Past" and isinstance(mode_value, int) and mode_value in alttp_setting_mappings['mode']:
+                    mapped_value = alttp_setting_mappings['mode'][mode_value]
                     data['mode'][player] = mapped_value
                     debug_mode_settings(f"Mapped mode from int {mode_value}", mapped_value)
     
@@ -1043,6 +1088,19 @@ def cleanup_export_data(data):
             if 'error' in settings:
                 debug_mode_settings("Skipping settings with error")
                 continue
+            
+            # Determine game type for this player
+            game = player_games.get(player, "unknown")
+            debug_mode_settings(f"Game for player {player}: {game}")
+            
+            # Select appropriate setting mappings based on game
+            setting_mappings = common_setting_mappings.copy()
+            boolean_settings = []
+            
+            if game == "A Link to the Past":
+                # Add ALTTP-specific mappings
+                setting_mappings.update(alttp_setting_mappings)
+                boolean_settings = alttp_boolean_settings
                 
             # Convert numeric settings to descriptive strings
             for setting_name, value in list(settings.items()):
