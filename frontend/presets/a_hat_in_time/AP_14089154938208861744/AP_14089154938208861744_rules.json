@@ -1,19 +1,19 @@
 {
-  "schema_version": 3,
   "game_name": "A Hat in Time",
-  "archipelago_version": "0.6.0",
+  "schema_version": 3,
+  "archipelago_version": "0.6.1",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
+  },
+  "world_classes": {
+    "1": "HatInTimeWorld"
   },
   "plando_options": [
     "connections",
     "texts",
     "bosses"
   ],
-  "world_classes": {
-    "1": "HatInTimeWorld"
-  },
   "regions": {
     "1": {
       "Menu": {
@@ -10791,6 +10791,14 @@
       }
     }
   },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
   "items": {
     "1": {
       "Yarn": {
@@ -11636,27 +11644,6 @@
       "UFO"
     ]
   },
-  "progression_mapping": {
-    "1": {}
-  },
-  "mode": {
-    "1": "ERROR: Game mode not found for player 1"
-  },
-  "settings": {
-    "1": {
-      "game": "A Hat in Time",
-      "accessibility": 0,
-      "mode": "ERROR: Could not read game mode for player 1"
-    }
-  },
-  "start_regions": {
-    "1": {
-      "default": [
-        "Menu"
-      ],
-      "available": []
-    }
-  },
   "itempool_counts": {
     "1": {
       "100 Pons": 12,
@@ -11703,11 +11690,25 @@
       "Yarn": 100
     }
   },
+  "progression_mapping": {
+    "1": {}
+  },
+  "mode": {
+    "1": "ERROR: Game mode not found for player 1"
+  },
+  "settings": {
+    "1": {
+      "game": "A Hat in Time",
+      "accessibility": "items",
+      "mode": "ERROR: Could not read game mode for player 1"
+    }
+  },
   "game_info": {
     "1": {
       "rule_format": {
         "version": "1.0"
-      }
+      },
+      "name": "A Hat in Time"
     }
   }
 }

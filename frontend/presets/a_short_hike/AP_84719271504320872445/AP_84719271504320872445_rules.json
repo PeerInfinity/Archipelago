@@ -1,19 +1,19 @@
 {
-  "schema_version": 3,
   "game_name": "A Short Hike",
-  "archipelago_version": "0.6.0",
+  "schema_version": 3,
+  "archipelago_version": "0.6.1",
   "generation_seed": 3,
   "player_names": {
     "1": "Player1"
+  },
+  "world_classes": {
+    "1": "ShortHikeWorld"
   },
   "plando_options": [
     "connections",
     "texts",
     "bosses"
   ],
-  "world_classes": {
-    "1": "ShortHikeWorld"
-  },
   "regions": {
     "1": {
       "Menu": {
@@ -3560,6 +3560,14 @@
       }
     }
   },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
   "items": {
     "1": {
       "Stick": {
@@ -4103,27 +4111,6 @@
       "Maps"
     ]
   },
-  "progression_mapping": {
-    "1": {}
-  },
-  "mode": {
-    "1": "ERROR: Game mode not found for player 1"
-  },
-  "settings": {
-    "1": {
-      "game": "A Short Hike",
-      "accessibility": 0,
-      "mode": "ERROR: Could not read game mode for player 1"
-    }
-  },
-  "start_regions": {
-    "1": {
-      "default": [
-        "Menu"
-      ],
-      "available": []
-    }
-  },
   "itempool_counts": {
     "1": {
       "13 Coins": 42,
@@ -4165,11 +4152,25 @@
       "Wristwatch": 2
     }
   },
+  "progression_mapping": {
+    "1": {}
+  },
+  "mode": {
+    "1": "ERROR: Game mode not found for player 1"
+  },
+  "settings": {
+    "1": {
+      "game": "A Short Hike",
+      "accessibility": "items",
+      "mode": "ERROR: Could not read game mode for player 1"
+    }
+  },
   "game_info": {
     "1": {
       "rule_format": {
         "version": "1.0"
-      }
+      },
+      "name": "A Short Hike"
     }
   }
 }

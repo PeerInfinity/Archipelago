@@ -1,19 +1,19 @@
 {
-  "schema_version": 3,
   "game_name": "A Link to the Past",
-  "archipelago_version": "0.6.0",
+  "schema_version": 3,
+  "archipelago_version": "0.6.1",
   "generation_seed": 3,
   "player_names": {
     "1": "Player1"
+  },
+  "world_classes": {
+    "1": "ALTTPWorld"
   },
   "plando_options": [
     "connections",
     "texts",
     "bosses"
   ],
-  "world_classes": {
-    "1": "ALTTPWorld"
-  },
   "regions": {
     "1": {
       "Menu": {
@@ -33612,6 +33612,14 @@
       }
     }
   },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
   "items": {
     "1": {
       "Bow": {
@@ -36182,116 +36190,6 @@
       "Upgrades"
     ]
   },
-  "progression_mapping": {
-    "1": {
-      "Progressive Sword": {
-        "items": [
-          {
-            "name": "Fighter Sword",
-            "level": 1
-          },
-          {
-            "name": "Master Sword",
-            "level": 2
-          },
-          {
-            "name": "Tempered Sword",
-            "level": 3
-          },
-          {
-            "name": "Golden Sword",
-            "level": 4
-          }
-        ],
-        "base_item": "Progressive Sword"
-      },
-      "Progressive Glove": {
-        "items": [
-          {
-            "name": "Power Glove",
-            "level": 1
-          },
-          {
-            "name": "Titans Mitts",
-            "level": 2
-          }
-        ],
-        "base_item": "Progressive Glove"
-      },
-      "Progressive Shield": {
-        "items": [
-          {
-            "name": "Blue Shield",
-            "level": 1
-          },
-          {
-            "name": "Red Shield",
-            "level": 2
-          },
-          {
-            "name": "Mirror Shield",
-            "level": 3
-          }
-        ],
-        "base_item": "Progressive Shield"
-      },
-      "Progressive Bow": {
-        "items": [
-          {
-            "name": "Bow",
-            "level": 1
-          },
-          {
-            "name": "Silver Bow",
-            "level": 2
-          }
-        ],
-        "base_item": "Progressive Bow"
-      }
-    }
-  },
-  "mode": {
-    "1": 1
-  },
-  "settings": {
-    "1": {
-      "game": "A Link to the Past",
-      "dark_room_logic": 0,
-      "retro_bow": 0,
-      "swordless": 0,
-      "enemy_shuffle": 0,
-      "enemy_health": 1,
-      "enemy_damage": 0,
-      "bombless_start": 0,
-      "glitches_required": 0,
-      "pot_shuffle": 0,
-      "dungeon_counters": 1,
-      "glitch_boots": 1,
-      "accessibility": 1,
-      "mode": 1,
-      "shuffle_capacity_upgrades": 0,
-      "treasure_hunt_required": 0,
-      "difficulty_requirements": {
-        "progressive_bottle_limit": 4,
-        "boss_heart_container_limit": 10,
-        "heart_piece_limit": 24
-      },
-      "required_medallions": [
-        "Ether",
-        "Quake"
-      ],
-      "misery_mire_medallion": "Ether",
-      "turtle_rock_medallion": "Quake"
-    }
-  },
-  "start_regions": {
-    "1": {
-      "default": [
-        "Menu"
-      ],
-      "available": []
-    }
-  },
   "itempool_counts": {
     "1": {
       "Activated Flute": 1,
@@ -36412,11 +36310,114 @@
       "__max_progressive_bottle": 4
     }
   },
+  "progression_mapping": {
+    "1": {
+      "Progressive Sword": {
+        "items": [
+          {
+            "name": "Fighter Sword",
+            "level": 1
+          },
+          {
+            "name": "Master Sword",
+            "level": 2
+          },
+          {
+            "name": "Tempered Sword",
+            "level": 3
+          },
+          {
+            "name": "Golden Sword",
+            "level": 4
+          }
+        ],
+        "base_item": "Progressive Sword"
+      },
+      "Progressive Glove": {
+        "items": [
+          {
+            "name": "Power Glove",
+            "level": 1
+          },
+          {
+            "name": "Titans Mitts",
+            "level": 2
+          }
+        ],
+        "base_item": "Progressive Glove"
+      },
+      "Progressive Shield": {
+        "items": [
+          {
+            "name": "Blue Shield",
+            "level": 1
+          },
+          {
+            "name": "Red Shield",
+            "level": 2
+          },
+          {
+            "name": "Mirror Shield",
+            "level": 3
+          }
+        ],
+        "base_item": "Progressive Shield"
+      },
+      "Progressive Bow": {
+        "items": [
+          {
+            "name": "Bow",
+            "level": 1
+          },
+          {
+            "name": "Silver Bow",
+            "level": 2
+          }
+        ],
+        "base_item": "Progressive Bow"
+      }
+    }
+  },
+  "mode": {
+    "1": "open"
+  },
+  "settings": {
+    "1": {
+      "game": "A Link to the Past",
+      "dark_room_logic": "lamp",
+      "retro_bow": false,
+      "swordless": false,
+      "enemy_shuffle": false,
+      "enemy_health": "easy",
+      "enemy_damage": "default",
+      "bombless_start": false,
+      "glitches_required": "none",
+      "pot_shuffle": "off",
+      "dungeon_counters": "on",
+      "glitch_boots": "on",
+      "accessibility": "locations",
+      "mode": "open",
+      "shuffle_capacity_upgrades": "off",
+      "treasure_hunt_required": 0,
+      "difficulty_requirements": {
+        "progressive_bottle_limit": 4,
+        "boss_heart_container_limit": 10,
+        "heart_piece_limit": 24
+      },
+      "required_medallions": [
+        "Ether",
+        "Quake"
+      ],
+      "misery_mire_medallion": "Ether",
+      "turtle_rock_medallion": "Quake"
+    }
+  },
   "game_info": {
     "1": {
       "rule_format": {
         "version": "1.0"
-      }
+      },
+      "name": "A Link to the Past"
     }
   }
 }

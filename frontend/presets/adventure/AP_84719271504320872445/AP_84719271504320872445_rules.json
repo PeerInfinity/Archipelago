@@ -1,19 +1,19 @@
 {
-  "schema_version": 3,
   "game_name": "Adventure",
-  "archipelago_version": "0.6.0",
+  "schema_version": 3,
+  "archipelago_version": "0.6.1",
   "generation_seed": 3,
   "player_names": {
     "1": "Player1"
+  },
+  "world_classes": {
+    "1": "AdventureWorld"
   },
   "plando_options": [
     "connections",
     "texts",
     "bosses"
   ],
-  "world_classes": {
-    "1": "AdventureWorld"
-  },
   "regions": {
     "1": {
       "Menu": {
@@ -1328,6 +1328,14 @@
       }
     }
   },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
   "items": {
     "1": {
       "Yellow Key": {
@@ -1547,27 +1555,6 @@
       "Everything"
     ]
   },
-  "progression_mapping": {
-    "1": {}
-  },
-  "mode": {
-    "1": "ERROR: Game mode not found for player 1"
-  },
-  "settings": {
-    "1": {
-      "game": "Adventure",
-      "accessibility": 0,
-      "mode": "ERROR: Could not read game mode for player 1"
-    }
-  },
-  "start_regions": {
-    "1": {
-      "default": [
-        "Menu"
-      ],
-      "available": []
-    }
-  },
   "itempool_counts": {
     "1": {
       "Black Key": 2,
@@ -1584,6 +1571,19 @@
       "Victory": 1,
       "White Key": 2,
       "Yellow Key": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "mode": {
+    "1": "ERROR: Game mode not found for player 1"
+  },
+  "settings": {
+    "1": {
+      "game": "Adventure",
+      "accessibility": "items",
+      "mode": "ERROR: Could not read game mode for player 1"
     }
   },
   "game_info": {

@@ -299,8 +299,7 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         debug_mode_settings("WARNING: multiworld has no 'mode' attribute")
     
     export_data = {
-        "version": 3,  # Schema version for the export format
-        "game_name": multiworld.game[1],  # Game name for player 1
+        "schema_version": 3,  # Schema version for the export format
         "archipelago_version": Utils.__version__,
         "generation_seed": multiworld.seed,
         #"export_timestamp": datetime.datetime.now().isoformat(),
@@ -1497,72 +1496,258 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
     
     os.makedirs(output_dir, exist_ok=True)
 
-    # Export rules to the original location
-    rules_path = os.path.join(output_dir, f'{filename_base}_rules.json')
-    export_data = prepare_export_data(multiworld)
-    
+    # Prepare the combined export data for all players
     try:
-        with open(rules_path, 'w', encoding='utf-8') as f:
-            json.dump(export_data, f, indent=2)
+        export_data = prepare_export_data(multiworld)
+        # Apply serialization and cleanup - important for consistent output
+        serializable_data = make_serializable(export_data)
+        cleaned_data = cleanup_export_data(serializable_data)
+        
     except Exception as e:
-        logger.error(f"Error writing rules export file: {e}")
-        raise
+        logger.error(f"Error preparing export data: {e}")
+        logger.exception("Full traceback for data preparation error:")
+        # Optionally return or raise here if preparation fails
+        return {} # Return empty dict if preparation fails
+
+    # --- Determine Game Name for Combined File ---
+    combined_game_name = "Unknown"
+    if multiworld.game:
+        unique_games = set(g for g in multiworld.game.values() if g)
+        if len(unique_games) > 1:
+            combined_game_name = "Multiworld"
+        elif len(unique_games) == 1:
+            combined_game_name = list(unique_games)[0] # Get the single game name
+        else: # No valid game names found
+            combined_game_name = "Unknown"
     
-    results = {'rules': rules_path}
+    # --- Build Ordered Dictionary for Combined File ---
+    # Define the desired order of keys
+    desired_key_order = [
+        'schema_version',
+        'game_name',
+        'archipelago_version',
+        'generation_seed',
+        'player_names',
+        'world_classes',
+        'plando_options',
+        'regions',
+        'start_regions',
+        'items',
+        'item_groups',
+        'itempool_counts',
+        'progression_mapping',
+        'mode',
+        'settings',
+        'game_info'
+    ]
+
+    ordered_cleaned_data = collections.OrderedDict()
+
+    # Add game name first, as determined earlier
+    ordered_cleaned_data['game_name'] = combined_game_name
+
+    # Add keys in the desired order
+    for key in desired_key_order:
+        # Skip game_name as it was added manually
+        if key == 'game_name':
+            continue
+        
+        if key in cleaned_data:
+            ordered_cleaned_data[key] = cleaned_data[key]
+        else:
+            # Handle potentially missing keys - log or provide default
+            # For now, we'll skip missing keys silently, assuming prepare/cleanup handles structure
+            # logger.warning(f"Key '{key}' not found in cleaned_data for combined export")
+            pass
+
+    # Add any keys present in cleaned_data but not in desired_key_order to the end
+    # This ensures no data is lost if new top-level keys are added
+    for key, value in cleaned_data.items():
+        if key not in ordered_cleaned_data:
+            ordered_cleaned_data[key] = value
+            logger.warning(f"Key '{key}' was not in desired_key_order, added to end of combined export")
+
+    # --- Write the combined rules file using the ordered data ---
+    combined_rules_path = os.path.join(output_dir, f"{filename_base}_rules.json")
+    try:
+        with open(combined_rules_path, 'w', encoding='utf-8') as f:
+            json.dump(ordered_cleaned_data, f, indent=2) # Use ordered dict
+        logger.info(f"Successfully wrote combined rules to {combined_rules_path}")
+    except Exception as e:
+        logger.error(f"Error writing combined rules export file: {e}")
+        raise # Re-raise the exception if combined file fails
+
+    results = {'rules_combined': combined_rules_path} # Renamed key for clarity
+
+    # --- Write individual player rule files ONLY if more than one player ---
+    if len(multiworld.player_ids) > 1:
+        # Define keys that are global vs player-specific
+        # Keep these lists as they define the structure of the original cleaned_data
+        global_keys = [
+            "schema_version", # "game_name" is handled separately below
+            "archipelago_version", 
+            "generation_seed", "player_names", "plando_options", "world_classes"
+        ]
+        player_specific_keys = [
+            'regions', 'items', 'item_groups', 'progression_mapping', 
+            'mode', 'settings', 'start_regions', 'itempool_counts', 'game_info'
+        ]
+
+        for player in multiworld.player_ids:
+            player_str = str(player)
+            
+            # ** Build Ordered Dictionary for Player File **
+            player_export_data = collections.OrderedDict()
+            
+            # Define the full desired order of keys 
+            # (schema_version and game_name are handled first)
+            global_keys_in_order = [
+                'archipelago_version',
+                'generation_seed',
+                'player_names',
+                'world_classes',
+                'plando_options'
+            ]
+            player_keys_in_order = [
+                'regions',
+                'start_regions', 
+                'items',
+                'item_groups',
+                'itempool_counts',
+                'progression_mapping', 
+                'mode',
+                'settings',
+                'game_info' 
+            ]
+            
+            # 1. Start with schema_version
+            if 'schema_version' in cleaned_data:
+                 player_export_data['schema_version'] = cleaned_data['schema_version']
+
+            # 2. Add the player's specific game_name next
+            player_settings = cleaned_data.get('settings', {}).get(player_str, {})
+            player_game_name = player_settings.get('game', 'Unknown')
+            player_export_data['game_name'] = player_game_name
+            
+            # 3. Add global keys in specified order
+            for key in global_keys_in_order:
+                if key in cleaned_data:
+                    player_export_data[key] = cleaned_data[key]
+                else:
+                     # Handle missing global key if necessary (e.g., log warning)
+                     # logger.warning(f"Global key '{key}' missing from cleaned_data")
+                     pass # Or assign a default like None or {}
+            
+            # 4. Add player-specific keys in specified order
+            for key in player_keys_in_order:
+                if key in cleaned_data and player_str in cleaned_data.get(key, {}):
+                    player_export_data[key] = cleaned_data[key][player_str]
+                else:
+                    # Log if expected player-specific data is missing
+                    logger.warning(f"Missing player-specific key '{key}' for player {player_str} in cleaned_data")
+                    # Provide an empty dict or appropriate default based on the key type
+                    player_export_data[key] = {} # Default to empty dict
+
+            # Define player-specific filename
+            player_rules_path = os.path.join(output_dir, f"{filename_base}_P{player_str}_rules.json")
+            
+            try:
+                with open(player_rules_path, 'w', encoding='utf-8') as f:
+                    json.dump(player_export_data, f, indent=2)
+                logger.info(f"Successfully wrote rules for player {player_str} to {player_rules_path}")
+                results[f"rules_p{player_str}"] = player_rules_path # Add player file path to results
+            except Exception as e:
+                logger.error(f"Error writing rules export file for player {player_str}: {e}")
+                # Optionally, add placeholder to results or skip adding
+                results[f"rules_p{player_str}"] = f"ERROR: Failed to write file - {e}"
+                # Decide if we should continue or raise if a player file fails
+                # For now, we log the error and continue
 
     # If save_presets is False, skip the preset saving parts
     if not save_presets:
         return results
 
-    # Save presets
+    # --- Save presets (this part remains largely the same) ---
+    # It will now copy the combined file AND all individual player files
     try:
-        # Get the game name from the first player
+        # Determine if it's a multi-game world for naming purposes
         if not multiworld.game:
             logger.warning("No game data found in multiworld object, skipping preset save")
             return results
             
-        first_player = min(multiworld.game.keys())
-        game_name = multiworld.game[first_player]
+        unique_games = set(g for g in multiworld.game.values() if g) # Get unique, non-empty game names
         
-        if not game_name:
-            logger.warning(f"Empty game name for player {first_player}, skipping preset save")
-            return results
+        is_multi_game = len(unique_games) > 1
         
-        # Clean the game name for use in a filename 
-        clean_game_name = game_name.lower().replace(' ', '_')
-        
+        if is_multi_game:
+            game_name = "Multiworld" # Name used in descriptions
+            clean_game_name = "multiworld" # Name used for the folder
+            logger.info(f"Detected multi-game world ({len(unique_games)} unique games), using '{clean_game_name}' preset folder.")
+        else:
+            # Single game or empty game dict, use first player's game (or default)
+            first_player = min(multiworld.game.keys()) if multiworld.game else 1 # Handle empty case
+            game_name = multiworld.game.get(first_player, "unknown_game")
+            
+            if not game_name or game_name == "unknown_game":
+                logger.warning(f"Could not determine valid game name for player {first_player}, skipping preset save")
+                return results
+            
+            # Clean the single game name for use in a filename/folder
+            clean_game_name = game_name.lower().replace(' ', '_').replace(':', '_')
+            logger.info(f"Detected single game world ({game_name}), using '{clean_game_name}' preset folder.")
+
         # Determine the frontend presets directory
         presets_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'presets')
         os.makedirs(presets_dir, exist_ok=True)
         
-        # Create game-specific directory
+        # Create game-specific directory (will be 'multiworld' or the specific game name)
         game_dir = os.path.join(presets_dir, clean_game_name)
         os.makedirs(game_dir, exist_ok=True)
         
-        # Create a folder for this specific preset
-        preset_dir = os.path.join(game_dir, filename_base)
+        # Create a folder for this specific preset using filename_base
+        preset_dir = os.path.join(game_dir, filename_base) 
         
-        # Create/update the preset directory
+        # Create/update the preset directory (clearing existing files)
         files_copied = 0
         if not os.path.exists(preset_dir):
             os.makedirs(preset_dir)
             logger.info(f"Created new preset directory: {preset_dir}")
         else:
-            logger.info(f"Using existing preset directory: {preset_dir}")
-            
+            logger.info(f"Clearing existing preset directory: {preset_dir}")
+            for item in os.listdir(preset_dir):
+                item_path = os.path.join(preset_dir, item)
+                if os.path.isfile(item_path):
+                    try:
+                        os.remove(item_path)
+                    except Exception as remove_e:
+                        logger.error(f"Error removing file {item_path}: {remove_e}")
+                elif os.path.isdir(item_path):
+                    try:
+                        shutil.rmtree(item_path)
+                    except Exception as rmtree_e:
+                        logger.error(f"Error removing directory {item_path}: {rmtree_e}")
+
         # Copy all files from output_dir to preset_dir
+        # This will now include the combined file and all player-specific files
         for file_name in os.listdir(output_dir):
             src_file = os.path.join(output_dir, file_name)
             if os.path.isfile(src_file):
-                dst_file = os.path.join(preset_dir, file_name)
-                shutil.copy2(src_file, dst_file)
-                files_copied += 1
-        
+                try:
+                    dst_file = os.path.join(preset_dir, file_name)
+                    shutil.copy2(src_file, dst_file)
+                    files_copied += 1
+                except Exception as copy_e:
+                     logger.error(f"Error copying file {src_file} to {preset_dir}: {copy_e}")
+
         logger.info(f"Copied {files_copied} files to preset directory {preset_dir}")
         
         # Get list of files in the preset directory after copying
-        preset_files = [f for f in os.listdir(preset_dir) if os.path.isfile(os.path.join(preset_dir, f))]
-        
+        try:
+            preset_files = sorted([f for f in os.listdir(preset_dir) if os.path.isfile(os.path.join(preset_dir, f))])
+        except Exception as list_e:
+            logger.error(f"Error listing files in preset directory {preset_dir}: {list_e}")
+            preset_files = [] # Fallback to empty list
+
         # Update preset_files.json index
         preset_index_path = os.path.join(presets_dir, 'preset_files.json')
         preset_index = {}
@@ -1574,32 +1759,39 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
                     preset_index = json.load(f)
             except json.JSONDecodeError:
                 logger.warning("Could not parse existing preset_files.json, creating new file")
-        
+            except Exception as read_e:
+                 logger.error(f"Error reading preset_files.json: {read_e}")
+                 preset_index = {} # Reset index on error
+
         # Initialize game entry if it doesn't exist
         if clean_game_name not in preset_index:
             preset_index[clean_game_name] = {
-                "name": game_name,
+                "name": game_name, # Store the original game name
                 "folders": {}
             }
-        # Make sure folders key exists
-        elif "folders" not in preset_index[clean_game_name]:
+        # Make sure folders key exists and is a dictionary
+        elif "folders" not in preset_index[clean_game_name] or not isinstance(preset_index[clean_game_name].get("folders"), dict):
             preset_index[clean_game_name]["folders"] = {}
         
         # Add or update the folder entry with file list
         preset_index[clean_game_name]["folders"][filename_base] = {
-            "description": f"Generated preset for {game_name} - {filename_base}",
+            "description": f"Preset for {game_name} - {filename_base}", # Use original game name
             "files": preset_files
         }
         
-        logger.info(f"Updated preset_files.json with {len(preset_files)} files for {filename_base}")
+        logger.info(f"Updated preset_files.json index for {clean_game_name}/{filename_base} with {len(preset_files)} files")
         
         # Write updated index
-        with open(preset_index_path, 'w', encoding='utf-8') as f:
-            json.dump(preset_index, f, indent=2)
-        
+        try:
+            with open(preset_index_path, 'w', encoding='utf-8') as f:
+                # Keep the original insertion order
+                json.dump(preset_index, f, indent=2)
+        except Exception as write_e:
+            logger.error(f"Error writing updated preset_files.json: {write_e}")
+
     except Exception as e:
         # Log but don't fail the entire export if preset saving fails
         logger.error(f"Error saving preset: {e}")
-        logger.exception("Exception details:")
+        logger.exception("Exception details during preset saving:")
 
     return results
