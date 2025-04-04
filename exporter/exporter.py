@@ -717,10 +717,22 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                 lambda_node = finder.found_lambda
                 if lambda_node:
                     print(f"AST-based lambda found for '{rule_target_name}'. Analyzing node.")
-                    # Pass necessary closure vars if possible - tricky from AST alone
-                    # For now, pass empty closure, analyze_rule will try to get them if needed
-                    # We might need to enhance LambdaFinder to capture surrounding scope
-                    analyzed = analyze_rule(ast_node=lambda_node, closure_vars={}) 
+                    # --- Prepare closure for AST analysis --- 
+                    # Start with an empty closure. We need a way to reliably get 
+                    # the actual closure variables available to the lambda from the AST context.
+                    # This is non-trivial. For now, focus on ensuring 'self' is present if needed.
+                    ast_closure_vars = {}
+                    # Heuristic: If the lambda uses 'self', try to get it from the world object.
+                    # We might need a better way to determine the 'self' context.
+                    # This assumes the rule is defined in a method of the world object.
+                    world_instance = multiworld.worlds.get(player)
+                    if world_instance and 'self' in inspect.getfullargspec(rule_func).args:
+                         # This check might be wrong, need to check if lambda *uses* self
+                         # ast_closure_vars['self'] = world_instance 
+                         # TODO: Improve self detection for AST lambdas
+                         pass 
+
+                    analyzed = analyze_rule(ast_node=lambda_node, closure_vars=ast_closure_vars) 
                 else:
                     print(f"Lambda for '{rule_target_name}' not found via AST search.")
             else:
