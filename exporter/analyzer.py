@@ -34,7 +34,7 @@ Key Rule Patterns:
 import ast
 import inspect
 import re
-from typing import Any, Dict, Optional, Set, Callable
+from typing import Any, Dict, Optional, Set, Callable, List
 import traceback
 import json
 import logging
@@ -905,20 +905,37 @@ class RuleAnalyzer(ast.NodeVisitor):
 
 class LambdaFinder(ast.NodeVisitor):
     """
-    Searches an AST for a call to set_rule for a specific target
-    and extracts the lambda function passed as the rule.
+    Searches an AST for calls to rule-setting functions (set_rule, add_rule, etc.)
+    for a specific target and extracts the lambda function passed as the rule,
+    handling cases where multiple definitions might exist.
     """
     def __init__(self, target_name: str, target_player: Optional[int] = None):
         self.target_name = target_name
         # self.target_player = target_player # Optional: Could add player matching if needed
-        self.found_lambda: Optional[ast.Lambda] = None
-        self.found = False # Flag to stop searching once found
+        self._found_lambdas: List[ast.Lambda] = [] # Store all found lambdas
+        self._visited_nodes = set() # Prevent infinite recursion on complex ASTs
         print(f"LambdaFinder initialized for target: {target_name}")
 
+    def _extract_target_name_from_call(self, call_node: ast.Call) -> Optional[str]:
+        """Helper to extract the target name from a get_location/entrance/region call."""
+        if isinstance(call_node.func, ast.Attribute):
+            method_name = call_node.func.attr
+            if method_name in ['get_location', 'get_entrance', 'get_region']:
+                if len(call_node.args) > 0 and isinstance(call_node.args[0], ast.Constant):
+                    return call_node.args[0].value
+                else:
+                    print(f"LambdaFinder: No constant arg found for {method_name} call.")
+            # else:
+            #     print(f"LambdaFinder: Method name '{method_name}' not in expected list.")
+        # else:
+        #      print(f"LambdaFinder: Target node func is not Attribute. Type: {type(call_node.func)}, Dump: {ast.dump(call_node.func)}")
+        return None
+
     def visit_Call(self, node: ast.Call):
-        # Stop visiting if we've already found the lambda
-        if self.found:
+        # Prevent revisiting nodes to avoid potential cycles
+        if node in self._visited_nodes:
             return
+        self._visited_nodes.add(node)
 
         # Check if this is potentially a call to 'set_rule' or similar
         func_name = None
@@ -933,25 +950,18 @@ class LambdaFinder(ast.NodeVisitor):
                 # Try to extract the target name from the first argument
                 target_node = node.args[0]
                 extracted_target_name = None
-                method_name_used = None # Store which get_* method was used
 
                 # Pattern: world.get_location/entrance/region("Target", player)
                 if isinstance(target_node, ast.Call):
-                    if isinstance(target_node.func, ast.Attribute):
-                        method_name_used = target_node.func.attr
-                        if method_name_used in ['get_location', 'get_entrance', 'get_region']:
-                            if len(target_node.args) > 0 and isinstance(target_node.args[0], ast.Constant):
-                                extracted_target_name = target_node.args[0].value
-                                print(f"LambdaFinder: Found '{func_name}' call targeting '{extracted_target_name}' via {method_name_used}.")
-                            else:
-                                print(f"LambdaFinder: No constant arg found for {method_name_used} call.")
-                        else:
-                            print(f"LambdaFinder: Method name '{method_name_used}' not in expected list.")
-                    else:
-                        print(f"LambdaFinder: Target node func is not Attribute. Type: {type(target_node.func)}, Dump: {ast.dump(target_node.func)}")
-                else:
-                    print(f"LambdaFinder: Target node is not Call. Dump: {ast.dump(target_node)}")
-                
+                    extracted_target_name = self._extract_target_name_from_call(target_node)
+                    # if extracted_target_name:
+                    #     print(f"LambdaFinder: Found '{func_name}' call targeting '{extracted_target_name}' via method call.")
+                # else:
+                #     # Potentially handle direct string constants if needed, though less common
+                #     # if isinstance(target_node, ast.Constant) and isinstance(target_node.value, str):
+                #     #     extracted_target_name = target_node.value
+                #     print(f"LambdaFinder: Target node is not Call. Dump: {ast.dump(target_node)}")
+
                 # --- Check if the extracted target name matches ---
                 if extracted_target_name == self.target_name:
                     print(f"LambdaFinder: Target name '{self.target_name}' MATCHED!")
@@ -959,16 +969,41 @@ class LambdaFinder(ast.NodeVisitor):
                     rule_node = node.args[1]
                     if isinstance(rule_node, ast.Lambda):
                         print(f"LambdaFinder: Found Lambda node for target '{self.target_name}'!")
-                        self.found_lambda = rule_node
-                        self.found = True # Stop searching
-                        return # Don't visit children of this node further
-                    else:
-                         print(f"LambdaFinder: Target '{self.target_name}' matched, but rule is not a Lambda node ({type(rule_node).__name__}).")
+                        self._found_lambdas.append(rule_node)
+                        # Do NOT return early, continue searching for other potential matches
+                    # else:
+                    #      print(f"LambdaFinder: Target '{self.target_name}' matched, but rule is not a Lambda node ({type(rule_node).__name__}).")
 
+        # Continue visiting children regardless of finding a match
+        super().generic_visit(node)
 
-        # Continue visiting children if not found or not a relevant rule call
-        if not self.found:
-            super().generic_visit(node)
+    def find_lambda_for_target(self, ast_tree: ast.AST) -> Optional[ast.Lambda]:
+        """
+        Visits the provided AST tree and returns the unique lambda definition
+        for the target_name specified during initialization.
+
+        Returns:
+            ast.Lambda: The unique lambda node if found.
+            None: If zero or more than one lambda definitions are found for the target.
+        """
+        print(f"LambdaFinder: Starting search in AST for target '{self.target_name}'")
+        self._found_lambdas = [] # Reset for this search
+        self._visited_nodes = set() # Reset visited nodes
+        self.visit(ast_tree)
+
+        count = len(self._found_lambdas)
+        if count == 1:
+            print(f"LambdaFinder: Found exactly one lambda for target '{self.target_name}'.")
+            return self._found_lambdas[0]
+        elif count == 0:
+            print(f"LambdaFinder: Found zero lambdas for target '{self.target_name}'.")
+            return None
+        else:
+            print(f"LambdaFinder: Found {count} lambdas for target '{self.target_name}'. Cannot uniquely determine rule, returning None.")
+            # Optionally log the locations or details of the found lambdas for debugging
+            # for i, lam in enumerate(self._found_lambdas):
+            #     print(f"  Lambda {i+1} at line {getattr(lam, 'lineno', 'N/A')}")
+            return None
 
 # Main analysis function
 def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None, 

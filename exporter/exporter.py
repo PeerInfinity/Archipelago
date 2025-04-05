@@ -700,58 +700,35 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
 
     # Get the AST for the world's rule setting context once
     # Assuming rules for this player are set in world.set_rules
-    rule_context_ast = get_context_ast(multiworld.worlds.get(player))
+    # rule_context_ast = get_context_ast(multiworld.worlds.get(player)) # REMOVED - AST approach not viable for combined rules
 
-    def safe_expand_rule(helper_expander, rule_func, rule_target_name: Optional[str] = None):
-        """Analyzes rule, trying AST-based lambda finding first."""
+    def safe_expand_rule(helper_expander, rule_func, 
+                         rule_target_name: Optional[str] = None,
+                         target_type: Optional[str] = None): # Removed rule_context_ast
+        """Analyzes rule using runtime analysis (analyze_rule)."""
+        # REMOVED AST Analysis Path - Not suitable for combined rules
+        
+        # --- Runtime Analysis Path --- 
         try:
-            if not rule_func: 
+            if not rule_func:
                 return None
 
-            lambda_node = None
-            # --- Attempt 1: Find lambda in pre-parsed context AST --- 
-            if rule_context_ast and rule_target_name:
-                print(f"Attempting to find lambda for target '{rule_target_name}' in context AST.")
-                finder = LambdaFinder(target_name=rule_target_name)
-                finder.visit(rule_context_ast)
-                lambda_node = finder.found_lambda
-                if lambda_node:
-                    print(f"AST-based lambda found for '{rule_target_name}'. Analyzing node.")
-                    # --- Prepare closure for AST analysis --- 
-                    # Start with an empty closure. We need a way to reliably get 
-                    # the actual closure variables available to the lambda from the AST context.
-                    # This is non-trivial. For now, focus on ensuring 'self' is present if needed.
-                    ast_closure_vars = {}
-                    # Heuristic: If the lambda uses 'self', try to get it from the world object.
-                    # We might need a better way to determine the 'self' context.
-                    # This assumes the rule is defined in a method of the world object.
-                    world_instance = multiworld.worlds.get(player)
-                    if world_instance and 'self' in inspect.getfullargspec(rule_func).args:
-                         # This check might be wrong, need to check if lambda *uses* self
-                         # ast_closure_vars['self'] = world_instance 
-                         # TODO: Improve self detection for AST lambdas
-                         pass 
-
-                    analyzed = analyze_rule(ast_node=lambda_node, closure_vars=ast_closure_vars) 
-                else:
-                    print(f"Lambda for '{rule_target_name}' not found via AST search.")
-            else:
-                 print("Skipping AST-based lambda search: No context AST or target name.")
-
-            # --- Attempt 2: Fallback to original function analysis --- 
-            if not lambda_node:
-                print(f"Falling back to function object analysis for rule of '{rule_target_name or 'unknown target'}'")
-                # Pass the original function object for analysis
-                analyzed = analyze_rule(rule_func=rule_func)
+            print(f"safe_expand_rule: Analyzing {target_type} '{rule_target_name or 'unknown'}' using runtime analyze_rule")
+            # Directly call analyze_rule, which handles recursion internally for combined rules
+            analysis_result = analyze_rule(rule_func=rule_func)
             
-            # --- Expand the analyzed rule --- 
-            if analyzed:
-                expanded = helper_expander.expand_rule(analyzed)
-                logger.debug("Successfully expanded rule")
+            if analysis_result and analysis_result.get('type') != 'error':
+                print(f"safe_expand_rule: Runtime analysis successful for '{rule_target_name or 'unknown'}'")
+                expanded = helper_expander.expand_rule(analysis_result)
+                logger.debug(f"Successfully expanded rule for {target_type} '{rule_target_name or 'unknown'}'")
                 return expanded
+            else:
+                print(f"safe_expand_rule: Runtime analysis failed or returned error for '{rule_target_name or 'unknown'}'")
+                logger.warning(f"Failed to analyze or expand rule for {target_type} '{rule_target_name or 'unknown'}' using runtime analysis.")
+                return None # Return None on failure
                 
         except Exception as e:
-            logger.error(f"Error analyzing/expanding rule for target '{rule_target_name or 'unknown'}': {e}")
+            logger.error(f"Error analyzing/expanding rule for {target_type} '{rule_target_name or 'unknown'}': {e}")
             logger.exception("Traceback:")
         return None
 
@@ -839,15 +816,20 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                             'defeat_rule': safe_expand_rule(
                                 helper_expander,
                                 getattr(region.dungeon.boss, 'can_defeat', None),
-                                getattr(region.dungeon.boss, 'name', None) # Pass boss name as target
+                                getattr(region.dungeon.boss, 'name', None), # Pass boss name as target
+                                target_type='Boss' # Keep target_type for logging
+                                # Removed rule_context_ast
                             )
                         }
                     
                     if hasattr(region.dungeon, 'medallion_check'):
+                        dungeon_name = getattr(region.dungeon, 'name', 'UnknownDungeon')
                         dungeon_data['medallion_check'] = safe_expand_rule(
                             helper_expander,
                             region.dungeon.medallion_check,
-                            f"{dungeon_data['name']} Medallion Check" # Construct a target name
+                            f"{dungeon_name} Medallion Check", # Construct a target name
+                            target_type='DungeonMedallion' # Keep target_type
+                            # Removed rule_context_ast
                         )
                     
                     region_data['dungeon'] = dungeon_data
@@ -895,7 +877,9 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 expanded_rule = safe_expand_rule(
                                     helper_expander, 
                                     entrance.access_rule,
-                                    entrance_name # Pass entrance name as target
+                                    entrance_name, # Pass entrance name as target
+                                    target_type='Entrance' # Keep target_type
+                                    # Removed rule_context_ast
                                 )
                             
                             entrance_data = {
@@ -923,7 +907,9 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 expanded_rule = safe_expand_rule(
                                     helper_expander, 
                                     exit.access_rule,
-                                    exit_name # Pass exit name as target
+                                    exit_name, # Pass exit name as target
+                                    target_type='Exit' # Keep target_type
+                                    # Removed rule_context_ast
                                 )
                             
                             exit_data = {
@@ -952,14 +938,18 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 access_rule_result = safe_expand_rule(
                                     helper_expander, 
                                     location.access_rule,
-                                    location_name # Pass location name as target
+                                    location_name, # Pass location name as target
+                                    target_type='Location' # Keep target_type
+                                    # Removed rule_context_ast
                                 )
                                 
                             if hasattr(location, 'item_rule') and location.item_rule:
                                 item_rule_result = safe_expand_rule(
                                     helper_expander, 
                                     location.item_rule,
-                                    f"{location_name} Item Rule" # Construct target name
+                                    f"{location_name} Item Rule", # Construct target name
+                                    target_type='LocationItemRule' # Keep target_type
+                                    # Removed rule_context_ast
                                 )
                             
                             location_data = {
@@ -997,7 +987,9 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                             expanded_rule = safe_expand_rule(
                                 helper_expander, 
                                 rule,
-                                rule_target_name # Pass constructed target name
+                                rule_target_name, # Pass constructed target name
+                                target_type='RegionRule' # Keep target_type
+                                # Removed rule_context_ast
                             )
                             if expanded_rule:
                                 region_data['region_rules'].append(expanded_rule)
