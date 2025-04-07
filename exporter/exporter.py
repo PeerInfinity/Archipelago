@@ -17,7 +17,7 @@ import ast
 
 import Utils  # Added import
 from .analyzer import analyze_rule, LambdaFinder # Import LambdaFinder
-from .games import get_game_helpers
+from .games import get_game_export_handler
 
 logger = logging.getLogger(__name__)
 
@@ -343,9 +343,9 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         else:
             # Try to get game info from the helper expander
             try:
-                helper = get_game_helpers(multiworld.game[player])
-                if hasattr(helper, 'get_game_info') and callable(getattr(helper, 'get_game_info')):
-                    export_data['game_info'][str(player)] = helper.get_game_info()
+                game_handler = get_game_export_handler(multiworld.game[player])
+                if hasattr(game_handler, 'get_game_info') and callable(getattr(game_handler, 'get_game_info')):
+                    export_data['game_info'][str(player)] = game_handler.get_game_info()
                     debug_mode_settings(f"Added game_info from helper for player {player}", export_data['game_info'][str(player)])
                 else:
                     # Default game info structure if not provided by game or helper
@@ -702,7 +702,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
     # Assuming rules for this player are set in world.set_rules
     # rule_context_ast = get_context_ast(multiworld.worlds.get(player)) # REMOVED - AST approach not viable for combined rules
 
-    def safe_expand_rule(helper_expander, rule_func, 
+    def safe_expand_rule(game_handler, rule_func,
                          rule_target_name: Optional[str] = None,
                          target_type: Optional[str] = None): # Removed rule_context_ast
         """Analyzes rule using runtime analysis (analyze_rule)."""
@@ -719,7 +719,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
             
             if analysis_result and analysis_result.get('type') != 'error':
                 print(f"safe_expand_rule: Runtime analysis successful for '{rule_target_name or 'unknown'}'")
-                expanded = helper_expander.expand_rule(analysis_result)
+                expanded = game_handler.expand_rule(analysis_result)
                 logger.debug(f"Successfully expanded rule for {target_type} '{rule_target_name or 'unknown'}'")
                 return expanded
             else:
@@ -757,7 +757,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
         logger.debug(f"Getting game helpers for {multiworld.game[player]}")
         # Different games have different levels of rule analysis support
         # ALTTP has detailed helper expansion, while other games may preserve more helper nodes
-        helper_expander = get_game_helpers(multiworld.game[player])
+        game_handler = get_game_export_handler(multiworld.game[player])
         logger.debug("Successfully got game helpers")
         
         logger.debug("Getting player regions")
@@ -814,7 +814,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                         dungeon_data['boss'] = {
                             'name': getattr(region.dungeon.boss, 'name', None),
                             'defeat_rule': safe_expand_rule(
-                                helper_expander,
+                                game_handler,
                                 getattr(region.dungeon.boss, 'can_defeat', None),
                                 getattr(region.dungeon.boss, 'name', None), # Pass boss name as target
                                 target_type='Boss' # Keep target_type for logging
@@ -825,7 +825,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                     if hasattr(region.dungeon, 'medallion_check'):
                         dungeon_name = getattr(region.dungeon, 'name', 'UnknownDungeon')
                         dungeon_data['medallion_check'] = safe_expand_rule(
-                            helper_expander,
+                            game_handler,
                             region.dungeon.medallion_check,
                             f"{dungeon_name} Medallion Check", # Construct a target name
                             target_type='DungeonMedallion' # Keep target_type
@@ -875,7 +875,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                             entrance_name = getattr(entrance, 'name', None)
                             if hasattr(entrance, 'access_rule') and entrance.access_rule:
                                 expanded_rule = safe_expand_rule(
-                                    helper_expander, 
+                                    game_handler,
                                     entrance.access_rule,
                                     entrance_name, # Pass entrance name as target
                                     target_type='Entrance' # Keep target_type
@@ -905,7 +905,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                             exit_name = getattr(exit, 'name', None)
                             if hasattr(exit, 'access_rule') and exit.access_rule:
                                 expanded_rule = safe_expand_rule(
-                                    helper_expander, 
+                                    game_handler,
                                     exit.access_rule,
                                     exit_name, # Pass exit name as target
                                     target_type='Exit' # Keep target_type
@@ -936,7 +936,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                             
                             if hasattr(location, 'access_rule') and location.access_rule:
                                 access_rule_result = safe_expand_rule(
-                                    helper_expander, 
+                                    game_handler,
                                     location.access_rule,
                                     location_name, # Pass location name as target
                                     target_type='Location' # Keep target_type
@@ -945,7 +945,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                                 
                             if hasattr(location, 'item_rule') and location.item_rule:
                                 item_rule_result = safe_expand_rule(
-                                    helper_expander, 
+                                    game_handler,
                                     location.item_rule,
                                     f"{location_name} Item Rule", # Construct target name
                                     target_type='LocationItemRule' # Keep target_type
@@ -985,7 +985,7 @@ def process_regions(multiworld, player: int) -> Dict[str, Any]:
                             # Construct a target name for region rules
                             rule_target_name = f"{region.name} Rule {i+1}"
                             expanded_rule = safe_expand_rule(
-                                helper_expander, 
+                                game_handler,
                                 rule,
                                 rule_target_name, # Pass constructed target name
                                 target_type='RegionRule' # Keep target_type

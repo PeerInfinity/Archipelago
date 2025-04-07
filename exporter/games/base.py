@@ -2,7 +2,7 @@
 
 from typing import Dict, Any, List
 
-class BaseHelperExpander:
+class BaseGameExportHandler:
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Recursively expand helper functions in a rule structure."""
         if not rule:

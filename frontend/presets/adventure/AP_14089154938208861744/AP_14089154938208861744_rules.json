@@ -150,10 +150,22 @@
             "name": "CreditsWall",
             "connected_region": "CreditsRoom",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Black Key"
+                  }
+                }
               ]
             },
             "type": "Exit"
@@ -167,19 +179,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -199,19 +198,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -229,19 +215,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -261,19 +234,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -291,19 +251,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -323,19 +270,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -353,19 +287,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -385,19 +306,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -415,19 +323,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -447,19 +342,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -475,22 +357,21 @@
             "id": 118000209,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
-              ]
-            },
-            "item_rule": {
-              "type": "or",
+              "type": "and",
               "conditions": [
                 {
-                  "type": "name",
-                  "name": "item"
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
                 },
                 {
-                  "type": "name",
-                  "name": "player"
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
                 }
               ]
             },
@@ -554,19 +435,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -599,10 +467,6 @@
                   }
                 }
               ]
-            },
-            "item_rule": {
-              "type": "constant",
-              "value": true
             },
             "progress_type": 1,
             "locked": true,
@@ -694,10 +558,22 @@
             "name": "WhiteCastlePeekPassage",
             "connected_region": "WhiteCastlePreVaultPeek",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
               ]
             },
             "type": "Exit"
@@ -709,10 +585,6 @@
             "id": 118000023,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item_rule": {
               "type": "constant",
               "value": true
             },
@@ -731,10 +603,6 @@
             "id": 118000026,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item_rule": {
               "type": "constant",
               "value": true
             },
@@ -766,10 +634,22 @@
             "name": "WhiteCastlePeekPassage",
             "parent_region": "WhiteCastle",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
               ]
             },
             "connected_region": "WhiteCastlePreVaultPeek",
@@ -797,19 +677,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -871,10 +738,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -890,15 +753,23 @@
             "id": 118000210,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
+                }
               ]
-            },
-            "item_rule": {
-              "type": "constant",
-              "value": true
             },
             "progress_type": 1,
             "locked": false,
@@ -966,10 +837,22 @@
             "name": "BlackCastleVaultEntrance",
             "connected_region": "BlackCastleVault",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
               ]
             },
             "type": "Exit"
@@ -981,10 +864,6 @@
             "id": 118000019,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item_rule": {
               "type": "constant",
               "value": true
             },
@@ -1006,10 +885,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1028,10 +903,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1047,15 +918,23 @@
             "id": 118000208,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
+                }
               ]
-            },
-            "item_rule": {
-              "type": "constant",
-              "value": true
             },
             "progress_type": 1,
             "locked": false,
@@ -1085,10 +964,22 @@
             "name": "BlackCastleVaultEntrance",
             "parent_region": "BlackCastle",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
               ]
             },
             "connected_region": "BlackCastleVault",
@@ -1116,37 +1007,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "name",
-                      "name": "item"
-                    },
-                    {
-                      "type": "name",
-                      "name": "player"
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "name",
-                      "name": "item"
-                    },
-                    {
-                      "type": "name",
-                      "name": "player"
-                    }
-                  ]
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -1176,10 +1036,22 @@
             "name": "CreditsWall",
             "parent_region": "Overworld",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Black Key"
+                  }
+                }
               ]
             },
             "connected_region": "CreditsRoom",
@@ -1229,10 +1101,6 @@
             "id": 118000030,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item_rule": {
               "type": "constant",
               "value": true
             },
@@ -1295,19 +1163,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -1588,53 +1443,10 @@
   },
   "game_info": {
     "1": {
-      "name": "Adventure",
       "rule_format": {
-        "version": "1.0",
-        "entrance_rules": {
-          "format": "dictionary",
-          "type_field": "type",
-          "valid_types": [
-            "item_check",
-            "and",
-            "or",
-            "constant"
-          ],
-          "known_entrances": [
-            "CreditsWall",
-            "YellowCastlePort",
-            "BlackCastlePort",
-            "WhiteCastlePort",
-            "BlackCastleVaultEntrance",
-            "WhiteCastleSecretPassage",
-            "WhiteCastlePeekPassage",
-            "CreditsToFarSide"
-          ]
-        },
-        "location_rules": {
-          "format": "dictionary",
-          "type_field": "type",
-          "valid_types": [
-            "item_check",
-            "and",
-            "or",
-            "constant"
-          ]
-        },
-        "item_format": {
-          "key_items": [
-            "Bridge",
-            "Magnet",
-            "Sword",
-            "Yellow Key",
-            "Black Key",
-            "White Key"
-          ]
-        }
+        "version": "1.0"
       },
-      "special_handling": {
-        "CreditsWall": "Special handling required for CreditsWall entrance"
-      }
+      "name": "Adventure"
     }
   }
 }

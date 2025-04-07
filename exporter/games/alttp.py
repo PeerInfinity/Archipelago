@@ -1,9 +1,9 @@
 # exporter/games/alttp.py
 
-from .base import BaseHelperExpander
-from typing import Any, Dict, Optional, Set
+from .base import BaseGameExportHandler
+from typing import Any, Dict, Optional, Set, List
 
-class ALttPHelperExpander(BaseHelperExpander):
+class ALttPGameExportHandler(BaseGameExportHandler):
     """No longer expands helpers - just validates they're known ALTTP helpers"""
     
     def __init__(self):

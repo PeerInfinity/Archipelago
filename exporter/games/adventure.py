@@ -1,7 +1,7 @@
-from .base import BaseHelperExpander
+from .base import BaseGameExportHandler
 from typing import Any, Dict, Optional, Set
 
-class AdventureHelperExpander(BaseHelperExpander):
+class AdventureGameExportHandler(BaseGameExportHandler):
     """Validates helper names are known Adventure helpers"""
     
     def __init__(self):
@@ -30,4 +30,4 @@ class AdventureHelperExpander(BaseHelperExpander):
         return rule
 
 # Reminder: Ensure get_game_helpers in exporter/games/__init__.py 
-# returns an instance of AdventureHelperExpander for the 'Adventure' game.
+# returns an instance of AdventureGameExportHandler for the 'Adventure' game.

@@ -1,18 +1,19 @@
 """Game-specific rule helper functions."""
 
 from typing import Dict, Type
-from .base import BaseHelperExpander
-from .alttp import ALttPHelperExpander
-from .generic import GenericHelperExpander
-from .adventure import AdventureHelperExpander
+from .base import BaseGameExportHandler
+from .alttp import ALttPGameExportHandler
+from .generic import GenericGameExportHandler
+from .adventure import AdventureGameExportHandler
 
 # Register game-specific helper expanders
-GAME_HELPERS: Dict[str, Type[BaseHelperExpander]] = {
-    'A Link to the Past': ALttPHelperExpander,
-    'Adventure': AdventureHelperExpander,
+GAME_HANDLERS: Dict[str, Type[BaseGameExportHandler]] = {
+    'A Link to the Past': ALttPGameExportHandler,
+    'Generic': GenericGameExportHandler,
+    'Adventure': AdventureGameExportHandler,
 }
 
-def get_game_helpers(game_name: str) -> BaseHelperExpander:
-    """Get helper expander for specified game, falling back to generic if none exists."""
-    expander_class = GAME_HELPERS.get(game_name, GenericHelperExpander)
-    return expander_class()
+def get_game_export_handler(game_name: str) -> BaseGameExportHandler:
+    """Get the appropriate helper expander for the game."""
+    handler_class = GAME_HANDLERS.get(game_name, GenericGameExportHandler)
+    return handler_class()

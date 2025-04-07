@@ -3,6 +3,6 @@
 import logging
 from .exporter import export_game_rules, export_test_data
 from .analyzer import analyze_rule
-from .games import get_game_helpers
+from .games import get_game_export_handler
 
 logger = logging.getLogger(__name__)

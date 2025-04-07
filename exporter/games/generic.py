@@ -1,18 +1,19 @@
 """Generic fallback helper expander."""
 
-from .base import BaseHelperExpander
+from typing import Dict, Any, List
+from .base import BaseGameExportHandler
 import re
 import logging
 
 logger = logging.getLogger(__name__)
 
-class GenericHelperExpander(BaseHelperExpander):
+class GenericGameExportHandler(BaseGameExportHandler):
     """Fallback expander that intelligently handles game-specific rules."""
     
     def expand_helper(self, helper_name: str):
         return None  # Preserve helper nodes as-is
         
-    def expand_rule(self, rule):
+    def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Recursively expand rule functions with intelligent analysis."""
         if not rule:
             return rule
