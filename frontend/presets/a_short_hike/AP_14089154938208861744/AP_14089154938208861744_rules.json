@@ -20,7 +20,6 @@
         "name": "Menu",
         "type": "Region",
         "player": 1,
-        "entrances": [],
         "exits": [
           {
             "name": "Menu -> Hawk Peak",
@@ -41,20 +40,6 @@
         "name": "Hawk Peak",
         "type": "Region",
         "player": 1,
-        "entrances": [
-          {
-            "name": "Menu -> Hawk Peak",
-            "parent_region": "Menu",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "Hawk Peak",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [],
         "locations": [
           {

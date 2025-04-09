@@ -22,9 +22,6 @@
         "name": "Menu",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [],
         "exits": [
           {
             "name": "GameStart",
@@ -37,8 +34,6 @@
           }
         ],
         "locations": [],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -47,70 +42,6 @@
         "name": "Overworld",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "GameStart",
-            "parent_region": "Menu",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "YellowCastleExit",
-            "parent_region": "YellowCastle",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "WhiteCastleExit",
-            "parent_region": "WhiteCastle",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "BlackCastleExit",
-            "parent_region": "BlackCastle",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "CreditsExit",
-            "parent_region": "CreditsRoom",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "Overworld",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "YellowCastlePort",
@@ -152,10 +83,22 @@
             "name": "CreditsWall",
             "connected_region": "CreditsRoom",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Black Key"
+                  }
+                }
               ]
             },
             "type": "Exit"
@@ -169,19 +112,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -201,19 +131,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -231,19 +148,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -263,19 +167,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -293,19 +184,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -325,19 +203,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -355,19 +220,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -387,19 +239,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -417,19 +256,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -449,19 +275,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -477,22 +290,21 @@
             "id": 118000209,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
-              ]
-            },
-            "item_rule": {
-              "type": "or",
+              "type": "and",
               "conditions": [
                 {
-                  "type": "name",
-                  "name": "item"
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
                 },
                 {
-                  "type": "name",
-                  "name": "player"
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
                 }
               ]
             },
@@ -507,8 +319,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -517,25 +327,6 @@
         "name": "YellowCastle",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "YellowCastlePort",
-            "parent_region": "Overworld",
-            "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Yellow Key"
-              }
-            },
-            "connected_region": "YellowCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "YellowCastleExit",
@@ -555,19 +346,6 @@
             "access_rule": {
               "type": "constant",
               "value": true
-            },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -602,10 +380,6 @@
                 }
               ]
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -617,8 +391,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -627,49 +399,6 @@
         "name": "WhiteCastle",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "WhiteCastlePort",
-            "parent_region": "Overworld",
-            "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "White Key"
-              }
-            },
-            "connected_region": "WhiteCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "WhiteCastleReturnPassage",
-            "parent_region": "WhiteCastleVault",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "WhiteCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "WhiteCastleFromPeek",
-            "parent_region": "WhiteCastlePreVaultPeek",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "WhiteCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleExit",
@@ -696,10 +425,22 @@
             "name": "WhiteCastlePeekPassage",
             "connected_region": "WhiteCastlePreVaultPeek",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
               ]
             },
             "type": "Exit"
@@ -711,10 +452,6 @@
             "id": 118000023,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item_rule": {
               "type": "constant",
               "value": true
             },
@@ -736,10 +473,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -751,8 +484,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -761,25 +492,6 @@
         "name": "WhiteCastlePreVaultPeek",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "WhiteCastlePeekPassage",
-            "parent_region": "WhiteCastle",
-            "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
-              ]
-            },
-            "connected_region": "WhiteCastlePreVaultPeek",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleFromPeek",
@@ -800,19 +512,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -824,8 +523,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -834,25 +531,6 @@
         "name": "WhiteCastleVault",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "WhiteCastleSecretPassage",
-            "parent_region": "WhiteCastle",
-            "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Bridge"
-              }
-            },
-            "connected_region": "WhiteCastleVault",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "WhiteCastleReturnPassage",
@@ -873,10 +551,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -892,15 +566,23 @@
             "id": 118000210,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
+                }
               ]
-            },
-            "item_rule": {
-              "type": "constant",
-              "value": true
             },
             "progress_type": 1,
             "locked": false,
@@ -913,8 +595,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -923,37 +603,6 @@
         "name": "BlackCastle",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "BlackCastlePort",
-            "parent_region": "Overworld",
-            "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Black Key"
-              }
-            },
-            "connected_region": "BlackCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "BlackCastleReturnPassage",
-            "parent_region": "BlackCastleVault",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "BlackCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "BlackCastleExit",
@@ -968,10 +617,22 @@
             "name": "BlackCastleVaultEntrance",
             "connected_region": "BlackCastleVault",
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
               ]
             },
             "type": "Exit"
@@ -983,10 +644,6 @@
             "id": 118000019,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "item_rule": {
               "type": "constant",
               "value": true
             },
@@ -1008,10 +665,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1030,10 +683,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1049,15 +698,23 @@
             "id": 118000208,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
+                }
               ]
-            },
-            "item_rule": {
-              "type": "constant",
-              "value": true
             },
             "progress_type": 1,
             "locked": false,
@@ -1070,8 +727,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -1080,25 +735,6 @@
         "name": "BlackCastleVault",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "BlackCastleVaultEntrance",
-            "parent_region": "BlackCastle",
-            "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
-              ]
-            },
-            "connected_region": "BlackCastleVault",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "BlackCastleReturnPassage",
@@ -1119,37 +755,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "name",
-                      "name": "item"
-                    },
-                    {
-                      "type": "name",
-                      "name": "player"
-                    }
-                  ]
-                },
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "name",
-                      "name": "item"
-                    },
-                    {
-                      "type": "name",
-                      "name": "player"
-                    }
-                  ]
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1161,8 +766,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -1171,37 +774,6 @@
         "name": "CreditsRoom",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "CreditsWall",
-            "parent_region": "Overworld",
-            "access_rule": {
-              "type": "state_method",
-              "method": "__analyzed_func__",
-              "args": [
-                "state"
-              ]
-            },
-            "connected_region": "CreditsRoom",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "CreditsFromFarSide",
-            "parent_region": "CreditsRoomFarSide",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "connected_region": "CreditsRoom",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "CreditsExit",
@@ -1234,10 +806,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "constant",
-              "value": true
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1249,8 +817,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -1259,25 +825,6 @@
         "name": "CreditsRoomFarSide",
         "type": "Region",
         "player": 2,
-        "is_light_world": false,
-        "is_dark_world": false,
-        "entrances": [
-          {
-            "name": "CreditsToFarSide",
-            "parent_region": "CreditsRoom",
-            "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Magnet"
-              }
-            },
-            "connected_region": "CreditsRoomFarSide",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
         "exits": [
           {
             "name": "CreditsFromFarSide",
@@ -1298,19 +845,6 @@
               "type": "constant",
               "value": true
             },
-            "item_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "name",
-                  "name": "item"
-                },
-                {
-                  "type": "name",
-                  "name": "player"
-                }
-              ]
-            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1322,8 +856,6 @@
             }
           }
         ],
-        "dungeon": null,
-        "shop": null,
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -1578,63 +1110,16 @@
   "progression_mapping": {
     "2": {}
   },
-  "mode": {
-    "2": "ERROR: Game mode not found for player 2"
-  },
   "settings": {
     "2": {
-      "game": "Adventure",
-      "mode": "ERROR: Could not read game mode for player 2"
+      "game": "Adventure"
     }
   },
   "game_info": {
     "2": {
       "name": "Adventure",
       "rule_format": {
-        "version": "1.0",
-        "entrance_rules": {
-          "format": "dictionary",
-          "type_field": "type",
-          "valid_types": [
-            "item_check",
-            "and",
-            "or",
-            "constant"
-          ],
-          "known_entrances": [
-            "CreditsWall",
-            "YellowCastlePort",
-            "BlackCastlePort",
-            "WhiteCastlePort",
-            "BlackCastleVaultEntrance",
-            "WhiteCastleSecretPassage",
-            "WhiteCastlePeekPassage",
-            "CreditsToFarSide"
-          ]
-        },
-        "location_rules": {
-          "format": "dictionary",
-          "type_field": "type",
-          "valid_types": [
-            "item_check",
-            "and",
-            "or",
-            "constant"
-          ]
-        },
-        "item_format": {
-          "key_items": [
-            "Bridge",
-            "Magnet",
-            "Sword",
-            "Yellow Key",
-            "Black Key",
-            "White Key"
-          ]
-        }
-      },
-      "special_handling": {
-        "CreditsWall": "Special handling required for CreditsWall entrance"
+        "version": "1.0"
       }
     }
   }
