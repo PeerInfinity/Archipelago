@@ -50,18 +50,8 @@ file_content_cache: Dict[str, List[str]] = {}
 
 # Regex definitions
 REGEX_LAMBDA_BODY = re.compile(r'lambda\s+([\w\s,()]*):\s*(.*)', re.DOTALL)
-REGEX_METHOD_CALL = re.compile(r'(\w+)\((.*)\)')
 
 # Helper functions
-def count_nested_parens(s):
-    count = 0
-    for char in s:
-        if char == '(':
-            count += 1
-        elif char == ')':
-            count -= 1
-    return count
-
 def _read_multiline_lambda(func):
     """Read a multiline lambda function using tokenize to properly handle parentheses and indentation."""
     try:
@@ -835,190 +825,6 @@ class RuleAnalyzer(ast.NodeVisitor):
         except Exception as e:
             self.log_error(f"Error in generic_visit for {type(node).__name__}", e)
 
-    def _handle_method_call(self, node):
-        """
-        Handle method calls, particularly focusing on state methods.
-        Returns a structured rule representation of the method call.
-        """
-        print(f"Handling method call: {ast.dump(node)}")
-
-        if not isinstance(node.func, ast.Attribute):
-            self.log("Not an attribute method call")
-            return None
-
-        # Extract the object and method names
-        if isinstance(node.func.value, ast.Name):
-            obj_name = node.func.value.id
-            method_name = node.func.attr
-        else:
-            self.log(f"Unhandled method call object type: {type(node.func.value)}")
-            return None
-
-        # Handle state methods
-        if obj_name == 'state':
-            print(f"Processing state method: {method_name}")
-            
-            # Extract arguments with proper handling of different arg types
-            args = []
-            for arg in node.args:
-                if isinstance(arg, ast.Constant):
-                    args.append(arg.value)
-                elif isinstance(arg, ast.Name):
-                    args.append(arg.id)
-                elif isinstance(arg, ast.Str):
-                    args.append(arg.s)
-                else:
-                    print(f"Complex argument type: {type(arg)}")
-                    # For complex arguments, we may need to recursively analyze
-                    self.visit(arg)
-                    if self.current_result:
-                        args.append(self.current_result)
-                    else:
-                        print(f"Could not analyze argument: {ast.dump(arg)}")
-
-            # Create appropriate rule structure based on method
-            if method_name == 'has':
-                if len(args) >= 2 and args[1] == 'player':
-                    return {
-                        'type': 'item_check',
-                        'item': args[0]
-                    }
-                
-            elif method_name == '_lttp_has_key':
-                if len(args) >= 3 and args[2] == 'player':
-                    return {
-                        'type': 'count_check',
-                        'item': args[0],
-                        'count': args[1]
-                    }
-                
-            elif method_name == 'has_group':
-                if len(args) >= 2 and args[1] == 'player':
-                    return {
-                        'type': 'group_check',
-                        'group': args[0]
-                    }
-                    
-            elif method_name == 'can_reach':
-                # Handle can_reach calls which check region/location accessibility
-                if len(args) >= 3:
-                    return {
-                        'type': 'can_reach',
-                        'target': args[0],
-                        'type': args[1],
-                        'player': args[2]
-                    }
-                    
-            elif method_name == 'has_any':
-                # Handle has_any which checks for any item in a list
-                if len(args) >= 2 and args[1] == 'player':
-                    items = args[0]
-                    if isinstance(items, list):
-                        return {
-                            'type': 'or',
-                            'conditions': [
-                                {'type': 'item_check', 'item': item}
-                                for item in items
-                            ]
-                        }
-
-            # Generic state method handler for unrecognized methods
-            return {
-                'type': 'state_method',
-                'method': method_name,
-                'args': args
-            }
-
-        # Non-state method calls could be helper functions
-        elif obj_name in self.closure_vars:
-            helper_func = self.closure_vars[obj_name]
-            # Check if it's a known helper function
-            if helper_func.__name__ in self.seen_funcs:
-                return {
-                    'type': 'helper',
-                    'name': helper_func.__name__,
-                    'args': ['state', 'player']  # Most helpers take these args
-                }
-            else:
-                print(f"Analyzing helper function: {helper_func.__name__}")
-                result = self.analyze_helper(helper_func)
-                if result:
-                    self.seen_funcs[helper_func.__name__] = 1
-                    return result
-
-        print(f"Unhandled method call: {obj_name}.{method_name}")
-        return None
-
-    def analyze_helper(self, func):
-        """Analyze a helper function to determine its rule structure."""
-        try:
-            source = inspect.getsource(func)
-            tree = ast.parse(source)
-            
-            # Create a new analyzer for the helper
-            helper_analyzer = RuleAnalyzer(self.closure_vars, self.seen_funcs)
-            helper_analyzer.visit(tree)
-            
-            if helper_analyzer.current_result:
-                return helper_analyzer.current_result
-            
-            # If we couldn't analyze it, register it as a helper
-            return {
-                'type': 'helper',
-                'name': func.__name__,
-                'args': ['state', 'player']
-            }
-        except Exception as e:
-            print(f"Error analyzing helper {func.__name__}: {e}")
-            print("Error details:", str(e))  # Additional error info
-            print("Consider updating helper analysis for this pattern")
-            return None
-    
-    def _handle_function_call(self, node):
-        if not hasattr(node.func, 'id'):
-            return
-        
-        func_name = node.func.id
-        
-        # Skip built-in functions
-        if func_name in {'min', 'max', 'len', 'sum'}:
-            return
-
-        # Get the actual function if it's a closure variable
-        func = None
-        if func_name in self.closure_vars:
-            func = self.closure_vars[func_name]
-
-        # Extract arguments safely
-        args = []
-        for arg in node.args:
-            try:
-                if isinstance(arg, (ast.Constant, ast.Num)):
-                    args.append(arg.n if isinstance(arg, ast.Num) else arg.value)
-                elif isinstance(arg, ast.Str):
-                    args.append(arg.s)
-                elif isinstance(arg, ast.Name):
-                    args.append(arg.id)
-            except:
-                pass
-
-        # Create helper node
-        self.current_result = {
-            'type': 'helper',
-            'name': func_name,
-            'args': args or None
-        }
-
-    def _extract_string_arg(self, node):
-        if isinstance(node, (ast.Str, ast.Constant)) and isinstance(getattr(node, 'value', None), str):
-            return node.value if isinstance(node, ast.Constant) else node.s
-        return None
-
-    def _extract_number_arg(self, node):
-        if isinstance(node, (ast.Num, ast.Constant)) and isinstance(getattr(node, 'value', None), (int, float)):
-            return node.value if isinstance(node, ast.Constant) else node.n
-        return None
-
     def visit_Assign(self, node: ast.Assign):
         """ Handle assignment statements. If the value is a lambda/rule, analyze it. """
         self.log_debug(f"\n--- visit_Assign --- Targets: {len(node.targets)}, Value Type: {type(node.value).__name__}")
@@ -1201,40 +1007,43 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
         ast_node: An optional pre-parsed AST node (e.g., ast.Lambda) to analyze directly.
 
     Returns:
-        A dictionary representing the structured rule.
+        A dictionary representing the structured rule, or an error structure.
     """
-    print("\n--- Starting Rule Analysis ---")
-    
+    logging.debug("\n--- Starting Rule Analysis ---") # Changed print to logging
+
     # Initialize seen_funcs dict if not provided
     seen_funcs = seen_funcs or {}
     
     # Ensure closure_vars is a dictionary
     closure_vars = closure_vars or {}
-    
-    # analyzer = RuleAnalyzer(closure_vars=closure_vars, seen_funcs=seen_funcs) # Moved analyzer creation inside try block
-    
+
+    analyzer = None # Define analyzer in outer scope
+
     try:
         # --- Option 1: Analyze a provided AST node directly --- 
         analysis_result = None
         if ast_node:
-            print(f"Analyzing provided AST node: {type(ast_node).__name__}")
+            logging.debug(f"Analyzing provided AST node: {type(ast_node).__name__}") # Changed print to logging
             # Need an analyzer instance here too
             analyzer = RuleAnalyzer(closure_vars=closure_vars, seen_funcs=seen_funcs)
             analysis_result = analyzer.visit(ast_node) 
 
         # --- Option 2: Analyze a function object (existing logic) --- 
         elif rule_func:
-            print(f"Rule function: {rule_func}")
+            logging.debug(f"Rule function: {rule_func}") # Changed print to logging
 
             func_id = id(rule_func)
             # --- MODIFIED: More permissive recursion check ---
             current_seen_count = seen_funcs.get(func_id, 0)
             # Allow more recursion depth for multiline lambdas (increased from 2 to 3)
             if current_seen_count >= 3:
-                print(f"analyze_rule: Function {rule_func} (id={func_id}) seen {current_seen_count+1} times, stopping recursion.")
+                recursion_msg = f'Recursion detected: Already analyzing function {rule_func} {current_seen_count+1} times'
+                logging.warning(f"analyze_rule: Function {rule_func} (id={func_id}) seen {current_seen_count+1} times, stopping recursion.") # Changed print to logging
+                # Return a proper error structure
                 return {
                     'type': 'error',
-                    'message': f'Recursion detected: Already analyzing function {rule_func} {current_seen_count+1} times',
+                    'message': recursion_msg,
+                    'subtype': 'recursion', # Added subtype
                     'debug_log': [], 'error_log': []
                 }
             # --- END MODIFIED ---
@@ -1257,58 +1066,68 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
                         except ValueError: 
                             # Cell is empty, skip
                             pass 
-                    print(f"Extracted closure vars into local copy: {list(local_closure_vars.keys())}")
+                    logging.debug(f"Extracted closure vars into local copy: {list(local_closure_vars.keys())}") # Changed print to logging
                 else:
-                    print("No closure variables found for rule function.")
+                    logging.debug("No closure variables found for rule function.") # Changed print to logging
             except Exception as clo_err:
-                print(f"Error extracting closure variables: {clo_err}")
+                logging.warning(f"Error extracting closure variables: {clo_err}") # Changed print to logging
 
             # Add 'self' to the local copy if needed
             if hasattr(rule_func, '__self__') and 'self' not in local_closure_vars:
                  local_closure_vars['self'] = rule_func.__self__
-                 print("Added 'self' to local closure vars from method binding.")
+                 logging.debug("Added 'self' to local closure vars from method binding.") # Changed print to logging
             # --- End closure extraction modification ---
 
             # Clean the source
             cleaned_source = _clean_source(rule_func)
             if cleaned_source is None:
-                print("analyze_rule: Failed to clean source, returning error.")
+                logging.error("analyze_rule: Failed to clean source, returning error.") # Changed print to logging
                 # Need to initialize analyzer logs for the error result
                 analyzer = RuleAnalyzer() # Create dummy analyzer for logs
                 return {
                     'type': 'error',
                     'message': 'Failed to clean or retrieve source code for rule function.',
-                    'debug_log': analyzer.debug_log,
+                    'subtype': 'source_cleaning', # Added subtype
+                    'debug_log': analyzer.debug_log, # Return logs from dummy analyzer
                     'error_log': analyzer.error_log
                 }
-            print("Cleaned source:", repr(cleaned_source))
+            logging.debug(f"Cleaned source: {repr(cleaned_source)}") # Changed print to logging
             
             # --- Analyzer creation and analysis --- 
-            analyzer = None 
+            # analyzer = None # Already defined in outer scope
             analysis_result = None
             try:
                 # --- MODIFIED: Increment count --- 
                 seen_funcs[func_id] = current_seen_count + 1
-                print(f"analyze_rule: Incremented func_id {func_id} count in seen_funcs: {seen_funcs}")
+                logging.debug(f"analyze_rule: Incremented func_id {func_id} count in seen_funcs: {seen_funcs}") # Changed print to logging
 
                 # Pass the LOCAL copy to the RuleAnalyzer instance
                 analyzer = RuleAnalyzer(closure_vars=local_closure_vars, seen_funcs=seen_funcs)
 
                 # Check if cleaned_source contains "Bridge"
                 if cleaned_source and "Bridge" in cleaned_source:
-                    print(f"analyze_rule: Detected 'Bridge' in the cleaned source code")
+                    logging.debug(f"analyze_rule: Detected 'Bridge' in the cleaned source code") # Changed print to logging
                 
                 # Comprehensive parse and visit
                 try:
                     tree = ast.parse(cleaned_source)
-                    print(f"analyze_rule: Parsed AST = {ast.dump(tree)}")
-                    print("AST parsed successfully")
+                    logging.debug(f"analyze_rule: Parsed AST = {ast.dump(tree)}") # Changed print to logging
+                    logging.debug("AST parsed successfully") # Changed print to logging
                     
                     # Always visit the full parsed tree in the fallback path
                     analysis_result = analyzer.visit(tree) # Get the result from visit
 
                 except SyntaxError as parse_err:
-                    print(f"analyze_rule: SyntaxError during parse: {parse_err}")
+                    logging.error(f"analyze_rule: SyntaxError during parse: {parse_err}", exc_info=True) # Changed print to logging, added exc_info
+                    # Return error if parsing fails
+                    return {
+                         'type': 'error',
+                         'message': f'SyntaxError parsing cleaned source: {parse_err}',
+                         'subtype': 'ast_parse', # Added subtype
+                         'cleaned_source': repr(cleaned_source), # Include source in error
+                         'debug_log': analyzer.debug_log, # Return logs from analyzer
+                         'error_log': analyzer.error_log
+                    }
                     
             finally:
                 # --- MODIFIED: Decrement count --- 
@@ -1316,12 +1135,12 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
                     seen_funcs[func_id] -= 1
                     if seen_funcs[func_id] <= 0: 
                         del seen_funcs[func_id]
-                    print(f"analyze_rule: Updated func_id {func_id} count/removed from seen_funcs: {seen_funcs}")
+                    logging.debug(f"analyze_rule: Updated func_id {func_id} count/removed from seen_funcs: {seen_funcs}") # Changed print to logging
                 # --- END MODIFIED ---
             # --- End inner try...finally ---
         else:
              # No function or AST node provided
-             print("analyze_rule: Called without rule_func or ast_node.")
+             logging.warning("analyze_rule: Called without rule_func or ast_node.") # Changed print to logging
              analysis_result = None
              analyzer = RuleAnalyzer() # Create dummy analyzer for logs
 
@@ -1329,31 +1148,55 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
         if analyzer is None: 
              analyzer = RuleAnalyzer() # Should only happen if ast_node and rule_func are None
 
-        # Detailed result logging
+        # --- Refined Result/Error Handling ---
+        # Check if the analyzer recorded errors during visitation
         if analyzer.error_log:
-            print("Errors during analysis:")
-            for error in analyzer.error_log:
-                print(json.dumps(error, indent=2))
-        
-        print("Debug log:")
-        for log_entry in analyzer.debug_log:
-            print(log_entry)
-        
-        # Return result or error information
-        error_result = {
-            'type': 'error',
-            'debug_log': analyzer.debug_log,
-            'error_log': analyzer.error_log
-        }
-        
-        final_result = analysis_result or error_result
-        print(f"analyze_rule: Final result before return = {json.dumps(final_result, indent=2)}")
+             logging.warning("Errors occurred during AST visitation.")
+             # Combine logs and return a visitation error
+             error_result = {
+                'type': 'error',
+                'message': 'Errors occurred during AST node visitation.',
+                'subtype': 'visitation', # Added subtype
+                'debug_log': analyzer.debug_log,
+                'error_log': analyzer.error_log
+             }
+             final_result = error_result
+        elif analysis_result is None:
+            # If no errors but result is still None, it means analysis didn't produce a rule structure
+            logging.warning("Analysis finished without errors but produced no result (None).")
+            final_result = {
+                 'type': 'error',
+                 'message': 'Analysis did not produce a result structure (returned None).',
+                 'subtype': 'no_result', # Added subtype
+                 'debug_log': analyzer.debug_log,
+                 'error_log': analyzer.error_log # Include any (potentially empty) error log
+            }
+        else:
+            # Successful analysis
+            final_result = analysis_result
+
+        # Always log the final result (or error structure) being returned
+        logging.debug(f"analyze_rule: Final result before return = {json.dumps(final_result, indent=2)}") # Changed print to logging
         return final_result
     
     except Exception as e:
-        print(f"Unexpected error in rule analysis: {e}")
-        traceback.print_exc()
-        return {
-            'type': 'constant',
-            'value': True  # Default to always accessible
+        # --- MODIFIED: Improved Top-Level Error Handling ---
+        error_message = f"Unexpected top-level error in rule analysis: {e}"
+        logging.critical(error_message, exc_info=True) # Use critical, include traceback
+
+        # Create an error structure instead of defaulting to True
+        error_result = {
+            'type': 'error',
+            'message': error_message,
+            'subtype': 'unexpected', # Added subtype
+            'debug_log': analyzer.debug_log if analyzer else [], # Include logs if analyzer exists
+            'error_log': analyzer.error_log if analyzer else []
         }
+        # Attempt to add traceback if possible
+        try:
+            error_result['traceback'] = traceback.format_exc()
+        except Exception:
+            pass # Ignore errors during traceback formatting
+            
+        return error_result
+        # --- END MODIFIED ---
