@@ -65,9 +65,9 @@ def _read_multiline_lambda(func):
         # --- MODIFIED: Use file cache ---
         if filename in file_content_cache:
             lines = file_content_cache[filename]
-            print(f"_read_multiline_lambda: Using cached content for {filename}")
+            logging.debug(f"_read_multiline_lambda: Using cached content for {filename}") # Changed print to logging
         else:
-            print(f"_read_multiline_lambda: Reading and caching content for {filename}")
+            logging.debug(f"_read_multiline_lambda: Reading and caching content for {filename}") # Changed print to logging
             with open(filename, 'r') as f:
                 # Read the file line by line
                 lines = f.readlines()
@@ -77,7 +77,7 @@ def _read_multiline_lambda(func):
         # Start with the line containing the lambda
         # Correct for 0-based list index vs 1-based line number
         if start_line <= 0 or start_line > len(lines):
-            print(f"Error: start_line {start_line} is out of bounds for file {filename} with {len(lines)} lines.")
+            logging.error(f"Error: start_line {start_line} is out of bounds for file {filename} with {len(lines)} lines.") # Changed print to logging
             return None # Or handle error appropriately
 
         lambda_text = lines[start_line-1]
@@ -137,7 +137,7 @@ def _read_multiline_lambda(func):
         
         return lambda_text
     except Exception as e:
-        print(f"Error reading multiline lambda: {e}")
+        logging.error(f"Error reading multiline lambda: {e}", exc_info=True) # Changed print to logging, added traceback
         return None
 
 def _clean_source(func):
@@ -147,22 +147,22 @@ def _clean_source(func):
         try:
             source_lines, start_line = inspect.getsourcelines(func)
             source = ''.join(source_lines)
-            print(f"_clean_source: Got {len(source_lines)} lines from line {start_line}")
+            logging.debug(f"_clean_source: Got {len(source_lines)} lines from line {start_line}") # Changed print to logging
         except Exception as line_err:
-            print(f"Could not get source lines for {func}: {line_err}")
+            logging.warning(f"Could not get source lines for {func}: {line_err}") # Changed print to logging
             source = inspect.getsource(func)
             
         # Remove comments
         source = re.sub(r'#.*$', '', source, flags=re.MULTILINE)
         source = source.strip()
-        print(f"_clean_source: Original source = {repr(source)}")
+        logging.debug(f"_clean_source: Original source = {repr(source)}") # Changed print to logging
     except (TypeError, OSError) as e:
-        print(f"Could not get source for {func}: {e}")
+        logging.error(f"Unexpected error getting source for {func}: {e}") # Changed print to logging
         return None
 
     # --- MODIFIED: More robust staticmethod check using AST ---
     if 'staticmethod(' in source:
-        print(f"_clean_source: Detected 'staticmethod(' in source: {repr(source)}")
+        logging.debug(f"_clean_source: Detected 'staticmethod(' in source: {repr(source)}") # Changed print to logging
         try:
             # Parse the source string (could be an assignment)
             tree = ast.parse(source)
@@ -190,20 +190,20 @@ def _clean_source(func):
                     # For now, default to 'state' as it covers access_rule
                     # param_name = lambda_node.args.args[0].arg if lambda_node.args.args else 'state'
                     param_name = 'state' # Keep it simple for now
-                    print(f"_clean_source: Confirmed staticmethod(lambda {param_name}: True). Returning standard True func.")
+                    logging.debug(f"_clean_source: Confirmed staticmethod(lambda {param_name}: True). Returning standard True func.") # Changed print to logging
                     return f"def __analyzed_func__({param_name}):\n    return True"
                 else:
-                    print(f"_clean_source: staticmethod found, but does not wrap a simple 'lambda: True'. Lambda body: {ast.dump(lambda_node) if isinstance(lambda_node, ast.Lambda) else 'Not a Lambda'}")
+                    logging.warning(f"_clean_source: staticmethod found, but does not wrap a simple 'lambda: True'. Lambda body: {ast.dump(lambda_node) if isinstance(lambda_node, ast.Lambda) else 'Not a Lambda'}") # Changed print to logging
             else:
-                print(f"_clean_source: staticmethod found, but AST structure is not the expected assignment pattern. Assigned value: {ast.dump(assigned_value) if assigned_value else 'None'}")
+                logging.warning(f"_clean_source: staticmethod found, but AST structure is not the expected assignment pattern. Assigned value: {ast.dump(assigned_value) if assigned_value else 'None'}") # Changed print to logging
 
         except SyntaxError as parse_err:
-            print(f"_clean_source: SyntaxError parsing staticmethod source: {parse_err}. Source: {repr(source)}")
+            logging.warning(f"_clean_source: SyntaxError parsing staticmethod source: {parse_err}. Source: {repr(source)}") # Changed print to logging
         except Exception as e:
-            print(f"_clean_source: Error during AST analysis of staticmethod: {e}. Source: {repr(source)}")
-
+            logging.error(f"_clean_source: Error during AST analysis of staticmethod: {e}. Source: {repr(source)}", exc_info=True) # Changed print to logging, added exc_info
+            
         # If AST analysis fails or doesn't match expected pattern, return None
-        print("_clean_source: Could not robustly confirm staticmethod wraps lambda:True. Returning None.")
+        logging.warning("_clean_source: Could not robustly confirm staticmethod wraps lambda:True. Returning None.") # Changed print to logging
         return None
     # --- END MODIFIED ---
 
@@ -225,7 +225,7 @@ def _clean_source(func):
         is_unbalanced = body.count('(') != body.count(')') # Simple balance check
 
         if is_potentially_incomplete or is_unbalanced:
-            print(f"_clean_source: Initial lambda source seems incomplete or unbalanced. Trying _read_multiline_lambda.")
+            logging.debug(f"_clean_source: Initial lambda source seems incomplete or unbalanced. Trying _read_multiline_lambda.") # Changed print to logging
             full_lambda = _read_multiline_lambda(func)
             if full_lambda:
                 # Re-extract body from the potentially more complete source
@@ -234,12 +234,12 @@ def _clean_source(func):
                     body = full_match.group(2).strip()
                     if body.endswith(','):
                         body = body[:-1].rstrip()
-                    print(f"_clean_source: Re-extracted body from full lambda: {repr(body)}")
+                    logging.debug(f"_clean_source: Re-extracted body from full lambda: {repr(body)}") # Changed print to logging
                 else:
-                     print(f"WARNING: Could not parse body from _read_multiline_lambda result: {repr(full_lambda)}")
+                     logging.warning(f"WARNING: Could not parse body from _read_multiline_lambda result: {repr(full_lambda)}") # Changed print to logging
                      # Continue with the potentially flawed body from initial parse
             else:
-                 print(f"WARNING: _read_multiline_lambda failed. Proceeding with potentially incomplete body.")
+                 logging.warning(f"WARNING: _read_multiline_lambda failed. Proceeding with potentially incomplete body.") # Changed print to logging
                  # Continue with the potentially flawed body from initial parse
         # --- End Refined Handling ---
 
@@ -261,7 +261,7 @@ def _clean_source(func):
                  removed_count += 1
 
             if removed_count > 0:
-                 print(f"WARNING: Removed {removed_count} excess trailing ')' from body. Original: {repr(original_body)}, Final: {repr(body)}")
+                 logging.warning(f"WARNING: Removed {removed_count} excess trailing ')' from body. Original: {repr(original_body)}, Final: {repr(body)}") # Changed print to logging
 
         # Note: We no longer attempt to add missing closing parentheses.
 
@@ -269,13 +269,13 @@ def _clean_source(func):
         try:
             ast.parse(body, mode='eval')
         except SyntaxError as body_parse_err:
-            print(f"ERROR: Final cleaned lambda body failed to parse as expression: {body_parse_err}")
-            print(f"Final Body: {repr(body)}")
+            logging.error(f"ERROR: Final cleaned lambda body failed to parse as expression: {body_parse_err}") # Changed print to logging
+            logging.error(f"Final Body: {repr(body)}") # Changed print to logging
             # If the body MUST be valid, returning None is safer:
             # return None
             # For now, let's allow it to proceed and potentially fail later in RuleAnalyzer
 
-        print(f"_clean_source: Final body for lambda = {repr(body)}")
+        logging.debug(f"_clean_source: Final body for lambda = {repr(body)}") # Changed print to logging
         return f"def __analyzed_func__({param}):\n    return {body}"
 
     # If source wasn't recognized as a lambda by the initial regex
@@ -303,7 +303,7 @@ class RuleAnalyzer(ast.NodeVisitor):
         """Log debug message to both console and log file."""
         logging.debug(message)
         self.debug_log.append(message)
-        print(message)  # Also print to console for immediate visibility
+        # Removed print for log duplication
 
     def log_error(self, message, exception=None):
         """Log error message with optional exception details."""
@@ -313,35 +313,33 @@ class RuleAnalyzer(ast.NodeVisitor):
         }
         logging.error(message)
         self.error_log.append(error_entry)
-        print(f"ERROR: {message}")
-        if exception:
-            print(traceback.format_exc())
+        # Removed print for log duplication
 
     def visit_Module(self, node):
         try:
-            self.log_debug(f"\n--- Starting Module Analysis ---")
-            self.log_debug(f"Module body length: {len(node.body)}")
+            logging.debug(f"\n--- Starting Module Analysis ---")
+            logging.debug(f"Module body length: {len(node.body)}")
             
             # Detailed module body inspection
             for i, body_node in enumerate(node.body):
-                self.log_debug(f"Module body node {i}: {type(body_node).__name__}")
+                logging.debug(f"Module body node {i}: {type(body_node).__name__}")
                 
             # Visit first node in module body if exists and return its result
             if node.body:
                 return self.visit(node.body[0])
             return None # Return None if no body
         except Exception as e:
-            self.log_error("Error in visit_Module", e)
+            logging.error("Error in visit_Module", e)
             return None
 
     def visit_FunctionDef(self, node):
         try:
-            self.log_debug(f"\n--- Analyzing Function Definition: {node.name} ---")
-            self.log_debug(f"Function args: {[arg.arg for arg in node.args.args]}")
+            logging.debug(f"\n--- Analyzing Function Definition: {node.name} ---")
+            logging.debug(f"Function args: {[arg.arg for arg in node.args.args]}")
             
             # Detailed function body inspection
             for i, body_node in enumerate(node.body):
-                self.log_debug(f"Function body node {i}: {type(body_node).__name__}")
+                logging.debug(f"Function body node {i}: {type(body_node).__name__}")
             
             # Visit the first body node if exists and return its result
             # Assumes the meaningful part is the first statement (e.g., return)
@@ -349,47 +347,47 @@ class RuleAnalyzer(ast.NodeVisitor):
                 return self.visit(node.body[0]) 
             return None # Return None if no body
         except Exception as e:
-            self.log_error(f"Error analyzing function {node.name}", e)
+            logging.error(f"Error analyzing function {node.name}", e)
             return None
 
     def visit_Lambda(self, node):
         try:
-            self.log_debug("\n--- Analyzing Lambda ---")
-            self.log_debug(f"Lambda args: {[arg.arg for arg in node.args.args]}")
-            self.log_debug(f"Lambda body type: {type(node.body).__name__}")
+            logging.debug("\n--- Analyzing Lambda ---")
+            logging.debug(f"Lambda args: {[arg.arg for arg in node.args.args]}")
+            logging.debug(f"Lambda body type: {type(node.body).__name__}")
             
             # Visit the lambda body and return its result
             return self.visit(node.body)
         except Exception as e:
-            self.log_error("Error in visit_Lambda", e)
+            logging.error("Error in visit_Lambda", e)
             return None
 
     def visit_Return(self, node):
         try:
-            self.log_debug("\n--- Analyzing Return ---")
-            self.log_debug(f"Return value type: {type(node.value).__name__}")
+            logging.debug("\n--- Analyzing Return ---")
+            logging.debug(f"Return value type: {type(node.value).__name__}")
             
             if isinstance(node.value, ast.BoolOp):
-                self.log_debug(f"BoolOp type: {type(node.value.op).__name__}")
-                self.log_debug(f"BoolOp values count: {len(node.value.values)}")
+                logging.debug(f"BoolOp type: {type(node.value.op).__name__}")
+                logging.debug(f"BoolOp values count: {len(node.value.values)}")
             
             # Visit the return value and return its result
             return self.visit(node.value)
         except Exception as e:
-            self.log_error("Error in visit_Return", e)
+            logging.error("Error in visit_Return", e)
             return None
 
     def visit_Call(self, node):
         """
         Updated visit_Call method that properly handles complex arguments and special cases better.
         """
-        print(f"\nvisit_Call called:")
-        print(f"Function: {ast.dump(node.func)}")
-        print(f"Args: {[ast.dump(arg) for arg in node.args]}")
+        logging.debug(f"\nvisit_Call called:") # Changed print to logging
+        logging.debug(f"Function: {ast.dump(node.func)}") # Changed print to logging
+        logging.debug(f"Args: {[ast.dump(arg) for arg in node.args]}") # Changed print to logging
 
         # Visit the function node to obtain its details.
         func_info = self.visit(node.func) # Get returned result
-        print(f"Function info after visit: {func_info}")
+        logging.debug(f"Function info after visit: {func_info}") # Changed print to logging
 
         # Process arguments
         args = []
@@ -397,7 +395,7 @@ class RuleAnalyzer(ast.NodeVisitor):
         for i, arg_node in enumerate(node.args):
             arg_result = self.visit(arg_node) # Get returned result for each arg
             if arg_result is None:
-                 self.log_error(f"Failed to analyze argument {i} in call: {ast.dump(arg_node)}")
+                 logging.error(f"Failed to analyze argument {i} in call: {ast.dump(arg_node)}")
                  # More permissive - continue even if arg analysis fails
                  continue
             args.append(arg_result)
@@ -406,19 +404,19 @@ class RuleAnalyzer(ast.NodeVisitor):
             if not (isinstance(arg_node, ast.Name) and arg_node.id in ['state', 'player']):
                 processed_args.append(arg_result)
 
-        print(f"Collected args: {args}")
-        print(f"Processed args (without state/player): {processed_args}")
+        logging.debug(f"Collected args: {args}") # Unused?
+        logging.debug(f"Processed args (without state/player): {processed_args}") # Changed print to logging
 
         # --- Determine the type of call --- 
 
         # 1. Helper function call (identified by name)
         if func_info and func_info.get('type') == 'name':
             func_name = func_info['name']
-            print(f"Checking helper: {func_name}")
+            logging.debug(f"Checking helper: {func_name}") # Changed print to logging
             
             # Check if the function name is in closure vars
             if func_name in self.closure_vars:
-                 print(f"Identified call to known closure variable: {func_name}")
+                 logging.debug(f"Identified call to known closure variable: {func_name}") # Changed print to logging
                  
                  # Check special case for rule/old_rule from old version
                  if func_name in ['rule', 'old_rule']:
@@ -435,33 +433,32 @@ class RuleAnalyzer(ast.NodeVisitor):
                      if has_state_arg:
                           # Get the actual function from the closure
                           actual_func = self.closure_vars[func_name]
-                          print(f"Recursively analyzing closure function: {func_name} -> {actual_func}")
+                          logging.debug(f"Recursively analyzing closure function: {func_name} -> {actual_func}") # Changed print to logging
                           # Pass the seen_funcs dictionary (it's mutable state)
                           recursive_result = analyze_rule(rule_func=actual_func, 
                                                           closure_vars=self.closure_vars.copy(), 
                                                           seen_funcs=self.seen_funcs) # Pass the dict
-                          if recursive_result:
-                              if recursive_result.get('type') != 'error':
-                                  print(f"Recursive analysis successful for {func_name}. Result: {recursive_result}")
-                                  return recursive_result # Return the detailed analysis result
-                              else:
-                                  print(f"Recursive analysis for {func_name} returned type 'error'. Falling back to helper node. Error details: {recursive_result.get('error_log')}")
+                          if recursive_result.get('type') != 'error':
+                              logging.debug(f"Recursive analysis successful for {func_name}. Result: {recursive_result}") # Changed print to logging
+                              return recursive_result # Return the detailed analysis result
+                          else:
+                              logging.debug(f"Recursive analysis for {func_name} returned type 'error'. Falling back to helper node. Error details: {recursive_result.get('error_log')}") # Changed print to logging
                  except Exception as e:
-                      print(f"Error during recursive analysis of closure var {func_name}: {e}")
+                      logging.error(f"Error during recursive analysis of closure var {func_name}", e) # Changed print to logging
                  # --- END Recursive analysis logic ---
                  # If recursion wasn't attempted or failed, fall through to default helper representation
 
             # *** Special handling for all(GeneratorExp) ***
-            if func_name == 'all' and len(args) == 1 and args[0].get('type') == 'generator_expression':
-                print(f"Detected all(GeneratorExp) pattern.")
-                gen_exp = args[0] # The result from visit_GeneratorExp
+            if func_name == 'all' and len(processed_args) == 1 and processed_args[0].get('type') == 'generator_expression':
+                logging.debug(f"Detected all(GeneratorExp) pattern.") # Changed print to logging
+                gen_exp = processed_args[0] # The result from visit_GeneratorExp
                 # Represent this as a specific 'all_of' rule type
                 result = {
                     'type': 'all_of',
                     'element_rule': gen_exp['element'],
                     'iterator_info': gen_exp['comprehension'] 
                 }
-                print(f"Created 'all_of' result: {result}")
+                logging.debug(f"Created 'all_of' result: {result}") # Changed print to logging
                 return result
             # *** END ADDED ***
 
@@ -470,14 +467,14 @@ class RuleAnalyzer(ast.NodeVisitor):
                 'name': func_name,
                 'args': processed_args
             }
-            print(f"Created helper result: {result}")
+            logging.debug(f"Created helper result: {result}") # Changed print to logging
             return result # Return helper result
         
         # 2. State method call (e.g., state.has)
         elif func_info and func_info.get('type') == 'attribute':
             if func_info['object'].get('type') == 'name' and func_info['object'].get('name') == 'state':
                 method = func_info['attr']
-                print(f"Processing state method: {method}")
+                logging.debug(f"Processing state method: {method}") # Changed print to logging
                 
                 # Simplify handling based on method name
                 if method == 'has' and len(processed_args) >= 1:
@@ -494,64 +491,64 @@ class RuleAnalyzer(ast.NodeVisitor):
                     # Default for unhandled state methods
                     result = {'type': 'state_method', 'method': method, 'args': processed_args}
                 
-                print(f"State method result: {result}")
+                logging.debug(f"State method result: {result}") # Changed print to logging
                 return result # Return state method result
 
         # 3. Fallback for other types of calls (e.g., calling result of another function)
-        print(f"Fallback function call type. func_info = {func_info}")
+        logging.debug(f"Fallback function call type. func_info = {func_info}") # Changed print to logging
         result = {
             'type': 'function_call',
             'function': func_info,
             'args': processed_args # Use processed args here too
         }
-        print(f"Fallback call result: {result}")
+        logging.debug(f"Fallback call result: {result}") # Changed print to logging
         return result # Return generic function call result
 
     def visit_Attribute(self, node):
         try:
             # --- ADDED: Log attribute details before visiting object --- 
             attr_name = node.attr
-            self.log_debug(f"visit_Attribute: Trying to access .{attr_name} on object of type {type(node.value).__name__}")
+            logging.debug(f"visit_Attribute: Trying to access .{attr_name} on object of type {type(node.value).__name__}")
             # --- END ADDED ---
-            self.log_debug(f"visit_Attribute: Visiting object {type(node.value).__name__}")
+            logging.debug(f"visit_Attribute: Visiting object {type(node.value).__name__}")
             obj_result = self.visit(node.value) # Get returned result
             # attr_name = node.attr # Moved up
             
             # Specifically log if we are processing self.player
             if isinstance(node.value, ast.Name) and node.value.id == 'self' and attr_name == 'player':
-                 self.log_debug("visit_Attribute: Detected access to self.player")
+                 logging.debug("visit_Attribute: Detected access to self.player")
 
             if obj_result:
                  result = {'type': 'attribute', 'object': obj_result, 'attr': attr_name}
-                 self.log_debug(f"visit_Attribute: Returning result {result}")
+                 logging.debug(f"visit_Attribute: Returning result {result}")
                  return result # Return the result
             else:
                  # Handle case where object visit failed
-                 self.log_error(f"visit_Attribute: Failed to get result for object in {ast.dump(node)}")
+                 logging.error(f"visit_Attribute: Failed to get result for object in {ast.dump(node)}")
                  return None # Return None on error
 
         except Exception as e:
-            self.log_error(f"Error in visit_Attribute for {ast.dump(node)}", e)
+            logging.error(f"Error in visit_Attribute for {ast.dump(node)}", e)
             return None
 
     def visit_Name(self, node):
         try:
             name = node.id
-            self.log_debug(f"visit_Name: Name = {name}")
+            logging.debug(f"visit_Name: Name = {name}")
             # Specifically log 'self'
             if name == 'self':
-                self.log_debug("visit_Name: Detected 'self'")
+                logging.debug("visit_Name: Detected 'self'")
 
             result = {'type': 'name', 'name': name}
-            self.log_debug(f"visit_Name: Set result to {result}")
+            logging.debug(f"visit_Name: Set result to {result}")
             return result # Return the result
         except Exception as e:
-            self.log_error(f"Error in visit_Name for {node.id}", e)
+            logging.error(f"Error in visit_Name for {node.id}", e)
             return None # Return None on error
 
     def visit_Expr(self, node: ast.Expr):
         """ Handle expression statements, checking for top-level set_rule/add_item_rule calls. """
-        self.log_debug(f"\n--- visit_Expr --- Node Value Type: {type(node.value).__name__}")
+        logging.debug(f"\n--- visit_Expr --- Node Value Type: {type(node.value).__name__}")
         # Check if the expression's value is a call to set_rule or add_rule
         if isinstance(node.value, ast.Call):
             call_node = node.value
@@ -564,33 +561,33 @@ class RuleAnalyzer(ast.NodeVisitor):
 
             # If it's a rule-setting function with at least 2 arguments...
             if func_name in ['set_rule', 'add_rule', 'add_item_rule'] and len(call_node.args) >= 2:
-                self.log_debug(f"visit_Expr: Detected top-level '{func_name}' call. Visiting rule argument directly.")
+                logging.debug(f"visit_Expr: Detected top-level '{func_name}' call. Visiting rule argument directly.")
                 # Visit the second argument (the rule function/lambda) and return its result
                 rule_result = self.visit(call_node.args[1])
-                self.log_debug(f"visit_Expr: Finished visiting rule argument for '{func_name}'. Returning result: {rule_result}")
+                logging.debug(f"visit_Expr: Finished visiting rule argument for '{func_name}'. Returning result: {rule_result}")
                 return rule_result
 
         # If not a top-level rule-setting call, visit the expression value normally and return its result
-        self.log_debug("visit_Expr: Not a top-level rule call, visiting value.")
+        logging.debug("visit_Expr: Not a top-level rule call, visiting value.")
         return self.visit(node.value)
 
     def visit_Constant(self, node):
-        print("\nvisit_Constant called")
-        print(f"Constant node: {ast.dump(node)}")
+        logging.debug("\nvisit_Constant called") # Changed print to logging
+        logging.debug(f"Constant node: {ast.dump(node)}") # Changed print to logging
         result = {
             'type': 'constant',
             'value': node.value
         }
-        print(f"Constant result: {result}")
+        logging.debug(f"Constant result: {result}") # Changed print to logging
         return result # Return the result
 
     def visit_Subscript(self, node):
         """
         Handle subscript expressions like foo[bar]
         """
-        print(f"\nvisit_Subscript called:")
-        print(f"Value: {ast.dump(node.value)}")
-        print(f"Slice: {ast.dump(node.slice)}")
+        logging.debug(f"\nvisit_Subscript called:") # Changed print to logging
+        logging.debug(f"Value: {ast.dump(node.value)}") # Changed print to logging
+        logging.debug(f"Slice: {ast.dump(node.slice)}") # Changed print to logging
         
         # First visit the value (the object being subscripted)
         value_info = self.visit(node.value) # Get returned result
@@ -600,7 +597,7 @@ class RuleAnalyzer(ast.NodeVisitor):
         
         # Check if sub-visits were successful
         if value_info is None or index_info is None:
-            self.log_error(f"Error visiting value or index in subscript: {ast.dump(node)}")
+            logging.error(f"Error visiting value or index in subscript: {ast.dump(node)}")
             return None
             
         # Create a subscript node
@@ -610,15 +607,15 @@ class RuleAnalyzer(ast.NodeVisitor):
             'index': index_info
         }
         
-        print(f"Subscript result: {result}")
+        logging.debug(f"Subscript result: {result}") # Changed print to logging
         return result # Return the result
 
     def visit_BoolOp(self, node):
         """Handle boolean operations (AND/OR) between conditions"""
         try:
-            self.log_debug("\nvisit_BoolOp called:")
-            self.log_debug(f"Operator: {type(node.op).__name__}")
-            self.log_debug(f"Values: {[ast.dump(val) for val in node.values]}")
+            logging.debug("\nvisit_BoolOp called:") # Changed print to logging
+            logging.debug(f"Operator: {type(node.op).__name__}") # Changed print to logging
+            logging.debug(f"Values: {[ast.dump(val) for val in node.values]}") # Changed print to logging
             
             # Process each value in the boolean operation
             conditions = []
@@ -627,35 +624,35 @@ class RuleAnalyzer(ast.NodeVisitor):
                 if condition_result:
                     conditions.append(condition_result)
                 else:
-                    self.log_error(f"Failed to analyze condition in BoolOp: {ast.dump(value)}")
+                    logging.error(f"Failed to analyze condition in BoolOp: {ast.dump(value)}")
                     return None # Fail the whole operation if one part fails
 
             # Create appropriate rule structure based on operator type
             op_type = 'and' if isinstance(node.op, ast.And) else 'or' if isinstance(node.op, ast.Or) else None
             if not op_type:
-                self.log_debug(f"Unknown boolean operator: {type(node.op).__name__}")
+                logging.debug(f"Unknown boolean operator: {type(node.op).__name__}")
                 return None
             
             result = {
                 'type': op_type,
                 'conditions': conditions
             }
-            self.log_debug(f"Boolean operation result: {result}")
+            logging.debug(f"Boolean operation result: {result}") # Changed print to logging
             return result # Return the result
             
         except Exception as e:
-            self.log_error(f"Error in visit_BoolOp", e)
+            logging.error(f"Error in visit_BoolOp", e)
             return None
 
     def visit_UnaryOp(self, node: ast.UnaryOp):
         """ Handle unary operations (e.g., not). """
         try:
             op_name = type(node.op).__name__.lower()
-            self.log_debug(f"\n--- visit_UnaryOp: op={op_name} ---")
+            logging.debug(f"\n--- visit_UnaryOp: op={op_name} ---") # Changed print to logging
             
             operand_result = self.visit(node.operand)
             if operand_result is None:
-                self.log_error(f"Failed to analyze operand for UnaryOp: {ast.dump(node.operand)}")
+                logging.error(f"Failed to analyze operand for UnaryOp: {ast.dump(node.operand)}")
                 return None
 
             # Handle specific unary operators
@@ -663,20 +660,20 @@ class RuleAnalyzer(ast.NodeVisitor):
                 return {'type': 'not', 'condition': operand_result}
             # Add other unary ops (e.g., UAdd, USub) if needed for rules
             else:
-                self.log_error(f"Unhandled unary operator: {op_name}")
+                logging.error(f"Unhandled unary operator: {op_name}")
                 return None # Or a generic representation
 
         except Exception as e:
-            self.log_error("Error in visit_UnaryOp", e)
+            logging.error("Error in visit_UnaryOp", e)
             return None
 
     def visit_Compare(self, node: ast.Compare):
         """ Handle comparison operations (e.g., ==, !=, in, not in, is, is not). """
         try:
-            self.log_debug(f"\n--- visit_Compare ---")
+            logging.debug(f"\n--- visit_Compare ---") # Changed print to logging
             if len(node.ops) != 1 or len(node.comparators) != 1:
                 # For now, only support simple comparisons like `a op b`
-                self.log_error(f"Unsupported chained comparison: {ast.dump(node)}")
+                logging.error(f"Unsupported chained comparison: {ast.dump(node)}")
                 return None
 
             left_result = self.visit(node.left)
@@ -684,7 +681,7 @@ class RuleAnalyzer(ast.NodeVisitor):
             right_result = self.visit(node.comparators[0])
 
             if left_result is None or right_result is None:
-                self.log_error(f"Failed to analyze left or right side of comparison: {ast.dump(node)}")
+                logging.error(f"Failed to analyze left or right side of comparison: {ast.dump(node)}")
                 return None
 
             # Map AST operator names to a simpler representation if desired
@@ -705,82 +702,82 @@ class RuleAnalyzer(ast.NodeVisitor):
             }
 
         except Exception as e:
-            self.log_error("Error in visit_Compare", e)
+            logging.error("Error in visit_Compare", e)
             return None
 
     def visit_Tuple(self, node: ast.Tuple):
         """ Handle tuple literals. """
         try:
-            self.log_debug(f"\n--- visit_Tuple ---")
+            logging.debug(f"\n--- visit_Tuple ---") # Changed print to logging
             elements = []
             for elt_node in node.elts:
                 elt_result = self.visit(elt_node)
                 if elt_result is None:
-                    self.log_error(f"Failed to analyze element in Tuple: {ast.dump(elt_node)}")
+                    logging.error(f"Failed to analyze element in Tuple: {ast.dump(elt_node)}")
                     return None
                 elements.append(elt_result)
             
             # Represent as a list in the output JSON
             return {'type': 'list', 'value': elements}
         except Exception as e:
-            self.log_error("Error in visit_Tuple", e)
+            logging.error("Error in visit_Tuple", e)
             return None
 
     def visit_List(self, node: ast.List):
         """ Handle list literals. """
         try:
-            self.log_debug(f"\n--- visit_List ---")
+            logging.debug(f"\n--- visit_List ---") # Changed print to logging
             elements = []
             for elt_node in node.elts:
                 elt_result = self.visit(elt_node)
                 if elt_result is None:
-                    self.log_error(f"Failed to analyze element in List: {ast.dump(elt_node)}")
+                    logging.error(f"Failed to analyze element in List: {ast.dump(elt_node)}")
                     return None
                 elements.append(elt_result)
             
             # Represent as a list in the output JSON
             return {'type': 'list', 'value': elements}
         except Exception as e:
-            self.log_error("Error in visit_List", e)
+            logging.error("Error in visit_List", e)
             return None
 
     def visit_Set(self, node: ast.Set):
         """ Handle set literals. """
         try:
-            self.log_debug(f"\n--- visit_Set ---")
+            logging.debug(f"\n--- visit_Set ---") # Changed print to logging
             elements = []
             for elt_node in node.elts:
                 elt_result = self.visit(elt_node)
                 if elt_result is None:
-                    self.log_error(f"Failed to analyze element in Set: {ast.dump(elt_node)}")
+                    logging.error(f"Failed to analyze element in Set: {ast.dump(elt_node)}")
                     return None
                 elements.append(elt_result)
             
             # Represent as a list in the output JSON (consistent with tuple/list)
             return {'type': 'list', 'value': elements}
         except Exception as e:
-            self.log_error("Error in visit_Set", e)
+            logging.error("Error in visit_Set", e)
             return None
 
     def visit_GeneratorExp(self, node: ast.GeneratorExp):
         """ Handle generator expressions. """
         try:
-            self.log_debug(f"\n--- visit_GeneratorExp ---")
+            logging.debug(f"\n--- visit_GeneratorExp ---") # Changed print to logging
             # Analyze the element expression
             elt_result = self.visit(node.elt)
             if elt_result is None:
-                self.log_error(f"Failed to analyze element expression in GeneratorExp: {ast.dump(node.elt)}")
+                logging.error(f"Failed to analyze element expression in GeneratorExp: {ast.dump(node.elt)}")
                 return None
 
             # Analyze the comprehension generators
             # NOTE: Currently only supports one comprehension generator like `for target in iter`
             if len(node.generators) != 1:
-                self.log_error(f"Unsupported number of generators in GeneratorExp: {len(node.generators)}")
+                logging.error(f"Unsupported number of generators in GeneratorExp: {len(node.generators)}")
                 return None
 
             comprehension_result = self.visit(node.generators[0])
             if comprehension_result is None:
-                 self.log_error(f"Failed to analyze comprehension in GeneratorExp")
+                 logging.error(f"Failed to analyze comprehension in GeneratorExp")
                  return None
 
             # Combine results into a dedicated type
@@ -790,19 +787,19 @@ class RuleAnalyzer(ast.NodeVisitor):
                 'comprehension': comprehension_result
             }
         except Exception as e:
-            self.log_error("Error in visit_GeneratorExp", e)
+            logging.error("Error in visit_GeneratorExp", e)
             return None
 
     def visit_comprehension(self, node: ast.comprehension):
         """ Handle the 'for target in iter' part of comprehensions/generators. """
         try:
-            self.log_debug(f"\n--- visit_comprehension ---")
+            logging.debug(f"\n--- visit_comprehension ---") # Changed print to logging
             target_result = self.visit(node.target)
             iter_result = self.visit(node.iter)
             # Note: Ignoring ifs for now (e.g., for x in y if z)
 
             if target_result is None or iter_result is None:
-                 self.log_error(f"Failed to analyze target or iterator in comprehension")
+                 logging.error(f"Failed to analyze target or iterator in comprehension")
                  return None
 
             # Return details needed to understand the iteration
@@ -813,37 +810,37 @@ class RuleAnalyzer(ast.NodeVisitor):
                 # 'conditions': [self.visit(if_node) for if_node in node.ifs] # Future enhancement
             }
         except Exception as e:
-            self.log_error("Error in visit_comprehension", e)
+            logging.error("Error in visit_comprehension", e)
             return None
 
     def generic_visit(self, node):
         """Override to add detailed logging for unexpected node types."""
         try:
-            self.log_debug(f"\n--- Generic Visit: {type(node).__name__} ---")
-            self.log_debug(f"Node details: {vars(node)}")
+            logging.debug(f"\n--- Generic Visit: {type(node).__name__} ---") # Changed print to logging
+            logging.debug(f"Node details: {vars(node)}") # Changed print to logging
             super().generic_visit(node)
         except Exception as e:
-            self.log_error(f"Error in generic_visit for {type(node).__name__}", e)
+            logging.error(f"Error in generic_visit for {type(node).__name__}", e)
 
     def visit_Assign(self, node: ast.Assign):
         """ Handle assignment statements. If the value is a lambda/rule, analyze it. """
-        self.log_debug(f"\n--- visit_Assign --- Targets: {len(node.targets)}, Value Type: {type(node.value).__name__}")
+        logging.debug(f"\n--- visit_Assign --- Targets: {len(node.targets)}, Value Type: {type(node.value).__name__}") # Changed print to logging
         # We are primarily interested in the value being assigned, as that often holds the rule lambda.
         # Visit the value node and return its result.
         value_result = self.visit(node.value)
-        self.log_debug(f"visit_Assign: Result from visiting value = {value_result}")
+        logging.debug(f"visit_Assign: Result from visiting value = {value_result}") # Changed print to logging
         return value_result # Return the result of analyzing the assigned value
 
     def visit_IfExp(self, node: ast.IfExp):
         """ Handle conditional ternary expressions (body if test else orelse). """
         try:
-            self.log_debug(f"\n--- visit_IfExp ---")
+            logging.debug(f"\n--- visit_IfExp ---") # Changed print to logging
             test_result = self.visit(node.test)
             body_result = self.visit(node.body)
             orelse_result = self.visit(node.orelse)
 
             if test_result is None or body_result is None or orelse_result is None:
-                self.log_error(f"Failed to analyze one or more parts of IfExp: {ast.dump(node)}")
+                logging.error(f"Failed to analyze one or more parts of IfExp: {ast.dump(node)}")
                 return None
 
             return {
@@ -853,19 +850,19 @@ class RuleAnalyzer(ast.NodeVisitor):
                 'if_false': orelse_result
             }
         except Exception as e:
-            self.log_error("Error in visit_IfExp", e)
+            logging.error("Error in visit_IfExp", e)
             return None
 
     def visit_BinOp(self, node: ast.BinOp):
         """ Handle binary operations (e.g., +, -, *, /). """
         try:
-            self.log_debug(f"\n--- visit_BinOp ---")
+            logging.debug(f"\n--- visit_BinOp ---") # Changed print to logging
             left_result = self.visit(node.left)
             op_name = type(node.op).__name__ # E.g., 'Add', 'Mult'
             right_result = self.visit(node.right)
 
             if left_result is None or right_result is None:
-                self.log_error(f"Failed to analyze left or right side of BinOp: {ast.dump(node)}")
+                logging.error(f"Failed to analyze left or right side of BinOp: {ast.dump(node)}")
                 return None
 
             # Map AST operator names to symbols
@@ -885,7 +882,7 @@ class RuleAnalyzer(ast.NodeVisitor):
                 'right': right_result
             }
         except Exception as e:
-            self.log_error("Error in visit_BinOp", e)
+            logging.error("Error in visit_BinOp", e)
             return None
 
 # --- AST Visitor to find specific lambda rules ---
@@ -901,7 +898,7 @@ class LambdaFinder(ast.NodeVisitor):
         # self.target_player = target_player # Optional: Could add player matching if needed
         self._found_lambdas: List[ast.Lambda] = [] # Store all found lambdas
         self._visited_nodes = set() # Prevent infinite recursion on complex ASTs
-        print(f"LambdaFinder initialized for target: {target_name}")
+        logging.debug(f"LambdaFinder initialized for target: {target_name}") # Changed print to logging
 
     def _extract_target_name_from_call(self, call_node: ast.Call) -> Optional[str]:
         """Helper to extract the target name from a get_location/entrance/region call."""
@@ -911,11 +908,11 @@ class LambdaFinder(ast.NodeVisitor):
                 if len(call_node.args) > 0 and isinstance(call_node.args[0], ast.Constant):
                     return call_node.args[0].value
                 else:
-                    print(f"LambdaFinder: No constant arg found for {method_name} call.")
+                    logging.warning(f"LambdaFinder: No constant arg found for {method_name} call.") # Changed print to logging
             # else:
-            #     print(f"LambdaFinder: Method name '{method_name}' not in expected list.")
+            #     logging.debug(f"LambdaFinder: Method name '{method_name}' not in expected list.") # Changed print to logging
         # else:
-        #      print(f"LambdaFinder: Target node func is not Attribute. Type: {type(call_node.func)}, Dump: {ast.dump(call_node.func)}")
+        #      logging.debug(f"LambdaFinder: Target node func is not Attribute. Type: {type(call_node.func)}, Dump: {ast.dump(call_node.func)}") # Changed print to logging
         return None
 
     def visit_Call(self, node: ast.Call):
@@ -942,24 +939,24 @@ class LambdaFinder(ast.NodeVisitor):
                 if isinstance(target_node, ast.Call):
                     extracted_target_name = self._extract_target_name_from_call(target_node)
                     # if extracted_target_name:
-                    #     print(f"LambdaFinder: Found '{func_name}' call targeting '{extracted_target_name}' via method call.")
+                    #     logging.debug(f"LambdaFinder: Found '{func_name}' call targeting '{extracted_target_name}' via method call.") # Changed print to logging
                 # else:
                 #     # Potentially handle direct string constants if needed, though less common
                 #     # if isinstance(target_node, ast.Constant) and isinstance(target_node.value, str):
                 #     #     extracted_target_name = target_node.value
-                #     print(f"LambdaFinder: Target node is not Call. Dump: {ast.dump(target_node)}")
+                #     logging.debug(f"LambdaFinder: Target node is not Call. Dump: {ast.dump(target_node)}") # Changed print to logging
 
                 # --- Check if the extracted target name matches ---
                 if extracted_target_name == self.target_name:
-                    print(f"LambdaFinder: Target name '{self.target_name}' MATCHED!")
+                    logging.debug(f"LambdaFinder: Target name '{self.target_name}' MATCHED!") # Changed print to logging
                     # --- Check if the second argument is a Lambda ---
                     rule_node = node.args[1]
                     if isinstance(rule_node, ast.Lambda):
-                        print(f"LambdaFinder: Found Lambda node for target '{self.target_name}'!")
+                        logging.debug(f"LambdaFinder: Found Lambda node for target '{self.target_name}'!") # Changed print to logging
                         self._found_lambdas.append(rule_node)
                         # Do NOT return early, continue searching for other potential matches
                     # else:
-                    #      print(f"LambdaFinder: Target '{self.target_name}' matched, but rule is not a Lambda node ({type(rule_node).__name__}).")
+                    #      logging.debug(f"LambdaFinder: Target '{self.target_name}' matched, but rule is not a Lambda node ({type(rule_node).__name__}).") # Changed print to logging
 
         # Continue visiting children regardless of finding a match
         super().generic_visit(node)
@@ -973,23 +970,23 @@ class LambdaFinder(ast.NodeVisitor):
             ast.Lambda: The unique lambda node if found.
             None: If zero or more than one lambda definitions are found for the target.
         """
-        print(f"LambdaFinder: Starting search in AST for target '{self.target_name}'")
+        logging.debug(f"LambdaFinder: Starting search in AST for target '{self.target_name}'") # Changed print to logging
         self._found_lambdas = [] # Reset for this search
         self._visited_nodes = set() # Reset visited nodes
         self.visit(ast_tree)
 
         count = len(self._found_lambdas)
         if count == 1:
-            print(f"LambdaFinder: Found exactly one lambda for target '{self.target_name}'.")
+            logging.debug(f"LambdaFinder: Found exactly one lambda for target '{self.target_name}'.") # Changed print to logging
             return self._found_lambdas[0]
         elif count == 0:
-            print(f"LambdaFinder: Found zero lambdas for target '{self.target_name}'.")
+            logging.warning(f"LambdaFinder: Found zero lambdas for target '{self.target_name}'.") # Changed print to logging
             return None
         else:
-            print(f"LambdaFinder: Found {count} lambdas for target '{self.target_name}'. Cannot uniquely determine rule, returning None.")
+            logging.warning(f"LambdaFinder: Found {count} lambdas for target '{self.target_name}'. Cannot uniquely determine rule, returning None.") # Changed print to logging
             # Optionally log the locations or details of the found lambdas for debugging
             # for i, lam in enumerate(self._found_lambdas):
-            #     print(f"  Lambda {i+1} at line {getattr(lam, 'lineno', 'N/A')}")
+            #     logging.debug(f"  Lambda {i+1} at line {getattr(lam, 'lineno', 'N/A')}") # Changed print to logging
             return None
 
 # Main analysis function
