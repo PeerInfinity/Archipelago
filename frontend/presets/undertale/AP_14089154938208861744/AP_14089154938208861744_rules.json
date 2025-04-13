@@ -1,0 +1,3211 @@
+{
+  "schema_version": 3,
+  "game_name": "Undertale",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "UndertaleWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "New Game",
+            "connected_region": "Hub",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "??? Exit",
+            "connected_region": "???",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "???": {
+        "name": "???",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "??? Exit",
+            "parent_region": "Menu",
+            "connected_region": "???",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hub": {
+        "name": "Hub",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "New Game",
+            "parent_region": "Menu",
+            "connected_region": "Hub",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Ruins Hub",
+            "connected_region": "Ruins",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Ruins Key"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Snowdin Hub",
+            "connected_region": "Snowdin Forest",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Snowdin Key"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Waterfall Hub",
+            "connected_region": "Waterfall",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Waterfall Key"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Hotland Hub",
+            "connected_region": "Hotland",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Hotland Key"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Core Hub",
+            "connected_region": "Core",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Core Key"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Ruins": {
+        "name": "Ruins",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Ruins Hub",
+            "parent_region": "Hub",
+            "connected_region": "Ruins",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Ruins Exit",
+            "connected_region": "Old Home",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Candy 1",
+            "id": 79014,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spider Cider",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Candy 2",
+            "id": 79015,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Old Tutu",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Candy 3",
+            "id": 79016,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "temy armor",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Candy 4",
+            "id": 79017,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Snowdin Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Donut Sale",
+            "id": 79018,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Stained Apron",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cider Sale",
+            "id": 79019,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Punch Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ribbon Cracks",
+            "id": 79020,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Torn Notebook",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Toy Knife Edge",
+            "id": 79021,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Burnt Pan",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B.Scotch Pie Given",
+            "id": 79022,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Instant Noodles",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Old Home": {
+        "name": "Old Home",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Ruins Exit",
+            "parent_region": "Ruins",
+            "connected_region": "Old Home",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Snowdin Forest": {
+        "name": "Snowdin Forest",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Snowdin Hub",
+            "parent_region": "Hub",
+            "connected_region": "Snowdin Forest",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Snowdin Forest Exit",
+            "connected_region": "Snowdin Town",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Snowman",
+            "id": 79100,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nice Cream",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nicecream Snowdin",
+            "id": 79001,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Legendary Hero",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Snowdin Town": {
+        "name": "Snowdin Town",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Snowdin Forest Exit",
+            "parent_region": "Snowdin Forest",
+            "connected_region": "Snowdin Town",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Papyrus\" Home Entrance",
+            "connected_region": "Papyrus\" Home",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Bunny 1",
+            "id": 79034,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Cloudy Glasses",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bunny 2",
+            "id": 79035,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Waterfall Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bunny 3",
+            "id": 79036,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Toy Knife",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bunny 4",
+            "id": 79037,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Snowdin Town"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Punch Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Papyrus\" Home": {
+        "name": "Papyrus\" Home",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Papyrus\" Home Entrance",
+            "parent_region": "Snowdin Town",
+            "connected_region": "Papyrus\" Home",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Papyrus Date",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Papyrus Date",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Waterfall": {
+        "name": "Waterfall",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Waterfall Hub",
+            "parent_region": "Hub",
+            "connected_region": "Waterfall",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Undyne\"s Home Entrance",
+            "connected_region": "Undyne\"s Home",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Nicecream Waterfall",
+            "id": 79002,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Snowman Piece",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nicecream Punch Card",
+            "id": 79003,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Punch Card"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Waterfall"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 3,
+            "locked": false,
+            "item": {
+              "name": "Starfait",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quiche Bench",
+            "id": 79004,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Tough Glove",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tutu Hidden",
+            "id": 79005,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Hotland Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Card Reward",
+            "id": 79006,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Heart Locket",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Grass Shoes",
+            "id": 79007,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Starfait",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Astro 1",
+            "id": 79023,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spider Donut",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Astro 2",
+            "id": 79024,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mettaton Plush",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 1",
+            "id": 79038,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Butterscotch Pie",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 2",
+            "id": 79039,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Crab Apple",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 3",
+            "id": 79040,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Empty Gun",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Gerson 4",
+            "id": 79041,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Ballet Shoes",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 1",
+            "id": 79050,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Astronaut Food",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 2",
+            "id": 79051,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "500G",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 3",
+            "id": 79052,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Waterfall"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Astronaut Food",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TemmieShop 4",
+            "id": 79053,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Waterfall"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "1000G"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Glamburger",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Undyne\"s Home": {
+        "name": "Undyne\"s Home",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Undyne\"s Home Entrance",
+            "parent_region": "Waterfall",
+            "connected_region": "Undyne\"s Home",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Undyne Date",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Undyne Date",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hotland": {
+        "name": "Hotland",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Hotland Hub",
+            "parent_region": "Hub",
+            "connected_region": "Hotland",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Cooking Show Entrance",
+            "connected_region": "Cooking Show",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Lab Elevator",
+            "connected_region": "True Lab",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Noodles Fridge",
+            "id": 79008,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Hotland"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "500G",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pan Hidden",
+            "id": 79009,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Hotland"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Faded Ribbon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Apron Hidden",
+            "id": 79010,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Cooking Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Cinnamon Bun",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 1",
+            "id": 79042,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Abandoned Quiche",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 2",
+            "id": 79043,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Core Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 3",
+            "id": 79044,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Sea Tea",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bratty Catty 4",
+            "id": 79045,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bisicle",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 1",
+            "id": 79046,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Worn Dagger",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 2",
+            "id": 79047,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spider Donut",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 3",
+            "id": 79048,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Punch Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Burgerpants 4",
+            "id": 79049,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "News Show"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Right Home Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Alphys Date",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Alphys Date",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Cooking Show": {
+        "name": "Cooking Show",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Cooking Show Entrance",
+            "parent_region": "Hotland",
+            "connected_region": "Cooking Show",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "News Show Entrance",
+            "connected_region": "News Show",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "News Show": {
+        "name": "News Show",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "News Show Entrance",
+            "parent_region": "Cooking Show",
+            "connected_region": "News Show",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "True Lab": {
+        "name": "True Lab",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Lab Elevator",
+            "parent_region": "Hotland",
+            "connected_region": "True Lab",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Core": {
+        "name": "Core",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Core Hub",
+            "parent_region": "Hub",
+            "connected_region": "Core",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Core Exit",
+            "connected_region": "New Home",
+            "access_rule": {
+              "type": "helper",
+              "name": "_undertale_has_plot",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Mettaton Plush"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Trash Burger",
+            "id": 79011,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Core"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1000G",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mettaton Plot",
+            "id": 79062,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Core Exit"
+                },
+                {
+                  "type": "constant",
+                  "value": "Entrance"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1000G",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "New Home": {
+        "name": "New Home",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Core Exit",
+            "parent_region": "Core",
+            "connected_region": "New Home",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "New Home Exit",
+            "connected_region": "Last Corridor",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Left Home Key"
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Right Home Key"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Key Piece"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Present Knife",
+            "id": 79012,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Cowboy Hat",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Present Locket",
+            "id": 79013,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Left Home Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Left New Home Key",
+            "id": 79064,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Face Steak",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Right New Home Key",
+            "id": 79065,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "New Home"
+                },
+                {
+                  "type": "constant",
+                  "value": "Region"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Manly Bandanna",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Last Corridor": {
+        "name": "Last Corridor",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "New Home Exit",
+            "parent_region": "New Home",
+            "connected_region": "Last Corridor",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Last Corridor Exit",
+            "connected_region": "Barrier",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Barrier": {
+        "name": "Barrier",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Last Corridor Exit",
+            "parent_region": "Last Corridor",
+            "connected_region": "Barrier",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Progressive Plot": {
+        "name": "Progressive Plot",
+        "id": 77700,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Weapons": {
+        "name": "Progressive Weapons",
+        "id": 77701,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Armor": {
+        "name": "Progressive Armor",
+        "id": 77702,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Monster Candy": {
+        "name": "Monster Candy",
+        "id": 77001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Croquet Roll": {
+        "name": "Croquet Roll",
+        "id": 77002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stick": {
+        "name": "Stick",
+        "id": 77003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bandage": {
+        "name": "Bandage",
+        "id": 77004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rock Candy": {
+        "name": "Rock Candy",
+        "id": 77005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pumpkin Rings": {
+        "name": "Pumpkin Rings",
+        "id": 77006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spider Donut": {
+        "name": "Spider Donut",
+        "id": 77007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stoic Onion": {
+        "name": "Stoic Onion",
+        "id": 77008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ghost Fruit": {
+        "name": "Ghost Fruit",
+        "id": 77009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spider Cider": {
+        "name": "Spider Cider",
+        "id": 77010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Butterscotch Pie": {
+        "name": "Butterscotch Pie",
+        "id": 77011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Faded Ribbon": {
+        "name": "Faded Ribbon",
+        "id": 77012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Toy Knife": {
+        "name": "Toy Knife",
+        "id": 77013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Tough Glove": {
+        "name": "Tough Glove",
+        "id": 77014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Manly Bandanna": {
+        "name": "Manly Bandanna",
+        "id": 77015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snowman Piece": {
+        "name": "Snowman Piece",
+        "id": 77016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nice Cream": {
+        "name": "Nice Cream",
+        "id": 77017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Puppydough Icecream": {
+        "name": "Puppydough Icecream",
+        "id": 77018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bisicle": {
+        "name": "Bisicle",
+        "id": 77019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unisicle": {
+        "name": "Unisicle",
+        "id": 77020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cinnamon Bun": {
+        "name": "Cinnamon Bun",
+        "id": 77021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Temmie Flakes": {
+        "name": "Temmie Flakes",
+        "id": 77022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Abandoned Quiche": {
+        "name": "Abandoned Quiche",
+        "id": 77023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Old Tutu": {
+        "name": "Old Tutu",
+        "id": 77024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ballet Shoes": {
+        "name": "Ballet Shoes",
+        "id": 77025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Punch Card": {
+        "name": "Punch Card",
+        "id": 77026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Annoying Dog": {
+        "name": "Annoying Dog",
+        "id": 77027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dog Salad": {
+        "name": "Dog Salad",
+        "id": 77028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dog Residue": {
+        "name": "Dog Residue",
+        "id": 77029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Astronaut Food": {
+        "name": "Astronaut Food",
+        "id": 77035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Instant Noodles": {
+        "name": "Instant Noodles",
+        "id": 77036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crab Apple": {
+        "name": "Crab Apple",
+        "id": 77037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hot Dog...?": {
+        "name": "Hot Dog...?",
+        "id": 77038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hot Cat": {
+        "name": "Hot Cat",
+        "id": 77039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Glamburger": {
+        "name": "Glamburger",
+        "id": 77040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sea Tea": {
+        "name": "Sea Tea",
+        "id": 77041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Starfait": {
+        "name": "Starfait",
+        "id": 77042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Legendary Hero": {
+        "name": "Legendary Hero",
+        "id": 77043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cloudy Glasses": {
+        "name": "Cloudy Glasses",
+        "id": 77044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Torn Notebook": {
+        "name": "Torn Notebook",
+        "id": 77045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stained Apron": {
+        "name": "Stained Apron",
+        "id": 77046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Burnt Pan": {
+        "name": "Burnt Pan",
+        "id": 77047,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cowboy Hat": {
+        "name": "Cowboy Hat",
+        "id": 77048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty Gun": {
+        "name": "Empty Gun",
+        "id": 77049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heart Locket": {
+        "name": "Heart Locket",
+        "id": 77050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Worn Dagger": {
+        "name": "Worn Dagger",
+        "id": 77051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Real Knife": {
+        "name": "Real Knife",
+        "id": 77052,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Locket": {
+        "name": "The Locket",
+        "id": 77053,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bad Memory": {
+        "name": "Bad Memory",
+        "id": 77054,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dream": {
+        "name": "Dream",
+        "id": 77055,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Undyne's Letter": {
+        "name": "Undyne's Letter",
+        "id": 77056,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Undyne Letter EX": {
+        "name": "Undyne Letter EX",
+        "id": 77057,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Popato Chisps": {
+        "name": "Popato Chisps",
+        "id": 77058,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Junk Food": {
+        "name": "Junk Food",
+        "id": 77059,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mystery Key": {
+        "name": "Mystery Key",
+        "id": 77060,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Face Steak": {
+        "name": "Face Steak",
+        "id": 77061,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hush Puppy": {
+        "name": "Hush Puppy",
+        "id": 77062,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snail Pie": {
+        "name": "Snail Pie",
+        "id": 77063,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "temy armor": {
+        "name": "temy armor",
+        "id": 77064,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Complete Skeleton": {
+        "name": "Complete Skeleton",
+        "id": 77779,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fish": {
+        "name": "Fish",
+        "id": 77780,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DT Extractor": {
+        "name": "DT Extractor",
+        "id": 77782,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mettaton Plush": {
+        "name": "Mettaton Plush",
+        "id": 77786,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Left Home Key": {
+        "name": "Left Home Key",
+        "id": 77787,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "LOVE": {
+        "name": "LOVE",
+        "id": 77788,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Right Home Key": {
+        "name": "Right Home Key",
+        "id": 77789,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Key Piece": {
+        "name": "Key Piece",
+        "id": 77000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "100G": {
+        "name": "100G",
+        "id": 77999,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "500G": {
+        "name": "500G",
+        "id": 77998,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1000G": {
+        "name": "1000G",
+        "id": 77997,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ATK Up": {
+        "name": "ATK Up",
+        "id": 77065,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DEF Up": {
+        "name": "DEF Up",
+        "id": 77066,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "HP Up": {
+        "name": "HP Up",
+        "id": 77067,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "FIGHT": {
+        "name": "FIGHT",
+        "id": 77077,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ACT": {
+        "name": "ACT",
+        "id": 77078,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ITEM": {
+        "name": "ITEM",
+        "id": 77079,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "MERCY": {
+        "name": "MERCY",
+        "id": 77080,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ruins Key": {
+        "name": "Ruins Key",
+        "id": 77081,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snowdin Key": {
+        "name": "Snowdin Key",
+        "id": 77082,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Waterfall Key": {
+        "name": "Waterfall Key",
+        "id": 77083,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotland Key": {
+        "name": "Hotland Key",
+        "id": 77084,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Core Key": {
+        "name": "Core Key",
+        "id": 77085,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "1000G": 4,
+      "500G": 4,
+      "ACT": 1,
+      "Abandoned Quiche": 2,
+      "Alphys Date": 1,
+      "Astronaut Food": 4,
+      "Ballet Shoes": 2,
+      "Bisicle": 2,
+      "Burnt Pan": 2,
+      "Butterscotch Pie": 2,
+      "Cinnamon Bun": 2,
+      "Cloudy Glasses": 2,
+      "Core Key": 2,
+      "Cowboy Hat": 2,
+      "Crab Apple": 2,
+      "Empty Gun": 2,
+      "FIGHT": 1,
+      "Face Steak": 2,
+      "Faded Ribbon": 2,
+      "Glamburger": 2,
+      "Heart Locket": 2,
+      "Hotland Key": 2,
+      "ITEM": 1,
+      "Instant Noodles": 2,
+      "Left Home Key": 2,
+      "Legendary Hero": 2,
+      "MERCY": 1,
+      "Manly Bandanna": 2,
+      "Mettaton Plush": 2,
+      "Nice Cream": 2,
+      "Old Tutu": 2,
+      "Papyrus Date": 1,
+      "Punch Card": 6,
+      "Right Home Key": 2,
+      "Ruins Key": 1,
+      "Sea Tea": 2,
+      "Snowdin Key": 2,
+      "Snowman Piece": 2,
+      "Spider Cider": 2,
+      "Spider Donut": 4,
+      "Stained Apron": 2,
+      "Starfait": 4,
+      "Torn Notebook": 2,
+      "Tough Glove": 2,
+      "Toy Knife": 2,
+      "Undyne Date": 1,
+      "Waterfall Key": 2,
+      "Worn Dagger": 2,
+      "temy armor": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "ITEM",
+      "FIGHT",
+      "ACT",
+      "MERCY",
+      "Ruins Key"
+    ]
+  },
+  "settings": {
+    "1": {
+      "game": "Undertale",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Undertale",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,4073 @@
+{
+  "schema_version": 3,
+  "game_name": "Yacht Dice",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "YachtDiceWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "New Board",
+            "connected_region": "Board",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Board": {
+        "name": "Board",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "New Board",
+            "parent_region": "Menu",
+            "connected_region": "Board",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "1 score",
+            "id": 16871244501,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Threes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "2 score",
+            "id": 16871244502,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Dice",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "3 score",
+            "id": 16871244503,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Fours",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "4 score",
+            "id": 16871244504,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Roll",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "5 score",
+            "id": 16871244505,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Ones",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "6 score",
+            "id": 16871244506,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "7 score",
+            "id": 16871244507,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "8 score",
+            "id": 16871244508,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "9 score",
+            "id": 16871244509,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "10 score",
+            "id": 16871244510,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "11 score",
+            "id": 16871244511,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "12 score",
+            "id": 16871244512,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Large Straight",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "13 score",
+            "id": 16871244513,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "14 score",
+            "id": 16871244514,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "15 score",
+            "id": 16871244515,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Four of a Kind",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "17 score",
+            "id": 16871244517,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "19 score",
+            "id": 16871244519,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "22 score",
+            "id": 16871244522,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Tiny Straight",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "25 score",
+            "id": 16871244525,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "28 score",
+            "id": 16871244528,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Three of a Kind",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "32 score",
+            "id": 16871244532,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "36 score",
+            "id": 16871244536,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "40 score",
+            "id": 16871244540,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "44 score",
+            "id": 16871244544,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "48 score",
+            "id": 16871244548,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "53 score",
+            "id": 16871244553,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "58 score",
+            "id": 16871244558,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Tiny Straight",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "63 score",
+            "id": 16871244563,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "69 score",
+            "id": 16871244569,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Encouragement",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "74 score",
+            "id": 16871244574,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "80 score",
+            "id": 16871244580,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "87 score",
+            "id": 16871244587,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "10 Points",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "93 score",
+            "id": 16871244593,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Choice",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "100 score",
+            "id": 16871244600,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "107 score",
+            "id": 16871244607,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "114 score",
+            "id": 16871244614,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "122 score",
+            "id": 16871244622,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "130 score",
+            "id": 16871244630,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "138 score",
+            "id": 16871244638,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "146 score",
+            "id": 16871244646,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "155 score",
+            "id": 16871244655,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "164 score",
+            "id": 16871244664,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "173 score",
+            "id": 16871244673,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "183 score",
+            "id": 16871244683,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Twos",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "193 score",
+            "id": 16871244693,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Sixes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "203 score",
+            "id": 16871244703,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Threes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "214 score",
+            "id": 16871244714,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "224 score",
+            "id": 16871244724,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Full House",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "236 score",
+            "id": 16871244736,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dice Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "247 score",
+            "id": 16871244747,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "259 score",
+            "id": 16871244759,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Yacht",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "271 score",
+            "id": 16871244771,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Encouragement",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "283 score",
+            "id": 16871244783,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "296 score",
+            "id": 16871244796,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "10 Points",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "309 score",
+            "id": 16871244809,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "322 score",
+            "id": 16871244822,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "336 score",
+            "id": 16871244836,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "350 score",
+            "id": 16871244850,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "364 score",
+            "id": 16871244864,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "378 score",
+            "id": 16871244878,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "393 score",
+            "id": 16871244893,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "408 score",
+            "id": 16871244908,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "424 score",
+            "id": 16871244924,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "440 score",
+            "id": 16871244940,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "456 score",
+            "id": 16871244956,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Threes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "473 score",
+            "id": 16871244973,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Encouragement",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "490 score",
+            "id": 16871244990,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "10 Points",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "507 score",
+            "id": 16871245007,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "524 score",
+            "id": 16871245024,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Pair",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "542 score",
+            "id": 16871245042,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "560 score",
+            "id": 16871245060,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "579 score",
+            "id": 16871245079,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Tiny Straight",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "598 score",
+            "id": 16871245098,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "617 score",
+            "id": 16871245117,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "637 score",
+            "id": 16871245137,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "10 Points",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "657 score",
+            "id": 16871245157,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "677 score",
+            "id": 16871245177,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "698 score",
+            "id": 16871245198,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "719 score",
+            "id": 16871245219,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fixed Score Multiplier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "740 score",
+            "id": 16871245240,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Twos",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "762 score",
+            "id": 16871245262,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Encouragement",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "777 score",
+            "id": 16871245277,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "806 score",
+            "id": 16871245306,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Three of a Kind",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "829 score",
+            "id": 16871245329,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "852 score",
+            "id": 16871245352,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "10 Points",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "876 score",
+            "id": 16871245376,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Encouragement",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "899 score",
+            "id": 16871245399,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Small Straight",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "924 score",
+            "id": 16871245424,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Point",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "948 score",
+            "id": 16871245448,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Category Fives",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "1000 score",
+            "id": 16871245500,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "dice_simulation_state_change",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "frags_per_dice"
+                },
+                {
+                  "type": "name",
+                  "name": "frags_per_roll"
+                },
+                {
+                  "type": "name",
+                  "name": "allowed_categories"
+                },
+                {
+                  "type": "name",
+                  "name": "difficulty"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Roll Fragment",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Dice": {
+        "name": "Dice",
+        "id": 16871244000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dice Fragment": {
+        "name": "Dice Fragment",
+        "id": 16871244001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roll": {
+        "name": "Roll",
+        "id": 16871244002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Roll Fragment": {
+        "name": "Roll Fragment",
+        "id": 16871244003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fixed Score Multiplier": {
+        "name": "Fixed Score Multiplier",
+        "id": 16871244005,
+        "groups": [
+          "Everything",
+          "Score Multiplier"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Step Score Multiplier": {
+        "name": "Step Score Multiplier",
+        "id": 16871244006,
+        "groups": [
+          "Everything",
+          "Score Multiplier"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Ones": {
+        "name": "Category Ones",
+        "id": 16871244103,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Twos": {
+        "name": "Category Twos",
+        "id": 16871244104,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Threes": {
+        "name": "Category Threes",
+        "id": 16871244105,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Fours": {
+        "name": "Category Fours",
+        "id": 16871244106,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Fives": {
+        "name": "Category Fives",
+        "id": 16871244107,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Sixes": {
+        "name": "Category Sixes",
+        "id": 16871244108,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Choice": {
+        "name": "Category Choice",
+        "id": 16871244109,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Inverse Choice": {
+        "name": "Category Inverse Choice",
+        "id": 16871244110,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Pair": {
+        "name": "Category Pair",
+        "id": 16871244111,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Three of a Kind": {
+        "name": "Category Three of a Kind",
+        "id": 16871244112,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Four of a Kind": {
+        "name": "Category Four of a Kind",
+        "id": 16871244113,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Tiny Straight": {
+        "name": "Category Tiny Straight",
+        "id": 16871244114,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Small Straight": {
+        "name": "Category Small Straight",
+        "id": 16871244115,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Large Straight": {
+        "name": "Category Large Straight",
+        "id": 16871244116,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Full House": {
+        "name": "Category Full House",
+        "id": 16871244117,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Yacht": {
+        "name": "Category Yacht",
+        "id": 16871244118,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Distincts": {
+        "name": "Category Distincts",
+        "id": 16871244123,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Two times Ones": {
+        "name": "Category Two times Ones",
+        "id": 16871244124,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Half of Sixes": {
+        "name": "Category Half of Sixes",
+        "id": 16871244125,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Twos and Threes": {
+        "name": "Category Twos and Threes",
+        "id": 16871244126,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Sum of Odds": {
+        "name": "Category Sum of Odds",
+        "id": 16871244127,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Sum of Evens": {
+        "name": "Category Sum of Evens",
+        "id": 16871244128,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Double Threes and Fours": {
+        "name": "Category Double Threes and Fours",
+        "id": 16871244129,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Quadruple Ones and Twos": {
+        "name": "Category Quadruple Ones and Twos",
+        "id": 16871244130,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Micro Straight": {
+        "name": "Category Micro Straight",
+        "id": 16871244131,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Three Odds": {
+        "name": "Category Three Odds",
+        "id": 16871244132,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category 1-2-1 Consecutive": {
+        "name": "Category 1-2-1 Consecutive",
+        "id": 16871244133,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Three Distinct Dice": {
+        "name": "Category Three Distinct Dice",
+        "id": 16871244134,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Two Pair": {
+        "name": "Category Two Pair",
+        "id": 16871244135,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category 2-1-2 Consecutive": {
+        "name": "Category 2-1-2 Consecutive",
+        "id": 16871244136,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category Five Distinct Dice": {
+        "name": "Category Five Distinct Dice",
+        "id": 16871244137,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Category 4&5 Full House": {
+        "name": "Category 4&5 Full House",
+        "id": 16871244138,
+        "groups": [
+          "Categories",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Encouragement": {
+        "name": "Encouragement",
+        "id": 16871244200,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fun Fact": {
+        "name": "Fun Fact",
+        "id": 16871244201,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Story Chapter": {
+        "name": "Story Chapter",
+        "id": 16871244202,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Good RNG": {
+        "name": "Good RNG",
+        "id": 16871244203,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bad RNG": {
+        "name": "Bad RNG",
+        "id": 16871244204,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bonus Point": {
+        "name": "Bonus Point",
+        "id": 16871244205,
+        "groups": [
+          "Everything",
+          "Points"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1 Point": {
+        "name": "1 Point",
+        "id": 16871244301,
+        "groups": [
+          "Everything",
+          "Points"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "10 Points": {
+        "name": "10 Points",
+        "id": 16871244302,
+        "groups": [
+          "Everything",
+          "Points"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "100 Points": {
+        "name": "100 Points",
+        "id": 16871244303,
+        "groups": [
+          "Everything",
+          "Points"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Categories",
+      "Everything",
+      "Points",
+      "Score Multiplier"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "10 Points": 10,
+      "Bonus Point": 40,
+      "Category Choice": 3,
+      "Category Fives": 2,
+      "Category Four of a Kind": 2,
+      "Category Fours": 2,
+      "Category Full House": 2,
+      "Category Inverse Choice": 1,
+      "Category Large Straight": 2,
+      "Category Ones": 2,
+      "Category Pair": 2,
+      "Category Sixes": 2,
+      "Category Small Straight": 2,
+      "Category Three of a Kind": 4,
+      "Category Threes": 6,
+      "Category Tiny Straight": 6,
+      "Category Twos": 4,
+      "Category Yacht": 2,
+      "Dice": 3,
+      "Dice Fragment": 32,
+      "Encouragement": 10,
+      "Fixed Score Multiplier": 22,
+      "Roll": 3,
+      "Roll Fragment": 18,
+      "Victory": 1
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Category Choice",
+      "Category Inverse Choice",
+      "Dice",
+      "Roll"
+    ]
+  },
+  "settings": {
+    "1": {
+      "game": "Yacht Dice",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Yacht Dice",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,6097 @@
+{
+  "schema_version": 3,
+  "game_name": "Zork Grand Inquisitor",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "ZorkGrandInquisitorWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Crossroads": {
+        "name": "Crossroads",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dungeon Master's Lair -> Crossroads",
+            "parent_region": "Dungeon Master's Lair",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech -> Crossroads",
+            "parent_region": "GUE Tech",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Outside -> Crossroads",
+            "parent_region": "GUE Tech - Outside",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> Crossroads",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Port Foozle -> Crossroads",
+            "parent_region": "Port Foozle",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Crossroads",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Crossroads",
+            "parent_region": "Subway Platform - Crossroads",
+            "connected_region": "Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Crossroads -> Dungeon Master's Lair",
+            "connected_region": "Dungeon Master's Lair",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> GUE Tech",
+            "connected_region": "GUE Tech",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> GUE Tech - Outside",
+            "connected_region": "GUE Tech - Outside",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> Port Foozle",
+            "connected_region": "Port Foozle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> Spell Lab - Bridge",
+            "connected_region": "Spell Lab - Bridge",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> Subway Platform - Crossroads",
+            "connected_region": "Subway Platform - Crossroads",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Crossroads -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Into the Foliage",
+            "id": 9758067054,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Shovel",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Invisible Flowers",
+            "id": 9758067055,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Lucy's Playing Card: 4 Pips",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "In Case of Adventure, Break Glass!",
+            "id": 9758067056,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "In Magic We Trust",
+            "id": 9758067057,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Subway Destination: Flood Control Dam #3",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Underground Underground",
+            "id": 9758067111,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Umbrella Flowers",
+            "id": 9758067117,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Rope GLORFable",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Rope GLORFable",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Dungeon Master's Lair": {
+        "name": "Dungeon Master's Lair",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> Dungeon Master's Lair",
+            "parent_region": "Crossroads",
+            "connected_region": "Dungeon Master's Lair",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dungeon Master's Lair - Interior -> Dungeon Master's Lair",
+            "parent_region": "Dungeon Master's Lair - Interior",
+            "connected_region": "Dungeon Master's Lair",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Outside -> Dungeon Master's Lair",
+            "parent_region": "GUE Tech - Outside",
+            "connected_region": "Dungeon Master's Lair",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> Dungeon Master's Lair",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Dungeon Master's Lair",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Dungeon Master's Lair",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "Dungeon Master's Lair",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Dungeon Master's Lair -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Dungeon Master's Lair - Interior",
+            "connected_region": "Dungeon Master's Lair - Interior",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair -> GUE Tech - Outside",
+            "connected_region": "GUE Tech - Outside",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Spell Lab - Bridge",
+            "connected_region": "Spell Lab - Bridge",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Boing, Boing, Boing",
+            "id": 9758067009,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bonk!",
+            "id": 9758067010,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Eggplants",
+            "id": 9758067028,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Flying Snapdragon",
+            "id": 9758067035,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I Don't Think You Would've Wanted That to Work Anyway",
+            "id": 9758067059,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lit Sunflowers",
+            "id": 9758067064,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Teleporter Destination: Dungeon Master's Lair",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mushroom, Hammered",
+            "id": 9758067070,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: IGRAM",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nothin' Like a Good Stogie",
+            "id": 9758067074,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Outsmart the Quelbees",
+            "id": 9758067085,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Prozorked",
+            "id": 9758067090,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Griff's Air Pump",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THROCKed Mushroom, Hammered",
+            "id": 9758067113,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Want Some Rye? Course Ya Do!",
+            "id": 9758067122,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Your Puny Weapons Don't Phase Me, Baby!",
+            "id": 9758067129,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Subway Destination: Hades",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Door Drank Mead",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Door Drank Mead",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Door Smoked Cigar",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Door Smoked Cigar",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Dungeon Master's Lair - Interior": {
+        "name": "Dungeon Master's Lair - Interior",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dungeon Master's Lair -> Dungeon Master's Lair - Interior",
+            "parent_region": "Dungeon Master's Lair",
+            "connected_region": "Dungeon Master's Lair - Interior",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Walking Castle -> Dungeon Master's Lair - Interior",
+            "parent_region": "Walking Castle",
+            "connected_region": "Dungeon Master's Lair - Interior",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "White House -> Dungeon Master's Lair - Interior",
+            "parent_region": "White House",
+            "connected_region": "Dungeon Master's Lair - Interior",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Dungeon Master's Lair - Interior -> Dungeon Master's Lair",
+            "connected_region": "Dungeon Master's Lair",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair - Interior -> Walking Castle",
+            "connected_region": "Walking Castle",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Dungeon Master's Lair - Interior -> White House",
+            "connected_region": "White House",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Castle Watching: A Field Guide",
+            "id": 9758067016,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Brog's Bickering Torch",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Denied by the Lake Monster",
+            "id": 9758067021,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Frobruary 3 - Undergroundhog Day",
+            "id": 9758067036,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Moss of Mareilon",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hello, This is Shona from Gurth Publishing",
+            "id": 9758067044,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hi, My Name is Doug",
+            "id": 9758067047,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Lucy's Playing Card: 1 Pip",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hold on for an Important Message",
+            "id": 9758067049,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: GOLGATEM",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Natural and Supernatural Creatures of Quendor",
+            "id": 9758067072,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Oh, Wow! Talk About Deja Vu",
+            "id": 9758067081,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zork Rocks",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Reassemble SNAVIG",
+            "id": 9758067091,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totemizer Destination: Infinity",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Right. Hello. Yes. Uh, This is Sneffle",
+            "id": 9758067093,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: NARWILE",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Right. Uh, Sorry. It's Me Again. Sneffle",
+            "id": 9758067094,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Jar of Hotbugs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Taming Your Snapdragon",
+            "id": 9758067101,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "White House Time Tunnel",
+            "id": 9758067126,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "yaD gohdnuorgrednU - 3 yrauborF",
+            "id": 9758067128,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Has Repairable SNAVIG",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Has Repairable SNAVIG",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Knows YASTARD",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Knows YASTARD",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Dragon Archipelago": {
+        "name": "Dragon Archipelago",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dragon Archipelago - Dragon -> Dragon Archipelago",
+            "parent_region": "Dragon Archipelago - Dragon",
+            "connected_region": "Dragon Archipelago",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Beyond Gates -> Dragon Archipelago",
+            "parent_region": "Hades - Beyond Gates",
+            "connected_region": "Dragon Archipelago",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Dragon Archipelago -> Dragon Archipelago - Dragon",
+            "connected_region": "Dragon Archipelago - Dragon",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Dragon Archipelago -> Hades - Beyond Gates",
+            "connected_region": "Hades - Beyond Gates",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "This Doesn't Look Anything Like the Brochure",
+            "id": 9758067112,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Large Telegraph Hammer",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Uh-Oh. Brog Can't Swim",
+            "id": 9758067116,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Dragon Archipelago - Dragon": {
+        "name": "Dragon Archipelago - Dragon",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dragon Archipelago -> Dragon Archipelago - Dragon",
+            "parent_region": "Dragon Archipelago",
+            "connected_region": "Dragon Archipelago - Dragon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Dragon Archipelago - Dragon -> Dragon Archipelago",
+            "connected_region": "Dragon Archipelago",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Dragon Archipelago - Dragon -> Endgame",
+            "connected_region": "Endgame",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Oh Dear God, It's a Dragon!",
+            "id": 9758067079,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Student ID",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Thar She Blows!",
+            "id": 9758067102,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: VOXAM",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Endgame": {
+        "name": "Endgame",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dragon Archipelago - Dragon -> Endgame",
+            "parent_region": "Dragon Archipelago - Dragon",
+            "connected_region": "Endgame",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Port Foozle Past - Tavern -> Endgame",
+            "parent_region": "Port Foozle Past - Tavern",
+            "connected_region": "Endgame",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "White House -> Endgame",
+            "parent_region": "White House",
+            "connected_region": "Endgame",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Victory",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "GUE Tech": {
+        "name": "GUE Tech",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> GUE Tech",
+            "parent_region": "Crossroads",
+            "connected_region": "GUE Tech",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Hallway -> GUE Tech",
+            "parent_region": "GUE Tech - Hallway",
+            "connected_region": "GUE Tech",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Outside -> GUE Tech",
+            "parent_region": "GUE Tech - Outside",
+            "connected_region": "GUE Tech",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "GUE Tech -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech -> GUE Tech - Hallway",
+            "connected_region": "GUE Tech - Hallway",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech -> GUE Tech - Outside",
+            "connected_region": "GUE Tech - Outside",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Alarm System is Down",
+            "id": 9758067000,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Brog's Grue Egg",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A Smallway",
+            "id": 9758067005,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Desperately Seeking Tutor",
+            "id": 9758067022,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Plastic Six-Pack Holder",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dunce Locker",
+            "id": 9758067027,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Subway Destination: Monastery",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Emergency Magicatronic Message",
+            "id": 9758067030,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: KENDALL",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Getting Some Change",
+            "id": 9758067037,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GUE Tech Dean's List",
+            "id": 9758067039,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GUE Tech Entrance Exam",
+            "id": 9758067040,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: REZROV",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GUE Tech Health Memo",
+            "id": 9758067041,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: GLORF",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GUE Tech Magemeisters",
+            "id": 9758067042,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totemizer Destination: Straight to Hell",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mike's Pants",
+            "id": 9758067069,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "NOOOOOOOOOOOOO!",
+            "id": 9758067073,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Please Don't THROCK the Grass",
+            "id": 9758067088,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Restocked on Gruesday",
+            "id": 9758067092,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sucking Rocks",
+            "id": 9758067099,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Dalboz Locker Openable",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Dalboz Locker Openable",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Dunce Locker Openable",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Dunce Locker Openable",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Has Repairable OBIDIL",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Has Repairable OBIDIL",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Zork Rocks Activated",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Zork Rocks Activated",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Zork Rocks Suckable",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Zork Rocks Suckable",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "GUE Tech - Hallway": {
+        "name": "GUE Tech - Hallway",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "GUE Tech -> GUE Tech - Hallway",
+            "parent_region": "GUE Tech",
+            "connected_region": "GUE Tech - Hallway",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab - Bridge -> GUE Tech - Hallway",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "GUE Tech - Hallway",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "GUE Tech - Hallway -> GUE Tech",
+            "connected_region": "GUE Tech",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech - Hallway -> Spell Lab - Bridge",
+            "connected_region": "Spell Lab - Bridge",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Artifacts, Explained",
+            "id": 9758067002,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totem: Lucy",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BEBURTT, Demystified",
+            "id": 9758067007,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Sword",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Better Spell Manufacturing in Under 10 Minutes",
+            "id": 9758067008,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cave's Notes",
+            "id": 9758067017,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Crisis Averted",
+            "id": 9758067019,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "How to Win at Double Fanucci",
+            "id": 9758067051,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Time Travel for Dummies",
+            "id": 9758067114,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ZIMDOR Scroll",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "GUE Tech - Outside": {
+        "name": "GUE Tech - Outside",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> GUE Tech - Outside",
+            "parent_region": "Crossroads",
+            "connected_region": "GUE Tech - Outside",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dungeon Master's Lair -> GUE Tech - Outside",
+            "parent_region": "Dungeon Master's Lair",
+            "connected_region": "GUE Tech - Outside",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech -> GUE Tech - Outside",
+            "parent_region": "GUE Tech",
+            "connected_region": "GUE Tech - Outside",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> GUE Tech - Outside",
+            "parent_region": "Hades - Shore",
+            "connected_region": "GUE Tech - Outside",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab - Bridge -> GUE Tech - Outside",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "GUE Tech - Outside",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "GUE Tech - Outside -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech - Outside -> Dungeon Master's Lair",
+            "connected_region": "Dungeon Master's Lair",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech - Outside -> GUE Tech",
+            "connected_region": "GUE Tech",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech - Outside -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech - Outside -> Spell Lab - Bridge",
+            "connected_region": "Spell Lab - Bridge",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "GUE Tech - Outside -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Hey, Free Dirt!",
+            "id": 9758067046,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Griff's Inflatable Raft",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hades": {
+        "name": "Hades",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Hades - Beyond Gates -> Hades",
+            "parent_region": "Hades - Beyond Gates",
+            "connected_region": "Hades",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> Hades",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Hades",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Hades -> Hades - Beyond Gates",
+            "connected_region": "Hades - Beyond Gates",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "A Big, Fat, SASSY 2-Headed Monster",
+            "id": 9758067003,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A Letter from the White House",
+            "id": 9758067004,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Don't Even Start With Us, Sparky",
+            "id": 9758067023,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Now You Look Like Us, Which is an Improvement",
+            "id": 9758067075,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Open the Gates of Hell",
+            "id": 9758067084,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hades - Beyond Gates": {
+        "name": "Hades - Beyond Gates",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dragon Archipelago -> Hades - Beyond Gates",
+            "parent_region": "Dragon Archipelago",
+            "connected_region": "Hades - Beyond Gates",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades -> Hades - Beyond Gates",
+            "parent_region": "Hades",
+            "connected_region": "Hades - Beyond Gates",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Hades - Beyond Gates -> Dragon Archipelago",
+            "connected_region": "Dragon Archipelago",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Beyond Gates -> Hades",
+            "connected_region": "Hades",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dragon Archipelago Time Tunnel",
+            "id": 9758067026,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hades - Shore": {
+        "name": "Hades - Shore",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> Hades - Shore",
+            "parent_region": "Crossroads",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Hades - Shore",
+            "parent_region": "Dungeon Master's Lair",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Outside -> Hades - Shore",
+            "parent_region": "GUE Tech - Outside",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades -> Hades - Shore",
+            "parent_region": "Hades",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Monastery -> Hades - Shore",
+            "parent_region": "Monastery",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Hades - Shore",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Hades - Shore",
+            "parent_region": "Subway Platform - Crossroads",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Flood Control Dam #3 -> Hades - Shore",
+            "parent_region": "Subway Platform - Flood Control Dam #3",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Hades - Shore",
+            "parent_region": "Subway Platform - Monastery",
+            "connected_region": "Hades - Shore",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Hades - Shore -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> Dungeon Master's Lair",
+            "connected_region": "Dungeon Master's Lair",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> GUE Tech - Outside",
+            "connected_region": "GUE Tech - Outside",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> Hades",
+            "connected_region": "Hades",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> Spell Lab - Bridge",
+            "connected_region": "Spell Lab - Bridge",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> Subway Platform - Crossroads",
+            "connected_region": "Subway Platform - Crossroads",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> Subway Platform - Flood Control Dam #3",
+            "connected_region": "Subway Platform - Flood Control Dam #3",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hades - Shore -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Have a Hell of a Day!",
+            "id": 9758067043,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "How to Hypnotize Yourself",
+            "id": 9758067050,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mead Light",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Make Love, Not War",
+            "id": 9758067067,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Voyage of Captain Zahab",
+            "id": 9758067121,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Charon Called",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Charon Called",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Menu -> Port Foozle",
+            "connected_region": "Port Foozle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Monastery": {
+        "name": "Monastery",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Monastery - Exhibit -> Monastery",
+            "parent_region": "Monastery - Exhibit",
+            "connected_region": "Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Monastery",
+            "parent_region": "Subway Platform - Monastery",
+            "connected_region": "Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Monastery -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Monastery -> Monastery - Exhibit",
+            "connected_region": "Monastery - Exhibit",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Monastery -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Hmmm. Informative. Yet Deeply Disturbing",
+            "id": 9758067048,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "PermaSeal",
+            "id": 9758067086,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Straight to Hell",
+            "id": 9758067097,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Teleporter Destination: GUE Tech",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Monastery - Exhibit": {
+        "name": "Monastery - Exhibit",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Monastery -> Monastery - Exhibit",
+            "parent_region": "Monastery",
+            "connected_region": "Monastery - Exhibit",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Port Foozle Past -> Monastery - Exhibit",
+            "parent_region": "Port Foozle Past",
+            "connected_region": "Monastery - Exhibit",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Monastery - Exhibit -> Monastery",
+            "connected_region": "Monastery",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Monastery - Exhibit -> Port Foozle Past",
+            "connected_region": "Port Foozle Past",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Closing the Time Tunnels",
+            "id": 9758067018,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Port Foozle Time Tunnel",
+            "id": 9758067089,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Alchemical Debacle",
+            "id": 9758067107,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Endless Fire",
+            "id": 9758067108,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Teleporter Destination: Hades",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Flatheadian Fudge Fiasco",
+            "id": 9758067109,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Griff's Inflatable Sea Captain",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Perils of Magic",
+            "id": 9758067110,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Port Foozle": {
+        "name": "Port Foozle",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> Port Foozle",
+            "parent_region": "Crossroads",
+            "connected_region": "Port Foozle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Menu -> Port Foozle",
+            "parent_region": "Menu",
+            "connected_region": "Port Foozle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Port Foozle - Jack's Shop -> Port Foozle",
+            "parent_region": "Port Foozle - Jack's Shop",
+            "connected_region": "Port Foozle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Port Foozle -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Port Foozle -> Port Foozle - Jack's Shop",
+            "connected_region": "Port Foozle - Jack's Shop",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Arrest the Vandal!",
+            "id": 9758067001,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cut That Out You Little Creep!",
+            "id": 9758067020,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Lantern",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Elsewhere",
+            "id": 9758067029,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Scroll Fragment: ANS",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire! Fire!",
+            "id": 9758067033,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "GO AWAY!",
+            "id": 9758067038,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Brog's Plank",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Help... Me. Can't... Breathe",
+            "id": 9758067045,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Pouch of Zorkmids",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I'm Completely Nude",
+            "id": 9758067053,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mug",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "It's One of Those Adventurers Again...",
+            "id": 9758067058,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I Don't Want No Trouble!",
+            "id": 9758067060,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Quelbee Honeycomb",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Magic Forever!",
+            "id": 9758067065,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Flatheadia Fudge",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mead Light?",
+            "id": 9758067068,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "No Autographs",
+            "id": 9758067076,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "No Bondage",
+            "id": 9758067077,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Old Scratch Winner!",
+            "id": 9758067082,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Only You Can Prevent Foozle Fires",
+            "id": 9758067083,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Talk to Me Grand Inquisitor",
+            "id": 9758067100,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Perma-Suck Machine",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "That's a Rope",
+            "id": 9758067103,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Teleporter Destination: Spell Lab",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "That's the Spirit!",
+            "id": 9758067106,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Totemized Daily Billboard Functioning Correctly",
+            "id": 9758067115,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "What Are You, Stupid?",
+            "id": 9758067125,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Hammer",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "You One of Them Agitators, Ain't Ya?",
+            "id": 9758067132,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Rope",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "You Want a Piece of Me, Dock Boy? or Girl",
+            "id": 9758067133,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Cigar Accessible",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Cigar Accessible",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Lantern (Dalboz) Accessible",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Lantern (Dalboz) Accessible",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: 500 Zorkmid Bill Accessible",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: 500 Zorkmid Bill Accessible",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Port Foozle - Jack's Shop": {
+        "name": "Port Foozle - Jack's Shop",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Port Foozle -> Port Foozle - Jack's Shop",
+            "parent_region": "Port Foozle",
+            "connected_region": "Port Foozle - Jack's Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Port Foozle - Jack's Shop -> Port Foozle",
+            "connected_region": "Port Foozle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Planetfall",
+            "id": 9758067087,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Port Foozle Past": {
+        "name": "Port Foozle Past",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Monastery - Exhibit -> Port Foozle Past",
+            "parent_region": "Monastery - Exhibit",
+            "connected_region": "Port Foozle Past",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Port Foozle Past - Tavern -> Port Foozle Past",
+            "parent_region": "Port Foozle Past - Tavern",
+            "connected_region": "Port Foozle Past",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Port Foozle Past -> Monastery - Exhibit",
+            "connected_region": "Monastery - Exhibit",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Port Foozle Past -> Port Foozle Past - Tavern",
+            "connected_region": "Port Foozle Past - Tavern",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Oh, Very Funny Guys",
+            "id": 9758067080,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totemizer Destination: Surface of Merz",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "We Don't Serve Your Kind Here",
+            "id": 9758067123,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Port Foozle Past - Tavern": {
+        "name": "Port Foozle Past - Tavern",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Port Foozle Past -> Port Foozle Past - Tavern",
+            "parent_region": "Port Foozle Past",
+            "connected_region": "Port Foozle Past - Tavern",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Port Foozle Past - Tavern -> Endgame",
+            "connected_region": "Endgame",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Port Foozle Past - Tavern -> Port Foozle Past",
+            "connected_region": "Port Foozle Past",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Strip Grue, Fire, Water",
+            "id": 9758067098,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Prozork Tablet",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "We Got a High Roller!",
+            "id": 9758067124,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Spell Lab": {
+        "name": "Spell Lab",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Spell Lab - Bridge -> Spell Lab",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "Spell Lab",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Spell Lab -> Spell Lab - Bridge",
+            "connected_region": "Spell Lab - Bridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Imbue BEBURTT",
+            "id": 9758067052,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "OBIDIL, Dried Up",
+            "id": 9758067078,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SNAVIG, Repaired",
+            "id": 9758067095,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Old Scratch Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Knows BEBURTT",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Knows BEBURTT",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Knows OBIDIL",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Knows OBIDIL",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Knows SNAVIG",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Knows SNAVIG",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Spell Lab - Bridge": {
+        "name": "Spell Lab - Bridge",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> Spell Lab - Bridge",
+            "parent_region": "Crossroads",
+            "connected_region": "Spell Lab - Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Spell Lab - Bridge",
+            "parent_region": "Dungeon Master's Lair",
+            "connected_region": "Spell Lab - Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Hallway -> Spell Lab - Bridge",
+            "parent_region": "GUE Tech - Hallway",
+            "connected_region": "Spell Lab - Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Outside -> Spell Lab - Bridge",
+            "parent_region": "GUE Tech - Outside",
+            "connected_region": "Spell Lab - Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> Spell Lab - Bridge",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Spell Lab - Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab -> Spell Lab - Bridge",
+            "parent_region": "Spell Lab",
+            "connected_region": "Spell Lab - Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Spell Lab - Bridge -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Dungeon Master's Lair",
+            "connected_region": "Dungeon Master's Lair",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Spell Lab - Bridge -> GUE Tech - Outside",
+            "connected_region": "GUE Tech - Outside",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Spell Lab - Bridge -> GUE Tech - Hallway",
+            "connected_region": "GUE Tech - Hallway",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Spell Lab",
+            "connected_region": "Spell Lab",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Fat Lot of Good That'll Do Ya",
+            "id": 9758067032,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totem: Brog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I Like Your Style!",
+            "id": 9758067062,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Brog's Flickering Torch",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I Spit on Your Filthy Coinage",
+            "id": 9758067063,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "That's Still a Rope",
+            "id": 9758067105,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Teleporter Destination: Monastery Station",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "You Don't Go Messing With a Man's Zipper",
+            "id": 9758067130,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Scroll Fragment: GIV",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "You Gained 86 Experience Points",
+            "id": 9758067131,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Hungus Lard",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Subway Platform - Crossroads": {
+        "name": "Subway Platform - Crossroads",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> Subway Platform - Crossroads",
+            "parent_region": "Crossroads",
+            "connected_region": "Subway Platform - Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> Subway Platform - Crossroads",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Subway Platform - Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Flood Control Dam #3 -> Subway Platform - Crossroads",
+            "parent_region": "Subway Platform - Flood Control Dam #3",
+            "connected_region": "Subway Platform - Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Subway Platform - Crossroads",
+            "parent_region": "Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Crossroads",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Subway Platform - Crossroads -> Crossroads",
+            "connected_region": "Crossroads",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Subway Platform - Flood Control Dam #3",
+            "connected_region": "Subway Platform - Flood Control Dam #3",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Brave Souls Wanted",
+            "id": 9758067011,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Frobozz Electric Gadget",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Enjoy Your Trip!",
+            "id": 9758067031,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "That's it! Just Keep Hitting Those Buttons",
+            "id": 9758067104,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Subway Platform - Flood Control Dam #3": {
+        "name": "Subway Platform - Flood Control Dam #3",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Hades - Shore -> Subway Platform - Flood Control Dam #3",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Subway Platform - Flood Control Dam #3",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Subway Platform - Flood Control Dam #3",
+            "parent_region": "Subway Platform - Crossroads",
+            "connected_region": "Subway Platform - Flood Control Dam #3",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Subway Platform - Flood Control Dam #3",
+            "parent_region": "Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Flood Control Dam #3",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Subway Platform - Flood Control Dam #3 -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Flood Control Dam #3 -> Subway Platform - Crossroads",
+            "connected_region": "Subway Platform - Crossroads",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Flood Control Dam #3 -> Subway Platform - Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Beautiful, That's Plenty!",
+            "id": 9758067006,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Lucy's Playing Card: 2 Pips",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Flood Control Dam #3: The Not Remotely Boring Tale",
+            "id": 9758067034,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "300 Year Old National Treasure",
+            "id": 9758067071,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Souvenir",
+            "id": 9758067096,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Griff's Dragon Tooth",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Useless, But Fun",
+            "id": 9758067119,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: Dam Destroyed",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: Dam Destroyed",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Subway Platform - Monastery": {
+        "name": "Subway Platform - Monastery",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Crossroads -> Subway Platform - Monastery",
+            "parent_region": "Crossroads",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dungeon Master's Lair -> Subway Platform - Monastery",
+            "parent_region": "Dungeon Master's Lair",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "GUE Tech - Outside -> Subway Platform - Monastery",
+            "parent_region": "GUE Tech - Outside",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hades - Shore -> Subway Platform - Monastery",
+            "parent_region": "Hades - Shore",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Monastery -> Subway Platform - Monastery",
+            "parent_region": "Monastery",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spell Lab - Bridge -> Subway Platform - Monastery",
+            "parent_region": "Spell Lab - Bridge",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Crossroads -> Subway Platform - Monastery",
+            "parent_region": "Subway Platform - Crossroads",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subway Platform - Flood Control Dam #3 -> Subway Platform - Monastery",
+            "parent_region": "Subway Platform - Flood Control Dam #3",
+            "connected_region": "Subway Platform - Monastery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Subway Platform - Monastery -> Hades - Shore",
+            "connected_region": "Hades - Shore",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Monastery",
+            "connected_region": "Monastery",
+            "access_rule": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Subway Platform - Crossroads",
+            "connected_region": "Subway Platform - Crossroads",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Subway Platform - Monastery -> Subway Platform - Flood Control Dam #3",
+            "connected_region": "Subway Platform - Flood Control Dam #3",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "I Hope You Can Climb Up There With All This Junk",
+            "id": 9758067061,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spell: THROCK",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Walking Castle": {
+        "name": "Walking Castle",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dungeon Master's Lair - Interior -> Walking Castle",
+            "parent_region": "Dungeon Master's Lair - Interior",
+            "connected_region": "Walking Castle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Walking Castle -> Dungeon Master's Lair - Interior",
+            "connected_region": "Dungeon Master's Lair - Interior",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Wow! I've Never Gone Inside Him Before!",
+            "id": 9758067127,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Unreadable Spell Scroll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "White House": {
+        "name": "White House",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dungeon Master's Lair - Interior -> White House",
+            "parent_region": "Dungeon Master's Lair - Interior",
+            "connected_region": "White House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "White House -> Dungeon Master's Lair - Interior",
+            "connected_region": "Dungeon Master's Lair - Interior",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "White House -> Endgame",
+            "connected_region": "Endgame",
+            "access_rule": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Brog Do Good!",
+            "id": 9758067012,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Brog Eat Rocks",
+            "id": 9758067013,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totemizer Destination: Hall of Inquisition",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Brog Know Dumb. That Dumb",
+            "id": 9758067014,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Totem: Griff",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Brog Much Better at This Game",
+            "id": 9758067015,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Subway Token",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doooooown",
+            "id": 9758067024,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inquisition Propaganda Flyer",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Down",
+            "id": 9758067025,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magic Contraband",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mailed it to Hell",
+            "id": 9758067066,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nonsensical Inquisition Paperwork",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Up",
+            "id": 9758067118,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Lucy's Playing Card: 3 Pips",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Uuuuup",
+            "id": 9758067120,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Snapdragon",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Event: White House Letter Mailable",
+            "id": null,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Event: White House Letter Mailable",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Brog's Bickering Torch": {
+        "name": "Brog's Bickering Torch",
+        "id": 9758067000,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Brog's Flickering Torch": {
+        "name": "Brog's Flickering Torch",
+        "id": 9758067001,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Brog's Grue Egg": {
+        "name": "Brog's Grue Egg",
+        "id": 9758067002,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Brog's Plank": {
+        "name": "Brog's Plank",
+        "id": 9758067003,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flatheadia Fudge": {
+        "name": "Flatheadia Fudge",
+        "id": 9758067004,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Griff's Air Pump": {
+        "name": "Griff's Air Pump",
+        "id": 9758067005,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Griff's Dragon Tooth": {
+        "name": "Griff's Dragon Tooth",
+        "id": 9758067006,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Griff's Inflatable Raft": {
+        "name": "Griff's Inflatable Raft",
+        "id": 9758067007,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Griff's Inflatable Sea Captain": {
+        "name": "Griff's Inflatable Sea Captain",
+        "id": 9758067008,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hammer": {
+        "name": "Hammer",
+        "id": 9758067009,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hungus Lard": {
+        "name": "Hungus Lard",
+        "id": 9758067010,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Jar of Hotbugs": {
+        "name": "Jar of Hotbugs",
+        "id": 9758067011,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lantern": {
+        "name": "Lantern",
+        "id": 9758067012,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Large Telegraph Hammer": {
+        "name": "Large Telegraph Hammer",
+        "id": 9758067013,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucy's Playing Card: 1 Pip": {
+        "name": "Lucy's Playing Card: 1 Pip",
+        "id": 9758067014,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucy's Playing Card: 2 Pips": {
+        "name": "Lucy's Playing Card: 2 Pips",
+        "id": 9758067015,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucy's Playing Card: 3 Pips": {
+        "name": "Lucy's Playing Card: 3 Pips",
+        "id": 9758067016,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lucy's Playing Card: 4 Pips": {
+        "name": "Lucy's Playing Card: 4 Pips",
+        "id": 9758067017,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Map": {
+        "name": "Map",
+        "id": 9758067018,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mead Light": {
+        "name": "Mead Light",
+        "id": 9758067019,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Moss of Mareilon": {
+        "name": "Moss of Mareilon",
+        "id": 9758067020,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mug": {
+        "name": "Mug",
+        "id": 9758067021,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Old Scratch Card": {
+        "name": "Old Scratch Card",
+        "id": 9758067022,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Perma-Suck Machine": {
+        "name": "Perma-Suck Machine",
+        "id": 9758067023,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Plastic Six-Pack Holder": {
+        "name": "Plastic Six-Pack Holder",
+        "id": 9758067024,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pouch of Zorkmids": {
+        "name": "Pouch of Zorkmids",
+        "id": 9758067025,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Prozork Tablet": {
+        "name": "Prozork Tablet",
+        "id": 9758067026,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quelbee Honeycomb": {
+        "name": "Quelbee Honeycomb",
+        "id": 9758067027,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rope": {
+        "name": "Rope",
+        "id": 9758067028,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scroll Fragment: ANS": {
+        "name": "Scroll Fragment: ANS",
+        "id": 9758067029,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scroll Fragment: GIV": {
+        "name": "Scroll Fragment: GIV",
+        "id": 9758067030,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Shovel": {
+        "name": "Shovel",
+        "id": 9758067031,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Snapdragon": {
+        "name": "Snapdragon",
+        "id": 9758067032,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Student ID": {
+        "name": "Student ID",
+        "id": 9758067033,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Subway Token": {
+        "name": "Subway Token",
+        "id": 9758067034,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sword": {
+        "name": "Sword",
+        "id": 9758067035,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ZIMDOR Scroll": {
+        "name": "ZIMDOR Scroll",
+        "id": 9758067036,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Zork Rocks": {
+        "name": "Zork Rocks",
+        "id": 9758067037,
+        "groups": [
+          "Everything",
+          "Inventory Item"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: 666 Mailbox": {
+        "name": "Hotspot: 666 Mailbox",
+        "id": 9758067100,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Alpine's Quandry Card Slots": {
+        "name": "Hotspot: Alpine's Quandry Card Slots",
+        "id": 9758067101,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Blank Scroll Box": {
+        "name": "Hotspot: Blank Scroll Box",
+        "id": 9758067102,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Blinds": {
+        "name": "Hotspot: Blinds",
+        "id": 9758067103,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Candy Machine Buttons": {
+        "name": "Hotspot: Candy Machine Buttons",
+        "id": 9758067104,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Candy Machine Coin Slot": {
+        "name": "Hotspot: Candy Machine Coin Slot",
+        "id": 9758067105,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Candy Machine Vacuum Slot": {
+        "name": "Hotspot: Candy Machine Vacuum Slot",
+        "id": 9758067106,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Change Machine Slot": {
+        "name": "Hotspot: Change Machine Slot",
+        "id": 9758067107,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Closet Door": {
+        "name": "Hotspot: Closet Door",
+        "id": 9758067108,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Closing the Time Tunnels Hammer Slot": {
+        "name": "Hotspot: Closing the Time Tunnels Hammer Slot",
+        "id": 9758067109,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Closing the Time Tunnels Lever": {
+        "name": "Hotspot: Closing the Time Tunnels Lever",
+        "id": 9758067110,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Cooking Pot": {
+        "name": "Hotspot: Cooking Pot",
+        "id": 9758067111,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Dented Locker": {
+        "name": "Hotspot: Dented Locker",
+        "id": 9758067112,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Dirt Mound": {
+        "name": "Hotspot: Dirt Mound",
+        "id": 9758067113,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Dock Winch": {
+        "name": "Hotspot: Dock Winch",
+        "id": 9758067114,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Dragon Claw": {
+        "name": "Hotspot: Dragon Claw",
+        "id": 9758067115,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Dragon Nostrils": {
+        "name": "Hotspot: Dragon Nostrils",
+        "id": 9758067116,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Dungeon Master's Lair Entrance": {
+        "name": "Hotspot: Dungeon Master's Lair Entrance",
+        "id": 9758067117,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Flood Control Buttons": {
+        "name": "Hotspot: Flood Control Buttons",
+        "id": 9758067118,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Flood Control Doors": {
+        "name": "Hotspot: Flood Control Doors",
+        "id": 9758067119,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Frozen Treat Machine Coin Slot": {
+        "name": "Hotspot: Frozen Treat Machine Coin Slot",
+        "id": 9758067120,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Frozen Treat Machine Doors": {
+        "name": "Hotspot: Frozen Treat Machine Doors",
+        "id": 9758067121,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Glass Case": {
+        "name": "Hotspot: Glass Case",
+        "id": 9758067122,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Grand Inquisitor Doll": {
+        "name": "Hotspot: Grand Inquisitor Doll",
+        "id": 9758067123,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: GUE Tech Door": {
+        "name": "Hotspot: GUE Tech Door",
+        "id": 9758067124,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: GUE Tech Grass": {
+        "name": "Hotspot: GUE Tech Grass",
+        "id": 9758067125,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Hades Phone Buttons": {
+        "name": "Hotspot: Hades Phone Buttons",
+        "id": 9758067126,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Hades Phone Receiver": {
+        "name": "Hotspot: Hades Phone Receiver",
+        "id": 9758067127,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Harry": {
+        "name": "Hotspot: Harry",
+        "id": 9758067128,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Harry's Ashtray": {
+        "name": "Hotspot: Harry's Ashtray",
+        "id": 9758067129,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Harry's Bird Bath": {
+        "name": "Hotspot: Harry's Bird Bath",
+        "id": 9758067130,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: In Magic We Trust Door": {
+        "name": "Hotspot: In Magic We Trust Door",
+        "id": 9758067131,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Jack's Door": {
+        "name": "Hotspot: Jack's Door",
+        "id": 9758067132,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Loudspeaker Volume Buttons": {
+        "name": "Hotspot: Loudspeaker Volume Buttons",
+        "id": 9758067133,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Mailbox Door": {
+        "name": "Hotspot: Mailbox Door",
+        "id": 9758067134,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Mailbox Flag": {
+        "name": "Hotspot: Mailbox Flag",
+        "id": 9758067135,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Mirror": {
+        "name": "Hotspot: Mirror",
+        "id": 9758067136,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Monastery Vent": {
+        "name": "Hotspot: Monastery Vent",
+        "id": 9758067137,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Mossy Grate": {
+        "name": "Hotspot: Mossy Grate",
+        "id": 9758067138,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Port Foozle Past Tavern Door": {
+        "name": "Hotspot: Port Foozle Past Tavern Door",
+        "id": 9758067139,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Purple Words": {
+        "name": "Hotspot: Purple Words",
+        "id": 9758067140,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Quelbee Hive": {
+        "name": "Hotspot: Quelbee Hive",
+        "id": 9758067141,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Rope Bridge": {
+        "name": "Hotspot: Rope Bridge",
+        "id": 9758067142,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Skull Cage": {
+        "name": "Hotspot: Skull Cage",
+        "id": 9758067143,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Snapdragon": {
+        "name": "Hotspot: Snapdragon",
+        "id": 9758067144,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Soda Machine Buttons": {
+        "name": "Hotspot: Soda Machine Buttons",
+        "id": 9758067145,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Soda Machine Coin Slot": {
+        "name": "Hotspot: Soda Machine Coin Slot",
+        "id": 9758067146,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Souvenir Coin Slot": {
+        "name": "Hotspot: Souvenir Coin Slot",
+        "id": 9758067147,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Spell Checker": {
+        "name": "Hotspot: Spell Checker",
+        "id": 9758067148,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Spell Lab Chasm": {
+        "name": "Hotspot: Spell Lab Chasm",
+        "id": 9758067149,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Spring Mushroom": {
+        "name": "Hotspot: Spring Mushroom",
+        "id": 9758067150,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Student ID Machine": {
+        "name": "Hotspot: Student ID Machine",
+        "id": 9758067151,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Subway Token Slot": {
+        "name": "Hotspot: Subway Token Slot",
+        "id": 9758067152,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Tavern Fly": {
+        "name": "Hotspot: Tavern Fly",
+        "id": 9758067153,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Totemizer Switch": {
+        "name": "Hotspot: Totemizer Switch",
+        "id": 9758067154,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Totemizer Wheels": {
+        "name": "Hotspot: Totemizer Wheels",
+        "id": 9758067155,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hotspot: Well": {
+        "name": "Hotspot: Well",
+        "id": 9758067156,
+        "groups": [
+          "Everything",
+          "Hotspot"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: GLORF": {
+        "name": "Spell: GLORF",
+        "id": 9758067200,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: GOLGATEM": {
+        "name": "Spell: GOLGATEM",
+        "id": 9758067201,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: IGRAM": {
+        "name": "Spell: IGRAM",
+        "id": 9758067202,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: KENDALL": {
+        "name": "Spell: KENDALL",
+        "id": 9758067203,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: NARWILE": {
+        "name": "Spell: NARWILE",
+        "id": 9758067204,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: REZROV": {
+        "name": "Spell: REZROV",
+        "id": 9758067205,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: THROCK": {
+        "name": "Spell: THROCK",
+        "id": 9758067206,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Spell: VOXAM": {
+        "name": "Spell: VOXAM",
+        "id": 9758067207,
+        "groups": [
+          "Everything",
+          "Spell"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Subway Destination: Flood Control Dam #3": {
+        "name": "Subway Destination: Flood Control Dam #3",
+        "id": 9758067300,
+        "groups": [
+          "Everything",
+          "Subway Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Subway Destination: Hades": {
+        "name": "Subway Destination: Hades",
+        "id": 9758067301,
+        "groups": [
+          "Everything",
+          "Subway Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Subway Destination: Monastery": {
+        "name": "Subway Destination: Monastery",
+        "id": 9758067302,
+        "groups": [
+          "Everything",
+          "Subway Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Teleporter Destination: Dungeon Master's Lair": {
+        "name": "Teleporter Destination: Dungeon Master's Lair",
+        "id": 9758067400,
+        "groups": [
+          "Everything",
+          "Teleporter Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Teleporter Destination: GUE Tech": {
+        "name": "Teleporter Destination: GUE Tech",
+        "id": 9758067401,
+        "groups": [
+          "Everything",
+          "Teleporter Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Teleporter Destination: Hades": {
+        "name": "Teleporter Destination: Hades",
+        "id": 9758067402,
+        "groups": [
+          "Everything",
+          "Teleporter Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Teleporter Destination: Monastery Station": {
+        "name": "Teleporter Destination: Monastery Station",
+        "id": 9758067403,
+        "groups": [
+          "Everything",
+          "Teleporter Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Teleporter Destination: Spell Lab": {
+        "name": "Teleporter Destination: Spell Lab",
+        "id": 9758067404,
+        "groups": [
+          "Everything",
+          "Teleporter Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totemizer Destination: Hall of Inquisition": {
+        "name": "Totemizer Destination: Hall of Inquisition",
+        "id": 9758067500,
+        "groups": [
+          "Everything",
+          "Totemizer Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totemizer Destination: Infinity": {
+        "name": "Totemizer Destination: Infinity",
+        "id": 9758067501,
+        "groups": [
+          "Everything",
+          "Totemizer Destination"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totemizer Destination: Straight to Hell": {
+        "name": "Totemizer Destination: Straight to Hell",
+        "id": 9758067502,
+        "groups": [
+          "Everything",
+          "Totemizer Destination"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totemizer Destination: Surface of Merz": {
+        "name": "Totemizer Destination: Surface of Merz",
+        "id": 9758067503,
+        "groups": [
+          "Everything",
+          "Totemizer Destination"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totem: Brog": {
+        "name": "Totem: Brog",
+        "id": 9758067600,
+        "groups": [
+          "Everything",
+          "Totem"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totem: Griff": {
+        "name": "Totem: Griff",
+        "id": 9758067601,
+        "groups": [
+          "Everything",
+          "Totem"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Totem: Lucy": {
+        "name": "Totem: Lucy",
+        "id": 9758067602,
+        "groups": [
+          "Everything",
+          "Totem"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inquisition Propaganda Flyer": {
+        "name": "Inquisition Propaganda Flyer",
+        "id": 9758067700,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unreadable Spell Scroll": {
+        "name": "Unreadable Spell Scroll",
+        "id": 9758067701,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Contraband": {
+        "name": "Magic Contraband",
+        "id": 9758067702,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Frobozz Electric Gadget": {
+        "name": "Frobozz Electric Gadget",
+        "id": 9758067703,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nonsensical Inquisition Paperwork": {
+        "name": "Nonsensical Inquisition Paperwork",
+        "id": 9758067704,
+        "groups": [
+          "Everything",
+          "Filler"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything",
+      "Filler",
+      "Hotspot",
+      "Inventory Item",
+      "Spell",
+      "Subway Destination",
+      "Teleporter Destination",
+      "Totem",
+      "Totemizer Destination"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Brog's Bickering Torch": 2,
+      "Brog's Flickering Torch": 2,
+      "Brog's Grue Egg": 2,
+      "Brog's Plank": 2,
+      "Event: 500 Zorkmid Bill Accessible": 1,
+      "Event: Charon Called": 1,
+      "Event: Cigar Accessible": 1,
+      "Event: Dalboz Locker Openable": 1,
+      "Event: Dam Destroyed": 1,
+      "Event: Door Drank Mead": 1,
+      "Event: Door Smoked Cigar": 1,
+      "Event: Dunce Locker Openable": 1,
+      "Event: Has Repairable OBIDIL": 1,
+      "Event: Has Repairable SNAVIG": 1,
+      "Event: Knows BEBURTT": 1,
+      "Event: Knows OBIDIL": 1,
+      "Event: Knows SNAVIG": 1,
+      "Event: Knows YASTARD": 1,
+      "Event: Lantern (Dalboz) Accessible": 1,
+      "Event: Rope GLORFable": 1,
+      "Event: White House Letter Mailable": 1,
+      "Event: Zork Rocks Activated": 1,
+      "Event: Zork Rocks Suckable": 1,
+      "Flatheadia Fudge": 2,
+      "Frobozz Electric Gadget": 18,
+      "Griff's Air Pump": 2,
+      "Griff's Dragon Tooth": 2,
+      "Griff's Inflatable Raft": 2,
+      "Griff's Inflatable Sea Captain": 2,
+      "Hammer": 2,
+      "Hotspot: 666 Mailbox": 1,
+      "Hotspot: Alpine's Quandry Card Slots": 1,
+      "Hotspot: Blank Scroll Box": 1,
+      "Hotspot: Blinds": 1,
+      "Hotspot: Candy Machine Buttons": 1,
+      "Hotspot: Candy Machine Coin Slot": 1,
+      "Hotspot: Candy Machine Vacuum Slot": 1,
+      "Hotspot: Change Machine Slot": 1,
+      "Hotspot: Closet Door": 1,
+      "Hotspot: Closing the Time Tunnels Hammer Slot": 1,
+      "Hotspot: Closing the Time Tunnels Lever": 1,
+      "Hotspot: Cooking Pot": 1,
+      "Hotspot: Dented Locker": 1,
+      "Hotspot: Dirt Mound": 1,
+      "Hotspot: Dock Winch": 1,
+      "Hotspot: Dragon Claw": 1,
+      "Hotspot: Dragon Nostrils": 1,
+      "Hotspot: Dungeon Master's Lair Entrance": 1,
+      "Hotspot: Flood Control Buttons": 1,
+      "Hotspot: Flood Control Doors": 1,
+      "Hotspot: Frozen Treat Machine Coin Slot": 1,
+      "Hotspot: Frozen Treat Machine Doors": 1,
+      "Hotspot: GUE Tech Door": 1,
+      "Hotspot: GUE Tech Grass": 1,
+      "Hotspot: Glass Case": 1,
+      "Hotspot: Grand Inquisitor Doll": 1,
+      "Hotspot: Hades Phone Buttons": 1,
+      "Hotspot: Hades Phone Receiver": 1,
+      "Hotspot: Harry": 1,
+      "Hotspot: Harry's Ashtray": 1,
+      "Hotspot: Harry's Bird Bath": 1,
+      "Hotspot: In Magic We Trust Door": 1,
+      "Hotspot: Jack's Door": 1,
+      "Hotspot: Loudspeaker Volume Buttons": 1,
+      "Hotspot: Mailbox Door": 1,
+      "Hotspot: Mailbox Flag": 1,
+      "Hotspot: Mirror": 1,
+      "Hotspot: Monastery Vent": 1,
+      "Hotspot: Mossy Grate": 1,
+      "Hotspot: Port Foozle Past Tavern Door": 1,
+      "Hotspot: Purple Words": 1,
+      "Hotspot: Quelbee Hive": 1,
+      "Hotspot: Rope Bridge": 1,
+      "Hotspot: Skull Cage": 1,
+      "Hotspot: Snapdragon": 1,
+      "Hotspot: Soda Machine Buttons": 1,
+      "Hotspot: Soda Machine Coin Slot": 1,
+      "Hotspot: Souvenir Coin Slot": 1,
+      "Hotspot: Spell Checker": 1,
+      "Hotspot: Spell Lab Chasm": 1,
+      "Hotspot: Spring Mushroom": 1,
+      "Hotspot: Student ID Machine": 1,
+      "Hotspot: Subway Token Slot": 1,
+      "Hotspot: Tavern Fly": 1,
+      "Hotspot: Totemizer Switch": 1,
+      "Hotspot: Totemizer Wheels": 1,
+      "Hotspot: Well": 1,
+      "Hungus Lard": 2,
+      "Inquisition Propaganda Flyer": 32,
+      "Jar of Hotbugs": 2,
+      "Lantern": 2,
+      "Large Telegraph Hammer": 2,
+      "Lucy's Playing Card: 1 Pip": 2,
+      "Lucy's Playing Card: 2 Pips": 2,
+      "Lucy's Playing Card: 3 Pips": 2,
+      "Lucy's Playing Card: 4 Pips": 2,
+      "Magic Contraband": 38,
+      "Map": 2,
+      "Mead Light": 2,
+      "Moss of Mareilon": 2,
+      "Mug": 2,
+      "Nonsensical Inquisition Paperwork": 28,
+      "Old Scratch Card": 2,
+      "Perma-Suck Machine": 2,
+      "Plastic Six-Pack Holder": 2,
+      "Pouch of Zorkmids": 2,
+      "Prozork Tablet": 2,
+      "Quelbee Honeycomb": 2,
+      "Rope": 2,
+      "Scroll Fragment: ANS": 2,
+      "Scroll Fragment: GIV": 2,
+      "Shovel": 2,
+      "Snapdragon": 2,
+      "Spell: GLORF": 2,
+      "Spell: GOLGATEM": 2,
+      "Spell: IGRAM": 2,
+      "Spell: KENDALL": 2,
+      "Spell: NARWILE": 2,
+      "Spell: REZROV": 2,
+      "Spell: THROCK": 2,
+      "Spell: VOXAM": 2,
+      "Student ID": 2,
+      "Subway Destination: Flood Control Dam #3": 2,
+      "Subway Destination: Hades": 2,
+      "Subway Destination: Monastery": 2,
+      "Subway Token": 2,
+      "Sword": 2,
+      "Teleporter Destination: Dungeon Master's Lair": 2,
+      "Teleporter Destination: GUE Tech": 2,
+      "Teleporter Destination: Hades": 2,
+      "Teleporter Destination: Monastery Station": 2,
+      "Teleporter Destination: Spell Lab": 2,
+      "Totem: Brog": 2,
+      "Totem: Griff": 2,
+      "Totem: Lucy": 2,
+      "Totemizer Destination: Hall of Inquisition": 2,
+      "Totemizer Destination: Infinity": 2,
+      "Totemizer Destination: Straight to Hell": 2,
+      "Totemizer Destination: Surface of Merz": 2,
+      "Unreadable Spell Scroll": 30,
+      "Victory": 1,
+      "ZIMDOR Scroll": 2,
+      "Zork Rocks": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Hotspot: Alpine's Quandry Card Slots",
+      "Hotspot: Candy Machine Buttons",
+      "Hotspot: Candy Machine Coin Slot",
+      "Hotspot: Closet Door",
+      "Hotspot: Closing the Time Tunnels Hammer Slot",
+      "Hotspot: Closing the Time Tunnels Lever",
+      "Hotspot: Cooking Pot",
+      "Hotspot: Dirt Mound",
+      "Hotspot: Dock Winch",
+      "Hotspot: Dragon Claw",
+      "Hotspot: Dragon Nostrils",
+      "Hotspot: Dungeon Master's Lair Entrance",
+      "Hotspot: Flood Control Buttons",
+      "Hotspot: Flood Control Doors",
+      "Hotspot: Grand Inquisitor Doll",
+      "Hotspot: GUE Tech Door",
+      "Hotspot: Hades Phone Buttons",
+      "Hotspot: Hades Phone Receiver",
+      "Hotspot: Harry's Ashtray",
+      "Hotspot: Harry's Bird Bath",
+      "Hotspot: In Magic We Trust Door",
+      "Hotspot: Jack's Door",
+      "Hotspot: Mailbox Flag",
+      "Hotspot: Mirror",
+      "Hotspot: Monastery Vent",
+      "Hotspot: Mossy Grate",
+      "Hotspot: Port Foozle Past Tavern Door",
+      "Hotspot: Rope Bridge",
+      "Hotspot: Skull Cage",
+      "Hotspot: Snapdragon",
+      "Hotspot: Souvenir Coin Slot",
+      "Hotspot: Spell Checker",
+      "Hotspot: Spell Lab Chasm",
+      "Hotspot: Spring Mushroom",
+      "Hotspot: Tavern Fly",
+      "Hotspot: Totemizer Switch",
+      "Hotspot: Totemizer Wheels",
+      "Hotspot: Well",
+      "Hotspot: 666 Mailbox",
+      "Hotspot: Blank Scroll Box",
+      "Hotspot: Blinds",
+      "Hotspot: Candy Machine Vacuum Slot",
+      "Hotspot: Change Machine Slot",
+      "Hotspot: Dented Locker",
+      "Hotspot: Frozen Treat Machine Coin Slot",
+      "Hotspot: Frozen Treat Machine Doors",
+      "Hotspot: Glass Case",
+      "Hotspot: GUE Tech Grass",
+      "Hotspot: Harry",
+      "Hotspot: Loudspeaker Volume Buttons",
+      "Hotspot: Mailbox Door",
+      "Hotspot: Purple Words",
+      "Hotspot: Quelbee Hive",
+      "Hotspot: Soda Machine Buttons",
+      "Hotspot: Soda Machine Coin Slot",
+      "Hotspot: Student ID Machine",
+      "Hotspot: Subway Token Slot"
+    ]
+  },
+  "settings": {
+    "1": {
+      "game": "Zork Grand Inquisitor",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Zork Grand Inquisitor",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

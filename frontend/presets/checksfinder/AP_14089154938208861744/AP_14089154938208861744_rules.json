@@ -1,0 +1,959 @@
+{
+  "schema_version": 3,
+  "game_name": "ChecksFinder",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "ChecksFinderWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "New Board",
+            "connected_region": "Board",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Board": {
+        "name": "Board",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "New Board",
+            "parent_region": "Menu",
+            "connected_region": "Board",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tile 1",
+            "id": 81000,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 2",
+            "id": 81001,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Width",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 3",
+            "id": 81002,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Width",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 4",
+            "id": 81003,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Width",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 5",
+            "id": 81004,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Height",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 6",
+            "id": 81005,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 7",
+            "id": 81006,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Width",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 8",
+            "id": 81007,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 9",
+            "id": 81008,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 10",
+            "id": 81009,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 11",
+            "id": 81010,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 12",
+            "id": 81011,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Height",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 13",
+            "id": 81012,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 14",
+            "id": 81013,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 15",
+            "id": 81014,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 16",
+            "id": 81015,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 17",
+            "id": 81016,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 18",
+            "id": 81017,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Height",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 19",
+            "id": 81018,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Height",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 20",
+            "id": 81019,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 21",
+            "id": 81020,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 22",
+            "id": 81021,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 23",
+            "id": 81022,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Bombs",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 24",
+            "id": 81023,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Width",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tile 25",
+            "id": 81024,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_from_list",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "name",
+                    "name": "i"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Height",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Map Width": {
+        "name": "Map Width",
+        "id": 80000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Map Height": {
+        "name": "Map Height",
+        "id": 80001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Map Bombs": {
+        "name": "Map Bombs",
+        "id": 80002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Map Bombs": 30,
+      "Map Height": 10,
+      "Map Width": 10
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "ChecksFinder",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "ChecksFinder",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,3872 @@
+{
+  "schema_version": 3,
+  "game_name": "Inscryption",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "InscryptionWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Menu -> Act 1",
+            "connected_region": "Act 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Act 2",
+            "connected_region": "Act 2",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Film Roll"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Act 3",
+            "connected_region": "Act 3",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_requirements"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Epilogue",
+            "connected_region": "Epilogue",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act3_requirements"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_transcendence_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Act 1": {
+        "name": "Act 1",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Act 1",
+            "parent_region": "Menu",
+            "connected_region": "Act 1",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Act 1 - Boss Prospector",
+            "id": 147000,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Boss Angler",
+            "id": 147001,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Boss Trapper",
+            "id": 147002,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Boss Leshy",
+            "id": 147003,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Safe",
+            "id": 147004,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Clock Main Compartment",
+            "id": 147005,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Magnificus Eye"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Holo Pelt",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Clock Upper Compartment",
+            "id": 147006,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Film Roll",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Dagger",
+            "id": 147007,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Caged Wolf Card"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Salmon Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Wardrobe Drawer 1",
+            "id": 147008,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Wardrobe Key"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Wardrobe Drawer 2",
+            "id": 147009,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Wardrobe Key"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Wardrobe Drawer 3",
+            "id": 147010,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Wardrobe Key"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Wardrobe Drawer 4",
+            "id": 147011,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Wardrobe Key"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Monocle",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Magnificus Eye",
+            "id": 147012,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Dagger"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Painting 1",
+            "id": 147013,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Painting 2",
+            "id": 147014,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Oil Painting's Clover Plant"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Squirrel Totem Head"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Caged Wolf Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Painting 3",
+            "id": 147015,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Oil Painting's Clover Plant"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Squirrel Totem Head"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bone Lord Horn",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 1 - Greater Smoke",
+            "id": 147016,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mrs. Bomb's Remote",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Act 2": {
+        "name": "Act 2",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Act 2",
+            "parent_region": "Menu",
+            "connected_region": "Act 2",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Act 2 - Boss Leshy",
+            "id": 147017,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Camera Replica"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Pile Of Meat"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Boss Magnificus",
+            "id": 147018,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Boss Grimora",
+            "id": 147019,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "attribute",
+                "object": {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "world"
+                },
+                "attr": "required_epitaph_pieces_name"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bone Lord Holo Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Boss P03",
+            "id": 147020,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Prospector",
+            "id": 147021,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Camera Replica"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Pile Of Meat"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Angler",
+            "id": 147022,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Camera Replica"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Pile Of Meat"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Trapper",
+            "id": 147023,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Camera Replica"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Pile Of Meat"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Sawyer",
+            "id": 147024,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Royal",
+            "id": 147025,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Kaycee",
+            "id": 147026,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Goobert",
+            "id": 147027,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Magnificus Eye",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Pike Mage",
+            "id": 147028,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Lonely Wizard",
+            "id": 147029,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Inspector",
+            "id": 147030,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Greater Smoke",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Melter",
+            "id": 147031,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Holo Pelt",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Battle Dredger",
+            "id": 147032,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Stunted Wolf Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Dock Chest",
+            "id": 147033,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Pile Of Meat",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Forest Cabin Chest",
+            "id": 147034,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Forest Meadow Chest",
+            "id": 147035,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Camera Replica"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Pile Of Meat"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Cabin Wardrobe Drawer",
+            "id": 147036,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Cabin Safe",
+            "id": 147037,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Lonely Wizbot Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Crypt Casket 1",
+            "id": 147038,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Crypt Casket 2",
+            "id": 147039,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Holo Pelt",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Crypt Well",
+            "id": 147040,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Tower Chest 1",
+            "id": 147041,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Tower Chest 2",
+            "id": 147042,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Tower Chest 3",
+            "id": 147043,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Holo Pelt",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Tentacle",
+            "id": 147044,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Great Kraken Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Trash Can",
+            "id": 147045,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Drawer 1",
+            "id": 147046,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Gems Module",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Drawer 2",
+            "id": 147047,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Wardrobe Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Chest 1",
+            "id": 147048,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Chest 2",
+            "id": 147049,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Chest 3",
+            "id": 147050,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Factory Chest 4",
+            "id": 147051,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Ancient Obol",
+            "id": 147052,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Bone Lord Femur",
+            "id": 147053,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Ancient Obol"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Camera Replica",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Bone Lord Horn",
+            "id": 147054,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Ancient Obol"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Bone Lord Holo Key",
+            "id": 147055,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Ancient Obol"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Extra Candle",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Mycologists Holo Key",
+            "id": 147056,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_monocle"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_act2_bridge_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Camera Replica",
+            "id": 147057,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Ancient Obol",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Clover",
+            "id": 147058,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Monocle",
+            "id": 147059,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_camera_and_meat"
+                  },
+                  "args": []
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_all_epitaph_pieces"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 1",
+            "id": 147060,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 2",
+            "id": 147061,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Drowned Soul Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 3",
+            "id": 147062,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Skink Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 4",
+            "id": 147063,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 5",
+            "id": 147064,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 6",
+            "id": 147065,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Oil Painting's Clover Plant",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 7",
+            "id": 147066,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Ourobot Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 8",
+            "id": 147067,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Epitaph Piece",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 2 - Epitaph Piece 9",
+            "id": 147068,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Act 3": {
+        "name": "Act 3",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Act 3",
+            "parent_region": "Menu",
+            "connected_region": "Act 3",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Act 3 - Boss Photographer",
+            "id": 147069,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Holo Pelt",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Boss Archivist",
+            "id": 147070,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Quill"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bone Lord Femur",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Boss Unfinished",
+            "id": 147071,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Boss G0lly",
+            "id": 147072,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Boss Mycologists",
+            "id": 147073,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Mycologists Holo Key"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_transcendence_requirements"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Bone Lord Room",
+            "id": 147074,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bone Lord Holo Key"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Shop Holo Pelt",
+            "id": 147075,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Middle Holo Pelt",
+            "id": 147076,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dock's Clover Plant",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Forest Holo Pelt",
+            "id": 147077,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Stinkbug Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Crypt Holo Pelt",
+            "id": 147078,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Tower Holo Pelt",
+            "id": 147079,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Ant Cards",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Trader 1",
+            "id": 147080,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Holo Pelt"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Trader 2",
+            "id": 147081,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Holo Pelt"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Trader 3",
+            "id": 147082,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Holo Pelt"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Fishbot Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Trader 4",
+            "id": 147083,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Holo Pelt"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Trader 5",
+            "id": 147084,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Holo Pelt"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Quill",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Drawer 1",
+            "id": 147085,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Inspectometer Battery",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Drawer 2",
+            "id": 147086,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Ring",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Clock",
+            "id": 147087,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Extra Battery",
+            "id": 147088,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Nano Armor Generator",
+            "id": 147089,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Chest",
+            "id": 147090,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Goobert's Painting",
+            "id": 147091,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Gems Module"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Currency",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Luke's File Entry 1",
+            "id": 147092,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Quill"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dagger",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Luke's File Entry 2",
+            "id": 147093,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Quill"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Extra Battery",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Luke's File Entry 3",
+            "id": 147094,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Quill"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_inspectometer_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Card Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Luke's File Entry 4",
+            "id": 147095,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Quill"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Angler Hook",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Inspectometer Battery",
+            "id": 147096,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bee Figurine",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Gems Drone",
+            "id": 147097,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Squirrel Totem Head",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - The Great Transcendence",
+            "id": 147098,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Quill"
+                  }
+                },
+                {
+                  "type": "function_call",
+                  "function": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "self"
+                    },
+                    "attr": "has_gems_and_battery"
+                  },
+                  "args": []
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mycologists Holo Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Act 3 - Well",
+            "id": 147099,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Inspectometer Battery"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Nano Armor Generator",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Epilogue": {
+        "name": "Epilogue",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Epilogue",
+            "parent_region": "Menu",
+            "connected_region": "Epilogue",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Stinkbug Card": {
+        "name": "Stinkbug Card",
+        "id": 147000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Stunted Wolf Card": {
+        "name": "Stunted Wolf Card",
+        "id": 147001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wardrobe Key": {
+        "name": "Wardrobe Key",
+        "id": 147002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Skink Card": {
+        "name": "Skink Card",
+        "id": 147003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ant Cards": {
+        "name": "Ant Cards",
+        "id": 147004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Caged Wolf Card": {
+        "name": "Caged Wolf Card",
+        "id": 147005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Squirrel Totem Head": {
+        "name": "Squirrel Totem Head",
+        "id": 147006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dagger": {
+        "name": "Dagger",
+        "id": 147007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Film Roll": {
+        "name": "Film Roll",
+        "id": 147008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ring": {
+        "name": "Ring",
+        "id": 147009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magnificus Eye": {
+        "name": "Magnificus Eye",
+        "id": 147010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Oil Painting's Clover Plant": {
+        "name": "Oil Painting's Clover Plant",
+        "id": 147011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Extra Candle": {
+        "name": "Extra Candle",
+        "id": 147012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bee Figurine": {
+        "name": "Bee Figurine",
+        "id": 147013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Greater Smoke": {
+        "name": "Greater Smoke",
+        "id": 147014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Angler Hook": {
+        "name": "Angler Hook",
+        "id": 147015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Camera Replica": {
+        "name": "Camera Replica",
+        "id": 147016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pile Of Meat": {
+        "name": "Pile Of Meat",
+        "id": 147017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Epitaph Piece": {
+        "name": "Epitaph Piece",
+        "id": 147018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Epitaph Pieces": {
+        "name": "Epitaph Pieces",
+        "id": 147019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Monocle": {
+        "name": "Monocle",
+        "id": 147020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bone Lord Femur": {
+        "name": "Bone Lord Femur",
+        "id": 147021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bone Lord Horn": {
+        "name": "Bone Lord Horn",
+        "id": 147022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bone Lord Holo Key": {
+        "name": "Bone Lord Holo Key",
+        "id": 147023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mycologists Holo Key": {
+        "name": "Mycologists Holo Key",
+        "id": 147024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ancient Obol": {
+        "name": "Ancient Obol",
+        "id": 147025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Great Kraken Card": {
+        "name": "Great Kraken Card",
+        "id": 147026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Drowned Soul Card": {
+        "name": "Drowned Soul Card",
+        "id": 147027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Salmon Card": {
+        "name": "Salmon Card",
+        "id": 147028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dock's Clover Plant": {
+        "name": "Dock's Clover Plant",
+        "id": 147029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Extra Battery": {
+        "name": "Extra Battery",
+        "id": 147030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nano Armor Generator": {
+        "name": "Nano Armor Generator",
+        "id": 147031,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mrs. Bomb's Remote": {
+        "name": "Mrs. Bomb's Remote",
+        "id": 147032,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inspectometer Battery": {
+        "name": "Inspectometer Battery",
+        "id": 147033,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gems Module": {
+        "name": "Gems Module",
+        "id": 147034,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lonely Wizbot Card": {
+        "name": "Lonely Wizbot Card",
+        "id": 147035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fishbot Card": {
+        "name": "Fishbot Card",
+        "id": 147036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ourobot Card": {
+        "name": "Ourobot Card",
+        "id": 147037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Holo Pelt": {
+        "name": "Holo Pelt",
+        "id": 147038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quill": {
+        "name": "Quill",
+        "id": 147039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Currency": {
+        "name": "Currency",
+        "id": 147040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Card Pack": {
+        "name": "Card Pack",
+        "id": 147041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Ancient Obol": 2,
+      "Angler Hook": 2,
+      "Ant Cards": 2,
+      "Bee Figurine": 2,
+      "Bone Lord Femur": 2,
+      "Bone Lord Holo Key": 2,
+      "Bone Lord Horn": 2,
+      "Caged Wolf Card": 2,
+      "Camera Replica": 2,
+      "Card Pack": 48,
+      "Currency": 50,
+      "Dagger": 2,
+      "Dock's Clover Plant": 2,
+      "Drowned Soul Card": 2,
+      "Epitaph Piece": 18,
+      "Extra Battery": 2,
+      "Extra Candle": 2,
+      "Film Roll": 2,
+      "Fishbot Card": 2,
+      "Gems Module": 2,
+      "Great Kraken Card": 2,
+      "Greater Smoke": 2,
+      "Holo Pelt": 10,
+      "Inspectometer Battery": 2,
+      "Lonely Wizbot Card": 2,
+      "Magnificus Eye": 2,
+      "Monocle": 2,
+      "Mrs. Bomb's Remote": 2,
+      "Mycologists Holo Key": 2,
+      "Nano Armor Generator": 2,
+      "Oil Painting's Clover Plant": 2,
+      "Ourobot Card": 2,
+      "Pile Of Meat": 2,
+      "Quill": 2,
+      "Ring": 2,
+      "Salmon Card": 2,
+      "Skink Card": 2,
+      "Squirrel Totem Head": 2,
+      "Stinkbug Card": 2,
+      "Stunted Wolf Card": 2,
+      "Wardrobe Key": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "Inscryption",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Inscryption",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

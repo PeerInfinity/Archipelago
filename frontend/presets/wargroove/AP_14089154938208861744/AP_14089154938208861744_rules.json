@@ -1,0 +1,3143 @@
+{
+  "schema_version": 3,
+  "game_name": "Wargroove",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "WargrooveWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Humble Beginnings",
+            "connected_region": "Humble Beginnings",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Humble Beginnings": {
+        "name": "Humble Beginnings",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Humble Beginnings",
+            "parent_region": "Menu",
+            "connected_region": "Humble Beginnings",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Best Friendssss",
+            "connected_region": "Best Friendssss",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "A Knight's Folly",
+            "connected_region": "A Knight's Folly",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Denrunaway",
+            "connected_region": "Denrunaway",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Wargroove Finale",
+            "connected_region": "Wargroove Finale",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Humble Beginnings: Caesar",
+            "id": 53001,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Ballista",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Humble Beginnings: Chest 1",
+            "id": 53002,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Final Bridges",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Humble Beginnings: Chest 2",
+            "id": 53003,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Humble Beginnings: Victory",
+            "id": 53004,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Best Friendssss": {
+        "name": "Best Friendssss",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Best Friendssss",
+            "parent_region": "Humble Beginnings",
+            "connected_region": "Best Friendssss",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Dragon Freeway",
+            "connected_region": "Dragon Freeway",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Deep Thicket",
+            "connected_region": "Deep Thicket",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Corrupted Inlet",
+            "connected_region": "Corrupted Inlet",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Best Friendssss: Find Sedge",
+            "id": 53005,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Best Friendssss: Victory",
+            "id": 53006,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Dragon",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "A Knight's Folly": {
+        "name": "A Knight's Folly",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "A Knight's Folly",
+            "parent_region": "Humble Beginnings",
+            "connected_region": "A Knight's Folly",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Mage Mayhem",
+            "connected_region": "Mage Mayhem",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Endless Knight",
+            "connected_region": "Endless Knight",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Ambushed in the Middle",
+            "connected_region": "Ambushed in the Middle",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "A Knight's Folly: Caesar",
+            "id": 53007,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Merfolk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A Knight's Folly: Victory",
+            "id": 53008,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Warship",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Denrunaway": {
+        "name": "Denrunaway",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Denrunaway",
+            "parent_region": "Humble Beginnings",
+            "connected_region": "Denrunaway",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "The Churning Sea",
+            "connected_region": "The Churning Sea",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Frigid Archery",
+            "connected_region": "Frigid Archery",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Archery Lessons",
+            "connected_region": "Archery Lessons",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Denrunaway: Chest",
+            "id": 53009,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Denrunaway: Victory",
+            "id": 53010,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Witch",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Dragon Freeway": {
+        "name": "Dragon Freeway",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Dragon Freeway",
+            "parent_region": "Best Friendssss",
+            "connected_region": "Dragon Freeway",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Surrounded",
+            "connected_region": "Surrounded",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dragon Freeway: Victory",
+            "id": 53011,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Mage"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Barge",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Deep Thicket": {
+        "name": "Deep Thicket",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Deep Thicket",
+            "parent_region": "Best Friendssss",
+            "connected_region": "Deep Thicket",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Darkest Knight",
+            "connected_region": "Darkest Knight",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Deep Thicket: Find Sedge",
+            "id": 53012,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Mage"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Turtle",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Deep Thicket: Victory",
+            "id": 53013,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Mage"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Corrupted Inlet": {
+        "name": "Corrupted Inlet",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Corrupted Inlet",
+            "parent_region": "Best Friendssss",
+            "connected_region": "Corrupted Inlet",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Robbed",
+            "connected_region": "Robbed",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Corrupted Inlet: Victory",
+            "id": 53014,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Barge"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Merfolk"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Warship"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Eastern Bridges",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Mage Mayhem": {
+        "name": "Mage Mayhem",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Mage Mayhem",
+            "parent_region": "A Knight's Folly",
+            "connected_region": "Mage Mayhem",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Open Season",
+            "connected_region": "Open Season",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Foolish Canal: Mage Mayhem Entrance",
+            "connected_region": "Foolish Canal",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Mage Mayhem: Caesar",
+            "id": 53015,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Harpy"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Dragon"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mage Mayhem: Victory",
+            "id": 53016,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Harpy"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Dragon"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Southern Walls",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Endless Knight": {
+        "name": "Endless Knight",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Endless Knight",
+            "parent_region": "A Knight's Folly",
+            "connected_region": "Endless Knight",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Doggo Mountain",
+            "connected_region": "Doggo Mountain",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Foolish Canal: Endless Knight Entrance",
+            "connected_region": "Foolish Canal",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Endless Knight: Victory",
+            "id": 53017,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Eastern Bridges"
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "_wargroove_has_item",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Spearman"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_wargroove_has_item",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Harpy"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "_wargroove_has_item",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Dragon"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Knight",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Ambushed in the Middle": {
+        "name": "Ambushed in the Middle",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Ambushed in the Middle",
+            "parent_region": "A Knight's Folly",
+            "connected_region": "Ambushed in the Middle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Tenri's Fall",
+            "connected_region": "Tenri's Fall",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Ambushed in the Middle: Victory (Blue)",
+            "id": 53018,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Spearman"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ambushed in the Middle: Victory (Green)",
+            "id": 53019,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Spearman"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Churning Sea": {
+        "name": "The Churning Sea",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "The Churning Sea",
+            "parent_region": "Denrunaway",
+            "connected_region": "The Churning Sea",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Rebel Village",
+            "connected_region": "Rebel Village",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "The Churning Sea: Victory",
+            "id": 53020,
+            "crystal": null,
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Merfolk"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Turtle"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Spearman",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Frigid Archery": {
+        "name": "Frigid Archery",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Frigid Archery",
+            "parent_region": "Denrunaway",
+            "connected_region": "Frigid Archery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "A Ballista's Revenge",
+            "connected_region": "A Ballista's Revenge",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Frigid Archery: Light the Torch",
+            "id": 53021,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Archer"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Southern Walls"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mage",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Frigid Archery: Victory",
+            "id": 53022,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Archer"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Rifleman",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Archery Lessons": {
+        "name": "Archery Lessons",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Archery Lessons",
+            "parent_region": "Denrunaway",
+            "connected_region": "Archery Lessons",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Master of the Lake",
+            "connected_region": "Master of the Lake",
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "function_call",
+                    "function": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "location"
+                      },
+                      "attr": "access_rule"
+                    },
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "location"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "locations"
+                    }
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Archery Lessons: Chest",
+            "id": 53023,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Knight"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Southern Walls"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Harpoon Ship",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Archery Lessons: Victory",
+            "id": 53024,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Knight"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Southern Walls"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Surrounded": {
+        "name": "Surrounded",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Surrounded",
+            "parent_region": "Dragon Freeway",
+            "connected_region": "Surrounded",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Surrounded: Caesar",
+            "id": 53025,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Knight"
+                },
+                {
+                  "type": "constant",
+                  "value": "Surrounded"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Thief",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Surrounded: Victory",
+            "id": 53026,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Knight"
+                },
+                {
+                  "type": "constant",
+                  "value": "Surrounded"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Golem",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Darkest Knight": {
+        "name": "Darkest Knight",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Darkest Knight",
+            "parent_region": "Deep Thicket",
+            "connected_region": "Darkest Knight",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Darkest Knight: Victory",
+            "id": 53027,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Spearman"
+                },
+                {
+                  "type": "constant",
+                  "value": "Darkest Knight"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Harpy",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Robbed": {
+        "name": "Robbed",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Robbed",
+            "parent_region": "Corrupted Inlet",
+            "connected_region": "Robbed",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Robbed: Victory",
+            "id": 53028,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item_and_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Thief"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Robbed"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Rifleman"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Wagon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Open Season": {
+        "name": "Open Season",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Open Season",
+            "parent_region": "Mage Mayhem",
+            "connected_region": "Open Season",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Open Season: Caesar",
+            "id": 53029,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item_and_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Mage"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Open Season"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Knight"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Final Walls",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Open Season: Victory",
+            "id": 53030,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item_and_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Mage"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Open Season"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Knight"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Doggo Mountain": {
+        "name": "Doggo Mountain",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Doggo Mountain",
+            "parent_region": "Endless Knight",
+            "connected_region": "Doggo Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doggo Mountain: Find all the Dogs",
+            "id": 53031,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Knight"
+                },
+                {
+                  "type": "constant",
+                  "value": "Doggo Mountain"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doggo Mountain: Victory",
+            "id": 53032,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Knight"
+                },
+                {
+                  "type": "constant",
+                  "value": "Doggo Mountain"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tenri's Fall": {
+        "name": "Tenri's Fall",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tenri's Fall",
+            "parent_region": "Ambushed in the Middle",
+            "connected_region": "Tenri's Fall",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tenri's Fall: Victory",
+            "id": 53033,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item_and_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Mage"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Tenri's Fall"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Thief"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Final Sickle",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Foolish Canal": {
+        "name": "Foolish Canal",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Foolish Canal: Mage Mayhem Entrance",
+            "parent_region": "Mage Mayhem",
+            "connected_region": "Foolish Canal",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Foolish Canal: Endless Knight Entrance",
+            "parent_region": "Endless Knight",
+            "connected_region": "Foolish Canal",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Foolish Canal: Victory",
+            "id": 53038,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item_and_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Mage"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Foolish Canal"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Spearman"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Master of the Lake": {
+        "name": "Master of the Lake",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Master of the Lake",
+            "parent_region": "Archery Lessons",
+            "connected_region": "Master of the Lake",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Master of the Lake: Victory",
+            "id": 53034,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Warship"
+                },
+                {
+                  "type": "constant",
+                  "value": "Master of the Lake"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Income Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "A Ballista's Revenge": {
+        "name": "A Ballista's Revenge",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "A Ballista's Revenge",
+            "parent_region": "Frigid Archery",
+            "connected_region": "A Ballista's Revenge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "A Ballista's Revenge: Victory",
+            "id": 53035,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Ballista"
+                },
+                {
+                  "type": "constant",
+                  "value": "A Ballista's Revenge"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Rebel Village": {
+        "name": "Rebel Village",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Rebel Village",
+            "parent_region": "The Churning Sea",
+            "connected_region": "Rebel Village",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rebel Village: Victory (Pink)",
+            "id": 53036,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Spearman"
+                },
+                {
+                  "type": "constant",
+                  "value": "Rebel Village"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Commander Defense Boost",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rebel Village: Victory (Red)",
+            "id": 53037,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "_wargroove_has_item_and_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Spearman"
+                },
+                {
+                  "type": "constant",
+                  "value": "Rebel Village"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Archer",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wargroove Finale": {
+        "name": "Wargroove Finale",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Wargroove Finale",
+            "parent_region": "Humble Beginnings",
+            "connected_region": "Wargroove Finale",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wargroove Finale: Victory",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Final Bridges"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Final Walls"
+                    }
+                  ]
+                },
+                {
+                  "type": "state_method",
+                  "method": "_wargroove_has_item",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Final Sickle"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wargroove Victory",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Spearman": {
+        "name": "Spearman",
+        "id": 52000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wagon": {
+        "name": "Wagon",
+        "id": 52001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mage": {
+        "name": "Mage",
+        "id": 52002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Archer": {
+        "name": "Archer",
+        "id": 52003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Knight": {
+        "name": "Knight",
+        "id": 52004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ballista": {
+        "name": "Ballista",
+        "id": 52005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Golem": {
+        "name": "Golem",
+        "id": 52006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Harpy": {
+        "name": "Harpy",
+        "id": 52007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Witch": {
+        "name": "Witch",
+        "id": 52008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dragon": {
+        "name": "Dragon",
+        "id": 52009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Balloon": {
+        "name": "Balloon",
+        "id": 52010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Barge": {
+        "name": "Barge",
+        "id": 52011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Merfolk": {
+        "name": "Merfolk",
+        "id": 52012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Turtle": {
+        "name": "Turtle",
+        "id": 52013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Harpoon Ship": {
+        "name": "Harpoon Ship",
+        "id": 52014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Warship": {
+        "name": "Warship",
+        "id": 52015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Thief": {
+        "name": "Thief",
+        "id": 52016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rifleman": {
+        "name": "Rifleman",
+        "id": 52017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Eastern Bridges": {
+        "name": "Eastern Bridges",
+        "id": 52018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Southern Walls": {
+        "name": "Southern Walls",
+        "id": 52019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Final Bridges": {
+        "name": "Final Bridges",
+        "id": 52020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Final Walls": {
+        "name": "Final Walls",
+        "id": 52021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Final Sickle": {
+        "name": "Final Sickle",
+        "id": 52022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Income Boost": {
+        "name": "Income Boost",
+        "id": 52023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Commander Defense Boost": {
+        "name": "Commander Defense Boost",
+        "id": 52024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cherrystone Commanders": {
+        "name": "Cherrystone Commanders",
+        "id": 52025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Felheim Commanders": {
+        "name": "Felheim Commanders",
+        "id": 52026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Floran Commanders": {
+        "name": "Floran Commanders",
+        "id": 52027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heavensong Commanders": {
+        "name": "Heavensong Commanders",
+        "id": 52028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Requiem Commanders": {
+        "name": "Requiem Commanders",
+        "id": 52029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Outlaw Commanders": {
+        "name": "Outlaw Commanders",
+        "id": 52030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Archer": 2,
+      "Ballista": 2,
+      "Balloon": 2,
+      "Barge": 2,
+      "Commander Defense Boost": 16,
+      "Dragon": 2,
+      "Eastern Bridges": 2,
+      "Final Bridges": 2,
+      "Final Sickle": 2,
+      "Final Walls": 2,
+      "Golem": 2,
+      "Harpoon Ship": 2,
+      "Harpy": 2,
+      "Income Boost": 14,
+      "Knight": 2,
+      "Mage": 2,
+      "Merfolk": 2,
+      "Rifleman": 2,
+      "Southern Walls": 2,
+      "Spearman": 2,
+      "Thief": 2,
+      "Turtle": 2,
+      "Wagon": 2,
+      "Wargroove Victory": 1,
+      "Warship": 2,
+      "Witch": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "Wargroove",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Wargroove",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

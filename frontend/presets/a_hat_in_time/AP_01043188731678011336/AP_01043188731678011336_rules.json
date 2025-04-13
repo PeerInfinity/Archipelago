@@ -20,6 +20,7 @@
         "name": "Menu",
         "type": "Region",
         "player": 1,
+        "entrances": [],
         "exits": [
           {
             "name": "Save File -> Spaceship",
@@ -40,6 +41,16 @@
         "name": "Spaceship",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Save File -> Spaceship",
+            "parent_region": "Menu",
+            "connected_region": "Spaceship",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Telescope -> Mafia Town",
@@ -197,6 +208,64 @@
         "name": "Time Rift - Gallery",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 1",
+            "parent_region": "Welcome to Mafia Town",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 2",
+            "parent_region": "Barrel Battle",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 3",
+            "parent_region": "She Came from Outer Space",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 4",
+            "parent_region": "Down with the Mafia!",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 5",
+            "parent_region": "Cheating the Race",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 6",
+            "parent_region": "Heating Up Mafia Town",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sewers Portal - Entrance 7",
+            "parent_region": "The Golden Vault",
+            "connected_region": "Time Rift - Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -228,6 +297,16 @@
         "name": "Time Rift - The Lab",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Gallery Portal - Entrance 1",
+            "parent_region": "Spaceship",
+            "connected_region": "Time Rift - The Lab",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -257,6 +336,16 @@
         "name": "Mafia Town",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Telescope -> Mafia Town",
+            "parent_region": "Spaceship",
+            "connected_region": "Mafia Town",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town - Act 1",
@@ -331,6 +420,16 @@
         "name": "Welcome to Mafia Town",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 1",
+            "parent_region": "Mafia Town",
+            "connected_region": "Welcome to Mafia Town",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance WTMT",
@@ -439,6 +538,24 @@
         "name": "Barrel Battle",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Act 3",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "Barrel Battle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Act 3: Connection 1",
+            "parent_region": "She Came from Outer Space",
+            "connected_region": "Barrel Battle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance BB",
@@ -529,6 +646,16 @@
         "name": "She Came from Outer Space",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Act 1",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "She Came from Outer Space",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance SCFOS",
@@ -619,6 +746,24 @@
         "name": "Down with the Mafia!",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Act 2",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "Down with the Mafia!",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Act 2: Connection 1",
+            "parent_region": "She Came from Outer Space",
+            "connected_region": "Down with the Mafia!",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance DWTM",
@@ -785,6 +930,16 @@
         "name": "Heating Up Mafia Town",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest - Act 5",
+            "parent_region": "Subcon Forest",
+            "connected_region": "Heating Up Mafia Town",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance HUMT",
@@ -941,6 +1096,16 @@
         "name": "Cheating the Race",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest - Act 4",
+            "parent_region": "Subcon Forest",
+            "connected_region": "Cheating the Race",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance CTR",
@@ -1092,6 +1257,32 @@
         "name": "The Golden Vault",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 5",
+            "parent_region": "Mafia Town",
+            "connected_region": "The Golden Vault",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 5: Connection 1",
+            "parent_region": "The Subcon Well",
+            "connected_region": "The Golden Vault",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 5: Connection 2",
+            "parent_region": "Queen Vanessa's Manor",
+            "connected_region": "The Golden Vault",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mafia Town Entrance TGV",
@@ -1164,6 +1355,16 @@
         "name": "Battle of the Birds",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Telescope -> Battle of the Birds",
+            "parent_region": "Spaceship",
+            "connected_region": "Battle of the Birds",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Battle of the Birds - Finale A",
@@ -1238,6 +1439,32 @@
         "name": "Dead Bird Studio",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Act 4",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Act 4: Connection 1",
+            "parent_region": "Down with the Mafia!",
+            "connected_region": "Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Act 4: Connection 2",
+            "parent_region": "Barrel Battle",
+            "connected_region": "Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "DBS -> Elevator Area",
@@ -1363,6 +1590,16 @@
         "name": "Murder on the Owl Express",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest - Act 2",
+            "parent_region": "Subcon Forest",
+            "connected_region": "Murder on the Owl Express",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Time Rift - The Owl Express Portal - Entrance 1",
@@ -1602,6 +1839,16 @@
         "name": "Picture Perfect",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Alpine Skyline - Free Roam",
+            "parent_region": "Alpine Skyline",
+            "connected_region": "Picture Perfect",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "PP -> Badge Seller",
@@ -1699,6 +1946,32 @@
         "name": "Train Rush",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Act 5",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "Train Rush",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Act 5: Connection 1",
+            "parent_region": "Down with the Mafia!",
+            "connected_region": "Train Rush",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Act 5: Connection 2",
+            "parent_region": "Barrel Battle",
+            "connected_region": "Train Rush",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "TR -> Badge Seller",
@@ -1783,6 +2056,32 @@
         "name": "The Big Parade",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 4",
+            "parent_region": "Mafia Town",
+            "connected_region": "The Big Parade",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 4: Connection 1",
+            "parent_region": "Dead Bird Studio Basement",
+            "connected_region": "The Big Parade",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 4: Connection 2",
+            "parent_region": "Contractual Obligations",
+            "connected_region": "The Big Parade",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Time Rift - The Moon Portal - Entrance 2",
@@ -1853,6 +2152,32 @@
         "name": "Award Ceremony",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Finale A",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "Award Ceremony",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Finale A: Connection 1",
+            "parent_region": "Dead Bird Studio",
+            "connected_region": "Award Ceremony",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Finale A: Connection 2",
+            "parent_region": "Train Rush",
+            "connected_region": "Award Ceremony",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Battle of the Birds - Finale B: Connection 1",
@@ -1892,6 +2217,24 @@
         "name": "Dead Bird Studio Basement",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 2",
+            "parent_region": "Mafia Town",
+            "connected_region": "Dead Bird Studio Basement",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 2: Connection 1",
+            "parent_region": "Welcome to Mafia Town",
+            "connected_region": "Dead Bird Studio Basement",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "DBS Basement -> Elevator Area",
@@ -2167,6 +2510,48 @@
         "name": "Time Rift - Dead Bird Studio",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Sleepy Subcon Portal - Entrance 1",
+            "parent_region": "Contractual Obligations",
+            "connected_region": "Time Rift - Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sleepy Subcon Portal - Entrance 2",
+            "parent_region": "The Subcon Well",
+            "connected_region": "Time Rift - Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sleepy Subcon Portal - Entrance 3",
+            "parent_region": "Toilet of Doom",
+            "connected_region": "Time Rift - Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sleepy Subcon Portal - Entrance 4",
+            "parent_region": "Queen Vanessa's Manor",
+            "connected_region": "Time Rift - Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Sleepy Subcon Portal - Entrance 5",
+            "parent_region": "Mail Delivery Service",
+            "connected_region": "Time Rift - Dead Bird Studio",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2340,6 +2725,48 @@
         "name": "Time Rift - The Owl Express",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Village Portal - Entrance 1",
+            "parent_region": "Contractual Obligations",
+            "connected_region": "Time Rift - The Owl Express",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Village Portal - Entrance 2",
+            "parent_region": "The Subcon Well",
+            "connected_region": "Time Rift - The Owl Express",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Village Portal - Entrance 3",
+            "parent_region": "Toilet of Doom",
+            "connected_region": "Time Rift - The Owl Express",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Village Portal - Entrance 4",
+            "parent_region": "Queen Vanessa's Manor",
+            "connected_region": "Time Rift - The Owl Express",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Village Portal - Entrance 5",
+            "parent_region": "Mail Delivery Service",
+            "connected_region": "Time Rift - The Owl Express",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2369,6 +2796,48 @@
         "name": "Time Rift - The Moon",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Pipe Portal - Entrance 1",
+            "parent_region": "Contractual Obligations",
+            "connected_region": "Time Rift - The Moon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Pipe Portal - Entrance 2",
+            "parent_region": "The Subcon Well",
+            "connected_region": "Time Rift - The Moon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Pipe Portal - Entrance 3",
+            "parent_region": "Toilet of Doom",
+            "connected_region": "Time Rift - The Moon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Pipe Portal - Entrance 4",
+            "parent_region": "Queen Vanessa's Manor",
+            "connected_region": "Time Rift - The Moon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Pipe Portal - Entrance 5",
+            "parent_region": "Mail Delivery Service",
+            "connected_region": "Time Rift - The Moon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2398,6 +2867,24 @@
         "name": "Dead Bird Studio - Elevator Area",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "DBS -> Elevator Area",
+            "parent_region": "Dead Bird Studio",
+            "connected_region": "Dead Bird Studio - Elevator Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "DBS Basement -> Elevator Area",
+            "parent_region": "Dead Bird Studio Basement",
+            "connected_region": "Dead Bird Studio - Elevator Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2481,6 +2968,16 @@
         "name": "Dead Bird Studio - Post Elevator Area",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "DBS -> Post Elevator Area",
+            "parent_region": "Dead Bird Studio",
+            "connected_region": "Dead Bird Studio - Post Elevator Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2606,6 +3103,16 @@
         "name": "Subcon Forest",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Telescope -> Subcon Forest",
+            "parent_region": "Spaceship",
+            "connected_region": "Subcon Forest",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest - Finale",
@@ -2683,6 +3190,24 @@
         "name": "Contractual Obligations",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 3",
+            "parent_region": "Mafia Town",
+            "connected_region": "Contractual Obligations",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 3: Connection 1",
+            "parent_region": "Welcome to Mafia Town",
+            "connected_region": "Contractual Obligations",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance CO",
@@ -2820,6 +3345,24 @@
         "name": "The Subcon Well",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 6",
+            "parent_region": "Mafia Town",
+            "connected_region": "The Subcon Well",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 6: Connection 1",
+            "parent_region": "The Big Parade",
+            "connected_region": "The Subcon Well",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance SW",
@@ -2997,6 +3540,16 @@
         "name": "Toilet of Doom",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Alpine Skyline - Finale",
+            "parent_region": "Alpine Skyline",
+            "connected_region": "Toilet of Doom",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance TOD",
@@ -3100,6 +3653,24 @@
         "name": "Queen Vanessa's Manor",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town - Act 7",
+            "parent_region": "Mafia Town",
+            "connected_region": "Queen Vanessa's Manor",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town - Act 7: Connection 1",
+            "parent_region": "The Big Parade",
+            "connected_region": "Queen Vanessa's Manor",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance QVM",
@@ -3273,6 +3844,24 @@
         "name": "Mail Delivery Service",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Battle of the Birds - Finale B",
+            "parent_region": "Battle of the Birds",
+            "connected_region": "Mail Delivery Service",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Battle of the Birds - Finale B: Connection 1",
+            "parent_region": "Award Ceremony",
+            "connected_region": "Mail Delivery Service",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance MDS",
@@ -3347,6 +3936,16 @@
         "name": "Your Contract has Expired",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest - Act 1",
+            "parent_region": "Subcon Forest",
+            "connected_region": "Your Contract has Expired",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Subcon Forest Entrance YCHE",
@@ -3453,6 +4052,16 @@
         "name": "Alpine Skyline",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Telescope -> Alpine Skyline",
+            "parent_region": "Spaceship",
+            "connected_region": "Alpine Skyline",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Alpine Skyline - Finale",
@@ -3484,6 +4093,16 @@
         "name": "Alpine Free Roam",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest - Act 3",
+            "parent_region": "Subcon Forest",
+            "connected_region": "Alpine Free Roam",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "AFR -> Alpine Skyline Area",
@@ -3659,6 +4278,16 @@
         "name": "Alpine Skyline Area",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "AFR -> Alpine Skyline Area",
+            "parent_region": "Alpine Free Roam",
+            "connected_region": "Alpine Skyline Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "-> Alpine Skyline Area (TIHS)",
@@ -3851,6 +4480,24 @@
         "name": "Alpine Skyline Area (TIHS)",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "-> Alpine Skyline Area (TIHS)",
+            "parent_region": "Alpine Skyline Area",
+            "connected_region": "Alpine Skyline Area (TIHS)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "TIHS -> Alpine Skyline Area (TIHS)",
+            "parent_region": "The Illness has Spread",
+            "connected_region": "Alpine Skyline Area (TIHS)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "ASA -> Badge Seller",
@@ -4051,6 +4698,16 @@
         "name": "The Birdhouse",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "-> The Birdhouse",
+            "parent_region": "Alpine Skyline Area",
+            "connected_region": "The Birdhouse",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4208,6 +4865,16 @@
         "name": "The Lava Cake",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "-> The Lava Cake",
+            "parent_region": "Alpine Skyline Area",
+            "connected_region": "The Lava Cake",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4327,6 +4994,16 @@
         "name": "The Windmill",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "-> The Windmill",
+            "parent_region": "Alpine Skyline Area",
+            "connected_region": "The Windmill",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4446,6 +5123,16 @@
         "name": "The Twilight Bell",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "-> The Twilight Bell",
+            "parent_region": "Alpine Skyline Area",
+            "connected_region": "The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4529,6 +5216,56 @@
         "name": "The Illness has Spread",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest - Finale",
+            "parent_region": "Subcon Forest",
+            "connected_region": "The Illness has Spread",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest - Finale: Connection 1",
+            "parent_region": "Your Contract has Expired",
+            "connected_region": "The Illness has Spread",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest - Finale: Connection 2",
+            "parent_region": "Murder on the Owl Express",
+            "connected_region": "The Illness has Spread",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest - Finale: Connection 3",
+            "parent_region": "Alpine Free Roam",
+            "connected_region": "The Illness has Spread",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest - Finale: Connection 4",
+            "parent_region": "Cheating the Race",
+            "connected_region": "The Illness has Spread",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest - Finale: Connection 5",
+            "parent_region": "Heating Up Mafia Town",
+            "connected_region": "The Illness has Spread",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "TIHS -> Alpine Skyline Area (TIHS)",
@@ -4599,6 +5336,24 @@
         "name": "Time Rift - Alpine Skyline",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Dead Bird Studio Portal - Entrance 1",
+            "parent_region": "Dead Bird Studio",
+            "connected_region": "Time Rift - Alpine Skyline",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Dead Bird Studio Portal - Entrance 2",
+            "parent_region": "Dead Bird Studio Basement",
+            "connected_region": "Time Rift - Alpine Skyline",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4718,6 +5473,64 @@
         "name": "Time Rift - The Twilight Bell",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 1",
+            "parent_region": "Welcome to Mafia Town",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 2",
+            "parent_region": "Barrel Battle",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 3",
+            "parent_region": "She Came from Outer Space",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 4",
+            "parent_region": "Down with the Mafia!",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 5",
+            "parent_region": "Cheating the Race",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 6",
+            "parent_region": "Heating Up Mafia Town",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Bazaar Portal - Entrance 7",
+            "parent_region": "The Golden Vault",
+            "connected_region": "Time Rift - The Twilight Bell",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4749,6 +5562,16 @@
         "name": "Time Rift - Curly Tail Trail",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - The Owl Express Portal - Entrance 1",
+            "parent_region": "Murder on the Owl Express",
+            "connected_region": "Time Rift - Curly Tail Trail",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4780,6 +5603,56 @@
         "name": "Mafia Town Area",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mafia Town Entrance WTMT",
+            "parent_region": "Welcome to Mafia Town",
+            "connected_region": "Mafia Town Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town Entrance BB",
+            "parent_region": "Barrel Battle",
+            "connected_region": "Mafia Town Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town Entrance SCFOS",
+            "parent_region": "She Came from Outer Space",
+            "connected_region": "Mafia Town Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town Entrance DWTM",
+            "parent_region": "Down with the Mafia!",
+            "connected_region": "Mafia Town Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town Entrance CTR",
+            "parent_region": "Cheating the Race",
+            "connected_region": "Mafia Town Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town Entrance TGV",
+            "parent_region": "The Golden Vault",
+            "connected_region": "Mafia Town Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "MT Area -> MT Area (HUMT)",
@@ -5102,6 +5975,24 @@
         "name": "Mafia Town Area (HUMT)",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "MT Area -> MT Area (HUMT)",
+            "parent_region": "Mafia Town Area",
+            "connected_region": "Mafia Town Area (HUMT)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Mafia Town Entrance HUMT",
+            "parent_region": "Heating Up Mafia Town",
+            "connected_region": "Mafia Town Area (HUMT)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "MT Area (HUMT) -> Badge Seller",
@@ -5663,6 +6554,56 @@
         "name": "Time Rift - Mafia of Cooks",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Mafia of Cooks Portal - Entrance 1",
+            "parent_region": "Welcome to Mafia Town",
+            "connected_region": "Time Rift - Mafia of Cooks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Mafia of Cooks Portal - Entrance 2",
+            "parent_region": "Barrel Battle",
+            "connected_region": "Time Rift - Mafia of Cooks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Mafia of Cooks Portal - Entrance 3",
+            "parent_region": "She Came from Outer Space",
+            "connected_region": "Time Rift - Mafia of Cooks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Mafia of Cooks Portal - Entrance 4",
+            "parent_region": "Down with the Mafia!",
+            "connected_region": "Time Rift - Mafia of Cooks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Mafia of Cooks Portal - Entrance 5",
+            "parent_region": "Cheating the Race",
+            "connected_region": "Time Rift - Mafia of Cooks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Mafia of Cooks Portal - Entrance 6",
+            "parent_region": "The Golden Vault",
+            "connected_region": "Time Rift - Mafia of Cooks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -5800,6 +6741,24 @@
         "name": "Time Rift - Sewers",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - The Moon Portal - Entrance 1",
+            "parent_region": "Picture Perfect",
+            "connected_region": "Time Rift - Sewers",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - The Moon Portal - Entrance 2",
+            "parent_region": "The Big Parade",
+            "connected_region": "Time Rift - Sewers",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -5829,6 +6788,16 @@
         "name": "Time Rift - Bazaar",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - The Twilight Bell Portal - Entrance 1",
+            "parent_region": "Alpine Free Roam",
+            "connected_region": "Time Rift - Bazaar",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -5858,6 +6827,48 @@
         "name": "Subcon Forest Area",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Subcon Forest Entrance CO",
+            "parent_region": "Contractual Obligations",
+            "connected_region": "Subcon Forest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest Entrance SW",
+            "parent_region": "The Subcon Well",
+            "connected_region": "Subcon Forest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest Entrance TOD",
+            "parent_region": "Toilet of Doom",
+            "connected_region": "Subcon Forest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest Entrance QVM",
+            "parent_region": "Queen Vanessa's Manor",
+            "connected_region": "Subcon Forest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest Entrance MDS",
+            "parent_region": "Mail Delivery Service",
+            "connected_region": "Subcon Forest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "SF Area -> SF Behind Boss Firewall",
@@ -6594,6 +7605,16 @@
         "name": "Subcon Forest Behind Boss Firewall",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "SF Area -> SF Behind Boss Firewall",
+            "parent_region": "Subcon Forest Area",
+            "connected_region": "Subcon Forest Behind Boss Firewall",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "SF Behind Boss Firewall -> SF Boss Arena",
@@ -6636,6 +7657,24 @@
         "name": "Subcon Forest Boss Arena",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "SF Behind Boss Firewall -> SF Boss Arena",
+            "parent_region": "Subcon Forest Behind Boss Firewall",
+            "connected_region": "Subcon Forest Boss Arena",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Subcon Forest Entrance YCHE",
+            "parent_region": "Your Contract has Expired",
+            "connected_region": "Subcon Forest Boss Arena",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6665,6 +7704,16 @@
         "name": "Your Contract has Expired - Post Fight",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "YCHE -> YCHE - Post Fight",
+            "parent_region": "Your Contract has Expired",
+            "connected_region": "Your Contract has Expired - Post Fight",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6694,6 +7743,24 @@
         "name": "Time Rift - Sleepy Subcon",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Alpine Skyline Portal - Entrance 1",
+            "parent_region": "Alpine Free Roam",
+            "connected_region": "Time Rift - Sleepy Subcon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Time Rift - Alpine Skyline Portal - Entrance 2",
+            "parent_region": "The Illness has Spread",
+            "connected_region": "Time Rift - Sleepy Subcon",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6885,6 +7952,16 @@
         "name": "Time Rift - Pipe",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - Curly Tail Trail Portal - Entrance 1",
+            "parent_region": "Alpine Free Roam",
+            "connected_region": "Time Rift - Pipe",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6916,6 +7993,16 @@
         "name": "Time Rift - Village",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time Rift - The Lab Portal - Entrance 1",
+            "parent_region": "Spaceship",
+            "connected_region": "Time Rift - Village",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6959,6 +8046,64 @@
         "name": "Badge Seller",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "MT Area -> Badge Seller",
+            "parent_region": "Mafia Town Area",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "MT Area (HUMT) -> Badge Seller",
+            "parent_region": "Mafia Town Area (HUMT)",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "SF Area -> Badge Seller",
+            "parent_region": "Subcon Forest Area",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "DBS -> Badge Seller",
+            "parent_region": "Dead Bird Studio",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "PP -> Badge Seller",
+            "parent_region": "Picture Perfect",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "TR -> Badge Seller",
+            "parent_region": "Train Rush",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "ASA -> Badge Seller",
+            "parent_region": "Alpine Skyline Area (TIHS)",
+            "connected_region": "Badge Seller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -7114,6 +8259,16 @@
         "name": "Time's End",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Telescope -> Time's End",
+            "parent_region": "Spaceship",
+            "connected_region": "Time's End",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Time's End - Act 1",
@@ -7134,6 +8289,16 @@
         "name": "The Finale",
         "type": "Region",
         "player": 1,
+        "entrances": [
+          {
+            "name": "Time's End - Act 1",
+            "parent_region": "Time's End",
+            "connected_region": "The Finale",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8124,6 +9289,11 @@
   },
   "progression_mapping": {
     "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Compass Badge"
+    ]
   },
   "settings": {
     "1": {

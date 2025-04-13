@@ -1,0 +1,5396 @@
+{
+  "schema_version": 3,
+  "game_name": "Super Mario 64",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "SM64World"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Menu -> Bob-omb Battlefield",
+            "connected_region": "Bob-omb Battlefield",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Whomp's Fortress",
+            "connected_region": "Whomp's Fortress",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "name",
+                    "name": "randomized_entrances_s"
+                  },
+                  "index": {
+                    "type": "constant",
+                    "value": "Whomp's Fortress"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Jolly Roger Bay",
+            "connected_region": "Jolly Roger Bay",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "name",
+                    "name": "randomized_entrances_s"
+                  },
+                  "index": {
+                    "type": "constant",
+                    "value": "Jolly Roger Bay"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Cool, Cool Mountain",
+            "connected_region": "Cool, Cool Mountain",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "name",
+                    "name": "randomized_entrances_s"
+                  },
+                  "index": {
+                    "type": "constant",
+                    "value": "Cool, Cool Mountain"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Big Boo's Haunt",
+            "connected_region": "Big Boo's Haunt",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "name",
+                    "name": "randomized_entrances_s"
+                  },
+                  "index": {
+                    "type": "constant",
+                    "value": "Big Boo's Haunt"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> The Princess's Secret Slide",
+            "connected_region": "The Princess's Secret Slide",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "name",
+                    "name": "randomized_entrances_s"
+                  },
+                  "index": {
+                    "type": "constant",
+                    "value": "The Princess's Secret Slide"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Tower of the Wing Cap",
+            "connected_region": "Tower of the Wing Cap",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "subscript",
+                  "value": {
+                    "type": "name",
+                    "name": "randomized_entrances_s"
+                  },
+                  "index": {
+                    "type": "constant",
+                    "value": "Tower of the Wing Cap"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Bowser in the Dark World",
+            "connected_region": "Bowser in the Dark World",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Power Star"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Basement",
+            "connected_region": "Basement",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "constant",
+                  "value": "Basement"
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Basement Key"
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Progressive Key"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu -> Second Floor",
+            "connected_region": "Second Floor",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Menu"
+                },
+                {
+                  "type": "constant",
+                  "value": "Second Floor"
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Second Floor Key"
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Progressive Key"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Toad (Basement)",
+            "id": 3626168,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Basement"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Metal Cap",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Toad (Second Floor)",
+            "id": 3626169,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Second Floor"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Toad (Third Floor)",
+            "id": 3626170,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Third Floor"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MIPS 1",
+            "id": 3626171,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Basement"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "MIPS 2",
+            "id": 3626172,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Basement"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Region"
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bob-omb Battlefield": {
+        "name": "Bob-omb Battlefield",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Bob-omb Battlefield",
+            "parent_region": "Menu",
+            "connected_region": "Bob-omb Battlefield",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "BoB: Island",
+            "connected_region": "BoB: Island",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "BoB: Big Bob-Omb on the Summit",
+            "id": 3626000,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Footrace with Koopa The Quick",
+            "id": 3626001,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Mario Wings to the Sky",
+            "id": 3626004,
+            "crystal": null,
+            "access_rule": {
+              "type": "all_of",
+              "element_rule": {
+                "type": "helper",
+                "name": "rule",
+                "args": []
+              },
+              "iterator_info": {
+                "type": "comprehension_details",
+                "target": {
+                  "type": "name",
+                  "name": "rule"
+                },
+                "iterator": {
+                  "type": "name",
+                  "name": "rules"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Behind Chain Chomp's Gate",
+            "id": 3626005,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Bob-omb Buddy",
+            "id": 3626200,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock BoB",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "BoB: Island": {
+        "name": "BoB: Island",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "BoB: Island",
+            "parent_region": "Bob-omb Battlefield",
+            "connected_region": "BoB: Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "BoB: Shoot to the Island in the Sky",
+            "id": 3626002,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BoB: Find the 8 Red Coins",
+            "id": 3626003,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Whomp's Fortress": {
+        "name": "Whomp's Fortress",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Whomp's Fortress",
+            "parent_region": "Menu",
+            "connected_region": "Whomp's Fortress",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "WF: Tower",
+            "connected_region": "WF: Tower",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "WF: Chip Off Whomp's Block",
+            "id": 3626007,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Progressive Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Shoot into the Wild Blue",
+            "id": 3626009,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Red Coins on the Floating Isle",
+            "id": 3626010,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Fall onto the Caged Island",
+            "id": 3626011,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Region"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Blast Away the Wall",
+            "id": 3626012,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "WF: Tower": {
+        "name": "WF: Tower",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "WF: Tower",
+            "parent_region": "Whomp's Fortress",
+            "connected_region": "WF: Tower",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "WF: To the Top of the Fortress",
+            "id": 3626008,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WF: Bob-omb Buddy",
+            "id": 3626201,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock WF",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Jolly Roger Bay": {
+        "name": "Jolly Roger Bay",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Jolly Roger Bay",
+            "parent_region": "Menu",
+            "connected_region": "Jolly Roger Bay",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "JRB: Upper",
+            "connected_region": "JRB: Upper",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Jolly Roger Bay -> The Secret Aquarium",
+            "connected_region": "The Secret Aquarium",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "JRB: Plunder in the Sunken Ship",
+            "id": 3626014,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Can the Eel Come Out to Play?",
+            "id": 3626015,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Treasure of the Ocean Cave",
+            "id": 3626016,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Blast to the Stone Pillar",
+            "id": 3626018,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Through the Jet Stream",
+            "id": 3626019,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "JRB: Bob-omb Buddy",
+            "id": 3626202,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock JRB",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "JRB: Upper": {
+        "name": "JRB: Upper",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "JRB: Upper",
+            "parent_region": "Jolly Roger Bay",
+            "connected_region": "JRB: Upper",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "JRB: Red Coins on the Ship Afloat",
+            "id": 3626017,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Cool, Cool Mountain": {
+        "name": "Cool, Cool Mountain",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Cool, Cool Mountain",
+            "parent_region": "Menu",
+            "connected_region": "Cool, Cool Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "CCM: Slip Slidin' Away",
+            "id": 3626021,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Li'l Penguin Lost",
+            "id": 3626022,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Big Penguin Race",
+            "id": 3626023,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Frosty Slide for 8 Red Coins",
+            "id": 3626024,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Progressive Key",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Snowman's Lost His Head",
+            "id": 3626025,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Wall Kicks Will Work",
+            "id": 3626026,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: Bob-omb Buddy",
+            "id": 3626203,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock CCM",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: 1Up Block Near Snowman",
+            "id": 3626215,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: 1Up Block Ice Pillar",
+            "id": 3626216,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "CCM: 1Up Block Secret Slide",
+            "id": 3626217,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Big Boo's Haunt": {
+        "name": "Big Boo's Haunt",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Big Boo's Haunt",
+            "parent_region": "Menu",
+            "connected_region": "Big Boo's Haunt",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "BBH: Third Floor",
+            "connected_region": "BBH: Third Floor",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "BBH: Go on a Ghost Hunt",
+            "id": 3626028,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: Ride Big Boo's Merry-Go-Round",
+            "id": 3626029,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: Secret of the Haunted Books",
+            "id": 3626030,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: Seek the 8 Red Coins",
+            "id": 3626031,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "BBH: Third Floor": {
+        "name": "BBH: Third Floor",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "BBH: Third Floor",
+            "parent_region": "Big Boo's Haunt",
+            "connected_region": "BBH: Third Floor",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "BBH: Roof",
+            "connected_region": "BBH: Roof",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "BBH: Eye to Eye in the Secret Room",
+            "id": 3626033,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "BBH: Roof": {
+        "name": "BBH: Roof",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "BBH: Roof",
+            "parent_region": "BBH: Third Floor",
+            "connected_region": "BBH: Roof",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "BBH: Big Boo's Balcony",
+            "id": 3626032,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "BBH: 1Up Block Top of Mansion",
+            "id": 3626218,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Princess's Secret Slide": {
+        "name": "The Princess's Secret Slide",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> The Princess's Secret Slide",
+            "parent_region": "Menu",
+            "connected_region": "The Princess's Secret Slide",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "The Princess's Secret Slide Block",
+            "id": 3626126,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Princess's Secret Slide Fast",
+            "id": 3626127,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Secret Aquarium": {
+        "name": "The Secret Aquarium",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Jolly Roger Bay -> The Secret Aquarium",
+            "parent_region": "Jolly Roger Bay",
+            "connected_region": "The Secret Aquarium",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "The Secret Aquarium",
+            "id": 3626161,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tower of the Wing Cap": {
+        "name": "Tower of the Wing Cap",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Tower of the Wing Cap",
+            "parent_region": "Menu",
+            "connected_region": "Tower of the Wing Cap",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tower of the Wing Cap Switch",
+            "id": 3626181,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tower of the Wing Cap Red Coins",
+            "id": 3626140,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bowser in the Dark World": {
+        "name": "Bowser in the Dark World",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Bowser in the Dark World",
+            "parent_region": "Menu",
+            "connected_region": "Bowser in the Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bowser in the Dark World Red Coins",
+            "id": 3626105,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Dark World Key",
+            "id": 3626178,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Dark World 1Up Block on Tower",
+            "id": 3626236,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Dark World 1Up Block near Goombas",
+            "id": 3626237,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Basement": {
+        "name": "Basement",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Basement",
+            "parent_region": "Menu",
+            "connected_region": "Basement",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Basement -> Hazy Maze Cave",
+            "connected_region": "Hazy Maze Cave",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Basement -> Lethal Lava Land",
+            "connected_region": "Lethal Lava Land",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Basement -> Shifting Sand Land",
+            "connected_region": "Shifting Sand Land",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Basement -> Dire, Dire Docks",
+            "connected_region": "Dire, Dire Docks",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Power Star"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Basement -> Vanish Cap under the Moat",
+            "connected_region": "Vanish Cap under the Moat",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Basement -> Bowser in the Fire Sea",
+            "connected_region": "Bowser in the Fire Sea",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "DDD: Board Bowser's Sub"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Location"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hazy Maze Cave": {
+        "name": "Hazy Maze Cave",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Basement -> Hazy Maze Cave",
+            "parent_region": "Basement",
+            "connected_region": "Hazy Maze Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "HMC: Red Coin Area",
+            "connected_region": "HMC: Red Coin Area",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "HMC: Pit Islands",
+            "connected_region": "HMC: Pit Islands",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Hazy Maze Cave -> Cavern of the Metal Cap",
+            "connected_region": "Cavern of the Metal Cap",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "HMC: Swimming Beast in the Cavern",
+            "id": 3626035,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: Metal-Head Mario Can Move!",
+            "id": 3626037,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: Watch for Rolling Rocks",
+            "id": 3626040,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: Navigating the Toxic Maze",
+            "id": 3626038,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: 1Up Block Past Rolling Rocks",
+            "id": 3626220,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "HMC: Red Coin Area": {
+        "name": "HMC: Red Coin Area",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "HMC: Red Coin Area",
+            "parent_region": "Hazy Maze Cave",
+            "connected_region": "HMC: Red Coin Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "HMC: Elevate for 8 Red Coins",
+            "id": 3626036,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "HMC: Pit Islands": {
+        "name": "HMC: Pit Islands",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "HMC: Pit Islands",
+            "parent_region": "Hazy Maze Cave",
+            "connected_region": "HMC: Pit Islands",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "HMC: A-Maze-Ing Emergency Exit",
+            "id": 3626039,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "HMC: 1Up Block above Pit",
+            "id": 3626219,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Lethal Lava Land": {
+        "name": "Lethal Lava Land",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Basement -> Lethal Lava Land",
+            "parent_region": "Basement",
+            "connected_region": "Lethal Lava Land",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "LLL: Upper Volcano",
+            "connected_region": "LLL: Upper Volcano",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "LLL: Boil the Big Bully",
+            "id": 3626042,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: Bully the Bullies",
+            "id": 3626043,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: 8-Coin Puzzle with 15 Pieces",
+            "id": 3626044,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: Red-Hot Log Rolling",
+            "id": 3626045,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "LLL: Upper Volcano": {
+        "name": "LLL: Upper Volcano",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "LLL: Upper Volcano",
+            "parent_region": "Lethal Lava Land",
+            "connected_region": "LLL: Upper Volcano",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "LLL: Hot-Foot-It into the Volcano",
+            "id": 3626046,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "LLL: Elevator Tour in the Volcano",
+            "id": 3626047,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Shifting Sand Land": {
+        "name": "Shifting Sand Land",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Basement -> Shifting Sand Land",
+            "parent_region": "Basement",
+            "connected_region": "Shifting Sand Land",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "SSL: Upper Pyramid",
+            "connected_region": "SSL: Upper Pyramid",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "SSL: In the Talons of the Big Bird",
+            "id": 3626049,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Shining Atop the Pyramid",
+            "id": 3626050,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Free Flying for 8 Red Coins",
+            "id": 3626053,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "helper",
+                    "name": "rule",
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "rule"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "rules"
+                    }
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Bob-omb Buddy",
+            "id": 3626207,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock SSL",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: 1Up Block Outside Pyramid",
+            "id": 3626221,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: 1Up Block Pyramid Left Path",
+            "id": 3626222,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: 1Up Block Pyramid Back",
+            "id": 3626223,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "SSL: Upper Pyramid": {
+        "name": "SSL: Upper Pyramid",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "SSL: Upper Pyramid",
+            "parent_region": "Shifting Sand Land",
+            "connected_region": "SSL: Upper Pyramid",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "SSL: Inside the Ancient Pyramid",
+            "id": 3626051,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Stand Tall on the Four Pillars",
+            "id": 3626052,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "helper",
+                    "name": "rule",
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "rule"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "rules"
+                    }
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SSL: Pyramid Puzzle",
+            "id": 3626054,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Dire, Dire Docks": {
+        "name": "Dire, Dire Docks",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Basement -> Dire, Dire Docks",
+            "parent_region": "Basement",
+            "connected_region": "Dire, Dire Docks",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "DDD: Board Bowser's Sub",
+            "id": 3626056,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Chests in the Current",
+            "id": 3626057,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Through the Jet Stream",
+            "id": 3626059,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: The Manta Ray's Reward",
+            "id": 3626060,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Collect the Caps...",
+            "id": 3626061,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DDD: Pole-Jumping for Red Coins",
+            "id": 3626058,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Location"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Cavern of the Metal Cap": {
+        "name": "Cavern of the Metal Cap",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Hazy Maze Cave -> Cavern of the Metal Cap",
+            "parent_region": "Hazy Maze Cave",
+            "connected_region": "Cavern of the Metal Cap",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Cavern of the Metal Cap Switch",
+            "id": 3626182,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cavern of the Metal Cap Red Coins",
+            "id": 3626133,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cavern of the Metal Cap 1Up Block",
+            "id": 3626241,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Vanish Cap under the Moat": {
+        "name": "Vanish Cap under the Moat",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Basement -> Vanish Cap under the Moat",
+            "parent_region": "Basement",
+            "connected_region": "Vanish Cap under the Moat",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Vanish Cap Under the Moat Switch",
+            "id": 3626183,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vanish Cap Under the Moat Red Coins",
+            "id": 3626147,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vanish Cap Under the Moat 1Up Block",
+            "id": 3626242,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bowser in the Fire Sea": {
+        "name": "Bowser in the Fire Sea",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Basement -> Bowser in the Fire Sea",
+            "parent_region": "Basement",
+            "connected_region": "Bowser in the Fire Sea",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "BitFS: Upper",
+            "connected_region": "BitFS: Upper",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "BitFS: Upper": {
+        "name": "BitFS: Upper",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "BitFS: Upper",
+            "parent_region": "Bowser in the Fire Sea",
+            "connected_region": "BitFS: Upper",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bowser in the Fire Sea Red Coins",
+            "id": 3626112,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Fire Sea Key",
+            "id": 3626179,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Fire Sea 1Up Block Swaying Stairs",
+            "id": 3626238,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bowser in the Fire Sea 1Up Block Near Poles",
+            "id": 3626239,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Second Floor": {
+        "name": "Second Floor",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu -> Second Floor",
+            "parent_region": "Menu",
+            "connected_region": "Second Floor",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Second Floor -> Snowman's Land",
+            "connected_region": "Snowman's Land",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Second Floor -> Wet-Dry World",
+            "connected_region": "Wet-Dry World",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Second Floor -> Tall, Tall Mountain",
+            "connected_region": "Tall, Tall Mountain",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Second Floor -> Tiny-Huge Island (Tiny)",
+            "connected_region": "Tiny-Huge Island (Tiny)",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Second Floor -> Tiny-Huge Island (Huge)",
+            "connected_region": "Tiny-Huge Island (Huge)",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Second Floor -> Third Floor",
+            "connected_region": "Third Floor",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Second Floor"
+                },
+                {
+                  "type": "constant",
+                  "value": "Third Floor"
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Snowman's Land": {
+        "name": "Snowman's Land",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Second Floor -> Snowman's Land",
+            "parent_region": "Second Floor",
+            "connected_region": "Snowman's Land",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "SL: Snowman's Big Head",
+            "id": 3626063,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Chill with the Bully",
+            "id": 3626064,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: In the Deep Freeze",
+            "id": 3626065,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Whirl from the Freezing Pond",
+            "id": 3626066,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Shell Shreddin' for Red Coins",
+            "id": 3626067,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Into the Igloo",
+            "id": 3626068,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: Bob-omb Buddy",
+            "id": 3626209,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock SL",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: 1Up Block Near Moneybags",
+            "id": 3626224,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "SL: 1Up Block inside Igloo",
+            "id": 3626225,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wet-Dry World": {
+        "name": "Wet-Dry World",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Second Floor -> Wet-Dry World",
+            "parent_region": "Second Floor",
+            "connected_region": "Wet-Dry World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "WDW: Top",
+            "connected_region": "WDW: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "WDW: Downtown",
+            "connected_region": "WDW: Downtown",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "WDW: Express Elevator--Hurry Up!",
+            "id": 3626073,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "WDW: Top": {
+        "name": "WDW: Top",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "WDW: Top",
+            "parent_region": "Wet-Dry World",
+            "connected_region": "WDW: Top",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "WDW: Shocking Arrow Lifts!",
+            "id": 3626070,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Top o' the Town",
+            "id": 3626071,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Secrets in the Shallows & Sky",
+            "id": 3626072,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Bob-omb Buddy",
+            "id": 3626210,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock WDW",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "WDW: Downtown": {
+        "name": "WDW: Downtown",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "WDW: Downtown",
+            "parent_region": "Wet-Dry World",
+            "connected_region": "WDW: Downtown",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "WDW: Go to Town for Red Coins",
+            "id": 3626074,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: Quick Race Through Downtown!",
+            "id": 3626075,
+            "crystal": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "any",
+              "args": [
+                {
+                  "type": "generator_expression",
+                  "element": {
+                    "type": "helper",
+                    "name": "rule",
+                    "args": []
+                  },
+                  "comprehension": {
+                    "type": "comprehension_details",
+                    "target": {
+                      "type": "name",
+                      "name": "rule"
+                    },
+                    "iterator": {
+                      "type": "name",
+                      "name": "rules"
+                    }
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Wing Cap",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "WDW: 1Up Block in Downtown",
+            "id": 3626226,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tall, Tall Mountain": {
+        "name": "Tall, Tall Mountain",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Second Floor -> Tall, Tall Mountain",
+            "parent_region": "Second Floor",
+            "connected_region": "Tall, Tall Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "TTM: Middle",
+            "connected_region": "TTM: Middle",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "TTM: Middle": {
+        "name": "TTM: Middle",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "TTM: Middle",
+            "parent_region": "Tall, Tall Mountain",
+            "connected_region": "TTM: Middle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "TTM: Top",
+            "connected_region": "TTM: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTM: Scary 'Shrooms, Red Coins",
+            "id": 3626079,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Blast to the Lonely Mushroom",
+            "id": 3626082,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Bob-omb Buddy",
+            "id": 3626211,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock TTM",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: 1Up Block on Red Mushroom",
+            "id": 3626227,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "TTM: Top": {
+        "name": "TTM: Top",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "TTM: Top",
+            "parent_region": "TTM: Middle",
+            "connected_region": "TTM: Top",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "TTM: Scale the Mountain",
+            "id": 3626077,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Mystery of the Monkey Cage",
+            "id": 3626078,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Mysterious Mountainside",
+            "id": 3626080,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTM: Breathtaking View from Bridge",
+            "id": 3626081,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tiny-Huge Island (Huge)": {
+        "name": "Tiny-Huge Island (Huge)",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Second Floor -> Tiny-Huge Island (Huge)",
+            "parent_region": "Second Floor",
+            "connected_region": "Tiny-Huge Island (Huge)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Tiny-Huge Island (Huge) -> Tiny-Huge Island",
+            "connected_region": "Tiny-Huge Island",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tiny-Huge Island (Tiny)": {
+        "name": "Tiny-Huge Island (Tiny)",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Second Floor -> Tiny-Huge Island (Tiny)",
+            "parent_region": "Second Floor",
+            "connected_region": "Tiny-Huge Island (Tiny)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Tiny-Huge Island (Tiny) -> Tiny-Huge Island",
+            "connected_region": "Tiny-Huge Island",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tiny-Huge Island": {
+        "name": "Tiny-Huge Island",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tiny-Huge Island (Tiny) -> Tiny-Huge Island",
+            "parent_region": "Tiny-Huge Island (Tiny)",
+            "connected_region": "Tiny-Huge Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Tiny-Huge Island (Huge) -> Tiny-Huge Island",
+            "parent_region": "Tiny-Huge Island (Huge)",
+            "connected_region": "Tiny-Huge Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "THI: Pipes",
+            "connected_region": "THI: Pipes",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "THI: 1Up Block THI Small near Start",
+            "id": 3626228,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "THI: Pipes": {
+        "name": "THI: Pipes",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "THI: Pipes",
+            "parent_region": "Tiny-Huge Island",
+            "connected_region": "THI: Pipes",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "THI: Large Top",
+            "connected_region": "THI: Large Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "THI: The Tip Top of the Huge Island",
+            "id": 3626085,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Pluck the Piranha Flower",
+            "id": 3626084,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Rematch with Koopa the Quick",
+            "id": 3626086,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Five Itty Bitty Secrets",
+            "id": 3626087,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Wiggler's Red Coins",
+            "id": 3626088,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: Bob-omb Buddy",
+            "id": 3626212,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock THI",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: 1Up Block THI Large near Start",
+            "id": 3626229,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "THI: 1Up Block Windy Area",
+            "id": 3626230,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "THI: Large Top": {
+        "name": "THI: Large Top",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "THI: Large Top",
+            "parent_region": "THI: Pipes",
+            "connected_region": "THI: Large Top",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "THI: Make Wiggler Squirm",
+            "id": 3626089,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Third Floor": {
+        "name": "Third Floor",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Second Floor -> Third Floor",
+            "parent_region": "Second Floor",
+            "connected_region": "Third Floor",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Third Floor -> Tick Tock Clock",
+            "connected_region": "Tick Tock Clock",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Third Floor -> Rainbow Ride",
+            "connected_region": "Rainbow Ride",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Third Floor -> Wing Mario over the Rainbow",
+            "connected_region": "Wing Mario over the Rainbow",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Third Floor -> Bowser in the Sky",
+            "connected_region": "Bowser in the Sky",
+            "access_rule": {
+              "type": "helper",
+              "name": "connect_regions",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Third Floor"
+                },
+                {
+                  "type": "constant",
+                  "value": "Bowser in the Sky"
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Power Star"
+                  }
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tick Tock Clock": {
+        "name": "Tick Tock Clock",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Third Floor -> Tick Tock Clock",
+            "parent_region": "Third Floor",
+            "connected_region": "Tick Tock Clock",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "TTC: Lower",
+            "connected_region": "TTC: Lower",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTC: Stop Time for Red Coins",
+            "id": 3626096,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "TTC: Lower": {
+        "name": "TTC: Lower",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "TTC: Lower",
+            "parent_region": "Tick Tock Clock",
+            "connected_region": "TTC: Lower",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "TTC: Upper",
+            "connected_region": "TTC: Upper",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTC: Roll into the Cage",
+            "id": 3626091,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: Get a Hand",
+            "id": 3626093,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "TTC: Upper": {
+        "name": "TTC: Upper",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "TTC: Upper",
+            "parent_region": "TTC: Lower",
+            "connected_region": "TTC: Upper",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "TTC: Top",
+            "connected_region": "TTC: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "TTC: Timed Jumps on Moving Bars",
+            "id": 3626095,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: The Pit and the Pendulums",
+            "id": 3626092,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "TTC: Top": {
+        "name": "TTC: Top",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "TTC: Top",
+            "parent_region": "TTC: Upper",
+            "connected_region": "TTC: Top",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "TTC: 1Up Block Midway Up",
+            "id": 3626231,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: Stomp on the Thwomp",
+            "id": 3626094,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "TTC: 1Up Block at the Top",
+            "id": 3626232,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Rainbow Ride": {
+        "name": "Rainbow Ride",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Third Floor -> Rainbow Ride",
+            "parent_region": "Third Floor",
+            "connected_region": "Rainbow Ride",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "RR: Maze",
+            "connected_region": "RR: Maze",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "RR: Cruiser",
+            "connected_region": "RR: Cruiser",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "RR: House",
+            "connected_region": "RR: House",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "RR: Swingin' in the Breeze",
+            "id": 3626101,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: Tricky Triangles!",
+            "id": 3626102,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: 1Up Block Top of Red Coin Maze",
+            "id": 3626233,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: 1Up Block Under Fly Guy",
+            "id": 3626234,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: Bob-omb Buddy",
+            "id": 3626214,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cannon Unlock RR",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "RR: Maze": {
+        "name": "RR: Maze",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "RR: Maze",
+            "parent_region": "Rainbow Ride",
+            "connected_region": "RR: Maze",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "RR: Coins Amassed in a Maze",
+            "id": 3626100,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "RR: Cruiser": {
+        "name": "RR: Cruiser",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "RR: Cruiser",
+            "parent_region": "Rainbow Ride",
+            "connected_region": "RR: Cruiser",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "RR: Cruiser Crossing the Rainbow",
+            "id": 3626098,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Vanish Cap",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: Somewhere Over the Rainbow",
+            "id": 3626103,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "name",
+                "name": "item"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "RR: House": {
+        "name": "RR: House",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "RR: House",
+            "parent_region": "Rainbow Ride",
+            "connected_region": "RR: House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "RR: The Big House in the Sky",
+            "id": 3626099,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "RR: 1Up Block On House in the Sky",
+            "id": 3626235,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wing Mario over the Rainbow": {
+        "name": "Wing Mario over the Rainbow",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Third Floor -> Wing Mario over the Rainbow",
+            "parent_region": "Third Floor",
+            "connected_region": "Wing Mario over the Rainbow",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wing Mario Over the Rainbow Red Coins",
+            "id": 3626154,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wing Mario Over the Rainbow 1Up Block",
+            "id": 3626243,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bowser in the Sky": {
+        "name": "Bowser in the Sky",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Third Floor -> Bowser in the Sky",
+            "parent_region": "Third Floor",
+            "connected_region": "Bowser in the Sky",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "BitS: Top",
+            "connected_region": "BitS: Top",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Bowser in the Sky 1Up Block",
+            "id": 3626240,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "1Up Mushroom",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "BitS: Top": {
+        "name": "BitS: Top",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "BitS: Top",
+            "parent_region": "Bowser in the Sky",
+            "connected_region": "BitS: Top",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bowser in the Sky Red Coins",
+            "id": 3626119,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Power Star",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Power Star": {
+        "name": "Power Star",
+        "id": 3626000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Basement Key": {
+        "name": "Basement Key",
+        "id": 3626178,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Second Floor Key": {
+        "name": "Second Floor Key",
+        "id": 3626179,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Key": {
+        "name": "Progressive Key",
+        "id": 3626180,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wing Cap": {
+        "name": "Wing Cap",
+        "id": 3626181,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Cap": {
+        "name": "Metal Cap",
+        "id": 3626182,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Vanish Cap": {
+        "name": "Vanish Cap",
+        "id": 3626183,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1Up Mushroom": {
+        "name": "1Up Mushroom",
+        "id": 3626184,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Double Jump": {
+        "name": "Double Jump",
+        "id": 3626185,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triple Jump": {
+        "name": "Triple Jump",
+        "id": 3626186,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Long Jump": {
+        "name": "Long Jump",
+        "id": 3626187,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Backflip": {
+        "name": "Backflip",
+        "id": 3626188,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Side Flip": {
+        "name": "Side Flip",
+        "id": 3626189,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wall Kick": {
+        "name": "Wall Kick",
+        "id": 3626190,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dive": {
+        "name": "Dive",
+        "id": 3626191,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ground Pound": {
+        "name": "Ground Pound",
+        "id": 3626192,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Kick": {
+        "name": "Kick",
+        "id": 3626193,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Climb": {
+        "name": "Climb",
+        "id": 3626194,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Ledge Grab": {
+        "name": "Ledge Grab",
+        "id": 3626195,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock BoB": {
+        "name": "Cannon Unlock BoB",
+        "id": 3626200,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock WF": {
+        "name": "Cannon Unlock WF",
+        "id": 3626201,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock JRB": {
+        "name": "Cannon Unlock JRB",
+        "id": 3626202,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock CCM": {
+        "name": "Cannon Unlock CCM",
+        "id": 3626203,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock SSL": {
+        "name": "Cannon Unlock SSL",
+        "id": 3626207,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock SL": {
+        "name": "Cannon Unlock SL",
+        "id": 3626209,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock WDW": {
+        "name": "Cannon Unlock WDW",
+        "id": 3626210,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock TTM": {
+        "name": "Cannon Unlock TTM",
+        "id": 3626211,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock THI": {
+        "name": "Cannon Unlock THI",
+        "id": 3626212,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cannon Unlock RR": {
+        "name": "Cannon Unlock RR",
+        "id": 3626214,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "1Up Mushroom": 29,
+      "Cannon Unlock BoB": 1,
+      "Cannon Unlock CCM": 1,
+      "Cannon Unlock JRB": 1,
+      "Cannon Unlock RR": 1,
+      "Cannon Unlock SL": 1,
+      "Cannon Unlock SSL": 1,
+      "Cannon Unlock THI": 1,
+      "Cannon Unlock TTM": 1,
+      "Cannon Unlock WDW": 1,
+      "Cannon Unlock WF": 1,
+      "Metal Cap": 2,
+      "Power Star": 210,
+      "Progressive Key": 4,
+      "Vanish Cap": 2,
+      "Wing Cap": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "Super Mario 64",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Super Mario 64",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

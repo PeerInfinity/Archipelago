@@ -22,6 +22,7 @@
         "name": "Menu",
         "type": "Region",
         "player": 2,
+        "entrances": [],
         "exits": [
           {
             "name": "GameStart",
@@ -42,6 +43,48 @@
         "name": "Overworld",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "GameStart",
+            "parent_region": "Menu",
+            "connected_region": "Overworld",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "YellowCastleExit",
+            "parent_region": "YellowCastle",
+            "connected_region": "Overworld",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "WhiteCastleExit",
+            "parent_region": "WhiteCastle",
+            "connected_region": "Overworld",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "BlackCastleExit",
+            "parent_region": "BlackCastle",
+            "connected_region": "Overworld",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "CreditsExit",
+            "parent_region": "CreditsRoom",
+            "connected_region": "Overworld",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "YellowCastlePort",
@@ -327,6 +370,16 @@
         "name": "YellowCastle",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "YellowCastlePort",
+            "parent_region": "Overworld",
+            "connected_region": "YellowCastle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "YellowCastleExit",
@@ -399,6 +452,32 @@
         "name": "WhiteCastle",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "WhiteCastlePort",
+            "parent_region": "Overworld",
+            "connected_region": "WhiteCastle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "WhiteCastleReturnPassage",
+            "parent_region": "WhiteCastleVault",
+            "connected_region": "WhiteCastle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "WhiteCastleFromPeek",
+            "parent_region": "WhiteCastlePreVaultPeek",
+            "connected_region": "WhiteCastle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "WhiteCastleExit",
@@ -492,6 +571,16 @@
         "name": "WhiteCastlePreVaultPeek",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "WhiteCastlePeekPassage",
+            "parent_region": "WhiteCastle",
+            "connected_region": "WhiteCastlePreVaultPeek",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "WhiteCastleFromPeek",
@@ -531,6 +620,16 @@
         "name": "WhiteCastleVault",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "WhiteCastleSecretPassage",
+            "parent_region": "WhiteCastle",
+            "connected_region": "WhiteCastleVault",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "WhiteCastleReturnPassage",
@@ -603,6 +702,24 @@
         "name": "BlackCastle",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "BlackCastlePort",
+            "parent_region": "Overworld",
+            "connected_region": "BlackCastle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "BlackCastleReturnPassage",
+            "parent_region": "BlackCastleVault",
+            "connected_region": "BlackCastle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "BlackCastleExit",
@@ -735,6 +852,16 @@
         "name": "BlackCastleVault",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "BlackCastleVaultEntrance",
+            "parent_region": "BlackCastle",
+            "connected_region": "BlackCastleVault",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "BlackCastleReturnPassage",
@@ -774,6 +901,24 @@
         "name": "CreditsRoom",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "CreditsWall",
+            "parent_region": "Overworld",
+            "connected_region": "CreditsRoom",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "CreditsFromFarSide",
+            "parent_region": "CreditsRoomFarSide",
+            "connected_region": "CreditsRoom",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "CreditsExit",
@@ -825,6 +970,16 @@
         "name": "CreditsRoomFarSide",
         "type": "Region",
         "player": 2,
+        "entrances": [
+          {
+            "name": "CreditsToFarSide",
+            "parent_region": "CreditsRoom",
+            "connected_region": "CreditsRoomFarSide",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "CreditsFromFarSide",
@@ -1109,6 +1264,9 @@
   },
   "progression_mapping": {
     "2": {}
+  },
+  "starting_items": {
+    "2": []
   },
   "settings": {
     "2": {
