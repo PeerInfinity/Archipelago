@@ -178,7 +178,8 @@ export class LocationTester {
         rulesData.progression_mapping?.['1']
       );
 
-      stateManager.loadFromJSON(rulesData);
+      // Pass '1' as the selectedPlayerId for test loading
+      stateManager.loadFromJSON(rulesData, '1');
 
       console.log(
         'After loadFromJSON - stateManager.inventory.progressionMapping:',

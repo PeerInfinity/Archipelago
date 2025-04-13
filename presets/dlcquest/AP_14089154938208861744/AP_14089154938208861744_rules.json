@@ -1,0 +1,2451 @@
+{
+  "schema_version": 3,
+  "game_name": "DLCQuest",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "DLCqworld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "DLC Quest Basic",
+            "connected_region": "Move Right",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Move Right": {
+        "name": "Move Right",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "DLC Quest Basic",
+            "parent_region": "Menu",
+            "connected_region": "Move Right",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Moving",
+            "connected_region": "Movement Pack",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Movement Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Movement Pack",
+            "id": 120000,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Movement Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Animation Pack",
+            "id": 120001,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Psychological Warfare Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Audio Pack",
+            "id": 120002,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Name Change Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pause Menu Pack",
+            "id": 120003,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Time is Money Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Move Right coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "4 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Movement Pack": {
+        "name": "Movement Pack",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Moving",
+            "parent_region": "Move Right",
+            "connected_region": "Movement Pack",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Tree",
+            "connected_region": "Behind Tree",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Time is Money Pack"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Cloud",
+            "connected_region": "Psychological Warfare",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Psychological Warfare Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Time is Money Pack",
+            "id": 120004,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zombie Sheep",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Psychological Warfare Pack",
+            "id": 120013,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Animation Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Armor for your Horse Pack",
+            "id": 120014,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Shepherd Sheep",
+            "id": 120049,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Time is Money Pack"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Movement Pack coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "46 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Behind Tree": {
+        "name": "Behind Tree",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tree",
+            "parent_region": "Movement Pack",
+            "connected_region": "Behind Tree",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Behind Tree Double Jump",
+            "connected_region": "Double Jump Behind Tree",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Double Jump Pack"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Forest Entrance",
+            "connected_region": "The Forest",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Map Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Double Jump Pack",
+            "id": 120005,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Map Pack",
+            "id": 120009,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Armor for your Horse Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Between Trees Sheep",
+            "id": 120047,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Name Change Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hole in the Wall Sheep",
+            "id": 120048,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Name Change Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Behind Tree coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "60 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Psychological Warfare": {
+        "name": "Psychological Warfare",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Cloud",
+            "parent_region": "Movement Pack",
+            "connected_region": "Psychological Warfare",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Cloud Double Jump",
+            "connected_region": "Double Jump Total Left",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Double Jump Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "West Cave Sheep",
+            "id": 120053,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Time is Money Pack"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Double Jump Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Psychological Warfare coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "100 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Double Jump Total Left": {
+        "name": "Double Jump Total Left",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Cloud Double Jump",
+            "parent_region": "Psychological Warfare",
+            "connected_region": "Double Jump Total Left",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Cave Tree",
+            "connected_region": "Double Jump Total Left Cave",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Time is Money Pack"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Cave Roof",
+            "connected_region": "Double Jump Total Left Roof",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Double Jump Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Pet Pack",
+            "id": 120006,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Map Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Top Hat Pack",
+            "id": 120008,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "North West Alcove Sheep",
+            "id": 120052,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Time is Money Pack"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Audio Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Double Jump Total Left coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "50 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Double Jump Total Left Cave": {
+        "name": "Double Jump Total Left Cave",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Cave Tree",
+            "parent_region": "Double Jump Total Left",
+            "connected_region": "Double Jump Total Left Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Top Hat Sheep",
+            "id": 120050,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Pause Menu Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Double Jump Total Left Cave coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "9 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Double Jump Total Left Roof": {
+        "name": "Double Jump Total Left Roof",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Cave Roof",
+            "parent_region": "Double Jump Total Left",
+            "connected_region": "Double Jump Total Left Roof",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "North West Ceiling Sheep",
+            "id": 120051,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Time is Money Pack"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Pet Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Double Jump Total Left Roof coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "10 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Double Jump Behind Tree": {
+        "name": "Double Jump Behind Tree",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Behind Tree Double Jump",
+            "parent_region": "Behind Tree",
+            "connected_region": "Double Jump Behind Tree",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "True Double Jump",
+            "connected_region": "True Double Jump Behind Tree",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Sexy Outfits Pack",
+            "id": 120007,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Name Change Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Double Jump Alcove Sheep",
+            "id": 120042,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Night Map Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sexy Outfits Sheep",
+            "id": 120044,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Double Jump Behind Tree coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "89 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "True Double Jump Behind Tree": {
+        "name": "True Double Jump Behind Tree",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "True Double Jump",
+            "parent_region": "Double Jump Behind Tree",
+            "connected_region": "True Double Jump Behind Tree",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Double Jump Floating Sheep",
+            "id": 120043,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Sexy Outfits Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cutscene Sheep",
+            "id": 120054,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "True Double Jump Behind Tree coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "7 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Forest": {
+        "name": "The Forest",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Forest Entrance",
+            "parent_region": "Behind Tree",
+            "connected_region": "The Forest",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Behind Ogre",
+            "connected_region": "The Final Boss Room",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Gun Pack"
+              }
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Forest Double Jump",
+            "connected_region": "The Forest with double Jump",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Double Jump Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Gun Pack",
+            "id": 120010,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Temporary Spike",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Night Map Pack",
+            "id": 120012,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Loading Screen",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Forest coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "171 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Forest with double Jump": {
+        "name": "The Forest with double Jump",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Forest Double Jump",
+            "parent_region": "The Forest",
+            "connected_region": "The Forest with double Jump",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Forest True Double Jump",
+            "connected_region": "The Forest with double Jump Part 2",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Double Jump Pack"
+              }
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "The Zombie Pack",
+            "id": 120011,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Top Hat Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Forest Low Sheep",
+            "id": 120046,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "The Zombie Pack",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Forest with double Jump coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "76 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Forest with double Jump Part 2": {
+        "name": "The Forest with double Jump Part 2",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Forest True Double Jump",
+            "parent_region": "The Forest with double Jump",
+            "connected_region": "The Forest with double Jump Part 2",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Forest High Sheep",
+            "id": 120045,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Gun Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Forest with double Jump Part 2 coins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "203 coins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "The Final Boss Room": {
+        "name": "The Final Boss Room",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Behind Ogre",
+            "parent_region": "The Forest",
+            "connected_region": "The Final Boss Room",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Finish the Fight Pack",
+            "id": 120015,
+            "crystal": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "subscript",
+                "value": {
+                  "type": "subscript",
+                  "value": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "state"
+                    },
+                    "attr": "prog_items"
+                  },
+                  "index": {
+                    "type": "name",
+                    "name": "player"
+                  }
+                },
+                "index": {
+                  "type": "constant",
+                  "value": " coins"
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "coin"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Finish the Fight Pack",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Winning Basic",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Armor for your Horse Pack"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Finish the Fight Pack"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Victory Basic",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Movement Pack": {
+        "name": "Movement Pack",
+        "id": 120000,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Animation Pack": {
+        "name": "Animation Pack",
+        "id": 120001,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Audio Pack": {
+        "name": "Audio Pack",
+        "id": 120002,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pause Menu Pack": {
+        "name": "Pause Menu Pack",
+        "id": 120003,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time is Money Pack": {
+        "name": "Time is Money Pack",
+        "id": 120004,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Double Jump Pack": {
+        "name": "Double Jump Pack",
+        "id": 120005,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pet Pack": {
+        "name": "Pet Pack",
+        "id": 120006,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sexy Outfits Pack": {
+        "name": "Sexy Outfits Pack",
+        "id": 120007,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Top Hat Pack": {
+        "name": "Top Hat Pack",
+        "id": 120008,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Map Pack": {
+        "name": "Map Pack",
+        "id": 120009,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gun Pack": {
+        "name": "Gun Pack",
+        "id": 120010,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "The Zombie Pack": {
+        "name": "The Zombie Pack",
+        "id": 120011,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Night Map Pack": {
+        "name": "Night Map Pack",
+        "id": 120012,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Psychological Warfare Pack": {
+        "name": "Psychological Warfare Pack",
+        "id": 120013,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Armor for your Horse Pack": {
+        "name": "Armor for your Horse Pack",
+        "id": 120014,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Finish the Fight Pack": {
+        "name": "Finish the Fight Pack",
+        "id": 120015,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Particles Pack": {
+        "name": "Particles Pack",
+        "id": 120016,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Day One Patch Pack": {
+        "name": "Day One Patch Pack",
+        "id": 120017,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Checkpoint Pack": {
+        "name": "Checkpoint Pack",
+        "id": 120018,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Incredibly Important Pack": {
+        "name": "Incredibly Important Pack",
+        "id": 120019,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wall Jump Pack": {
+        "name": "Wall Jump Pack",
+        "id": 120020,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Bar Pack": {
+        "name": "Health Bar Pack",
+        "id": 120021,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Parallax Pack": {
+        "name": "Parallax Pack",
+        "id": 120022,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Harmless Plants Pack": {
+        "name": "Harmless Plants Pack",
+        "id": 120023,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Death of Comedy Pack": {
+        "name": "Death of Comedy Pack",
+        "id": 120024,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Canadian Dialog Pack": {
+        "name": "Canadian Dialog Pack",
+        "id": 120025,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DLC NPC Pack": {
+        "name": "DLC NPC Pack",
+        "id": 120026,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cut Content Pack": {
+        "name": "Cut Content Pack",
+        "id": 120027,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Name Change Pack": {
+        "name": "Name Change Pack",
+        "id": 120028,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Pickaxe": {
+        "name": "Pickaxe",
+        "id": 120029,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Season Pass": {
+        "name": "Season Pass",
+        "id": 120030,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "High Definition Next Gen Pack": {
+        "name": "High Definition Next Gen Pack",
+        "id": 120031,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Increased HP Pack": {
+        "name": "Increased HP Pack",
+        "id": 120032,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Removed Ads Pack": {
+        "name": "Removed Ads Pack",
+        "id": 120033,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Big Sword Pack": {
+        "name": "Big Sword Pack",
+        "id": 120034,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Really Big Sword Pack": {
+        "name": "Really Big Sword Pack",
+        "id": 120035,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Unfathomable Sword Pack": {
+        "name": "Unfathomable Sword Pack",
+        "id": 120036,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Gun": {
+        "name": "Gun",
+        "id": 120037,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sword": {
+        "name": "Sword",
+        "id": 120038,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wooden Sword": {
+        "name": "Wooden Sword",
+        "id": 120039,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Box of Various Supplies": {
+        "name": "Box of Various Supplies",
+        "id": 120040,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Humble Indie Bindle": {
+        "name": "Humble Indie Bindle",
+        "id": 120041,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DLC Quest: Coin Bundle": {
+        "name": "DLC Quest: Coin Bundle",
+        "id": 120042,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Live Freemium or Die: Coin Bundle": {
+        "name": "Live Freemium or Die: Coin Bundle",
+        "id": 120043,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Zombie Sheep": {
+        "name": "Zombie Sheep",
+        "id": 120044,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Temporary Spike": {
+        "name": "Temporary Spike",
+        "id": 120045,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Loading Screen": {
+        "name": "Loading Screen",
+        "id": 120046,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DLC Quest: Progressive Weapon": {
+        "name": "DLC Quest: Progressive Weapon",
+        "id": 120048,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Live Freemium or Die: Progressive Weapon": {
+        "name": "Live Freemium or Die: Progressive Weapon",
+        "id": 120049,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "DLC Quest: Coin Piece": {
+        "name": "DLC Quest: Coin Piece",
+        "id": 120050,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Live Freemium or Die: Coin Piece": {
+        "name": "Live Freemium or Die: Coin Piece",
+        "id": 120051,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "10 coins": 1,
+      "100 coins": 1,
+      "171 coins": 1,
+      "203 coins": 1,
+      "4 coins": 1,
+      "46 coins": 1,
+      "50 coins": 1,
+      "60 coins": 1,
+      "7 coins": 1,
+      "76 coins": 1,
+      "89 coins": 1,
+      "9 coins": 1,
+      "Animation Pack": 2,
+      "Armor for your Horse Pack": 2,
+      "Audio Pack": 2,
+      "Double Jump Pack": 2,
+      "Finish the Fight Pack": 2,
+      "Gun Pack": 2,
+      "Loading Screen": 14,
+      "Map Pack": 2,
+      "Movement Pack": 2,
+      "Name Change Pack": 8,
+      "Night Map Pack": 2,
+      "Pause Menu Pack": 2,
+      "Pet Pack": 2,
+      "Psychological Warfare Pack": 2,
+      "Sexy Outfits Pack": 2,
+      "Temporary Spike": 2,
+      "The Zombie Pack": 2,
+      "Time is Money Pack": 2,
+      "Top Hat Pack": 2,
+      "Victory Basic": 1,
+      "Zombie Sheep": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "DLCQuest",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "DLCQuest",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

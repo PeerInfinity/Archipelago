@@ -1,0 +1,2280 @@
+{
+  "schema_version": 3,
+  "game_name": "Mega Man 2",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "MM2World"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "To Heat Man Stage",
+            "connected_region": "Heat Man Stage",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "names"
+                    },
+                    "attr": "item_2"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "items"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "self"
+                      },
+                      "attr": "player"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Air Man Stage",
+            "connected_region": "Air Man Stage",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Wood Man Stage",
+            "connected_region": "Wood Man Stage",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Bubble Man Stage",
+            "connected_region": "Bubble Man Stage",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Quick Man Stage",
+            "connected_region": "Quick Man Stage",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "names"
+                    },
+                    "attr": "time_stopper"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "items"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "self"
+                      },
+                      "attr": "player"
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Flash Man Stage",
+            "connected_region": "Flash Man Stage",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Metal Man Stage",
+            "connected_region": "Metal Man Stage",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Crash Man Stage",
+            "connected_region": "Crash Man Stage",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "To Wily Stage 1",
+            "connected_region": "Wily Stage 1",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Heat Man Stage": {
+        "name": "Heat Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Heat Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Heat Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Heat Man - Defeated",
+            "id": 8912897,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Atomic Fire - Received",
+            "id": 8913153,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Wood Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Item 1 - Received",
+            "id": 8913169,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Heat Man Stage - 1-Up",
+            "id": 8913409,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Flash Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Air Man Stage": {
+        "name": "Air Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Air Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Air Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Air Man - Defeated",
+            "id": 8912898,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Metal Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Air Shooter - Received",
+            "id": 8913154,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Item 2 - Received",
+            "id": 8913170,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Item 3 - Bouncy",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wood Man Stage": {
+        "name": "Wood Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wood Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Wood Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Wood Man - Defeated",
+            "id": 8912899,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Atomic Fire",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Leaf Shield - Received",
+            "id": 8913155,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bubble Man Stage": {
+        "name": "Bubble Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Bubble Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Bubble Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bubble Man - Defeated",
+            "id": 8912900,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Item 2 - Rocket",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bubble Lead - Received",
+            "id": 8913156,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Quick Man Stage": {
+        "name": "Quick Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Quick Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Quick Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Quick Man - Defeated",
+            "id": 8912901,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quick Boomerang - Received",
+            "id": 8913157,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quick Man Stage - 1-Up 1",
+            "id": 8913410,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_1"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_2"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_3"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quick Man Stage - E-Tank",
+            "id": 8913411,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quick Man Stage - 1-Up 2",
+            "id": 8913412,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Quick Man Stage - 1-Up 3",
+            "id": 8913416,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Flash Man Stage": {
+        "name": "Flash Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Flash Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Flash Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Flash Man - Defeated",
+            "id": 8912902,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Time Stopper - Received",
+            "id": 8913158,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bubble Lead",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Item 3 - Received",
+            "id": 8913171,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Flash Man Stage - 1-Up",
+            "id": 8913419,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_1"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_2"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_3"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Metal Blade",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Flash Man Stage - E-Tank",
+            "id": 8913423,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Crash Bomber",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Metal Man Stage": {
+        "name": "Metal Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Metal Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Metal Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Metal Man - Defeated",
+            "id": 8912903,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Metal Blade - Received",
+            "id": 8913159,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Item 1 - Propeller",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Metal Man Stage - E-Tank 1",
+            "id": 8913424,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Metal Man Stage - 1-Up",
+            "id": 8913425,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_1"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_2"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Metal Man Stage - E-Tank 2",
+            "id": 8913426,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_1"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_2"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bubble Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Crash Man Stage": {
+        "name": "Crash Man Stage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Crash Man Stage",
+            "parent_region": "Menu",
+            "connected_region": "Crash Man Stage",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Crash Man - Defeated",
+            "id": 8912904,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Crash Bomber - Received",
+            "id": 8913160,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Crash Man Stage - E-Tank",
+            "id": 8913428,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Quick Boomerang",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Crash Man Stage - 1-Up",
+            "id": 8913429,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_1"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_2"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "names"
+                      },
+                      "attr": "item_3"
+                    }
+                  ]
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wily Stage 1": {
+        "name": "Wily Stage 1",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wily Stage 1",
+            "parent_region": "Menu",
+            "connected_region": "Wily Stage 1",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "To Wily Stage 2",
+            "connected_region": "Wily Stage 2",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Mecha Dragon - Defeated",
+            "id": 8912905,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Crash Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 1 - Completed",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wily Stage 1 - Completed",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 1 - 1-Up",
+            "id": 8913430,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Heat Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wily Stage 2": {
+        "name": "Wily Stage 2",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wily Stage 2",
+            "parent_region": "Wily Stage 1",
+            "connected_region": "Wily Stage 2",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "To Wily Stage 3",
+            "connected_region": "Wily Stage 3",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Picopico-kun - Defeated",
+            "id": 8912906,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Quick Man Access Codes",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 2 - Completed",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wily Stage 2 - Completed",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 2 - E-Tank 1",
+            "id": 8913434,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Air Shooter",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 2 - 1-Up 1",
+            "id": 8913435,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Time Stopper",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 2 - 1-Up 2",
+            "id": 8913436,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "names"
+                },
+                "attr": "crash_bomber"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 2 - E-Tank 2",
+            "id": 8913437,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "names"
+                },
+                "attr": "crash_bomber"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Leaf Shield",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wily Stage 3": {
+        "name": "Wily Stage 3",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wily Stage 3",
+            "parent_region": "Wily Stage 2",
+            "connected_region": "Wily Stage 3",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "To Wily Stage 4",
+            "connected_region": "Wily Stage 4",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Guts Tank - Defeated",
+            "id": 8912907,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 3 - Completed",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wily Stage 3 - Completed",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 3 - E-Tank",
+            "id": 8913440,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "names"
+                },
+                "attr": "crash_bomber"
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Weapon Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wily Stage 4": {
+        "name": "Wily Stage 4",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wily Stage 4",
+            "parent_region": "Wily Stage 3",
+            "connected_region": "Wily Stage 4",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "To Wily Stage 5",
+            "connected_region": "Wily Stage 5",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Boobeam Trap - Defeated",
+            "id": 8912908,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "names"
+                    },
+                    "attr": "crash_bomber"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_any",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "weps"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "world"
+                      },
+                      "attr": "player"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 4 - Completed",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "names"
+                    },
+                    "attr": "crash_bomber"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "has_any",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "weps"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "world"
+                      },
+                      "attr": "player"
+                    }
+                  ]
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wily Stage 4 - Completed",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 4 - 1-Up 1",
+            "id": 8913445,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Health Energy (L)",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 4 - E-Tank 1",
+            "id": 8913446,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wily Stage 5": {
+        "name": "Wily Stage 5",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wily Stage 5",
+            "parent_region": "Wily Stage 4",
+            "connected_region": "Wily Stage 5",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "To Wily Stage 6",
+            "connected_region": "Wily Stage 6",
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "items"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "self"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Wily Machine 2 - Defeated",
+            "id": 8912909,
+            "crystal": null,
+            "access_rule": {
+              "type": "capability",
+              "capability": "defeat_enough_rbms",
+              "inferred": true,
+              "description": "Requires ability to defeat enough rbms"
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "E-Tank",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wily Stage 5 - Completed",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "capability",
+              "capability": "defeat_enough_rbms",
+              "inferred": true,
+              "description": "Requires ability to defeat enough rbms"
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wily Stage 5 - Completed",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Wily Stage 6": {
+        "name": "Wily Stage 6",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Wily Stage 6",
+            "parent_region": "Wily Stage 5",
+            "connected_region": "Wily Stage 6",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Dr. Wily (Alien) - Defeated",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_any",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "weps"
+                },
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Victory",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Atomic Fire": {
+        "name": "Atomic Fire",
+        "id": 8912897,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Air Shooter": {
+        "name": "Air Shooter",
+        "id": 8912898,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Leaf Shield": {
+        "name": "Leaf Shield",
+        "id": 8912899,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bubble Lead": {
+        "name": "Bubble Lead",
+        "id": 8912900,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quick Boomerang": {
+        "name": "Quick Boomerang",
+        "id": 8912901,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Time Stopper": {
+        "name": "Time Stopper",
+        "id": 8912902,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Blade": {
+        "name": "Metal Blade",
+        "id": 8912903,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crash Bomber": {
+        "name": "Crash Bomber",
+        "id": 8912904,
+        "groups": [
+          "Everything",
+          "Weapons"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Heat Man Access Codes": {
+        "name": "Heat Man Access Codes",
+        "id": 8913153,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Air Man Access Codes": {
+        "name": "Air Man Access Codes",
+        "id": 8913154,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Wood Man Access Codes": {
+        "name": "Wood Man Access Codes",
+        "id": 8913155,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bubble Man Access Codes": {
+        "name": "Bubble Man Access Codes",
+        "id": 8913156,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Quick Man Access Codes": {
+        "name": "Quick Man Access Codes",
+        "id": 8913157,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Flash Man Access Codes": {
+        "name": "Flash Man Access Codes",
+        "id": 8913158,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Metal Man Access Codes": {
+        "name": "Metal Man Access Codes",
+        "id": 8913159,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crash Man Access Codes": {
+        "name": "Crash Man Access Codes",
+        "id": 8913160,
+        "groups": [
+          "Everything",
+          "Stages"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Item 1 - Propeller": {
+        "name": "Item 1 - Propeller",
+        "id": 8912913,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Item 2 - Rocket": {
+        "name": "Item 2 - Rocket",
+        "id": 8912914,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Item 3 - Bouncy": {
+        "name": "Item 3 - Bouncy",
+        "id": 8912915,
+        "groups": [
+          "Everything",
+          "Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "1-Up": {
+        "name": "1-Up",
+        "id": 8912928,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Weapon Energy (L)": {
+        "name": "Weapon Energy (L)",
+        "id": 8912929,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Health Energy (L)": {
+        "name": "Health Energy (L)",
+        "id": 8912930,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "E-Tank": {
+        "name": "E-Tank",
+        "id": 8912931,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything",
+      "Items",
+      "Stages",
+      "Weapons"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "1-Up": 10,
+      "Air Man Access Codes": 1,
+      "Air Shooter": 2,
+      "Atomic Fire": 2,
+      "Bubble Lead": 2,
+      "Bubble Man Access Codes": 2,
+      "Crash Bomber": 2,
+      "Crash Man Access Codes": 2,
+      "E-Tank": 8,
+      "Flash Man Access Codes": 2,
+      "Health Energy (L)": 6,
+      "Heat Man Access Codes": 2,
+      "Item 1 - Propeller": 2,
+      "Item 2 - Rocket": 2,
+      "Item 3 - Bouncy": 2,
+      "Leaf Shield": 2,
+      "Metal Blade": 2,
+      "Metal Man Access Codes": 2,
+      "Quick Boomerang": 2,
+      "Quick Man Access Codes": 2,
+      "Time Stopper": 2,
+      "Victory": 1,
+      "Weapon Energy (L)": 28,
+      "Wily Stage 1 - Completed": 1,
+      "Wily Stage 2 - Completed": 1,
+      "Wily Stage 3 - Completed": 1,
+      "Wily Stage 4 - Completed": 1,
+      "Wily Stage 5 - Completed": 1,
+      "Wood Man Access Codes": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Air Man Access Codes"
+    ]
+  },
+  "settings": {
+    "1": {
+      "game": "Mega Man 2",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Mega Man 2",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

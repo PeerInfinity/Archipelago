@@ -177,23 +177,39 @@ export class CommonUI {
       }
 
       case 'helper': {
-        let argsText = (rule.args || [])
-          .map((arg) => {
-            if (typeof arg === 'string' || typeof arg === 'number') {
-              return arg;
-            } else if (arg && arg.type === 'constant') {
-              return arg.value;
-            } else {
-              return '(complex)';
+        // Display helper name
+        root.appendChild(document.createTextNode(` helper: ${rule.name}`));
+
+        // Process arguments for display
+        if (rule.args && rule.args.length > 0) {
+          root.appendChild(document.createTextNode(', args: ['));
+          const argsContainer = document.createElement('span'); // Container for args text
+          argsContainer.style.backgroundColor = 'transparent'; // Explicitly remove background
+          argsContainer.style.color = 'inherit'; // Inherit text color from parent
+          argsContainer.style.padding = '0'; // Reset padding
+          argsContainer.style.margin = '0'; // Reset margin
+
+          let isFirstArg = true;
+          rule.args.forEach((arg) => {
+            if (!isFirstArg) {
+              argsContainer.appendChild(document.createTextNode(', '));
             }
-          })
-          .join(', ');
+            let argText = '(complex)';
+            if (typeof arg === 'string' || typeof arg === 'number') {
+              argText = arg;
+            } else if (arg && arg.type === 'constant') {
+              argText = arg.value;
+            }
+            argsContainer.appendChild(document.createTextNode(argText));
+            isFirstArg = false;
+          });
+          root.appendChild(argsContainer);
+          root.appendChild(document.createTextNode(']'));
+        } else {
+          root.appendChild(document.createTextNode(', args: []'));
+        }
 
-        root.appendChild(
-          document.createTextNode(` helper: ${rule.name}, args: [${argsText}]`)
-        );
-
-        // For complex arguments, render them in more detail
+        // Keep the logic for rendering complex arguments below if they exist
         const hasComplexArgs =
           rule.args &&
           rule.args.some(
@@ -314,13 +330,20 @@ export class CommonUI {
 
       case 'and':
       case 'or': {
-        const ul = document.createElement('ul');
-        rule.conditions.forEach((cond) => {
-          const li = document.createElement('li');
-          li.appendChild(this.renderLogicTree(cond, colorblindMode));
-          ul.appendChild(li);
+        const conditionsContainer = document.createElement('div');
+        conditionsContainer.classList.add('logic-conditions');
+        conditionsContainer.style.marginLeft = '10px';
+
+        rule.conditions.forEach((condition, index) => {
+          const conditionLabel = document.createElement('div');
+          conditionLabel.textContent = `Condition #${index + 1}:`;
+          conditionsContainer.appendChild(conditionLabel);
+
+          const conditionNode = this.renderLogicTree(condition, colorblindMode);
+          conditionsContainer.appendChild(conditionNode);
         });
-        root.appendChild(ul);
+
+        root.appendChild(conditionsContainer);
         break;
       }
 
@@ -446,6 +469,57 @@ export class CommonUI {
         break;
       }
 
+      case 'compare': {
+        const compareDetails = document.createElement('div');
+        compareDetails.classList.add('logic-compare-details');
+        compareDetails.style.marginLeft = '10px';
+
+        const leftLabel = document.createElement('div');
+        leftLabel.textContent = 'Left Operand:';
+        compareDetails.appendChild(leftLabel);
+
+        const leftNode = this.renderLogicTree(rule.left, colorblindMode);
+        leftNode.style.marginLeft = '10px';
+        compareDetails.appendChild(leftNode);
+
+        const opLabel = document.createElement('div');
+        opLabel.textContent = `Operator: ${rule.op}`;
+        compareDetails.appendChild(opLabel);
+
+        const rightLabel = document.createElement('div');
+        rightLabel.textContent = 'Right Operand:';
+        compareDetails.appendChild(rightLabel);
+
+        // Handle rendering the right side, which might be complex (e.g., a list)
+        const rightNode = document.createElement('div');
+        rightNode.style.marginLeft = '10px';
+
+        if (rule.right && typeof rule.right === 'object') {
+          if (rule.right.type === 'list') {
+            rightNode.textContent = 'List: [';
+            const listItems = document.createElement('div');
+            listItems.style.marginLeft = '10px';
+            rule.right.value.forEach((item, index) => {
+              listItems.appendChild(this.renderLogicTree(item, colorblindMode));
+            });
+            rightNode.appendChild(listItems);
+            rightNode.appendChild(document.createTextNode(']'));
+          } else {
+            // Render other complex types recursively
+            rightNode.appendChild(
+              this.renderLogicTree(rule.right, colorblindMode)
+            );
+          }
+        } else {
+          // Render simple values directly
+          rightNode.textContent = JSON.stringify(rule.right);
+        }
+        compareDetails.appendChild(rightNode);
+
+        root.appendChild(compareDetails);
+        break;
+      }
+
       default:
         root.appendChild(document.createTextNode(' [unhandled rule type] '));
         // For debugging, output the complete rule
@@ -453,6 +527,8 @@ export class CommonUI {
           console.log('Unhandled rule type:', rule.type, rule);
         }
     }
+
+    // Ensure the root element is always returned
     return root;
   }
 

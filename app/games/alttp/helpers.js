@@ -410,19 +410,62 @@ export class ALTTPHelpers extends GameHelpers {
 
   // And now the helpers from worlds/alttp/Rules.py
 
-  item_name_in_location_names(item) {
-    // Placeholder.  Todo - copy the logic from Rules.py
-    return true;
-  }
+  item_name_in_location_names(item, arg2, arg3) {
+    let player;
+    let location_name_player_pairs;
 
-  location() {
-    // Placeholder.  Todo - figure out what the logic should be
-    return true;
-  }
+    // Check if player argument (arg2) might have been omitted
+    if (Array.isArray(arg2) && arg3 === undefined) {
+      // Assume arg2 is the location pairs list, use stateManager's player slot
+      location_name_player_pairs = arg2;
+      player = stateManager.playerSlot; // Use playerSlot from stateManager
+      //console.warn(
+      //  `item_name_in_location_names potentially missing player arg, defaulting to stateManager.playerSlot (${player})`
+      //);
+    } else {
+      // Assume standard arguments: item, player, location_pairs
+      // Use arg2 as player if it's a number, otherwise default to stateManager's player slot
+      player = typeof arg2 === 'number' ? arg2 : stateManager.playerSlot;
+      location_name_player_pairs = arg3;
+    }
 
-  player() {
-    // Placeholder.  Todo - figure out what the logic should be
-    return false;
+    // Ensure location_name_player_pairs is an array
+    if (!Array.isArray(location_name_player_pairs)) {
+      console.warn(
+        'item_name_in_location_names called with non-array pairs:',
+        location_name_player_pairs
+      );
+      return false;
+    }
+
+    // Iterate through the pairs [locationName, locationPlayer]
+    for (const pair of location_name_player_pairs) {
+      // Ensure the pair is a valid array [string, number]
+      if (
+        !Array.isArray(pair) ||
+        pair.length !== 2 ||
+        typeof pair[0] !== 'string'
+      ) {
+        console.warn('Invalid pair in item_name_in_location_names:', pair);
+        continue; // Skip invalid pairs
+      }
+
+      const [locName, locPlayer] = pair; // locPlayer isn't actually used in the JS location_item_name yet, but keep structure for potential future use
+
+      // Get the item [name, player] at the specified location
+      const itemAtLocation = this.location_item_name(locName);
+
+      // Check if the item exists and matches the target item name and player ID
+      if (
+        itemAtLocation &&
+        itemAtLocation[0] === item &&
+        itemAtLocation[1] === player
+      ) {
+        return true; // Found a match
+      }
+    }
+
+    return false; // No match found
   }
 
   old_man() {
@@ -431,23 +474,87 @@ export class ALTTPHelpers extends GameHelpers {
   }
 
   basement_key_rule() {
-    // Placeholder.  Todo - copy the logic from Rules.py
-    return true;
+    // Python: location_item_name(state, 'Sewers - Key Rat Key Drop', player) == ("Small Key (Hyrule Castle)", player)
+    // Assuming player 1 (local player)
+    const keyRatItem = this.location_item_name('Sewers - Key Rat Key Drop');
+    const keyRatHasKey =
+      keyRatItem &&
+      keyRatItem[0] === 'Small Key (Hyrule Castle)' &&
+      keyRatItem[1] === 1;
+
+    if (keyRatHasKey) {
+      // Python: state._lttp_has_key("Small Key (Hyrule Castle)", player, 2)
+      return this._lttp_has_key('Small Key (Hyrule Castle)', 1, 2);
+    } else {
+      // Python: state._lttp_has_key("Small Key (Hyrule Castle)", player, 3)
+      return this._lttp_has_key('Small Key (Hyrule Castle)', 1, 3);
+    }
   }
 
   cross_peg_bridge() {
-    // Placeholder.  Todo - copy the logic from Rules.py
-    return true;
+    // Python: state.has('Hammer', player) and state.has('Moon Pearl', player)
+    // Assuming player 1 (local player)
+    return (
+      stateManager.inventory.has('Hammer') &&
+      stateManager.inventory.has('Moon Pearl')
+    );
   }
 
-  any() {
-    // Placeholder.  Todo - copy the logic from Rules.py
-    return true;
+  // Placeholders for glitch rules
+
+  set_owg_connection_rules() {
+    // Placeholder.
+    return false;
   }
 
-  add_rule() {
-    // If this gets called, then there is some invalid data in the json file
-    return true;
+  get_boots_clip_exits_lw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_boots_clip_exits_dw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_glitched_speed_drops_lw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_glitched_speed_drops_dw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_mirror_offset_spots_lw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_mirror_offset_spots_dw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_mirror_clip_spots_lw() {
+    // Placeholder.
+    return false;
+  }
+
+  get_mirror_clip_spots_dw() {
+    // Placeholder.
+    return false;
+  }
+
+  add_alternate_rule() {
+    // Placeholder.
+    return false;
+  }
+
+  get_entrance() {
+    // Placeholder.
+    return false;
   }
 
   // And now the state_methods:
@@ -517,32 +624,67 @@ export class ALTTPHelpers extends GameHelpers {
     return this._lttp_has_key(key, playerParam, count);
   }
 
-  multiworld() {
-    // Placeholder!
-    return true;
-  }
+  GanonDefeatRule() {
+    const isSwordless = stateManager.state.hasFlag('swordless');
 
-  has_any(item, playerId) {
-    // Placeholder!
-    return true;
-
-    /*
-    // Handle case where item is a constant object
-    const itemName =
-      typeof item === 'object' && item.type === 'constant' ? item.value : item;
-
-    // Convert player to numeric ID if it's a string like "player"
-    const player =
-      playerId === 'player' ? stateManager.playerSlot : parseInt(playerId, 10);
-
-    // Check if the player has the item in their inventory
-    if (stateManager.inventory) {
-      const count = stateManager.inventory.count(itemName, player);
-      return count > 0;
+    if (isSwordless) {
+      return (
+        stateManager.inventory.has('Hammer') &&
+        this.has_fire_source() &&
+        stateManager.inventory.has('Silver Bow') &&
+        this.can_shoot_arrows()
+      );
     }
 
-    return false;
-    */
+    const canHurt = this.has_beam_sword();
+    const common = canHurt && this.has_fire_source();
+
+    // Check glitches setting - Assuming glitches_required is a string 'no_glitches' or other values
+    // Accessing nested properties safely
+    const glitchesRequired =
+      stateManager.state.gameSettings?.glitches_required || 'no_glitches';
+
+    if (glitchesRequired !== 'no_glitches') {
+      return (
+        common &&
+        (stateManager.inventory.has('Tempered Sword') ||
+          stateManager.inventory.has('Golden Sword') ||
+          (stateManager.inventory.has('Silver Bow') &&
+            this.can_shoot_arrows()) ||
+          stateManager.inventory.has('Lamp') ||
+          this.can_extend_magic(12)) // Assuming 12 magic cost for lighting torches
+      );
+    } else {
+      return (
+        common &&
+        stateManager.inventory.has('Silver Bow') &&
+        this.can_shoot_arrows()
+      );
+    }
+  }
+
+  has_any(items, playerId) {
+    // Check if items is an array
+    if (!Array.isArray(items)) {
+      console.warn('has_any called with non-array items:', items);
+      return false;
+    }
+    // Assuming player 1 (local player) if playerId is not a number
+    const player = typeof playerId === 'number' ? playerId : 1;
+
+    // Iterate through the item names
+    for (const item of items) {
+      if (typeof item !== 'string') {
+        console.warn('Invalid item name in has_any:', item);
+        continue; // Skip non-string items
+      }
+      // Check if the player has at least one of this item
+      if (stateManager.inventory.count(item, player) > 0) {
+        return true; // Found one
+      }
+    }
+
+    return false; // None found
   }
 
   // Python-like helper functions
@@ -828,6 +970,23 @@ export class ALTTPHelpers extends GameHelpers {
   }
 
   /**
+   * Gets the item name and player ID for a given location name.
+   * Mirrors the Python `location_item_name` function.
+   * @param {string} locationName - The name of the location to check.
+   * @returns {[string, number]|null} - An array [itemName, itemPlayer] or null if no item.
+   */
+  location_item_name(locationName) {
+    const location = this._findLocationByName(locationName);
+
+    if (location && location.item) {
+      // Assuming location.item structure is { name: string, player: number }
+      return [location.item.name, location.item.player];
+    }
+
+    return null; // No item found or location doesn't exist
+  }
+
+  /**
    * Override the executeHelper method to add special case handling for Python-like functions
    * @override
    */
@@ -857,29 +1016,11 @@ export class ALTTPHelpers extends GameHelpers {
     if (name === 'getattr') {
       return this.getattr(...args);
     }
+    if (name === 'location_item_name') {
+      return this.location_item_name(...args);
+    }
 
     // Use the parent class implementation for all other helpers
     return super.executeHelper(name, ...args);
-  }
-
-  // This should be moved to a separate file
-
-  /**
-   * Helper function to check if a location is accessible based on inventory size
-   * @param {number} requiredItemCount - The minimum number of items required
-   * @returns {boolean} - Whether the player has more items than required
-   */
-  _archipidle_location_is_accessible(requiredItemCount) {
-    if (!stateManager.inventory) {
-      return false;
-    }
-
-    // Count total items in inventory by summing individual item counts
-    let inventoryItemCount = 0;
-    stateManager.inventory.items.forEach((count) => {
-      inventoryItemCount += count;
-    });
-
-    return inventoryItemCount >= requiredItemCount;
   }
 }

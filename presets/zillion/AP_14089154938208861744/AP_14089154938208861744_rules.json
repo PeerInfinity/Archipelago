@@ -1,0 +1,7417 @@
+{
+  "schema_version": 3,
+  "game_name": "Zillion",
+  "archipelago_version": "0.6.1",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "ZillionWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "B-8  to Menu",
+            "parent_region": "B-8 ",
+            "connected_region": "Menu",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "left_of_start to Menu",
+            "parent_region": "left_of_start",
+            "connected_region": "Menu",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "C-6  to Menu",
+            "parent_region": "C-6 ",
+            "connected_region": "Menu",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Menu to B-8 ",
+            "connected_region": "B-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu to left_of_start",
+            "connected_region": "left_of_start",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "Menu to C-6 ",
+            "connected_region": "C-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "left_of_start": {
+        "name": "left_of_start",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu to left_of_start",
+            "parent_region": "Menu",
+            "connected_region": "left_of_start",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "B-1  to left_of_start",
+            "parent_region": "B-1 ",
+            "connected_region": "left_of_start",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "A-3  to left_of_start",
+            "parent_region": "A-3 ",
+            "connected_region": "left_of_start",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "left_of_start to Menu",
+            "connected_region": "Menu",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "left_of_start to B-1 ",
+            "connected_region": "B-1 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "left_of_start to A-3 ",
+            "connected_region": "A-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "B-1 ": {
+        "name": "B-1 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "left_of_start to B-1 ",
+            "parent_region": "left_of_start",
+            "connected_region": "B-1 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "B-1  to left_of_start",
+            "connected_region": "left_of_start",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "B-1 mid far left",
+            "id": 8675400,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B-1 bottom left-center",
+            "id": 8675409,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B-1 top center",
+            "id": 8675396,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B-1 top right-center",
+            "id": 8675397,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B-1 mid right",
+            "id": 8675405,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "B-8 ": {
+        "name": "B-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu to B-8 ",
+            "parent_region": "Menu",
+            "connected_region": "B-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "A-8  to B-8 ",
+            "parent_region": "A-8 ",
+            "connected_region": "B-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "B-8  to Menu",
+            "connected_region": "Menu",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "B-8  to A-8 ",
+            "connected_region": "A-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "B-8 top right",
+            "id": 8675419,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "B-8 mid far right",
+            "id": 8675427,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "A-3 ": {
+        "name": "A-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "left_of_start to A-3 ",
+            "parent_region": "left_of_start",
+            "connected_region": "A-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "A-4  to A-3 ",
+            "parent_region": "A-4 ",
+            "connected_region": "A-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "A-3  to left_of_start",
+            "connected_region": "left_of_start",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "A-3  to A-4 ",
+            "connected_region": "A-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "A-3 top left-center",
+            "id": 8675311,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "A-4 ": {
+        "name": "A-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "A-3  to A-4 ",
+            "parent_region": "A-3 ",
+            "connected_region": "A-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "A-6  to A-4 ",
+            "parent_region": "A-6 ",
+            "connected_region": "A-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "A-4  to A-3 ",
+            "connected_region": "A-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "A-4  to A-6 ",
+            "connected_region": "A-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "A-4 top left",
+            "id": 8675331,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-4 mid center",
+            "id": 8675340,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-4 bottom right",
+            "id": 8675349,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-4 bottom far left",
+            "id": 8675344,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "A-6 ": {
+        "name": "A-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "A-4  to A-6 ",
+            "parent_region": "A-4 ",
+            "connected_region": "A-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "A-6  to A-4 ",
+            "connected_region": "A-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "A-6 top far left",
+            "id": 8675351,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-6 mid left",
+            "id": 8675359,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-6 mid far right",
+            "id": 8675364,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-6 top right",
+            "id": 8675356,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 2,
+            "locked": true,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-6 mid far left",
+            "id": 8675358,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-6 bottom far right",
+            "id": 8675371,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "A-8 ": {
+        "name": "A-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "B-8  to A-8 ",
+            "parent_region": "B-8 ",
+            "connected_region": "A-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "A-8  to B-8 ",
+            "connected_region": "B-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "A-8 bottom center",
+            "id": 8675389,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-8 bottom left-center",
+            "id": 8675388,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "A-8 bottom right",
+            "id": 8675391,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "C-3 ": {
+        "name": "C-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "C-4  to C-3 ",
+            "parent_region": "C-4 ",
+            "connected_region": "C-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "D-2  to C-3 ",
+            "parent_region": "D-2 ",
+            "connected_region": "C-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "D-3  to C-3 ",
+            "parent_region": "D-3 ",
+            "connected_region": "C-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "C-3  to C-4 ",
+            "connected_region": "C-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "C-3  to D-2 ",
+            "connected_region": "D-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "C-3  to D-3 ",
+            "connected_region": "D-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "C-3 mid far right",
+            "id": 8675448,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "C-4 ": {
+        "name": "C-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "C-5  to C-4 ",
+            "parent_region": "C-5 ",
+            "connected_region": "C-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "C-3  to C-4 ",
+            "parent_region": "C-3 ",
+            "connected_region": "C-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "C-4  to C-5 ",
+            "connected_region": "C-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "C-4  to C-3 ",
+            "connected_region": "C-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "C-4 top far right",
+            "id": 8675462,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "C-5 ": {
+        "name": "C-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "C-6  to C-5 ",
+            "parent_region": "C-6 ",
+            "connected_region": "C-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "C-4  to C-5 ",
+            "parent_region": "C-4 ",
+            "connected_region": "C-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "C-5  to C-6 ",
+            "connected_region": "C-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "C-5  to C-4 ",
+            "connected_region": "C-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "C-5 mid far left",
+            "id": 8675484,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "C-6 ": {
+        "name": "C-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Menu to C-6 ",
+            "parent_region": "Menu",
+            "connected_region": "C-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "C-5  to C-6 ",
+            "parent_region": "C-5 ",
+            "connected_region": "C-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "C-6  to Menu",
+            "connected_region": "Menu",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "C-6  to C-5 ",
+            "connected_region": "C-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "C-6 top right-center",
+            "id": 8675502,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "C-6 top right",
+            "id": 8675503,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "D-2 ": {
+        "name": "D-2 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "C-3  to D-2 ",
+            "parent_region": "C-3 ",
+            "connected_region": "D-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "D-3  to D-2 ",
+            "parent_region": "D-3 ",
+            "connected_region": "D-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "D-2  to C-3 ",
+            "connected_region": "C-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "D-2  to D-3 ",
+            "connected_region": "D-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "D-2 mid left",
+            "id": 8675527,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "D-2 top left-center",
+            "id": 8675521,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "D-3 ": {
+        "name": "D-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "C-3  to D-3 ",
+            "parent_region": "C-3 ",
+            "connected_region": "D-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "D-2  to D-3 ",
+            "parent_region": "D-2 ",
+            "connected_region": "D-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "D-5  to D-3 ",
+            "parent_region": "D-5 ",
+            "connected_region": "D-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "D-3  to D-2 ",
+            "connected_region": "D-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "D-3  to C-3 ",
+            "connected_region": "C-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "D-3  to D-5 ",
+            "connected_region": "D-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "D-3 top far right",
+            "id": 8675546,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "D-5 ": {
+        "name": "D-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "D-3  to D-5 ",
+            "parent_region": "D-3 ",
+            "connected_region": "D-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "D-6  to D-5 ",
+            "parent_region": "D-6 ",
+            "connected_region": "D-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "D-5  to D-3 ",
+            "connected_region": "D-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "D-5  to D-6 ",
+            "connected_region": "D-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "D-5 mid center",
+            "id": 8675571,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "D-5 bottom far right",
+            "id": 8675581,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "D-6 ": {
+        "name": "D-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "D-5  to D-6 ",
+            "parent_region": "D-5 ",
+            "connected_region": "D-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "between_blue_red to D-6 ",
+            "parent_region": "between_blue_red",
+            "connected_region": "D-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "D-6  to D-5 ",
+            "connected_region": "D-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "D-6  to between_blue_red",
+            "connected_region": "between_blue_red",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "D-6 bottom far left",
+            "id": 8675596,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "D-6 mid center",
+            "id": 8675592,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "between_blue_red": {
+        "name": "between_blue_red",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "D-6  to between_blue_red",
+            "parent_region": "D-6 ",
+            "connected_region": "between_blue_red",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "E-6  to between_blue_red",
+            "parent_region": "E-6 ",
+            "connected_region": "between_blue_red",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "E-8  to between_blue_red",
+            "parent_region": "E-8 ",
+            "connected_region": "between_blue_red",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "between_blue_red to D-6 ",
+            "connected_region": "D-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "between_blue_red to E-6 ",
+            "connected_region": "E-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "between_blue_red to E-8 ",
+            "connected_region": "E-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "E-4 ": {
+        "name": "E-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-4  to E-4 ",
+            "parent_region": "F-4 ",
+            "connected_region": "E-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "E-5 SW to E-4 ",
+            "parent_region": "E-5 SW",
+            "connected_region": "E-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "E-4  to F-4 ",
+            "connected_region": "F-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "E-4  to E-5 SW",
+            "connected_region": "E-5 SW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "E-4 mid center",
+            "id": 8675634,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Scope",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "E-5 SW": {
+        "name": "E-5 SW",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "E-4  to E-5 SW",
+            "parent_region": "E-4 ",
+            "connected_region": "E-5 SW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "E-5 NE to E-5 SW",
+            "parent_region": "E-5 NE",
+            "connected_region": "E-5 SW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "E-5 SW to E-4 ",
+            "connected_region": "E-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "E-5 SW to E-5 NE",
+            "connected_region": "E-5 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "E-5 mid left",
+            "id": 8675653,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Scope",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "E-5 NE": {
+        "name": "E-5 NE",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "E-5 SW to E-5 NE",
+            "parent_region": "E-5 SW",
+            "connected_region": "E-5 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "E-5 NE to E-5 SW",
+            "connected_region": "E-5 SW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "E-5 top far right",
+            "id": 8675651,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 2,
+            "locked": true,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "E-6 ": {
+        "name": "E-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "between_blue_red to E-6 ",
+            "parent_region": "between_blue_red",
+            "connected_region": "E-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "E-6  to between_blue_red",
+            "connected_region": "between_blue_red",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "E-6 mid far left",
+            "id": 8675673,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E-6 bottom far left",
+            "id": 8675680,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E-6 bottom center",
+            "id": 8675683,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E-6 bottom right-center",
+            "id": 8675684,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E-6 bottom right",
+            "id": 8675685,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "E-8 ": {
+        "name": "E-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "between_blue_red to E-8 ",
+            "parent_region": "between_blue_red",
+            "connected_region": "E-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "F-8  to E-8 ",
+            "parent_region": "F-8 ",
+            "connected_region": "E-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "E-8  to between_blue_red",
+            "connected_region": "between_blue_red",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "E-8  to F-8 ",
+            "connected_region": "F-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "E-8 top right",
+            "id": 8675692,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "E-8 top far right",
+            "id": 8675693,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "F-4 ": {
+        "name": "F-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-5  to F-4 ",
+            "parent_region": "F-5 ",
+            "connected_region": "F-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "E-4  to F-4 ",
+            "parent_region": "E-4 ",
+            "connected_region": "F-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "red_elevator to F-4 ",
+            "parent_region": "red_elevator",
+            "connected_region": "F-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "F-4  to F-5 ",
+            "connected_region": "F-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-4  to E-4 ",
+            "connected_region": "E-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-4  to red_elevator",
+            "connected_region": "red_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "F-4 mid center",
+            "id": 8675739,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "F-5 ": {
+        "name": "F-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-7  to F-5 ",
+            "parent_region": "F-7 ",
+            "connected_region": "F-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "F-4  to F-5 ",
+            "parent_region": "F-4 ",
+            "connected_region": "F-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "F-5  to F-7 ",
+            "connected_region": "F-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-5  to F-4 ",
+            "connected_region": "F-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "F-5 bottom left-center",
+            "id": 8675766,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "F-7 ": {
+        "name": "F-7 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-8  to F-7 ",
+            "parent_region": "F-8 ",
+            "connected_region": "F-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "F-5  to F-7 ",
+            "parent_region": "F-5 ",
+            "connected_region": "F-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-7  to F-7 ",
+            "parent_region": "G-7 ",
+            "connected_region": "F-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "F-7  to F-8 ",
+            "connected_region": "F-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-7  to F-5 ",
+            "connected_region": "F-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-7  to G-7 ",
+            "connected_region": "G-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "F-7 mid far right",
+            "id": 8675784,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "F-8 ": {
+        "name": "F-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "E-8  to F-8 ",
+            "parent_region": "E-8 ",
+            "connected_region": "F-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "F-7  to F-8 ",
+            "parent_region": "F-7 ",
+            "connected_region": "F-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "F-8  to E-8 ",
+            "connected_region": "E-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-8  to F-7 ",
+            "connected_region": "F-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "F-8 bottom center",
+            "id": 8675809,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "G-4 ": {
+        "name": "G-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-5  to G-4 ",
+            "parent_region": "G-5 ",
+            "connected_region": "G-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-4  to G-4 ",
+            "parent_region": "H-4 ",
+            "connected_region": "G-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "G-4  to G-5 ",
+            "connected_region": "G-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-4  to H-4 ",
+            "connected_region": "H-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "G-4 mid left-center",
+            "id": 8675843,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "G-4 mid center",
+            "id": 8675844,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "G-5 ": {
+        "name": "G-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-6  to G-5 ",
+            "parent_region": "G-6 ",
+            "connected_region": "G-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-4  to G-5 ",
+            "parent_region": "G-4 ",
+            "connected_region": "G-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "G-5  to G-6 ",
+            "connected_region": "G-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-5  to G-4 ",
+            "connected_region": "G-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "G-5 top far left",
+            "id": 8675855,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "G-5 top far right",
+            "id": 8675861,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "G-6 ": {
+        "name": "G-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-7  to G-6 ",
+            "parent_region": "G-7 ",
+            "connected_region": "G-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-5  to G-6 ",
+            "parent_region": "G-5 ",
+            "connected_region": "G-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "G-6  to G-7 ",
+            "connected_region": "G-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-6  to G-5 ",
+            "connected_region": "G-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "G-6 bottom far left",
+            "id": 8675890,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "G-6 bottom left",
+            "id": 8675891,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "G-7 ": {
+        "name": "G-7 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-7  to G-7 ",
+            "parent_region": "F-7 ",
+            "connected_region": "G-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-6  to G-7 ",
+            "parent_region": "G-6 ",
+            "connected_region": "G-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-8  to G-7 ",
+            "parent_region": "G-8 ",
+            "connected_region": "G-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "G-7  to F-7 ",
+            "connected_region": "F-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-7  to G-6 ",
+            "connected_region": "G-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-7  to G-8 ",
+            "connected_region": "G-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "G-7 top far left",
+            "id": 8675897,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "G-7 mid center",
+            "id": 8675907,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "G-8 ": {
+        "name": "G-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-7  to G-8 ",
+            "parent_region": "G-7 ",
+            "connected_region": "G-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-8  to G-8 ",
+            "parent_region": "H-8 ",
+            "connected_region": "G-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "G-8  to G-7 ",
+            "connected_region": "G-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-8  to H-8 ",
+            "connected_region": "H-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "H-4 ": {
+        "name": "H-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "red_elevator to H-4 ",
+            "parent_region": "red_elevator",
+            "connected_region": "H-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-4  to H-4 ",
+            "parent_region": "G-4 ",
+            "connected_region": "H-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-5 SW to H-4 ",
+            "parent_region": "H-5 SW",
+            "connected_region": "H-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "H-4  to G-4 ",
+            "connected_region": "G-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "H-4  to H-5 SW",
+            "connected_region": "H-5 SW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "H-4  to red_elevator",
+            "connected_region": "red_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "H-4 bottom far left",
+            "id": 8675953,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "H-4 top left-center",
+            "id": 8675941,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "H-5 NE": {
+        "name": "H-5 NE",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "I-5  to H-5 NE",
+            "parent_region": "I-5 ",
+            "connected_region": "H-5 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-6  to H-5 NE",
+            "parent_region": "H-6 ",
+            "connected_region": "H-5 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "H-5 NE to H-6 ",
+            "connected_region": "H-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "H-5 NE to I-5 ",
+            "connected_region": "I-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "H-5 top left",
+            "id": 8675961,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "H-5 SW": {
+        "name": "H-5 SW",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "H-4  to H-5 SW",
+            "parent_region": "H-4 ",
+            "connected_region": "H-5 SW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "H-5 SW to H-4 ",
+            "connected_region": "H-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "H-5 bottom left",
+            "id": 8675975,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "H-6 ": {
+        "name": "H-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "H-7  to H-6 ",
+            "parent_region": "H-7 ",
+            "connected_region": "H-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-5 NE to H-6 ",
+            "parent_region": "H-5 NE",
+            "connected_region": "H-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "H-6  to H-7 ",
+            "connected_region": "H-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "H-6  to H-5 NE",
+            "connected_region": "H-5 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "H-6 bottom far left",
+            "id": 8675995,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "H-6 bottom left",
+            "id": 8675996,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "H-7 ": {
+        "name": "H-7 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "H-8  to H-7 ",
+            "parent_region": "H-8 ",
+            "connected_region": "H-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-6  to H-7 ",
+            "parent_region": "H-6 ",
+            "connected_region": "H-7 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "H-7  to H-8 ",
+            "connected_region": "H-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "H-7  to H-6 ",
+            "connected_region": "H-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "H-7 top far left",
+            "id": 8676002,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "H-7 bottom center",
+            "id": 8676019,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "H-8 ": {
+        "name": "H-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-8  to H-8 ",
+            "parent_region": "G-8 ",
+            "connected_region": "H-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-7  to H-8 ",
+            "parent_region": "H-7 ",
+            "connected_region": "H-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "H-8  to G-8 ",
+            "connected_region": "G-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "H-8  to H-7 ",
+            "connected_region": "H-7 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "H-8 top right-center",
+            "id": 8676027,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Apple",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "I-4 ": {
+        "name": "I-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "red_elevator to I-4 ",
+            "parent_region": "red_elevator",
+            "connected_region": "I-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "I-5  to I-4 ",
+            "parent_region": "I-5 ",
+            "connected_region": "I-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "I-4  to I-5 ",
+            "connected_region": "I-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "I-4  to red_elevator",
+            "connected_region": "red_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "I-4 bottom center",
+            "id": 8676082,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "I-5 ": {
+        "name": "I-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "I-4  to I-5 ",
+            "parent_region": "I-4 ",
+            "connected_region": "I-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-5 NE to I-5 ",
+            "parent_region": "H-5 NE",
+            "connected_region": "I-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "I-6  to I-5 ",
+            "parent_region": "I-6 ",
+            "connected_region": "I-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "I-5  to H-5 NE",
+            "connected_region": "H-5 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "I-5  to I-6 ",
+            "connected_region": "I-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "I-5  to I-4 ",
+            "connected_region": "I-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "I-5 mid far right",
+            "id": 8676099,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "I-6 ": {
+        "name": "I-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "I-5  to I-6 ",
+            "parent_region": "I-5 ",
+            "connected_region": "I-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "I-8  to I-6 ",
+            "parent_region": "I-8 ",
+            "connected_region": "I-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "I-6  to I-5 ",
+            "connected_region": "I-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "I-6  to I-8 ",
+            "connected_region": "I-8 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "I-6 mid right-center",
+            "id": 8676118,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "I-8 ": {
+        "name": "I-8 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "I-6  to I-8 ",
+            "parent_region": "I-6 ",
+            "connected_region": "I-8 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "I-8  to I-6 ",
+            "connected_region": "I-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "I-8 top right",
+            "id": 8676133,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I-8 top far right",
+            "id": 8676134,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "red_elevator": {
+        "name": "red_elevator",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-4  to red_elevator",
+            "parent_region": "F-4 ",
+            "connected_region": "red_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "I-4  to red_elevator",
+            "parent_region": "I-4 ",
+            "connected_region": "red_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "H-4  to red_elevator",
+            "parent_region": "H-4 ",
+            "connected_region": "red_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "E-2  to red_elevator",
+            "parent_region": "E-2 ",
+            "connected_region": "red_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "red_elevator to I-4 ",
+            "connected_region": "I-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "red_elevator to H-4 ",
+            "connected_region": "H-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "red_elevator to F-4 ",
+            "connected_region": "F-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "red_elevator to E-2 ",
+            "connected_region": "E-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "E-2 ": {
+        "name": "E-2 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "red_elevator to E-2 ",
+            "parent_region": "red_elevator",
+            "connected_region": "E-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "F-2  to E-2 ",
+            "parent_region": "F-2 ",
+            "connected_region": "E-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "E-2  to red_elevator",
+            "connected_region": "red_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "E-2  to F-2 ",
+            "connected_region": "F-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "E-2 bottom left-center",
+            "id": 8675619,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "F-2 ": {
+        "name": "F-2 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "E-2  to F-2 ",
+            "parent_region": "E-2 ",
+            "connected_region": "F-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "G-2  to F-2 ",
+            "parent_region": "G-2 ",
+            "connected_region": "F-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "F-2  to E-2 ",
+            "connected_region": "E-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "F-2  to G-2 ",
+            "connected_region": "G-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "F-2 top far left",
+            "id": 8675708,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "G-2 ": {
+        "name": "G-2 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "F-2  to G-2 ",
+            "parent_region": "F-2 ",
+            "connected_region": "G-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "I-2  to G-2 ",
+            "parent_region": "I-2 ",
+            "connected_region": "G-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "big_elevator to G-2 ",
+            "parent_region": "big_elevator",
+            "connected_region": "G-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "G-2  to F-2 ",
+            "connected_region": "F-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-2  to I-2 ",
+            "connected_region": "I-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "G-2  to big_elevator",
+            "connected_region": "big_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "G-2 mid left",
+            "id": 8675821,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "I-2 ": {
+        "name": "I-2 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-2  to I-2 ",
+            "parent_region": "G-2 ",
+            "connected_region": "I-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "I-2  to G-2 ",
+            "connected_region": "G-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "I-2 bottom right",
+            "id": 8676063,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I-2 mid far right",
+            "id": 8676057,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "I-2 bottom far right",
+            "id": 8676064,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "big_elevator": {
+        "name": "big_elevator",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "G-2  to big_elevator",
+            "parent_region": "G-2 ",
+            "connected_region": "big_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-2 W to big_elevator",
+            "parent_region": "K-2 W",
+            "connected_region": "big_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-2 W to big_elevator",
+            "parent_region": "M-2 W",
+            "connected_region": "big_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-2 SW to big_elevator",
+            "parent_region": "N-2 SW",
+            "connected_region": "big_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "P-3 W to big_elevator",
+            "parent_region": "P-3 W",
+            "connected_region": "big_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-3 NW to big_elevator",
+            "parent_region": "O-3 NW",
+            "connected_region": "big_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "big_elevator to G-2 ",
+            "connected_region": "G-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "big_elevator to K-2 W",
+            "connected_region": "K-2 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "big_elevator to M-2 W",
+            "connected_region": "M-2 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "big_elevator to N-2 SW",
+            "connected_region": "N-2 SW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "big_elevator to P-3 W",
+            "connected_region": "P-3 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "big_elevator to O-3 NW",
+            "connected_region": "O-3 NW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-2 N": {
+        "name": "J-2 N",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "J-3  to J-2 N",
+            "parent_region": "J-3 ",
+            "connected_region": "J-2 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-2 N to J-3 ",
+            "connected_region": "J-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-2 bottom right-center",
+            "id": 8676167,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Red ID Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "J-2 mid center",
+            "id": 8676159,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Red ID Card",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "J-2 mid left",
+            "id": 8676157,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-2 S": {
+        "name": "J-2 S",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-2 W to J-2 S",
+            "parent_region": "K-2 W",
+            "connected_region": "J-2 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-2 S to K-2 W",
+            "connected_region": "K-2 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-2 bottom center",
+            "id": 8676166,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-3 ": {
+        "name": "J-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-3  to J-3 ",
+            "parent_region": "K-3 ",
+            "connected_region": "J-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-2 N to J-3 ",
+            "parent_region": "J-2 N",
+            "connected_region": "J-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-4 S to J-3 ",
+            "parent_region": "J-4 S",
+            "connected_region": "J-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-3  to K-3 ",
+            "connected_region": "K-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "J-3  to J-2 N",
+            "connected_region": "J-2 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "J-3  to J-4 S",
+            "connected_region": "J-4 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-3 mid far left",
+            "id": 8676177,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "J-3 mid center",
+            "id": 8676180,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-4 S": {
+        "name": "J-4 S",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "J-3  to J-4 S",
+            "parent_region": "J-3 ",
+            "connected_region": "J-4 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-5 W to J-4 S",
+            "parent_region": "J-5 W",
+            "connected_region": "J-4 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-4 S to J-3 ",
+            "connected_region": "J-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "J-4 S to J-5 W",
+            "connected_region": "J-5 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-4 bottom left-center",
+            "id": 8676207,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-4 N": {
+        "name": "J-4 N",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "J-5 W to J-4 N",
+            "parent_region": "J-5 W",
+            "connected_region": "J-4 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-4 N to J-5 W",
+            "connected_region": "J-5 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-4 top left",
+            "id": 8676192,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 2,
+            "locked": true,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-5 E": {
+        "name": "J-5 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-5  to J-5 E",
+            "parent_region": "K-5 ",
+            "connected_region": "J-5 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-5 E to K-5 ",
+            "connected_region": "K-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-5 W": {
+        "name": "J-5 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "J-4 S to J-5 W",
+            "parent_region": "J-4 S",
+            "connected_region": "J-5 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-4 N to J-5 W",
+            "parent_region": "J-4 N",
+            "connected_region": "J-5 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-5 W to J-4 S",
+            "connected_region": "J-4 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "J-5 W to J-4 N",
+            "connected_region": "J-4 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-5 top left",
+            "id": 8676213,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "J-5 mid left-center",
+            "id": 8676221,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "J-6 ": {
+        "name": "J-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "final_elevator to J-6 ",
+            "parent_region": "final_elevator",
+            "connected_region": "J-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "J-6  to final_elevator",
+            "connected_region": "final_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "J-6 bottom far left",
+            "id": 8676863,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Win",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-2 E": {
+        "name": "K-2 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-3  to K-2 E",
+            "parent_region": "K-3 ",
+            "connected_region": "K-2 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-2 E to K-3 ",
+            "connected_region": "K-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-2 bottom right-center",
+            "id": 8676251,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-2 bottom far right",
+            "id": 8676253,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-2 bottom right",
+            "id": 8676252,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-2 W": {
+        "name": "K-2 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "big_elevator to K-2 W",
+            "parent_region": "big_elevator",
+            "connected_region": "K-2 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-2 S to K-2 W",
+            "parent_region": "J-2 S",
+            "connected_region": "K-2 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-2 W to big_elevator",
+            "connected_region": "big_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-2 W to J-2 S",
+            "connected_region": "J-2 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-2 mid far left",
+            "id": 8676240,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-2 mid left",
+            "id": 8676241,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-3 ": {
+        "name": "K-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-4  to K-3 ",
+            "parent_region": "K-4 ",
+            "connected_region": "K-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-2 E to K-3 ",
+            "parent_region": "K-2 E",
+            "connected_region": "K-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-3  to K-3 ",
+            "parent_region": "J-3 ",
+            "connected_region": "K-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-3  to K-4 ",
+            "connected_region": "K-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-3  to K-2 E",
+            "connected_region": "K-2 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-3  to J-3 ",
+            "connected_region": "J-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-3 top left-center",
+            "id": 8676256,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-3 mid right-center",
+            "id": 8676265,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-4 ": {
+        "name": "K-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-4  to K-4 ",
+            "parent_region": "L-4 ",
+            "connected_region": "K-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-5  to K-4 ",
+            "parent_region": "K-5 ",
+            "connected_region": "K-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-3  to K-4 ",
+            "parent_region": "K-3 ",
+            "connected_region": "K-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-4  to L-4 ",
+            "connected_region": "L-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-4  to K-5 ",
+            "connected_region": "K-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-4  to K-3 ",
+            "connected_region": "K-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-4 mid left-center",
+            "id": 8676284,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-4 bottom center",
+            "id": 8676292,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-5 ": {
+        "name": "K-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-4  to K-5 ",
+            "parent_region": "K-4 ",
+            "connected_region": "K-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-6 W to K-5 ",
+            "parent_region": "K-6 W",
+            "connected_region": "K-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-5 E to K-5 ",
+            "parent_region": "J-5 E",
+            "connected_region": "K-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-5  to K-4 ",
+            "connected_region": "K-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-5  to K-6 W",
+            "connected_region": "K-6 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-5  to J-5 E",
+            "connected_region": "J-5 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-5 top center",
+            "id": 8676299,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Scope",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-5 top right-center",
+            "id": 8676300,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-6 W": {
+        "name": "K-6 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-5  to K-6 W",
+            "parent_region": "K-5 ",
+            "connected_region": "K-6 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-6 W to K-5 ",
+            "connected_region": "K-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-6 E": {
+        "name": "K-6 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-7 NE to K-6 E",
+            "parent_region": "K-7 NE",
+            "connected_region": "K-6 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-7 SW to K-6 E",
+            "parent_region": "K-7 SW",
+            "connected_region": "K-6 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-6 E to K-7 NE",
+            "connected_region": "K-7 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-6 E to K-7 SW",
+            "connected_region": "K-7 SW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-6 mid left-center",
+            "id": 8676326,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-6 mid center",
+            "id": 8676327,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-7 NE": {
+        "name": "K-7 NE",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-7 N to K-7 NE",
+            "parent_region": "L-7 N",
+            "connected_region": "K-7 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-6 E to K-7 NE",
+            "parent_region": "K-6 E",
+            "connected_region": "K-7 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-7 NE to L-7 N",
+            "connected_region": "L-7 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "K-7 NE to K-6 E",
+            "connected_region": "K-6 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K-7 SW": {
+        "name": "K-7 SW",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K-6 E to K-7 SW",
+            "parent_region": "K-6 E",
+            "connected_region": "K-7 SW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K-7 SW to K-6 E",
+            "connected_region": "K-6 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "K-7 bottom left-center",
+            "id": 8676354,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "K-7 bottom left",
+            "id": 8676353,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-2 ": {
+        "name": "L-2 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-2 E to L-2 ",
+            "parent_region": "M-2 E",
+            "connected_region": "L-2 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-2  to M-2 E",
+            "connected_region": "M-2 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "L-2 top far left",
+            "id": 8676359,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-2 mid right",
+            "id": 8676371,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-2 top left",
+            "id": 8676360,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-2 top left-center",
+            "id": 8676361,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zillion",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-2 mid far right",
+            "id": 8676372,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Champ",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-3 ": {
+        "name": "L-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-3  to L-3 ",
+            "parent_region": "M-3 ",
+            "connected_region": "L-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-4  to L-3 ",
+            "parent_region": "L-4 ",
+            "connected_region": "L-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-3  to M-3 ",
+            "connected_region": "M-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-3  to L-4 ",
+            "connected_region": "L-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "L-3 top left",
+            "id": 8676381,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-4 ": {
+        "name": "L-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-3  to L-4 ",
+            "parent_region": "L-3 ",
+            "connected_region": "L-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-4  to L-4 ",
+            "parent_region": "K-4 ",
+            "connected_region": "L-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-5  to L-4 ",
+            "parent_region": "L-5 ",
+            "connected_region": "L-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-4  to L-3 ",
+            "connected_region": "L-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-4  to K-4 ",
+            "connected_region": "K-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-4  to L-5 ",
+            "connected_region": "L-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "L-4 bottom right-center",
+            "id": 8676419,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-4 bottom right",
+            "id": 8676420,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-5 ": {
+        "name": "L-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-4  to L-5 ",
+            "parent_region": "L-4 ",
+            "connected_region": "L-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-6 N to L-5 ",
+            "parent_region": "L-6 N",
+            "connected_region": "L-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-5  to L-4 ",
+            "connected_region": "L-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-5  to L-6 N",
+            "connected_region": "L-6 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "L-5 top left",
+            "id": 8676423,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-5 bottom left-center",
+            "id": 8676438,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-6 S": {
+        "name": "L-6 S",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-6 NW to L-6 S",
+            "parent_region": "M-6 NW",
+            "connected_region": "L-6 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-7 S to L-6 S",
+            "parent_region": "L-7 S",
+            "connected_region": "L-6 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-6 S to M-6 NW",
+            "connected_region": "M-6 NW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-6 S to L-7 S",
+            "connected_region": "L-7 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "L-6 mid far right",
+            "id": 8676456,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Empty",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "L-6 mid right-center",
+            "id": 8676454,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-6 N": {
+        "name": "L-6 N",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-5  to L-6 N",
+            "parent_region": "L-5 ",
+            "connected_region": "L-6 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-7 N to L-6 N",
+            "parent_region": "L-7 N",
+            "connected_region": "L-6 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-6 N to L-5 ",
+            "connected_region": "L-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-6 N to L-7 N",
+            "connected_region": "L-7 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-7 S": {
+        "name": "L-7 S",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-6 S to L-7 S",
+            "parent_region": "L-6 S",
+            "connected_region": "L-7 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-7 S to L-6 S",
+            "connected_region": "L-6 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "L-7 mid left",
+            "id": 8676472,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "L-7 N": {
+        "name": "L-7 N",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "L-6 N to L-7 N",
+            "parent_region": "L-6 N",
+            "connected_region": "L-7 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "K-7 NE to L-7 N",
+            "parent_region": "K-7 NE",
+            "connected_region": "L-7 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "L-7 N to L-6 N",
+            "connected_region": "L-6 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "L-7 N to K-7 NE",
+            "connected_region": "K-7 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-2 E": {
+        "name": "M-2 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-3  to M-2 E",
+            "parent_region": "M-3 ",
+            "connected_region": "M-2 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-2  to M-2 E",
+            "parent_region": "L-2 ",
+            "connected_region": "M-2 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-2 E to M-3 ",
+            "connected_region": "M-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-2 E to L-2 ",
+            "connected_region": "L-2 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-2 mid right-center",
+            "id": 8676496,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-2 W": {
+        "name": "M-2 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "big_elevator to M-2 W",
+            "parent_region": "big_elevator",
+            "connected_region": "M-2 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-2 W to big_elevator",
+            "connected_region": "big_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-2 bottom far left",
+            "id": 8676499,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Floppy Disk",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-3 ": {
+        "name": "M-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-4 N to M-3 ",
+            "parent_region": "M-4 N",
+            "connected_region": "M-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-2 E to M-3 ",
+            "parent_region": "M-2 E",
+            "connected_region": "M-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-3  to M-3 ",
+            "parent_region": "L-3 ",
+            "connected_region": "M-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-3  to M-4 N",
+            "connected_region": "M-4 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-3  to M-2 E",
+            "connected_region": "M-2 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-3  to L-3 ",
+            "connected_region": "L-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-3 bottom right-center",
+            "id": 8676524,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-4 S": {
+        "name": "M-4 S",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-4  to M-4 S",
+            "parent_region": "N-4 ",
+            "connected_region": "M-4 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-4 S to N-4 ",
+            "connected_region": "N-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-4 mid left",
+            "id": 8676535,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-4 N": {
+        "name": "M-4 N",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-5  to M-4 N",
+            "parent_region": "M-5 ",
+            "connected_region": "M-4 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-3  to M-4 N",
+            "parent_region": "M-3 ",
+            "connected_region": "M-4 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-4 N to M-5 ",
+            "connected_region": "M-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-4 N to M-3 ",
+            "connected_region": "M-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-5 ": {
+        "name": "M-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-5  to M-5 ",
+            "parent_region": "N-5 ",
+            "connected_region": "M-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-6 NW to M-5 ",
+            "parent_region": "M-6 NW",
+            "connected_region": "M-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-4 N to M-5 ",
+            "parent_region": "M-4 N",
+            "connected_region": "M-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-5  to N-5 ",
+            "connected_region": "N-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-5  to M-6 NW",
+            "connected_region": "M-6 NW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-5  to M-4 N",
+            "connected_region": "M-4 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-5 top left-center",
+            "id": 8676550,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-6 NW": {
+        "name": "M-6 NW",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-5  to M-6 NW",
+            "parent_region": "M-5 ",
+            "connected_region": "M-6 NW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "L-6 S to M-6 NW",
+            "parent_region": "L-6 S",
+            "connected_region": "M-6 NW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-6 SE to M-6 NW",
+            "parent_region": "M-6 SE",
+            "connected_region": "M-6 NW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-6 NW to M-5 ",
+            "connected_region": "M-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-6 NW to L-6 S",
+            "connected_region": "L-6 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-6 NW to M-6 SE",
+            "connected_region": "M-6 SE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-6 bottom center",
+            "id": 8676586,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-6 SE": {
+        "name": "M-6 SE",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-6 NW to M-6 SE",
+            "parent_region": "M-6 NW",
+            "connected_region": "M-6 SE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-6  to M-6 SE",
+            "parent_region": "N-6 ",
+            "connected_region": "M-6 SE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-7 W to M-6 SE",
+            "parent_region": "M-7 W",
+            "connected_region": "M-6 SE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-6 SE to M-6 NW",
+            "connected_region": "M-6 NW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-6 SE to N-6 ",
+            "connected_region": "N-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-6 SE to M-7 W",
+            "connected_region": "M-7 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-6 bottom right-center",
+            "id": 8676587,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-7 W": {
+        "name": "M-7 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-6 SE to M-7 W",
+            "parent_region": "M-6 SE",
+            "connected_region": "M-7 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-7 N to M-7 W",
+            "parent_region": "N-7 N",
+            "connected_region": "M-7 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-7 E to M-7 W",
+            "parent_region": "M-7 E",
+            "connected_region": "M-7 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-7 W to M-6 SE",
+            "connected_region": "M-6 SE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-7 W to N-7 N",
+            "connected_region": "N-7 N",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-7 W to M-7 E",
+            "connected_region": "M-7 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-7 mid far left",
+            "id": 8676597,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "M-7 E": {
+        "name": "M-7 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-7 W to M-7 E",
+            "parent_region": "M-7 W",
+            "connected_region": "M-7 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "final_elevator to M-7 E",
+            "parent_region": "final_elevator",
+            "connected_region": "M-7 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "M-7 E to M-7 W",
+            "connected_region": "M-7 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "M-7 E to final_elevator",
+            "connected_region": "final_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "M-7 top far right",
+            "id": 8676596,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-2 NE": {
+        "name": "N-2 NE",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-2 SW to N-2 NE",
+            "parent_region": "N-2 SW",
+            "connected_region": "N-2 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-3  to N-2 NE",
+            "parent_region": "N-3 ",
+            "connected_region": "N-2 NE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-2 NE to N-3 ",
+            "connected_region": "N-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-2 NE to N-2 SW",
+            "connected_region": "N-2 SW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-2 top center",
+            "id": 8676614,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "N-2 top far left",
+            "id": 8676611,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "N-2 bottom right",
+            "id": 8676630,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "N-2 top left",
+            "id": 8676612,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-2 SW": {
+        "name": "N-2 SW",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "big_elevator to N-2 SW",
+            "parent_region": "big_elevator",
+            "connected_region": "N-2 SW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-2 NE to N-2 SW",
+            "parent_region": "N-2 NE",
+            "connected_region": "N-2 SW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-2 SW to big_elevator",
+            "connected_region": "big_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-2 SW to N-2 NE",
+            "connected_region": "N-2 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-2 bottom center",
+            "id": 8676628,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "N-2 bottom left",
+            "id": 8676626,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-3 ": {
+        "name": "N-3 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "O-3 NW to N-3 ",
+            "parent_region": "O-3 NW",
+            "connected_region": "N-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-2 NE to N-3 ",
+            "parent_region": "N-2 NE",
+            "connected_region": "N-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-4  to N-3 ",
+            "parent_region": "N-4 ",
+            "connected_region": "N-3 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-3  to O-3 NW",
+            "connected_region": "O-3 NW",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-3  to N-2 NE",
+            "connected_region": "N-2 NE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-3  to N-4 ",
+            "connected_region": "N-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-3 mid right",
+            "id": 8676644,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-4 ": {
+        "name": "N-4 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-3  to N-4 ",
+            "parent_region": "N-3 ",
+            "connected_region": "N-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-4 S to N-4 ",
+            "parent_region": "M-4 S",
+            "connected_region": "N-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-5  to N-4 ",
+            "parent_region": "N-5 ",
+            "connected_region": "N-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-4 W to N-4 ",
+            "parent_region": "O-4 W",
+            "connected_region": "N-4 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-4  to N-3 ",
+            "connected_region": "N-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-4  to M-4 S",
+            "connected_region": "M-4 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-4  to N-5 ",
+            "connected_region": "N-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-4  to O-4 W",
+            "connected_region": "O-4 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-4 bottom far left",
+            "id": 8676667,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "N-4 mid left",
+            "id": 8676661,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-5 ": {
+        "name": "N-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-4  to N-5 ",
+            "parent_region": "N-4 ",
+            "connected_region": "N-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-5  to N-5 ",
+            "parent_region": "O-5 ",
+            "connected_region": "N-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-5  to N-5 ",
+            "parent_region": "M-5 ",
+            "connected_region": "N-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-5  to N-4 ",
+            "connected_region": "N-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-5  to O-5 ",
+            "connected_region": "O-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-5  to M-5 ",
+            "connected_region": "M-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-5 bottom center",
+            "id": 8676691,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-6 ": {
+        "name": "N-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-6 SE to N-6 ",
+            "parent_region": "M-6 SE",
+            "connected_region": "N-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-6  to N-6 ",
+            "parent_region": "O-6 ",
+            "connected_region": "N-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-6  to M-6 SE",
+            "connected_region": "M-6 SE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-6  to O-6 ",
+            "connected_region": "O-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-6 top far left",
+            "id": 8676695,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Scope",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "N-6 top right-center",
+            "id": 8676699,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-7 N": {
+        "name": "N-7 N",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "M-7 W to N-7 N",
+            "parent_region": "M-7 W",
+            "connected_region": "N-7 N",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-7 N to M-7 W",
+            "connected_region": "M-7 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-7 top left-center",
+            "id": 8676718,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "N-7 S": {
+        "name": "N-7 S",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "O-7 E to N-7 S",
+            "parent_region": "O-7 E",
+            "connected_region": "N-7 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "final_elevator to N-7 S",
+            "parent_region": "final_elevator",
+            "connected_region": "N-7 S",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "N-7 S to O-7 E",
+            "connected_region": "O-7 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "N-7 S to final_elevator",
+            "connected_region": "final_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "N-7 bottom far left",
+            "id": 8676730,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-3 NW": {
+        "name": "O-3 NW",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "big_elevator to O-3 NW",
+            "parent_region": "big_elevator",
+            "connected_region": "O-3 NW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-3  to O-3 NW",
+            "parent_region": "N-3 ",
+            "connected_region": "O-3 NW",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-3 NW to big_elevator",
+            "connected_region": "big_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "O-3 NW to N-3 ",
+            "connected_region": "N-3 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-3 mid right",
+            "id": 8676749,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-3 SE": {
+        "name": "O-3 SE",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "O-4 W to O-3 SE",
+            "parent_region": "O-4 W",
+            "connected_region": "O-3 SE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "P-3 E to O-3 SE",
+            "parent_region": "P-3 E",
+            "connected_region": "O-3 SE",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-3 SE to O-4 W",
+            "connected_region": "O-4 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "O-3 SE to P-3 E",
+            "connected_region": "P-3 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-3 bottom center",
+            "id": 8676754,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-4 E": {
+        "name": "O-4 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "O-5  to O-4 E",
+            "parent_region": "O-5 ",
+            "connected_region": "O-4 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-4 E to O-5 ",
+            "connected_region": "O-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-4 mid center",
+            "id": 8676768,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-4 W": {
+        "name": "O-4 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-4  to O-4 W",
+            "parent_region": "N-4 ",
+            "connected_region": "O-4 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-3 SE to O-4 W",
+            "parent_region": "O-3 SE",
+            "connected_region": "O-4 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-4 W to N-4 ",
+            "connected_region": "N-4 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "O-4 W to O-3 SE",
+            "connected_region": "O-3 SE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-4 mid far left",
+            "id": 8676765,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-5 ": {
+        "name": "O-5 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-5  to O-5 ",
+            "parent_region": "N-5 ",
+            "connected_region": "O-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-4 E to O-5 ",
+            "parent_region": "O-4 E",
+            "connected_region": "O-5 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-5  to N-5 ",
+            "connected_region": "N-5 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "O-5  to O-4 E",
+            "connected_region": "O-4 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-5 mid far left",
+            "id": 8676786,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-6 ": {
+        "name": "O-6 ",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-6  to O-6 ",
+            "parent_region": "N-6 ",
+            "connected_region": "O-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-7 W to O-6 ",
+            "parent_region": "O-7 W",
+            "connected_region": "O-6 ",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-6  to N-6 ",
+            "connected_region": "N-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "O-6  to O-7 W",
+            "connected_region": "O-7 W",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-6 mid right",
+            "id": 8676812,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-7 W": {
+        "name": "O-7 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "O-6  to O-7 W",
+            "parent_region": "O-6 ",
+            "connected_region": "O-7 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-7 W to O-6 ",
+            "connected_region": "O-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-7 bottom center",
+            "id": 8676838,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "O-7 E": {
+        "name": "O-7 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "P-3 E to O-7 E",
+            "parent_region": "P-3 E",
+            "connected_region": "O-7 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "N-7 S to O-7 E",
+            "parent_region": "N-7 S",
+            "connected_region": "O-7 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "O-7 E to P-3 E",
+            "connected_region": "P-3 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "O-7 E to N-7 S",
+            "connected_region": "N-7 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "O-7 top right",
+            "id": 8676826,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "ID Card",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "P-3 E": {
+        "name": "P-3 E",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "O-3 SE to P-3 E",
+            "parent_region": "O-3 SE",
+            "connected_region": "P-3 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "O-7 E to P-3 E",
+            "parent_region": "O-7 E",
+            "connected_region": "P-3 E",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "P-3 E to O-3 SE",
+            "connected_region": "O-3 SE",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "P-3 E to O-7 E",
+            "connected_region": "O-7 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "P-3 bottom center",
+            "id": 8676859,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bread",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "P-3 W": {
+        "name": "P-3 W",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "big_elevator to P-3 W",
+            "parent_region": "big_elevator",
+            "connected_region": "P-3 W",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "P-3 W to big_elevator",
+            "connected_region": "big_elevator",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "P-3 top far left",
+            "id": 8676842,
+            "crystal": null,
+            "access_rule": null,
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Opa-Opa",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "final_elevator": {
+        "name": "final_elevator",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "N-7 S to final_elevator",
+            "parent_region": "N-7 S",
+            "connected_region": "final_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "M-7 E to final_elevator",
+            "parent_region": "M-7 E",
+            "connected_region": "final_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "J-6  to final_elevator",
+            "parent_region": "J-6 ",
+            "connected_region": "final_elevator",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "final_elevator to N-7 S",
+            "connected_region": "N-7 S",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "final_elevator to M-7 E",
+            "connected_region": "M-7 E",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "final_elevator to J-6 ",
+            "connected_region": "J-6 ",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Apple": {
+        "name": "Apple",
+        "id": 8675309,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Champ": {
+        "name": "Champ",
+        "id": 8675310,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "JJ": {
+        "name": "JJ",
+        "id": 8675311,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Win": {
+        "name": "Win",
+        "id": 8675312,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Empty": {
+        "name": "Empty",
+        "id": 8675313,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "ID Card": {
+        "name": "ID Card",
+        "id": 8675314,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red ID Card": {
+        "name": "Red ID Card",
+        "id": 8675315,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Floppy Disk": {
+        "name": "Floppy Disk",
+        "id": 8675316,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bread": {
+        "name": "Bread",
+        "id": 8675317,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Opa-Opa": {
+        "name": "Opa-Opa",
+        "id": 8675318,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Zillion": {
+        "name": "Zillion",
+        "id": 8675319,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Scope": {
+        "name": "Scope",
+        "id": 8675320,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Apple": 2,
+      "Bread": 100,
+      "Champ": 2,
+      "Empty": 10,
+      "Floppy Disk": 14,
+      "ID Card": 84,
+      "Opa-Opa": 52,
+      "Red ID Card": 4,
+      "Scope": 8,
+      "Win": 1,
+      "Zillion": 16
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "Zillion",
+      "accessibility": "items"
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Zillion",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

@@ -164,6 +164,7 @@ export const evaluateRule = (rule, depth = 0) => {
         });
 
         // Call the helper with processed arguments
+        //console.log(`Calling helper: ${rule.name} with args:`, processedArgs);
         result = stateManager.helpers.executeHelper(
           rule.name,
           ...processedArgs
@@ -522,10 +523,41 @@ export const evaluateRule = (rule, depth = 0) => {
           // Map to can_reach with Entrance type
           const entranceName = processedArgs[0];
           result = stateManager.can_reach(entranceName, 'Entrance', 1);
+        } else if (method === 'can_reach') {
+          // Handle direct state.multiworld.can_reach(spot, type, player) calls
+          const spotName = processedArgs[0];
+          const typeHint = processedArgs[1] || 'Region'; // Default hint
+          const player = processedArgs[2] || 1; // Default player
+          // Use the helpers.can_reach method which correctly uses stateManager
+          if (
+            stateManager.helpers &&
+            typeof stateManager.helpers.executeHelper === 'function'
+          ) {
+            result = stateManager.helpers.executeHelper(
+              'can_reach',
+              spotName,
+              typeHint,
+              player
+            );
+          } else {
+            console.error(
+              'Cannot execute can_reach: helpers or executeHelper not found.'
+            );
+            result = false;
+          }
         } else {
           // For unknown multiworld methods, log and default to false
           console.warn('Unknown multiworld method:', method, processedArgs);
           result = false;
+        }
+      } else if (functionPath === 'world.get_location') {
+        // Handle world.get_location("Location Name") -> return "Location Name"
+        // This allows it to be passed as an argument to other helpers
+        if (processedArgs.length > 0) {
+          result = processedArgs[0]; // Return the evaluated location name
+        } else {
+          console.warn('world.get_location called with no arguments');
+          result = undefined;
         }
       } else if (
         functionPath.includes('.can_defeat') ||
@@ -608,25 +640,15 @@ export const evaluateRule = (rule, depth = 0) => {
     }
 
     case 'name': {
-      // Handle name references (variables)
-      const varName = rule.name;
-
-      // Special case handling
-      if (varName === 'state') {
-        return stateManager.state;
-      } else if (varName === 'player') {
-        return 1; // Default player ID
-      } else if (varName === 'self') {
-        // This might need special handling depending on context
-        return stateManager;
-      }
-
-      // For other variable names, try to find them in the state
-      if (stateManager.state && stateManager.state[varName] !== undefined) {
-        result = stateManager.state[varName];
+      // Handle name resolution (e.g., 'player')
+      if (rule.name === 'player') {
+        // Assuming player ID is stored in stateManager.playerSlot
+        result = stateManager.playerSlot;
+        // console.log(`[evaluateRule] Name 'player' resolved to: ${result} (Type: ${typeof result})`); // DEBUG LOG
       } else {
-        // If no match, check inventory by name as a last resort
-        result = stateManager.inventory.has?.(varName) ?? false;
+        // Handle other named variables if needed
+        safeLog(`Unsupported name variable: ${rule.name}`);
+        result = undefined; // Or null, or throw error
       }
       break;
     }
@@ -674,6 +696,11 @@ export const evaluateRule = (rule, depth = 0) => {
         return arg;
       });
 
+      //console.log(
+      //  `Calling state_method: ${rule.method} with args:`,
+      //  processedArgs
+      //);
+
       // Try using stateManager's executeStateMethod
       if (
         stateManager &&
@@ -715,6 +742,79 @@ export const evaluateRule = (rule, depth = 0) => {
         );
       }
 
+      break;
+    }
+
+    case 'compare': {
+      const leftValue = evaluateRule(rule.left, depth + 1);
+      let rightValue = rule.right;
+
+      // If the right side is complex, evaluate it
+      if (rightValue && typeof rightValue === 'object' && rightValue.type) {
+        if (rightValue.type === 'list') {
+          // Evaluate each element in the list
+          rightValue = rightValue.value.map((item) =>
+            evaluateRule(item, depth + 1)
+          );
+        } else {
+          // Evaluate other complex types
+          rightValue = evaluateRule(rightValue, depth + 1);
+        }
+      }
+
+      // Perform comparison
+      switch (rule.op) {
+        case '==':
+          // Basic deep comparison for arrays/objects
+          if (Array.isArray(leftValue) && Array.isArray(rightValue)) {
+            result =
+              leftValue.length === rightValue.length &&
+              leftValue.every((val, index) => val === rightValue[index]);
+          } else if (
+            typeof leftValue === 'object' &&
+            leftValue !== null &&
+            typeof rightValue === 'object' &&
+            rightValue !== null
+          ) {
+            // Simple object comparison (can be enhanced)
+            result = JSON.stringify(leftValue) === JSON.stringify(rightValue);
+          } else {
+            result = leftValue === rightValue;
+          }
+          break;
+        case '!=':
+          if (Array.isArray(leftValue) && Array.isArray(rightValue)) {
+            result =
+              leftValue.length !== rightValue.length ||
+              leftValue.some((val, index) => val !== rightValue[index]);
+          } else if (
+            typeof leftValue === 'object' &&
+            leftValue !== null &&
+            typeof rightValue === 'object' &&
+            rightValue !== null
+          ) {
+            result = JSON.stringify(leftValue) !== JSON.stringify(rightValue);
+          } else {
+            result = leftValue !== rightValue;
+          }
+          break;
+        // Add other operators (>, <, >=, <=) as needed
+        default:
+          safeLog(`Unsupported comparison operator: ${rule.op}`);
+          result = false;
+      }
+      break;
+    }
+
+    case 'list': {
+      // Handle list literals (e.g., [item1, item2])
+      if (Array.isArray(rule.value)) {
+        // Evaluate each element in the list
+        result = rule.value.map((element) => evaluateRule(element, depth + 1));
+      } else {
+        console.warn('List rule type found, but value is not an array:', rule);
+        result = []; // Return empty array on error
+      }
       break;
     }
 
@@ -925,9 +1025,15 @@ export function debugPythonAST(rule) {
 
     case 'attribute':
       console.log(`Attribute: ${rule.attr}`);
-      console.group('Object:');
+      console.log('Object:');
       debugPythonAST(rule.object);
-      console.groupEnd();
+      break;
+
+    case 'subscript':
+      console.log('Value:');
+      debugPythonAST(rule.value);
+      console.log('Index:');
+      debugPythonAST(rule.index);
       break;
 
     case 'name':
@@ -935,33 +1041,11 @@ export function debugPythonAST(rule) {
       break;
 
     case 'constant':
-      console.log(`Value: ${rule.value}`);
-      break;
-
-    case 'subscript':
-      console.group('Container:');
-      debugPythonAST(rule.value);
-      console.groupEnd();
-
-      console.group('Index:');
-      debugPythonAST(rule.index);
-      console.groupEnd();
-      break;
-
-    case 'comparison':
-      console.log(`Operator: ${rule.op}`);
-
-      console.group('Left:');
-      debugPythonAST(rule.left);
-      console.groupEnd();
-
-      console.group('Right:');
-      debugPythonAST(rule.right);
-      console.groupEnd();
+      console.log(`Constant: ${rule.value}`);
       break;
 
     default:
-      console.log(rule);
+      console.log(`${JSON.stringify(rule, null, 2)}`);
   }
 
   console.groupEnd();

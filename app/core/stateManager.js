@@ -16,6 +16,10 @@ export class StateManager {
     this.state = new ALTTPState();
     this.helpers = new ALTTPHelpers();
 
+    // Player identification
+    this.playerSlot = 1; // Default player slot to 1 for single-player/offline
+    this.team = 0; // Default team
+
     // Region and location data
     this.locations = []; // Flat array of all locations
     this.regions = {}; // Map of region name -> region data
@@ -128,6 +132,10 @@ export class StateManager {
       this._processProgressiveItem(itemName);
 
       this.notifyUI('inventoryChanged');
+
+      // Invalidate cache and recompute after item add (if not batching)
+      this.invalidateCache();
+      this.computeReachableRegions();
     }
 
     return true;
@@ -149,20 +157,29 @@ export class StateManager {
 
   /**
    * Loads and processes region/location data from a JSON file
+   * @param {object} jsonData - The parsed JSON data.
+   * @param {string} selectedPlayerId - The ID of the player whose data should be loaded.
    */
-  loadFromJSON(jsonData) {
-    if (!jsonData.version || jsonData.version !== 3) {
-      throw new Error('Invalid JSON format: requires version 3');
+  loadFromJSON(jsonData, selectedPlayerId) {
+    if (!jsonData.schema_version || jsonData.schema_version !== 3) {
+      throw new Error('Invalid JSON format: requires schema version 3');
+    }
+    if (!selectedPlayerId) {
+      throw new Error('loadFromJSON called without selectedPlayerId');
     }
 
-    // Load region and location data
-    this.regions = jsonData.regions['1'];
-    const itemData = jsonData.items['1'];
-    const groupData = jsonData.item_groups['1'];
-    const progressionMapping = jsonData.progression_mapping['1'];
+    // Set the player slot based on selection
+    this.playerSlot = parseInt(selectedPlayerId, 10);
+    console.log(`StateManager playerSlot set to: ${this.playerSlot}`);
 
-    // NEW: Store the itempool counts if available
-    this.itempool_counts = jsonData.itempool_counts?.['1'] || null;
+    // Load data for the selected player
+    this.regions = jsonData.regions[selectedPlayerId];
+    const itemData = jsonData.items[selectedPlayerId];
+    const groupData = jsonData.item_groups[selectedPlayerId];
+    const progressionMapping = jsonData.progression_mapping[selectedPlayerId];
+
+    // NEW: Store the itempool counts if available for the selected player
+    this.itempool_counts = jsonData.itempool_counts?.[selectedPlayerId] || null;
 
     // Debug logging for itempool_counts
     console.log('Loaded JSON data:', {
@@ -172,14 +189,7 @@ export class StateManager {
         : [],
     });
 
-    if (jsonData.itempool_counts?.['1']) {
-      console.log(
-        'Sample itempool_counts data:',
-        Object.entries(jsonData.itempool_counts['1']).slice(0, 5)
-      );
-    }
-
-    // Create a map of item names to IDs for fast lookup
+    // Create a map of item names to IDs for fast lookup (using selected player's items)
     this.itemNameToId = {};
     if (itemData) {
       Object.entries(itemData).forEach(([itemName, data]) => {
@@ -191,7 +201,6 @@ export class StateManager {
 
       // Debug: Print first 5 item ID entries
       const itemEntries = Object.entries(this.itemNameToId).slice(0, 5);
-      console.log('First 5 item ID mappings:', itemEntries);
     }
 
     // Create a map of location names to IDs for fast lookup
@@ -260,27 +269,55 @@ export class StateManager {
 
       // Debug: Print first 5 location ID entries
       const locationEntries = Object.entries(this.locationNameToId).slice(0, 5);
-      console.log('First 5 location ID mappings:', locationEntries);
     }
 
-    // Initialize the state object with settings and data
+    // Initialize the state object with settings and data for the selected player
     if (this.state) {
-      // Pass the settings to the state for loading
-      this.state.loadSettings(jsonData.settings?.['1']);
+      // Pass the settings for the selected player to the state for loading
+      this.state.loadSettings(jsonData.settings?.[selectedPlayerId]);
 
-      // Pass shop data to the state
+      // Pass shop data (assuming shops might be player-specific or need filtering later)
       this.state.loadShops(shops);
 
-      // Store game mode in state, not in stateManager
-      if (jsonData.mode?.['1']) {
-        this.state.gameMode = jsonData.mode['1'];
+      // Store game mode in state for the selected player
+      if (jsonData.mode?.[selectedPlayerId]) {
+        this.state.gameMode = jsonData.mode[selectedPlayerId];
       }
 
-      // Store start regions in state
-      if (jsonData.start_regions?.['1']?.default) {
-        this.state.startRegions = jsonData.start_regions['1'].default;
+      // Store start regions in state for the selected player
+      if (jsonData.start_regions?.[selectedPlayerId]?.default) {
+        this.state.startRegions =
+          jsonData.start_regions[selectedPlayerId].default;
       } else {
+        // Default might need adjustment based on game logic if start regions differ per player
         this.state.startRegions = ['Menu'];
+      }
+    }
+
+    // Process starting items after inventory is initialized
+    const startingItems = jsonData.starting_items?.[selectedPlayerId] || [];
+    if (startingItems && startingItems.length > 0) {
+      console.log(
+        `Adding ${startingItems.length} starting items for player ${selectedPlayerId}`
+      );
+      this.beginBatchUpdate(true); // Defer computation until after adding items
+      startingItems.forEach((itemName) => {
+        // Ensure the item exists in itemData before trying to add
+        if (this.inventory.itemData && this.inventory.itemData[itemName]) {
+          this.addItemToInventory(itemName);
+        } else {
+          console.warn(
+            `Starting item '${itemName}' not found in itemData, skipping.`
+          );
+        }
+      });
+      this.commitBatchUpdate(); // Commit changes, this will trigger computation if deferred
+    } else {
+      // If no starting items, still need to ensure computation runs if it was deferred implicitly
+      // However, commitBatchUpdate already handles this if we didn't start a batch.
+      // If we *did* start a batch for other reasons (unlikely here), this ensures cleanup.
+      if (this._batchMode) {
+        this.commitBatchUpdate();
       }
     }
 
@@ -884,6 +921,10 @@ export class StateManager {
     this._batchMode = false;
     this._deferRegionComputation = false;
     this._batchedUpdates = new Map();
+
+    // Invalidate and recompute after batch commit
+    this.invalidateCache();
+    this.computeReachableRegions(); // This will notify UI via 'reachableRegionsComputed'
   }
 
   /**

@@ -231,7 +231,7 @@ export class TestCaseUI {
     // If the test data was loaded in the game UI, clear it
     if (this.isUsingTestData()) {
       this.gameUI.clearExistingData();
-      this.gameUI.initializeUI(this.gameUI.defaultRules);
+      this.gameUI.initializeUI(this.gameUI.defaultRules, '1');
     }
   }
 
@@ -832,8 +832,8 @@ export class TestCaseUI {
 
           // Use gameUI's initialization code
           this.gameUI.clearExistingData();
-          this.gameUI.initializeUI(jsonData);
-          this.gameUI.currentRules = jsonData; // Track current rules
+          this.gameUI.initializeUI(jsonData, '1');
+          this.gameUI.currentRules = jsonData;
 
           // Update test cases with synchronous request
           const testXhr = new XMLHttpRequest();
@@ -858,8 +858,12 @@ export class TestCaseUI {
           console.error('Error loading test data:', error);
           const dataSource = document.getElementById('data-source');
           if (dataSource) {
-            dataSource.innerHTML = `Error loading ${this.currentTestSet} test data`;
+            dataSource.innerHTML = `Error loading ${this.currentTestSet} test data: ${error.message}`;
             dataSource.className = 'data-source-wrong';
+          }
+          const statusElement = document.getElementById('test-results-summary');
+          if (statusElement) {
+            statusElement.innerHTML = `<div class="test-error">Error loading test data: ${error.message}</div>`;
           }
         }
       });
