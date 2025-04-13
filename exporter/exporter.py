@@ -8,7 +8,6 @@ import json
 import os
 import inspect
 import shutil
-from automate_frontend_tests import run_frontend_tests
 from typing import Any, Dict, List, Set, Optional
 from collections import defaultdict
 

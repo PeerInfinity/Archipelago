@@ -81,7 +81,6 @@ frontend/                            # Frontend: Web client implementation
     - Updates the Loop UI panel (`loopUI.js`).
 
 5.  **Testing Infrastructure**
-    - Automated test execution via Playwright (`automate_frontend_tests.py`).
     - Compares frontend JS rule evaluation against backend Python results.
     - Supports interactive test case execution from the UI (`testCaseUI.js`).
     - Provides comprehensive debug logging and result analysis (`testLogger.js`).
@@ -108,7 +107,6 @@ frontend/                            # Frontend: Web client implementation
 - Interactive UI with Location, Region, and File views.
 - Path analysis logic and UI (`PathAnalyzerUI`, `PathAnalyzerLogic`) provide insights into region requirements.
 - **Loop Mode** core mechanics (Mana, XP, Queue, Discovery, Persistence) are implemented in `loopState.js` and controllable via `loopUI.js`.
-- Automated testing infrastructure using Playwright is in place.
 
 ## Development Priorities & Roadmap
 

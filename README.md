@@ -41,7 +41,7 @@ The JSON Web Client is a web-based client for Archipelago, enhanced with feature
 - **Centralized State Management:** A singleton `stateManager` ensures consistent game state (inventory, flags, region accessibility) across the application.
 - **Region Accessibility:** Uses Breadth-First Search (BFS) to determine reachable regions based on current inventory and rules.
 - **Path Analysis:** Tools to visualize paths between regions and identify blocking items or conditions.
-- **Comprehensive Testing:** Automated tests (using Playwright) validate the JavaScript rule engine against Python behavior.
+- **Comprehensive Testing:** Validates the JavaScript rule engine against Python behavior.
 
 ## Usage Notes & Tips
 
@@ -78,7 +78,7 @@ See the [Loop Mode Guide](/docs/json/archipelago-loops.md) for detailed instruct
 - The **Frontend Rule Engine** (`ruleEngine.js`) evaluates these rules using native JavaScript implementations of helper functions provided by game-specific modules (e.g., `frontend/app/games/alttp/helpers.js`).
 - **State Management** (`stateManager.js`) is crucial, handling inventory, region reachability (BFS), event collection, and providing a consistent state view for rule evaluation.
 - **Loop Mode** (`loopState.js`, `loopUI.js`) adds an incremental game layer, managing its own state (Mana, XP, Action Queue, Discovery) built upon the core `stateManager`.
-- **Testing** (`test-runner.md`) uses Playwright to automate browser tests, comparing frontend JavaScript execution against backend Python test results.
+- **Testing** (`test-runner.md`) provides tools for comparing frontend JavaScript execution against backend Python test results.
 
 See the [Developer Guide](/docs/json/development.md) and [Testing Guide](/docs/json/test-runner.md) for more implementation details.
 

@@ -2,40 +2,13 @@
 
 This document is likely to contain information that is out of date.
 
-The Archipelago JSON Rules system includes automated testing to verify JavaScript rule evaluation matches Python behavior. Tests run automatically using Playwright, with comprehensive debug logging and result analysis.
-
-## Prerequisites
-
-Before running the tests, you need to install Playwright and its browser dependencies:
-
-```bash
-pip install playwright
-playwright install
-```
+The Archipelago JSON Rules system includes testing to verify JavaScript rule evaluation matches Python behavior. The automated browser test functionality has been removed.
 
 ## Testing Methods
 
-The system offers two testing approaches:
+The system offers a web-based testing approach:
 
-### 1. Automated Testing (Recommended)
-
-Tests run directly from pytest without manual intervention. The process:
-
-1. Runs the Python test case
-2. Generates necessary JSON files
-3. Starts a local HTTP server
-4. Launches a headless browser
-5. Executes frontend tests
-6. Saves test results
-7. Cleans up automatically
-
-Example command:
-
-```bash
-pytest worlds/alttp/test/vanilla/TestLightWorld.py::TestLightWorld -v
-```
-
-### 2. Web-Based Testing Interface
+### Web-Based Testing Interface
 
 A user interface for interactively running tests is available:
 
@@ -60,22 +33,10 @@ Then select the "Test Cases" view.
 
 ## Test Components
 
-### Automated Test Pipeline
-
-The automated testing pipeline:
-
-1. **Python Test Execution**: Runs test cases and exports JSON data
-2. **Browser Automation**: Uses Playwright to load and run frontend tests
-3. **State Initialization**: Sets up inventory and game state
-4. **Test Case Execution**: Evaluates location accessibility rules
-5. **Validation**: Verifies results match expected outcomes
-6. **Results Analysis**: Collects and analyzes results
-
 ### Test Runner Components
 
 The test system uses these files:
 
-- `automate_frontend_tests.py`: Launches Playwright tests
 - `frontend/assets/locationTester.js`: Executes test cases
 - `frontend/assets/testLogger.js`: Comprehensive logging
 - `frontend/assets/testResultsDisplay.js`: UI for results
@@ -271,11 +232,4 @@ For advanced debugging:
 // Enable file saving and detailed logging
 TestLogger.enableFileSaving = true;
 TestLogger.enableDebugLogging = true;
-
-// Configure Playwright
-// (in automate_frontend_tests.py)
-browser = await playwright.chromium.launch(
-  (headless = False), // Set to false to see browser
-  (slowMo = 100) // Slow execution for visual debugging
-);
 ```
