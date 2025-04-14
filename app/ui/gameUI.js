@@ -6,6 +6,7 @@ import { ExitUI } from './exitUI.js';
 import { RegionUI } from './regionUI.js';
 import { InventoryUI } from './inventoryUI.js';
 import { TestCaseUI } from './testCaseUI.js';
+import { TestPlaythroughUI } from './testPlaythroughUI.js';
 import { LoopUI } from './loopUI.js';
 import commonUI from './commonUI.js';
 import { PresetUI } from './presetUI.js';
@@ -22,6 +23,7 @@ export class GameUI {
     this.regionUI = new RegionUI(this);
     this.inventoryUI = new InventoryUI(this);
     this.testCaseUI = new TestCaseUI(this);
+    this.testPlaythroughUI = new TestPlaythroughUI(this);
     this.presetUI = new PresetUI(this);
     this.loopUI = new LoopUI(this);
     this.currentFileView = 'presets'; // Track which file view is active
@@ -528,42 +530,61 @@ export class GameUI {
   updateFileViewDisplay() {
     const testCasesPanel = document.getElementById('test-cases-panel');
     const presetsPanel = document.getElementById('presets-panel');
+    const testPlaythroughsPanel = document.getElementById(
+      'test-playthroughs-panel'
+    );
 
-    if (!testCasesPanel || !presetsPanel) {
+    if (!testCasesPanel || !presetsPanel || !testPlaythroughsPanel) {
       console.warn('Missing file view containers.');
       return;
     }
 
-    // Toggle between test cases and presets
-    testCasesPanel.style.display =
-      this.currentFileView === 'test-cases' ? 'block' : 'none';
-    presetsPanel.style.display =
-      this.currentFileView === 'presets' ? 'block' : 'none';
+    // Toggle between file views
+    testCasesPanel.style.display = 'none';
+    presetsPanel.style.display = 'none';
+    testPlaythroughsPanel.style.display = 'none';
+
+    // Clear displays of inactive test UIs
+    if (this.currentFileView !== 'test-cases')
+      this.testCaseUI?.clearTestData?.();
+    if (this.currentFileView !== 'test-playthroughs')
+      this.testPlaythroughUI?.clearDisplay?.();
 
     // Only initialize if Loop Mode is NOT active
     const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
     if (!isLoopModeActive) {
-      // Initialize the appropriate UI if needed
-      if (this.currentFileView === 'test-cases') {
-        // Check if initialize needs to be called (e.g., first time viewing)
-        // Using a simple check, might need refinement based on actual UI state needs
-        if (!this.testCaseUI.availableTestSets) {
+      // Show the selected panel and initialize if needed
+      if (this.currentFileView === 'presets') {
+        presetsPanel.style.display = 'block';
+        if (!this.presetUI.presets) {
+          this.presetUI.initialize();
+        } else if (!document.getElementById('presets-list')?.hasChildNodes()) {
+          this.presetUI.renderGamesList();
+        }
+      } else if (this.currentFileView === 'test-cases') {
+        testCasesPanel.style.display = 'block';
+        if (!this.testCaseUI.availableTestSets && !this.testCaseUI.testCases) {
           this.testCaseUI.initialize();
         } else if (
           !document.getElementById('test-cases-list')?.hasChildNodes()
         ) {
-          // Or if the list is empty, re-render
           this.testCaseUI.renderTestSetSelector();
         }
-      } else if (this.currentFileView === 'presets') {
-        // Check if initialize needs to be called
-        if (!this.presetUI.presets) {
-          this.presetUI.initialize();
-        } else if (!document.getElementById('presets-list')?.hasChildNodes()) {
-          // Or if the list is empty, re-render
-          this.presetUI.renderGamesList();
+      } else if (this.currentFileView === 'test-playthroughs') {
+        testPlaythroughsPanel.style.display = 'block';
+        if (!this.testPlaythroughUI.playthroughFiles) {
+          this.testPlaythroughUI.initialize();
+        } else if (
+          !document.getElementById('test-playthroughs-panel')?.hasChildNodes()
+        ) {
+          this.testPlaythroughUI.renderPlaythroughList();
         }
       }
+    } else {
+      // If loop mode is active, ensure all file panels remain hidden
+      presetsPanel.style.display = 'none';
+      testCasesPanel.style.display = 'none';
+      testPlaythroughsPanel.style.display = 'none';
     }
   }
 }
