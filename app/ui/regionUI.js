@@ -27,12 +27,44 @@ export class RegionUI {
 
     // Create the path analyzer
     this.pathAnalyzer = new PathAnalyzerUI(this);
+    this.rootElement = this.createRootElement();
+    this.regionsContainer = this.rootElement.querySelector(
+      '#regions-panel-content'
+    );
 
     this.attachEventListeners();
   }
 
+  createRootElement() {
+    const element = document.createElement('div');
+    element.classList.add('regions-panel-container', 'panel-container');
+    element.style.display = 'flex';
+    element.style.flexDirection = 'column';
+    element.style.height = '100%';
+    element.style.overflow = 'hidden';
+
+    element.innerHTML = `
+      <div class="control-group region-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
+        <label>
+          <input type="checkbox" id="show-all-regions" />
+          Show All Regions
+        </label>
+        <button id="expand-collapse-all">Expand All</button>
+      </div>
+      <div id="regions-panel-content" style="flex-grow: 1; overflow-y: auto;">
+        <!-- Region blocks are injected here -->
+      </div>
+    `;
+    return element;
+  }
+
+  getRootElement() {
+    return this.rootElement;
+  }
+
   attachEventListeners() {
-    const showAllRegionsCheckbox = document.getElementById('show-all-regions');
+    const showAllRegionsCheckbox =
+      this.rootElement.querySelector('#show-all-regions');
     if (showAllRegionsCheckbox) {
       showAllRegionsCheckbox.addEventListener('change', (e) => {
         this.showAll = e.target.checked;
@@ -40,8 +72,8 @@ export class RegionUI {
       });
     }
 
-    const expandCollapseAllButton = document.getElementById(
-      'expand-collapse-all'
+    const expandCollapseAllButton = this.rootElement.querySelector(
+      '#expand-collapse-all'
     );
     if (expandCollapseAllButton) {
       expandCollapseAllButton.addEventListener('click', () => {
@@ -96,9 +128,8 @@ export class RegionUI {
   clear() {
     this.visitedRegions = [];
     this.nextUID = 1;
-    const regionsContainer = document.getElementById('regions-panel');
-    if (regionsContainer) {
-      regionsContainer.innerHTML = '';
+    if (this.regionsContainer) {
+      this.regionsContainer.innerHTML = '';
     }
   }
 
@@ -214,7 +245,7 @@ export class RegionUI {
   }
 
   renderAllRegions() {
-    const container = document.getElementById('regions-panel');
+    const container = this.regionsContainer;
     if (!container) {
       this.log('No #regions-panel element found');
       return;
@@ -278,7 +309,7 @@ export class RegionUI {
     ).checked = true;
 
     // Enable "Show all regions" if it's not already enabled
-    const showAllCheckbox = document.getElementById('show-all-regions');
+    const showAllCheckbox = this.rootElement.querySelector('#show-all-regions');
     if (showAllCheckbox && !showAllCheckbox.checked) {
       showAllCheckbox.checked = true;
       this.showAll = true;
@@ -366,10 +397,10 @@ export class RegionUI {
     }
 
     const isAccessible = stateManager.isRegionReachable(regionName);
-    
+
     // Check if Loop Mode is active
     const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
-    
+
     // In Loop Mode, only show discovered regions
     if (isLoopModeActive && !loopState.isRegionDiscovered(regionName)) {
       return document.createElement('div'); // Return empty div for undiscovered regions
@@ -437,11 +468,12 @@ export class RegionUI {
           // Remove inventory parameter
           const canAccess = evaluateRule(exit.access_rule);
           const colorClass = canAccess ? 'accessible' : 'inaccessible';
-          
+
           // In Loop Mode, check if the exit is discovered
           let isDiscovered = true;
-          const showExplored = document.getElementById('show-explored')?.checked ?? true;
-          
+          const showExplored =
+            document.getElementById('show-explored')?.checked ?? true;
+
           if (isLoopModeActive) {
             isDiscovered = loopState.isExitDiscovered(regionName, exit.name);
             // Skip this exit if it's not discovered and we're not showing explored
@@ -453,11 +485,12 @@ export class RegionUI {
           // Create wrapper for exit info
           const exitInfo = document.createElement('span');
           exitInfo.classList.add(colorClass);
-          
+
           // In Loop Mode, show ??? for undiscovered exits
-          const exitName = (isLoopModeActive && !isDiscovered) ? '???' : exit.name;
+          const exitName =
+            isLoopModeActive && !isDiscovered ? '???' : exit.name;
           exitInfo.textContent = `${exitName} → `;
-          
+
           if (!isDiscovered) {
             exitInfo.classList.add('undiscovered-exit');
           }
@@ -465,23 +498,28 @@ export class RegionUI {
           // Add connected region as a link if it exists
           if (exit.connected_region) {
             let connectedRegionName = exit.connected_region;
-            
+
             // In Loop Mode, check if the connected region is discovered
             if (isLoopModeActive) {
-              const isConnectedRegionDiscovered = loopState.isRegionDiscovered(exit.connected_region);
+              const isConnectedRegionDiscovered = loopState.isRegionDiscovered(
+                exit.connected_region
+              );
               if (!isConnectedRegionDiscovered) {
                 connectedRegionName = '???';
               }
             }
-            
+
             const regionLink = this.createRegionLink(connectedRegionName);
             regionLink.dataset.realRegion = exit.connected_region; // Store the real region name
             regionLink.classList.add(colorClass);
-            
-            if (isLoopModeActive && !loopState.isRegionDiscovered(exit.connected_region)) {
+
+            if (
+              isLoopModeActive &&
+              !loopState.isRegionDiscovered(exit.connected_region)
+            ) {
               regionLink.classList.add('undiscovered-region');
             }
-            
+
             exitInfo.appendChild(regionLink);
           } else {
             exitInfo.textContent += '(none)';
@@ -494,12 +532,12 @@ export class RegionUI {
           moveBtn.classList.add('move-btn');
           moveBtn.textContent = 'Move';
           moveBtn.disabled = !(canAccess && exit.connected_region);
-          
+
           // In Loop Mode, disable the button for undiscovered exits
           if (isLoopModeActive && !isDiscovered) {
             moveBtn.disabled = true;
           }
-          
+
           moveBtn.addEventListener('click', () => {
             if (canAccess && exit.connected_region) {
               this.moveToRegion(regionName, exit.connected_region);
@@ -540,11 +578,12 @@ export class RegionUI {
             : canAccess
             ? 'accessible'
             : 'inaccessible';
-            
+
           // In Loop Mode, check if the location is discovered
           let isDiscovered = true;
-          const showExplored = document.getElementById('show-explored')?.checked ?? true;
-          
+          const showExplored =
+            document.getElementById('show-explored')?.checked ?? true;
+
           if (isLoopModeActive) {
             isDiscovered = loopState.isLocationDiscovered(loc.name);
             if (!isDiscovered && !showExplored) {
@@ -553,15 +592,16 @@ export class RegionUI {
           }
 
           // Create a location link instead of a simple span
-          const locationName = (isLoopModeActive && !isDiscovered) ? '???' : loc.name;
+          const locationName =
+            isLoopModeActive && !isDiscovered ? '???' : loc.name;
           const locLink = this.createLocationLink(locationName, regionName);
           locLink.dataset.realName = loc.name; // Store the real location name
           locLink.classList.add(colorClass);
-          
+
           if (isLoopModeActive && !isDiscovered) {
             locLink.classList.add('undiscovered-location');
           }
-          
+
           locDiv.appendChild(locLink);
 
           // Add check button and check mark
@@ -570,12 +610,12 @@ export class RegionUI {
           checkBtn.textContent = 'Check';
           checkBtn.style.display = isChecked ? 'none' : '';
           checkBtn.disabled = !canAccess;
-          
+
           // In Loop Mode, disable the button for undiscovered locations
           if (isLoopModeActive && !isDiscovered) {
             checkBtn.disabled = true;
           }
-          
+
           checkBtn.addEventListener('click', async () => {
             if (canAccess && !isChecked) {
               try {

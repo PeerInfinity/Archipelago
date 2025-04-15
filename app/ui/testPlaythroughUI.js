@@ -7,6 +7,8 @@ export class TestPlaythroughUI {
     this.currentPlaythrough = null;
     this.logContainer = null;
     this.abortController = null; // To cancel ongoing tests
+    this.initialized = false; // Add flag
+    this.playthroughsPanelContainer = null; // Cache container element
 
     // State for stepping through tests
     this.logEvents = null;
@@ -18,12 +20,23 @@ export class TestPlaythroughUI {
 
   initialize() {
     console.log('Initializing TestPlaythroughUI');
-    const container = document.getElementById('test-playthroughs-panel');
-    if (!container) {
-      console.error('Test Playthroughs panel container not found');
+    // Find the container within the live files panel DOM element stored in gameUI
+    this.playthroughsPanelContainer =
+      window.gameUI?.filesPanelContainer?.querySelector(
+        '#test-playthroughs-panel'
+      );
+
+    if (!this.playthroughsPanelContainer) {
+      console.error(
+        'Test Playthroughs panel container not found within gameUI.filesPanelContainer'
+      );
+      this.initialized = false;
       return false;
     }
-    container.innerHTML = '<p>Loading playthrough list...</p>';
+
+    this.initialized = true; // Set initialized flag early
+    this.playthroughsPanelContainer.innerHTML =
+      '<p>Loading playthrough list...</p>';
 
     try {
       const loadJSON = (url) => {
@@ -44,13 +57,18 @@ export class TestPlaythroughUI {
       return true;
     } catch (error) {
       console.error('Error loading playthrough files data:', error);
-      container.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
-      return false;
+      // container.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
+      if (this.playthroughsPanelContainer) {
+        this.playthroughsPanelContainer.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
+      }
+      this.initialized = false; // Reset on error
+      return false; // Return false from catch block
     }
   }
 
   renderPlaythroughList() {
-    const container = document.getElementById('test-playthroughs-panel');
+    // const container = document.getElementById('test-playthroughs-panel');
+    const container = this.playthroughsPanelContainer;
     if (!container) return;
 
     // Clear previous state when returning to list
@@ -63,7 +81,13 @@ export class TestPlaythroughUI {
       <div class="playthrough-list-container">
     `;
 
-    if (!this.playthroughFiles || this.playthroughFiles.length === 0) {
+    // Add null check
+    if (!this.playthroughFiles) {
+      html += '<p>Loading playthrough list...</p>';
+      console.warn(
+        'renderPlaythroughList called before playthroughFiles data was loaded.'
+      );
+    } else if (this.playthroughFiles.length === 0) {
       html +=
         '<p>No playthrough files found in playthroughs/playthrough_files.json</p>';
     } else {
@@ -98,7 +122,8 @@ export class TestPlaythroughUI {
   }
 
   renderResultsView() {
-    const container = document.getElementById('test-playthroughs-panel');
+    // const container = document.getElementById('test-playthroughs-panel');
+    const container = this.playthroughsPanelContainer;
     if (!container || !this.currentPlaythrough) return;
 
     container.innerHTML = `

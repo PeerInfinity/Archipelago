@@ -341,6 +341,11 @@ export class StateManager {
         if (eventBus) {
           console.log('Publishing stateManager:jsonDataLoaded event');
           eventBus.publish('stateManager:jsonDataLoaded', {});
+          // Publish ready event immediately after data loaded event (within timeout)
+          console.log('Publishing stateManager:ready event (delayed)');
+          eventBus.publish('stateManager:ready', {
+            playerSlot: this.playerSlot,
+          });
         }
       }, 0);
     } catch (e) {

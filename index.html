@@ -6,278 +6,38 @@
     <link rel="stylesheet" type="text/css" href="styles/index.css" />
     <link rel="stylesheet" type="text/css" href="styles/loop.css" />
 
+    <!-- Golden Layout CSS -->
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="goldenlayout/goldenlayout-base.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="goldenlayout/goldenlayout-dark-theme.css"
+    />
+
+    <!-- Add jQuery (required by Golden Layout) -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Add Golden Layout library -->
+    <script src="goldenlayout/goldenlayout.js"></script>
+
     <script type="module" src="init.js"></script>
 
     <link rel="icon" href="data:," type="image/x-icon" />
   </head>
   <body>
-    <div id="page-layout">
-      <!-- Left Column - Inventory -->
-      <div id="inventory-column">
-        <div class="sidebar-header">
-          <h2>Inventory</h2>
-          <div id="main-content-expand-btn" title="Expand Center Column">▶</div>
-        </div>
-        <div class="inventory-controls">
-          <label>
-            <input type="checkbox" id="hide-unowned" checked />
-            Hide unowned items
-          </label>
-          <div class="checkbox-container">
-            <input type="checkbox" id="hide-categories" />
-            <label for="hide-categories">Hide categories</label>
-          </div>
-          <div class="checkbox-container">
-            <input type="checkbox" id="sort-alphabetically" />
-            <label for="sort-alphabetically">Sort alphabetically</label>
-          </div>
-        </div>
-        <div id="inventory-groups" class="sidebar-content">
-          <!-- Populated by JS -->
-        </div>
-        <div id="inventory-flat" class="sidebar-content" style="display: none">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-
-      <!-- Center Column - Original web client -->
-      <div id="main-content">
-        <div id="main-content-collapse-btn" title="Collapse Center Column">
-          ◀
-        </div>
-        <h2 id="header-text">J S O N &nbsp; W e b &nbsp; C l i e n t</h2>
-
-        <div id="status-bar">
-          <div>
-            AP Server: <span id="server-status" class="red">Not Connected</span>
-          </div>
-          <div>
-            <label for="server-address">Server Address:</label>
-            <input id="server-address" value="ws://localhost:38281" />
-          </div>
-        </div>
-
-        <div id="progress-container">
-          <h3 id="progress-container-header">Location Check Progress</h3>
-          <progress id="progress-bar" value="0" max="30000"></progress>
-          <span id="checks-sent">Checked: 0</span><br />
-          <div class="button-container">
-            <button id="control-button" disabled="disabled">Begin!</button>
-            <button id="quick-check-button" disabled="disabled">
-              Quick Check
-            </button>
-          </div>
-        </div>
-
-        <div id="console">
-          <!-- Populated by JS -->
-        </div>
-
-        <div id="command-wrapper">
-          <label for="console-input"></label>
-          <input
-            id="console-input"
-            placeholder="Enter a command here, then press enter."
-          />
-        </div>
-      </div>
-
-      <!-- Right Column - Location Management -->
-      <div id="locations-column">
-        <div class="locations-header">
-          <div class="header-top-row">
-            <div class="control-group">
-              <label>
-                <input
-                  type="radio"
-                  name="view-mode"
-                  value="locations"
-                  checked
-                />
-                Locations
-              </label>
-              <label>
-                <input type="radio" name="view-mode" value="exits" />
-                Exits
-              </label>
-              <label>
-                <input type="radio" name="view-mode" value="regions" />
-                Regions
-              </label>
-              <label>
-                <input type="radio" name="view-mode" value="loop" />
-                Loops
-              </label>
-              <label>
-                <input type="radio" name="view-mode" value="files" />
-                Files
-              </label>
-              <input
-                type="file"
-                id="json-upload"
-                accept=".json"
-                class="hidden"
-              />
-              <label for="json-upload" class="button">Load JSON</label>
-              <button id="debug-toggle" class="button">Show Debug</button>
-            </div>
-
-            <div class="loop-status-display" style="display: none">
-              <div class="mana-container">
-                <div class="mana-bar-container">
-                  <div id="header-mana-bar" class="mana-bar"></div>
-                </div>
-              </div>
-              <div class="action-progress">
-                <div
-                  id="header-action-progress-bar"
-                  class="action-progress-bar"
-                ></div>
-                <span
-                  id="header-action-progress-text"
-                  class="action-progress-value"
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Location-specific controls -->
-          <div class="control-group location-controls">
-            <select id="sort-select">
-              <option value="original">Original Order</option>
-              <option value="accessibility">Sort by Accessibility</option>
-            </select>
-            <label>
-              <input type="checkbox" id="show-checked" checked />
-              Show Checked
-            </label>
-            <label>
-              <input type="checkbox" id="show-reachable" checked />
-              Show Reachable
-            </label>
-            <label>
-              <input type="checkbox" id="show-unreachable" checked />
-              Show Unreachable
-            </label>
-            <label style="display: none">
-              <input type="checkbox" id="show-explored" checked />
-              Show Explored
-            </label>
-            <button id="decrease-columns">-</button>
-            <button id="increase-columns">+</button>
-          </div>
-
-          <!-- Exit-specific controls -->
-          <div class="control-group exit-controls" style="display: none">
-            <select id="exit-sort-select">
-              <option value="original">Original Order</option>
-              <option value="accessibility">Sort by Accessibility</option>
-            </select>
-            <label>
-              <input type="checkbox" id="exit-show-reachable" checked />
-              Show Reachable
-            </label>
-            <label>
-              <input type="checkbox" id="exit-show-unreachable" checked />
-              Show Unreachable
-            </label>
-            <label style="display: none">
-              <input type="checkbox" id="exit-show-explored" checked />
-              Show Explored
-            </label>
-            <button id="exit-decrease-columns">-</button>
-            <button id="exit-increase-columns">+</button>
-          </div>
-
-          <!-- Region-specific controls -->
-          <div class="control-group region-controls">
-            <label>
-              <input type="checkbox" id="show-all-regions" />
-              Show All Regions
-            </label>
-            <button id="expand-collapse-all">Expand All</button>
-          </div>
-
-          <!-- Loop-specific controls -->
-          <div class="control-group loop-controls" style="display: none">
-            <button id="toggle-loop-mode" class="button">
-              Enter Loop Mode
-            </button>
-            <button id="toggle-pause" class="button" disabled>Pause</button>
-            <button id="toggle-restart" class="button" disabled>Restart</button>
-            <button id="toggle-auto-restart" class="button">
-              Pause when queue complete
-            </button>
-            <button id="loop-expand-collapse-all" class="button">
-              Expand All
-            </button>
-            <div class="speed-controls">
-              <label for="game-speed">Speed:</label>
-              <input
-                type="range"
-                id="game-speed"
-                min="0.5"
-                max="100"
-                step="0.5"
-                value="1"
-              />
-              <span id="speed-value">1.0x</span>
-            </div>
-            <label>
-              <input type="checkbox" id="loop-colorblind" />
-              Colorblind Mode
-            </label>
-          </div>
-
-          <!-- File-specific controls -->
-          <div class="control-group file-controls" style="display: none">
-            <label>
-              <input
-                type="radio"
-                name="file-view-mode"
-                value="presets"
-                checked
-              />
-              Presets
-            </label>
-            <label>
-              <input type="radio" name="file-view-mode" value="test-cases" />
-              Test Cases
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="file-view-mode"
-                value="test-playthroughs"
-              />
-              Test Playthroughs
-            </label>
-          </div>
-        </div>
-        <div id="locations-grid">
-          <!-- Populated by JS -->
-        </div>
-        <div id="exits-grid" style="display: none">
-          <!-- Populated by JS -->
-        </div>
-        <div id="regions-panel" style="display: none">
-          <!-- Region blocks are injected here by regionManager -->
-        </div>
-        <div id="loop-panel" style="display: none">
-          <!-- Loop mode UI will be injected here -->
-        </div>
-        <div id="files-panel" style="display: none">
-          <div id="test-cases-panel">
-            <div id="test-cases-list"></div>
-          </div>
-          <div id="presets-panel" style="display: none">
-            <div id="presets-list"></div>
-          </div>
-          <div id="test-playthroughs-panel" style="display: none">
-            <!-- Populated by testPlaythroughUI.js -->
-          </div>
-        </div>
-      </div>
+    <div
+      id="goldenlayout-container"
+      style="width: 100%; height: 100vh; position: relative"
+    >
+      <!-- Golden Layout will populate this -->
     </div>
 
     <!-- Modal -->

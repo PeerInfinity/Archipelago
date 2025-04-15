@@ -9,6 +9,7 @@ body {
   padding: 0;
   overflow: hidden;
   background-color: #9a9a9a;
+  color: #cecece;
 }
 
 /* Page Layout */
@@ -393,7 +394,7 @@ select:hover {
 }
 
 /* Location and Exit Cards */
-.location-card, 
+.location-card,
 .exit-card {
   padding: 0.5rem;
   cursor: pointer;
@@ -952,4 +953,53 @@ label {
   flex-direction: column;
   height: 100%; /* or a specific height value based on your layout */
   overflow-y: auto;
+}
+
+/* Ensure inner list containers fill height and scroll */
+#test-cases-list,
+#presets-list,
+#test-playthroughs-panel .playthrough-list-container {
+  /* Assuming this class from testPlaythroughUI */
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box; /* Include padding/border in height */
+}
+
+/* Ensure Golden Layout container inherits or has light text */
+#goldenlayout-container {
+  color: #cecece;
+}
+
+/* General Panel Container Style */
+.panel-container {
+  background-color: #2d2d2d; /* Consistent dark background */
+  color: #cecece; /* Ensure light text color */
+  padding: 1em; /* Add some padding */
+  border-radius: 4px; /* Optional: rounded corners */
+  overflow: hidden; /* Prevent content spillover */
+  display: flex; /* Use flexbox for internal layout */
+  flex-direction: column; /* Default to column layout */
+  height: 100%; /* Fill available height */
+  box-sizing: border-box; /* Include padding in size */
+}
+
+/* Override for specific panels if needed, e.g., regions */
+.regions-panel-container {
+  background-color: #222; /* Slightly different dark for regions */
+  color: #ccc; /* Ensure light text color */
+}
+
+.files-panel-container {
+  background-color: #222;
+  color: #ccc;
+}
+
+/* Ensure labels within panels are light */
+.panel-container label {
+  color: #cecece;
+}
+
+/* Specific override for checkbox/radio labels in control groups */
+.panel-container .control-group label {
+  color: #cecece !important; /* Use !important to ensure override */
 }

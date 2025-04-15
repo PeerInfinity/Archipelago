@@ -33,6 +33,71 @@ export class LoopUI {
 
     // Set up animation frame for continuous UI updates
     this._startAnimationLoop();
+    this.rootElement = this.createRootElement(); // Create root element
+    this.loopRegionsArea = this.rootElement.querySelector('#loop-regions-area'); // Cache reference
+    this.loopControls = this.rootElement.querySelector('.loop-controls'); // Cache controls
+  }
+
+  // Add the missing createRootElement method
+  createRootElement() {
+    const element = document.createElement('div');
+    element.classList.add('loop-panel-container', 'panel-container');
+    element.style.display = 'flex';
+    element.style.flexDirection = 'column';
+    element.style.height = '100%';
+    element.style.overflow = 'hidden';
+
+    // Recreate the structure, including controls that were previously in index.html
+    element.innerHTML = `
+        <div class="control-group loop-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
+            <button id="toggle-loop-mode" class="button">
+              Enter Loop Mode
+            </button>
+            <button id="toggle-pause" class="button" disabled>Pause</button>
+            <button id="toggle-restart" class="button" disabled>Restart</button>
+            <button id="toggle-auto-restart" class="button">
+              Pause when queue complete
+            </button>
+            <button id="loop-expand-collapse-all" class="button">
+              Expand All
+            </button>
+            <div class="speed-controls">
+              <label for="game-speed">Speed:</label>
+              <input
+                type="range"
+                id="game-speed"
+                min="0.5"
+                max="100"
+                step="0.5"
+                value="1"
+              />
+              <span id="speed-value">1.0x</span>
+            </div>
+            <label>
+              <input type="checkbox" id="loop-colorblind" />
+              Colorblind Mode
+            </label>
+        </div>
+        <div id="loop-fixed-area" class="loop-fixed-area" style="flex-shrink: 0;">
+            <!-- Mana bar and current action display will go here -->
+        </div>
+        <div id="loop-regions-area" class="loop-regions-area" style="flex-grow: 1; overflow-y: auto;">
+            <!-- Scrollable region/action list -->
+        </div>
+        <div class="loop-controls-area" style="padding: 0.5rem; border-top: 1px solid #666; flex-shrink: 0;">
+            <button id="loop-clear-queue" class="button">Clear Queue</button>
+            <button id="loop-save-state" class="button">Save Game</button>
+            <button id="loop-export-state" class="button">Export</button>
+            <button id="loop-import-state" class="button">Import</button>
+            <input type="file" id="loop-state-import" class="hidden" accept=".json" />
+            <button id="loop-hard-reset" class="button">Hard Reset</button>
+        </div>
+    `;
+    return element;
+  }
+
+  getRootElement() {
+    return this.rootElement;
   }
 
   /**
@@ -97,9 +162,10 @@ export class LoopUI {
    * Create the basic structure for the loop UI panel
    */
   createUIStructure() {
-    const container = document.getElementById('loop-panel');
+    // const container = document.getElementById('loop-panel');
+    const container = this.rootElement; // Use the created root element
     if (!container) {
-      console.error('Loop panel container not found');
+      console.error('Loop panel container (rootElement) not found or not set');
       return;
     }
 
@@ -113,10 +179,8 @@ export class LoopUI {
     container.style.overflow = 'hidden';
 
     // Create top status area with just the mana bar and current action
-    const fixedArea = document.createElement('div');
-    fixedArea.id = 'loop-fixed-area';
-    fixedArea.className = 'loop-fixed-area';
-
+    // const fixedArea = document.createElement('div');
+    const fixedArea = container.querySelector('#loop-fixed-area'); // Find existing area
     fixedArea.innerHTML = `
       <div class="loop-resources">
         <div class="mana-container">
@@ -144,37 +208,30 @@ export class LoopUI {
     container.appendChild(regionsArea);
 
     // Add other controls at the bottom (without the Expand All button)
-    const controlsArea = document.createElement('div');
-    controlsArea.className = 'loop-controls-area';
-    controlsArea.innerHTML = `
-      <button id="loop-clear-queue" class="button">Clear Queue</button>
-      <button id="loop-save-state" class="button">Save Game</button>
-      <button id="loop-export-state" class="button">Export</button>
-      <button id="loop-import-state" class="button">Import</button>
-      <button id="loop-hard-reset" class="button">Hard Reset</button>
-    `;
-    container.appendChild(controlsArea);
-
-    //console.log(
-    //  'UI structure created: loop-regions-area exists:',
-    //  !!document.getElementById('loop-regions-area')
-    //);
+    // const controlsArea = document.createElement('div');
+    // controlsArea.className = 'loop-controls-area';
+    // controlsArea.innerHTML = `
+    //   <button id="loop-clear-queue" class="button">Clear Queue</button>
+    //   <button id="loop-save-state" class="button">Save Game</button>
+    //   <button id="loop-export-state" class="button">Export</button>
+    //   <button id="loop-import-state" class="button">Import</button>
+    //   <button id="loop-hard-reset" class="button">Hard Reset</button>
+    // `;
+    // container.appendChild(controlsArea);
 
     // Add hidden file input for import
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.id = 'loop-state-import';
-    fileInput.className = 'hidden';
-    fileInput.accept = '.json';
-    container.appendChild(fileInput);
+    // const fileInput = this.rootElement.querySelector('#loop-state-import'); // Find existing
 
     // Add colorblind mode toggle listener
-    const colorblindToggle = document.getElementById('loop-colorblind');
+    // const colorblindToggle = this.loopControls.querySelector('#loop-colorblind'); // Find within cached controls
+    // Already attached in attachControlEventListeners, avoid double attachment
+    /*
     if (colorblindToggle) {
       colorblindToggle.addEventListener('change', (e) => {
         this.setColorblindMode(e.target.checked);
       });
     }
+    */
   }
 
   /**
@@ -218,7 +275,10 @@ export class LoopUI {
 
     // Auto-restart changes
     eventBus.subscribe('loopState:autoRestartChanged', (data) => {
-      const autoRestartBtn = document.getElementById('toggle-auto-restart');
+      // const autoRestartBtn = document.getElementById('toggle-auto-restart');
+      const autoRestartBtn = this.loopControls.querySelector(
+        '#toggle-auto-restart'
+      ); // Find within cached controls
       if (autoRestartBtn) {
         autoRestartBtn.textContent = data.autoRestart
           ? 'Restart when queue complete'
@@ -393,16 +453,13 @@ export class LoopUI {
    * Attach event listeners to control elements
    */
   _attachControlEventListeners() {
-    //console.log('Attaching all control event listeners');
-
-    // Store a reference to this for use in event handlers
-    const self = this;
-
-    // === Attach listeners for control buttons ===
-    // We'll use a helper function to avoid duplicating code
+    // Use this.loopControls to find buttons
     const attachButtonHandler = (buttonId, handler) => {
-      const button = document.getElementById(buttonId);
+      // const button = document.getElementById(buttonId);
+      const button = this.loopControls.querySelector(`#${buttonId}`); // Query within loop controls
       if (button) {
+        // Remove existing listener before adding a new one
+        button.removeEventListener('click', handler);
         // Clone and replace to remove existing event listeners
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
@@ -492,7 +549,8 @@ export class LoopUI {
     });
 
     // Game speed slider
-    const speedSlider = document.getElementById('game-speed');
+    // const speedSlider = document.getElementById('game-speed');
+    const speedSlider = this.loopControls.querySelector('#game-speed'); // Query within loop controls
     const speedValue = document.getElementById('speed-value');
     if (speedSlider && speedValue) {
       // Remove existing listeners by cloning
@@ -613,19 +671,10 @@ export class LoopUI {
     });
 
     // Import button & file input
-    const importBtn = document.getElementById('loop-import-state');
-    const fileInput = document.getElementById('loop-state-import');
-    if (importBtn && fileInput) {
-      // Remove existing listeners
-      const newImportBtn = importBtn.cloneNode(true);
-      importBtn.parentNode.replaceChild(newImportBtn, importBtn);
-
-      const newFileInput = fileInput.cloneNode(true);
-      fileInput.parentNode.replaceChild(newFileInput, fileInput);
-
-      newImportBtn.addEventListener('click', () => {
-        newFileInput.click();
-      });
+    const importButton = this.rootElement.querySelector('#loop-import-state'); // Query within root element
+    const fileInput = this.rootElement.querySelector('#loop-state-import'); // Query within root element
+    if (importButton && fileInput) {
+      importButton.addEventListener('click', () => fileInput.click());
 
       newFileInput.addEventListener('change', (event) => {
         self._importState(event.target.files[0]);
@@ -898,233 +947,60 @@ export class LoopUI {
       headerStatusDisplay.style.display = this.isLoopModeActive
         ? 'flex'
         : 'none';
-
-      // If entering loop mode, update the header mana bar
-      if (this.isLoopModeActive) {
-        const headerManaBar = document.getElementById('header-mana-bar');
-        if (headerManaBar) {
-          const percentage = Math.max(
-            0,
-            Math.min(100, (loopState.currentMana / loopState.maxMana) * 100)
-          );
-          headerManaBar.style.width = `${percentage}%`;
-          headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(
-            loopState.currentMana
-          )}/${loopState.maxMana} Mana</span>`;
-
-          // Add color classes
-          headerManaBar.className = 'mana-bar';
-          if (percentage < 25) {
-            headerManaBar.classList.add('low');
-          } else if (percentage < 50) {
-            headerManaBar.classList.add('medium');
-          } else {
-            headerManaBar.classList.add('high');
-          }
-
-          // Clear action progress
-          const headerProgressBar = document.getElementById(
-            'header-action-progress-bar'
-          );
-          const headerProgressText = document.getElementById(
-            'header-action-progress-text'
-          );
-          if (headerProgressBar && headerProgressText) {
-            headerProgressBar.style.width = '0%';
-            headerProgressText.textContent = '';
-          }
-        }
-      }
     }
 
-    // Toggle visibility of the "Show Explored" checkbox based on Loop Mode
-    const showExploredCheckbox = document.getElementById('show-explored');
-    if (showExploredCheckbox) {
-      showExploredCheckbox.parentElement.style.display = this.isLoopModeActive
-        ? 'inline'
-        : 'none';
+    // Disable file view when loop mode is active
+    const filesPanel = document.getElementById('files-panel'); // This might need adjustment if files panel is dynamic
+    if (filesPanel) {
+      filesPanel.style.display = this.isLoopModeActive ? 'none' : 'block';
     }
-
-    // Toggle visibility of the "Exit Show Explored" checkbox based on Loop Mode
-    const exitShowExploredCheckbox =
-      document.getElementById('exit-show-explored');
-    if (exitShowExploredCheckbox) {
-      exitShowExploredCheckbox.parentElement.style.display = this
-        .isLoopModeActive
-        ? 'inline'
-        : 'none';
-    }
-
-    // If entering loop mode, start any queued actions
+    // Update file view UI if necessary (e.g., clear content)
     if (this.isLoopModeActive) {
-      try {
-        // Set paused state first
-        loopState.setPaused(true);
-
-        // Update all pause buttons to show "Resume"
-        const allPauseButtons = document.querySelectorAll(
-          'button#toggle-pause'
-        );
-        allPauseButtons.forEach((btn) => {
-          btn.textContent = 'Resume';
-          btn.disabled = false; // Make sure the button is enabled
-        });
-
-        // Fallback for single pause button
-        const pauseBtn = document.getElementById('toggle-pause');
-        if (pauseBtn && !allPauseButtons.length) {
-          pauseBtn.textContent = 'Resume';
-          pauseBtn.disabled = false;
-        }
-
-        console.log('Entered loop mode in paused state');
-      } catch (error) {
-        console.error('Error initializing loop mode:', error);
-        if (window.consoleManager) {
-          window.consoleManager.print('Error initializing loop mode.', 'error');
-        }
-      }
-    }
-
-    // If exiting loop mode, pause any active actions
-    if (!this.isLoopModeActive && loopState.isProcessing) {
-      loopState.setPaused(true);
-
-      // Update all pause buttons
-      const allPauseButtons = document.querySelectorAll('button#toggle-pause');
-      allPauseButtons.forEach((btn) => {
-        btn.textContent = 'Resume';
-      });
-
-      // Fallback
-      const pauseBtn = document.getElementById('toggle-pause');
-      if (pauseBtn && !allPauseButtons.length) {
-        pauseBtn.textContent = 'Resume';
-      }
-    }
-
-    const filesPanel = document.getElementById('files-panel');
-    const testCasesPanel = document.getElementById('test-cases-panel');
-    const presetsPanel = document.getElementById('presets-panel');
-
-    if (this.isLoopModeActive) {
-      // Disable file panels when entering loop mode
-      if (filesPanel) {
-        filesPanel.classList.add('loop-mode-disabled');
-      }
-
-      // Add a notice to the files panel
-      const disabledMessage = document.createElement('div');
-      disabledMessage.className = 'loop-mode-disabled-message';
-      disabledMessage.textContent =
-        'The Files panel is disabled while Loop Mode is active.';
-
-      if (testCasesPanel) {
-        testCasesPanel.innerHTML = ''; // Clear previous content
-        testCasesPanel.appendChild(disabledMessage.cloneNode(true));
-      }
-
-      if (presetsPanel) {
-        presetsPanel.innerHTML = ''; // Clear previous content
-        presetsPanel.appendChild(disabledMessage.cloneNode(true));
-      }
+      this.gameUI.testCaseUI?.clearTestData?.();
+      this.gameUI.testPlaythroughUI?.clearDisplay?.();
     } else {
-      // Re-enable file panels when exiting loop mode
-      if (filesPanel) {
-        filesPanel.classList.remove('loop-mode-disabled');
-      }
-
-      // Restore BOTH panel structures
-      if (testCasesPanel) {
-        const message = testCasesPanel.querySelector(
-          '.loop-mode-disabled-message'
-        );
-        if (message) message.remove();
-        // Ensure the inner container exists
-        if (!testCasesPanel.querySelector('#test-cases-list')) {
-          testCasesPanel.innerHTML = '<div id="test-cases-list"></div>';
-        }
-      }
-
-      if (presetsPanel) {
-        const message = presetsPanel.querySelector(
-          '.loop-mode-disabled-message'
-        );
-        if (message) message.remove();
-        // Ensure the inner container exists
-        if (!presetsPanel.querySelector('#presets-list')) {
-          presetsPanel.innerHTML = '<div id="presets-list"></div>';
-        }
-      }
-
-      // Now, render content ONLY for the ACTIVE view
-      if (
-        this.gameUI &&
-        this.gameUI.testCaseUI &&
-        this.gameUI.currentFileView === 'test-cases'
-      ) {
-        if (this.gameUI.testCaseUI.currentTestSet) {
-          this.gameUI.testCaseUI.renderTestCasesList();
-        } else {
-          this.gameUI.testCaseUI.renderTestSetSelector();
-        }
-      } else if (
-        this.gameUI &&
-        this.gameUI.presetUI &&
-        this.gameUI.currentFileView === 'presets'
-      ) {
-        if (
-          this.gameUI.presetUI.currentGame &&
-          this.gameUI.presetUI.currentPreset
-        ) {
-          this.gameUI.presetUI.loadPreset(
-            this.gameUI.presetUI.currentGame,
-            this.gameUI.presetUI.currentPreset
-          );
-        } else {
-          this.gameUI.presetUI.renderGamesList();
-        }
+      // Potentially re-render file view if needed when exiting loop mode
+      if (this.gameUI.currentViewMode === 'files') {
+        this.gameUI.updateFileViewDisplay();
       }
     }
 
-    // Notify other UI components about loop mode change
-    eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
-
-    // Update all UI components
-    if (this.gameUI) {
-      if (this.gameUI.locationUI) {
-        this.gameUI.locationUI.updateLocationDisplay();
-      }
-
-      if (this.gameUI.exitUI) {
-        this.gameUI.exitUI.updateExitDisplay();
-      }
-
-      if (this.gameUI.regionUI) {
-        this.gameUI.regionUI.renderAllRegions();
-      }
+    // Show/hide the loop panel itself based on view mode
+    // This is handled by Golden Layout now, so we don't need this logic here
+    /*
+    const loopPanelContainer = document.getElementById('loop-panel');
+    if (loopPanelContainer) {
+        loopPanelContainer.style.display = this.gameUI.currentViewMode === 'loop' ? 'block' : 'none';
     }
-
-    console.log(
-      `Loop mode ${this.isLoopModeActive ? 'activated' : 'deactivated'}`
-    );
-
-    // Only render the panel once at the end
-    this.renderLoopPanel();
+    */
   }
 
-  /**
-   * Clear the loop UI
-   */
   clear() {
-    const container = document.getElementById('loop-panel');
-    if (container) {
-      container.innerHTML = '';
+    // Clear internal state
+    this.expandedRegions.clear();
+    this.regionsInQueue.clear();
+    this.repeatExploreStates.clear();
+    this.currentAction = null;
+
+    // Clear the regions area in the DOM
+    // const regionsArea = document.getElementById('loop-regions-area');
+    if (this.loopRegionsArea) {
+      this.loopRegionsArea.innerHTML = '';
     }
 
-    this.expandedRegions = new Set();
-    this.expandedRegions.add('Menu'); // Always start with Menu expanded
-    this.regionsInQueue = new Set();
+    // Clear the current action display
+    const currentActionContainer = this.rootElement?.querySelector(
+      '#current-action-container'
+    );
+    if (currentActionContainer) {
+      this._updateCurrentActionDisplay(null); // Pass null to show 'No action'
+    }
+
+    // Reset mana display
+    this._updateManaDisplay(loopState.maxMana, loopState.maxMana);
+
+    // Add Menu back to expanded regions if needed
+    this.expandedRegions.add('Menu');
   }
 
   /**
@@ -1133,51 +1009,16 @@ export class LoopUI {
    * @param {number} max - Maximum mana
    */
   _updateManaDisplay(current, max) {
-    // Use requestAnimationFrame to ensure the DOM updates happen in the next paint cycle
-    requestAnimationFrame(() => {
-      // Update the main mana bar
-      const manaBar = document.getElementById('mana-bar');
-      const manaValue = document.getElementById('mana-value');
+    // const manaBar = document.getElementById('mana-bar');
+    // const manaValue = document.getElementById('mana-value');
+    // const headerManaBar = document.getElementById('header-mana-bar');
+    const manaBar = this.rootElement?.querySelector('#mana-bar');
+    const manaValue = this.rootElement?.querySelector('#mana-value');
+    // Header bar update needs to query document as it's outside this component's root
+    const headerManaBar = document.getElementById('header-mana-bar');
 
-      // Update the header mana bar - directly, not through the updateBar function
-      const headerManaBar = document.getElementById('header-mana-bar');
-
-      const percentage = Math.max(0, Math.min(100, (current / max) * 100));
-
-      // First update the header mana bar directly
-      if (headerManaBar) {
-        // Remove the transition temporarily
-        headerManaBar.style.transition = 'none';
-        // Force a reflow
-        void headerManaBar.offsetWidth;
-        // Restore the transition
-        headerManaBar.style.transition = 'width 0.1s linear';
-        // Update the width for animation
-        headerManaBar.style.width = `${percentage}%`;
-
-        // Add color classes based on percentage
-        headerManaBar.className = 'mana-bar';
-        if (percentage < 25) {
-          headerManaBar.classList.add('low');
-        } else if (percentage < 50) {
-          headerManaBar.classList.add('medium');
-        } else {
-          headerManaBar.classList.add('high');
-        }
-
-        // Put the text directly inside the mana-bar element for header
-        headerManaBar.innerHTML = `<span class="mana-text">${Math.floor(
-          current
-        )}/${max} Mana</span>`;
-
-        // Log for debugging
-        //console.log(`Updated header mana bar: ${Math.floor(current)}/${max} Mana`);
-      }
-
-      // Function to update the main mana bar
-      const updateMainBar = (bar, value) => {
-        if (!bar || !value) return;
-
+    const updateMainBar = (bar, value) => {
+      if (bar) {
         // Remove the transition temporarily
         bar.style.transition = 'none';
         // Force a reflow
@@ -1185,13 +1026,16 @@ export class LoopUI {
         // Restore the transition
         bar.style.transition = 'width 0.1s linear';
         // Update the width for animation
-        bar.style.width = `${percentage}%`;
+        bar.style.width = `${Math.max(
+          0,
+          Math.min(100, (current / max) * 100)
+        )}%`;
 
         // Add color classes based on percentage
         bar.className = 'mana-bar';
-        if (percentage < 25) {
+        if (Math.max(0, Math.min(100, (current / max) * 100)) < 25) {
           bar.classList.add('low');
-        } else if (percentage < 50) {
+        } else if (Math.max(0, Math.min(100, (current / max) * 100)) < 50) {
           bar.classList.add('medium');
         } else {
           bar.classList.add('high');
@@ -1199,11 +1043,11 @@ export class LoopUI {
 
         // Update the regular mana display text
         value.textContent = `${Math.floor(current)} of ${max} Mana Remaining`;
-      };
+      }
 
       // Update the main mana bar
       updateMainBar(manaBar, manaValue);
-    });
+    };
   }
 
   /**

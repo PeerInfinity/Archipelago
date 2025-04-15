@@ -15,7 +15,51 @@ export class InventoryUI {
     this.hideUnowned = true;
     this.hideCategories = false;
     this.sortAlphabetically = false;
+    this.rootElement = this.createRootElement();
+    this.groupedContainer = this.rootElement.querySelector('#inventory-groups');
+    this.flatContainer = this.rootElement.querySelector('#inventory-flat');
     this.attachEventListeners();
+  }
+
+  createRootElement() {
+    const element = document.createElement('div');
+    element.classList.add('inventory-panel-container', 'panel-container');
+    element.style.display = 'flex';
+    element.style.flexDirection = 'column';
+    element.style.height = '100%';
+    element.style.overflow = 'hidden';
+
+    element.innerHTML = `
+        <div class="sidebar-header" style="flex-shrink: 0;">
+          <h2>Inventory</h2>
+          <!-- Expand button might need separate logic if needed outside GL -->
+        </div>
+        <div class="inventory-controls" style="flex-shrink: 0;">
+          <label>
+            <input type="checkbox" id="hide-unowned" checked />
+            Hide unowned items
+          </label>
+          <div class="checkbox-container">
+            <input type="checkbox" id="hide-categories" />
+            <label for="hide-categories">Hide categories</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="sort-alphabetically" />
+            <label for="sort-alphabetically">Sort alphabetically</label>
+          </div>
+        </div>
+        <div id="inventory-groups" class="sidebar-content" style="flex-grow: 1; overflow-y: auto;">
+          <!-- Populated by JS -->
+        </div>
+        <div id="inventory-flat" class="sidebar-content" style="display: none; flex-grow: 1; overflow-y: auto;">
+          <!-- Populated by JS -->
+        </div>
+        `;
+    return element;
+  }
+
+  getRootElement() {
+    return this.rootElement;
   }
 
   initialize(itemData, groups) {
@@ -48,11 +92,11 @@ export class InventoryUI {
 
   initializeUI(itemData, groups) {
     // Create grouped view
-    const groupedContainer = document.getElementById('inventory-groups');
+    const groupedContainer = this.groupedContainer;
     groupedContainer.innerHTML = '';
 
     // Create flat view container
-    const flatContainer = document.getElementById('inventory-flat');
+    const flatContainer = this.flatContainer;
     flatContainer.innerHTML = '';
     const flatGroup = document.createElement('div');
     flatGroup.className = 'inventory-group';
@@ -136,8 +180,8 @@ export class InventoryUI {
   updateDisplay() {
     if (!this.itemData) return;
 
-    const groupedContainer = document.getElementById('inventory-groups');
-    const flatContainer = document.getElementById('inventory-flat');
+    const groupedContainer = this.groupedContainer;
+    const flatContainer = this.flatContainer;
 
     if (this.hideCategories) {
       groupedContainer.style.display = 'none';
@@ -192,7 +236,7 @@ export class InventoryUI {
   }
 
   attachItemEventListeners() {
-    document.querySelectorAll('.item-button').forEach((button) => {
+    this.rootElement.querySelectorAll('.item-button').forEach((button) => {
       button.addEventListener('click', (event) => {
         const itemName = button.dataset.item;
         this.modifyItemCount(itemName, event.shiftKey);
@@ -201,10 +245,11 @@ export class InventoryUI {
   }
 
   attachEventListeners() {
-    const hideUnownedCheckbox = document.getElementById('hide-unowned');
-    const hideCategoriesCheckbox = document.getElementById('hide-categories');
-    const sortAlphabeticallyCheckbox = document.getElementById(
-      'sort-alphabetically'
+    const hideUnownedCheckbox = this.rootElement.querySelector('#hide-unowned');
+    const hideCategoriesCheckbox =
+      this.rootElement.querySelector('#hide-categories');
+    const sortAlphabeticallyCheckbox = this.rootElement.querySelector(
+      '#sort-alphabetically'
     );
 
     if (hideUnownedCheckbox) {
@@ -309,8 +354,8 @@ export class InventoryUI {
     });
 
     // Clear both containers
-    const groupedContainer = document.getElementById('inventory-groups');
-    const flatContainer = document.getElementById('inventory-flat');
+    const groupedContainer = this.groupedContainer;
+    const flatContainer = this.flatContainer;
     if (groupedContainer) groupedContainer.innerHTML = '';
     if (flatContainer) flatContainer.innerHTML = '';
   }

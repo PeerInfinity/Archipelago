@@ -9,9 +9,25 @@ export class TestCaseUI {
     this.availableTestSets = null;
     this.currentTestSet = null;
     this.currentFolder = null;
+    this.initialized = false;
+    this.testCasesListContainer = null;
   }
 
   initialize() {
+    // Find the container within the live files panel DOM element stored in gameUI
+    this.testCasesListContainer =
+      window.gameUI?.filesPanelContainer?.querySelector('#test-cases-list');
+
+    if (!this.testCasesListContainer) {
+      console.error(
+        'TestCaseUI: Could not find #test-cases-list container within gameUI.filesPanelContainer during initialization.'
+      );
+      this.initialized = false;
+      return false;
+    }
+
+    this.initialized = true; // Set initialized flag early if container found
+
     try {
       // Load the test_files.json which contains the list of available test sets
       const loadJSON = (url) => {
@@ -30,17 +46,31 @@ export class TestCaseUI {
 
       // Render the test set selector instead of loading test cases immediately
       this.renderTestSetSelector();
-      return true;
+      return true; // Return true from try block
     } catch (error) {
       console.error('Error loading test sets data:', error);
-      return false;
+      if (this.testCasesListContainer) {
+        this.testCasesListContainer.innerHTML = `<div class="error">Error loading test sets: ${error.message}</div>`;
+      }
+      this.initialized = false; // Reset on error
+      return false; // Return false from catch block
     }
   }
 
   renderTestSetSelector() {
-    const container = document.getElementById('test-cases-list');
+    const container = this.testCasesListContainer;
     if (!container) {
-      console.error('Test cases list container not found');
+      console.error(
+        'Test cases list container not found for renderTestSetSelector'
+      );
+      return;
+    }
+
+    if (!this.availableTestSets) {
+      container.innerHTML = '<p>Loading test set list...</p>';
+      console.warn(
+        'renderTestSetSelector called before availableTestSets was loaded.'
+      );
       return;
     }
 
@@ -153,7 +183,7 @@ export class TestCaseUI {
 
   loadTestSet(testSetName) {
     try {
-      const container = document.getElementById('test-cases-list');
+      const container = this.testCasesListContainer;
       if (container) {
         container.innerHTML = '<p>Loading test set...</p>';
       }
@@ -190,7 +220,7 @@ export class TestCaseUI {
 
       // Automatically trigger the "Reload Test Data" button after rendering
       setTimeout(() => {
-        const loadDataButton = document.getElementById('load-test-data');
+        const loadDataButton = container?.querySelector('#load-test-data');
         if (loadDataButton) {
           loadDataButton.click();
         }
@@ -199,7 +229,7 @@ export class TestCaseUI {
       return true;
     } catch (error) {
       console.error('Failed to load test set:', error);
-      const container = document.getElementById('test-cases-list');
+      const container = this.testCasesListContainer;
       if (container) {
         container.innerHTML = `
           <div class="error">
@@ -224,6 +254,7 @@ export class TestCaseUI {
     this.testRules = null;
     this.currentTestSet = null;
     this.currentFolder = null;
+    this.testStateInitialized = false;
 
     // Return to the test set selector
     this.renderTestSetSelector();
@@ -408,7 +439,8 @@ export class TestCaseUI {
   }
 
   updateDataSourceIndicator() {
-    const dataSourceElement = document.getElementById('data-source');
+    const dataSourceElement =
+      this.testCasesListContainer?.querySelector('#data-source');
     if (!dataSourceElement) return;
 
     const isUsingTestData = this.isUsingTestData();
@@ -425,14 +457,15 @@ export class TestCaseUI {
   }
 
   runAllTests() {
-    if (!this.testCases?.location_tests) return;
-
-    // Disable the Run All Tests button while tests are running
-    const runAllButton = document.getElementById('run-all-tests');
-    if (runAllButton) {
-      runAllButton.disabled = true;
-      runAllButton.textContent = 'Running Tests...';
+    if (!this.testCases || !this.testCasesListContainer) {
+      console.error('No test cases loaded or container not found');
+      return;
     }
+
+    console.log(`Running all ${Object.keys(this.testCases).length} tests...`);
+    const runAllButton =
+      this.testCasesListContainer.querySelector('#run-all-tests');
+    if (runAllButton) runAllButton.disabled = true;
 
     let passed = 0;
     let failed = 0;
@@ -440,7 +473,9 @@ export class TestCaseUI {
     try {
       // Run each test with minimal delay to allow UI updates
       for (const [index, testCase] of this.testCases.location_tests.entries()) {
-        const statusElement = document.getElementById(`test-status-${index}`);
+        const statusElement = this.testCasesListContainer.querySelector(
+          `#test-status-${index}`
+        );
         if (statusElement) {
           const result = this.loadTestCase(testCase, statusElement);
           result ? passed++ : failed++;
@@ -451,7 +486,9 @@ export class TestCaseUI {
     } finally {
       // Update results summary
       const total = passed + failed;
-      const resultsElement = document.getElementById('test-results-summary');
+      const resultsElement = this.testCasesListContainer.querySelector(
+        '#test-results-summary'
+      );
       if (resultsElement) {
         resultsElement.innerHTML = `
           <div class="test-summary ${
@@ -478,7 +515,13 @@ export class TestCaseUI {
   }
 
   renderTestCasesList() {
-    const container = document.getElementById('test-cases-list');
+    const container = this.testCasesListContainer;
+    if (!container) {
+      console.error(
+        'Test cases list container not found for renderTestCasesList'
+      );
+      return;
+    }
 
     // Format folder and test set names for display
     const folderDisplay = this.currentFolder
@@ -757,23 +800,24 @@ export class TestCaseUI {
     container.innerHTML = html;
 
     // Attach event listener for the back button
-    document
-      .getElementById('back-to-test-sets')
-      ?.addEventListener('click', () => this.clearTestData());
+    const backButton = container.querySelector('#back-to-test-sets');
+    if (backButton) {
+      backButton.addEventListener('click', () => this.clearTestData());
+    }
 
     // Attach event listeners for run test buttons
     container.querySelectorAll('.run-test').forEach((button) => {
       const index = parseInt(button.dataset.testIndex, 10);
       const testCase = this.testCases.location_tests[index];
-      const statusElement = document.getElementById(`test-status-${index}`);
+      const statusElement = container.querySelector(`#test-status-${index}`);
       if (testCase && statusElement) {
         button.onclick = () => {
           // Run the test
           const result = this.loadTestCase(testCase, statusElement);
 
           // Update summary for a single test
-          const resultsElement = document.getElementById(
-            'test-results-summary'
+          const resultsElement = container.querySelector(
+            '#test-results-summary'
           );
           if (resultsElement) {
             resultsElement.innerHTML = `
@@ -798,15 +842,16 @@ export class TestCaseUI {
     });
 
     // Add Run All Tests button listener
-    document
-      .getElementById('run-all-tests')
-      ?.addEventListener('click', () => this.runAllTests());
+    const runAllButton = container.querySelector('#run-all-tests');
+    if (runAllButton) {
+      runAllButton.addEventListener('click', () => this.runAllTests());
+    }
 
     // Add test data loader listener
-    const loadDataButton = document.getElementById('load-test-data');
+    const loadDataButton = container.querySelector('#load-test-data');
     if (loadDataButton) {
       loadDataButton.addEventListener('click', () => {
-        const statusElement = document.getElementById('test-results-summary');
+        const statusElement = container.querySelector('#test-results-summary');
         statusElement.textContent = 'Loading test data...';
 
         try {
@@ -856,12 +901,14 @@ export class TestCaseUI {
           this.updateDataSourceIndicator();
         } catch (error) {
           console.error('Error loading test data:', error);
-          const dataSource = document.getElementById('data-source');
+          const dataSource = container.querySelector('#data-source');
           if (dataSource) {
             dataSource.innerHTML = `Error loading ${this.currentTestSet} test data: ${error.message}`;
             dataSource.className = 'data-source-wrong';
           }
-          const statusElement = document.getElementById('test-results-summary');
+          const statusElement = container.querySelector(
+            '#test-results-summary'
+          );
           if (statusElement) {
             statusElement.innerHTML = `<div class="test-error">Error loading test data: ${error.message}</div>`;
           }
@@ -871,7 +918,7 @@ export class TestCaseUI {
 
     // Add event listeners for region and location links
     setTimeout(() => {
-      document.querySelectorAll('.location-link').forEach((link) => {
+      container.querySelectorAll('.location-link').forEach((link) => {
         link.addEventListener('click', (e) => {
           const locationName = link.dataset.location;
           const regionName = link.dataset.region;
@@ -915,7 +962,9 @@ export class TestCaseUI {
    * This allows users to debug critical regions with a click
    */
   addDebugButton() {
-    const container = document.getElementById('test-results-summary');
+    const container = this.testCasesListContainer?.querySelector(
+      '#test-results-summary'
+    );
     if (!container) return;
 
     const debugButton = document.createElement('button');

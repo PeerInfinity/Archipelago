@@ -10,8 +10,55 @@ export class LocationUI {
   constructor(gameUI) {
     this.gameUI = gameUI;
     this.columns = 2; // Default number of columns
-
+    this.rootElement = this.createRootElement(); // Create the root element on instantiation
+    this.locationsGrid = this.rootElement.querySelector('#locations-grid'); // Cache grid element
     this.attachEventListeners();
+  }
+
+  // Creates the main DOM structure for the locations panel
+  createRootElement() {
+    const element = document.createElement('div');
+    element.classList.add('locations-panel-container', 'panel-container'); // Add classes for styling
+    element.style.display = 'flex';
+    element.style.flexDirection = 'column';
+    element.style.height = '100%';
+    element.style.overflow = 'hidden';
+
+    // Recreate controls similar to index.html
+    element.innerHTML = `
+      <div class="control-group location-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
+        <select id="sort-select">
+          <option value="original">Original Order</option>
+          <option value="accessibility">Sort by Accessibility</option>
+        </select>
+        <label>
+          <input type="checkbox" id="show-checked" checked />
+          Show Checked
+        </label>
+        <label>
+          <input type="checkbox" id="show-reachable" checked />
+          Show Reachable
+        </label>
+        <label>
+          <input type="checkbox" id="show-unreachable" checked />
+          Show Unreachable
+        </label>
+        <label style="display: none"> <!-- Initially hidden, controlled by loop mode -->
+          <input type="checkbox" id="show-explored" checked />
+          Show Explored
+        </label>
+        <button id="decrease-columns">-</button>
+        <button id="increase-columns">+</button>
+      </div>
+      <div id="locations-grid" style="flex-grow: 1; overflow-y: auto;">
+        <!-- Populated by updateLocationDisplay -->
+      </div>
+    `;
+    return element;
+  }
+
+  getRootElement() {
+    return this.rootElement;
   }
 
   initialize() {
@@ -32,7 +79,7 @@ export class LocationUI {
   }
 
   attachEventListeners() {
-    // Sorting and filtering
+    // Attach listeners to controls within this.rootElement
     [
       'sort-select',
       'show-checked',
@@ -40,12 +87,12 @@ export class LocationUI {
       'show-unreachable',
       'show-explored',
     ].forEach((id) => {
-      document
-        .getElementById(id)
+      this.rootElement
+        .querySelector(`#${id}`)
         ?.addEventListener('change', () => this.updateLocationDisplay());
     });
 
-    // Modal handling
+    // Modal listeners remain on document for now, might need adjustment
     document.getElementById('modal-close')?.addEventListener('click', () => {
       document.getElementById('location-modal').classList.add('hidden');
     });
@@ -58,35 +105,34 @@ export class LocationUI {
         }
       });
 
-    document
-      .getElementById('locations-grid')
-      ?.addEventListener('click', (e) => {
-        // Only handle clicks that aren't on other clickable elements like links
-        if (e.target.closest('.region-link') || e.target.closest('.location-link')) {
-          return;
-        }
-        
-        const locationCard = e.target.closest('.location-card');
-        if (locationCard) {
-          try {
-            const encoded = locationCard.dataset.location.replace(
-              /&quot;/g,
-              '"'
-            );
-            const locationData = JSON.parse(decodeURIComponent(encoded));
-            this.handleLocationClick(locationData);
-          } catch (error) {
-            console.error('Error parsing location data:', error);
-          }
-        }
-      });
+    // Click listener is now on the specific grid within this panel
+    this.locationsGrid?.addEventListener('click', (e) => {
+      // Only handle clicks that aren't on other clickable elements like links
+      if (
+        e.target.closest('.region-link') ||
+        e.target.closest('.location-link')
+      ) {
+        return;
+      }
 
-    // Column adjustment buttons
-    document
-      .getElementById('increase-columns')
+      const locationCard = e.target.closest('.location-card');
+      if (locationCard) {
+        try {
+          const encoded = locationCard.dataset.location.replace(/&quot;/g, '"');
+          const locationData = JSON.parse(decodeURIComponent(encoded));
+          this.handleLocationClick(locationData);
+        } catch (error) {
+          console.error('Error parsing location data:', error);
+        }
+      }
+    });
+
+    // Column adjustment buttons within this.rootElement
+    this.rootElement
+      .querySelector('#increase-columns')
       ?.addEventListener('click', () => this.changeColumns(1));
-    document
-      .getElementById('decrease-columns')
+    this.rootElement
+      .querySelector('#decrease-columns')
       ?.addEventListener('click', () => this.changeColumns(-1));
   }
 
@@ -98,77 +144,86 @@ export class LocationUI {
   handleLocationClick(location) {
     // Check if loop mode is active
     const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
-    
+
     if (isLoopModeActive) {
       // LOOP MODE BEHAVIOR
-      
+
       // If location is already checked, do nothing
       if (stateManager.isLocationChecked(location.name)) return;
-      
+
       // Get the location's discovered status in loop mode
       const isUndiscovered = !loopState.isLocationDiscovered(location.name);
-      
+
       // Check if the last action in the queue is already handling this location
       if (loopState.actionQueue.length > 0) {
-        const lastAction = loopState.actionQueue[loopState.actionQueue.length - 1];
-        
+        const lastAction =
+          loopState.actionQueue[loopState.actionQueue.length - 1];
+
         // If the location is undiscovered and the last action is an explore for this region, do nothing
-        if (isUndiscovered && 
-            lastAction.type === 'explore' && 
-            lastAction.regionName === location.region) {
+        if (
+          isUndiscovered &&
+          lastAction.type === 'explore' &&
+          lastAction.regionName === location.region
+        ) {
           return;
         }
-        
+
         // If the location is discovered but unchecked and the last action is to check this location, do nothing
-        if (!isUndiscovered && 
-            !stateManager.isLocationChecked(location.name) && 
-            lastAction.type === 'checkLocation' && 
-            lastAction.locationName === location.name) {
+        if (
+          !isUndiscovered &&
+          !stateManager.isLocationChecked(location.name) &&
+          lastAction.type === 'checkLocation' &&
+          lastAction.locationName === location.name
+        ) {
           return;
         }
       }
-      
+
       // Import the path analyzer logic
-      import('../logic/pathAnalyzerLogic.js').then(module => {
+      import('../logic/pathAnalyzerLogic.js').then((module) => {
         const pathAnalyzerLogic = new module.PathAnalyzerLogic();
-        
+
         // Find path from Menu to the region containing this location
         const path = pathAnalyzerLogic.findPathInLoopMode(location.region);
-        
+
         if (path) {
           // Path found - process it
-          
+
           // Pause processing the action queue
           loopState.setPaused(true);
-          
+
           // Clear the current queue
           loopState.actionQueue = [];
           loopState.currentAction = null;
           loopState.currentActionIndex = 0;
-          
+
           // Queue move actions for each region transition
           for (let i = 0; i < path.length - 1; i++) {
             const fromRegion = path[i];
             const toRegion = path[i + 1];
-            
+
             // Find the exit that connects these regions
             const regionData = stateManager.regions[fromRegion];
-            const exitToUse = regionData?.exits?.find(exit => exit.connected_region === toRegion);
-            
+            const exitToUse = regionData?.exits?.find(
+              (exit) => exit.connected_region === toRegion
+            );
+
             if (exitToUse) {
               // Create and queue a move action
               const moveAction = {
-                id: `action_${Date.now()}_${Math.floor(Math.random() * 10000) + i}`,
+                id: `action_${Date.now()}_${
+                  Math.floor(Math.random() * 10000) + i
+                }`,
                 type: 'moveToRegion',
                 regionName: fromRegion,
                 exitName: exitToUse.name,
                 destinationRegion: toRegion,
                 progress: 0,
-                completed: false
+                completed: false,
               };
-              
+
               loopState.actionQueue.push(moveAction);
-              
+
               // Make sure the loopUI knows these regions are in the queue
               if (window.loopUIInstance) {
                 window.loopUIInstance.regionsInQueue.add(fromRegion);
@@ -176,57 +231,68 @@ export class LocationUI {
               }
             }
           }
-          
+
           // Add the appropriate action at the final region
           if (isUndiscovered) {
             // If location is undiscovered, queue an explore action
             const exploreAction = {
-              id: `action_${Date.now()}_${Math.floor(Math.random() * 10000) + path.length}`,
+              id: `action_${Date.now()}_${
+                Math.floor(Math.random() * 10000) + path.length
+              }`,
               type: 'explore',
               regionName: location.region,
               progress: 0,
-              completed: false
+              completed: false,
             };
-            
+
             loopState.actionQueue.push(exploreAction);
-            
+
             // Set the region's "repeat explore action" checkbox to checked
-            if (window.loopUIInstance && window.loopUIInstance.repeatExploreStates) {
-              window.loopUIInstance.repeatExploreStates.set(location.region, true);
+            if (
+              window.loopUIInstance &&
+              window.loopUIInstance.repeatExploreStates
+            ) {
+              window.loopUIInstance.repeatExploreStates.set(
+                location.region,
+                true
+              );
             }
           } else {
             // If location is discovered but unchecked, queue a check location action
             const checkAction = {
-              id: `action_${Date.now()}_${Math.floor(Math.random() * 10000) + path.length}`,
+              id: `action_${Date.now()}_${
+                Math.floor(Math.random() * 10000) + path.length
+              }`,
               type: 'checkLocation',
               regionName: location.region,
               locationName: location.name,
               progress: 0,
-              completed: false
+              completed: false,
             };
-            
+
             loopState.actionQueue.push(checkAction);
           }
-          
+
           // Begin processing the action queue
           loopState.setPaused(false);
           loopState.startProcessing();
-          
+
           // Notify UI components about queue changes
           if (window.eventBus) {
-            window.eventBus.publish('loopState:queueUpdated', { queue: loopState.actionQueue });
+            window.eventBus.publish('loopState:queueUpdated', {
+              queue: loopState.actionQueue,
+            });
           }
-          
+
           // Update the loop UI
           if (window.loopUIInstance) {
             window.loopUIInstance.renderLoopPanel();
           }
-          
         } else {
           // Path not found - display error message
           const errorMessage = `Cannot find a path to ${location.region} in loop mode.`;
           console.error(errorMessage);
-          
+
           // Show error in console or alert
           if (window.consoleManager) {
             window.consoleManager.print(errorMessage, 'error');
@@ -235,12 +301,12 @@ export class LocationUI {
           }
         }
       });
-      
+
       return;
     }
-    
+
     // STANDARD NON-LOOP MODE BEHAVIOR
-    
+
     // If location is already checked, do nothing
     if (stateManager.isLocationChecked(location.name)) return;
     const isAccessible = stateManager.isLocationAccessible(location);
@@ -280,25 +346,33 @@ export class LocationUI {
   }
 
   updateLocationDisplay() {
-    const showChecked = document.getElementById('show-checked')?.checked ?? true;
-    const showReachable = document.getElementById('show-reachable')?.checked ?? true;
-    const showUnreachable = document.getElementById('show-unreachable')?.checked ?? true;
-    const showExplored = document.getElementById('show-explored')?.checked ?? true;
-    const sorting = document.getElementById('sort-select')?.value ?? 'original';
+    const showChecked =
+      this.rootElement.querySelector('#show-checked')?.checked ?? true;
+    const showReachable =
+      this.rootElement.querySelector('#show-reachable')?.checked ?? true;
+    const showUnreachable =
+      this.rootElement.querySelector('#show-unreachable')?.checked ?? true;
+    const showExplored =
+      this.rootElement.querySelector('#show-explored')?.checked ?? true;
+    const sorting =
+      this.rootElement.querySelector('#sort-select')?.value ?? 'original';
 
     // Check if Loop Mode is active
     const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
 
     // Toggle visibility of the "Show Explored" checkbox based on Loop Mode
-    const showExploredCheckbox = document.getElementById('show-explored');
+    const showExploredCheckbox =
+      this.rootElement.querySelector('#show-explored');
     if (showExploredCheckbox) {
-      showExploredCheckbox.parentElement.style.display = isLoopModeActive ? 'inline' : 'none';
+      showExploredCheckbox.parentElement.style.display = isLoopModeActive
+        ? 'inline'
+        : 'none';
     }
 
     // Get locations from state manager
     const locations = stateManager.locations;
 
-    const locationsGrid = document.getElementById('locations-grid');
+    const locationsGrid = this.locationsGrid; // Use cached grid
     if (!locationsGrid) return;
 
     locationsGrid.style.gridTemplateColumns = `repeat(${this.columns}, minmax(0, 1fr))`; // Set the number of columns
@@ -317,30 +391,37 @@ export class LocationUI {
       // First check if the location is checked
       const isChecked = stateManager.isLocationChecked(location.name);
       if (isChecked && !showChecked) return false;
-      
+
       // Then apply reachable/unreachable filters
-      const isRegionAccessible = stateManager.isRegionReachable(location.region);
-      const locationRulePasses = !location.access_rule || evaluateRule(location.access_rule);
-      
+      const isRegionAccessible = stateManager.isRegionReachable(
+        location.region
+      );
+      const locationRulePasses =
+        !location.access_rule || evaluateRule(location.access_rule);
+
       // Fully reachable location - needs both region accessible and rule passes
       if (isRegionAccessible && locationRulePasses) {
         return showReachable;
-      } 
+      }
       // All other cases are considered unreachable
       else {
-        return showUnreachable; 
+        return showUnreachable;
       }
     });
 
     // Apply Loop Mode filtering if active
     if (isLoopModeActive) {
-      filteredLocations = filteredLocations.filter(location => {
+      filteredLocations = filteredLocations.filter((location) => {
         // Only show locations from discovered regions
-        const isRegionDiscovered = loopState.isRegionDiscovered(location.region);
+        const isRegionDiscovered = loopState.isRegionDiscovered(
+          location.region
+        );
         if (!isRegionDiscovered) return false;
-        
+
         // Handle exploring filter
-        const isLocationDiscovered = loopState.isLocationDiscovered(location.name);
+        const isLocationDiscovered = loopState.isLocationDiscovered(
+          location.name
+        );
         return showExplored || !isLocationDiscovered;
       });
     }
@@ -357,11 +438,11 @@ export class LocationUI {
         // Fully accessible locations first (region reachable + rule passes)
         const aFullyAccessible = aRegionAccessible && aRulePasses;
         const bFullyAccessible = bRegionAccessible && bRulePasses;
-        
+
         // Then region accessible but rule fails
         const aRegionOnlyAccessible = aRegionAccessible && !aRulePasses;
         const bRegionOnlyAccessible = bRegionAccessible && !bRulePasses;
-        
+
         // Then rule passes but region not accessible
         const aRuleOnlyPasses = !aRegionAccessible && aRulePasses;
         const bRuleOnlyPasses = !bRegionAccessible && bRulePasses;
@@ -388,8 +469,9 @@ export class LocationUI {
           stateManager.isLocationAccessible(location);
         const isChecked = stateManager.isLocationChecked(location.name);
 
-        // Evaluate just the location's access rule 
-        const locationRulePasses = !location.access_rule || evaluateRule(location.access_rule);
+        // Evaluate just the location's access rule
+        const locationRulePasses =
+          !location.access_rule || evaluateRule(location.access_rule);
 
         let stateClass = '';
         if (isChecked) {
@@ -407,18 +489,22 @@ export class LocationUI {
         // Handle Loop Mode display
         let locationName = location.name;
         let regionName = location.region;
-        
+
         if (isLoopModeActive) {
-          const isRegionDiscovered = loopState.isRegionDiscovered(location.region);
-          const isLocationDiscovered = loopState.isLocationDiscovered(location.name);
-          
+          const isRegionDiscovered = loopState.isRegionDiscovered(
+            location.region
+          );
+          const isLocationDiscovered = loopState.isLocationDiscovered(
+            location.name
+          );
+
           if (!isRegionDiscovered || !isLocationDiscovered) {
-            locationName = "???";
-            stateClass += " undiscovered";
+            locationName = '???';
+            stateClass += ' undiscovered';
           }
-          
+
           if (!isRegionDiscovered) {
-            regionName = "???";
+            regionName = '???';
           }
         }
 
@@ -436,9 +522,11 @@ export class LocationUI {
             <div class="text-sm">
               Region: <span class="region-link" data-region="${
                 location.region
-              }" style="color: ${isRegionAccessible ? 'inherit' : 'red'}">${
-          regionName
-        }</span> (${isRegionAccessible ? 'Accessible' : 'Inaccessible'})
+              }" style="color: ${
+          isRegionAccessible ? 'inherit' : 'red'
+        }">${regionName}</span> (${
+          isRegionAccessible ? 'Accessible' : 'Inaccessible'
+        })
             </div>
             <div class="text-sm">
               Location: ${
@@ -522,9 +610,11 @@ export class LocationUI {
               ? 'Checked'
               : stateManager.isLocationAccessible(location)
               ? 'Available'
-              : stateManager.isRegionReachable(location.region) && (!location.access_rule || !evaluateRule(location.access_rule))
+              : stateManager.isRegionReachable(location.region) &&
+                (!location.access_rule || !evaluateRule(location.access_rule))
               ? 'Region accessible, but rule fails'
-              : !stateManager.isRegionReachable(location.region) && (!location.access_rule || evaluateRule(location.access_rule))
+              : !stateManager.isRegionReachable(location.region) &&
+                (!location.access_rule || evaluateRule(location.access_rule))
               ? 'Region inaccessible, but rule passes'
               : 'Locked'
           }

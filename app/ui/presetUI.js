@@ -7,9 +7,25 @@ export class PresetUI {
     this.currentGame = null;
     this.currentPreset = null;
     this.currentPlayer = null;
+    this.initialized = false;
+    this.presetsListContainer = null;
   }
 
   initialize() {
+    // Find the container within the live files panel DOM element stored in gameUI
+    this.presetsListContainer =
+      window.gameUI?.filesPanelContainer?.querySelector('#presets-list');
+
+    if (!this.presetsListContainer) {
+      console.error(
+        'PresetUI: Could not find #presets-list container within gameUI.filesPanelContainer during initialization.'
+      );
+      this.initialized = false;
+      return false;
+    }
+
+    this.initialized = true; // Set initialized flag early if container found
+
     try {
       // Load the preset_files.json which contains the list of available presets
       const loadJSON = (url) => {
@@ -28,11 +44,11 @@ export class PresetUI {
 
       // Render the games list
       this.renderGamesList();
-      return true;
+      return true; // Return true from try block
     } catch (error) {
       console.error('Error loading presets data:', error);
 
-      const container = document.getElementById('presets-list');
+      const container = this.presetsListContainer;
       if (container) {
         container.innerHTML = `
           <div class="error-message">
@@ -42,15 +58,21 @@ export class PresetUI {
           </div>
         `;
       }
-
-      return false;
+      this.initialized = false; // Reset on error
+      return false; // Return false from catch block
     }
   }
 
   renderGamesList() {
-    const container = document.getElementById('presets-list');
+    const container = this.presetsListContainer;
     if (!container) {
-      console.error('Presets list container not found');
+      console.error('Presets list container not found for renderGamesList');
+      return;
+    }
+
+    if (!this.presets) {
+      container.innerHTML = '<p>Loading preset list...</p>';
+      console.warn('renderGamesList called before presets data was loaded.');
       return;
     }
 
@@ -306,13 +328,14 @@ export class PresetUI {
   }
 
   loadPreset(gameId, folderId, playerId = null) {
-    try {
-      const container = document.getElementById('presets-list');
-      if (!container) {
-        console.error('Presets list container not found');
-        return;
-      }
+    this.currentGame = gameId;
+    this.currentPreset = folderId;
+    this.currentPlayer = playerId;
 
+    const container = this.presetsListContainer;
+    if (!container) return;
+
+    try {
       const gameData = this.presets[gameId];
       const folderData = gameData.folders[folderId];
 
@@ -444,7 +467,7 @@ export class PresetUI {
       }
     } catch (error) {
       console.error('Error displaying preset:', error);
-      const container = document.getElementById('presets-list');
+      const container = this.presetsListContainer;
       if (container) {
         container.innerHTML = `
           <div class="error-message">

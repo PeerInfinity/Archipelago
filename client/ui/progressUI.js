@@ -11,6 +11,7 @@ export class ProgressUI {
   static quickCheckButton = null;
   static stateManager = null;
   static isLoopModeActive = false; // Track loop mode state
+  static listenersAttached = false; // Add a flag to prevent multiple subscriptions
 
   /**
    * Get the stateManager instance dynamically
@@ -312,6 +313,66 @@ export class ProgressUI {
         this.quickCheckButton.setAttribute('disabled', 'disabled');
       }
     }
+  }
+
+  // New method to initialize within a specific root element
+  static async initializeWithin(rootElement) {
+    if (!rootElement) {
+      console.error('ProgressUI.initializeWithin requires a rootElement.');
+      return;
+    }
+
+    // Get UI elements relative to the rootElement
+    this.progressBar = rootElement.querySelector('#progress-bar');
+    this.checksCounter = rootElement.querySelector('#checks-sent');
+    // Control buttons are potentially outside this panel, still need document query?
+    // Let's assume for now they remain globally queryable or handled elsewhere.
+    this.controlButton = document.getElementById('control-button'); // Keep global for now
+    this.quickCheckButton = document.getElementById('quick-check-button'); // Keep global for now
+
+    if (!this.progressBar || !this.checksCounter) {
+      console.error(
+        'Progress UI elements (bar/counter) not found within provided rootElement'
+      );
+      // Don't return early, control buttons might still be found
+    }
+
+    // Reset UI state for elements found within rootElement
+    if (this.progressBar) this.progressBar.setAttribute('value', '0');
+    if (this.checksCounter)
+      this.checksCounter.innerText =
+        'Checked: 0/0, Reachable: 0, Unreachable: 0, Events: 0/0';
+
+    // Handle control buttons (assuming they are outside this specific panel)
+    // The listeners attached in the original initialize might still be valid
+    // if the elements weren't replaced. If they were (e.g. by gameUI.getMainContentRootElement),
+    // those listeners need to be re-attached in initializeMainContentElements.
+    // We will skip re-attaching listeners here for now.
+
+    // Subscribe to events (ensure this only happens once)
+    if (!this.listenersAttached) {
+      // Add a flag to prevent multiple subscriptions
+      this._setupEventListeners();
+      this.listenersAttached = true;
+    }
+
+    // Check if stateManager already has rules loaded, and enable buttons if so
+    const stateManager = await this._getStateManager();
+    if (
+      stateManager &&
+      stateManager.locations &&
+      stateManager.locations.length > 0
+    ) {
+      console.log(
+        'Rules are already loaded, enabling controls (initializeWithin)'
+      );
+      this.enableControls(true);
+    }
+
+    console.log('ProgressUI initialized within element');
+
+    // Explicitly update progress after initialization is complete
+    this.updateProgress();
   }
 }
 
