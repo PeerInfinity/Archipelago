@@ -2,6 +2,7 @@
 
 import { evaluateRule } from '../core/ruleEngine.js';
 import stateManager from '../core/stateManagerSingleton.js';
+import eventBus from '../core/eventBus.js';
 
 /**
  * A shared UI utility class that contains common functions for use across multiple components
@@ -536,14 +537,9 @@ export class CommonUI {
    * Creates a region link element for use in UI components
    * @param {string} regionName - The name of the region to link to
    * @param {boolean} [colorblindMode] - Whether to use colorblind mode for links
-   * @param {Function} [onClick] - Custom click handler (defaults to navigating to the region)
    * @returns {HTMLElement} - The created region link
    */
-  createRegionLink(
-    regionName,
-    colorblindMode = this.colorblindMode,
-    onClick = null
-  ) {
+  createRegionLink(regionName, colorblindMode = this.colorblindMode) {
     const link = document.createElement('span');
     link.textContent = regionName;
     link.classList.add('region-link');
@@ -567,15 +563,12 @@ export class CommonUI {
 
     // Add click handler
     link.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (onClick) {
-        onClick(regionName, e);
-      } else {
-        // Default behavior - try to find the regionUI and navigate to it
-        if (window.gameUI && window.gameUI.regionUI) {
-          window.gameUI.regionUI.navigateToRegion(regionName);
-        }
-      }
+      e.stopPropagation(); // Prevent triggering parent listeners
+      // Publish an event with the region name
+      console.log(
+        `[commonUI] Publishing ui:navigateToRegion for ${regionName}`
+      );
+      eventBus.publish('ui:navigateToRegion', { regionName: regionName });
     });
 
     return link;

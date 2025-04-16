@@ -296,48 +296,105 @@ export class RegionUI {
   }
 
   /**
-   * Navigate to a specific region in the regions panel
-   * @param {string} regionName - The name of the region to navigate to
+   * Navigates to a specific region within the regions panel.
+   * Ensures the region block is visible, expanded, scrolls it into view, and highlights it.
+   * @param {string} regionName - The name of the region to navigate to.
    */
   navigateToRegion(regionName) {
-    // Switch to the regions view
-    this.gameUI.setViewMode('regions');
+    console.log(`[RegionUI] Navigating to region: ${regionName}`);
 
-    // Important: Set the radio button for regions view
-    document.querySelector(
-      'input[name="view-mode"][value="regions"]'
-    ).checked = true;
-
-    // Enable "Show all regions" if it's not already enabled
-    const showAllCheckbox = this.rootElement.querySelector('#show-all-regions');
-    if (showAllCheckbox && !showAllCheckbox.checked) {
-      showAllCheckbox.checked = true;
-      this.showAll = true;
-      this.renderAllRegions();
+    if (!this.regionsContainer) {
+      console.error('[RegionUI] regionsContainer not found, cannot navigate.');
+      return;
     }
 
-    // Wait for the rendering to complete, then scroll to the region
-    setTimeout(() => {
-      const regionElement = document.querySelector(
-        `.region-block[data-region="${regionName}"]`
+    // Ensure the correct view is rendered based on current state
+    // (showAll state is handled by renderAllRegions)
+    this.renderAllRegions(); // Re-render if needed to ensure the element exists
+
+    // Find the region block using its data attribute within the panel
+    // Note: We query within this.regionsContainer specifically
+    let regionBlock = this.regionsContainer.querySelector(
+      `.region-block[data-region="${regionName}"]`
+    );
+
+    // If block not found, maybe it's because "Show All" is off?
+    if (!regionBlock && !this.showAll) {
+      console.log(
+        `[RegionUI] Block for ${regionName} not found and Show All is off. Checking checkbox...`
       );
-      if (regionElement) {
-        // Expand the region if it's collapsed
-        if (!regionElement.classList.contains('expanded')) {
-          const uid = regionElement.dataset.uid;
-          this.toggleRegionByUID(uid);
+      const showAllCheckbox =
+        this.rootElement.querySelector('#show-all-regions');
+      if (showAllCheckbox) {
+        showAllCheckbox.checked = true;
+        this.showAll = true;
+        this.renderAllRegions(); // Re-render with all regions visible
+        // Try finding the block again
+        regionBlock = this.regionsContainer.querySelector(
+          `.region-block[data-region="${regionName}"]`
+        );
+        if (regionBlock) {
+          console.log(
+            `[RegionUI] Found region block for ${regionName} after enabling Show All.`
+          );
         }
-
-        // Scroll the region into view
-        regionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        // Highlight the region briefly
-        regionElement.classList.add('highlight-region');
-        setTimeout(() => {
-          regionElement.classList.remove('highlight-region');
-        }, 2000);
+      } else {
+        console.warn(
+          '[RegionUI] Could not find #show-all-regions checkbox to enable it.'
+        );
       }
-    }, 100);
+    }
+
+    if (regionBlock) {
+      console.log(`[RegionUI] Found region block for ${regionName}`);
+      const uidString = regionBlock.dataset.uid;
+
+      // Use uidString to check if it's a 'visited' region (numeric UID) or 'all' region
+      const isVisitedRegion = uidString && !isNaN(parseInt(uidString, 10));
+      const isExpanded = regionBlock.classList.contains('expanded');
+
+      // Only try to expand visited regions by UID, 'all' regions are handled by showAll
+      if (!isExpanded && isVisitedRegion) {
+        const uid = parseInt(uidString, 10);
+        console.log(
+          `[RegionUI] Visited region ${regionName} (uid: ${uid}) is collapsed, expanding...`
+        );
+        // Find the corresponding object in visitedRegions to set expanded state
+        const regionData = this.visitedRegions.find((r) => r.uid === uid);
+        if (regionData) {
+          regionData.expanded = true;
+          this.renderAllRegions(); // Re-render to reflect expansion
+          // Re-query the element after re-render
+          const newRegionBlock = this.regionsContainer.querySelector(
+            `.region-block[data-region="${regionName}"][data-uid="${uid}"]`
+          );
+          if (newRegionBlock) {
+            regionBlock = newRegionBlock; // Update reference if found
+          } else {
+            console.error(
+              '[RegionUI] Region block lost after expansion re-render.'
+            );
+          }
+        }
+      }
+
+      // Scroll the region block into view
+      console.log(`[RegionUI] Scrolling ${regionName} into view...`);
+      regionBlock.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest', // Use 'nearest' to minimize scrolling
+      });
+
+      // Add a temporary highlight class
+      regionBlock.classList.add('highlight-region');
+      setTimeout(() => {
+        regionBlock.classList.remove('highlight-region');
+      }, 1500); // Highlight for 1.5 seconds
+    } else {
+      console.warn(`[RegionUI] Could not find region block for ${regionName}.`);
+      // Optionally, temporarily enable 'showAll' and try again?
+      // Or display a message to the user?
+    }
   }
 
   /**

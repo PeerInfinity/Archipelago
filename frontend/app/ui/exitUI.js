@@ -371,131 +371,157 @@ export class ExitUI {
       });
     }
 
-    // Generate HTML for exits
-    exitsGrid.innerHTML = filteredExits
-      .map((exit) => {
-        const isRegionAccessible = stateManager.isRegionReachable(exit.region);
-        const isExitTraversable =
-          !exit.access_rule || evaluateRule(exit.access_rule);
+    // Generate HTML for exits programmatically
+    exitsGrid.innerHTML = ''; // Clear previous content
+    filteredExits.forEach((exit) => {
+      const isRegionAccessible = stateManager.isRegionReachable(exit.region);
+      const exitRulePasses =
+        !exit.access_rule || evaluateRule(exit.access_rule);
 
-        // Evaluate just the exit rule
-        const exitRulePasses =
-          !exit.access_rule || evaluateRule(exit.access_rule);
+      let stateClass = '';
+      if (isRegionAccessible && exitRulePasses) {
+        stateClass = 'traversable';
+      } else if (isRegionAccessible && !exitRulePasses) {
+        stateClass = 'region-accessible-but-locked';
+      } else if (!isRegionAccessible && exitRulePasses) {
+        stateClass = 'region-inaccessible-but-unlocked';
+      } else {
+        stateClass = 'not-traversable';
+      }
 
-        let stateClass = '';
-        if (isRegionAccessible && exitRulePasses) {
-          stateClass = 'traversable';
-        } else if (isRegionAccessible && !exitRulePasses) {
-          stateClass = 'region-accessible-but-locked';
-        } else if (!isRegionAccessible && exitRulePasses) {
-          stateClass = 'region-inaccessible-but-unlocked';
-        } else {
-          stateClass = 'not-traversable';
+      // Handle Loop Mode display
+      let exitName = exit.name;
+      const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+
+      if (isLoopModeActive) {
+        const isRegionDiscovered = loopState.isRegionDiscovered(exit.region);
+        const isExitDiscovered = loopState.isExitDiscovered(
+          exit.region,
+          exit.name
+        );
+        if (!isRegionDiscovered || !isExitDiscovered) {
+          exitName = '???';
+          stateClass += ' undiscovered';
         }
+      }
 
-        // For Loop Mode, check if the exit is discovered
-        let exitName = exit.name;
+      // Create card element
+      const card = document.createElement('div');
+      card.className = `exit-card ${stateClass}`;
+      card.dataset.exit = encodeURIComponent(JSON.stringify(exit)).replace(
+        /"/g,
+        '&quot;'
+      );
+
+      // Exit Name (as text, maybe make clickable later if needed?)
+      const exitNameDiv = document.createElement('div');
+      exitNameDiv.className = 'font-medium exit-link'; // Keep class if styling relies on it
+      exitNameDiv.dataset.exit = exit.name;
+      exitNameDiv.dataset.region = exit.region;
+      exitNameDiv.textContent = exitName;
+      card.appendChild(exitNameDiv);
+
+      // Player Info
+      const playerDiv = document.createElement('div');
+      playerDiv.className = 'text-sm';
+      playerDiv.textContent = `Player ${exit.player || '1'}`;
+      card.appendChild(playerDiv);
+
+      // Region Info (with clickable link)
+      const regionDiv = document.createElement('div');
+      regionDiv.className = 'text-sm';
+      regionDiv.textContent = 'Region: ';
+      const regionLinkElement = commonUI.createRegionLink(
+        exit.region,
+        commonUI.colorblindMode
+      );
+      regionLinkElement.style.color = isRegionAccessible ? 'inherit' : 'red';
+      regionDiv.appendChild(regionLinkElement);
+      regionDiv.appendChild(
+        document.createTextNode(
+          ` (${isRegionAccessible ? 'Accessible' : 'Inaccessible'})`
+        )
+      );
+      card.appendChild(regionDiv);
+
+      // Connected Region Info (with clickable link)
+      if (exit.connected_region) {
+        let connectedRegionName = exit.connected_region;
+        let isConnectedRegionDiscovered = true;
         if (isLoopModeActive) {
-          const isRegionDiscovered = loopState.isRegionDiscovered(exit.region);
-          const isExitDiscovered = loopState.isExitDiscovered(
-            exit.region,
-            exit.name
+          isConnectedRegionDiscovered = loopState.isRegionDiscovered(
+            exit.connected_region
           );
-
-          if (!isRegionDiscovered || !isExitDiscovered) {
-            exitName = '???';
-            stateClass += ' undiscovered';
+          if (!isConnectedRegionDiscovered) {
+            connectedRegionName = '???';
           }
         }
-
-        // Add connected region details
-        let connectedRegionDisplay = '';
-        if (exit.connected_region) {
-          let connectedRegionName = exit.connected_region;
-
-          // In Loop Mode, hide undiscovered connected regions
-          if (isLoopModeActive) {
-            const isConnectedRegionDiscovered = loopState.isRegionDiscovered(
-              exit.connected_region
-            );
-            if (!isConnectedRegionDiscovered) {
-              connectedRegionName = '???';
-            }
-          }
-
-          connectedRegionDisplay = `
-            <div class="text-sm">
-              Leads to: <span class="region-link" data-region="${exit.connected_region}">${connectedRegionName}</span>
-            </div>
-          `;
+        const connectedRegionDiv = document.createElement('div');
+        connectedRegionDiv.className = 'text-sm';
+        connectedRegionDiv.textContent = 'Leads to: ';
+        const connectedLinkElement = commonUI.createRegionLink(
+          connectedRegionName,
+          commonUI.colorblindMode
+        );
+        // Ensure the real region name is stored for navigation even if displayed as '???'
+        connectedLinkElement.dataset.region = exit.connected_region;
+        if (isLoopModeActive && !isConnectedRegionDiscovered) {
+          connectedLinkElement.classList.add('undiscovered'); // Add class for styling if needed
         }
+        connectedRegionDiv.appendChild(connectedLinkElement);
+        card.appendChild(connectedRegionDiv);
+      }
 
-        return `
-          <div 
-            class="exit-card ${stateClass}"
-            data-exit="${encodeURIComponent(JSON.stringify(exit)).replace(
-              /"/g,
-              '&quot;'
-            )}"
-          >
-            <div class="font-medium exit-link" data-exit="${
-              exit.name
-            }" data-region="${exit.region}">${exitName}</div>
-            <div class="text-sm">Player ${exit.player || '1'}</div>
-            <div class="text-sm">
-              Region: <span class="region-link" data-region="${
-                exit.region
-              }" style="color: ${isRegionAccessible ? 'inherit' : 'red'}">${
-          exit.region
-        }</span> (${isRegionAccessible ? 'Accessible' : 'Inaccessible'})
-            </div>
-            ${connectedRegionDisplay}
-            <div class="text-sm">
-              Exit logic: ${
-                commonUI.renderLogicTree(exit.access_rule).outerHTML
-              }
-            </div>
-            <div class="text-sm">
-              ${
-                isRegionAccessible && exitRulePasses
-                  ? 'Traversable'
-                  : isRegionAccessible && !exitRulePasses
-                  ? 'Region accessible, but rule fails'
-                  : !isRegionAccessible && exitRulePasses
-                  ? 'Region inaccessible, but rule passes'
-                  : 'Not traversable'
-              }
-            </div>
-          </div>
-        `;
-      })
-      .join('');
+      // Exit Logic Tree
+      const logicDiv = document.createElement('div');
+      logicDiv.className = 'text-sm';
+      logicDiv.textContent = 'Exit logic: ';
+      logicDiv.appendChild(commonUI.renderLogicTree(exit.access_rule));
+      card.appendChild(logicDiv);
 
-    // Add click handlers for region links
+      // Status Text
+      const statusDiv = document.createElement('div');
+      statusDiv.className = 'text-sm';
+      statusDiv.textContent =
+        isRegionAccessible && exitRulePasses
+          ? 'Traversable'
+          : isRegionAccessible && !exitRulePasses
+          ? 'Region accessible, but rule fails'
+          : !isRegionAccessible && exitRulePasses
+          ? 'Region inaccessible, but rule passes'
+          : 'Not traversable';
+      card.appendChild(statusDiv);
+
+      // Append the constructed card to the grid
+      exitsGrid.appendChild(card);
+    });
+
+    // Remove redundant event listeners as commonUI handles links now
+    /*
     document.querySelectorAll('.region-link').forEach((link) => {
       link.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent opening the exit modal if we implement one
+        e.stopPropagation(); // Prevent grid click
         const regionName = link.dataset.region;
-        if (regionName) {
+        if (regionName && this.gameUI.regionUI) {
           this.gameUI.regionUI.navigateToRegion(regionName);
         }
       });
     });
 
-    // Add click handlers for exit links
-    document.querySelectorAll('.exit-link').forEach((link) => {
+    document.querySelectorAll('.location-link').forEach((link) => {
       link.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent capturing click on parent card
-        const exitName = link.dataset.exit;
+        e.stopPropagation(); // Prevent grid click
+        const locationName = link.dataset.location;
         const regionName = link.dataset.region;
-        if (exitName && regionName) {
-          this.gameUI.regionUI.navigateToRegion(regionName);
+        if (locationName && regionName && this.gameUI.regionUI) {
+          this.gameUI.regionUI.navigateToLocation(locationName, regionName);
         }
       });
     });
+    */
 
-    // Add click handlers for exit cards in loop mode
-    document.querySelectorAll('.exit-card').forEach((card) => {
+    // Add click listeners to the exit cards themselves (for loop mode interaction)
+    this.exitsGrid.querySelectorAll('.exit-card').forEach((card) => {
       card.addEventListener('click', (e) => {
         // Only handle clicks that aren't on other clickable elements
         if (
