@@ -88,15 +88,26 @@ class PanelManager {
 
         // 3. Append the element to the Golden Layout container
         container.getElement().append(rootElement);
+        console.log(
+          `   [${componentTypeName}] Root element appended to container`
+        );
 
-        // --- NEW: Call buildInitialStructure if available ---
+        // --- NEW: Attach internal listeners AFTER appending ---
+        if (typeof uiProvider.attachInternalListeners === 'function') {
+          console.log(
+            `   [${componentTypeName}] Calling attachInternalListeners`
+          );
+          uiProvider.attachInternalListeners();
+        }
+        // --- END NEW ---
+
+        // --- Call buildInitialStructure if available --- // Keep this for other init tasks if needed
         if (typeof uiProvider.buildInitialStructure === 'function') {
           console.log(
             `   [${componentTypeName}] Calling buildInitialStructure`
           );
           uiProvider.buildInitialStructure();
         }
-        // --- END NEW ---
 
         // 4. Add mapping (using the singleton instance of PanelManager)
         panelManagerInstance.addMapping(container, uiProvider);
@@ -315,11 +326,12 @@ class PanelManager {
           console.log(
             `[PanelManager] Setting up 'loopState:queueUpdated' listener for loopsPanel`
           );
-
-          // Ensure uiProvider has the expected method
+          // Ensure uiProvider reference is available within the scope for the handler
+          const currentUiProvider = uiProvider; // Capture uiProvider here
+          // --- UPDATED CHECK: Use currentUiProvider ---
           if (
-            this.uiProvider &&
-            typeof this.uiProvider.renderLoopPanel === 'function'
+            currentUiProvider &&
+            typeof currentUiProvider.renderLoopPanel === 'function'
           ) {
             const handleQueueUpdate = eventBus.subscribe(
               'loopState:queueUpdated',
@@ -327,19 +339,23 @@ class PanelManager {
                 console.log(
                   "[LoopPanel Wrapper] Event 'loopState:queueUpdated' received."
                 );
-                // Call the render method on the actual LoopUI instance
-                this.uiProvider.renderLoopPanel();
+                // Use the captured provider instance
+                if (currentUiProvider) {
+                  currentUiProvider.renderLoopPanel();
+                } else {
+                  console.warn(
+                    '[LoopPanel Wrapper] uiProvider missing on queue update.'
+                  );
+                }
               }
             );
-
-            // Store the unsubscribe handle for cleanup on destroy
             this.unsubscribeHandles.push(handleQueueUpdate);
             console.log(
               `   [${componentTypeName}] Subscribed to loopState:queueUpdated`
             );
           } else {
             console.warn(
-              `[PanelManager] Could not subscribe loopsPanel to queue updates: uiProvider or renderLoopPanel method missing.`
+              `[PanelManager] Could not subscribe loopsPanel to queue updates: currentUiProvider or renderLoopPanel method missing.`
             );
           }
         }
@@ -350,28 +366,57 @@ class PanelManager {
 
         container.on('open', () => {
           console.log(`   [${componentTypeName}] Panel Opened`);
-          // Use the captured uiProvider
-          if (typeof this.uiProvider.initializeElements === 'function') {
-            this.uiProvider.initializeElements(container.getElement());
-          } else if (typeof this.uiProvider.syncWithState === 'function') {
-            this.uiProvider.syncWithState();
-          } // Add other relevant update methods
+          // --- UPDATED: Call syncWithState for inventory instead of initialize ---
+          if (componentTypeName === 'inventoryPanel') {
+            if (
+              this.uiProvider &&
+              typeof this.uiProvider.syncWithState === 'function'
+            ) {
+              console.log(
+                `   [${componentTypeName}] Calling syncWithState() on open`
+              );
+              this.uiProvider.syncWithState();
+            } else {
+              console.warn(
+                `   [${componentTypeName}] syncWithState method not found on open`
+              );
+            }
+          } else {
+            // Original logic for other panels (like LoopUI)
+            if (
+              this.uiProvider &&
+              typeof this.uiProvider.initialize === 'function'
+            ) {
+              console.log(
+                `   [${componentTypeName}] Calling initialize() on open`
+              );
+              this.uiProvider.initialize();
+            }
+          }
         });
         container.on('resize', () => {
           console.log(`   [${componentTypeName}] Panel Resized`);
-          if (typeof this.uiProvider.onPanelResize === 'function') {
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.onPanelResize === 'function'
+          ) {
             this.uiProvider.onPanelResize(container.width, container.height);
           }
           // Add other relevant update calls if needed
         });
         container.on('destroy', () => {
           console.log(`   [${componentTypeName}] Panel Destroyed`);
-          // Use the captured uiProvider
-          if (typeof this.uiProvider.onPanelDestroy === 'function') {
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.onPanelDestroy === 'function'
+          ) {
             this.uiProvider.onPanelDestroy();
           }
-          // Call general dispose if available (for components like TestCaseUI)
-          if (typeof this.uiProvider.dispose === 'function') {
+          // Call general dispose if available
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.dispose === 'function'
+          ) {
             console.log(
               `   [${componentTypeName}] Calling uiProvider.dispose()`
             );

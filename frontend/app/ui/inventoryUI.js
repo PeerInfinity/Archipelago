@@ -91,12 +91,21 @@ export class InventoryUI {
   }
 
   initializeUI(itemData, groups) {
-    // Create grouped view
-    const groupedContainer = this.groupedContainer;
-    groupedContainer.innerHTML = '';
+    this.itemData = itemData; // Store item data for re-sorting/filtering
 
-    // Create flat view container
+    // --- NEW: Add fallback check for groups ---
+    if (!groups || typeof groups !== 'object' || Array.isArray(groups)) {
+      console.warn(
+        "[InventoryUI] Invalid 'groups' data received in initializeUI. Defaulting to empty object.",
+        groups
+      );
+      groups = {}; // Use empty object as fallback
+    }
+    // --- END NEW CHECK ---
+
+    const groupedContainer = this.groupedContainer;
     const flatContainer = this.flatContainer;
+    groupedContainer.innerHTML = ''; // Clear previous groups
     flatContainer.innerHTML = '';
     const flatGroup = document.createElement('div');
     flatGroup.className = 'inventory-group';
@@ -105,17 +114,25 @@ export class InventoryUI {
     flatGroup.appendChild(flatItems);
     flatContainer.appendChild(flatGroup);
 
-    // Sort groups, ensuring "Everything" is always first as it contains all items
-    const sortedGroups = [...groups].sort((a, b) => {
+    // --- Use Object.keys on the validated groups object ---
+    const groupNames = Object.keys(groups);
+
+    // Sort group names, ensuring "Everything" is always first as it contains all items
+    const sortedGroupNames = groupNames.sort((a, b) => {
       if (a === InventoryUI.SPECIAL_GROUPS.EVERYTHING) return -1;
       if (b === InventoryUI.SPECIAL_GROUPS.EVERYTHING) return 1;
-      return a.localeCompare(b);
+      // Use the group definition from the `groups` object for sorting if needed, otherwise localeCompare
+      const nameA = groups[a]?.name || a;
+      const nameB = groups[b]?.name || b;
+      return nameA.localeCompare(nameB);
     });
 
-    // Handle regular item groups
-    sortedGroups.forEach((group) => {
+    // Handle regular item groups using sortedGroupNames
+    sortedGroupNames.forEach((groupKey) => {
+      // Find items belonging to this groupKey based on itemData's groups array
       const groupItems = Object.entries(itemData).filter(
-        ([_, data]) => data.groups.includes(group) && !data.event
+        ([_, data]) =>
+          data.groups && data.groups.includes(groupKey) && !data.event
       );
 
       if (this.sortAlphabetically) {
@@ -123,7 +140,9 @@ export class InventoryUI {
       }
 
       if (groupItems.length > 0) {
-        this.createGroupDiv(groupedContainer, group, groupItems);
+        // Use the group's display name if available, otherwise the key
+        const displayGroupName = groups[groupKey]?.name || groupKey;
+        this.createGroupDiv(groupedContainer, displayGroupName, groupItems);
       }
     });
 

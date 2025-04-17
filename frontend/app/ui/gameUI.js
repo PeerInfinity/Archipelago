@@ -42,9 +42,10 @@ export class GameUI {
         this.locationUI?.syncWithState();
         this.exitUI?.syncWithState();
         this.regionUI?.update();
-        if (this.currentViewMode === 'loop') {
-          this.loopUI?.renderLoopPanel();
-        }
+        // Removed direct call to loopUI render
+        // if (this.currentViewMode === 'loop') {
+        //   this.loopUI?.renderLoopPanel();
+        // }
       }
     });
 
@@ -56,8 +57,16 @@ export class GameUI {
       this.clearExistingData(); // Call the cleanup method
     });
 
+    // Listen for loop mode changes
+    eventBus.subscribe('loopUI:modeChanged', (data) => {
+      console.log(
+        `[GameUI] Received loopUI:modeChanged event. Active: ${data.active}`
+      );
+      this.handleLoopModeChange(data.active);
+    });
+
     // Game state
-    this.currentViewMode = 'locations';
+    this.currentViewMode = 'locations'; // This might be less relevant with Golden Layout managing visibility
     this.debugMode = false;
     this.currentRules = null; // Track current rules data
 
@@ -65,7 +74,7 @@ export class GameUI {
     window._userClickedItems = new Set();
 
     // Initialize UI
-    this.attachEventListeners();
+    this.attachEventListeners(); // Attach listeners for global controls if any remain
     this.loadDefaultRules();
 
     // Initialize test case UI - MOVED to init.js after container exists
@@ -87,67 +96,87 @@ export class GameUI {
       console.error('InitializeUI called without selectedPlayerId');
       return;
     }
-    const playerItems = jsonData.items[selectedPlayerId];
-    const groups = jsonData.item_groups[selectedPlayerId];
+    // Ensure items and item_groups exist for the selected player
+    const playerItems = jsonData.items?.[selectedPlayerId] || {};
+    const playerGroups = jsonData.item_groups?.[selectedPlayerId];
+
+    // --- NEW: Add check and fallback for groups ---
+    let groups = {}; // Default to empty object
+    if (
+      playerGroups &&
+      typeof playerGroups === 'object' &&
+      !Array.isArray(playerGroups)
+    ) {
+      // Check if it's a non-null object (expected format)
+      groups = playerGroups;
+    } else if (playerGroups) {
+      // Log a warning if it exists but isn't the expected object type
+      console.warn(
+        `[GameUI] Expected item_groups for player ${selectedPlayerId} to be an object, but got:`,
+        typeof playerGroups,
+        '. Using empty groups instead.'
+      );
+    }
+    // --- END NEW CHECK ---
 
     // Initialize view-specific UIs
+    // Pass the potentially defaulted groups object
     this.inventoryUI.initialize(playerItems, groups);
 
     // Have UI components get data from stateManager instead of passing jsonData
     this.locationUI.initialize();
     this.exitUI.initialize();
     this.regionUI.initialize();
-    this.loopUI.initialize();
+    // LoopUI initialization might happen via PanelManager now
+    // this.loopUI.initialize();
   }
 
   attachEventListeners() {
-    // Initialize collapsible center column
-    this.initializeCollapsibleCenter();
+    // Initialize collapsible center column (If this is still relevant outside GL)
+    // this.initializeCollapsibleCenter();
 
-    // File upload
+    // File upload (If this exists outside a specific panel)
     const jsonUpload = document.getElementById('json-upload');
     if (jsonUpload) {
       jsonUpload.addEventListener('change', (e) => this.handleFileUpload(e));
     }
 
-    // Debug toggle
+    // Debug toggle (If this exists outside a specific panel)
     const debugToggle = document.getElementById('debug-toggle');
     if (debugToggle) {
       debugToggle.addEventListener('click', () => {
         this.debugMode = !this.debugMode;
         debugToggle.textContent = this.debugMode ? 'Hide Debug' : 'Show Debug';
-
-        // Set debug mode on stateManager
         stateManager.setDebugMode?.(this.debugMode);
-
-        // Set debug mode on pathAnalyzer too
         if (this.regionUI && this.regionUI.pathAnalyzer) {
           this.regionUI.pathAnalyzer.setDebugMode(this.debugMode);
         }
       });
     }
 
-    // File view toggle radio buttons
-    document
-      .querySelectorAll('input[name="file-view-mode"]')
-      .forEach((radio) => {
-        radio.addEventListener('change', (e) => {
-          if (e.target.checked) {
-            this.setFileViewMode(e.target.value);
-          }
-        });
-      });
+    // File view toggle radio buttons (These are now inside the Files Panel, handled there)
+    // document
+    //   .querySelectorAll('input[name="file-view-mode"]')
+    //   .forEach((radio) => {
+    //     radio.addEventListener('change', (e) => {
+    //       if (e.target.checked) {
+    //         this.setFileViewMode(e.target.value);
+    //       }
+    //     });
+    //   });
   }
 
   clearExistingData() {
     // Use the more comprehensive clearState instead of just clearInventory
     stateManager.clearState();
 
-    // Clear UI elements
-    this.inventoryUI.clear();
-    this.locationUI.clear();
-    this.exitUI.clear();
-    this.regionUI.clear();
+    // Clear UI elements (These might need checking if they exist before clearing)
+    this.inventoryUI?.clear();
+    this.locationUI?.clear();
+    this.exitUI?.clear();
+    this.regionUI?.clear();
+    // LoopUI clear might be handled internally or via panel lifecycle
+    // this.loopUI?.clear();
   }
 
   loadDefaultRules() {
@@ -372,48 +401,7 @@ export class GameUI {
     }
   }
 
-  /**
-   * Initialize collapse/expand functionality for the center column
-   */
-  initializeCollapsibleCenter() {
-    const collapseBtn = document.getElementById('main-content-collapse-btn');
-    const expandBtn = document.getElementById('main-content-expand-btn');
-    const mainContent = document.getElementById('main-content');
-    const inventoryHeader = document.querySelector('.sidebar-header');
-
-    if (collapseBtn && expandBtn && mainContent && inventoryHeader) {
-      // Initial state: hide the expand button
-      expandBtn.style.display = 'none';
-
-      // Setup event listeners
-      collapseBtn.addEventListener('click', () => {
-        mainContent.classList.add('collapsed');
-        expandBtn.style.display = 'flex';
-      });
-
-      expandBtn.addEventListener('click', () => {
-        mainContent.classList.remove('collapsed');
-        expandBtn.style.display = 'none';
-      });
-
-      // Auto-collapse for small screens (mobile)
-      const checkWindowSize = () => {
-        if (window.innerWidth <= 1480) {
-          // Auto-collapse on small screens
-          if (!mainContent.classList.contains('collapsed')) {
-            mainContent.classList.add('collapsed');
-            expandBtn.style.display = 'flex';
-          }
-        }
-      };
-
-      // Check on initial load
-      checkWindowSize();
-
-      // Check when window is resized
-      window.addEventListener('resize', checkWindowSize);
-    }
-  }
+  // Removed initializeCollapsibleCenter as GL handles this
 
   /**
    * @param {string} mode - The new file view mode ('presets', 'test-cases', 'test-playthroughs')
@@ -436,7 +424,8 @@ export class GameUI {
     );
 
     if (!filesContentArea) {
-      console.warn('Files panel content area not found for updating view.');
+      // Don't warn if it's just not found (might be expected if panel isn't created yet)
+      // console.warn('Files panel content area not found for updating view.');
       return;
     }
 
@@ -456,44 +445,42 @@ export class GameUI {
     presetsPanel.style.display = 'none';
     testPlaythroughsPanel.style.display = 'none';
 
-    // Only initialize if Loop Mode is NOT active
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    // Only initialize/show if Loop Mode is NOT active
+    // Get loop mode state directly from the loopUI instance if available
+    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive || false;
+
     if (!isLoopModeActive) {
       // Show the selected panel and initialize if needed
       if (this.currentFileView === 'presets') {
         presetsPanel.style.display = 'block';
-        // Initialize presetUI only if it hasn't been initialized or if its container is empty
         if (
           !this.presetUI.initialized ||
           !presetsPanel.querySelector('#presets-list')?.hasChildNodes()
         ) {
           this.presetUI.initialize();
-          this.presetUI.initialized = true; // Add a flag to track initialization
+          this.presetUI.initialized = true;
         }
       } else if (this.currentFileView === 'test-cases') {
         testCasesPanel.style.display = 'block';
-        // Initialize testCaseUI only if it hasn't been initialized or if its container is empty
         if (
           !this.testCaseUI.initialized ||
           !testCasesPanel.querySelector('#test-cases-list')?.hasChildNodes()
         ) {
           this.testCaseUI.initialize();
-          this.testCaseUI.initialized = true; // Add a flag
+          this.testCaseUI.initialized = true;
         }
       } else if (this.currentFileView === 'test-playthroughs') {
         testPlaythroughsPanel.style.display = 'block';
-        // Initialize testPlaythroughUI only if it hasn't been initialized or if its container is empty
         if (
           !this.testPlaythroughUI.initialized ||
           !testPlaythroughsPanel.querySelector('.playthrough-list-container')
         ) {
-          // Check for specific content
           this.testPlaythroughUI.initialize();
-          this.testPlaythroughUI.initialized = true; // Add a flag
+          this.testPlaythroughUI.initialized = true;
         }
       }
     } else {
-      // If loop mode is active, ensure all file panels remain hidden
+      // If loop mode IS active, ensure all are hidden (redundant with handleLoopModeChange but safe)
       presetsPanel.style.display = 'none';
       testCasesPanel.style.display = 'none';
       testPlaythroughsPanel.style.display = 'none';
@@ -683,34 +670,36 @@ export class GameUI {
     element.style.overflow = 'hidden';
 
     element.innerHTML = `
-      <div class="control-group file-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
-            <label>
+      <div class="control-group file-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0; display: flex; gap: 1rem;">
+            <label style="display: inline-flex; align-items: center;">
               <input
                 type="radio"
                 name="file-view-mode"
                 value="presets"
                 checked
+                style="margin-right: 0.3em;"
               />
               Presets
             </label>
-            <label>
-              <input type="radio" name="file-view-mode" value="test-cases" />
+            <label style="display: inline-flex; align-items: center;">
+              <input type="radio" name="file-view-mode" value="test-cases" style="margin-right: 0.3em;" />
               Test Cases
             </label>
-            <label>
+            <label style="display: inline-flex; align-items: center;">
               <input
                 type="radio"
                 name="file-view-mode"
                 value="test-playthroughs"
+                style="margin-right: 0.3em;"
               />
               Test Playthroughs
             </label>
        </div>
        <div id="files-panel-content" style="flex-grow: 1; overflow-y: auto;">
-          <div id="test-cases-panel" style="height: 100%;">
+          <div id="test-cases-panel" style="height: 100%; display: none;">
             <div id="test-cases-list"></div>
           </div>
-          <div id="presets-panel" style="display: none; height: 100%;">
+          <div id="presets-panel" style="display: block; height: 100%;">
             <div id="presets-list"></div>
           </div>
           <div id="test-playthroughs-panel" style="display: none; height: 100%;">
@@ -739,8 +728,13 @@ export class GameUI {
     );
     fileViewRadios.forEach((radio) => {
       // Clear existing listeners before adding new ones
-      radio.removeEventListener('change', this._handleFileViewChange);
-      radio.addEventListener('change', this._handleFileViewChange.bind(this));
+      const newRadio = radio.cloneNode(true);
+      radio.parentNode.replaceChild(newRadio, radio);
+      // Add listener to the new radio button
+      newRadio.addEventListener(
+        'change',
+        this._handleFileViewChange.bind(this)
+      );
     });
 
     // Initial render of the default file view
@@ -752,5 +746,81 @@ export class GameUI {
     if (e.target.checked) {
       this.setFileViewMode(e.target.value);
     }
+  }
+
+  // --- NEW Method to Handle Loop Mode Change ---
+  handleLoopModeChange(isActive) {
+    console.log(`[GameUI] Handling loop mode change. Active: ${isActive}`);
+    // Disable/Enable file view radio buttons
+    const fileViewRadios = this.filesPanelContainer?.querySelectorAll(
+      'input[name="file-view-mode"]'
+    );
+    const fileViewControls =
+      this.filesPanelContainer?.querySelector('.file-controls');
+
+    if (fileViewRadios && fileViewControls) {
+      fileViewControls.style.display = isActive ? 'none' : 'flex'; // Hide/show controls row
+      fileViewRadios.forEach((radio) => {
+        radio.disabled = isActive;
+        // Optionally visually grey them out - handled by hiding parent
+        // const label = radio.closest('label');
+        // if (label) {
+        //     label.style.opacity = isActive ? 0.5 : 1;
+        //     label.style.pointerEvents = isActive ? 'none' : 'auto';
+        // }
+      });
+    }
+
+    // Hide/show the entire files panel content if it's managed by gameUI
+    if (this.filesPanelContainer) {
+      const filesContent = this.filesPanelContainer.querySelector(
+        '#files-panel-content'
+      );
+      if (filesContent) {
+        filesContent.style.display = isActive ? 'none' : 'block';
+      }
+      // Add/remove a notice within the files panel when loop mode is active
+      let loopNotice = this.filesPanelContainer.querySelector(
+        '.loop-mode-files-notice'
+      );
+      if (isActive) {
+        if (!loopNotice) {
+          loopNotice = document.createElement('div');
+          loopNotice.className = 'loop-mode-files-notice';
+          loopNotice.textContent = 'File views are disabled in Loop Mode.';
+          loopNotice.style.padding = '10px';
+          loopNotice.style.textAlign = 'center';
+          loopNotice.style.color = '#888';
+          loopNotice.style.fontStyle = 'italic';
+          // Insert notice after the controls (or at the top if controls are hidden)
+          if (fileViewControls)
+            fileViewControls.insertAdjacentElement('afterend', loopNotice);
+          else this.filesPanelContainer.prepend(loopNotice); // Fallback
+        }
+        loopNotice.style.display = 'block';
+      } else {
+        if (loopNotice) loopNotice.style.display = 'none';
+        // When exiting loop mode, re-render the correct file view
+        this.updateFileViewDisplay();
+      }
+    }
+
+    // Update the main header text (if it exists)
+    const headerTextElement = document.getElementById('header-text');
+    if (headerTextElement) {
+      if (isActive) {
+        const loopsTitleHtml = 'A r c h i p e l a g o &nbsp; L o o p s';
+        document.title = 'Archipelago Loops';
+        headerTextElement.innerHTML = loopsTitleHtml;
+      } else {
+        const jsonTitleHtml = 'J S O N &nbsp; W e b &nbsp; C l i e n t';
+        document.title = 'JSON Web Client';
+        headerTextElement.innerHTML = jsonTitleHtml;
+      }
+    }
+
+    console.log(
+      `[GameUI] Updated UI elements based on loop mode state (Active: ${isActive})`
+    );
   }
 }
