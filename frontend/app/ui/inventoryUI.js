@@ -378,9 +378,7 @@ export class InventoryUI {
       }
     });
 
-    // Update display for all UI components
+    // Update display for this UI component only
     this.updateDisplay();
-    this.gameUI.locationUI?.syncWithState();
-    this.gameUI.regionUI?.update();
   }
 }

@@ -208,11 +208,6 @@ export class ExitUI {
         eventBus.publish('loopState:queueUpdated', {
           queue: loopState.actionQueue,
         });
-
-        // Update the loop UI
-        if (window.loopUIInstance) {
-          window.loopUIInstance.renderLoopPanel(); // Re-render to show the new queue and highlighted regions
-        }
       } else {
         // Path not found - display error message
         const errorMessage = `Cannot find a path to ${exit.region} in loop mode.`;

@@ -48,6 +48,14 @@ export class GameUI {
       }
     });
 
+    // Add listener for preset loading start
+    eventBus.subscribe('preset:rulesLoading', (data) => {
+      console.log(
+        '[GameUI] Received preset:rulesLoading event. Clearing existing data.'
+      );
+      this.clearExistingData(); // Call the cleanup method
+    });
+
     // Game state
     this.currentViewMode = 'locations';
     this.debugMode = false;
@@ -407,7 +415,16 @@ export class GameUI {
     }
   }
 
+  /**
+   * @param {string} mode - The new file view mode ('presets', 'test-cases', 'test-playthroughs')
+   */
   setFileViewMode(mode) {
+    // Publish event BEFORE updating the view mode internally
+    eventBus.publish('ui:fileViewChanged', {
+      newView: mode,
+      oldView: this.currentFileView,
+    });
+
     this.currentFileView = mode;
     this.updateFileViewDisplay();
   }
@@ -438,17 +455,6 @@ export class GameUI {
     testCasesPanel.style.display = 'none';
     presetsPanel.style.display = 'none';
     testPlaythroughsPanel.style.display = 'none';
-
-    // Clear displays of inactive test UIs only if they were initialized
-    if (this.currentFileView !== 'test-cases' && this.testCaseUI?.initialized) {
-      this.testCaseUI.clearTestData();
-    }
-    if (
-      this.currentFileView !== 'test-playthroughs' &&
-      this.testPlaythroughUI?.initialized
-    ) {
-      this.testPlaythroughUI.clearDisplay();
-    }
 
     // Only initialize if Loop Mode is NOT active
     const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;

@@ -1,5 +1,6 @@
 import stateManager from '../core/stateManagerSingleton.js';
 import commonUI from './commonUI.js';
+import eventBus from '../core/eventBus.js';
 
 export class TestCaseUI {
   constructor(gameUI) {
@@ -12,6 +13,7 @@ export class TestCaseUI {
     this.currentFolder = null;
     this.initialized = false;
     this.testCasesListContainer = null;
+    this.viewChangeSubscription = null;
   }
 
   initialize() {
@@ -47,6 +49,25 @@ export class TestCaseUI {
 
       // Render the test set selector instead of loading test cases immediately
       this.renderTestSetSelector();
+
+      // --- Add Event Subscription ---
+      // Unsubscribe first if already subscribed (e.g., re-initialization)
+      if (this.viewChangeSubscription) {
+        this.viewChangeSubscription();
+      }
+      // Subscribe to view changes
+      this.viewChangeSubscription = eventBus.subscribe(
+        'ui:fileViewChanged',
+        (data) => {
+          // If the new view is NOT test-cases, clear the data
+          if (data.newView !== 'test-cases') {
+            console.log('[TestCaseUI] View changed away, clearing test data.');
+            this.clearTestData();
+          }
+        }
+      );
+      // --- End Event Subscription ---
+
       return true; // Return true from try block
     } catch (error) {
       console.error('Error loading test sets data:', error);
@@ -296,7 +317,7 @@ export class TestCaseUI {
 
       // First initialize inventory with the test rules data
       console.log('Loading rules data into state manager');
-      stateManager.loadFromJSON(this.testRules);
+      stateManager.loadFromJSON(this.testRules, '1');
 
       // Verify state manager was properly initialized
       if (
@@ -326,7 +347,6 @@ export class TestCaseUI {
         console.log('Invalidating cache and computing reachable regions');
         stateManager.invalidateCache();
         stateManager.computeReachableRegions();
-        this.gameUI.inventoryUI?.syncWithState();
       } catch (reachabilityError) {
         console.error('Error computing reachability:', reachabilityError);
         statusElement.innerHTML = `<div class="test-error">Error: ${reachabilityError.message}</div>`;
@@ -410,13 +430,13 @@ export class TestCaseUI {
         // Force UI sync and cache invalidation
         stateManager.invalidateCache();
         stateManager.computeReachableRegions();
-
-        // This will update the UI to match the restored inventory
-        this.gameUI.inventoryUI?.syncWithState();
       };
 
       // Restore inventory state after all tests
       restoreInventoryState(savedInventory);
+
+      // Force InventoryUI update AFTER restoring state
+      this.gameUI.inventoryUI?.syncWithState();
 
       // Show appropriate result
       if (validationFailed) {
@@ -480,8 +500,6 @@ export class TestCaseUI {
         if (statusElement) {
           const result = this.loadTestCase(testCase, statusElement);
           result ? passed++ : failed++;
-          // Make sure UI is fully updated after each test
-          this.gameUI.inventoryUI?.syncWithState();
         }
       }
     } finally {
@@ -501,9 +519,6 @@ export class TestCaseUI {
           </div>
         `;
       }
-
-      // Make sure UI is in sync after all tests complete
-      this.gameUI.inventoryUI?.syncWithState();
       // Re-enable the button when done
       if (runAllButton) {
         runAllButton.disabled = false;
@@ -1010,5 +1025,13 @@ export class TestCaseUI {
 
     container.appendChild(debugButton);
     console.log('Debug button added to test UI');
+  }
+
+  dispose() {
+    if (this.viewChangeSubscription) {
+      this.viewChangeSubscription(); // Call the unsubscribe function
+      this.viewChangeSubscription = null;
+    }
+    console.log('[TestCaseUI] Disposed and unsubscribed from events.');
   }
 }

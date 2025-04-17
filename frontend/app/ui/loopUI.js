@@ -29,7 +29,7 @@ export class LoopUI {
     window.loopUIInstance = this;
 
     // Attach event listeners for loop state changes
-    this._setupEventListeners();
+    this.subscribeToEvents();
 
     // Set up animation frame for continuous UI updates
     this._startAnimationLoop();
@@ -131,7 +131,6 @@ export class LoopUI {
   initialize() {
     // Clear UI and prep container
     this.clear();
-    this.createUIStructure();
 
     // Initialize loop state
     loopState.initialize();
@@ -151,25 +150,25 @@ export class LoopUI {
     // Render initial state (without attaching event listeners again)
     this.renderLoopPanel();
 
-    // Attach event handlers after ensuring the DOM is fully built
-    // This is separate from renderLoopPanel to avoid duplicate event listeners
-    this._attachControlEventListeners();
-
     return true;
   }
 
   /**
-   * Create the basic structure for the loop UI panel
+   * Build the initial DOM structure for the loop UI panel.
+   * Should be called once by PanelManager after the root element is attached.
    */
-  createUIStructure() {
+  buildInitialStructure() {
+    console.log('LoopUI: Building initial DOM structure');
     // const container = document.getElementById('loop-panel');
-    const container = this.rootElement; // Use the created root element
+    const container = this.loopPanelElement; // Use the root element property
     if (!container) {
-      console.error('Loop panel container (rootElement) not found or not set');
+      console.error(
+        'Loop panel container (loopPanelElement) not found or not set'
+      );
       return;
     }
 
-    // Clear container first
+    // Clear any potential placeholder content
     container.innerHTML = '';
 
     // Set container style to ensure proper layout
@@ -179,8 +178,11 @@ export class LoopUI {
     container.style.overflow = 'hidden';
 
     // Create top status area with just the mana bar and current action
-    // const fixedArea = document.createElement('div');
-    const fixedArea = container.querySelector('#loop-fixed-area'); // Find existing area
+    const fixedArea = document.createElement('div');
+    fixedArea.id = 'loop-fixed-area'; // Ensure ID is set
+    fixedArea.style.flexShrink = '0'; // Prevent shrinking
+    fixedArea.style.padding = '0.5rem';
+    fixedArea.style.borderBottom = '1px solid #666';
     fixedArea.innerHTML = `
       <div class="loop-resources">
         <div class="mana-container">
@@ -204,65 +206,93 @@ export class LoopUI {
     // Ensure scrolling works
     regionsArea.style.overflowY = 'auto';
     regionsArea.style.flex = '1';
-    regionsArea.style.height = '100%';
+    regionsArea.style.height = '100%'; // Let it take remaining height
     container.appendChild(regionsArea);
 
-    // Add other controls at the bottom (without the Expand All button)
-    // const controlsArea = document.createElement('div');
-    // controlsArea.className = 'loop-controls-area';
-    // controlsArea.innerHTML = `
-    //   <button id="loop-clear-queue" class="button">Clear Queue</button>
-    //   <button id="loop-save-state" class="button">Save Game</button>
-    //   <button id="loop-export-state" class="button">Export</button>
-    //   <button id="loop-import-state" class="button">Import</button>
-    //   <button id="loop-hard-reset" class="button">Hard Reset</button>
-    // `;
-    // container.appendChild(controlsArea);
+    // Add controls container at the bottom
+    const controlsArea = document.createElement('div');
+    controlsArea.id = 'loop-controls-area'; // Add ID for easier targeting
+    controlsArea.className = 'loop-controls-area control-group'; // Use control-group for styling
+    controlsArea.style.flexShrink = '0'; // Prevent shrinking
+    controlsArea.style.padding = '0.5rem';
+    controlsArea.style.borderTop = '1px solid #666';
+    controlsArea.innerHTML = `
+        <button id="loop-clear-queue" class="button">Clear Queue</button>
+        <button id="loop-save-state" class="button">Save State</button>
+        <button id="loop-export-state" class="button">Export State</button>
+        <label for="loop-state-import" class="button">Import State</label>
+        <input type="file" id="loop-state-import" accept=".json" style="display: none;">
+        <button id="loop-hard-reset" class="button">Hard Reset</button>
+        <button id="toggle-pause" class="button">Pause</button>
+        <button id="toggle-auto-restart" class="button">Restart when queue complete</button>
+        <button id="expand-all-regions" class="button">Expand All</button>
+        <button id="collapse-all-regions" class="button">Collapse All</button>
+        <label>
+          <input type="checkbox" id="loop-colorblind" /> Colorblind
+        </label>
+    `;
+    container.appendChild(controlsArea);
 
-    // Add hidden file input for import
-    // const fileInput = this.rootElement.querySelector('#loop-state-import'); // Find existing
+    // Store references to controls for later use
+    this.loopControls = controlsArea;
+    this.actionQueueContainer = fixedArea.querySelector(
+      '#current-action-container'
+    );
+    this.regionsListContainer = regionsArea;
+    this.manaBarElement = fixedArea.querySelector('#mana-bar');
+    this.manaValueElement = fixedArea.querySelector('#mana-value');
+    this.importFileInput = controlsArea.querySelector('#loop-state-import'); // Find input within controls
 
-    // Add colorblind mode toggle listener
-    // const colorblindToggle = this.loopControls.querySelector('#loop-colorblind'); // Find within cached controls
-    // Already attached in attachControlEventListeners, avoid double attachment
-    /*
-    if (colorblindToggle) {
-      colorblindToggle.addEventListener('change', (e) => {
-        this.setColorblindMode(e.target.checked);
-      });
-    }
-    */
+    // Attach event listeners now that the structure is built
+    this._attachControlEventListeners(); // Handles listeners for controls in controlsArea
+    this.subscribeToEvents(); // Subscribe to eventBus events
   }
 
   /**
    * Set up event listeners for loop state changes
    */
-  _setupEventListeners() {
+  subscribeToEvents() {
+    // Prevent adding duplicate listeners if called multiple times (though it shouldn't be with new structure)
+    if (this.eventSubscriptions && this.eventSubscriptions.length > 0) {
+      console.warn(
+        'LoopUI: subscribeToEvents called multiple times. Skipping.'
+      );
+      return;
+    }
+    this.eventSubscriptions = []; // Initialize array to hold unsubscribe handles
+
+    const subscribe = (eventName, handler) => {
+      const unsubscribe = eventBus.subscribe(eventName, handler);
+      this.eventSubscriptions.push(unsubscribe);
+    };
+
+    console.log('LoopUI: Subscribing to EventBus events');
+
     // Mana changes
-    eventBus.subscribe('loopState:manaChanged', (data) => {
+    subscribe('loopState:manaChanged', (data) => {
       this._updateManaDisplay(data.current, data.max);
     });
 
     // XP changes
-    eventBus.subscribe('loopState:xpChanged', (data) => {
+    subscribe('loopState:xpChanged', (data) => {
       this._updateRegionXPDisplay(data.regionName);
     });
 
     // Pause state changes
-    eventBus.subscribe('loopState:paused', (data) => {
+    subscribe('loopState:paused', (data) => {
       this._updatePauseButtonState(true);
     });
 
-    eventBus.subscribe('loopState:resumed', (data) => {
+    subscribe('loopState:resumed', (data) => {
       this._updatePauseButtonState(false);
     });
 
-    eventBus.subscribe('loopState:pauseStateChanged', (data) => {
+    subscribe('loopState:pauseStateChanged', (data) => {
       this._updatePauseButtonState(data.isPaused);
     });
 
     // Queue updates
-    eventBus.subscribe('loopState:queueUpdated', (data) => {
+    subscribe('loopState:queueUpdated', (data) => {
       //console.log(
       //  'Received loopState:queueUpdated event, queue length:',
       //  data.queue.length
@@ -274,9 +304,10 @@ export class LoopUI {
     });
 
     // Auto-restart changes
-    eventBus.subscribe('loopState:autoRestartChanged', (data) => {
+    subscribe('loopState:autoRestartChanged', (data) => {
       // const autoRestartBtn = document.getElementById('toggle-auto-restart');
-      const autoRestartBtn = this.loopControls.querySelector(
+      const autoRestartBtn = this.loopControls?.querySelector(
+        // Use optional chaining
         '#toggle-auto-restart'
       ); // Find within cached controls
       if (autoRestartBtn) {
@@ -287,7 +318,7 @@ export class LoopUI {
     });
 
     // Progress updates
-    eventBus.subscribe('loopState:progressUpdated', (data) => {
+    subscribe('loopState:progressUpdated', (data) => {
       if (data.action) {
         this._updateActionProgress(data.action);
         this._updateCurrentActionDisplay(data.action);
@@ -303,63 +334,105 @@ export class LoopUI {
       }
 
       // Always update mana display, even if there's no current action
-      this._updateManaDisplay(data.mana.current, data.mana.max);
+      if (data.mana) {
+        // Add check for mana object
+        this._updateManaDisplay(data.mana.current, data.mana.max);
+      }
     });
 
     // Action completion
-    eventBus.subscribe('loopState:actionCompleted', () => {
+    subscribe('loopState:actionCompleted', () => {
       this.renderLoopPanel();
     });
 
     // New action started
-    eventBus.subscribe('loopState:newActionStarted', (data) => {
+    subscribe('loopState:newActionStarted', (data) => {
       if (data.action) {
         this._updateCurrentActionDisplay(data.action);
       }
     });
 
     // Queue completed
-    eventBus.subscribe('loopState:queueCompleted', () => {
-      const actionContainer = document.getElementById(
-        'current-action-container'
-      );
+    subscribe('loopState:queueCompleted', () => {
+      const actionContainer = this.actionQueueContainer; // Use cached reference
       if (actionContainer) {
         actionContainer.innerHTML = `<div class="no-action-message">No action in progress</div>`;
       }
     });
 
     // New discoveries
-    eventBus.subscribe('loopState:locationDiscovered', (data) => {
+    subscribe('loopState:locationDiscovered', (data) => {
       this._updateDiscoveredItems(data.regionName);
     });
 
-    eventBus.subscribe('loopState:exitDiscovered', (data) => {
+    subscribe('loopState:exitDiscovered', (data) => {
       this._updateDiscoveredItems(data.regionName);
     });
 
-    eventBus.subscribe('loopState:regionDiscovered', (data) => {
+    subscribe('loopState:regionDiscovered', (data) => {
       this.renderLoopPanel();
     });
 
     // Loop reset
-    eventBus.subscribe('loopState:loopReset', (data) => {
+    subscribe('loopState:loopReset', (data) => {
       this._handleLoopReset(data);
-      this._updateManaDisplay(data.mana.current, data.mana.max);
+      if (data.mana) {
+        // Add check for mana object
+        this._updateManaDisplay(data.mana.current, data.mana.max);
+      }
     });
 
     // State loaded
-    eventBus.subscribe('loopState:stateLoaded', () => {
+    subscribe('loopState:stateLoaded', () => {
       this.renderLoopPanel();
     });
 
     // Listen for explore action repeat events
-    eventBus.subscribe('loopState:exploreActionRepeated', (data) => {
+    subscribe('loopState:exploreActionRepeated', (data) => {
       //console.log('Explore action repeated for region:', data.regionName);
       // Make sure the region is in the queue
       this.regionsInQueue.add(data.regionName);
       // Update the UI
       this.renderLoopPanel();
     });
+  }
+
+  /**
+   * Unsubscribe from all eventBus events.
+   */
+  unsubscribeFromEvents() {
+    if (this.eventSubscriptions && this.eventSubscriptions.length > 0) {
+      console.log(
+        `LoopUI: Unsubscribing from ${this.eventSubscriptions.length} event(s).`
+      );
+      this.eventSubscriptions.forEach((unsubscribe) => {
+        try {
+          unsubscribe();
+        } catch (e) {
+          console.warn('LoopUI: Error during event unsubscription:', e);
+        }
+      });
+      this.eventSubscriptions = []; // Clear the array
+    } else {
+      console.log('LoopUI: No active event subscriptions to unsubscribe from.');
+    }
+  }
+
+  /**
+   * Cleanup method called when the panel is destroyed.
+   */
+  onPanelDestroy() {
+    console.log('LoopUI panel destroyed. Unsubscribing...');
+    this.unsubscribeFromEvents();
+    // Nullify references if needed, although GC should handle it
+    this.loopPanelElement = null;
+    this.loopControls = null;
+    this.actionQueueContainer = null;
+    this.regionsListContainer = null;
+    // ... nullify other DOM references ...
+    if (window.loopUIInstance === this) {
+      window.loopUIInstance = null; // Clear global reference
+    }
   }
 
   /**

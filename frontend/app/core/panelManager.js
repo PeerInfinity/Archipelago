@@ -89,6 +89,15 @@ class PanelManager {
         // 3. Append the element to the Golden Layout container
         container.getElement().append(rootElement);
 
+        // --- NEW: Call buildInitialStructure if available ---
+        if (typeof uiProvider.buildInitialStructure === 'function') {
+          console.log(
+            `   [${componentTypeName}] Calling buildInitialStructure`
+          );
+          uiProvider.buildInitialStructure();
+        }
+        // --- END NEW ---
+
         // 4. Add mapping (using the singleton instance of PanelManager)
         panelManagerInstance.addMapping(container, uiProvider);
 
@@ -301,6 +310,40 @@ class PanelManager {
           }
         }
 
+        // Subscribe LoopUI to queue updates
+        if (componentTypeName === 'loopsPanel') {
+          console.log(
+            `[PanelManager] Setting up 'loopState:queueUpdated' listener for loopsPanel`
+          );
+
+          // Ensure uiProvider has the expected method
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.renderLoopPanel === 'function'
+          ) {
+            const handleQueueUpdate = eventBus.subscribe(
+              'loopState:queueUpdated',
+              (data) => {
+                console.log(
+                  "[LoopPanel Wrapper] Event 'loopState:queueUpdated' received."
+                );
+                // Call the render method on the actual LoopUI instance
+                this.uiProvider.renderLoopPanel();
+              }
+            );
+
+            // Store the unsubscribe handle for cleanup on destroy
+            this.unsubscribeHandles.push(handleQueueUpdate);
+            console.log(
+              `   [${componentTypeName}] Subscribed to loopState:queueUpdated`
+            );
+          } else {
+            console.warn(
+              `[PanelManager] Could not subscribe loopsPanel to queue updates: uiProvider or renderLoopPanel method missing.`
+            );
+          }
+        }
+
         // 5. Handle Golden Layout container lifecycle events
         // Store uiProvider in the wrapper instance if needed for event handlers
         this.uiProvider = uiProvider;
@@ -327,8 +370,15 @@ class PanelManager {
           if (typeof this.uiProvider.onPanelDestroy === 'function') {
             this.uiProvider.onPanelDestroy();
           }
+          // Call general dispose if available (for components like TestCaseUI)
+          if (typeof this.uiProvider.dispose === 'function') {
+            console.log(
+              `   [${componentTypeName}] Calling uiProvider.dispose()`
+            );
+            this.uiProvider.dispose();
+          }
 
-          // --- Unsubscribe from events ---
+          // --- Unsubscribe from events managed by the wrapper ---
           console.log(
             `[${componentTypeName} Wrapper] Unsubscribing from ${
               this.unsubscribeHandles?.length || 0
