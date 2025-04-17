@@ -4,7 +4,7 @@ import { evaluateRule } from '../core/ruleEngine.js';
 import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 import commonUI from './commonUI.js';
 import messageHandler from '../../client/core/messageHandler.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -871,12 +871,18 @@ export class RegionUI {
    * @private
    */
   _handleLocalCheck(location) {
-    // Only process locally if there's an item
-    if (location.item) {
-      console.log(`Processing location check locally: ${location.name}`);
-      this.gameUI.inventoryUI.modifyItemCount(location.item.name);
-      stateManager.checkLocation(location.name);
-    }
+    console.log(
+      `[RegionUI] Routing local check for ${location.name} (ID: ${location.id}) through MessageHandler`
+    );
+    // Use the globally accessible messageHandler instance
+    const handler = window.messageHandler || messageHandler;
+    handler.checkLocation(location).catch((error) => {
+      console.error(
+        `[RegionUI] Error calling messageHandler.checkLocation:`,
+        error
+      );
+      // Optional: Display an error message to the user
+    });
   }
 }
 

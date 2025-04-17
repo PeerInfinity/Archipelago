@@ -1,7 +1,7 @@
 // pathAnalyzerLogic.js
 import { evaluateRule } from '../core/ruleEngine.js';
 import stateManager from '../core/stateManagerSingleton.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 
 /**
  * Core logic for path analysis, separated from UI concerns
@@ -21,7 +21,7 @@ export class PathAnalyzerLogic {
   setDebugMode(debug) {
     this.debugMode = debug;
   }
-  
+
   /**
    * Finds a path from the starting region to the target region using only discovered regions in loop mode
    * @param {string} targetRegion - The region containing the location or exit to find a path to
@@ -29,65 +29,71 @@ export class PathAnalyzerLogic {
    */
   findPathInLoopMode(targetRegion) {
     const startRegion = 'Menu'; // Always start from Menu in loop mode
-    
+
     // Early exit if the target region is Menu
     if (targetRegion === startRegion) {
       return [startRegion];
     }
-    
+
     // Early exit if the target region isn't discovered in loop mode
     if (!loopState.isRegionDiscovered(targetRegion)) {
       return null;
     }
-    
+
     // Initialize BFS structures
     const queue = [[startRegion]]; // Queue of paths
     const visited = new Set([startRegion]); // Set of visited regions
-    
+
     while (queue.length > 0) {
       const path = queue.shift();
       const currentRegion = path[path.length - 1];
-      
+
       // Path found if we've reached the target region
       if (currentRegion === targetRegion) {
         return path;
       }
-      
+
       // Don't exceed a reasonable number of iterations
       if (visited.size > this.maxPathFinderIterations) {
-        this._logDebug(`Maximum iterations (${this.maxPathFinderIterations}) exceeded in findPathInLoopMode`);
+        this._logDebug(
+          `Maximum iterations (${this.maxPathFinderIterations}) exceeded in findPathInLoopMode`
+        );
         return null;
       }
-      
+
       // Get the region data
       const regionData = stateManager.regions[currentRegion];
       if (!regionData || !regionData.exits) {
         continue;
       }
-      
+
       // Check all exits from the current region
       for (const exit of regionData.exits) {
         const nextRegion = exit.connected_region;
-        
+
         // Skip if the next region is null, already visited, or not discovered in loop mode
-        if (!nextRegion || visited.has(nextRegion) || !loopState.isRegionDiscovered(nextRegion)) {
+        if (
+          !nextRegion ||
+          visited.has(nextRegion) ||
+          !loopState.isRegionDiscovered(nextRegion)
+        ) {
           continue;
         }
-        
+
         // Check if the exit is discovered in loop mode
         if (!loopState.isExitDiscovered(currentRegion, exit.name)) {
           continue;
         }
-        
+
         // Create a new path with the next region
         const newPath = [...path, nextRegion];
-        
+
         // Add the next region to visited and queue the new path
         visited.add(nextRegion);
         queue.push(newPath);
       }
     }
-    
+
     // No path found
     return null;
   }

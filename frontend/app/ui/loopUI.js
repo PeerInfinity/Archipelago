@@ -1,6 +1,6 @@
 // loopUI.js - UI for the Loop mode
 import stateManager from '../core/stateManagerSingleton.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 import eventBus from '../core/eventBus.js';
 import commonUI from './commonUI.js';
 import {

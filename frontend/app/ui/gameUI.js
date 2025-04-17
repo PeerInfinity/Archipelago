@@ -13,7 +13,7 @@ import { PresetUI } from './presetUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
 import eventBus from '../../app/core/eventBus.js';
-import loopState from '../core/loop/loopState.js'; // Make sure loopState is imported if not already
+import loopState from '../core/loop/loopStateSingleton.js'; // Make sure loopState is imported if not already
 
 export class GameUI {
   constructor() {
@@ -89,6 +89,7 @@ export class GameUI {
     this.locationUI.initialize();
     this.exitUI.initialize();
     this.regionUI.initialize();
+    this.loopUI.initialize();
   }
 
   attachEventListeners() {

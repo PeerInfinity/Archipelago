@@ -2,7 +2,7 @@
 import stateManager from '../core/stateManagerSingleton.js';
 import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 import eventBus from '../core/eventBus.js';
 
 export class ExitUI {

@@ -1,8 +1,10 @@
-// client/ui/progressUI.js - Modified to work directly with stateManager
+/**
+ * progressUI.js - Handles the UI display for action progress and mana in loop mode.
+ */
+import loopState from '../../app/core/loop/loopStateSingleton.js';
 import eventBus from '../../app/core/eventBus.js';
 import locationManager from '../core/locationManager.js';
 import timerState from '../core/timerState.js';
-import loopState from '../../app/core/loop/loopState.js';
 
 export class ProgressUI {
   static progressBar = null;

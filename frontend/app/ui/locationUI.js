@@ -4,7 +4,7 @@ import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 
 export class LocationUI {
   constructor(gameUI) {
@@ -312,33 +312,34 @@ export class LocationUI {
     const isAccessible = stateManager.isLocationAccessible(location);
     if (!isAccessible) return;
 
-    if (connection.isConnected()) {
-      // When connected to server, send through messageHandler
-      messageHandler.checkLocation(location).then((success) => {
+    // ALWAYS route the check through messageHandler, which handles local/networked logic
+    console.log(
+      `[LocationUI] Routing check for ${location.name} (ID: ${location.id}) through MessageHandler`
+    );
+    // Use the globally accessible messageHandler instance if window.messageHandler exists, otherwise fallback
+    const handler = window.messageHandler || messageHandler; // Assuming messageHandler is exported/available
+    handler
+      .checkLocation(location)
+      .then((success) => {
         if (success) {
-          // Show location details after successful check
-          this.showLocationDetails(location);
+          // Logic inside .then() is optional now, as stateManager notifications handle UI updates.
+          // You might still want to show the modal details here if desired.
+          // console.log(`[LocationUI] MessageHandler successfully processed check for ${location.name}`);
+          // this.showLocationDetails(location); // Optional: Show details modal on success
         } else {
-          console.warn(`Failed to check location ${location.name} via server`);
-        }
-      });
-    } else {
-      // Local-only logic - just update stateManager
-      if (location.item) {
-        this.gameUI.inventoryUI.modifyItemCount(location.item.name);
-        stateManager.checkLocation(location.name);
-        // Update UI
-        this.updateLocationDisplay();
-        // Show location details
-        this.showLocationDetails(location);
-        if (window.consoleManager) {
-          window.consoleManager.print(
-            `Checked ${location.name} - Found ${location.item.name}`,
-            'success'
+          console.warn(
+            `[LocationUI] MessageHandler reported failure checking location ${location.name}`
           );
+          // Optional: Display an error message to the user if needed
         }
-      }
-    }
+      })
+      .catch((error) => {
+        console.error(
+          `[LocationUI] Error calling messageHandler.checkLocation:`,
+          error
+        );
+        // Optional: Display an error message to the user
+      });
   }
 
   syncWithState() {
