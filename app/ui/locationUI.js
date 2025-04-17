@@ -4,7 +4,7 @@ import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 
 export class LocationUI {
   constructor(gameUI) {
@@ -312,33 +312,34 @@ export class LocationUI {
     const isAccessible = stateManager.isLocationAccessible(location);
     if (!isAccessible) return;
 
-    if (connection.isConnected()) {
-      // When connected to server, send through messageHandler
-      messageHandler.checkLocation(location).then((success) => {
+    // ALWAYS route the check through messageHandler, which handles local/networked logic
+    console.log(
+      `[LocationUI] Routing check for ${location.name} (ID: ${location.id}) through MessageHandler`
+    );
+    // Use the globally accessible messageHandler instance if window.messageHandler exists, otherwise fallback
+    const handler = window.messageHandler || messageHandler; // Assuming messageHandler is exported/available
+    handler
+      .checkLocation(location)
+      .then((success) => {
         if (success) {
-          // Show location details after successful check
-          this.showLocationDetails(location);
+          // Logic inside .then() is optional now, as stateManager notifications handle UI updates.
+          // You might still want to show the modal details here if desired.
+          // console.log(`[LocationUI] MessageHandler successfully processed check for ${location.name}`);
+          // this.showLocationDetails(location); // Optional: Show details modal on success
         } else {
-          console.warn(`Failed to check location ${location.name} via server`);
-        }
-      });
-    } else {
-      // Local-only logic - just update stateManager
-      if (location.item) {
-        this.gameUI.inventoryUI.modifyItemCount(location.item.name);
-        stateManager.checkLocation(location.name);
-        // Update UI
-        this.updateLocationDisplay();
-        // Show location details
-        this.showLocationDetails(location);
-        if (window.consoleManager) {
-          window.consoleManager.print(
-            `Checked ${location.name} - Found ${location.item.name}`,
-            'success'
+          console.warn(
+            `[LocationUI] MessageHandler reported failure checking location ${location.name}`
           );
+          // Optional: Display an error message to the user if needed
         }
-      }
-    }
+      })
+      .catch((error) => {
+        console.error(
+          `[LocationUI] Error calling messageHandler.checkLocation:`,
+          error
+        );
+        // Optional: Display an error message to the user
+      });
   }
 
   syncWithState() {
@@ -460,98 +461,120 @@ export class LocationUI {
       });
     }
 
-    locationsGrid.innerHTML = filteredLocations
-      .map((location) => {
-        const isRegionAccessible = stateManager.isRegionReachable(
+    // Generate HTML for locations programmatically
+    locationsGrid.innerHTML = ''; // Clear previous content
+    filteredLocations.forEach((location) => {
+      const isRegionAccessible = stateManager.isRegionReachable(
+        location.region
+      );
+      const isLocationAccessible = stateManager.isLocationAccessible(location);
+      const isChecked = stateManager.isLocationChecked(location.name);
+      const locationRulePasses =
+        !location.access_rule || evaluateRule(location.access_rule);
+
+      let stateClass = '';
+      if (isChecked) {
+        stateClass = 'checked';
+      } else if (isLocationAccessible) {
+        stateClass = 'reachable';
+      } else if (isRegionAccessible && !locationRulePasses) {
+        stateClass = 'region-accessible-but-locked';
+      } else if (!isRegionAccessible && locationRulePasses) {
+        stateClass = 'region-inaccessible-but-unlocked';
+      } else {
+        stateClass = 'unreachable';
+      }
+
+      // Handle Loop Mode display
+      let locationName = location.name;
+      let regionName = location.region;
+
+      if (isLoopModeActive) {
+        const isRegionDiscovered = loopState.isRegionDiscovered(
           location.region
         );
-        const isLocationAccessible =
-          stateManager.isLocationAccessible(location);
-        const isChecked = stateManager.isLocationChecked(location.name);
-
-        // Evaluate just the location's access rule
-        const locationRulePasses =
-          !location.access_rule || evaluateRule(location.access_rule);
-
-        let stateClass = '';
-        if (isChecked) {
-          stateClass = 'checked';
-        } else if (isLocationAccessible) {
-          stateClass = 'reachable';
-        } else if (isRegionAccessible && !locationRulePasses) {
-          stateClass = 'region-accessible-but-locked';
-        } else if (!isRegionAccessible && locationRulePasses) {
-          stateClass = 'region-inaccessible-but-unlocked';
-        } else {
-          stateClass = 'unreachable';
+        const isLocationDiscovered = loopState.isLocationDiscovered(
+          location.name
+        );
+        if (!isRegionDiscovered || !isLocationDiscovered) {
+          locationName = '???';
+          stateClass += ' undiscovered';
         }
-
-        // Handle Loop Mode display
-        let locationName = location.name;
-        let regionName = location.region;
-
-        if (isLoopModeActive) {
-          const isRegionDiscovered = loopState.isRegionDiscovered(
-            location.region
-          );
-          const isLocationDiscovered = loopState.isLocationDiscovered(
-            location.name
-          );
-
-          if (!isRegionDiscovered || !isLocationDiscovered) {
-            locationName = '???';
-            stateClass += ' undiscovered';
-          }
-
-          if (!isRegionDiscovered) {
-            regionName = '???';
-          }
+        if (!isRegionDiscovered) {
+          regionName = '???';
         }
+      }
 
-        return `
-          <div 
-            class="location-card ${stateClass}"
-            data-location="${encodeURIComponent(
-              JSON.stringify(location)
-            ).replace(/"/g, '&quot;')}"
-          >
-            <div class="font-medium location-link" data-location="${
-              location.name
-            }" data-region="${location.region}">${locationName}</div>
-            <div class="text-sm">Player ${location.player}</div>
-            <div class="text-sm">
-              Region: <span class="region-link" data-region="${
-                location.region
-              }" style="color: ${
-          isRegionAccessible ? 'inherit' : 'red'
-        }">${regionName}</span> (${
-          isRegionAccessible ? 'Accessible' : 'Inaccessible'
-        })
-            </div>
-            <div class="text-sm">
-              Location: ${
-                commonUI.renderLogicTree(location.access_rule).outerHTML
-              }
-            </div>
-            <div class="text-sm">
-              ${
-                isChecked
-                  ? 'Checked'
-                  : isLocationAccessible
-                  ? 'Available'
-                  : isRegionAccessible && !locationRulePasses
-                  ? 'Region accessible, but rule fails'
-                  : !isRegionAccessible && locationRulePasses
-                  ? 'Region inaccessible, but rule passes'
-                  : 'Locked'
-              }
-            </div>
-          </div>
-        `;
-      })
-      .join('');
+      // Create card element
+      const card = document.createElement('div');
+      card.className = `location-card ${stateClass}`;
+      card.dataset.location = encodeURIComponent(
+        JSON.stringify(location)
+      ).replace(/"/g, '&quot;');
 
-    // Add click handlers for region and location links
+      // Location Name (as a clickable link)
+      const locationLink = commonUI.createLocationLink(
+        locationName,
+        location.region
+      );
+      // TODO: Ensure createLocationLink uses eventBus if needed, or retains its own handler
+      locationLink.className = 'font-medium location-link'; // Add back necessary classes
+      locationLink.dataset.location = location.name; // Use real name for navigation
+      locationLink.dataset.region = location.region;
+      card.appendChild(locationLink);
+
+      // Player Info
+      const playerDiv = document.createElement('div');
+      playerDiv.className = 'text-sm';
+      playerDiv.textContent = `Player ${location.player}`;
+      card.appendChild(playerDiv);
+
+      // Region Info (with clickable link)
+      const regionDiv = document.createElement('div');
+      regionDiv.className = 'text-sm';
+      regionDiv.textContent = 'Region: ';
+      const regionLinkElement = commonUI.createRegionLink(
+        regionName,
+        commonUI.colorblindMode
+      ); // Use commonUI instance
+      // Add necessary attributes/styles if commonUI doesn't handle them fully
+      regionLinkElement.dataset.region = location.region; // Use real region name
+      regionLinkElement.style.color = isRegionAccessible ? 'inherit' : 'red';
+      regionDiv.appendChild(regionLinkElement);
+      regionDiv.appendChild(
+        document.createTextNode(
+          ` (${isRegionAccessible ? 'Accessible' : 'Inaccessible'})`
+        )
+      );
+      card.appendChild(regionDiv);
+
+      // Location Logic Tree
+      const logicDiv = document.createElement('div');
+      logicDiv.className = 'text-sm';
+      logicDiv.textContent = 'Location: ';
+      logicDiv.appendChild(commonUI.renderLogicTree(location.access_rule)); // Use commonUI instance
+      card.appendChild(logicDiv);
+
+      // Status Text
+      const statusDiv = document.createElement('div');
+      statusDiv.className = 'text-sm';
+      statusDiv.textContent = isChecked
+        ? 'Checked'
+        : isLocationAccessible
+        ? 'Available'
+        : isRegionAccessible && !locationRulePasses
+        ? 'Region accessible, but rule fails'
+        : !isRegionAccessible && locationRulePasses
+        ? 'Region inaccessible, but rule passes'
+        : 'Locked';
+      card.appendChild(statusDiv);
+
+      // Append the constructed card to the grid
+      locationsGrid.appendChild(card);
+    });
+
+    // Remove the redundant click handlers for region links, as commonUI handles this now
+    /*
     document.querySelectorAll('.region-link').forEach((link) => {
       link.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent opening the location modal
@@ -561,7 +584,9 @@ export class LocationUI {
         }
       });
     });
+    */
 
+    // Add click handlers for location links (assuming commonUI doesn't handle this yet)
     document.querySelectorAll('.location-link').forEach((link) => {
       link.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent capturing click on parent card
@@ -655,7 +680,8 @@ export class LocationUI {
       </div>
     `;
 
-    // Add event listeners to region links in the modal
+    // Remove event listeners from region links in the modal, as commonUI handles this
+    /* // Old listener removed - commonUI.createRegionLink handles this now
     info.querySelectorAll('.region-link').forEach((link) => {
       link.addEventListener('click', () => {
         const regionName = link.dataset.region;
@@ -667,6 +693,7 @@ export class LocationUI {
         }
       });
     });
+    */
 
     modal.classList.remove('hidden');
   }

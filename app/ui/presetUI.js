@@ -1,4 +1,5 @@
 import stateManager from '../core/stateManagerSingleton.js';
+import eventBus from '../core/eventBus.js';
 
 export class PresetUI {
   constructor(gameUI) {
@@ -490,6 +491,14 @@ export class PresetUI {
 
   loadRulesFile(gameId, folderId, rulesFile, playerId = '1') {
     try {
+      // Publish event BEFORE doing anything else
+      eventBus.publish('preset:rulesLoading', {
+        gameId,
+        folderId,
+        rulesFile,
+        playerId,
+      });
+
       const filePath = `./presets/${gameId}/${folderId}/${rulesFile}`;
       console.log(`Loading rules file: ${filePath}`);
 
@@ -510,25 +519,38 @@ export class PresetUI {
 
       const jsonData = JSON.parse(xhr.responseText);
 
-      // Clear existing data and load the new rules
-      this.gameUI.clearExistingData();
-      this.gameUI.currentRules = jsonData; // Track current rules
+      // Store the newly loaded rules data
+      this.gameUI.currentRules = jsonData;
 
-      // Initialize inventory and load rules data into stateManager
+      // Initialize inventory with the new rules and starting items
+      // For presets, we usually start with an empty inventory unless specified
+      const startingItems = jsonData.starting_inventory || [];
       stateManager.initializeInventory(
-        [], // Initial items
+        startingItems,
         jsonData.progression_mapping[playerId],
         jsonData.items[playerId]
       );
 
+      // Load the complete rules data into the state manager, passing the selected player ID
       stateManager.loadFromJSON(jsonData, playerId);
 
-      // Initialize the UI with the correct player ID
-      this.gameUI.initializeUI(jsonData, playerId);
+      // --- Explicitly Initialize InventoryUI ---
+      // InventoryUI needs the raw item and group structure from the JSON
+      const playerItems = jsonData.items[playerId];
+      const groups = jsonData.item_groups ? jsonData.item_groups[playerId] : {}; // Handle missing item_groups
+      if (playerItems && this.gameUI.inventoryUI) {
+        this.gameUI.inventoryUI.initialize(playerItems, groups || {}); // Pass empty object if groups are null/undefined
+      } else {
+        console.warn(
+          '[PresetUI] Could not initialize InventoryUI - playerItems missing or inventoryUI instance not found.'
+        );
+      }
+      // --- End InventoryUI Init ---
 
-      console.log(`Successfully loaded preset rules for player ${playerId}`);
+      // Explicitly compute reachability after loading new state and initializing inventory UI
+      stateManager.computeReachableRegions();
 
-      // Update status
+      // Display success message
       if (statusElement) {
         statusElement.innerHTML = `
           <div class="success-message">
@@ -537,6 +559,12 @@ export class PresetUI {
           </div>
         `;
       }
+
+      // Trigger rules:loaded event to enable offline play
+      eventBus.publish('rules:loaded', {});
+
+      // Re-enable control buttons if needed (though rules:loaded might handle this elsewhere)
+      this.gameUI._enableControlButtons();
     } catch (error) {
       console.error('Error loading rules file:', error);
 

@@ -15,7 +15,7 @@ import {
   proposedLinearFinalCost,
 } from './xpFormulas.js';
 
-class LoopState {
+export class LoopState {
   constructor() {
     // Resources
     this.maxMana = 100;
@@ -1227,7 +1227,3 @@ class LoopState {
     }
   }
 }
-
-// Create singleton instance
-const loopState = new LoopState();
-export default loopState;

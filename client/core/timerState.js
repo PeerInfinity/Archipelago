@@ -7,7 +7,7 @@ import messageHandler from './messageHandler.js';
 import locationManager from './locationManager.js';
 
 // Import loopState for loop mode interaction
-import loopState from '../../app/core/loop/loopState.js';
+import loopState from '../../app/core/loop/loopStateSingleton.js';
 
 export class TimerState {
   constructor() {

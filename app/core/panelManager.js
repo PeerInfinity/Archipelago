@@ -58,6 +58,8 @@ class PanelManager {
       );
 
       try {
+        this.unsubscribeHandles = []; // Array to store unsubscribe functions
+
         // 1. Get the actual UI instance/provider
         const uiProvider = uiInstanceGetter();
         if (!uiProvider) {
@@ -86,9 +88,277 @@ class PanelManager {
 
         // 3. Append the element to the Golden Layout container
         container.getElement().append(rootElement);
+        console.log(
+          `   [${componentTypeName}] Root element appended to container`
+        );
+
+        // --- NEW: Attach internal listeners AFTER appending ---
+        if (typeof uiProvider.attachInternalListeners === 'function') {
+          console.log(
+            `   [${componentTypeName}] Calling attachInternalListeners`
+          );
+          uiProvider.attachInternalListeners();
+        }
+        // --- END NEW ---
+
+        // --- Call buildInitialStructure if available --- // Keep this for other init tasks if needed
+        if (typeof uiProvider.buildInitialStructure === 'function') {
+          console.log(
+            `   [${componentTypeName}] Calling buildInitialStructure`
+          );
+          uiProvider.buildInitialStructure();
+        }
 
         // 4. Add mapping (using the singleton instance of PanelManager)
         panelManagerInstance.addMapping(container, uiProvider);
+
+        // Subscribe to relevant events based on component type
+        if (
+          componentTypeName === 'regionsPanel' &&
+          uiProvider.navigateToRegion
+        ) {
+          console.log(
+            `[PanelManager] Setting up 'ui:navigateToRegion' listener for regionsPanel`
+          );
+          const handleRegionNav = eventBus.subscribe(
+            'ui:navigateToRegion',
+            (data) => {
+              console.log(
+                `[RegionPanel Wrapper] Event 'ui:navigateToRegion' received for: ${data.regionName}`
+              );
+
+              // --- Activate the Panel's Tab ---
+              try {
+                // --- Add detailed logging for debugging activation ---
+                console.log(
+                  '[RegionPanel Wrapper] Attempting panel activation...'
+                );
+                // Find the parent Stack via the tab header
+                let stack = container.tab?.header?.parent;
+                let contentItemToActivate = null;
+
+                if (stack && stack.type === 'stack') {
+                  console.log(
+                    '[RegionPanel Wrapper] Found parent stack:',
+                    stack
+                  );
+                  // The content item to activate is usually the one whose tab was clicked,
+                  // but since the event originated elsewhere, we need the item linked to *this* container.
+                  // The container's parent *should* be the content item itself in GL v2.
+                  contentItemToActivate = container.parentItem; // Or container.tab?.contentItem? Let's try parentItem first
+                  if (contentItemToActivate) {
+                    // Double check it's actually in the found stack
+                    if (stack.contentItems.includes(contentItemToActivate)) {
+                      console.log(
+                        '[RegionPanel Wrapper] Found content item to activate:',
+                        contentItemToActivate
+                      );
+                    } else {
+                      console.warn(
+                        "[RegionPanel Wrapper] Found content item via parentItem, but it's not in the stack found via tab.header.parent. ContentItem:",
+                        contentItemToActivate,
+                        'Stack:',
+                        stack
+                      );
+                      contentItemToActivate = null; // Invalidate if not in the stack
+                    }
+                  } else {
+                    // Fallback: find item in stack by container reference if parentItem fails
+                    console.warn(
+                      '[RegionPanel Wrapper] container.parentItem did not yield a content item. Searching stack...'
+                    );
+                    contentItemToActivate = stack.contentItems.find(
+                      (item) => item.container === container
+                    );
+                    if (contentItemToActivate) {
+                      console.log(
+                        '[RegionPanel Wrapper] Found content item by searching stack:',
+                        contentItemToActivate
+                      );
+                    } else {
+                      console.warn(
+                        '[RegionPanel Wrapper] Could not find content item for this container in the stack.'
+                      );
+                    }
+                  }
+                } else {
+                  console.warn(
+                    '[RegionPanel Wrapper] Could not find parent stack via container.tab.header.parent. Tab:',
+                    container.tab,
+                    'Header:',
+                    container.tab?.header,
+                    'Parent:',
+                    container.tab?.header?.parent
+                  );
+                }
+                // --- End detailed logging ---
+
+                // Ensure parent stack exists and has the activation method
+                if (
+                  stack &&
+                  stack.type === 'stack' &&
+                  contentItemToActivate &&
+                  typeof stack.setActiveContentItem === 'function'
+                ) {
+                  // Check if this container is already the active one to avoid unnecessary calls
+                  if (stack.getActiveContentItem() !== contentItemToActivate) {
+                    console.log(
+                      `[RegionPanel Wrapper] Activating panel tab for ${data.regionName}`
+                    );
+                    stack.setActiveContentItem(contentItemToActivate); // Activate the specific content item's tab
+                  } else {
+                    console.log(
+                      `[RegionPanel Wrapper] Panel tab for ${data.regionName} is already active.`
+                    );
+                  }
+                } else {
+                  console.warn(
+                    `[RegionPanel Wrapper] Cannot activate panel tab for ${data.regionName}. Parent stack or setActiveContentItem method not found.`
+                  );
+                }
+              } catch (activationError) {
+                console.error(
+                  `[RegionPanel Wrapper] Error during panel activation:`,
+                  activationError
+                );
+              }
+              // --- End Tab Activation ---
+
+              // Delay slightly to allow Golden Layout to render the activated tab
+              setTimeout(() => {
+                // Double-check uiProvider and method still exist before calling
+                if (
+                  this.uiProvider &&
+                  typeof this.uiProvider.navigateToRegion === 'function'
+                ) {
+                  console.log(
+                    `[RegionPanel Wrapper] Calling uiProvider.navigateToRegion('${data.regionName}') after delay.`
+                  );
+                  this.uiProvider.navigateToRegion(data.regionName);
+                } else {
+                  console.warn(
+                    `[RegionPanel Wrapper] Could not call navigateToRegion for ${data.regionName}. uiProvider or method missing after delay.`
+                  );
+                }
+              }, 100); // 100ms delay
+            }
+          );
+          // Store the unsubscribe function for later cleanup
+          this.unsubscribeHandles.push(handleRegionNav);
+
+          // ALSO subscribe to location navigation events if the provider supports it
+          if (uiProvider.navigateToLocation) {
+            console.log(
+              `[PanelManager] Setting up 'ui:navigateToLocation' listener for regionsPanel`
+            );
+            const handleLocationNav = eventBus.subscribe(
+              'ui:navigateToLocation',
+              (data) => {
+                console.log(
+                  `[RegionPanel Wrapper] Event 'ui:navigateToLocation' received for: ${data.locationName} in ${data.regionName}`
+                );
+
+                // --- Activate the Panel's Tab (reuse logic from region nav) ---
+                try {
+                  let stack = container.tab?.header?.parent;
+                  let contentItemToActivate = null;
+                  if (stack && stack.type === 'stack') {
+                    contentItemToActivate = container.parentItem; // Try direct parent first
+                    if (
+                      !contentItemToActivate ||
+                      !stack.contentItems.includes(contentItemToActivate)
+                    ) {
+                      // Fallback: search stack by container
+                      contentItemToActivate = stack.contentItems.find(
+                        (item) => item.container === container
+                      );
+                    }
+                    if (
+                      contentItemToActivate &&
+                      stack.setActiveContentItem &&
+                      stack.getActiveContentItem() !== contentItemToActivate
+                    ) {
+                      console.log(
+                        `[RegionPanel Wrapper] Activating panel tab for location ${data.locationName}`
+                      );
+                      stack.setActiveContentItem(contentItemToActivate);
+                    }
+                  } else {
+                    console.warn(
+                      '[RegionPanel Wrapper] Could not find parent stack for location nav activation.'
+                    );
+                  }
+                } catch (activationError) {
+                  console.error(
+                    '[RegionPanel Wrapper] Error during panel activation for location nav:',
+                    activationError
+                  );
+                }
+                // --- End Tab Activation ---
+
+                // Call the internal navigation after delay
+                setTimeout(() => {
+                  if (
+                    this.uiProvider &&
+                    typeof this.uiProvider.navigateToLocation === 'function'
+                  ) {
+                    console.log(
+                      `[RegionPanel Wrapper] Calling uiProvider.navigateToLocation('${data.locationName}', '${data.regionName}') after delay.`
+                    );
+                    this.uiProvider.navigateToLocation(
+                      data.locationName,
+                      data.regionName
+                    );
+                  } else {
+                    console.warn(
+                      `[RegionPanel Wrapper] Could not call navigateToLocation for ${data.locationName}. uiProvider or method missing after delay.`
+                    );
+                  }
+                }, 100); // 100ms delay
+              }
+            );
+            this.unsubscribeHandles.push(handleLocationNav);
+          }
+        }
+
+        // Subscribe LoopUI to queue updates
+        if (componentTypeName === 'loopsPanel') {
+          console.log(
+            `[PanelManager] Setting up 'loopState:queueUpdated' listener for loopsPanel`
+          );
+          // Ensure uiProvider reference is available within the scope for the handler
+          const currentUiProvider = uiProvider; // Capture uiProvider here
+          // --- UPDATED CHECK: Use currentUiProvider ---
+          if (
+            currentUiProvider &&
+            typeof currentUiProvider.renderLoopPanel === 'function'
+          ) {
+            const handleQueueUpdate = eventBus.subscribe(
+              'loopState:queueUpdated',
+              (data) => {
+                console.log(
+                  "[LoopPanel Wrapper] Event 'loopState:queueUpdated' received."
+                );
+                // Use the captured provider instance
+                if (currentUiProvider) {
+                  currentUiProvider.renderLoopPanel();
+                } else {
+                  console.warn(
+                    '[LoopPanel Wrapper] uiProvider missing on queue update.'
+                  );
+                }
+              }
+            );
+            this.unsubscribeHandles.push(handleQueueUpdate);
+            console.log(
+              `   [${componentTypeName}] Subscribed to loopState:queueUpdated`
+            );
+          } else {
+            console.warn(
+              `[PanelManager] Could not subscribe loopsPanel to queue updates: currentUiProvider or renderLoopPanel method missing.`
+            );
+          }
+        }
 
         // 5. Handle Golden Layout container lifecycle events
         // Store uiProvider in the wrapper instance if needed for event handlers
@@ -96,26 +366,84 @@ class PanelManager {
 
         container.on('open', () => {
           console.log(`   [${componentTypeName}] Panel Opened`);
-          // Use the captured uiProvider
-          if (typeof this.uiProvider.initializeElements === 'function') {
-            this.uiProvider.initializeElements(container.getElement());
-          } else if (typeof this.uiProvider.syncWithState === 'function') {
-            this.uiProvider.syncWithState();
-          } // Add other relevant update methods
+          // --- UPDATED: Call syncWithState for inventory instead of initialize ---
+          if (componentTypeName === 'inventoryPanel') {
+            if (
+              this.uiProvider &&
+              typeof this.uiProvider.syncWithState === 'function'
+            ) {
+              console.log(
+                `   [${componentTypeName}] Calling syncWithState() on open`
+              );
+              this.uiProvider.syncWithState();
+            } else {
+              console.warn(
+                `   [${componentTypeName}] syncWithState method not found on open`
+              );
+            }
+          } else {
+            // Original logic for other panels (like LoopUI)
+            if (
+              this.uiProvider &&
+              typeof this.uiProvider.initialize === 'function'
+            ) {
+              console.log(
+                `   [${componentTypeName}] Calling initialize() on open`
+              );
+              this.uiProvider.initialize();
+            }
+          }
         });
         container.on('resize', () => {
           console.log(`   [${componentTypeName}] Panel Resized`);
-          if (typeof this.uiProvider.onPanelResize === 'function') {
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.onPanelResize === 'function'
+          ) {
             this.uiProvider.onPanelResize(container.width, container.height);
           }
           // Add other relevant update calls if needed
         });
         container.on('destroy', () => {
           console.log(`   [${componentTypeName}] Panel Destroyed`);
-          // Use the captured uiProvider
-          if (typeof this.uiProvider.onPanelDestroy === 'function') {
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.onPanelDestroy === 'function'
+          ) {
             this.uiProvider.onPanelDestroy();
           }
+          // Call general dispose if available
+          if (
+            this.uiProvider &&
+            typeof this.uiProvider.dispose === 'function'
+          ) {
+            console.log(
+              `   [${componentTypeName}] Calling uiProvider.dispose()`
+            );
+            this.uiProvider.dispose();
+          }
+
+          // --- Unsubscribe from events managed by the wrapper ---
+          console.log(
+            `[${componentTypeName} Wrapper] Unsubscribing from ${
+              this.unsubscribeHandles?.length || 0
+            } event(s) on destroy.`
+          );
+          if (this.unsubscribeHandles && this.unsubscribeHandles.length > 0) {
+            this.unsubscribeHandles.forEach((unsubscribe) => {
+              try {
+                unsubscribe(); // Call the stored unsubscribe function
+              } catch (e) {
+                console.warn(
+                  `[${componentTypeName} Wrapper] Error during event unsubscription:`,
+                  e
+                );
+              }
+            });
+            this.unsubscribeHandles = []; // Clear the array
+          }
+          // --- End Unsubscribe ---
+
           // Use the PanelManager singleton instance for cleanup
           panelManagerInstance.removeMapping(container);
         });

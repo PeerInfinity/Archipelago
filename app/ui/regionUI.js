@@ -4,7 +4,7 @@ import { evaluateRule } from '../core/ruleEngine.js';
 import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 import commonUI from './commonUI.js';
 import messageHandler from '../../client/core/messageHandler.js';
-import loopState from '../core/loop/loopState.js';
+import loopState from '../core/loop/loopStateSingleton.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -285,59 +285,110 @@ export class RegionUI {
   }
 
   createRegionLink(regionName) {
-    return commonUI.createRegionLink(
-      regionName,
-      this.colorblindMode,
-      (regionName, e) => {
-        e.stopPropagation();
-        this.navigateToRegion(regionName);
-      }
-    );
+    // Just call commonUI directly, which now handles event publishing
+    return commonUI.createRegionLink(regionName, this.colorblindMode);
   }
 
   /**
-   * Navigate to a specific region in the regions panel
-   * @param {string} regionName - The name of the region to navigate to
+   * Navigates to a specific region within the regions panel.
+   * Ensures the region block is visible, expanded, scrolls it into view, and highlights it.
+   * @param {string} regionName - The name of the region to navigate to.
    */
   navigateToRegion(regionName) {
-    // Switch to the regions view
-    this.gameUI.setViewMode('regions');
+    console.log(`[RegionUI] Navigating to region: ${regionName}`);
 
-    // Important: Set the radio button for regions view
-    document.querySelector(
-      'input[name="view-mode"][value="regions"]'
-    ).checked = true;
-
-    // Enable "Show all regions" if it's not already enabled
-    const showAllCheckbox = this.rootElement.querySelector('#show-all-regions');
-    if (showAllCheckbox && !showAllCheckbox.checked) {
-      showAllCheckbox.checked = true;
-      this.showAll = true;
-      this.renderAllRegions();
+    if (!this.regionsContainer) {
+      console.error('[RegionUI] regionsContainer not found, cannot navigate.');
+      return;
     }
 
-    // Wait for the rendering to complete, then scroll to the region
-    setTimeout(() => {
-      const regionElement = document.querySelector(
-        `.region-block[data-region="${regionName}"]`
+    // Ensure the correct view is rendered based on current state
+    // (showAll state is handled by renderAllRegions)
+    this.renderAllRegions(); // Re-render if needed to ensure the element exists
+
+    // Find the region block using its data attribute within the panel
+    // Note: We query within this.regionsContainer specifically
+    let regionBlock = this.regionsContainer.querySelector(
+      `.region-block[data-region="${regionName}"]`
+    );
+
+    // If block not found, maybe it's because "Show All" is off?
+    if (!regionBlock && !this.showAll) {
+      console.log(
+        `[RegionUI] Block for ${regionName} not found and Show All is off. Checking checkbox...`
       );
-      if (regionElement) {
-        // Expand the region if it's collapsed
-        if (!regionElement.classList.contains('expanded')) {
-          const uid = regionElement.dataset.uid;
-          this.toggleRegionByUID(uid);
+      const showAllCheckbox =
+        this.rootElement.querySelector('#show-all-regions');
+      if (showAllCheckbox) {
+        showAllCheckbox.checked = true;
+        this.showAll = true;
+        this.renderAllRegions(); // Re-render with all regions visible
+        // Try finding the block again
+        regionBlock = this.regionsContainer.querySelector(
+          `.region-block[data-region="${regionName}"]`
+        );
+        if (regionBlock) {
+          console.log(
+            `[RegionUI] Found region block for ${regionName} after enabling Show All.`
+          );
         }
-
-        // Scroll the region into view
-        regionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        // Highlight the region briefly
-        regionElement.classList.add('highlight-region');
-        setTimeout(() => {
-          regionElement.classList.remove('highlight-region');
-        }, 2000);
+      } else {
+        console.warn(
+          '[RegionUI] Could not find #show-all-regions checkbox to enable it.'
+        );
       }
-    }, 100);
+    }
+
+    if (regionBlock) {
+      console.log(`[RegionUI] Found region block for ${regionName}`);
+      const uidString = regionBlock.dataset.uid;
+
+      // Use uidString to check if it's a 'visited' region (numeric UID) or 'all' region
+      const isVisitedRegion = uidString && !isNaN(parseInt(uidString, 10));
+      const isExpanded = regionBlock.classList.contains('expanded');
+
+      // Only try to expand visited regions by UID, 'all' regions are handled by showAll
+      if (!isExpanded && isVisitedRegion) {
+        const uid = parseInt(uidString, 10);
+        console.log(
+          `[RegionUI] Visited region ${regionName} (uid: ${uid}) is collapsed, expanding...`
+        );
+        // Find the corresponding object in visitedRegions to set expanded state
+        const regionData = this.visitedRegions.find((r) => r.uid === uid);
+        if (regionData) {
+          regionData.expanded = true;
+          this.renderAllRegions(); // Re-render to reflect expansion
+          // Re-query the element after re-render
+          const newRegionBlock = this.regionsContainer.querySelector(
+            `.region-block[data-region="${regionName}"][data-uid="${uid}"]`
+          );
+          if (newRegionBlock) {
+            regionBlock = newRegionBlock; // Update reference if found
+          } else {
+            console.error(
+              '[RegionUI] Region block lost after expansion re-render.'
+            );
+          }
+        }
+      }
+
+      // Scroll the region block into view
+      console.log(`[RegionUI] Scrolling ${regionName} into view...`);
+      regionBlock.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest', // Use 'nearest' to minimize scrolling
+      });
+
+      // Add a temporary highlight class
+      regionBlock.classList.add('highlight-region');
+      setTimeout(() => {
+        regionBlock.classList.remove('highlight-region');
+      }, 1500); // Highlight for 1.5 seconds
+    } else {
+      console.warn(`[RegionUI] Could not find region block for ${regionName}.`);
+      // Optionally, temporarily enable 'showAll' and try again?
+      // Or display a message to the user?
+    }
   }
 
   /**
@@ -346,22 +397,66 @@ export class RegionUI {
    * @param {string} regionName - The name of the region containing the location
    */
   navigateToLocation(locationName, regionName) {
-    // First navigate to the region
-    this.navigateToRegion(regionName);
+    console.log(
+      `[RegionUI] Navigating to location: ${locationName} in ${regionName}`
+    );
 
-    // Then wait a bit longer and try to find and scroll to the location
-    setTimeout(() => {
-      const locationElement = document.querySelector(
-        `.region-block[data-region="${regionName}"] .location-wrapper:has(span[data-location="${locationName}"])`
+    // Ensure the region block itself is visible first (might require expanding)
+    // We assume navigateToRegion was already called or the region is visible.
+    const regionBlock = this.regionsContainer.querySelector(
+      `.region-block[data-region="${regionName}"]`
+    );
+
+    if (!regionBlock) {
+      console.warn(
+        `[RegionUI] Cannot navigate to location ${locationName}. Parent region block ${regionName} not found or not rendered.`
       );
-      if (locationElement) {
-        locationElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        locationElement.classList.add('highlight-location');
+      // Attempt to force the region to be visible, similar to navigateToRegion
+      this.navigateToRegion(regionName); // Call navigateToRegion to handle visibility
+      // Retry finding the location after a delay to allow rendering
+      setTimeout(() => this.navigateToLocation(locationName, regionName), 200);
+      return;
+    }
+
+    // Ensure the region is expanded if it's a visited region
+    if (regionBlock.classList.contains('collapsed')) {
+      const uidString = regionBlock.dataset.uid;
+      const isVisitedRegion = uidString && !isNaN(parseInt(uidString, 10));
+      if (isVisitedRegion) {
+        console.log(
+          `[RegionUI] Expanding region ${regionName} to find location ${locationName}.`
+        );
+        this.toggleRegionByUID(parseInt(uidString, 10));
+        // Retry after a delay to allow re-render
+        setTimeout(
+          () => this.navigateToLocation(locationName, regionName),
+          200
+        );
+        return;
+      }
+    }
+
+    // Now try to find and scroll to the location within the visible region block
+    // Use a more specific selector targeting the location link within the wrapper
+    const locationElement = regionBlock.querySelector(
+      `.location-wrapper .location-link[data-location="${locationName}"]`
+    );
+    if (locationElement) {
+      console.log(`[RegionUI] Scrolling to location ${locationName}.`);
+      locationElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Highlight the parent wrapper for better visibility
+      const wrapper = locationElement.closest('.location-wrapper');
+      if (wrapper) {
+        wrapper.classList.add('highlight-location');
         setTimeout(() => {
-          locationElement.classList.remove('highlight-location');
+          wrapper.classList.remove('highlight-location');
         }, 2000);
       }
-    }, 300);
+    } else {
+      console.warn(
+        `[RegionUI] Could not find location element for ${locationName} within region ${regionName}.`
+      );
+    }
   }
 
   /**
@@ -371,14 +466,11 @@ export class RegionUI {
    * @returns {HTMLElement} - A clickable span element
    */
   createLocationLink(locationName, regionName) {
+    // Just call commonUI directly, which now handles event publishing
     return commonUI.createLocationLink(
       locationName,
       regionName,
-      this.colorblindMode,
-      (locationName, regionName, e) => {
-        e.stopPropagation();
-        this.navigateToLocation(locationName, regionName);
-      }
+      this.colorblindMode
     );
   }
 
@@ -744,30 +836,15 @@ export class RegionUI {
    * Helper method to update colorblind indicators across the UI
    */
   _updateColorblindIndicators() {
-    // Update all region link indicators
-    document.querySelectorAll('.region-link').forEach((link) => {
-      // Remove any existing colorblind symbols
-      const existingSymbol = link.querySelector('.colorblind-symbol');
-      if (existingSymbol) existingSymbol.remove();
+    // Update all region link indicators (This logic is now handled by commonUI.createRegionLink)
+    /* // Old implementation commented out
+     this.rootElement.querySelectorAll('.region-link').forEach((link) => {
+        // ... (symbol update logic) ...
+     });
+    */
 
-      // Get the region name and check if it's reachable
-      const regionName = link.dataset.region;
-      if (!regionName) return;
-
-      const isReachable = stateManager.isRegionReachable(regionName);
-
-      // Add colorblind symbol if needed
-      if (this.colorblindMode) {
-        const symbolSpan = document.createElement('span');
-        symbolSpan.classList.add('colorblind-symbol');
-        symbolSpan.textContent = isReachable ? ' ✓' : ' ✗';
-        symbolSpan.classList.add(isReachable ? 'accessible' : 'inaccessible');
-        link.appendChild(symbolSpan);
-      }
-    });
-
-    // Update logic nodes
-    document.querySelectorAll('.logic-node').forEach((node) => {
+    // Update logic nodes within this panel
+    this.rootElement.querySelectorAll('.logic-node').forEach((node) => {
       const isPassing = node.classList.contains('pass');
 
       // Remove existing symbol
@@ -794,12 +871,18 @@ export class RegionUI {
    * @private
    */
   _handleLocalCheck(location) {
-    // Only process locally if there's an item
-    if (location.item) {
-      console.log(`Processing location check locally: ${location.name}`);
-      this.gameUI.inventoryUI.modifyItemCount(location.item.name);
-      stateManager.checkLocation(location.name);
-    }
+    console.log(
+      `[RegionUI] Routing local check for ${location.name} (ID: ${location.id}) through MessageHandler`
+    );
+    // Use the globally accessible messageHandler instance
+    const handler = window.messageHandler || messageHandler;
+    handler.checkLocation(location).catch((error) => {
+      console.error(
+        `[RegionUI] Error calling messageHandler.checkLocation:`,
+        error
+      );
+      // Optional: Display an error message to the user
+    });
   }
 }
 

@@ -1,4 +1,5 @@
 import stateManager from '../core/stateManagerSingleton.js';
+import eventBus from '../core/eventBus.js';
 
 export class TestPlaythroughUI {
   constructor(gameUI) {
@@ -9,6 +10,7 @@ export class TestPlaythroughUI {
     this.abortController = null; // To cancel ongoing tests
     this.initialized = false; // Add flag
     this.playthroughsPanelContainer = null; // Cache container element
+    this.viewChangeSubscription = null;
 
     // State for stepping through tests
     this.logEvents = null;
@@ -54,6 +56,25 @@ export class TestPlaythroughUI {
       console.log('Loaded playthrough files:', this.playthroughFiles);
 
       this.renderPlaythroughList(); // Initial view
+
+      // --- Add Event Subscription ---
+      if (this.viewChangeSubscription) {
+        this.viewChangeSubscription();
+      }
+      this.viewChangeSubscription = eventBus.subscribe(
+        'ui:fileViewChanged',
+        (data) => {
+          // If the new view is NOT test-playthroughs, clear the display
+          if (data.newView !== 'test-playthroughs') {
+            console.log(
+              '[TestPlaythroughUI] View changed away, clearing display.'
+            );
+            this.clearDisplay(); // Call its cleanup method
+          }
+        }
+      );
+      // --- End Event Subscription ---
+
       return true;
     } catch (error) {
       console.error('Error loading playthrough files data:', error);
@@ -753,6 +774,14 @@ export class TestPlaythroughUI {
       this.logContainer.innerHTML = '';
     }
     this.updateStepInfo(); // Clear step info display
+  }
+
+  dispose() {
+    if (this.viewChangeSubscription) {
+      this.viewChangeSubscription();
+      this.viewChangeSubscription = null;
+    }
+    console.log('[TestPlaythroughUI] Disposed and unsubscribed from events.');
   }
 }
 
