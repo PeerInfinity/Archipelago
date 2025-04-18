@@ -9,18 +9,17 @@ import eventBus from '../core/eventBus.js';
  */
 export class CommonUI {
   constructor() {
-    // Default to enabling colorblind mode for now
-    this.colorblindMode = true;
+    // REMOVED internal state: this.colorblindMode = true;
   }
 
   /**
    * Renders a logic tree from a rule object
    * Enhanced version that supports colorblind mode and displays full rule details
    * @param {Object} rule - The rule object to render
-   * @param {boolean} [colorblindMode] - Whether to show colorblind indicators (defaults to this.colorblindMode)
+   * @param {boolean} useColorblindMode - Whether to show colorblind indicators.
    * @returns {HTMLElement} - The rendered logic tree
    */
-  renderLogicTree(rule, colorblindMode = this.colorblindMode) {
+  renderLogicTree(rule, useColorblindMode) {
     const root = document.createElement('div');
     root.classList.add('logic-node');
 
@@ -35,7 +34,7 @@ export class CommonUI {
     root.classList.toggle('fail', !result);
 
     // Add colorblind symbol if enabled
-    if (colorblindMode) {
+    if (useColorblindMode) {
       const symbolSpan = document.createElement('span');
       symbolSpan.classList.add('colorblind-symbol');
 
@@ -77,7 +76,9 @@ export class CommonUI {
 
           const itemExpr = document.createElement('div');
           itemExpr.style.marginLeft = '20px';
-          itemExpr.appendChild(this.renderLogicTree(rule.item, colorblindMode));
+          itemExpr.appendChild(
+            this.renderLogicTree(rule.item, useColorblindMode)
+          );
           root.appendChild(itemExpr);
         }
 
@@ -127,7 +128,7 @@ export class CommonUI {
             const itemExpr = document.createElement('div');
             itemExpr.style.marginLeft = '10px';
             itemExpr.appendChild(
-              this.renderLogicTree(rule.item, colorblindMode)
+              this.renderLogicTree(rule.item, useColorblindMode)
             );
             exprsContainer.appendChild(itemExpr);
           }
@@ -140,7 +141,7 @@ export class CommonUI {
             const countExpr = document.createElement('div');
             countExpr.style.marginLeft = '10px';
             countExpr.appendChild(
-              this.renderLogicTree(rule.count, colorblindMode)
+              this.renderLogicTree(rule.count, useColorblindMode)
             );
             exprsContainer.appendChild(countExpr);
           }
@@ -168,7 +169,7 @@ export class CommonUI {
           const groupExpr = document.createElement('div');
           groupExpr.style.marginLeft = '20px';
           groupExpr.appendChild(
-            this.renderLogicTree(rule.group, colorblindMode)
+            this.renderLogicTree(rule.group, useColorblindMode)
           );
           root.appendChild(groupExpr);
         }
@@ -236,7 +237,7 @@ export class CommonUI {
               argLabel.textContent = `Arg ${i + 1}:`;
               argsContainer.appendChild(argLabel);
 
-              const argTree = this.renderLogicTree(arg, colorblindMode);
+              const argTree = this.renderLogicTree(arg, useColorblindMode);
               argsContainer.appendChild(argTree);
             }
           });
@@ -252,7 +253,9 @@ export class CommonUI {
         const objectEl = document.createElement('div');
         objectEl.classList.add('attribute-object');
         objectEl.style.marginLeft = '10px';
-        objectEl.appendChild(this.renderLogicTree(rule.object, colorblindMode));
+        objectEl.appendChild(
+          this.renderLogicTree(rule.object, useColorblindMode)
+        );
         root.appendChild(objectEl);
         break;
       }
@@ -270,7 +273,9 @@ export class CommonUI {
 
         const arrayEl = document.createElement('div');
         arrayEl.style.marginLeft = '10px';
-        arrayEl.appendChild(this.renderLogicTree(rule.value, colorblindMode));
+        arrayEl.appendChild(
+          this.renderLogicTree(rule.value, useColorblindMode)
+        );
         container.appendChild(arrayEl);
 
         // Render index
@@ -280,7 +285,9 @@ export class CommonUI {
 
         const indexEl = document.createElement('div');
         indexEl.style.marginLeft = '10px';
-        indexEl.appendChild(this.renderLogicTree(rule.index, colorblindMode));
+        indexEl.appendChild(
+          this.renderLogicTree(rule.index, useColorblindMode)
+        );
         container.appendChild(indexEl);
 
         root.appendChild(container);
@@ -299,7 +306,7 @@ export class CommonUI {
         const functionEl = document.createElement('div');
         functionEl.style.marginLeft = '20px';
         functionEl.appendChild(
-          this.renderLogicTree(rule.function, colorblindMode)
+          this.renderLogicTree(rule.function, useColorblindMode)
         );
         root.appendChild(functionEl);
 
@@ -315,7 +322,7 @@ export class CommonUI {
 
           for (const arg of rule.args) {
             const argItem = document.createElement('li');
-            argItem.appendChild(this.renderLogicTree(arg, colorblindMode));
+            argItem.appendChild(this.renderLogicTree(arg, useColorblindMode));
             argsList.appendChild(argItem);
           }
 
@@ -340,7 +347,10 @@ export class CommonUI {
           conditionLabel.textContent = `Condition #${index + 1}:`;
           conditionsContainer.appendChild(conditionLabel);
 
-          const conditionNode = this.renderLogicTree(condition, colorblindMode);
+          const conditionNode = this.renderLogicTree(
+            condition,
+            useColorblindMode
+          );
           conditionsContainer.appendChild(conditionNode);
         });
 
@@ -394,7 +404,7 @@ export class CommonUI {
               argLabel.textContent = `Arg ${i + 1}:`;
               argsContainer.appendChild(argLabel);
 
-              const argTree = this.renderLogicTree(arg, colorblindMode);
+              const argTree = this.renderLogicTree(arg, useColorblindMode);
               argsContainer.appendChild(argTree);
             }
           });
@@ -448,7 +458,9 @@ export class CommonUI {
 
             const leftEl = document.createElement('div');
             leftEl.style.marginLeft = '10px';
-            leftEl.appendChild(this.renderLogicTree(rule.left, colorblindMode));
+            leftEl.appendChild(
+              this.renderLogicTree(rule.left, useColorblindMode)
+            );
             container.appendChild(leftEl);
           }
 
@@ -460,7 +472,7 @@ export class CommonUI {
             const rightEl = document.createElement('div');
             rightEl.style.marginLeft = '10px';
             rightEl.appendChild(
-              this.renderLogicTree(rule.right, colorblindMode)
+              this.renderLogicTree(rule.right, useColorblindMode)
             );
             container.appendChild(rightEl);
           }
@@ -479,7 +491,7 @@ export class CommonUI {
         leftLabel.textContent = 'Left Operand:';
         compareDetails.appendChild(leftLabel);
 
-        const leftNode = this.renderLogicTree(rule.left, colorblindMode);
+        const leftNode = this.renderLogicTree(rule.left, useColorblindMode);
         leftNode.style.marginLeft = '10px';
         compareDetails.appendChild(leftNode);
 
@@ -501,14 +513,16 @@ export class CommonUI {
             const listItems = document.createElement('div');
             listItems.style.marginLeft = '10px';
             rule.right.value.forEach((item, index) => {
-              listItems.appendChild(this.renderLogicTree(item, colorblindMode));
+              listItems.appendChild(
+                this.renderLogicTree(item, useColorblindMode)
+              );
             });
             rightNode.appendChild(listItems);
             rightNode.appendChild(document.createTextNode(']'));
           } else {
             // Render other complex types recursively
             rightNode.appendChild(
-              this.renderLogicTree(rule.right, colorblindMode)
+              this.renderLogicTree(rule.right, useColorblindMode)
             );
           }
         } else {
@@ -536,10 +550,10 @@ export class CommonUI {
   /**
    * Creates a region link element for use in UI components
    * @param {string} regionName - The name of the region to link to
-   * @param {boolean} [colorblindMode] - Whether to use colorblind mode for links
+   * @param {boolean} useColorblindMode - Whether to use colorblind indicators.
    * @returns {HTMLElement} - The created region link
    */
-  createRegionLink(regionName, colorblindMode = this.colorblindMode) {
+  createRegionLink(regionName, useColorblindMode) {
     const link = document.createElement('span');
     link.textContent = regionName;
     link.classList.add('region-link');
@@ -553,7 +567,7 @@ export class CommonUI {
     link.style.color = isReachable ? 'inherit' : 'red';
 
     // Add colorblind symbol if enabled
-    if (colorblindMode) {
+    if (useColorblindMode) {
       const symbolSpan = document.createElement('span');
       symbolSpan.classList.add('colorblind-symbol');
       symbolSpan.textContent = isReachable ? ' ✓' : ' ✗';
@@ -578,14 +592,10 @@ export class CommonUI {
    * Creates a location link element for use in UI components
    * @param {string} locationName - The name of the location to link to
    * @param {string} regionName - The region containing this location
-   * @param {boolean} [colorblindMode] - Whether to use colorblind mode for links
+   * @param {boolean} useColorblindMode - Whether to use colorblind indicators.
    * @returns {HTMLElement} - The created location link
    */
-  createLocationLink(
-    locationName,
-    regionName,
-    colorblindMode = this.colorblindMode
-  ) {
+  createLocationLink(locationName, regionName, useColorblindMode) {
     const link = document.createElement('span');
     link.textContent = locationName;
     link.classList.add('location-link');
@@ -618,14 +628,11 @@ export class CommonUI {
     }
 
     // Add colorblind symbol if enabled
-    if (colorblindMode) {
+    if (useColorblindMode) {
       const symbolSpan = document.createElement('span');
       symbolSpan.classList.add('colorblind-symbol');
 
-      if (isChecked) {
-        symbolSpan.textContent = ' ✓✓';
-        symbolSpan.classList.add('checked-loc');
-      } else if (isAccessible) {
+      if (isAccessible) {
         symbolSpan.textContent = ' ✓';
         symbolSpan.classList.add('accessible');
       } else {
@@ -653,11 +660,14 @@ export class CommonUI {
   }
 
   /**
-   * Sets the colorblind mode state
-   * @param {boolean} enabled - Whether colorblind mode should be enabled
+   * Toggles the 'colorblind-mode' class on an element.
+   * @param {HTMLElement} element - The element to toggle the class on.
+   * @param {boolean} isEnabled - Whether colorblind mode is enabled for this context.
    */
-  setColorblindMode(enabled) {
-    this.colorblindMode = enabled;
+  applyColorblindClass(element, isEnabled) {
+    if (element) {
+      element.classList.toggle('colorblind-mode', !!isEnabled);
+    }
   }
 }
 

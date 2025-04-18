@@ -31,8 +31,8 @@ export class GameUI {
     this.mainConsoleElement = null; // Store reference for deferred init
     this.mainConsoleInputElement = null; // Store reference for deferred init
 
-    // Initialize commonUI colorblind mode
-    commonUI.setColorblindMode(true); // Enable colorblind mode by default
+    // Initialize commonUI colorblind mode - REMOVED: SettingsManager handles this
+    // commonUI.setColorblindMode(true);
 
     // Register with stateManager for UI updates
     stateManager.registerUICallback('gameUI', (eventType) => {
@@ -134,12 +134,6 @@ export class GameUI {
   attachEventListeners() {
     // Initialize collapsible center column (If this is still relevant outside GL)
     // this.initializeCollapsibleCenter();
-
-    // File upload (If this exists outside a specific panel)
-    const jsonUpload = document.getElementById('json-upload');
-    if (jsonUpload) {
-      jsonUpload.addEventListener('change', (e) => this.handleFileUpload(e));
-    }
 
     // Debug toggle (If this exists outside a specific panel)
     const debugToggle = document.getElementById('debug-toggle');
@@ -294,6 +288,13 @@ export class GameUI {
       reader.onload = (e) => {
         try {
           const jsonData = JSON.parse(e.target.result);
+
+          // <<< Emit event to editor >>>
+          eventBus.publish('editor:loadJsonData', {
+            source: `File Upload: ${file.name}`,
+            data: jsonData,
+          });
+          // <<< End emit event >>>
 
           // === Player Selection Logic ===
           let selectedPlayerId = null;
@@ -453,30 +454,24 @@ export class GameUI {
       // Show the selected panel and initialize if needed
       if (this.currentFileView === 'presets') {
         presetsPanel.style.display = 'block';
-        if (
-          !this.presetUI.initialized ||
-          !presetsPanel.querySelector('#presets-list')?.hasChildNodes()
-        ) {
+        if (!presetsPanel.querySelector('#presets-list')?.hasChildNodes()) {
           this.presetUI.initialize();
-          this.presetUI.initialized = true;
         }
       } else if (this.currentFileView === 'test-cases') {
         testCasesPanel.style.display = 'block';
         if (
-          !this.testCaseUI.initialized ||
           !testCasesPanel.querySelector('#test-cases-list')?.hasChildNodes()
         ) {
           this.testCaseUI.initialize();
-          this.testCaseUI.initialized = true;
         }
       } else if (this.currentFileView === 'test-playthroughs') {
         testPlaythroughsPanel.style.display = 'block';
         if (
-          !this.testPlaythroughUI.initialized ||
-          !testPlaythroughsPanel.querySelector('.playthrough-list-container')
+          !testPlaythroughsPanel
+            .querySelector('.playthrough-list-container')
+            ?.hasChildNodes()
         ) {
           this.testPlaythroughUI.initialize();
-          this.testPlaythroughUI.initialized = true;
         }
       }
     } else {
@@ -670,7 +665,7 @@ export class GameUI {
     element.style.overflow = 'hidden';
 
     element.innerHTML = `
-      <div class="control-group file-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0; display: flex; gap: 1rem;">
+      <div class="control-group file-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0; display: flex; align-items: center; gap: 1rem;">
             <label style="display: inline-flex; align-items: center;">
               <input
                 type="radio"
@@ -694,6 +689,11 @@ export class GameUI {
               />
               Test Playthroughs
             </label>
+            <!-- Add Spacer -->
+            <div style="flex-grow: 1;"></div>
+            <!-- Add File Input and Button -->
+            <input type="file" id="json-upload-input" accept=".json" style="display: none;" />
+            <label for="json-upload-input" class="button" style="margin: 0;">Load JSON</label>
        </div>
        <div id="files-panel-content" style="flex-grow: 1; overflow-y: auto;">
           <div id="test-cases-panel" style="height: 100%; display: none;">
@@ -711,11 +711,15 @@ export class GameUI {
   }
 
   // Attaches listeners and sets up content for the files panel
-  initializeFilesPanelElements(containerElement) {
-    // Get the underlying DOM element
-    const rootElement = containerElement[0];
+  // RENAMED from initializeFilesPanelElements to match PanelManager lifecycle call
+  buildInitialStructure(rootElement) {
+    // Get the underlying DOM element - NO LONGER NEEDED, rootElement is passed directly
+    // const rootElement = containerElement[0];
     if (!rootElement) {
-      console.error('Could not get DOM element from filesPanel container');
+      // Check the passed element directly
+      console.error(
+        'Could not get valid rootElement for filesPanel buildInitialStructure'
+      );
       return;
     }
 
@@ -736,6 +740,23 @@ export class GameUI {
         this._handleFileViewChange.bind(this)
       );
     });
+
+    // --- Add listener for the new JSON Upload button ---
+    const jsonUploadInput = rootElement.querySelector('#json-upload-input');
+    if (jsonUploadInput) {
+      // Clear potential old listener (safer)
+      const newUploadInput = jsonUploadInput.cloneNode(true);
+      jsonUploadInput.parentNode.replaceChild(newUploadInput, jsonUploadInput);
+      // Add the listener
+      newUploadInput.addEventListener(
+        'change',
+        this.handleFileUpload.bind(this)
+      );
+      console.log('Attached listener to #json-upload-input');
+    } else {
+      console.warn('Could not find #json-upload-input to attach listener.');
+    }
+    // --- End Add listener ---
 
     // Initial render of the default file view
     this.updateFileViewDisplay();

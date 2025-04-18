@@ -4,6 +4,7 @@ import { evaluateRule } from '../core/ruleEngine.js';
 import commonUI from './commonUI.js';
 import loopState from '../core/loop/loopStateSingleton.js';
 import eventBus from '../core/eventBus.js';
+import settingsManager from '../core/settingsManager.js';
 
 export class ExitUI {
   constructor(gameUI) {
@@ -12,6 +13,34 @@ export class ExitUI {
     this.rootElement = this.createRootElement();
     this.exitsGrid = this.rootElement.querySelector('#exits-grid');
     this.attachEventListeners();
+    this.settingsUnsubscribe = null;
+    this.subscribeToSettings();
+  }
+
+  subscribeToSettings() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+    }
+    this.settingsUnsubscribe = eventBus.subscribe(
+      'settings:changed',
+      ({ key, value }) => {
+        if (key === '*' || key.startsWith('colorblindMode.exits')) {
+          console.log('ExitUI reacting to settings change:', key);
+          this.updateExitDisplay();
+        }
+      }
+    );
+  }
+
+  onPanelDestroy() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+      this.settingsUnsubscribe = null;
+    }
+  }
+
+  dispose() {
+    this.onPanelDestroy();
   }
 
   createRootElement() {
@@ -368,6 +397,13 @@ export class ExitUI {
 
     // Generate HTML for exits programmatically
     exitsGrid.innerHTML = ''; // Clear previous content
+
+    // <<< Get setting once >>>
+    const useExitColorblind = settingsManager.getSetting(
+      'colorblindMode.exits',
+      true
+    );
+
     filteredExits.forEach((exit) => {
       const isRegionAccessible = stateManager.isRegionReachable(exit.region);
       const exitRulePasses =
@@ -404,11 +440,14 @@ export class ExitUI {
       const card = document.createElement('div');
       card.className = `exit-card ${stateClass}`;
       card.dataset.exit = encodeURIComponent(JSON.stringify(exit)).replace(
-        /"/g,
-        '&quot;'
+        /'/g,
+        "'"
       );
 
-      // Exit Name (as text, maybe make clickable later if needed?)
+      // <<< Apply colorblind class to card >>>
+      card.classList.toggle('colorblind-mode', useExitColorblind);
+
+      // Exit Name
       const exitNameDiv = document.createElement('div');
       exitNameDiv.className = 'font-medium exit-link'; // Keep class if styling relies on it
       exitNameDiv.dataset.exit = exit.name;
@@ -422,22 +461,23 @@ export class ExitUI {
       playerDiv.textContent = `Player ${exit.player || '1'}`;
       card.appendChild(playerDiv);
 
-      // Region Info (with clickable link)
-      const regionDiv = document.createElement('div');
-      regionDiv.className = 'text-sm';
-      regionDiv.textContent = 'Region: ';
-      const regionLinkElement = commonUI.createRegionLink(
+      // Source Region (with clickable link)
+      const sourceRegionDiv = document.createElement('div');
+      sourceRegionDiv.className = 'text-sm';
+      sourceRegionDiv.textContent = 'From: ';
+      const sourceRegionLink = commonUI.createRegionLink(
         exit.region,
-        commonUI.colorblindMode
-      );
-      regionLinkElement.style.color = isRegionAccessible ? 'inherit' : 'red';
-      regionDiv.appendChild(regionLinkElement);
-      regionDiv.appendChild(
+        useExitColorblind
+      ); // <<< Pass setting
+      // Add necessary styles/attributes if needed
+      sourceRegionLink.style.color = isRegionAccessible ? 'inherit' : 'red';
+      sourceRegionDiv.appendChild(sourceRegionLink);
+      sourceRegionDiv.appendChild(
         document.createTextNode(
           ` (${isRegionAccessible ? 'Accessible' : 'Inaccessible'})`
         )
       );
-      card.appendChild(regionDiv);
+      card.appendChild(sourceRegionDiv);
 
       // Connected Region Info (with clickable link)
       if (exit.connected_region) {
@@ -453,25 +493,27 @@ export class ExitUI {
         }
         const connectedRegionDiv = document.createElement('div');
         connectedRegionDiv.className = 'text-sm';
-        connectedRegionDiv.textContent = 'Leads to: ';
-        const connectedLinkElement = commonUI.createRegionLink(
-          connectedRegionName,
-          commonUI.colorblindMode
-        );
+        connectedRegionDiv.textContent = 'To: ';
+        const connectedRegionLink = commonUI.createRegionLink(
+          exit.connected_region,
+          useExitColorblind
+        ); // <<< Pass setting
         // Ensure the real region name is stored for navigation even if displayed as '???'
-        connectedLinkElement.dataset.region = exit.connected_region;
+        connectedRegionLink.dataset.region = exit.connected_region;
         if (isLoopModeActive && !isConnectedRegionDiscovered) {
-          connectedLinkElement.classList.add('undiscovered'); // Add class for styling if needed
+          connectedRegionLink.classList.add('undiscovered'); // Add class for styling if needed
         }
-        connectedRegionDiv.appendChild(connectedLinkElement);
+        connectedRegionDiv.appendChild(connectedRegionLink);
         card.appendChild(connectedRegionDiv);
       }
 
       // Exit Logic Tree
       const logicDiv = document.createElement('div');
       logicDiv.className = 'text-sm';
-      logicDiv.textContent = 'Exit logic: ';
-      logicDiv.appendChild(commonUI.renderLogicTree(exit.access_rule));
+      logicDiv.textContent = 'Requires: ';
+      logicDiv.appendChild(
+        commonUI.renderLogicTree(exit.access_rule, useExitColorblind)
+      ); // <<< Pass setting
       card.appendChild(logicDiv);
 
       // Status Text

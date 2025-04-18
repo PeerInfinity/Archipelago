@@ -5,6 +5,8 @@ import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 import commonUI from './commonUI.js';
 import messageHandler from '../../client/core/messageHandler.js';
 import loopState from '../core/loop/loopStateSingleton.js';
+import settingsManager from '../core/settingsManager.js';
+import eventBus from '../core/eventBus.js';
 
 export class RegionUI {
   constructor(gameUI) {
@@ -33,6 +35,35 @@ export class RegionUI {
     );
 
     this.attachEventListeners();
+    this.settingsUnsubscribe = null;
+    this.subscribeToSettings();
+  }
+
+  subscribeToSettings() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+    }
+    this.settingsUnsubscribe = eventBus.subscribe(
+      'settings:changed',
+      ({ key, value }) => {
+        if (key === '*' || key.startsWith('colorblindMode.regions')) {
+          console.log('RegionUI reacting to settings change:', key);
+          this.update();
+        }
+      }
+    );
+  }
+
+  onPanelDestroy() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+      this.settingsUnsubscribe = null;
+    }
+    this.pathAnalyzer?.dispose?.();
+  }
+
+  dispose() {
+    this.onPanelDestroy();
   }
 
   createRootElement() {
@@ -252,6 +283,12 @@ export class RegionUI {
     }
     container.innerHTML = '';
 
+    // Get setting once for the panel
+    const useRegionColorblind = settingsManager.getSetting(
+      'colorblindMode.regions',
+      true
+    );
+
     if (this.showAll) {
       // Show all regions ignoring path logic
       Object.keys(stateManager.regions).forEach((regionName, index) => {
@@ -263,7 +300,8 @@ export class RegionUI {
           rData,
           regionName,
           expanded,
-          uid
+          uid,
+          useRegionColorblind
         );
         container.appendChild(regionBlock);
       });
@@ -277,7 +315,8 @@ export class RegionUI {
           rData,
           regionName,
           expanded,
-          uid
+          uid,
+          useRegionColorblind
         );
         container.appendChild(regionBlock);
       }
@@ -474,13 +513,14 @@ export class RegionUI {
     );
   }
 
-  buildRegionBlock(rData, regionName, expanded, uid) {
+  buildRegionBlock(rData, regionName, expanded, uid, useColorblind) {
     // Outer container
     const regionBlock = document.createElement('div');
     regionBlock.classList.add('region-block');
     regionBlock.dataset.uid = uid;
     regionBlock.dataset.region = regionName;
     regionBlock.classList.add(expanded ? 'expanded' : 'collapsed');
+    regionBlock.classList.toggle('colorblind-mode', useColorblind);
 
     // Check if we have a valid inventory before evaluating rules
     const inventory = stateManager?.inventory;
@@ -541,7 +581,7 @@ export class RegionUI {
           const logicDiv = document.createElement('div');
           logicDiv.classList.add('logic-tree');
           logicDiv.innerHTML = `<strong>Rule #${idx + 1}:</strong>`;
-          logicDiv.appendChild(commonUI.renderLogicTree(rule));
+          logicDiv.appendChild(commonUI.renderLogicTree(rule, useColorblind));
           rrContainer.appendChild(logicDiv);
         });
         detailEl.appendChild(rrContainer);
@@ -641,7 +681,7 @@ export class RegionUI {
             const logicTreeDiv = document.createElement('div');
             logicTreeDiv.classList.add('logic-tree');
             logicTreeDiv.appendChild(
-              commonUI.renderLogicTree(exit.access_rule)
+              commonUI.renderLogicTree(exit.access_rule, useColorblind)
             );
             exitWrapper.appendChild(logicTreeDiv);
           }
@@ -744,7 +784,9 @@ export class RegionUI {
           if (loc.access_rule) {
             const logicTreeDiv = document.createElement('div');
             logicTreeDiv.classList.add('logic-tree');
-            logicTreeDiv.appendChild(commonUI.renderLogicTree(loc.access_rule));
+            logicTreeDiv.appendChild(
+              commonUI.renderLogicTree(loc.access_rule, useColorblind)
+            );
             locDiv.appendChild(logicTreeDiv);
           }
 

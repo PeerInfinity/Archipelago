@@ -519,6 +519,13 @@ export class PresetUI {
 
       const jsonData = JSON.parse(xhr.responseText);
 
+      // <<< Emit event to editor >>>
+      eventBus.publish('editor:loadJsonData', {
+        source: `Preset: ${filePath}`,
+        data: jsonData,
+      });
+      // <<< End emit event >>>
+
       // Store the newly loaded rules data
       this.gameUI.currentRules = jsonData;
 

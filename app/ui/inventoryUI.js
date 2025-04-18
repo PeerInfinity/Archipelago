@@ -193,6 +193,7 @@ export class InventoryUI {
         ${name}
       </button>
     `;
+
     container.appendChild(itemContainer);
   }
 
@@ -385,6 +386,7 @@ export class InventoryUI {
     // read item states from stateManager in one pass
     // update button classes and count badges
     // do not individually call handleEventCollection
+
     document.querySelectorAll('.item-button').forEach((button) => {
       const itemName = button.dataset.item;
       const count = stateManager.getItemCount(itemName);
@@ -397,7 +399,7 @@ export class InventoryUI {
       }
     });
 
-    // Update display for this UI component only
+    // Update display for this UI component only (this handles group visibility and group colorblind class)
     this.updateDisplay();
   }
 }

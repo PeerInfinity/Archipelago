@@ -9,6 +9,7 @@ import {
   proposedLinearFinalCost,
   proposedLinearReduction,
 } from '../core/loop/xpFormulas.js';
+import settingsManager from '../core/settingsManager.js'; // Import Settings Manager
 
 export class LoopUI {
   constructor(gameUI) {
@@ -17,9 +18,9 @@ export class LoopUI {
     // UI state
     this.expandedRegions = new Set();
     this.regionsInQueue = new Set(); // Track which regions have actions in the queue
-    this.colorblindMode = false;
     this.isLoopModeActive = false;
     this.repeatExploreStates = new Map(); // Map to track repeat explore checkbox states per region
+    this.settingsUnsubscribe = null; // Add property
 
     // Animation state
     this._animationFrameId = null;
@@ -43,9 +44,26 @@ export class LoopUI {
 
     // Attach event listeners for loop state changes
     this.subscribeToEvents();
+    this.subscribeToSettings(); // Subscribe to settings
 
     // Set up animation frame for continuous UI updates
     this._startAnimationLoop();
+  }
+
+  // <<< Add Subscription Logic >>>
+  subscribeToSettings() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+    }
+    this.settingsUnsubscribe = eventBus.subscribe(
+      'settings:changed',
+      ({ key, value }) => {
+        if (key === '*' || key.startsWith('colorblindMode.loops')) {
+          console.log('LoopUI reacting to settings change:', key);
+          this.renderLoopPanel(); // Re-render panel when setting changes
+        }
+      }
+    );
   }
 
   createRootElement() {
@@ -54,7 +72,6 @@ export class LoopUI {
     element.style.display = 'flex';
     element.style.flexDirection = 'column';
     element.style.height = '100%';
-    element.style.overflow = 'hidden';
 
     // Recreate the structure, including controls that were previously in index.html
     // IMPORTANT: Ensure unique IDs if these controls exist elsewhere
@@ -83,15 +100,11 @@ export class LoopUI {
               />
               <span id="loop-ui-speed-value">1.0x</span> <!-- Changed ID -->
             </div>
-            <label>
-              <input type="checkbox" id="loop-ui-colorblind" /> <!-- Changed ID -->
-              Colorblind Mode
-            </label>
         </div>
         <div id="loop-fixed-area" class="loop-fixed-area" style="flex-shrink: 0;">
             <!-- Mana bar and current action display will go here -->
         </div>
-        <div id="loop-regions-area" class="loop-regions-area" style="flex-grow: 1; overflow-y: auto;">
+        <div id="loop-regions-area" class="loop-regions-area" style="flex-grow: 1; overflow-y: auto; min-height: 0;"> <!-- Added min-height: 0 -->
             <!-- Scrollable region/action list -->
         </div>
         <div class="loop-controls-area control-group" style="padding: 0.5rem; border-top: 1px solid #666; flex-shrink: 0;">
@@ -229,26 +242,6 @@ export class LoopUI {
       console.warn('LoopUI: Speed slider or value span not found.');
     }
 
-    // Colorblind mode toggle
-    const colorblindCheckbox = querySelector('#loop-ui-colorblind');
-    if (colorblindCheckbox) {
-      const newCheckbox = colorblindCheckbox.cloneNode(true);
-      // Ensure the parent exists before replacing
-      if (colorblindCheckbox.parentNode) {
-        colorblindCheckbox.parentNode.replaceChild(
-          newCheckbox,
-          colorblindCheckbox
-        );
-        newCheckbox.checked = this.colorblindMode;
-        newCheckbox.addEventListener('change', (e) => {
-          this.setColorblindMode(e.target.checked);
-        });
-      } else {
-        console.warn('LoopUI: Colorblind checkbox parent node not found.');
-      }
-    } else {
-      console.warn('LoopUI: Colorblind checkbox not found.');
-    }
     console.log('LoopUI: Internal listeners attached.');
   }
 
@@ -724,17 +717,14 @@ export class LoopUI {
    * Cleanup method called when the panel is destroyed.
    */
   onPanelDestroy() {
-    console.log('LoopUI panel destroyed. Unsubscribing...');
+    console.log('LoopUI onPanelDestroy called');
+    this._stopAnimationLoop();
     this.unsubscribeFromEvents();
-    // Nullify references if needed, although GC should handle it
-    this.loopPanelElement = null;
-    this.loopControls = null;
-    this.actionQueueContainer = null;
-    this.regionsListContainer = null;
-    // ... nullify other DOM references ...
-    if (window.loopUIInstance === this) {
-      window.loopUIInstance = null; // Clear global reference
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe(); // Unsubscribe
+      this.settingsUnsubscribe = null;
     }
+    window.loopUIInstance = null; // Clear global reference
   }
 
   /**
@@ -1576,44 +1566,76 @@ export class LoopUI {
    */
   renderLoopPanel() {
     console.log(`LoopUI: Rendering panel. Active: ${this.isLoopModeActive}`);
-    const container = this.loopRegionsArea; // Use cached reference
+
+    // <<< Get setting once for the panel >>>
+    const useLoopColorblind = settingsManager.getSetting(
+      'colorblindMode.loops',
+      true
+    );
+
+    // Get necessary elements, preferably cached ones
+    const container = this.rootElement; // Main container
     if (!container) {
-      console.error('LoopUI: Container loop-regions-area not found');
+      console.error('LoopUI: Container rootElement not found');
       return;
     }
 
-    // Ensure fixed area exists and is initialized (might be called before buildInitialStructure)
-    if (!this.rootElement.querySelector('#loop-fixed-area .mana-container')) {
-      this._initializeFixedArea();
-    }
-
-    // Clear container
-    container.innerHTML = '';
-
+    // --- Manage Visibility Based on Mode ---
     const fixedArea = this.rootElement.querySelector('#loop-fixed-area');
+    const regionsArea =
+      this.loopRegionsArea ||
+      this.rootElement.querySelector('#loop-regions-area');
+    let inactiveMessage = this.rootElement.querySelector(
+      '.loop-inactive-message'
+    );
 
     if (!this.isLoopModeActive) {
-      // Show a placeholder if loop mode is not active
-      container.innerHTML = `
-            <div class="loop-inactive-message">
-                Loop Mode is not active. Click "Enter Loop Mode" to begin.
-            </div>
-            <style>
-             .loop-inactive-message { padding: 20px; text-align: center; color: #888; font-style: italic; }
-            </style>`;
-      // Ensure the fixed area is hidden
       if (fixedArea) fixedArea.style.display = 'none';
-      return; // Don't render regions etc.
-    }
+      if (regionsArea) regionsArea.style.display = 'none';
 
-    // If loop mode IS active, ensure fixed area is visible
-    if (fixedArea) fixedArea.style.display = 'block';
+      if (!inactiveMessage) {
+        inactiveMessage = document.createElement('div');
+        inactiveMessage.className = 'loop-inactive-message';
+        inactiveMessage.innerHTML = `
+          <div>Loop Mode is not active. Click "Enter Loop Mode" to begin.</div>
+          <style>
+            .loop-inactive-message { padding: 20px; text-align: center; color: #888; font-style: italic; }
+          </style>
+        `;
+        // Insert after controls, before fixed area
+        const topControls = this.rootElement.querySelector('.loop-controls');
+        if (topControls) {
+          topControls.insertAdjacentElement('afterend', inactiveMessage);
+        } else {
+          container.prepend(inactiveMessage); // Fallback
+        }
+      }
+      inactiveMessage.style.display = 'block';
+      return; // Don't render regions etc.
+    } else {
+      // Ensure active areas are visible and inactive message is hidden
+      if (fixedArea) fixedArea.style.display = 'block'; // Or appropriate display type
+      if (regionsArea) regionsArea.style.display = 'block'; // Or appropriate display type
+      if (inactiveMessage) inactiveMessage.style.display = 'none';
+    }
+    // --- End Visibility Management ---
+
+    // Ensure fixed area exists and is initialized - REMOVED Check, buildInitialStructure handles this
+    // if (!this.rootElement.querySelector('#loop-fixed-area .mana-container')) {
+    //   this._initializeFixedArea();
+    // }
 
     // Get discovered regions (only render if loop mode is active)
     const discoveredRegions = loopState.discoveredRegions;
 
+    // Use the cached or queried regionsArea
+    if (!regionsArea) {
+      console.error('Could not find #loop-regions-area to render regions.');
+      return; // Can't proceed without the regions area
+    }
+
     if (!discoveredRegions || discoveredRegions.size === 0) {
-      container.innerHTML =
+      regionsArea.innerHTML = // Clear and set message inside regionsArea
         '<div class="no-regions-message">No regions discovered yet.</div>';
       // Still update mana/action display even if no regions
       this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
@@ -1649,7 +1671,11 @@ export class LoopUI {
         isDestination;
       if (showRegion) {
         const isExpanded = this.expandedRegions.has(regionName);
-        const regionBlock = this._buildRegionBlock(region, isExpanded);
+        const regionBlock = this._buildRegionBlock(
+          region,
+          isExpanded,
+          useLoopColorblind
+        ); // <<< Pass setting
         regionsContainer.appendChild(regionBlock);
       }
     });
@@ -1689,14 +1715,19 @@ export class LoopUI {
    * @param {boolean} expanded - Whether the region is expanded
    * @returns {HTMLElement} - The region block element
    */
-  _buildRegionBlock(region, expanded) {
-    if (!region) return document.createElement('div');
+  _buildRegionBlock(region, expanded, useColorblind) {
+    // <<< Receive setting
+    if (!region) {
+      console.warn('buildRegionBlock called with invalid region data');
+      return document.createElement('div');
+    }
 
     const regionName = region.name;
     const regionBlock = document.createElement('div');
     regionBlock.className = 'loop-region-block';
     regionBlock.dataset.region = regionName;
     regionBlock.classList.add(expanded ? 'expanded' : 'collapsed');
+    regionBlock.classList.toggle('colorblind-mode', useColorblind); // <<< Apply class to block
 
     // --- Header ---
     const headerEl = document.createElement('div');
@@ -1728,7 +1759,7 @@ export class LoopUI {
       const queuedActionsContainer = document.createElement('div');
       queuedActionsContainer.className = 'region-queued-actions';
       actionsForRegion.forEach((action) => {
-        const actionItem = this._createActionItem(action);
+        const actionItem = this._createActionItem(action, useColorblind); // <<< Accept setting
         queuedActionsContainer.appendChild(actionItem);
       });
       regionBlock.appendChild(queuedActionsContainer);
@@ -1838,6 +1869,7 @@ export class LoopUI {
       ) {
         const locationsContainer = document.createElement('div');
         locationsContainer.className = 'loop-region-locations-container';
+        locationsContainer.classList.toggle('colorblind-mode', useColorblind); // Apply to lists
         this._updateDiscoveredLocations(regionName, locationsContainer); // Populate
         detailEl.appendChild(locationsContainer);
       }
@@ -1846,6 +1878,7 @@ export class LoopUI {
       if (regionData && regionData.exits && regionData.exits.length > 0) {
         const exitsContainer = document.createElement('div');
         exitsContainer.className = 'loop-region-exits-container';
+        exitsContainer.classList.toggle('colorblind-mode', useColorblind); // Apply to lists
         this._updateDiscoveredExits(regionName, exitsContainer); // Populate
         detailEl.appendChild(exitsContainer);
       }
@@ -1861,10 +1894,12 @@ export class LoopUI {
    * @param {Object} action - The action data
    * @returns {HTMLElement} - The action item element
    */
-  _createActionItem(action) {
+  _createActionItem(action, useColorblind) {
+    // <<< Accept setting
     const actionDiv = document.createElement('div');
     actionDiv.id = `action-${action.id}`;
     actionDiv.className = 'action-item';
+    actionDiv.classList.toggle('colorblind-mode', useColorblind); // <<< Apply class based on setting
 
     // Determine action name and display
     let actionName = '';
@@ -2041,22 +2076,10 @@ export class LoopUI {
   }
 
   /**
-   * Set colorblind mode
-   * @param {boolean} enabled - Whether colorblind mode is enabled
-   */
-  setColorblindMode(enabled) {
-    this.colorblindMode = enabled;
-    this.renderLoopPanel();
-  }
-
-  /**
    * Clean up resources when the UI is destroyed
    */
   dispose() {
-    if (this._animationFrameId) {
-      cancelAnimationFrame(this._animationFrameId);
-      this._animationFrameId = null;
-    }
+    this.onPanelDestroy();
   }
 
   /**

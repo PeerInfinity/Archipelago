@@ -3,6 +3,7 @@
   <head>
     <title>JSON Web Client</title>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="styles/index.css" />
     <link rel="stylesheet" type="text/css" href="styles/loop.css" />
 
@@ -10,12 +11,12 @@
     <link
       type="text/css"
       rel="stylesheet"
-      href="goldenlayout/goldenlayout-base.css"
+      href="libs/goldenlayout/goldenlayout-base.css"
     />
     <link
       type="text/css"
       rel="stylesheet"
-      href="goldenlayout/goldenlayout-dark-theme.css"
+      href="libs/goldenlayout/goldenlayout-dark-theme.css"
     />
 
     <!-- Add jQuery (required by Golden Layout) -->
@@ -26,11 +27,20 @@
     ></script>
 
     <!-- Add Golden Layout library -->
-    <script src="goldenlayout/goldenlayout.js"></script>
+    <script src="libs/goldenlayout/goldenlayout.js"></script>
+
+    <!-- Add JSON Editor library -->
+    <script src="libs/json-editor/jsoneditor.js"></script>
 
     <script type="module" src="init.js"></script>
 
     <link rel="icon" href="data:," type="image/x-icon" />
+
+    <!-- Link to vanilla-jsoneditor dark theme -->
+    <link
+      rel="stylesheet"
+      href="libs/vanilla-jsoneditor/themes/jse-theme-dark.css"
+    />
   </head>
   <body>
     <div

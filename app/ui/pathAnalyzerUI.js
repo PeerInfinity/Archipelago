@@ -3,6 +3,8 @@ import stateManager from '../core/stateManagerSingleton.js';
 import { evaluateRule } from '../core/ruleEngine.js';
 import { PathAnalyzerLogic } from '../logic/pathAnalyzerLogic.js';
 import commonUI from './commonUI.js';
+import settingsManager from '../core/settingsManager.js';
+import eventBus from '../core/eventBus.js';
 
 /**
  * Handles UI aspects of path analysis for regions in the game
@@ -16,7 +18,35 @@ export class PathAnalyzerUI {
     this.logic = new PathAnalyzerLogic();
 
     // UI configuration options
-    this.colorblindMode = false;
+    this.settingsUnsubscribe = null;
+    this.subscribeToSettings();
+  }
+
+  subscribeToSettings() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+    }
+    this.settingsUnsubscribe = eventBus.subscribe(
+      'settings:changed',
+      ({ key, value }) => {
+        if (key === '*' || key.startsWith('colorblindMode')) {
+          console.log('PathAnalyzerUI reacting to settings change:', key);
+          const pathsContainer = document.querySelector(
+            '.region-details-content .path-analysis-results'
+          );
+          if (pathsContainer && pathsContainer.style.display !== 'none') {
+            this._updateColorblindIndicators();
+          }
+        }
+      }
+    );
+  }
+
+  dispose() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+      this.settingsUnsubscribe = null;
+    }
   }
 
   /**
@@ -25,16 +55,6 @@ export class PathAnalyzerUI {
    */
   setDebugMode(debug) {
     this.logic.setDebugMode(debug);
-  }
-
-  /**
-   * Sets the colorblind mode
-   * @param {boolean} mode - Whether colorblind mode is enabled
-   */
-  setColorblindMode(mode) {
-    this.colorblindMode = mode;
-    // Sync with commonUI
-    commonUI.setColorblindMode(mode);
   }
 
   /**
@@ -122,6 +142,8 @@ export class PathAnalyzerUI {
         analyzePathsBtn,
         100
       ); // Normal max paths
+
+      this._createPathToggleControls(pathsContainer);
     });
   }
 
@@ -307,7 +329,11 @@ export class PathAnalyzerUI {
           });
 
           // Add colorblind symbol if needed
-          if (this.colorblindMode) {
+          const useColorblind = settingsManager.getSetting(
+            'colorblindMode.pathAnalyzer',
+            false
+          );
+          if (useColorblind) {
             const symbolSpan = document.createElement('span');
             symbolSpan.classList.add('colorblind-symbol', 'accessible');
             symbolSpan.textContent = ' ✓';
@@ -539,7 +565,11 @@ export class PathAnalyzerUI {
       regionSpan.dataset.region = region;
 
       // Add colorblind symbol if needed - FIX: Use correct accessibility status
-      if (this.colorblindMode) {
+      const useColorblindPath = settingsManager.getSetting(
+        'colorblindMode.pathAnalyzer',
+        false
+      );
+      if (useColorblindPath) {
         const symbolSpan = document.createElement('span');
         symbolSpan.classList.add('colorblind-symbol');
 
@@ -954,33 +984,6 @@ export class PathAnalyzerUI {
     });
 
     toggleContainer.appendChild(collapseAllButton);
-
-    // Add colorblind mode toggle
-    const colorblindModeToggle = document.createElement('button');
-    colorblindModeToggle.id = 'toggle-colorblind-mode';
-    colorblindModeToggle.textContent = this.colorblindMode
-      ? 'Disable Colorblind Mode'
-      : 'Enable Colorblind Mode';
-    colorblindModeToggle.style.padding = '5px 10px';
-    colorblindModeToggle.style.backgroundColor = this.colorblindMode
-      ? '#7e57c2'
-      : '#333';
-    colorblindModeToggle.style.color = '#fff';
-    colorblindModeToggle.style.border = '1px solid #666';
-    colorblindModeToggle.style.borderRadius = '4px';
-    colorblindModeToggle.style.cursor = 'pointer';
-
-    colorblindModeToggle.addEventListener('click', () => {
-      this.toggleColorblindMode();
-      colorblindModeToggle.textContent = this.colorblindMode
-        ? 'Disable Colorblind Mode'
-        : 'Enable Colorblind Mode';
-      colorblindModeToggle.style.backgroundColor = this.colorblindMode
-        ? '#7e57c2'
-        : '#333';
-    });
-
-    toggleContainer.appendChild(colorblindModeToggle);
 
     // Insert toggle controls at the beginning
     container.insertBefore(toggleContainer, container.firstChild);
@@ -1418,17 +1421,14 @@ export class PathAnalyzerUI {
   }
 
   /**
-   * Toggles colorblind mode and updates the UI
-   */
-  toggleColorblindMode() {
-    this.colorblindMode = !this.colorblindMode;
-    this._updateColorblindIndicators();
-  }
-
-  /**
-   * Updates colorblind indicators throughout the UI
+   * Helper method to update colorblind indicators across the UI
    */
   _updateColorblindIndicators() {
+    const useColorblind = settingsManager.getSetting(
+      'colorblindMode.pathAnalyzer',
+      false
+    );
+
     // Update all region link indicators
     document.querySelectorAll('.region-link').forEach((link) => {
       // Remove any existing colorblind symbols
@@ -1442,7 +1442,7 @@ export class PathAnalyzerUI {
       const isReachable = stateManager.isRegionReachable(regionName);
 
       // Add colorblind symbol if needed
-      if (this.colorblindMode) {
+      if (useColorblind) {
         const symbolSpan = document.createElement('span');
         symbolSpan.classList.add('colorblind-symbol');
         symbolSpan.textContent = isReachable ? ' ✓' : ' ✗';
@@ -1464,7 +1464,7 @@ export class PathAnalyzerUI {
           if (existingSymbol) existingSymbol.remove();
 
           // Add new symbol if needed
-          if (this.colorblindMode) {
+          if (useColorblind) {
             const symbolSpan = document.createElement('span');
             symbolSpan.classList.add('colorblind-symbol');
             symbolSpan.textContent = isPassing ? ' ✓' : ' ✗';
@@ -1484,7 +1484,7 @@ export class PathAnalyzerUI {
 
       // Add new symbol if needed
       if (
-        this.colorblindMode &&
+        useColorblind &&
         (node.classList.contains('pass') || node.classList.contains('fail'))
       ) {
         const symbolSpan = document.createElement('span');

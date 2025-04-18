@@ -2,6 +2,7 @@
 // import GoldenLayout from 'golden-layout'; // REMOVE this line - rely on global from script tag
 import panelManagerInstance from './app/core/panelManagerSingleton.js'; // Import the singleton
 import eventBus from './app/core/eventBus.js'; // Import EventBus
+import settingsManager from './app/core/settingsManager.js';
 
 // Initialize key modules in order
 document.addEventListener('DOMContentLoaded', async () => {
@@ -17,6 +18,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Make stateManager available globally for debugging
     window.stateManager = stateManager;
     console.log('StateManager loaded and made global');
+
+    // <<< Make settingsManager available globally >>>
+    window.settingsManager = settingsManager;
+    console.log('SettingsManager initialized and made global');
 
     // --- Set up event listener BEFORE GameUI instantiation ---
     eventBus.subscribe('stateManager:ready', (data) => {
@@ -94,11 +99,26 @@ document.addEventListener('DOMContentLoaded', async () => {
               width: 20, // Percentage width
             },
             {
-              // Middle Column (Main Content)
-              type: 'component',
-              componentName: 'mainContentPanel',
-              title: 'Console & Status',
+              // Middle Column (Stack with Console and Editor)
+              type: 'stack',
               width: 30,
+              content: [
+                {
+                  type: 'component',
+                  componentName: 'mainContentPanel',
+                  title: 'Console & Status',
+                },
+                {
+                  type: 'component',
+                  componentName: 'editorPanel',
+                  title: 'Editor',
+                },
+                {
+                  type: 'component',
+                  componentName: 'optionsPanel',
+                  title: 'Options',
+                },
+              ],
             },
             {
               // Right Column (Stack of views)
@@ -177,8 +197,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
     panelManagerInstance.registerPanelComponent('filesPanel', () => ({
       getRootElement: () => gameUI.getFilesPanelRootElement(),
-      initializeElements: (containerElement) =>
-        gameUI.initializeFilesPanelElements(containerElement),
+      buildInitialStructure: (rootElement) =>
+        gameUI.buildInitialStructure(rootElement),
     }));
 
     // Initialize the layout

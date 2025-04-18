@@ -5,6 +5,8 @@ import commonUI from './commonUI.js';
 import connection from '../../client/core/connection.js';
 import messageHandler from '../../client/core/messageHandler.js';
 import loopState from '../core/loop/loopStateSingleton.js';
+import settingsManager from '../core/settingsManager.js';
+import eventBus from '../core/eventBus.js';
 
 export class LocationUI {
   constructor(gameUI) {
@@ -13,6 +15,34 @@ export class LocationUI {
     this.rootElement = this.createRootElement(); // Create the root element on instantiation
     this.locationsGrid = this.rootElement.querySelector('#locations-grid'); // Cache grid element
     this.attachEventListeners();
+    this.settingsUnsubscribe = null;
+    this.subscribeToSettings();
+  }
+
+  subscribeToSettings() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+    }
+    this.settingsUnsubscribe = eventBus.subscribe(
+      'settings:changed',
+      ({ key, value }) => {
+        if (key === '*' || key.startsWith('colorblindMode.locations')) {
+          console.log('LocationUI reacting to settings change:', key);
+          this.updateLocationDisplay();
+        }
+      }
+    );
+  }
+
+  onPanelDestroy() {
+    if (this.settingsUnsubscribe) {
+      this.settingsUnsubscribe();
+      this.settingsUnsubscribe = null;
+    }
+  }
+
+  dispose() {
+    this.onPanelDestroy();
   }
 
   // Creates the main DOM structure for the locations panel
@@ -464,6 +494,11 @@ export class LocationUI {
     // Generate HTML for locations programmatically
     locationsGrid.innerHTML = ''; // Clear previous content
     filteredLocations.forEach((location) => {
+      const useLocationColorblind = settingsManager.getSetting(
+        'colorblindMode.locations',
+        true
+      );
+
       const isRegionAccessible = stateManager.isRegionReachable(
         location.region
       );
@@ -512,10 +547,18 @@ export class LocationUI {
         JSON.stringify(location)
       ).replace(/"/g, '&quot;');
 
+      // Apply colorblind class based on setting
+      const isColorblind = settingsManager.getSetting(
+        'colorblindMode.locations',
+        true
+      ); // Default to true
+      card.classList.toggle('colorblind-mode', isColorblind);
+
       // Location Name (as a clickable link)
       const locationLink = commonUI.createLocationLink(
         locationName,
-        location.region
+        location.region,
+        useLocationColorblind
       );
       // TODO: Ensure createLocationLink uses eventBus if needed, or retains its own handler
       locationLink.className = 'font-medium location-link'; // Add back necessary classes
@@ -535,7 +578,7 @@ export class LocationUI {
       regionDiv.textContent = 'Region: ';
       const regionLinkElement = commonUI.createRegionLink(
         regionName,
-        commonUI.colorblindMode
+        useLocationColorblind
       ); // Use commonUI instance
       // Add necessary attributes/styles if commonUI doesn't handle them fully
       regionLinkElement.dataset.region = location.region; // Use real region name
@@ -552,7 +595,9 @@ export class LocationUI {
       const logicDiv = document.createElement('div');
       logicDiv.className = 'text-sm';
       logicDiv.textContent = 'Location: ';
-      logicDiv.appendChild(commonUI.renderLogicTree(location.access_rule)); // Use commonUI instance
+      logicDiv.appendChild(
+        commonUI.renderLogicTree(location.access_rule, useLocationColorblind)
+      ); // Use commonUI instance
       card.appendChild(logicDiv);
 
       // Status Text
