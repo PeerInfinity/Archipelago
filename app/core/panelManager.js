@@ -101,7 +101,7 @@ class PanelManager {
         console.log(`   [${componentTypeName}] Got root element:`, rootElement);
 
         // 3. Append the element to the Golden Layout container
-        container.getElement().append(rootElement);
+        container.element.append(rootElement);
         console.log(
           `   [${componentTypeName}] Root element appended to container`
         );
@@ -142,108 +142,67 @@ class PanelManager {
                 `[RegionPanel Wrapper] Event 'ui:navigateToRegion' received for: ${data.regionName}`
               );
 
-              // --- Activate the Panel's Tab ---
-              try {
-                // --- Add detailed logging for debugging activation ---
+              // --- Add detailed logging for debugging activation ---
+              console.log(
+                '[RegionPanel Wrapper] Attempting panel activation...'
+              );
+              // --- V2 Activation Logic (Attempt 4 - Using container.parent) ---
+              let componentItem = container.parent; // Use container.parent to get ComponentItem
+              let stack = componentItem?.parent; // Get the parent Stack from the ComponentItem
+
+              if (stack && stack.isStack) {
+                // Check if the parent is indeed a Stack
                 console.log(
-                  '[RegionPanel Wrapper] Attempting panel activation...'
+                  '[RegionPanel Wrapper] Found parent stack via container.parent.parent:',
+                  stack
                 );
-                // Find the parent Stack via the tab header
-                let stack = container.tab?.header?.parent;
-                let contentItemToActivate = null;
+                console.log(
+                  '[RegionPanel Wrapper] Found component item to activate via container.parent:',
+                  componentItem
+                );
+              } else {
+                console.warn(
+                  '[RegionPanel Wrapper] Could not find parent stack via container.parent.parent. ComponentItem:',
+                  componentItem,
+                  'Parent:',
+                  stack
+                );
+                stack = null; // Invalidate stack if not found correctly
+                componentItem = null;
+              }
+              // --- End V2 Activation Logic ---
 
-                if (stack && stack.type === 'stack') {
+              // Ensure parent stack exists and has the activation method
+              if (
+                stack &&
+                stack.isStack && // Use isStack property check for v2
+                componentItem && // Use componentItem here
+                typeof stack.setActiveComponentItem === 'function' // V2 uses setActiveComponentItem
+              ) {
+                // Check if this container is already the active one to avoid unnecessary calls
+                if (stack.getActiveComponentItem() !== componentItem) {
+                  // V2 uses getActiveComponentItem and compare with componentItem
                   console.log(
-                    '[RegionPanel Wrapper] Found parent stack:',
-                    stack
+                    `[RegionPanel Wrapper] Activating panel tab for ${data.regionName}`
                   );
-                  // The content item to activate is usually the one whose tab was clicked,
-                  // but since the event originated elsewhere, we need the item linked to *this* container.
-                  // The container's parent *should* be the content item itself in GL v2.
-                  contentItemToActivate = container.parentItem; // Or container.tab?.contentItem? Let's try parentItem first
-                  if (contentItemToActivate) {
-                    // Double check it's actually in the found stack
-                    if (stack.contentItems.includes(contentItemToActivate)) {
-                      console.log(
-                        '[RegionPanel Wrapper] Found content item to activate:',
-                        contentItemToActivate
-                      );
-                    } else {
-                      console.warn(
-                        "[RegionPanel Wrapper] Found content item via parentItem, but it's not in the stack found via tab.header.parent. ContentItem:",
-                        contentItemToActivate,
-                        'Stack:',
-                        stack
-                      );
-                      contentItemToActivate = null; // Invalidate if not in the stack
-                    }
-                  } else {
-                    // Fallback: find item in stack by container reference if parentItem fails
-                    console.warn(
-                      '[RegionPanel Wrapper] container.parentItem did not yield a content item. Searching stack...'
-                    );
-                    contentItemToActivate = stack.contentItems.find(
-                      (item) => item.container === container
-                    );
-                    if (contentItemToActivate) {
-                      console.log(
-                        '[RegionPanel Wrapper] Found content item by searching stack:',
-                        contentItemToActivate
-                      );
-                    } else {
-                      console.warn(
-                        '[RegionPanel Wrapper] Could not find content item for this container in the stack.'
-                      );
-                    }
-                  }
+                  stack.setActiveComponentItem(componentItem); // Activate the specific content item's tab
                 } else {
-                  console.warn(
-                    '[RegionPanel Wrapper] Could not find parent stack via container.tab.header.parent. Tab:',
-                    container.tab,
-                    'Header:',
-                    container.tab?.header,
-                    'Parent:',
-                    container.tab?.header?.parent
+                  console.log(
+                    `[RegionPanel Wrapper] Panel tab for ${data.regionName} is already active.`
                   );
                 }
-                // --- End detailed logging ---
-
-                // Ensure parent stack exists and has the activation method
-                if (
-                  stack &&
-                  stack.type === 'stack' &&
-                  contentItemToActivate &&
-                  typeof stack.setActiveContentItem === 'function'
-                ) {
-                  // Check if this container is already the active one to avoid unnecessary calls
-                  if (stack.getActiveContentItem() !== contentItemToActivate) {
-                    console.log(
-                      `[RegionPanel Wrapper] Activating panel tab for ${data.regionName}`
-                    );
-                    stack.setActiveContentItem(contentItemToActivate); // Activate the specific content item's tab
-                  } else {
-                    console.log(
-                      `[RegionPanel Wrapper] Panel tab for ${data.regionName} is already active.`
-                    );
-                  }
-                } else {
-                  console.warn(
-                    `[RegionPanel Wrapper] Cannot activate panel tab for ${data.regionName}. Parent stack or setActiveContentItem method not found.`
-                  );
-                }
-              } catch (activationError) {
-                console.error(
-                  `[RegionPanel Wrapper] Error during panel activation:`,
-                  activationError
+              } else {
+                console.warn(
+                  `[RegionPanel Wrapper] Cannot activate panel tab for ${data.regionName}. Parent stack or setActiveComponentItem method not found.`
                 );
               }
-              // --- End Tab Activation ---
 
+              // --- RE-ADD setTimeout block ---
               // Delay slightly to allow Golden Layout to render the activated tab
               setTimeout(() => {
                 // Double-check uiProvider and method still exist before calling
                 if (
-                  this.uiProvider &&
+                  this.uiProvider && // 'this' should be correct due to arrow function
                   typeof this.uiProvider.navigateToRegion === 'function'
                 ) {
                   console.log(
@@ -252,10 +211,17 @@ class PanelManager {
                   this.uiProvider.navigateToRegion(data.regionName);
                 } else {
                   console.warn(
-                    `[RegionPanel Wrapper] Could not call navigateToRegion for ${data.regionName}. uiProvider or method missing after delay.`
+                    `[RegionPanel Wrapper] Could not call navigateToRegion for ${data.regionName}. uiProvider or method missing after delay.`,
+                    {
+                      hasProvider: !!this.uiProvider,
+                      providerType: this.uiProvider?.constructor?.name,
+                      hasMethod:
+                        typeof this.uiProvider?.navigateToRegion === 'function',
+                    }
                   );
                 }
               }, 100); // 100ms delay
+              // --- END RE-ADD setTimeout block ---
             }
           );
           // Store the unsubscribe function for later cleanup
@@ -273,36 +239,31 @@ class PanelManager {
                   `[RegionPanel Wrapper] Event 'ui:navigateToLocation' received for: ${data.locationName} in ${data.regionName}`
                 );
 
-                // --- Activate the Panel's Tab (reuse logic from region nav) ---
+                // --- Activate the Panel's Tab (reuse logic from region nav - Apply V2 changes - Attempt 4) ---
                 try {
-                  let stack = container.tab?.header?.parent;
-                  let contentItemToActivate = null;
-                  if (stack && stack.type === 'stack') {
-                    contentItemToActivate = container.parentItem; // Try direct parent first
+                  // --- V2 Activation Logic ---
+                  let componentItem = container.parent; // Use container.parent to get ComponentItem
+                  let stack = componentItem?.parent; // Get the parent Stack from the ComponentItem
+
+                  if (stack && stack.isStack) {
                     if (
-                      !contentItemToActivate ||
-                      !stack.contentItems.includes(contentItemToActivate)
-                    ) {
-                      // Fallback: search stack by container
-                      contentItemToActivate = stack.contentItems.find(
-                        (item) => item.container === container
-                      );
-                    }
-                    if (
-                      contentItemToActivate &&
-                      stack.setActiveContentItem &&
-                      stack.getActiveContentItem() !== contentItemToActivate
+                      stack.getActiveComponentItem() !== componentItem &&
+                      typeof stack.setActiveComponentItem === 'function'
                     ) {
                       console.log(
                         `[RegionPanel Wrapper] Activating panel tab for location ${data.locationName}`
                       );
-                      stack.setActiveContentItem(contentItemToActivate);
+                      stack.setActiveComponentItem(componentItem); // Use componentItem
                     }
                   } else {
                     console.warn(
-                      '[RegionPanel Wrapper] Could not find parent stack for location nav activation.'
+                      '[RegionPanel Wrapper] Could not find parent stack for location nav activation via container.parent.parent. ComponentItem:',
+                      componentItem,
+                      'Parent:',
+                      stack
                     );
                   }
+                  // --- End V2 Activation Logic ---
                 } catch (activationError) {
                   console.error(
                     '[RegionPanel Wrapper] Error during panel activation for location nav:',
@@ -311,6 +272,7 @@ class PanelManager {
                 }
                 // --- End Tab Activation ---
 
+                // --- RE-ADD setTimeout block ---
                 // Call the internal navigation after delay
                 setTimeout(() => {
                   if (
@@ -326,10 +288,18 @@ class PanelManager {
                     );
                   } else {
                     console.warn(
-                      `[RegionPanel Wrapper] Could not call navigateToLocation for ${data.locationName}. uiProvider or method missing after delay.`
+                      `[RegionPanel Wrapper] Could not call navigateToLocation for ${data.locationName}. uiProvider or method missing after delay.`,
+                      {
+                        hasProvider: !!this.uiProvider,
+                        providerType: this.uiProvider?.constructor?.name,
+                        hasMethod:
+                          typeof this.uiProvider?.navigateToLocation ===
+                          'function',
+                      }
                     );
                   }
                 }, 100); // 100ms delay
+                // --- END RE-ADD setTimeout block ---
               }
             );
             this.unsubscribeHandles.push(handleLocationNav);
@@ -415,7 +385,10 @@ class PanelManager {
             this.uiProvider &&
             typeof this.uiProvider.onPanelResize === 'function'
           ) {
-            this.uiProvider.onPanelResize(container.width, container.height);
+            this.uiProvider.onPanelResize(
+              container.element.clientWidth,
+              container.element.clientHeight
+            );
           }
           // Add other relevant update calls if needed
         });
@@ -468,11 +441,7 @@ class PanelManager {
           `!!! ERROR in WrapperComponent constructor for ${componentTypeName}:`,
           error
         );
-        container
-          .getElement()
-          .html(
-            `<h2>Error loading ${componentTypeName}</h2><p>Check console for details.</p><pre style="color: red; white-space: pre-wrap;">${error.stack}</pre>`
-          );
+        container.element.innerHTML = `<h2>Error loading ${componentTypeName}</h2><p>Check console for details.</p><pre style="color: red; white-space: pre-wrap;">${error.stack}</pre>`;
       }
       console.log(
         `--- WrapperComponent constructor finished for: ${componentTypeName} ---`
@@ -480,7 +449,10 @@ class PanelManager {
     };
 
     // Register the WrapperComponent constructor with Golden Layout
-    this.layout.registerComponent(componentTypeName, WrapperComponent);
+    this.layout.registerComponentConstructor(
+      componentTypeName,
+      WrapperComponent
+    );
   }
 
   /**

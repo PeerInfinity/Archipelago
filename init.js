@@ -87,78 +87,78 @@ document.addEventListener('DOMContentLoaded', async () => {
       settings: {
         showPopoutIcon: false, // Disable popout icon for simplicity initially
       },
-      content: [
-        {
-          type: 'row',
-          content: [
-            {
-              // Left Column (Inventory)
-              type: 'component',
-              componentName: 'inventoryPanel',
-              title: 'Inventory',
-              width: 20, // Percentage width
-            },
-            {
-              // Middle Column (Stack with Console and Editor)
-              type: 'stack',
-              width: 30,
-              content: [
-                {
-                  type: 'component',
-                  componentName: 'mainContentPanel',
-                  title: 'Console & Status',
-                },
-                {
-                  type: 'component',
-                  componentName: 'editorPanel',
-                  title: 'Editor',
-                },
-                {
-                  type: 'component',
-                  componentName: 'optionsPanel',
-                  title: 'Options',
-                },
-              ],
-            },
-            {
-              // Right Column (Stack of views)
-              type: 'stack',
-              width: 50,
-              content: [
-                {
-                  type: 'component',
-                  componentName: 'locationsPanel',
-                  title: 'Locations',
-                },
-                {
-                  type: 'component',
-                  componentName: 'exitsPanel',
-                  title: 'Exits',
-                },
-                {
-                  type: 'component',
-                  componentName: 'regionsPanel',
-                  title: 'Regions',
-                },
-                {
-                  type: 'component',
-                  componentName: 'loopsPanel',
-                  title: 'Loops',
-                },
-                {
-                  type: 'component',
-                  componentName: 'filesPanel',
-                  title: 'Files',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      root: {
+        type: 'row',
+        content: [
+          {
+            // Left Column (Inventory)
+            type: 'component',
+            componentType: 'inventoryPanel',
+            title: 'Inventory',
+            width: 20, // Percentage width
+          },
+          {
+            // Middle Column (Stack with Console and Editor)
+            type: 'stack',
+            width: 30,
+            content: [
+              {
+                type: 'component',
+                componentType: 'mainContentPanel',
+                title: 'Console & Status',
+              },
+              {
+                type: 'component',
+                componentType: 'editorPanel',
+                title: 'Editor',
+              },
+              {
+                type: 'component',
+                componentType: 'optionsPanel',
+                title: 'Options',
+              },
+            ],
+          },
+          {
+            // Right Column (Stack of views)
+            type: 'stack',
+            width: 50,
+            content: [
+              {
+                type: 'component',
+                componentType: 'locationsPanel',
+                title: 'Locations',
+              },
+              {
+                type: 'component',
+                componentType: 'exitsPanel',
+                title: 'Exits',
+              },
+              {
+                type: 'component',
+                componentType: 'regionsPanel',
+                title: 'Regions',
+              },
+              {
+                type: 'component',
+                componentType: 'loopsPanel',
+                title: 'Loops',
+              },
+              {
+                type: 'component',
+                componentType: 'filesPanel',
+                title: 'Files',
+              },
+            ],
+          },
+        ],
+      },
     };
 
-    // Instantiate Golden Layout
-    const layout = new GoldenLayout(config, containerElement);
+    // Instantiate Golden Layout - V2 STYLE - Pass container directly
+    // const layout = new goldenLayout.GoldenLayout(); // OLD V2 attempt 1
+    // layout.bind(containerElement); // OLD V2 attempt 1
+    const layout = new goldenLayout.GoldenLayout(containerElement); // NEW V2 attempt 2
 
     // Make layout instance globally available if needed for debugging
     window.goldenLayoutInstance = layout;
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }));
 
     // Initialize the layout
-    layout.init();
-    console.log('Golden Layout initialized');
+    layout.loadLayout(config);
+    console.log('Golden Layout loaded config');
 
     // Import client app last to ensure UI is ready first
     const clientAppModule = await import('./client/app.js');
