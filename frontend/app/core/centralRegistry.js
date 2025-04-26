@@ -1,6 +1,7 @@
 class CentralRegistry {
   constructor() {
     this.panelComponents = new Map(); // componentType -> componentFactory
+    this.moduleIdToComponentType = new Map(); // moduleId -> componentType
     this.eventHandlers = new Map(); // eventName -> Array<{moduleId, handlerFunction}>
     this.settingsSchemas = new Map(); // moduleId -> schemaSnippet
     this.publicFunctions = new Map(); // moduleId -> Map<functionName, functionRef>
@@ -13,10 +14,21 @@ class CentralRegistry {
         `[Registry] Panel component type '${componentType}' registered by ${moduleId} is already registered. Overwriting.`
       );
     }
+    if (this.moduleIdToComponentType.has(moduleId)) {
+      console.warn(
+        `[Registry] Module ${moduleId} is attempting to register a second panel component (${componentType}). Only one is supported.`
+      );
+    } else {
+      this.moduleIdToComponentType.set(moduleId, componentType);
+    }
     console.log(
       `[Registry] Registering panel component '${componentType}' from ${moduleId}`
     );
     this.panelComponents.set(componentType, componentFactory);
+  }
+
+  getComponentTypeForModule(moduleId) {
+    return this.moduleIdToComponentType.get(moduleId) || null;
   }
 
   registerEventHandler(moduleId, eventName, handlerFunction) {

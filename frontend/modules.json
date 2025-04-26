@@ -1,5 +1,10 @@
 {
   "moduleDefinitions": {
+    "modules": {
+      "path": "./modules/modules/index.js",
+      "description": "Panel to manage modules.",
+      "enabled": true
+    },
     "stateManager": {
       "path": "./modules/stateManager/index.js",
       "description": "Core game state management.",
@@ -62,6 +67,7 @@
     }
   },
   "loadPriority": [
+    "modules",
     "stateManager",
     "client",
     "inventory",

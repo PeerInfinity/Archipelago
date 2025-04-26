@@ -74,7 +74,7 @@ class PanelManager {
         this.unsubscribeHandles = []; // Array to store unsubscribe functions
 
         // 1. Get the actual UI instance/provider
-        const uiProvider = uiInstanceGetter();
+        const uiProvider = uiInstanceGetter(container, componentState);
         if (!uiProvider) {
           throw new Error(
             `Could not get UI instance/provider for ${componentTypeName}`
@@ -542,6 +542,132 @@ class PanelManager {
   clearAllMappings() {
     this.panelMap.clear();
     console.log('Cleared all panel mappings.');
+  }
+
+  /**
+   * Finds and removes the first panel instance corresponding to the given component type.
+   * @param {string} componentType - The component type name (e.g., 'filesPanel').
+   */
+  destroyPanelByComponentType(componentType) {
+    if (!this.layout || !this.layout.root) {
+      console.error(
+        'PanelManager: Layout not initialized, cannot destroy panel.'
+      );
+      return;
+    }
+    console.log(
+      `[PanelManager] Attempting to destroy panel for componentType: ${componentType}`
+    );
+
+    let itemToDestroy = null;
+    let foundContainer = null;
+
+    // Iterate through our known panels to find the container and its parent ComponentItem
+    for (const [container, mapping] of this.panelMap.entries()) {
+      // The componentType property should exist on the container itself in V2
+      if (container.componentType === componentType) {
+        foundContainer = container;
+        // The parent of the container is the ComponentItem we want to remove
+        if (container.parent && typeof container.parent.remove === 'function') {
+          itemToDestroy = container.parent;
+          break; // Found the first one
+        }
+      }
+    }
+
+    if (itemToDestroy) {
+      console.log(
+        '[PanelManager] Found ComponentItem to destroy via panelMap iteration:',
+        itemToDestroy
+      );
+      try {
+        itemToDestroy.remove();
+        console.log(
+          `[PanelManager] Successfully removed panel for ${componentType}.`
+        );
+        // The component's own destroy handler (attached via container.on('destroy'))
+        // should handle removing the entry from panelMap.
+      } catch (error) {
+        console.error(
+          `[PanelManager] Error removing panel item for ${componentType}:`,
+          error
+        );
+      }
+    } else {
+      console.warn(
+        `[PanelManager] Could not find a removable panel item for componentType: ${componentType} via panelMap iteration.`
+      );
+      // It might be possible the panel exists but isn't in our map, or container.parent wasn't the expected item.
+      // As a fallback, maybe try the potentially problematic root search again?
+      // For now, just warn if not found via map.
+    }
+  }
+
+  /**
+   * Creates and adds a panel for the given component type to the first available stack.
+   * @param {string} componentType - The component type name (e.g., 'filesPanel').
+   * @param {string} title - The title for the new panel.
+   */
+  createPanelForComponent(componentType, title) {
+    if (!this.layout || !this.layout.root) {
+      console.error(
+        'PanelManager: Layout not initialized, cannot create panel.'
+      );
+      return;
+    }
+    console.log(
+      `[PanelManager] Attempting to create panel for componentType: ${componentType}`
+    );
+
+    // --- Debugging ---
+    console.log(
+      '[PanelManager Debug] Value of this.layout before check:',
+      this.layout
+    );
+    console.log(
+      '[PanelManager Debug] Type of this.layout.hasRegisteredComponentType:',
+      typeof this.layout?.hasRegisteredComponentType
+    );
+    // --- End Debugging ---
+
+    // Check if component type is registered (Use V2 API)
+    if (!this.layout.hasRegisteredComponentType(componentType)) {
+      console.error(
+        `[PanelManager] Cannot create panel. Component type '${componentType}' is not registered.`
+      );
+      return;
+    }
+
+    // Find the first stack in the layout
+    const stacks = this.layout.root.getItemsByType('stack');
+    if (stacks.length > 0) {
+      const targetStack = stacks[0];
+      console.log(
+        '[PanelManager] Found target stack to add panel:',
+        targetStack
+      );
+      try {
+        // Add the new component to the stack
+        targetStack.addChild({
+          type: 'component',
+          componentType: componentType,
+          title: title || componentType, // Use provided title or default to component type
+        });
+        console.log(
+          `[PanelManager] Successfully added panel for ${componentType} to stack.`
+        );
+      } catch (error) {
+        console.error(
+          `[PanelManager] Error adding child component ${componentType} to stack:`,
+          error
+        );
+      }
+    } else {
+      console.warn(
+        '[PanelManager] No stacks found in the layout to add the new panel.'
+      );
+      // TODO: Could potentially create a new stack or add to the root row/column as a fallback?
+    }
   }
 }
 

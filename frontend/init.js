@@ -6,9 +6,13 @@ import eventBus from './app/core/eventBus.js';
 import settingsManager from './app/core/settingsManager.js';
 import centralRegistry from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
+import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
 
 // GoldenLayout (assuming it's loaded globally via script tag)
 // declare const goldenLayout: any; // Removed TypeScript declaration
+
+// Keep track of runtime module state
+const runtimeModuleStates = new Map(); // Map<moduleId, { initialized: boolean, enabled: boolean }>
 
 // --- Helper Functions ---
 
@@ -125,6 +129,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       `[Init] Finished importing modules. ${importedModules.size} loaded.`
     );
 
+    // Initialize runtime state for all defined modules based on initial config
+    for (const moduleId in modulesData.moduleDefinitions) {
+      const isEnabled =
+        modulesData.moduleDefinitions[moduleId]?.enabled || false;
+      // Ensure not to overwrite if already set (though unlikely here)
+      if (!runtimeModuleStates.has(moduleId)) {
+        runtimeModuleStates.set(moduleId, {
+          initialized: false,
+          enabled: isEnabled,
+        });
+      }
+    }
+    console.log(
+      '[Init] Initialized runtime module states based on modules.json'
+    );
+
     // --- 3. Instantiate Event Dispatcher ---
     dispatcher = new EventDispatcher(); // New way: Construct first
     window.dispatcher = dispatcher; // Expose for debugging
@@ -222,6 +242,196 @@ document.addEventListener('DOMContentLoaded', async () => {
               functionName
             );
           },
+          // Add the new Module Manager API provider function
+          getModuleManager: () => ({
+            // Provide access to raw data (use carefully)
+            _getRawModulesData: () => modulesData,
+            _getRawImportedModules: () => importedModules,
+            _getRawRegistry: () => centralRegistry,
+            _getRawDispatcher: () => dispatcher,
+
+            // Provide access to current state information
+            getAllModuleStates: async () => {
+              const states = {};
+              for (const id in modulesData.moduleDefinitions) {
+                const definition = modulesData.moduleDefinitions[id];
+                const runtimeState = runtimeModuleStates.get(id) || {
+                  enabled: false,
+                }; // Get runtime state
+                states[id] = {
+                  enabled: runtimeState.enabled, // Use runtime state here
+                  definition: definition,
+                };
+              }
+              return states;
+            },
+            getCurrentLoadPriority: async () => {
+              return modulesData.loadPriority;
+            },
+
+            // --- Module Management Functions (Mirroring implementation from above) ---
+            enableModule: async (moduleId) => {
+              if (
+                !modulesData.moduleDefinitions[moduleId] ||
+                !importedModules.has(moduleId)
+              ) {
+                console.error(
+                  `ModuleManager: Cannot enable unknown or failed-import module: ${moduleId}`
+                );
+                return;
+              }
+              const runtimeState = runtimeModuleStates.get(moduleId);
+              if (runtimeState?.enabled) {
+                console.log(
+                  `ModuleManager: Module ${moduleId} is already enabled.`
+                );
+                return;
+              }
+              console.log(`ModuleManager: Enabling module ${moduleId}...`);
+              runtimeState.enabled = true;
+              if (!runtimeState.initialized) {
+                const moduleInstance = importedModules.get(moduleId);
+                if (typeof moduleInstance.initialize === 'function') {
+                  try {
+                    const priorityIndex =
+                      modulesData.loadPriority.indexOf(moduleId);
+                    const api = {
+                      getSettings: async () =>
+                        settingsManager.getModuleSettings(moduleId),
+                      getDispatcher: () => ({
+                        publish: dispatcher.publish.bind(dispatcher),
+                        publishToPredecessors:
+                          dispatcher.publishToPredecessors.bind(dispatcher),
+                      }),
+                      getEventBus: () => eventBus,
+                      getModuleFunction: (targetModuleId, functionName) =>
+                        centralRegistry.getPublicFunction(
+                          targetModuleId,
+                          functionName
+                        ),
+                      getModuleManager: () => {
+                        /* Avoid recursion */
+                      },
+                    };
+                    await moduleInstance.initialize(
+                      moduleId,
+                      priorityIndex,
+                      api
+                    );
+                    runtimeState.initialized = true;
+
+                    // --- Create Panel (Delayed) ---
+                    const componentType =
+                      centralRegistry.getComponentTypeForModule(moduleId);
+                    if (componentType) {
+                      const definition =
+                        modulesData.moduleDefinitions[moduleId];
+                      // Delay slightly
+                      setTimeout(() => {
+                        console.log(
+                          `ModuleManager (post-init API): Requesting panel creation (delayed) for ${componentType}`
+                        );
+                        if (panelManagerInstance) {
+                          panelManagerInstance.createPanelForComponent(
+                            componentType,
+                            definition.title || moduleId
+                          );
+                        } else {
+                          console.error(
+                            'ModuleManager (post-init API): PanelManager instance not available for panel creation.'
+                          );
+                        }
+                      }, 100);
+                    } // No else needed
+                    // --- End Create Panel ---
+
+                    // TODO: Update EventDispatcher handlers
+                  } catch (error) {
+                    console.error(
+                      `ModuleManager: Error initializing module ${moduleId} during enable:`,
+                      error
+                    );
+                    runtimeState.enabled = false;
+                  }
+                } else {
+                  runtimeState.initialized = true;
+                }
+              }
+              console.log(`ModuleManager: Module ${moduleId} enabled.`);
+              eventBus.publish('module:stateChanged', {
+                moduleId,
+                isEnabled: true,
+              });
+            },
+            disableModule: async (moduleId) => {
+              if (moduleId === 'stateManager' || moduleId === 'modules') {
+                console.warn(
+                  `ModuleManager: Cannot disable core module: ${moduleId}`
+                );
+                return;
+              }
+              if (!modulesData.moduleDefinitions[moduleId]) {
+                console.error(
+                  `ModuleManager: Cannot disable unknown module: ${moduleId}`
+                );
+                return;
+              }
+              const runtimeState = runtimeModuleStates.get(moduleId);
+              if (!runtimeState?.enabled) {
+                console.log(
+                  `ModuleManager: Module ${moduleId} is already disabled.`
+                );
+                return;
+              }
+              console.log(`ModuleManager: Disabling module ${moduleId}...`);
+              runtimeState.enabled = false;
+
+              // --- Destroy Panel First ---
+              const componentType =
+                centralRegistry.getComponentTypeForModule(moduleId);
+              if (componentType) {
+                console.log(
+                  `ModuleManager (post-init API): Requesting panel destruction for ${componentType}`
+                );
+                if (panelManagerInstance) {
+                  panelManagerInstance.destroyPanelByComponentType(
+                    componentType
+                  );
+                } else {
+                  console.error(
+                    'ModuleManager (post-init API): PanelManager instance not available for panel destruction.'
+                  );
+                }
+              } // No else needed
+              // --- End Destroy Panel ---
+
+              // Call uninitialize if available
+              const moduleInstance = importedModules.get(moduleId);
+              if (
+                moduleInstance &&
+                typeof moduleInstance.uninitialize === 'function'
+              ) {
+                try {
+                  await moduleInstance.uninitialize();
+                } catch (error) {
+                  console.error(
+                    `ModuleManager: Error uninitializing module ${moduleId}:`,
+                    error
+                  );
+                }
+              }
+              console.log(`ModuleManager: Module ${moduleId} disabled.`);
+              eventBus.publish('module:stateChanged', {
+                moduleId,
+                isEnabled: false,
+              });
+            },
+            changeModulePriority: async (id, direction) => {
+              console.warn(
+                `ModuleManager: changeModulePriority(${id}, ${direction}) - Not implemented`
+              );
+            },
+          }),
           // getSingleton: (name) => { /* Decide how to provide singletons */ },
         };
 
@@ -316,15 +526,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       throw new Error('[Init] Golden Layout container element not found!');
     }
 
-    // Check if GoldenLayout global exists
+    // Check if GoldenLayout global exists // REMOVED Check - Using import now
+    /*
     if (typeof goldenLayout === 'undefined' || !goldenLayout?.GoldenLayout) {
       throw new Error(
         '[Init] GoldenLayout script not loaded or GoldenLayout class not found on window.'
       );
     }
+    */
 
-    // Instantiate Golden Layout - V2 Style
-    const layout = new goldenLayout.GoldenLayout(containerElement);
+    // Instantiate Golden Layout - V2 Style - Use imported class
+    const layout = new GoldenLayout(containerElement);
     window.goldenLayoutInstance = layout; // Make global for debugging
     console.log('[Init] Golden Layout instance created.');
 
