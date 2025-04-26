@@ -111,7 +111,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
 
   // Initialize UI components - will be fully activated when attached to DOM
   ConsoleUI.initialize();
-  ProgressUI.initialize();
+  // ProgressUI.initialize(); // Moved to PanelManager wrapper for mainContentPanel
 
   // Try to initialize the app (will load stateManager etc.)
   try {

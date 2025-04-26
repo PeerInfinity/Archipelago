@@ -3,7 +3,7 @@ import eventBus from '../../app/core/eventBus.js';
 // Assume stateManager is accessible for initialization or provide it.
 // For now, assume it needs to be passed or accessed via singleton pattern.
 // Let's import the stateManager singleton directly for now.
-import stateManager from '../../modules/stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 
 /**
  * Manages the discovery state of regions, locations, and exits within the game.

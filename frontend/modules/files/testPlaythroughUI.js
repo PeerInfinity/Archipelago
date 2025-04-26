@@ -1,14 +1,14 @@
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js';
 
 export class TestPlaythroughUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
+  constructor() {
+    this.initialized = false;
+    this.testPlaythroughsContainer = null;
     this.playthroughFiles = null;
     this.currentPlaythrough = null;
     this.logContainer = null;
     this.abortController = null; // To cancel ongoing tests
-    this.initialized = false; // Add flag
     this.playthroughsPanelContainer = null; // Cache container element
     this.viewChangeSubscription = null;
 
@@ -20,24 +20,22 @@ export class TestPlaythroughUI {
     this.testStateInitialized = false;
   }
 
-  initialize() {
-    console.log('Initializing TestPlaythroughUI');
-    // Find the container within the live files panel DOM element stored in gameUI
-    this.playthroughsPanelContainer =
-      window.gameUI?.filesPanelContainer?.querySelector(
-        '#test-playthroughs-panel'
-      );
+  initialize(container) {
+    // Try to find the container directly from the passed container
+    this.testPlaythroughsContainer = container?.querySelector(
+      '#test-playthroughs-panel'
+    );
 
-    if (!this.playthroughsPanelContainer) {
+    if (!this.testPlaythroughsContainer) {
       console.error(
-        'Test Playthroughs panel container not found within gameUI.filesPanelContainer'
+        'Test Playthroughs panel container not found during initialization'
       );
       this.initialized = false;
       return false;
     }
 
     this.initialized = true; // Set initialized flag early
-    this.playthroughsPanelContainer.innerHTML =
+    this.testPlaythroughsContainer.innerHTML =
       '<p>Loading playthrough list...</p>';
 
     try {
@@ -79,8 +77,8 @@ export class TestPlaythroughUI {
     } catch (error) {
       console.error('Error loading playthrough files data:', error);
       // container.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
-      if (this.playthroughsPanelContainer) {
-        this.playthroughsPanelContainer.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
+      if (this.testPlaythroughsContainer) {
+        this.testPlaythroughsContainer.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
       }
       this.initialized = false; // Reset on error
       return false; // Return false from catch block
@@ -89,7 +87,7 @@ export class TestPlaythroughUI {
 
   renderPlaythroughList() {
     // const container = document.getElementById('test-playthroughs-panel');
-    const container = this.playthroughsPanelContainer;
+    const container = this.testPlaythroughsContainer;
     if (!container) return;
 
     // Clear previous state when returning to list
@@ -144,7 +142,7 @@ export class TestPlaythroughUI {
 
   renderResultsView() {
     // const container = document.getElementById('test-playthroughs-panel');
-    const container = this.playthroughsPanelContainer;
+    const container = this.testPlaythroughsContainer;
     if (!container || !this.currentPlaythrough) return;
 
     container.innerHTML = `

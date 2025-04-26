@@ -15,34 +15,10 @@ export function register(registrationApi) {
   console.log('[Regions Module] Registering...');
 
   // Register the panel component factory
-  registrationApi.registerPanelComponent('regionsPanel', (container) => {
-    if (!regionInstance) {
-      // Needs refactoring - expects gameUI and pathAnalyzerUI (or gets it later)
-      // For now, create with placeholder and let initialize provide pathAnalyzerUI
-      regionInstance = new RegionUI(null, null);
-    }
-
-    const rootElement = regionInstance.getRootElement();
-    container.element.appendChild(rootElement);
-
-    // Initialize UI when panel is shown
-    if (typeof regionInstance.initialize === 'function') {
-      // Pass the pathAnalyzerUI instance if it's available
-      setTimeout(() => regionInstance.initialize(pathAnalyzerUI), 0);
-    }
-
-    // Return object for Golden Layout lifecycle
-    return {
-      destroy: () => {
-        console.log('RegionUI destroy called by GL');
-        if (typeof regionInstance?.onPanelDestroy === 'function') {
-          regionInstance.onPanelDestroy();
-        }
-        regionInstance = null;
-      },
-      // Resize handling if needed
-    };
-  });
+  registrationApi.registerPanelComponent(
+    'regionsPanel',
+    () => new RegionUI() // Return a new instance directly
+  );
 
   // No specific settings schema or primary event handlers for Regions registration.
 }

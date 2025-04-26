@@ -1,10 +1,9 @@
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import commonUI from '../commonUI/commonUI.js';
 import eventBus from '../../app/core/eventBus.js';
 
 export class TestCaseUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
+  constructor() {
     this.testCases = null;
     this.testRules = null;
     this.currentTest = null;
@@ -16,14 +15,13 @@ export class TestCaseUI {
     this.viewChangeSubscription = null;
   }
 
-  initialize() {
-    // Find the container within the live files panel DOM element stored in gameUI
-    this.testCasesListContainer =
-      window.gameUI?.filesPanelContainer?.querySelector('#test-cases-list');
+  initialize(container) {
+    // Try to find the test cases list container directly from the passed container
+    this.testCasesListContainer = container?.querySelector('#test-cases-list');
 
     if (!this.testCasesListContainer) {
       console.error(
-        'TestCaseUI: Could not find #test-cases-list container within gameUI.filesPanelContainer during initialization.'
+        'TestCaseUI: Could not find #test-cases-list container during initialization.'
       );
       this.initialized = false;
       return false;

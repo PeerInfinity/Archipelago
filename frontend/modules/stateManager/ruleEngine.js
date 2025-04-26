@@ -1,4 +1,10 @@
-import stateManager from './stateManagerSingleton.js';
+import stateManagerSingleton from './stateManagerSingleton.js';
+
+// Instead of accessing instance immediately, create a getter function
+// that will only access the instance when the function is called
+function getStateManager() {
+  return stateManagerSingleton.instance;
+}
 
 // Evaluation trace object for capturing debug info
 class RuleTrace {
@@ -81,6 +87,8 @@ function safeLog(message, level = 'debug') {
  * @returns {boolean} - True if this is a boss defeat check
  */
 function isBossDefeatCheck(rule) {
+  const stateManager = getStateManager();
+
   // Direct check for simple cases
   if (
     rule.type === 'attribute' &&
@@ -125,6 +133,10 @@ export const evaluateRule = (rule, depth = 0) => {
   if (!rule) {
     return true;
   }
+
+  // Get stateManager only when needed
+  const stateManager = getStateManager();
+
   if (!stateManager.inventory) {
     return false; // Add early return if inventory is undefined
   }

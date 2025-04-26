@@ -1,25 +1,21 @@
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js';
 
 export class PresetUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
+  constructor() {
     this.presets = null;
-    this.currentGame = null;
-    this.currentPreset = null;
     this.currentPlayer = null;
     this.initialized = false;
     this.presetsListContainer = null;
   }
 
-  initialize() {
-    // Find the container within the live files panel DOM element stored in gameUI
-    this.presetsListContainer =
-      window.gameUI?.filesPanelContainer?.querySelector('#presets-list');
+  initialize(container) {
+    // Try to find the presets list container directly from the passed container
+    this.presetsListContainer = container?.querySelector('#presets-list');
 
     if (!this.presetsListContainer) {
       console.error(
-        'PresetUI: Could not find #presets-list container within gameUI.filesPanelContainer during initialization.'
+        'PresetUI: Could not find #presets-list container during initialization.'
       );
       this.initialized = false;
       return false;

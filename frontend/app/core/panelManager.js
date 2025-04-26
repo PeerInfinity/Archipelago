@@ -105,6 +105,41 @@ class PanelManager {
           `   [${componentTypeName}] Root element appended to container`
         );
 
+        // --- Call initializeElements if available (e.g., for MainContentUI) ---
+        if (typeof uiProvider.initializeElements === 'function') {
+          console.log(`   [${componentTypeName}] Calling initializeElements`);
+          // Pass the rootElement or container if needed
+          uiProvider.initializeElements(container.element);
+        }
+
+        // --- Initialize ProgressUI specifically AFTER mainContentPanel elements are ready ---
+        if (
+          componentTypeName === 'mainContentPanel' ||
+          componentTypeName === 'clientPanel'
+        ) {
+          try {
+            // Dynamically import ProgressUI if not already loaded?
+            // Or assume it's globally available via window or direct import.
+            // Let's assume it might need import or is attached to window.
+            const ProgressUI = window.ProgressUI; // Get from global if client module attached it
+            if (ProgressUI && typeof ProgressUI.initialize === 'function') {
+              console.log(
+                `   [${componentTypeName}] Initializing ProgressUI...`
+              );
+              ProgressUI.initialize();
+            } else {
+              console.warn(
+                `   [${componentTypeName}] Could not find ProgressUI to initialize.`
+              );
+            }
+          } catch (error) {
+            console.error(
+              `   [${componentTypeName}] Error initializing ProgressUI:`,
+              error
+            );
+          }
+        }
+
         // --- NEW: Attach internal listeners AFTER appending ---
         if (typeof uiProvider.attachInternalListeners === 'function') {
           console.log(

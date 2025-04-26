@@ -14,33 +14,10 @@ export function register(registrationApi) {
   console.log('[Locations Module] Registering...');
 
   // Register the panel component factory
-  registrationApi.registerPanelComponent('locationsPanel', (container) => {
-    if (!locationInstance) {
-      // Needs refactoring - expects gameUI
-      locationInstance = new LocationUI(null);
-    }
-
-    const rootElement = locationInstance.getRootElement();
-    container.element.appendChild(rootElement);
-
-    // Initialize UI when panel is shown
-    if (typeof locationInstance.initialize === 'function') {
-      setTimeout(() => locationInstance.initialize(), 0);
-    }
-
-    // Return object for Golden Layout lifecycle
-    return {
-      destroy: () => {
-        console.log('LocationUI destroy called by GL');
-        if (typeof locationInstance?.onPanelDestroy === 'function') {
-          locationInstance.onPanelDestroy();
-        }
-        locationInstance = null;
-      },
-      // GL doesn't explicitly provide resize to components, but panels get resized.
-      // We might need internal resize observers if needed.
-    };
-  });
+  registrationApi.registerPanelComponent(
+    'locationsPanel',
+    () => new LocationUI() // Return a new instance directly
+  );
 
   // Register primary event handler if Locations module owns an action
   // Example: If checking a location *always* goes through this module first

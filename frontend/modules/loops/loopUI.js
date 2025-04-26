@@ -1,5 +1,5 @@
 // loopUI.js - UI for the Loop mode
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import loopState from './loopStateSingleton.js';
 import discoveryStateSingleton from '../discovery/singleton.js'; // <<< Added import
 import eventBus from '../../app/core/eventBus.js';

@@ -1,5 +1,5 @@
 // locationUI.js
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
 import commonUI from '../commonUI/commonUI.js';
 import messageHandler from '../client/core/messageHandler.js';
@@ -400,14 +400,15 @@ export class LocationUI {
     }
 
     // Get locations from state manager
-    const locations = stateManager.locations;
+    const locations = stateManager.locations || [];
 
     const locationsGrid = this.locationsGrid; // Use cached grid
     if (!locationsGrid) return;
 
     locationsGrid.style.gridTemplateColumns = `repeat(${this.columns}, minmax(0, 1fr))`; // Set the number of columns
 
-    if (locations.length === 0) {
+    // Check if locations exist or is empty array
+    if (!locations || !Array.isArray(locations) || locations.length === 0) {
       locationsGrid.innerHTML = `
         <div class="empty-message">
           Upload a JSON file to see locations or adjust filters

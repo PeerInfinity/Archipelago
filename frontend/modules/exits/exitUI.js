@@ -1,5 +1,5 @@
 // exitUI.js
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
 import commonUI from '../commonUI/commonUI.js';
 import loopState from '../loops/loopStateSingleton.js';

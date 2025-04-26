@@ -15,30 +15,12 @@ export function register(registrationApi) {
 
   // Register the panel component factory
   // Golden Layout V2 expects the component factory to handle DOM element creation/attachment.
-  registrationApi.registerPanelComponent('inventoryPanel', (container) => {
-    if (!inventoryInstance) {
-      // Pass necessary dependencies if InventoryUI constructor requires them.
-      // According to the file, it expects `gameUI`. This needs refactoring later.
-      // For now, create without args or pass placeholder/null.
-      inventoryInstance = new InventoryUI(null);
-    }
+  registrationApi.registerPanelComponent(
+    'inventoryPanel',
+    () => new InventoryUI() // Return a new instance directly
+  );
 
-    // Attach the UI's root element to the container provided by Golden Layout.
-    const rootElement = inventoryInstance.getRootElement();
-    container.element.appendChild(rootElement);
-
-    // Return an object that Golden Layout might use for lifecycle management (optional).
-    // Returning the instance or its root element might be sufficient depending on GL needs.
-    return {
-      // You might need a destroy method if GL needs to clean up:
-      // destroy: () => {
-      //     console.log("InventoryUI destroy called by GL");
-      //     inventoryInstance?.clear(); // Example cleanup
-      //     inventoryInstance = null;
-      // }
-      // For now, let's assume attaching the element is enough.
-    };
-  });
+  // Register settings schema if needed
 
   // No settings schema or primary event handlers specific to Inventory registration.
 }

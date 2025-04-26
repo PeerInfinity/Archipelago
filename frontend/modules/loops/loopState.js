@@ -8,7 +8,7 @@
  * - Region and location discovery
  */
 
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js';
 import {
   proposedLinearReduction,

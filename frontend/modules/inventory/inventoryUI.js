@@ -1,4 +1,4 @@
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import connection from '../client/core/connection.js';
 import messageHandler from '../client/core/messageHandler.js';
 

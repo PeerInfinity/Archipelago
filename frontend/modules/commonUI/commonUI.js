@@ -1,7 +1,7 @@
 // commonUI.js - Common UI functions that can be shared between components
 
 import { evaluateRule } from '../stateManager/ruleEngine.js';
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js';
 
 /**

@@ -86,13 +86,13 @@ export default class FilesUI {
   }
 
   /**
-   * Called by Golden Layout after the panel is created and added to the DOM.
+   * Called by the PanelManager wrapper after the element is created and added to the DOM.
    * Attaches event listeners and initializes the view.
    * @param {HTMLElement} containerElement - The root element returned by getRootElement().
    */
-  initialize(containerElement) {
+  buildInitialStructure(containerElement) {
     console.log(
-      '[FilesUI] Initialize called with container:',
+      '[FilesUI] buildInitialStructure called with container:',
       containerElement
     );
 
@@ -125,6 +125,23 @@ export default class FilesUI {
       );
     }
 
+    // Initialize all child UIs with the container
+    const filesContentArea = this.filesPanelContainer.querySelector(
+      '#files-panel-content'
+    );
+    if (filesContentArea) {
+      this.presetUI.initialize(filesContentArea);
+      this.testCaseUI.initialize(filesContentArea);
+      this.testPlaythroughUI.initialize(filesContentArea);
+      console.log(
+        '[FilesUI] Initialized child UI components with content area reference'
+      );
+    } else {
+      console.error(
+        '[FilesUI] Could not find #files-panel-content to initialize child UIs'
+      );
+    }
+
     // Initial render of the default file view
     this.updateFileViewDisplay();
     console.log('[FilesUI] Initial view display updated');
@@ -135,7 +152,7 @@ export default class FilesUI {
       this.handleLoopModeChange(window.loopUIInstance.isLoopModeActive);
     }
 
-    console.log('[FilesUI] Initialization complete');
+    console.log('[FilesUI] buildInitialStructure complete');
   }
 
   /**

@@ -17,37 +17,10 @@ let loopUnsubscribeHandles = [];
 export function register(registrationApi) {
   console.log('[Loops Module] Registering...');
 
-  // Register the panel component factory
-  registrationApi.registerPanelComponent('loopsPanel', (container) => {
-    if (!loopInstance) {
-      // Needs refactoring - expects gameUI
-      loopInstance = new LoopUI(null);
-    }
-
-    const rootElement = loopInstance.getRootElement();
-    container.element.appendChild(rootElement);
-
-    // Attach internal listeners now that element is in DOM
-    if (typeof loopInstance.attachInternalListeners === 'function') {
-      setTimeout(() => loopInstance.attachInternalListeners(), 0);
-    }
-
-    // Initialize UI when panel is shown
-    if (typeof loopInstance.initialize === 'function') {
-      setTimeout(() => loopInstance.initialize(), 0);
-    }
-
-    // Return object for Golden Layout lifecycle
-    return {
-      destroy: () => {
-        console.log('LoopUI destroy called by GL');
-        if (typeof loopInstance?.onPanelDestroy === 'function') {
-          loopInstance.onPanelDestroy();
-        }
-        loopInstance = null;
-      },
-    };
-  });
+  registrationApi.registerPanelComponent(
+    'loopsPanel',
+    () => new LoopUI() // Return a new instance directly
+  );
 
   // Register Loops settings schema snippet
   registrationApi.registerSettingsSchema({

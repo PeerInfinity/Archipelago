@@ -3,7 +3,7 @@
 import ConsoleUI from './consoleUI.js';
 import eventBus from '../../../app/core/eventBus.js';
 import connection from '../core/connection.js';
-import stateManager from '../../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../../stateManager/index.js';
 
 class MainContentUI {
   constructor() {

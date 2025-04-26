@@ -12,35 +12,10 @@ export function register(registrationApi) {
   console.log('[Options Module] Registering...');
 
   // Register the panel component factory
-  registrationApi.registerPanelComponent('optionsPanel', (container) => {
-    if (!optionsInstance) {
-      optionsInstance = new OptionsUI();
-    }
-
-    const rootElement = optionsInstance.getRootElement();
-    container.element.appendChild(rootElement);
-
-    // Initialize editor when panel is shown
-    if (typeof optionsInstance.initialize === 'function') {
-      setTimeout(() => optionsInstance.initialize(), 0);
-    }
-
-    // Return object for Golden Layout lifecycle
-    return {
-      destroy: () => {
-        console.log('OptionsUI destroy called by GL');
-        if (typeof optionsInstance?.onPanelDestroy === 'function') {
-          optionsInstance.onPanelDestroy();
-        }
-        optionsInstance = null;
-      },
-      resize: (width, height) => {
-        if (typeof optionsInstance?.onPanelResize === 'function') {
-          optionsInstance.onPanelResize(width, height);
-        }
-      },
-    };
-  });
+  registrationApi.registerPanelComponent(
+    'optionsPanel',
+    () => new OptionsUI() // Return a new instance directly
+  );
 
   // Options might have its own settings schema distinct from the main one it edits?
   // registrationApi.registerSettingsSchema({ ... });

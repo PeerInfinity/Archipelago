@@ -1,6 +1,6 @@
 // gameUI.js - Updated to work directly with console client
 
-import stateManager from '../../modules/stateManager/stateManagerSingleton.js';
+import { stateManager } from '../../modules/stateManager/index.js';
 import { LocationUI } from '../../modules/locations/locationUI.js';
 import { ExitUI } from '../../modules/exits/exitUI.js';
 import { RegionUI } from '../../modules/regions/regionUI.js';

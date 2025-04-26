@@ -1,6 +1,10 @@
 import { StateManager } from './stateManager.js';
 import stateManagerSingleton from './stateManagerSingleton.js';
 
+// Keep track of when initialization is complete
+let isInitialized = false;
+let initializationPromise = null;
+
 /**
  * Registration function for the StateManager module.
  * Currently, it does not register anything specific like panels or complex event handlers.
@@ -21,26 +25,51 @@ export function register(registrationApi) {
 
 /**
  * Initialization function for the StateManager module.
- * The core singleton instance is created outside the lifecycle, so this function
- * might perform additional setup if needed, like subscribing to specific bus events
- * or accessing initial settings.
+ * Creates a real StateManager instance and ensures it's fully loaded
+ * before other modules that depend on it are initialized.
  * @param {string} moduleId - The unique ID for this module ('stateManager').
  * @param {number} priorityIndex - The loading priority index.
  * @param {object} initializationApi - API provided by the initialization script.
  */
-export function initialize(moduleId, priorityIndex, initializationApi) {
+export async function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(
     `[StateManager Module] Initializing with priority ${priorityIndex}...`
   );
-  // The singleton instance handles its own constructor logic.
-  // We could use initializationApi here if the StateManager needed
-  // access to settings or the dispatcher during its setup.
-  // Example: const settings = await initializationApi.getSettings();
+
+  // Fully initialize the real StateManager instance if not already done
+  if (!isInitialized) {
+    // Create a proper StateManager instance
+    if (!initializationPromise) {
+      initializationPromise = new Promise((resolve) => {
+        console.log(
+          '[StateManager Module] Creating real StateManager instance...'
+        );
+        const realInstance = new StateManager();
+
+        // Replace the temporary stub with the real instance
+        stateManagerSingleton.setInstance(realInstance);
+
+        isInitialized = true;
+        console.log('[StateManager Module] Real StateManager instance created');
+        resolve(realInstance);
+      });
+    }
+
+    // Wait for initialization to complete
+    await initializationPromise;
+  }
+
+  console.log('[StateManager Module] Initialization complete.');
 }
 
 // Export the class if direct instantiation is ever needed elsewhere (unlikely for a singleton module)
 export { StateManager };
 
-// Export the singleton instance as the primary export for this module
-// Consumers should import { stateManager } from '.../stateManager/index.js'
-export { stateManagerSingleton as stateManager };
+// Export the singleton - both the direct singleton object and a "stateManager"
+// convenience export for backward compatibility
+export { stateManagerSingleton };
+
+// Create a convenience constant that accesses the instance
+// This still uses the getter, so it will return the stub until initialized
+const stateManager = stateManagerSingleton.instance;
+export { stateManager };

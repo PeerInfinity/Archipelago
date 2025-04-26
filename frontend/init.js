@@ -288,32 +288,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Track which components we've already registered to avoid duplicates
     const registeredComponents = new Set();
 
-    for (const [
-      componentType,
-      factory,
-    ] of centralRegistry.panelComponents.entries()) {
-      // Skip if we've already registered this component type
-      if (registeredComponents.has(componentType)) {
-        console.log(
-          `[Init] Component '${componentType}' already registered, skipping.`
-        );
-        continue;
-      }
-
-      console.log(
-        `[Init] Registering panel component '${componentType}' with Golden Layout.`
-      );
+    for (const componentType of centralRegistry.panelComponents.keys()) {
+      const factory = centralRegistry.panelComponents.get(componentType);
+      if (!factory) continue; // Skip if factory is missing
 
       try {
-        // Register directly with Golden Layout using a similar wrapper approach as PanelManager
+        // Register the component with Golden Layout via PanelManager
+        console.log(
+          `[Init] Registering panel component '${componentType}' with Golden Layout via PanelManager.`
+        );
+
+        // ONLY call PanelManager's registration, which handles GL registration internally
+        panelManagerInstance.registerPanelComponent(componentType, factory);
+
+        // Mark as registered conceptually in init.js
+        registeredComponents.add(componentType);
+
+        // Remove the redundant direct registration and the inner try-catch for PanelManager
+        /*
         layout.registerComponentConstructor(
           componentType,
           function (container, componentState) {
-            // 'this' will be the wrapper instance created by Golden Layout
-            console.log(`[GL Direct] Creating component '${componentType}'`);
+            console.log(
+              `[GL Direct] Creating component '${componentType}' for container:`, container.element.id
+            );
 
             try {
-              // Create the component using the factory
+              // Call the factory provided by the module
               const uiProvider = factory(container, componentState);
 
               // Store reference to the UI provider on the wrapper
@@ -322,12 +323,11 @@ document.addEventListener('DOMContentLoaded', async () => {
               // Store unsubscribe handles for cleanup
               this.unsubscribeHandles = [];
 
-              // Add container event handlers similar to PanelManager
+              // Add container event handlers
               container.on('destroy', () => {
                 console.log(
                   `[GL Direct] Destroying component '${componentType}'`
                 );
-                // Clean up any resources
                 if (
                   this.uiProvider &&
                   typeof this.uiProvider.dispose === 'function'
@@ -335,7 +335,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                   this.uiProvider.dispose();
                 }
 
-                // Unsubscribe from any events
                 if (
                   this.unsubscribeHandles &&
                   this.unsubscribeHandles.length > 0
@@ -343,8 +342,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                   this.unsubscribeHandles.forEach((unsubscribe) => {
                     try {
                       unsubscribe();
-                    } catch (e) {
-                      /* ignore */
+                    } catch (e) { 
+                      // ignore 
                     }
                   });
                 }
@@ -388,23 +387,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             `[Init] Error registering '${componentType}' with PanelManager (non-fatal): ${error.message}`
           );
         }
+        */
       } catch (error) {
-        // Handle component already registered errors gracefully
+        // Handle component already registered errors gracefully (this might now catch errors from the PanelManager registration)
         if (error.message && error.message.includes('already registered')) {
           console.warn(
-            `[Init] Component '${componentType}' already registered with Golden Layout, skipping.`
+            `[Init] Component '${componentType}' already registered (via PanelManager?), skipping.`
           );
-          registeredComponents.add(componentType);
+          registeredComponents.add(componentType); // Still mark as conceptually registered
         } else {
           console.error(
-            `[Init] Error registering component '${componentType}':`,
+            `[Init] Error registering component '${componentType}' via PanelManager:`,
             error
           );
         }
       }
     }
 
-    // Check for filesPanel specifically - it's not following the new module pattern
+    // Check for filesPanel specifically - IF IT'S NOT using the new module pattern
+    // We need to ensure the files module IS actually registering its panel component via the API
+    // Let's comment out this special handling for now and see if the normal registration works.
+    /*
     if (!registeredComponents.has('filesPanel')) {
       console.log('[Init] Registering filesPanel component specially');
 
@@ -412,79 +415,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Get the Files module if it was imported
         const filesModule = importedModules.get('files');
 
-        if (filesModule) {
-          // Create a filesPanel component constructor
-          layout.registerComponentConstructor(
+        if (filesModule && filesModule.FilesUI) { // Check if FilesUI export exists
+          // Use PanelManager to register it, similar to other components
+          panelManagerInstance.registerPanelComponent(
             'filesPanel',
-            function (container, componentState) {
-              console.log('[GL Direct] Creating filesPanel component');
-
-              try {
-                // Create a new FilesUI instance
-                const filesUI = new filesModule.FilesUI();
-
-                // Get root element and append it
-                const rootElement = filesUI.getRootElement();
-                container.element.appendChild(rootElement);
-
-                // Initialize after in DOM
-                filesUI.initialize(rootElement);
-
-                // Store reference to the UI provider
-                this.uiProvider = filesUI;
-
-                // Add cleanup handler
-                container.on('destroy', () => {
-                  console.log('[GL Direct] Destroying filesPanel component');
-                  if (
-                    this.uiProvider &&
-                    typeof this.uiProvider.dispose === 'function'
-                  ) {
-                    this.uiProvider.dispose();
-                  }
-                });
-
-                // Mark as registered
-                registeredComponents.add('filesPanel');
-
-                return { element: container.element };
-              } catch (error) {
-                console.error(
-                  '[GL Direct] Error creating filesPanel component:',
-                  error
-                );
-                return { element: container.element };
-              }
+            () => {
+              console.log('[GL Direct] Creating filesPanel component (special case)');
+              const filesUI = new filesModule.FilesUI();
+              // Assuming FilesUI constructor doesn't need container/state
+              // and initialize is called separately if needed after DOM attachment
+              return filesUI; // Return the instance for PanelManager to handle
             }
           );
+          registeredComponents.add('filesPanel');
+          console.log('[Init] Successfully registered filesPanel component via PanelManager (special case)');
 
-          console.log('[Init] Successfully registered filesPanel component');
         } else {
           console.warn(
-            '[Init] Files module not imported, cannot register filesPanel component'
+            '[Init] Files module not imported or FilesUI class missing, cannot register filesPanel component'
           );
         }
       } catch (error) {
-        console.error('[Init] Error registering filesPanel component:', error);
+        console.error('[Init] Error registering filesPanel component specially:', error);
       }
     }
-
-    // Also try to register using the files module's own registration function
-    try {
-      const filesModule = importedModules.get('files');
-      if (
-        filesModule &&
-        typeof filesModule.registerFilesComponent === 'function'
-      ) {
-        console.log('[Init] Calling registerFilesComponent from files module');
-        filesModule.registerFilesComponent(layout);
-      }
-    } catch (error) {
-      console.error(
-        '[Init] Error calling registerFilesComponent from files module:',
-        error
-      );
-    }
+    */
 
     // Register component aliases for backward compatibility
     try {

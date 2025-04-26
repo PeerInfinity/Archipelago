@@ -14,32 +14,12 @@ export function register(registrationApi) {
   console.log('[Exits Module] Registering...');
 
   // Register the panel component factory
-  registrationApi.registerPanelComponent('exitsPanel', (container) => {
-    if (!exitInstance) {
-      // Needs refactoring - expects gameUI
-      exitInstance = new ExitUI(null);
-    }
+  registrationApi.registerPanelComponent(
+    'exitsPanel',
+    () => new ExitUI() // Return a new instance directly
+  );
 
-    const rootElement = exitInstance.getRootElement();
-    container.element.appendChild(rootElement);
-
-    // Initialize UI when panel is shown
-    if (typeof exitInstance.initialize === 'function') {
-      setTimeout(() => exitInstance.initialize(), 0);
-    }
-
-    // Return object for Golden Layout lifecycle
-    return {
-      destroy: () => {
-        console.log('ExitUI destroy called by GL');
-        if (typeof exitInstance?.onPanelDestroy === 'function') {
-          exitInstance.onPanelDestroy();
-        }
-        exitInstance = null;
-      },
-      // Resize handling if needed
-    };
-  });
+  // Register settings schema if needed
 
   // No specific settings schema or primary event handlers for Exits registration.
 }

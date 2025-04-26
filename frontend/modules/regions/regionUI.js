@@ -1,5 +1,5 @@
 // regionUI.js
-import stateManager from '../stateManager/stateManagerSingleton.js';
+import { stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
 import { PathAnalyzerUI } from '../pathAnalyzer/pathAnalyzerUI.js';
 import commonUI from '../commonUI/commonUI.js';
