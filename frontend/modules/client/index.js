@@ -24,6 +24,12 @@ let moduleInitApi = null;
 let moduleDispatcher = null;
 let mainContentInstance = null;
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Console & Status',
+  description: 'Network connection, console, status.',
+};
+
 /**
  * Registration function for the Client module.
  * Registers the main panel component and any settings schemas.

@@ -1,7 +1,13 @@
 // UI Class for this module
 import OptionsUI from './optionsUI.js';
 
-// Store instance
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Options',
+  description: 'Settings editor panel.',
+};
+
+// Store instances or state needed by the module
 let optionsInstance = null;
 
 /**

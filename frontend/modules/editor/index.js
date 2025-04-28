@@ -1,6 +1,12 @@
 // UI Class for this module
 import EditorUI from './editorUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Editor',
+  description: 'JSON Editor panel.',
+};
+
 // Store instance and API
 let editorInstance = null;
 let moduleEventBus = null; // Store eventBus reference if needed

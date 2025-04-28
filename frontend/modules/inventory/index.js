@@ -1,6 +1,12 @@
 // UI Class for this module
 import { InventoryUI } from './inventoryUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Inventory',
+  description: 'Inventory display panel.',
+};
+
 // Store instances or state needed by the module
 let inventoryInstance = null;
 let moduleEventBus = null;

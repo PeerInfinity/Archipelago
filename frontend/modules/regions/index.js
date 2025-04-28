@@ -1,6 +1,12 @@
 // UI Class for this module
 import { RegionUI } from './regionUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Regions',
+  description: 'Regions display panel.',
+};
+
 // Store instance and dependencies
 let regionInstance = null;
 // Store the function to get the PathAnalyzerUI instance, not the instance itself yet.

@@ -237,6 +237,31 @@ document.addEventListener('DOMContentLoaded', async () => {
           const module = await import(definition.path);
           importedModules.set(id, module);
           console.log(`[Init] Successfully imported module: ${id}`);
+
+          // --- Store Module Info and Create Runtime State ---
+          const definitionFromJson = modulesData.moduleDefinitions[id]; // Get original definition
+          const info = module.moduleInfo || {};
+          const title = info.name || definitionFromJson.title || id; // Use info.name, fallback to definition.title (if exists), then id
+          const description =
+            info.description ||
+            definitionFromJson.description ||
+            'No description provided'; // Use info.desc, fallback to definition.desc (if exists), then default
+
+          // Create runtime state entry HERE, after import
+          runtimeModuleStates.set(id, {
+            initialized: false,
+            enabled: definitionFromJson.enabled || false, // Use enabled flag from definition
+            isExternal: false,
+            definition: {
+              // Store detailed definition info
+              path: definitionFromJson.path,
+              title: title, // Store calculated title
+              description: description, // Store calculated description
+              enabled: definitionFromJson.enabled || false, // Store original enabled flag
+              // Add other definition properties if needed
+            },
+          });
+          // --- End Store Module Info ---
         } catch (error) {
           console.error(
             `[Init] Failed to import module: ${id} from ${definition.path}`,
@@ -250,22 +275,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await Promise.all(importPromises);
     console.log(
       `[Init] Finished importing modules. ${importedModules.size} loaded.`
-    );
-
-    // Initialize runtime state for all defined modules based on initial config
-    for (const moduleId in modulesData.moduleDefinitions) {
-      const isEnabled =
-        modulesData.moduleDefinitions[moduleId]?.enabled || false;
-      // Ensure not to overwrite if already set (though unlikely here)
-      if (!runtimeModuleStates.has(moduleId)) {
-        runtimeModuleStates.set(moduleId, {
-          initialized: false,
-          enabled: isEnabled,
-        });
-      }
-    }
-    console.log(
-      '[Init] Initialized runtime module states based on modules.json'
     );
 
     // --- 3. Instantiate Event Dispatcher ---
@@ -348,17 +357,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Provide access to current state information
       getAllModuleStates: async () => {
         const states = {};
-        for (const id in modulesData.moduleDefinitions) {
-          const definition = modulesData.moduleDefinitions[id];
-          const runtimeState = runtimeModuleStates.get(id) || {
-            enabled: false,
-            initialized: false,
-          };
-          states[id] = {
-            enabled: runtimeState.enabled,
-            initialized: runtimeState.initialized, // Add initialized status
-            definition: definition,
-          };
+        for (const [id, runtimeState] of runtimeModuleStates.entries()) {
+          if (runtimeState && runtimeState.definition) {
+            states[id] = {
+              enabled: runtimeState.enabled,
+              initialized: runtimeState.initialized,
+              definition: runtimeState.definition,
+              isExternal: runtimeState.isExternal || false,
+            };
+          } else {
+            console.warn(
+              `[ModuleManager API] Missing runtime state or definition for module ID: ${id}`
+            );
+          }
         }
         return states;
       },
@@ -418,14 +429,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         const componentType =
           centralRegistry.getComponentTypeForModule(moduleId);
         if (componentType) {
+          // --- Get preferred title for the panel ---
+          const definition = runtimeState.definition; // Get the stored definition
+          const panelTitle = definition?.title || moduleId; // Use stored title, fallback to ID
+
           setTimeout(() => {
             console.log(
-              `ModuleManager: Requesting panel creation (delayed) for ${componentType}`
+              `ModuleManager: Requesting panel creation (delayed) for ${componentType} with title \'${panelTitle}\'`
             );
             if (panelManagerInstance) {
               panelManagerInstance.createPanelForComponent(
                 componentType,
-                definition.title || moduleId
+                panelTitle // Use the retrieved or fallback title
               );
             } else {
               console.error(
@@ -738,24 +753,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           // Add to internal tracking
           importedModules.set(moduleId, module);
+          // --- Store Module Info for External Module ---
+          const info = module.moduleInfo || {};
+          const title = info.name || moduleId; // Use info.name, fallback to generated moduleId
+          const description = info.description || 'Dynamically loaded module';
+
           runtimeModuleStates.set(moduleId, {
             initialized: false,
             enabled: false, // Start disabled, enableModule will handle init
             isExternal: true, // Mark as external
             definition: {
-              // Create a basic definition
+              // Create a definition using extracted/fallback info
               path: modulePath,
-              title: moduleId, // Use ID as default title
-              description: 'Dynamically loaded module',
-              // Assume enabled by default for loading? Let enableModule handle actual enablement
+              title: title,
+              description: description,
+              enabled: false, // Initial state before explicit enable
             },
           });
+          // --- End Store Module Info ---
 
           // Add to modulesData structure (or update if managing dynamically)
-          // For simplicity, just adding to the runtime map might be sufficient if
-          // ModuleManager relies primarily on that.
-          // Let's assume ModuleManager.enableModule can handle modules not initially in modulesData.moduleDefinitions
-          // We might need to add it there if enableModule fails.
           modulesData.moduleDefinitions[moduleId] =
             runtimeModuleStates.get(moduleId).definition;
           modulesData.loadPriority.push(moduleId); // Add to end of priority list

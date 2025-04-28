@@ -186,3 +186,9 @@ function handleRulesLoaded(eventData) {
 
 // Export the singleton if direct access is needed (less preferred)
 export { discoveryStateSingleton };
+
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'discovery', // No panel title, use ID
+  description: 'Loop mode discovery state.',
+};

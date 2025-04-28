@@ -5,6 +5,12 @@ import stateManagerSingleton from './stateManagerSingleton.js';
 let isInitialized = false;
 let initializationPromise = null;
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'stateManager', // No panel title, use ID
+  description: 'Core game state management.',
+};
+
 /**
  * Registration function for the StateManager module.
  * Currently, it does not register anything specific like panels or complex event handlers.

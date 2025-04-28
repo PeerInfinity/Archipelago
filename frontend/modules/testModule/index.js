@@ -1,5 +1,10 @@
 import { TestPanelUI } from './testPanelUI.js';
 
+export const moduleInfo = {
+  name: 'Test Module',
+  description: 'A simple panel loaded dynamically.',
+};
+
 /**
  * Registration function for the TestModule.
  */

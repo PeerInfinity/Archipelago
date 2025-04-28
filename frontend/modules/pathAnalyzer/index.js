@@ -5,6 +5,12 @@ import { PathAnalyzerUI } from './pathAnalyzerUI.js';
 // Singletons or other dependencies (if any were needed internally)
 // import someDependency from '../../app/core/someDependency.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'pathAnalyzer', // No panel title, use ID
+  description: 'Path analysis logic.',
+};
+
 let logicInstance = null;
 let uiInstance = null;
 

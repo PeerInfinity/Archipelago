@@ -188,10 +188,11 @@ export class ModulesPanel {
       infoDiv.className = 'module-info';
       const nameDiv = document.createElement('div');
       nameDiv.className = 'module-name';
-      nameDiv.textContent = moduleId;
+      nameDiv.textContent = state.definition.title || moduleId;
       const descDiv = document.createElement('div');
       descDiv.className = 'module-description';
-      descDiv.textContent = module.description || 'No description';
+      descDiv.textContent =
+        state.definition.description || 'No description provided';
       if (isExternal) {
         const externalTag = document.createElement('span');
         externalTag.textContent = ' (External)';

@@ -1,6 +1,12 @@
 // UI Class for this module
 import { ExitUI } from './exitUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Exits',
+  description: 'Exits display panel.',
+};
+
 // Store instance
 let exitInstance = null;
 let moduleEventBus = null;

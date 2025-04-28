@@ -2,6 +2,12 @@
 import loopStateSingleton from './loopStateSingleton.js';
 import { LoopUI } from './loopUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Loops',
+  description: 'Loop mode logic and UI panel.',
+};
+
 // Other dependencies
 import discoveryStateSingleton from '../discovery/singleton.js'; // Need discovery state
 

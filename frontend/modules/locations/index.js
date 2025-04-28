@@ -1,6 +1,12 @@
 // UI Class for this module
 import { LocationUI } from './locationUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Locations',
+  description: 'Locations display panel.',
+};
+
 // Store instance
 let locationInstance = null;
 let moduleEventBus = null;

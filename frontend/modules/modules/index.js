@@ -6,6 +6,12 @@ let moduleId;
 let api;
 let modulesPanelInstance = null;
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Modules',
+  description: 'Panel to manage modules.',
+};
+
 /**
  * Registers the modules panel component.
  * @param {object} registrationApi - API for registration phase.

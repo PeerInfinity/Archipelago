@@ -1,5 +1,11 @@
 import FilesUI from './filesUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'Files',
+  description: 'Presets/Tests/Playthroughs panel.',
+};
+
 /**
  * Registers the Files panel component with Golden Layout.
  * @param {GoldenLayout} layoutInstance - The Golden Layout instance.
