@@ -2,9 +2,15 @@ class CentralRegistry {
   constructor() {
     this.panelComponents = new Map(); // componentType -> { moduleId: string, componentClass: Function }
     this.moduleIdToComponentType = new Map(); // moduleId -> componentType
-    this.eventHandlers = new Map(); // eventName -> Array<{moduleId, handlerFunction}>
+    this.dispatcherHandlers = new Map(); // eventName -> Array<{moduleId, handlerFunction, propagationDetails}>
     this.settingsSchemas = new Map(); // moduleId -> schemaSnippet
     this.publicFunctions = new Map(); // moduleId -> Map<functionName, functionRef>
+
+    // New maps for event registration details
+    this.dispatcherSenders = new Map(); // eventName -> Array<{moduleId, direction: 'highestFirst'|'lowestFirst'|'next', target: 'first'|'last'|'next'}>
+    this.eventBusPublishers = new Map(); // eventName -> Set<moduleId>
+    this.eventBusSubscribers = new Map(); // eventName -> Array<{moduleId, callback}>
+
     console.log('CentralRegistry initialized');
   }
 
@@ -41,15 +47,69 @@ class CentralRegistry {
   }
 
   registerEventHandler(moduleId, eventName, handlerFunction) {
-    if (!this.eventHandlers.has(eventName)) {
-      this.eventHandlers.set(eventName, []);
+    if (!this.dispatcherHandlers.has(eventName)) {
+      this.dispatcherHandlers.set(eventName, []);
     }
-    // Check for duplicates? Might be valid to have multiple handlers from one module?
-    // For now, allow it. Dispatcher logic handles priority.
     console.log(
-      `[Registry] Registering event handler for '${eventName}' from ${moduleId}`
+      `[Registry] Registering basic event handler for '${eventName}' from ${moduleId}`
     );
-    this.eventHandlers.get(eventName).push({ moduleId, handlerFunction });
+    this.dispatcherHandlers.get(eventName).push({
+      moduleId,
+      handlerFunction,
+      propagationDetails: null, // Default for basic registration
+    });
+  }
+
+  registerDispatcherReceiver(
+    moduleId,
+    eventName,
+    handlerFunction,
+    propagationDetails
+  ) {
+    if (!this.dispatcherHandlers.has(eventName)) {
+      this.dispatcherHandlers.set(eventName, []);
+    }
+    // TODO: Add validation for propagationDetails structure?
+    console.log(
+      `[Registry] Registering dispatcher receiver for '${eventName}' from ${moduleId} with details:`,
+      propagationDetails
+    );
+    this.dispatcherHandlers.get(eventName).push({
+      moduleId,
+      handlerFunction,
+      propagationDetails, // Store the provided details
+    });
+  }
+
+  registerDispatcherSender(moduleId, eventName, direction, target) {
+    if (!this.dispatcherSenders.has(eventName)) {
+      this.dispatcherSenders.set(eventName, []);
+    }
+    // TODO: Add validation for direction/target values?
+    console.log(
+      `[Registry] Registering dispatcher sender for '${eventName}' from ${moduleId} (Direction: ${direction}, Target: ${target})`
+    );
+    this.dispatcherSenders.get(eventName).push({ moduleId, direction, target });
+  }
+
+  registerEventBusPublisher(moduleId, eventName) {
+    if (!this.eventBusPublishers.has(eventName)) {
+      this.eventBusPublishers.set(eventName, new Set());
+    }
+    console.log(
+      `[Registry] Registering event bus publisher for '${eventName}' from ${moduleId}`
+    );
+    this.eventBusPublishers.get(eventName).add(moduleId);
+  }
+
+  registerEventBusSubscriber(moduleId, eventName, callback) {
+    if (!this.eventBusSubscribers.has(eventName)) {
+      this.eventBusSubscribers.set(eventName, []);
+    }
+    console.log(
+      `[Registry] Registering event bus subscriber for '${eventName}' from ${moduleId}`
+    );
+    this.eventBusSubscribers.get(eventName).push({ moduleId, callback });
   }
 
   registerSettingsSchema(moduleId, schemaSnippet) {
@@ -92,11 +152,36 @@ class CentralRegistry {
   }
 
   /**
-   * Returns the map of all registered event handlers.
-   * @returns {Map<string, Array<{moduleId: string, handlerFunction: Function}>>}
+   * Returns the map of all registered event handlers with propagation details.
+   * Expected propagationDetails structure: { direction: 'highestFirst'|'lowestFirst'|'none', condition: 'conditional'|'unconditional', timing: 'immediate'|'delayed' } | null
+   * @returns {Map<string, Array<{moduleId: string, handlerFunction: Function, propagationDetails: object | null}>>}
    */
-  getAllEventHandlers() {
-    return this.eventHandlers;
+  getAllDispatcherHandlers() {
+    return this.dispatcherHandlers;
+  }
+
+  /**
+   * Returns the map of all registered dispatcher senders.
+   * @returns {Map<string, Array<{moduleId: string, direction: string, target: string}>>}
+   */
+  getAllDispatcherSenders() {
+    return this.dispatcherSenders;
+  }
+
+  /**
+   * Returns the map of all registered EventBus publishers.
+   * @returns {Map<string, Set<string>>} Map of eventName -> Set<moduleId>
+   */
+  getAllEventBusPublishers() {
+    return this.eventBusPublishers;
+  }
+
+  /**
+   * Returns the map of all registered EventBus subscribers.
+   * @returns {Map<string, Array<{moduleId: string, callback: Function}>>}
+   */
+  getAllEventBusSubscribers() {
+    return this.eventBusSubscribers;
   }
 
   /**

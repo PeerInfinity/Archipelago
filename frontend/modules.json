@@ -4,6 +4,10 @@
       "path": "./modules/modules/index.js",
       "enabled": true
     },
+    "events": {
+      "path": "./modules/events/index.js",
+      "enabled": true
+    },
     "stateManager": {
       "path": "./modules/stateManager/index.js",
       "enabled": true
@@ -55,6 +59,7 @@
   },
   "loadPriority": [
     "modules",
+    "events",
     "stateManager",
     "client",
     "inventory",

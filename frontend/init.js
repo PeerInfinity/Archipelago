@@ -112,8 +112,8 @@ async function loadLayoutConfiguration(
 function createInitializationApi(moduleId) {
   // Note: dispatcher and centralRegistry need to be available in the outer scope
   console.log(`[API Factory] Creating API for module: ${moduleId}`);
-  console.log('[API Factory] settingsManager:', settingsManager);
-  console.log('[API Factory] dispatcher:', dispatcher);
+  // console.log('[API Factory] settingsManager:', settingsManager); // Reduce log noise
+  // console.log('[API Factory] dispatcher:', dispatcher); // Reduce log noise
 
   return {
     getSettings: async () => settingsManager.getModuleSettings(moduleId),
@@ -127,13 +127,13 @@ function createInitializationApi(moduleId) {
     },
     getModuleManager: () => moduleManagerApi, // Provide the manager API itself
     getAllSettings: async () => {
-      console.log(`[API Factory] ${moduleId} calling getAllSettings...`);
+      // console.log(`[API Factory] ${moduleId} calling getAllSettings...`); // Reduce log noise
       try {
         const allSettings = await settingsManager.getSettings();
-        console.log(
-          `[API Factory] ${moduleId} received allSettings:`,
-          allSettings
-        );
+        // console.log(
+        //   `[API Factory] ${moduleId} received allSettings:`,
+        //   allSettings
+        // );
         return allSettings;
       } catch (error) {
         console.error(
@@ -144,6 +144,71 @@ function createInitializationApi(moduleId) {
       }
     },
     // getSingleton: (name) => { /* Decide how to provide singletons */ },
+  };
+}
+
+// Helper function for registration API creation (used in main registration and dynamic load)
+function createRegistrationApi(moduleId, moduleInstance) {
+  return {
+    registerPanelComponent: (componentType, componentFactory) => {
+      centralRegistry.registerPanelComponent(
+        moduleId,
+        componentType,
+        componentFactory
+      );
+    },
+    // Keep old one for compatibility
+    registerEventHandler: (eventName, handlerFunction) => {
+      centralRegistry.registerEventHandler(
+        moduleId,
+        eventName,
+        handlerFunction.bind(moduleInstance) // Ensure correct 'this'
+      );
+    },
+    // New detailed receiver registration
+    registerDispatcherReceiver: (
+      eventName,
+      handlerFunction,
+      propagationDetails
+    ) => {
+      centralRegistry.registerDispatcherReceiver(
+        moduleId,
+        eventName,
+        handlerFunction.bind(moduleInstance), // Ensure correct 'this'
+        propagationDetails
+      );
+    },
+    // New sender registration
+    registerDispatcherSender: (eventName, direction, target) => {
+      centralRegistry.registerDispatcherSender(
+        moduleId,
+        eventName,
+        direction,
+        target
+      );
+    },
+    // New EventBus publisher registration
+    registerEventBusPublisher: (eventName) => {
+      centralRegistry.registerEventBusPublisher(moduleId, eventName);
+    },
+    // New EventBus subscriber registration (for tracking, actual subscribe is separate)
+    registerEventBusSubscriber: (eventName, callback) => {
+      centralRegistry.registerEventBusSubscriber(
+        moduleId,
+        eventName,
+        callback.bind(moduleInstance) // Ensure correct 'this'
+      );
+    },
+    registerSettingsSchema: (schemaSnippet) => {
+      centralRegistry.registerSettingsSchema(moduleId, schemaSnippet);
+    },
+    registerPublicFunction: (functionName, functionRef) => {
+      centralRegistry.registerPublicFunction(
+        moduleId,
+        functionName,
+        functionRef
+      );
+    },
   };
 }
 
@@ -279,7 +344,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 3. Instantiate Event Dispatcher ---
     // Define helper functions for the dispatcher BEFORE constructing it
-    const getHandlersFunc = () => centralRegistry.eventHandlers; // Get map from registry
+    const getHandlersFunc = () => centralRegistry.getAllDispatcherHandlers(); // Get map from registry
     const getLoadPriorityFunc = () => modulesData.loadPriority; // Get array from config
     const isModuleEnabledFunc = (moduleId) => {
       const state = runtimeModuleStates.get(moduleId);
@@ -300,33 +365,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('[Init] Starting module registration phase...');
     for (const [moduleId, module] of importedModules.entries()) {
       if (typeof module.register === 'function') {
-        // Create the registration API specific to this module
-        const registrationApi = {
-          registerPanelComponent: (componentType, componentFactory) => {
-            centralRegistry.registerPanelComponent(
-              moduleId,
-              componentType,
-              componentFactory
-            );
-          },
-          registerEventHandler: (eventName, handlerFunction) => {
-            centralRegistry.registerEventHandler(
-              moduleId,
-              eventName,
-              handlerFunction.bind(module)
-            ); // Ensure correct 'this' if needed
-          },
-          registerSettingsSchema: (schemaSnippet) => {
-            centralRegistry.registerSettingsSchema(moduleId, schemaSnippet);
-          },
-          registerPublicFunction: (functionName, functionRef) => {
-            centralRegistry.registerPublicFunction(
-              moduleId,
-              functionName,
-              functionRef
-            );
-          },
-        };
+        // Create the registration API specific to this module using the helper
+        const registrationApi = createRegistrationApi(moduleId, module);
         try {
           console.log(`[Init] Registering module: ${moduleId}`);
           module.register(registrationApi);
@@ -341,7 +381,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('[Init] Module registration phase complete.');
     console.log('[Registry Snapshot]', {
       panels: Array.from(centralRegistry.panelComponents.keys()),
-      events: Array.from(centralRegistry.eventHandlers.keys()),
+      events: Array.from(centralRegistry.dispatcherHandlers.keys()), // Updated to use dispatcherHandlers
       schemas: Array.from(centralRegistry.settingsSchemas.keys()),
       functions: Array.from(centralRegistry.publicFunctions.keys()),
     });
@@ -784,33 +824,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           // 2. Register the module
           if (typeof module.register === 'function') {
-            const registrationApi = {
-              /* ... create registration API specific to this module ... */
-              registerPanelComponent: (componentType, componentFactory) => {
-                centralRegistry.registerPanelComponent(
-                  moduleId,
-                  componentType,
-                  componentFactory
-                );
-              },
-              registerEventHandler: (eventName, handlerFunction) => {
-                centralRegistry.registerEventHandler(
-                  moduleId,
-                  eventName,
-                  handlerFunction.bind(module)
-                );
-              },
-              registerSettingsSchema: (schemaSnippet) => {
-                centralRegistry.registerSettingsSchema(moduleId, schemaSnippet);
-              },
-              registerPublicFunction: (functionName, functionRef) => {
-                centralRegistry.registerPublicFunction(
-                  moduleId,
-                  functionName,
-                  functionRef
-                );
-              },
-            };
+            // Use the helper function to create the registration API
+            const registrationApi = createRegistrationApi(moduleId, module);
             console.log(`[Init] Registering external module: ${moduleId}`);
             module.register(registrationApi);
 
