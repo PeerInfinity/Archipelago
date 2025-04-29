@@ -11,9 +11,10 @@ export const moduleInfo = {
 let inventoryInstance = null;
 let moduleEventBus = null;
 let stateManagerUnsubscribe = null; // Handle for event bus subscription
+let initApi = null; // Store the full init API
 
 // Handler for the rules loaded event
-function handleRulesLoaded(eventData) {
+function handleRulesLoaded(eventData, propagationOptions = {}) {
   console.log('[Inventory Module] Received state:rulesLoaded');
   // Instance might have been created by registerPanelComponent factory,
   // but check just in case before calling methods.
@@ -22,6 +23,24 @@ function handleRulesLoaded(eventData) {
   } else {
     console.warn(
       '[Inventory Module] inventoryInstance not available for state:rulesLoaded handler.'
+    );
+  }
+
+  // Propagate the event to the next module in the chain
+  const dispatcher = initApi?.getDispatcher(); // Use the stored initApi
+  if (dispatcher) {
+    const direction = propagationOptions.propagationDirection || 'highestFirst'; // Use incoming direction or default
+    dispatcher.publishToNextModule(
+      'inventory',
+      'state:rulesLoaded',
+      eventData,
+      {
+        direction: direction,
+      }
+    );
+  } else {
+    console.error(
+      '[Inventory Module] Cannot propagate state:rulesLoaded: Dispatcher not available (initApi missing?).'
     );
   }
 }
@@ -59,8 +78,8 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(
     `[Inventory Module] Initializing with priority ${priorityIndex}...`
   );
-  // Store eventBus for postInitialize
-  moduleEventBus = initializationApi.getEventBus();
+  // Store the full API
+  initApi = initializationApi;
 
   console.log('[Inventory Module] Basic initialization complete.');
 }

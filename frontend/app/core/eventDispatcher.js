@@ -109,70 +109,85 @@ class EventDispatcher {
   }
 
   /**
-   * Publishes an event to the next-highest priority enabled module *before* the origin module.
-   * This is intended to be called *by* a module's event handler to propagate the event down the chain.
-   * Note: The direction is implicitly 'highestFirst' among predecessors.
+   * Publishes an event to the next enabled module in the priority chain that handles it.
+   * This is intended to be called *by* a module's event handler to propagate the event along the chain.
    * @param {string} originModuleId - The ID of the module calling this function.
    * @param {string} eventName - The name of the event to publish.
    * @param {any} data - The data payload associated with the event.
+   * @param {object} [options={}] - Optional parameters.
+   * @param {'highestFirst'|'lowestFirst'} [options.direction='highestFirst'] - Order to check handlers (should match original publish direction).
    */
-  publishToPredecessors(originModuleId, eventName, data) {
-    const originPriority = this._getPriorityIndex(originModuleId); // Get current priority
+  publishToNextModule(originModuleId, eventName, data, options = {}) {
+    const { direction = 'highestFirst' } = options;
+    const originPriority = this._getPriorityIndex(originModuleId);
 
     if (originPriority === -1) {
       console.warn(
-        `[Dispatcher] publishToPredecessors called by module not in current priority list: ${originModuleId}`
+        `[Dispatcher] publishToNextModule called by module not in current priority list: ${originModuleId}`
       );
       return;
     }
 
-    const allHandlers = this.getHandlers(); // Get current handlers
+    const allHandlers = this.getHandlers();
     const potentialHandlers = allHandlers.get(eventName) || [];
     if (potentialHandlers.length === 0) {
-      return; // No handlers registered for this event
+      return;
     }
 
-    // Filter for enabled modules loaded *before* the origin module, then sort by highest priority first
-    const eligiblePredecessors = potentialHandlers
+    // Filter for enabled modules after the origin module in the specified direction, then sort accordingly
+    const eligibleNextHandlers = potentialHandlers
       .filter((entry) => {
-        const entryPriority = this._getPriorityIndex(entry.moduleId); // Get current priority
-        return (
-          this.isModuleEnabled(entry.moduleId) && // Use checker function
-          entryPriority !== -1 &&
-          entryPriority < originPriority // Only modules loaded BEFORE the origin
-        );
+        const entryPriority = this._getPriorityIndex(entry.moduleId);
+        if (!this.isModuleEnabled(entry.moduleId) || entryPriority === -1) {
+          return false;
+        }
+        // If highestFirst, we want modules with lower priority index (loaded after)
+        // If lowestFirst, we want modules with higher priority index (loaded after)
+        return direction === 'highestFirst'
+          ? entryPriority < originPriority
+          : entryPriority > originPriority;
       })
       .sort((a, b) => {
         const priorityA = this._getPriorityIndex(a.moduleId);
         const priorityB = this._getPriorityIndex(b.moduleId);
-        // Handle unknowns just in case, although filter should prevent -1 here
+        // Handle unknowns just in case
         if (priorityA === -1) return 1;
         if (priorityB === -1) return -1;
-        return priorityB - priorityA; // Descending order (highest priority first)
+
+        // Sort based on the desired direction to find the *next* one
+        return direction === 'lowestFirst'
+          ? priorityA - priorityB // Ascending order
+          : priorityB - priorityA; // Descending order
       });
 
-    if (eligiblePredecessors.length === 0) {
-      return; // No preceding enabled modules handle this event
+    if (eligibleNextHandlers.length === 0) {
+      // console.log(`[Dispatcher] No further modules found for ${eventName} after ${originModuleId} in direction ${direction}.`);
+      return; // No subsequent enabled modules handle this event
     }
 
-    // Get the highest priority predecessor handler
-    const handlerEntry = eligiblePredecessors[0];
+    // Get the very next handler based on the sorted order
+    const handlerEntry = eligibleNextHandlers[0];
 
     console.log(
-      `[Dispatcher] Dispatching ${eventName} (predecessor) to module: ${handlerEntry.moduleId}`
+      `[Dispatcher] Dispatching ${eventName} (propagated from ${originModuleId}) to module: ${handlerEntry.moduleId} (Direction: ${direction})`
     );
     try {
       // Execute the handler
       if (typeof handlerEntry.handlerFunction === 'function') {
-        handlerEntry.handlerFunction(data);
+        // Pass the original event data AND the propagation options
+        // The receiving handler might need the origin/direction info
+        handlerEntry.handlerFunction(data, {
+          originModuleId: originModuleId,
+          propagationDirection: direction,
+        });
       } else {
         console.error(
-          `[Dispatcher] Invalid predecessor handlerFunction found for ${eventName} in module ${handlerEntry.moduleId}`
+          `[Dispatcher] Invalid handlerFunction found for ${eventName} in module ${handlerEntry.moduleId} during propagation.`
         );
       }
     } catch (error) {
       console.error(
-        `[Dispatcher] Error executing predecessor handler for event "${eventName}" in module "${handlerEntry.moduleId}":`,
+        `[Dispatcher] Error executing propagated handler for event "${eventName}" in module "${handlerEntry.moduleId}":`,
         error
       );
     }

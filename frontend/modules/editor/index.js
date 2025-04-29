@@ -11,15 +11,61 @@ export const moduleInfo = {
 let editorInstance = null;
 let moduleEventBus = null; // Store eventBus reference if needed
 let editorUnsubscribe = null;
+let initApi = null; // Store the full init API
+let pendingJsonData = null; // Store data received before UI instance is ready
+
+/**
+ * Sets the module-level reference to the EditorUI instance.
+ * Called by the EditorUI constructor.
+ * Loads any pending data that arrived before the instance was ready.
+ * @param {EditorUI} instance The EditorUI instance.
+ */
+export function setEditorInstance(instance) {
+  console.log('[Editor Module Logic] setEditorInstance called.');
+  editorInstance = instance;
+  if (pendingJsonData) {
+    console.log(
+      '[Editor Module Logic] Loading pending data into newly set instance.'
+    );
+    editorInstance.loadJsonData(pendingJsonData);
+    pendingJsonData = null; // Clear pending data
+  }
+}
 
 // Handler for rules loaded event
-function handleRulesLoaded(eventData) {
-  console.log('[Editor Module] Received state:rulesLoaded');
-  if (editorInstance && eventData.jsonData) {
-    editorInstance.loadJsonData(eventData.jsonData);
+function handleRulesLoaded(eventData, propagationOptions = {}) {
+  console.log('[Editor Module Handler] Received state:rulesLoaded');
+  if (eventData.jsonData) {
+    if (editorInstance) {
+      // Instance already exists (set via setEditorInstance), load data directly
+      console.log(
+        '[Editor Module Handler] Editor instance exists, loading data immediately.'
+      );
+      editorInstance.loadJsonData(eventData.jsonData);
+      pendingJsonData = null; // Ensure pending is clear
+    } else {
+      // Instance doesn't exist yet, store data for when setEditorInstance is called
+      console.log(
+        '[Editor Module Handler] Editor instance not yet available, storing pending data.'
+      );
+      pendingJsonData = eventData.jsonData;
+    }
   } else {
     console.warn(
-      '[Editor Module] Editor instance or jsonData not available for state:rulesLoaded.'
+      '[Editor Module Handler] No jsonData received in state:rulesLoaded event.'
+    );
+  }
+
+  // Propagate the event to the next module in the chain
+  const dispatcher = initApi?.getDispatcher(); // Use the stored initApi
+  if (dispatcher) {
+    const direction = propagationOptions.propagationDirection || 'highestFirst'; // Use incoming direction or default
+    dispatcher.publishToNextModule('editor', 'state:rulesLoaded', eventData, {
+      direction: direction,
+    });
+  } else {
+    console.error(
+      '[Editor Module Handler] Cannot propagate state:rulesLoaded: Dispatcher not available (initApi missing?).'
     );
   }
 }
@@ -36,9 +82,6 @@ export function register(registrationApi) {
 
   // Register event handler for rules loaded
   registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
-
-  // No specific settings schema for the editor itself is defined in the plan.
-  // registrationApi.registerSettingsSchema({ ... });
 }
 
 /**
@@ -47,9 +90,10 @@ export function register(registrationApi) {
  */
 export function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(`[Editor Module] Initializing with priority ${priorityIndex}...`);
-  moduleEventBus = initializationApi.getEventBus();
+  // Store the full API
+  initApi = initializationApi;
+  // moduleEventBus = initializationApi.getEventBus(); // We have the full API now
   // const settings = await initializationApi.getSettings();
-  // const dispatcher = initializationApi.getDispatcher();
 
   // EditorUI handles its own event bus subscriptions within its initialize/destroy methods.
   // We previously subscribed to 'editor:loadJsonData' there, which might now be redundant

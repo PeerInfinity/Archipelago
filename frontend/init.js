@@ -119,7 +119,7 @@ function createInitializationApi(moduleId) {
     getSettings: async () => settingsManager.getModuleSettings(moduleId),
     getDispatcher: () => ({
       publish: dispatcher.publish.bind(dispatcher),
-      publishToPredecessors: dispatcher.publishToPredecessors.bind(dispatcher),
+      publishToNextModule: dispatcher.publishToNextModule.bind(dispatcher),
     }),
     getEventBus: () => eventBus,
     getModuleFunction: (targetModuleId, functionName) => {
@@ -564,6 +564,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
     console.log('[Init] Module post-initialization phase complete.');
+
+    // --- Notify that all modules are post-initialized ---
+    console.log('[Init] Publishing init:postInitComplete on eventBus...');
+    eventBus.publish('init:postInitComplete');
+    // --------------------------------------------------
 
     // --- 6. Golden Layout Setup ---
     console.log('[Init] Setting up Golden Layout...');

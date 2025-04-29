@@ -4,6 +4,7 @@ import stateManagerSingleton from './stateManagerSingleton.js';
 // Keep track of when initialization is complete
 let isInitialized = false;
 let initializationPromise = null;
+let initApi = null; // Store the full init API
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -41,6 +42,9 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(
     `[StateManager Module] Initializing with priority ${priorityIndex}...`
   );
+  // Store the full API
+  initApi = initializationApi;
+
   // Keep track of the instance creation and singleton setup
   if (!isInitialized) {
     if (!initializationPromise) {
@@ -72,6 +76,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
  */
 export async function postInitialize(initializationApi) {
   console.log('[StateManager Module] Post-initializing...');
+  const eventBus = initApi?.getEventBus() || initializationApi.getEventBus(); // Use stored or passed API
 
   // Ensure the instance is definitely created before proceeding
   if (!isInitialized) {
@@ -87,17 +92,37 @@ export async function postInitialize(initializationApi) {
     }
   }
 
-  const dispatcher = initializationApi.getDispatcher();
-  const eventBus = initializationApi.getEventBus(); // eventBus might still be useful for non-priority or internal events
+  // --- Trigger loading of default rules MOVED TO EVENT LISTENER --- //
+  // console.log('[StateManager Module] Triggering load of default rules...');
+  // await loadAndProcessDefaultRules(initApi?.getDispatcher()); // Need dispatcher access
+  // ------------------------------------------------------------ //
 
-  // --- Trigger loading of default rules --- //
-  // Await completion so the application is ready after post-init
-  console.log('[StateManager Module] Triggering load of default rules...');
-  await loadAndProcessDefaultRules(eventBus, dispatcher);
-  // -------------------------------------- //
+  // Listen for the signal that all modules are post-initialized
+  if (eventBus) {
+    console.log(
+      '[StateManager Module] Subscribing to init:postInitComplete on eventBus...'
+    );
+    eventBus.subscribe('init:postInitComplete', async () => {
+      console.log(
+        '[StateManager Module] Received init:postInitComplete, triggering load of default rules...'
+      );
+      const dispatcher = initApi?.getDispatcher(); // Get dispatcher from stored API
+      if (!dispatcher) {
+        console.error(
+          '[StateManager Module] Cannot load rules: Dispatcher not available from stored initApi.'
+        );
+        return;
+      }
+      await loadAndProcessDefaultRules(dispatcher);
+    });
+  } else {
+    console.error(
+      '[StateManager Module] EventBus not available, cannot subscribe to init:postInitComplete.'
+    );
+  }
 
   console.log(
-    '[StateManager Module] Post-initialization complete (rules loaded).'
+    '[StateManager Module] Post-initialization complete (subscribed to init:postInitComplete).' // Updated log
   );
 }
 
@@ -114,7 +139,7 @@ const stateManager = stateManagerSingleton.instance;
 export { stateManager };
 
 // --- Moved from client/app.js: Function to load default rules ---
-async function loadAndProcessDefaultRules(eventBus, dispatcher) {
+async function loadAndProcessDefaultRules(dispatcher) {
   // Pass eventBus if needed for publishing
   console.log('[StateManager Module] Attempting to load default_rules.json...');
   try {

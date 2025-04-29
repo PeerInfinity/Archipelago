@@ -158,28 +158,39 @@ function handleLocationChecked(eventData) {
   }
 }
 
-// Handler for rules loaded event
-function handleRulesLoaded(eventData) {
+// Handler for rules loaded event - Primary Initialization Point for Discovery
+function handleRulesLoaded(eventData, propagationOptions = {}) {
   console.log('[Discovery Module] Received state:rulesLoaded');
-  // Re-initialize discovery state based on the loaded rules
-  // Check if the singleton exists before trying to clear
-  if (discoveryStateSingleton) {
-    discoveryStateSingleton.clearDiscovery();
-    // ADDED: Initialize discoverables now that rules are loaded
-    try {
-      console.log(
-        '[Discovery Module] Initializing discoverables from state:rulesLoaded handler...'
-      );
-      discoveryStateSingleton.initialize();
-    } catch (error) {
-      console.error(
-        '[Discovery Module] Error initializing discoverables after rules loaded:',
-        error
-      );
-    }
+
+  // Initialize or re-initialize based on the loaded rules
+  console.log(
+    '[Discovery Module] Initializing discoverables from state:rulesLoaded handler...'
+  );
+  try {
+    discoveryStateSingleton.initialize(eventData); // Pass event data if needed
+    // Optionally: Use eventData.jsonData or eventData.selectedPlayerId
+  } catch (error) {
+    console.error(
+      '[Discovery Module] Error initializing DiscoveryState from rulesLoaded:',
+      error
+    );
+  }
+
+  // Propagate the event to the next module in the chain
+  const dispatcher = initApi?.getDispatcher(); // Corrected variable name from moduleInitApi
+  if (dispatcher) {
+    const direction = propagationOptions.propagationDirection || 'highestFirst'; // Use incoming direction or default
+    dispatcher.publishToNextModule(
+      'discovery',
+      'state:rulesLoaded',
+      eventData,
+      {
+        direction: direction,
+      }
+    );
   } else {
-    console.warn(
-      '[Discovery Module] Discovery singleton not available for state:rulesLoaded handler.'
+    console.error(
+      '[Discovery Module] Cannot propagate state:rulesLoaded: Dispatcher not available (initApi missing?).'
     );
   }
 }

@@ -5,6 +5,10 @@ import {
 // Enable Dark theme CSS - REMOVED Import, will be loaded via <link> tag in HTML
 // import '../../libs/vanilla-jsoneditor/themes/jse-theme-dark.css';
 import eventBus from '../../app/core/eventBus.js'; // <<< Import eventBus
+// REMOVE Import the function to get pending data
+// import { getPendingJsonDataAndClear } from './index.js';
+// Import the function to set the module instance
+import { setEditorInstance } from './index.js';
 
 class EditorUI {
   constructor() {
@@ -26,6 +30,9 @@ class EditorUI {
       },
       text: undefined,
     };
+
+    // Register this instance with the module logic
+    setEditorInstance(this);
   }
 
   getRootElement() {
@@ -39,6 +46,15 @@ class EditorUI {
       this.initializeEditor();
       this.subscribeToEvents(); // Subscribe to events on first init
       this.isInitialized = true;
+
+      // REMOVE Check for and load pending data received before initialization
+      /*
+      const pendingData = getPendingJsonDataAndClear();
+      if (pendingData) {
+        console.log('[EditorUI] Loading pending JSON data received before init...');
+        this.loadJsonData(pendingData);
+      }
+      */
     } else {
       console.log('EditorUI already initialized.');
       // Potentially refresh or reload content if needed when re-opened
@@ -112,7 +128,7 @@ class EditorUI {
           navigationBar: false, // Keep UI simple for now
           statusBar: false,
           // readOnly: false,
-          mode: 'text', // Changed default mode to text
+          mode: 'text', // Changed back to text mode
         },
       });
       console.log('vanilla-jsoneditor instance created successfully.');
@@ -160,6 +176,22 @@ class EditorUI {
     console.log('Disposing EditorUI...');
     this.onPanelDestroy(); // Call destroy logic
     // Any other cleanup specific to EditorUI itself
+  }
+
+  // Method to load JSON data into the editor
+  loadJsonData(jsonData) {
+    if (!jsonData) {
+      console.warn(
+        '[EditorUI] loadJsonData called with null or undefined data.'
+      );
+      return;
+    }
+    console.log('[EditorUI] Loading JSON data into editor...');
+    this.setContent({ json: jsonData });
+    // Optionally expand nodes after setting content - REMOVED for text mode
+    // if (this.editor) {
+    //   this.editor.expand((path) => true);
+    // }
   }
 
   // --- Example methods to interact with the editor ---

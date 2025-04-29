@@ -18,7 +18,7 @@ let loopUnsubscribeHandles = [];
 let moduleInitApi = null; // Store initApi for use in event handlers
 
 // Handler for rules loaded
-function handleRulesLoaded(eventData) {
+function handleRulesLoaded(eventData, propagationOptions = {}) {
   console.log('[Loops Module] Received state:rulesLoaded');
   // Reset loop state now that new rules are loaded
   // Check if singleton exists and has the method before calling
@@ -34,6 +34,19 @@ function handleRulesLoaded(eventData) {
   }
   // Potentially trigger UI update if loopInstance exists
   loopInstance?.renderLoopPanel();
+
+  // Propagate the event to the next module in the chain
+  const dispatcher = moduleInitApi?.getDispatcher();
+  if (dispatcher) {
+    // Assuming the original publish direction was 'highestFirst'
+    dispatcher.publishToNextModule('loops', 'state:rulesLoaded', eventData, {
+      direction: 'highestFirst',
+    });
+  } else {
+    console.error(
+      '[Loops Module] Cannot propagate state:rulesLoaded: Dispatcher not available (initApi missing?).'
+    );
+  }
 }
 
 /**
@@ -177,10 +190,12 @@ function handleCheckLocationRequest(locationData) {
     // Use the stored moduleInitApi
     const dispatcher = moduleInitApi?.getDispatcher();
     if (dispatcher) {
-      dispatcher.publishToPredecessors(
+      // Assuming the original publish direction was 'highestFirst' for user:checkLocation
+      dispatcher.publishToNextModule(
         'loops',
         'user:checkLocation',
-        locationData
+        locationData,
+        { direction: 'highestFirst' }
       );
     } else {
       console.error(

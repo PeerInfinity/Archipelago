@@ -11,9 +11,10 @@ export const moduleInfo = {
 let locationInstance = null;
 let moduleEventBus = null;
 let locationUnsubscribeHandles = []; // Store multiple unsubscribe handles
+let initApi = null; // Store the full init API
 
 // Handler for rules loaded
-function handleRulesLoaded(eventData) {
+function handleRulesLoaded(eventData, propagationOptions = {}) {
   console.log('[Locations Module] Received state:rulesLoaded');
   // Update display now that data is available
   // Check if instance exists before calling update
@@ -23,6 +24,24 @@ function handleRulesLoaded(eventData) {
   } else {
     console.warn(
       '[Locations Module] locationInstance not available for state:rulesLoaded handler.'
+    );
+  }
+
+  // Propagate the event to the next module in the chain
+  const dispatcher = initApi?.getDispatcher(); // Use the stored initApi
+  if (dispatcher) {
+    const direction = propagationOptions.propagationDirection || 'highestFirst'; // Use incoming direction or default
+    dispatcher.publishToNextModule(
+      'locations',
+      'state:rulesLoaded',
+      eventData,
+      {
+        direction: direction,
+      }
+    );
+  } else {
+    console.error(
+      '[Locations Module] Cannot propagate state:rulesLoaded: Dispatcher not available (initApi missing?).'
     );
   }
 }
@@ -53,6 +72,9 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(
     `[Locations Module] Initializing with priority ${priorityIndex}...`
   );
+  // Store the full API
+  initApi = initializationApi;
+
   // Store eventBus for postInitialize
   moduleEventBus = initializationApi.getEventBus();
 
