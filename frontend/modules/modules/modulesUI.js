@@ -1,4 +1,5 @@
 import eventBus from '../../app/core/eventBus.js';
+import centralRegistry from '../../app/core/centralRegistry.js';
 
 // Basic CSS for the panel
 const CSS = `
@@ -71,6 +72,11 @@ export class ModulesPanel {
     this.buttonContainer = null; // Added
     this.moduleListContainer = null; // Added
     this.externalModuleCounter = 0; // Counter for unique external module IDs
+    this.initCompleteHandler = this._handleInitComplete.bind(this); // Store bound handler
+    this.moduleStateHandler = this._handleModuleStateChange.bind(this);
+    this.moduleLoadHandler = this._handleModuleLoaded.bind(this);
+    this.moduleFailHandler = this._handleModuleLoadFailed.bind(this);
+    this.moduleId = 'modules'; // Assume module ID is known or passed differently if needed
 
     // GoldenLayout specifics
     this.container.setTitle('Modules');
@@ -108,29 +114,33 @@ export class ModulesPanel {
     this._addControls(); // Renamed from _addTestButton
 
     // Listen for initialization complete event before fetching data
-    this.initCompleteListener = eventBus.subscribe('init:complete', () => {
-      console.log(
-        '[ModulesPanel] Received init:complete, requesting module data...'
-      );
-      this._requestModuleData();
-      // Optionally unsubscribe after first fetch if it's only needed once
-      // if (this.initCompleteListener) {
-      //     this.initCompleteListener();
-      //     this.initCompleteListener = null;
-      // }
-    });
-
-    // Subscribe to external events
-    eventBus.subscribe(
-      'module:stateChanged',
-      this._handleModuleStateChange.bind(this)
+    // Use the bound named handler
+    this.initCompleteListener = eventBus.subscribe(
+      'init:complete',
+      this.initCompleteHandler
     );
+    // NOW register the subscription with the registry
+    centralRegistry.registerEventBusSubscriber(
+      this.moduleId,
+      'init:complete',
+      this.initCompleteHandler
+    );
+
+    // Subscribe to external events using bound handlers
+    eventBus.subscribe('module:stateChanged', this.moduleStateHandler);
+    centralRegistry.registerEventBusSubscriber(
+      this.moduleId,
+      'module:stateChanged',
+      this.moduleStateHandler
+    );
+
     // eventBus.subscribe('panel:closed', this._handlePanelClosed.bind(this)); // Keep commented for now
-    eventBus.subscribe('module:loaded', this._handleModuleLoaded.bind(this)); // Listen for newly loaded modules
+    eventBus.subscribe('module:loaded', this.moduleLoadHandler); // Listen for newly loaded modules
+    // No need to register 'module:loaded' or 'failed' unless we add UI toggles for them
     eventBus.subscribe(
       'module:loadFailed',
-      this._handleModuleLoadFailed.bind(this)
-    ); // Listen for load failures
+      this.moduleFailHandler // Listen for load failures
+    );
   }
 
   async _requestModuleData() {
@@ -409,25 +419,32 @@ export class ModulesPanel {
     eventBus.publish('module:loadExternalRequest', { moduleId, modulePath });
   }
 
+  // --- Handler for init:complete --- //
+  _handleInitComplete() {
+    console.log(
+      '[ModulesPanel] Received init:complete, requesting module data...'
+    );
+    this._requestModuleData();
+    // Optionally unsubscribe after first fetch if it's only needed once
+    // if (this.initCompleteListener) {
+    //     this.initCompleteListener();
+    //     this.initCompleteListener = null;
+    // }
+  }
+
   // Called by GoldenLayout when the panel is destroyed
   destroy() {
     console.log('Destroying ModulesPanel');
-    // Remove event listeners
-    eventBus.unsubscribe(
-      'module:stateChanged',
-      this._handleModuleStateChange.bind(this)
-    );
-    eventBus.unsubscribe('module:loaded', this._handleModuleLoaded.bind(this));
-    eventBus.unsubscribe(
-      'module:loadFailed',
-      this._handleModuleLoadFailed.bind(this)
-    );
+    // Remove event listeners using the stored bound handlers
+    eventBus.unsubscribe('module:stateChanged', this.moduleStateHandler);
+    eventBus.unsubscribe('module:loaded', this.moduleLoadHandler);
+    eventBus.unsubscribe('module:loadFailed', this.moduleFailHandler);
     // Unsubscribe from init:complete if listener exists
+    // Use the named handler for unsubscribe
     if (this.initCompleteListener) {
-      this.initCompleteListener();
+      eventBus.unsubscribe('init:complete', this.initCompleteHandler);
       this.initCompleteListener = null;
     }
-    // TODO: Add unsubscribe for other listeners if they were added
 
     // Clean up DOM
     if (this.rootElement && this.rootElement.parentNode) {

@@ -24,10 +24,17 @@ export function register(registrationApi) {
   // It will access the moduleManager via window.moduleManagerApi.
   registrationApi.registerPanelComponent('modulesPanel', ModulesPanel);
   // Register intent to subscribe to module state changes
+  /* // REMOVED - Registration will happen in UI constructor
   registrationApi.registerEventBusSubscriber(
     'module:stateChanged',
     ModulesPanel.prototype._handleModuleStateChange // Pass the prototype method
   );
+  // Register intent to subscribe to init:complete
+  registrationApi.registerEventBusSubscriber(
+    'init:complete',
+    ModulesPanel.prototype._handleInitComplete // Pass the new handler
+  );
+  */
 }
 
 /**

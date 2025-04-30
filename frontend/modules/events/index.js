@@ -19,10 +19,12 @@ export function register(registrationApi) {
   // Register the panel component class constructor
   registrationApi.registerPanelComponent('eventsPanel', EventsUI);
   // Register intent to subscribe to module state changes for UI refresh
+  /* // REMOVED - Registration will happen in UI constructor
   registrationApi.registerEventBusSubscriber(
     'module:stateChanged',
     EventsUI.prototype.handleModuleStateChange // Pass the prototype method
   );
+  */
 }
 
 /**
