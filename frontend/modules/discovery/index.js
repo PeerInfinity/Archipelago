@@ -14,21 +14,32 @@ export function register(registrationApi) {
 
   // Register event handlers for events published by the Loops module
   // These handlers will call the discovery methods on the singleton.
-  registrationApi.registerEventHandler(
+  registrationApi.registerDispatcherReceiver(
     'loop:exploreCompleted',
-    handleExploreCompleted
+    handleExploreCompleted,
+    null // No specific propagation details needed
   );
-  registrationApi.registerEventHandler(
+  registrationApi.registerDispatcherReceiver(
     'loop:moveCompleted',
-    handleMoveCompleted
+    handleMoveCompleted,
+    null // No specific propagation details needed
   );
-  registrationApi.registerEventHandler(
+  registrationApi.registerDispatcherReceiver(
     'loop:locationChecked',
-    handleLocationChecked
+    handleLocationChecked,
+    null // No specific propagation details needed
   ); // Although check happens in stateManager, loop might trigger rediscovery?
 
   // Register handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
+  registrationApi.registerDispatcherReceiver(
+    'state:rulesLoaded',
+    handleRulesLoaded,
+    {
+      direction: 'highestFirst',
+      condition: 'unconditional',
+      timing: 'immediate',
+    } // Propagates
+  );
 
   // No panel component for Discovery module.
   // No settings schema specific to Discovery module itself.

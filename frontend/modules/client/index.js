@@ -75,14 +75,28 @@ export function register(registrationApi) {
     },
   });
 
-  // Register event handlers this module handles
-  registrationApi.registerEventHandler('network:connectRequest', (data) => {
-    connection.connect(data.serverAddress, data.password);
-  });
+  // Register network event handlers using the dispatcher receiver with null details
+  registrationApi.registerDispatcherReceiver(
+    'network:connectRequest',
+    (data) => {
+      console.log('[Client Module] Received network:connectRequest', data);
+      // Call the actual connect function
+      connectToServer(
+        data?.serverUrl ||
+          settingsManager.getModuleSetting('client', 'defaultServer')
+      );
+    },
+    null
+  );
 
-  registrationApi.registerEventHandler('network:disconnectRequest', () => {
-    connection.disconnect();
-  });
+  registrationApi.registerDispatcherReceiver(
+    'network:disconnectRequest',
+    () => {
+      console.log('[Client Module] Received network:disconnectRequest');
+      // Call the actual disconnect function
+      disconnectFromServer();
+    }
+  );
 }
 
 /**

@@ -80,8 +80,16 @@ export function register(registrationApi) {
   // Register the panel component class constructor directly
   registrationApi.registerPanelComponent('editorPanel', EditorUI);
 
-  // Register event handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
+  // Register handler for state changes to update the editor
+  registrationApi.registerDispatcherReceiver(
+    'state:rulesLoaded',
+    handleRulesLoaded,
+    {
+      direction: 'highestFirst',
+      condition: 'unconditional',
+      timing: 'immediate',
+    } // Propagates
+  );
 }
 
 /**

@@ -57,11 +57,18 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('locationsPanel', LocationUI);
 
   // Register event handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
+  registrationApi.registerDispatcherReceiver(
+    'state:rulesLoaded',
+    handleRulesLoaded,
+    {
+      direction: 'highestFirst',
+      condition: 'unconditional',
+      timing: 'immediate',
+    }
+  );
 
-  // Register primary event handler if Locations module owns an action
-  // Example: If checking a location *always* goes through this module first
-  // registrationApi.registerEventHandler('user:checkLocation', handleCheckLocationRequest);
+  // Locations module *reacts* to checks, but Loops module *primarily handles* the user request
+  // So, we register a *receiver* here, not a primary handler.
 }
 
 /**

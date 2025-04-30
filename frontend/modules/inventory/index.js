@@ -62,8 +62,16 @@ export function register(registrationApi) {
   // Pass the class constructor directly
   registrationApi.registerPanelComponent('inventoryPanel', InventoryUI);
 
-  // Register event handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
+  // Register event handler for rules loaded via Dispatcher
+  registrationApi.registerDispatcherReceiver(
+    'state:rulesLoaded',
+    handleRulesLoaded,
+    {
+      direction: 'highestFirst',
+      condition: 'unconditional',
+      timing: 'immediate',
+    }
+  );
 
   // Register settings schema if needed
 

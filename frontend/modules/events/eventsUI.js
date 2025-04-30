@@ -503,9 +503,9 @@ class EventsUI {
               let symbolsText = '';
               if (handlerInfo.propagationDetails) {
                 const details = handlerInfo.propagationDetails;
-                if (details.direction === 'highestFirst') symbolsText += '↓';
+                if (details.direction === 'highestFirst') symbolsText += '↑';
                 else if (details.direction === 'lowestFirst')
-                  symbolsText += '↑';
+                  symbolsText += '↓';
                 else symbolsText += '●'; // Non-propagating handler
                 if (details.timing === 'delayed') symbolsText += '⏳';
                 if (details.condition === 'conditional') symbolsText += '❓';

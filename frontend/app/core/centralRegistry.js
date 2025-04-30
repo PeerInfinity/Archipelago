@@ -46,21 +46,20 @@ class CentralRegistry {
     return this.moduleIdToComponentType.get(moduleId) || null;
   }
 
-  registerEventHandler(moduleId, eventName, handlerFunction) {
-    if (!this.dispatcherHandlers.has(eventName)) {
-      this.dispatcherHandlers.set(eventName, []);
-    }
-    console.log(
-      `[Registry] Registering basic event handler for '${eventName}' from ${moduleId}`
-    );
-    this.dispatcherHandlers.get(eventName).push({
-      moduleId,
-      handlerFunction,
-      propagationDetails: null, // Default for basic registration
-      enabled: true, // Default enabled state
-    });
-  }
-
+  /**
+   * Registers a handler function for a specific event dispatched via the EventDispatcher.
+   * This allows tracking which modules are intended receivers for prioritized events.
+   *
+   * @param {string} moduleId - The ID of the module registering the handler.
+   * @param {string} eventName - The name of the event to handle.
+   * @param {Function} handlerFunction - The function to execute when the event is received.
+   * @param {object | null} propagationDetails - Optional details about how this handler might propagate the event further.
+   *   If null, it's treated as a basic handler that does not explicitly propagate via publishToNextModule.
+   *   If an object, it should contain:
+   *   - direction {'highestFirst'|'lowestFirst'|'none'}: The direction the handler intends to propagate towards using publishToNextModule. Use 'none' or null if no propagation.
+   *   - condition {'conditional'|'unconditional'}: Whether the propagation call is conditional.
+   *   - timing {'immediate'|'delayed'}: Whether the propagation happens immediately or is delayed.
+   */
   registerDispatcherReceiver(
     moduleId,
     eventName,

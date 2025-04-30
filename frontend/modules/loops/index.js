@@ -73,12 +73,22 @@ export function register(registrationApi) {
   });
 
   // Register event handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
+  registrationApi.registerDispatcherReceiver(
+    'state:rulesLoaded',
+    handleRulesLoaded,
+    {
+      direction: 'highestFirst',
+      condition: 'unconditional',
+      timing: 'immediate',
+    }
+  );
 
-  // Register primary handler for user checking a location IF loop mode is active
-  registrationApi.registerEventHandler(
+  // Register primary handler for checking locations when in loop mode
+  // Note: This handler should check if loop mode is active before proceeding
+  registrationApi.registerDispatcherReceiver(
     'user:checkLocation',
-    handleCheckLocationRequest
+    handleCheckLocationRequest,
+    { direction: 'highestFirst', condition: 'conditional', timing: 'immediate' }
   );
 }
 

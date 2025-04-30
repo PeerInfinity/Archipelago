@@ -158,13 +158,13 @@ function createRegistrationApi(moduleId, moduleInstance) {
       );
     },
     // Keep old one for compatibility
-    registerEventHandler: (eventName, handlerFunction) => {
-      centralRegistry.registerEventHandler(
-        moduleId,
-        eventName,
-        handlerFunction.bind(moduleInstance) // Ensure correct 'this'
-      );
-    },
+    // registerEventHandler: (eventName, handlerFunction) => {
+    //   centralRegistry.registerEventHandler(
+    //     moduleId,
+    //     eventName,
+    //     handlerFunction.bind(moduleInstance) // Ensure correct 'this'
+    //   );
+    // },
     // New detailed receiver registration
     registerDispatcherReceiver: (
       eventName,

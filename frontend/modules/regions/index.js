@@ -54,7 +54,15 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('regionsPanel', RegionUI);
 
   // Register event handler for rules loaded
-  registrationApi.registerEventHandler('state:rulesLoaded', handleRulesLoaded);
+  registrationApi.registerDispatcherReceiver(
+    'state:rulesLoaded',
+    handleRulesLoaded,
+    {
+      direction: 'highestFirst',
+      condition: 'unconditional',
+      timing: 'immediate',
+    }
+  );
 
   // No specific settings schema or primary event handlers for Regions registration.
 }
