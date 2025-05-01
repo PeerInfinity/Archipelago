@@ -1,17 +1,20 @@
 // regionUI.js
 import { stateManagerSingleton } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
-import { PathAnalyzerUI } from '../pathAnalyzer/pathAnalyzerUI.js';
+import { PathAnalyzerUI } from '../pathAnalyzer/index.js';
 import commonUI from '../commonUI/index.js';
 import messageHandler from '../client/core/messageHandler.js';
 import loopState from '../loops/loopStateSingleton.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import eventBus from '../../app/core/eventBus.js';
-import { centralRegistry } from '../../app/core/centralRegistry.js';
+import { debounce } from '../commonUI/index.js';
+// Import the exported dispatcher from the module's index
+import { moduleDispatcher } from './index.js';
 
 export class RegionUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
+  constructor() {
+    // Add instance property for unsubscribe handles
+    this.unsubscribeHandles = [];
 
     /**
      * visitedRegions is an array of objects:
@@ -35,31 +38,100 @@ export class RegionUI {
       '#regions-panel-content'
     );
 
+    // Subscribe to necessary events when the instance is created
+    this._subscribeToEvents();
+
     this.attachEventListeners();
-    this.settingsUnsubscribe = null;
-    this.subscribeToSettings();
   }
 
-  subscribeToSettings() {
-    if (this.settingsUnsubscribe) {
-      this.settingsUnsubscribe();
+  _subscribeToEvents() {
+    console.log('[RegionUI] Subscribing instance to EventBus events...');
+    if (!eventBus) {
+      console.error('[RegionUI] EventBus not available for subscriptions.');
+      return;
     }
-    this.settingsUnsubscribe = eventBus.subscribe(
-      'settings:changed',
-      ({ key, value }) => {
-        if (key === '*' || key.startsWith('colorblindMode.regions')) {
-          this.update();
-        }
+
+    // Debounced update function
+    const debouncedUpdate = debounce(() => {
+      console.log('[RegionUI] Debounced update triggered.');
+      this.update();
+    }, 50); // 50ms debounce
+
+    const subscribe = (eventName, handler) => {
+      console.log(`[RegionUI] Subscribing to ${eventName}`);
+      const unsubscribe = eventBus.subscribe(eventName, handler);
+      this.unsubscribeHandles.push(unsubscribe);
+    };
+
+    // Specific handler for rules loaded to set initial state
+    const rulesLoadedHandler = (data) => {
+      console.log(`[RegionUI] Event received: stateManager:rulesLoaded`, data);
+      // Attempt to show the start region first
+      this.showStartRegion('Menu');
+      // Then trigger a general update (debounced)
+      debouncedUpdate();
+    };
+
+    // Wrap handlers with logging and use debounced update
+    const updateHandler = (eventData) => {
+      console.log(
+        `[RegionUI] Event received, triggering debounced update. Event: ${eventData.eventName}`,
+        eventData
+      );
+      debouncedUpdate();
+    };
+
+    const settingsHandler = ({ key, value }) => {
+      if (key === '*' || key.startsWith('colorblindMode.regions')) {
+        console.log(
+          `[RegionUI] Settings changed (${key}), triggering debounced update.`
+        );
+        debouncedUpdate();
       }
+    };
+
+    // Subscribe to state changes that affect region display
+    subscribe('stateManager:inventoryChanged', (data) =>
+      updateHandler({ eventName: 'stateManager:inventoryChanged', data })
     );
+    subscribe('stateManager:regionsComputed', (data) =>
+      updateHandler({ eventName: 'stateManager:regionsComputed', data })
+    );
+    subscribe('stateManager:locationChecked', (data) =>
+      updateHandler({ eventName: 'stateManager:locationChecked', data })
+    );
+    subscribe('stateManager:checkedLocationsCleared', (data) =>
+      updateHandler({ eventName: 'stateManager:checkedLocationsCleared', data })
+    );
+    // Use specific handler for rulesLoaded
+    subscribe('stateManager:rulesLoaded', rulesLoadedHandler);
+
+    // Subscribe to loop state changes
+    subscribe('loop:stateChanged', (data) =>
+      updateHandler({ eventName: 'loop:stateChanged', data })
+    );
+    subscribe('loop:actionCompleted', (data) =>
+      updateHandler({ eventName: 'loop:actionCompleted', data })
+    );
+    subscribe('loop:discoveryChanged', (data) =>
+      updateHandler({ eventName: 'loop:discoveryChanged', data })
+    );
+    subscribe('loop:modeChanged', (data) =>
+      updateHandler({ eventName: 'loop:modeChanged', data })
+    );
+
+    // Subscribe to settings changes
+    subscribe('settings:changed', settingsHandler);
+
+    console.log('[RegionUI] Event subscriptions complete.');
   }
 
   onPanelDestroy() {
-    if (this.settingsUnsubscribe) {
-      this.settingsUnsubscribe();
-      this.settingsUnsubscribe = null;
-    }
+    console.log('[RegionUI] Cleaning up subscriptions...');
+    this.unsubscribeHandles.forEach((unsubscribe) => unsubscribe());
+    this.unsubscribeHandles = []; // Clear handles
     this.pathAnalyzer?.dispose?.();
+    console.log('[RegionUI] Cleanup complete.');
   }
 
   dispose() {
@@ -121,39 +193,7 @@ export class RegionUI {
 
   initialize() {
     this.clear();
-    this.showStartRegion('Menu');
-
-    // Add CSS styles for multiple exits
-    const styles = document.createElement('style');
-    styles.innerHTML = `
-      .transition-header {
-        padding: 5px;
-        margin-top: 10px;
-        margin-bottom: 5px;
-        border-radius: 4px;
-        background-color: rgba(0, 0, 0, 0.2);
-      }
-      
-      .path-exit-rule-container {
-        position: relative;
-      }
-      
-      .path-exit-rule-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -10px;
-        width: 10px;
-        height: 50%;
-        border-bottom: 1px solid #555;
-        border-left: 1px solid #555;
-      }
-      
-      .path-exit-rule-container:first-of-type::before {
-        display: none;
-      }
-    `;
-    document.head.appendChild(styles);
+    console.log('[RegionUI] Initialized (cleared container).');
   }
 
   clear() {
@@ -165,28 +205,23 @@ export class RegionUI {
   }
 
   update() {
+    console.log('[RegionUI] update() called, calling renderAllRegions().');
     this.renderAllRegions();
   }
 
-  log(msg) {
-    if (window.consoleManager) {
-      window.consoleManager.print(msg, 'info');
-    } else {
-      console.log(msg);
-    }
-  }
-
   showStartRegion(startRegionName) {
+    // Ensure instance and regions are available before proceeding
     if (
       !stateManagerSingleton.instance ||
       !stateManagerSingleton.instance.regions ||
       !stateManagerSingleton.instance.regions[startRegionName]
     ) {
-      this.log(
-        `Warning: start region ${startRegionName} not found in stateManager.instance.regions.`
+      console.warn(
+        `[RegionUI] Warning: start region ${startRegionName} not found or state not ready.`
       );
-      return;
+      return false; // Indicate failure
     }
+    console.log(`[RegionUI] Setting start region: ${startRegionName}`);
     this.visitedRegions = [
       {
         name: startRegionName,
@@ -194,7 +229,9 @@ export class RegionUI {
         uid: this.nextUID++,
       },
     ];
-    this.renderAllRegions();
+    // Don't call renderAllRegions here, let the calling context handle it
+    // this.renderAllRegions();
+    return true; // Indicate success
   }
 
   moveToRegion(oldRegionName, newRegionName) {
@@ -203,7 +240,7 @@ export class RegionUI {
       (r) => r.name === oldRegionName
     );
     if (oldIndex < 0) {
-      this.log(
+      console.warn(
         `Can't find oldRegionName ${oldRegionName} in visited. Not removing anything.`
       );
       return;
@@ -235,7 +272,16 @@ export class RegionUI {
 
   expandAllRegions() {
     if (this.showAll) {
-      Object.keys(stateManagerSingleton.regions).forEach(
+      if (
+        !stateManagerSingleton.instance ||
+        !stateManagerSingleton.instance.regions
+      ) {
+        console.warn(
+          '[RegionUI] StateManager instance or regions not ready in expandAllRegions'
+        );
+        return;
+      }
+      Object.keys(stateManagerSingleton.instance.regions).forEach(
         (regionName, index) => {
           const uid = `all_${index}`;
           const regionObj = this.visitedRegions.find((r) => r.uid === uid);
@@ -260,7 +306,16 @@ export class RegionUI {
 
   collapseAllRegions() {
     if (this.showAll) {
-      Object.keys(stateManagerSingleton.regions).forEach(
+      if (
+        !stateManagerSingleton.instance ||
+        !stateManagerSingleton.instance.regions
+      ) {
+        console.warn(
+          '[RegionUI] StateManager instance or regions not ready in collapseAllRegions'
+        );
+        return;
+      }
+      Object.keys(stateManagerSingleton.instance.regions).forEach(
         (regionName, index) => {
           const uid = `all_${index}`;
           const regionObj = this.visitedRegions.find((r) => r.uid === uid);
@@ -286,7 +341,7 @@ export class RegionUI {
   renderAllRegions() {
     const container = this.regionsContainer;
     if (!container) {
-      this.log('No #regions-panel element found');
+      console.warn('[RegionUI] No #regions-panel-content element found');
       return;
     }
     container.innerHTML = '';
@@ -297,30 +352,26 @@ export class RegionUI {
       true
     );
 
-    if (this.showAll) {
-      Object.keys(stateManagerSingleton.regions).forEach(
-        (regionName, index) => {
-          const rData = stateManagerSingleton.regions[regionName];
-          const uid = `all_${index}`; // or any stable unique key
-          const regionObj = this.visitedRegions.find((r) => r.uid === uid);
-          const expanded = regionObj ? regionObj.expanded : true; // expand all by default
-          const regionBlock = this.buildRegionBlock(
-            rData,
-            regionName,
-            expanded,
-            uid,
-            useRegionColorblind
-          );
-          container.appendChild(regionBlock);
-        }
+    const allRegionData = stateManagerSingleton.instance.regions;
+    if (!allRegionData) {
+      console.log(
+        '[RegionUI] Region data not yet available in stateManagerSingleton.instance during renderAllRegions.'
       );
-    } else {
-      for (const regionObj of this.visitedRegions) {
-        const { name: regionName, expanded, uid } = regionObj;
-        const rData = stateManagerSingleton.regions[regionName];
-        if (!rData) {
-          continue;
-        }
+      container.innerHTML =
+        '<div class="loading-message">Loading region data...</div>';
+      return;
+    }
+
+    console.log(
+      `[RegionUI] Rendering regions. ShowAll: ${this.showAll}, Visited Count: ${this.visitedRegions.length}`
+    );
+
+    if (this.showAll) {
+      Object.keys(allRegionData).forEach((regionName, index) => {
+        const rData = allRegionData[regionName];
+        const uid = `all_${index}`; // or any stable unique key
+        const regionObj = this.visitedRegions.find((r) => r.uid === uid);
+        const expanded = regionObj ? regionObj.expanded : true; // expand all by default
         const regionBlock = this.buildRegionBlock(
           rData,
           regionName,
@@ -328,7 +379,61 @@ export class RegionUI {
           uid,
           useRegionColorblind
         );
-        container.appendChild(regionBlock);
+        if (regionBlock) {
+          container.appendChild(regionBlock);
+        }
+      });
+    } else {
+      // If visitedRegions is empty AND region data is available, try setting the start region
+      if (this.visitedRegions.length === 0) {
+        console.log(
+          '[RegionUI] No visited regions, attempting to show start region.'
+        );
+        const success = this.showStartRegion('Menu'); // Try to set start region
+        if (success) {
+          // If successful, re-render immediately with the new visitedRegions list
+          console.log('[RegionUI] Start region set, re-rendering...');
+          // We need to re-query container/data as this is a recursive call essentially
+          const currentContainer = this.regionsContainer;
+          const currentData = stateManagerSingleton.instance.regions;
+          if (currentContainer && currentData) {
+            currentContainer.innerHTML = ''; // Clear loading message
+            this.visitedRegions.forEach((regionObj) => {
+              const rData = currentData[regionObj.name];
+              if (rData) {
+                const regionBlock = this.buildRegionBlock(
+                  rData,
+                  regionObj.name,
+                  regionObj.expanded,
+                  regionObj.uid,
+                  settingsManager.getSetting('colorblindMode.regions', true)
+                );
+                if (regionBlock) {
+                  currentContainer.appendChild(regionBlock);
+                }
+              }
+            });
+          }
+        }
+        // Whether success or failure, return here to avoid rendering empty list below
+        return;
+      }
+      // Render existing visited regions
+      for (const regionObj of this.visitedRegions) {
+        const rData = allRegionData[regionObj.name];
+        if (!rData) {
+          continue;
+        }
+        const regionBlock = this.buildRegionBlock(
+          rData,
+          regionObj.name,
+          regionObj.expanded,
+          regionObj.uid,
+          settingsManager.getSetting('colorblindMode.regions', true) // Get setting again
+        );
+        if (regionBlock) {
+          container.appendChild(regionBlock);
+        }
       }
     }
   }
@@ -489,12 +594,13 @@ export class RegionUI {
     regionBlock.classList.toggle('colorblind-mode', useColorblind);
 
     // Check if we have a valid inventory before evaluating rules
-    const inventory = stateManagerSingleton?.inventory;
+    const inventory = stateManagerSingleton?.instance?.inventory;
     if (!inventory) {
       return document.createElement('div'); // Return empty div if no inventory
     }
 
-    const isAccessible = stateManagerSingleton.isRegionReachable(regionName);
+    const isAccessible =
+      stateManagerSingleton.instance.isRegionReachable(regionName);
 
     // Check if Loop Mode is active
     const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
@@ -670,7 +776,9 @@ export class RegionUI {
 
           // Remove inventory parameter
           const canAccess = evaluateRule(loc.access_rule);
-          const isChecked = stateManagerSingleton.isLocationChecked(loc.name);
+          const isChecked = stateManagerSingleton.instance.isLocationChecked(
+            loc.name
+          );
           const colorClass = isChecked
             ? 'checked-loc'
             : canAccess
@@ -877,11 +985,26 @@ export class RegionUI {
    * @private
    */
   _handleLocalCheck(location) {
-    // Use the globally accessible messageHandler instance
-    const handler = window.messageHandler || messageHandler;
-    handler.checkLocation(location).catch((error) => {
-      // Optional: Display an error message to the user
-    });
+    // Check if the location is actually checkable
+    if (location.access_rule && !evaluateRule(location.access_rule)) {
+      return; // Don't check locations that aren't accessible
+    }
+
+    console.log(
+      `RegionUI: Handling local check for location: ${location.name} in ${location.regionName}`
+    );
+
+    // Use the imported moduleDispatcher directly
+    if (moduleDispatcher) {
+      moduleDispatcher.publish('user:checkLocationRequest', {
+        locationName: location.name,
+        regionName: location.regionName,
+      });
+    } else {
+      console.error(
+        '[RegionUI] Cannot publish user:checkLocationRequest: moduleDispatcher is not available.'
+      );
+    }
   }
 }
 

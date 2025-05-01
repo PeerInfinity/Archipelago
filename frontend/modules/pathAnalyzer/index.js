@@ -1,84 +1,51 @@
-// Core Logic and UI Classes
-import { PathAnalyzerLogic } from './pathAnalyzerLogic.js';
-import { PathAnalyzerUI } from './pathAnalyzerUI.js';
+// Directly export the core classes for other modules to import
+export { PathAnalyzerLogic } from './pathAnalyzerLogic.js';
+export { PathAnalyzerUI } from './pathAnalyzerUI.js';
 
-// Singletons or other dependencies (if any were needed internally)
-// import someDependency from '../../app/core/someDependency.js';
-
-// --- Module Info ---
-export const moduleInfo = {
-  name: 'pathAnalyzer', // No panel title, use ID
-  description: 'Path analysis logic.',
-};
-
-let logicInstance = null;
-let uiInstance = null;
-
-// We might not need to store instances globally if they are mainly used by RegionsUI,
-// but registerPublicFunction allows RegionsUI to get them when needed.
+// --- Module Info (Optional - keep if used by external tooling) ---
+// export const moduleInfo = {
+//   name: 'pathAnalyzer',
+//   description: 'Path analysis logic.',
+// };
 
 /**
  * Registration function for the PathAnalyzer module.
- * Registers public functions for other modules to access logic and UI.
+ * Currently only registers settings schema (if defined).
  */
 export function register(registrationApi) {
   console.log('[PathAnalyzer Module] Registering...');
 
-  // Register public functions for other modules (like Regions) to access
-  registrationApi.registerPublicFunction('getPathAnalyzerLogicInstance', () => {
-    if (!logicInstance) {
-      logicInstance = new PathAnalyzerLogic();
-    }
-    return logicInstance;
-  });
-
-  registrationApi.registerPublicFunction(
-    'getPathAnalyzerUIInstance',
-    (regionUI) => {
-      // PathAnalyzerUI constructor expects regionUI. Pass it when requested.
-      // This assumes the requesting module (RegionsUI) will provide its instance.
-      if (!uiInstance) {
-        if (!regionUI) {
-          console.error(
-            '[PathAnalyzer Module] getPathAnalyzerUIInstance called without regionUI argument!'
-          );
-          return null;
-        }
-        uiInstance = new PathAnalyzerUI(regionUI);
-      }
-      // If uiInstance already exists, should we update its regionUI reference?
-      // For now, return existing instance.
-      return uiInstance;
-    }
-  );
+  // Remove public function registrations - consumers will import classes directly
 
   // Register settings schema if path analyzer has specific settings
   // Example:
-  // registrationApi.registerSettingsSchema({
+  // registrationApi.registerSettingsSchema('pathAnalyzer', {
   //     type: 'object',
   //     properties: {
   //         maxAnalysisDepth: { type: 'integer', default: 10 },
   //         defaultMaxPaths: { type: 'integer', default: 100 }
   //     }
   // });
+
+  // Register EventBus publications/subscriptions if needed
+  // registrationApi.registerEventBusPublisher('pathAnalyzer', 'someEvent');
+  // registrationApi.registerEventBusSubscriber('pathAnalyzer', 'anotherEvent');
 }
 
 /**
  * Initialization function for the PathAnalyzer module.
- * Minimal setup required here, as instances are created on demand.
+ * Minimal setup needed as logic/UI are instantiated by consumers.
  */
 export function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(
-    `[PathAnalyzer Module] Initializing with priority ${priorityIndex}...`
+    `[PathAnalyzer Module] Initializing (ID: ${moduleId}, Priority: ${priorityIndex})...`
   );
-  // const settings = await initializationApi.getSettings();
+  // const settings = initializationApi.getModuleSettings(); // Get module-specific settings
   // const eventBus = initializationApi.getEventBus();
+  // const dispatcher = initializationApi.getDispatcher();
 
-  // Logic and UI are instantiated when requested via getPathAnalyzer... functions.
-  // Any non-instance-specific setup could go here.
+  // Perform any module-level setup here that doesn't require class instances.
+  // E.g., subscribe to global events if the module itself needs to react.
 
   console.log('[PathAnalyzer Module] Initialization complete.');
 }
-
-// Export the classes directly if needed for type hinting or direct import (less common)
-export { PathAnalyzerLogic, PathAnalyzerUI };
