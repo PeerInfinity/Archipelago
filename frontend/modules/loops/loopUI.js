@@ -1,9 +1,10 @@
 // loopUI.js - UI for the Loop mode
-import { stateManagerSingleton } from '../stateManager/index.js';
+import { stateManagerSingleton } from '../stateManager/index.js'; // <<< Re-added import
 import loopState from './loopStateSingleton.js';
-import discoveryStateSingleton from '../discovery/singleton.js'; // <<< Added import
 import eventBus from '../../app/core/eventBus.js';
 import commonUI from '../commonUI/index.js';
+import panelManagerInstance from '../../app/core/panelManagerSingleton.js'; // <<< Import panelManager
+import discoveryStateSingleton from '../discovery/singleton.js';
 import {
   levelFromXP,
   xpForNextLevel,
@@ -13,9 +14,7 @@ import {
 import settingsManager from '../../app/core/settingsManager.js';
 
 export class LoopUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
-
+  constructor(/* removed discoveryState */) {
     // UI state
     this.expandedRegions = new Set();
     this.regionsInQueue = new Set(); // Track which regions have actions in the queue
@@ -39,9 +38,6 @@ export class LoopUI {
     // --- Moved Listener Attachment ---
     // Event listener attachment is now deferred to attachInternalListeners()
     // _attachControlEventListeners() is renamed and moved
-
-    // Make this instance globally accessible for direct event handlers (Consider removing this if possible later)
-    window.loopUIInstance = this;
 
     // Attach event listeners for loop state changes
     this.subscribeToEvents();
@@ -307,9 +303,8 @@ export class LoopUI {
 
   _handleSaveStateClick() {
     loopState.saveToStorage();
-    if (window.consoleManager)
-      window.consoleManager.print('Game saved!', 'success');
-    else alert('Game saved!');
+    // Use console.info instead of window.consoleManager
+    console.info('Game saved!');
   }
 
   _handleHardResetClick() {
@@ -318,26 +313,29 @@ export class LoopUI {
         'Are you sure you want to hard reset? This will clear all progress, discovery, and XP data.'
       )
     ) {
-      loopState.discoveredRegions = new Set(['Menu']);
-      loopState.discoveredLocations = new Set();
-      loopState.discoveredExits = new Map([['Menu', new Set()]]);
+      // Reset loopState properties
       loopState.regionXP = new Map();
       loopState.actionQueue = [];
       loopState.currentAction = null;
       loopState.currentActionIndex = 0;
       loopState.currentMana = loopState.maxMana;
       loopState.isProcessing = false;
-      loopState._initializeDiscoverableData();
+
+      // ADDED: Clear discovery state via its singleton
+      discoveryStateSingleton.clearDiscovery();
+
+      // Save the reset loop state (without discovery data)
       loopState.saveToStorage();
+
       // Clear UI specific states
       this.expandedRegions.clear();
       this.expandedRegions.add('Menu'); // Keep menu expanded
       this.regionsInQueue.clear();
-      this.repeatExploreStates.clear();
+      // REMOVED: this.repeatExploreStates.clear(); - Now handled by LoopState
       // Render the panel
       this.renderLoopPanel();
-      if (window.consoleManager)
-        window.consoleManager.print('Game has been hard reset!', 'warning');
+      // Use console.warn instead of window.consoleManager
+      console.warn('Game has been hard reset!');
     }
   }
 
@@ -386,9 +384,6 @@ export class LoopUI {
 
     // Set initial expanded state for starting region
     this.expandedRegions.add('Menu');
-
-    // Store this instance in the window for access from event handlers
-    window.loopUIInstance = this;
 
     // Render initial state based on whether loop mode is already active
     this.renderLoopPanel(); // Render based on current isLoopModeActive state
@@ -617,16 +612,28 @@ export class LoopUI {
     });
 
     // New discoveries
-    subscribe('loopState:locationDiscovered', (data) => {
-      if (this.isLoopModeActive) this._updateDiscoveredItems(data.regionName);
+    subscribe('discovery:locationDiscovered', (data) => {
+      if (this.isLoopModeActive) {
+        // Directly re-render the affected region if possible, or full panel
+        // For simplicity, re-render the whole panel for now
+        this.renderLoopPanel();
+      }
     });
-
-    subscribe('loopState:exitDiscovered', (data) => {
-      if (this.isLoopModeActive) this._updateDiscoveredItems(data.regionName);
+    subscribe('discovery:exitDiscovered', (data) => {
+      if (this.isLoopModeActive) {
+        this.renderLoopPanel();
+      }
     });
-
-    subscribe('loopState:regionDiscovered', (data) => {
-      if (this.isLoopModeActive) this.renderLoopPanel(); // Re-render when a new region is available
+    subscribe('discovery:regionDiscovered', (data) => {
+      if (this.isLoopModeActive) {
+        this.renderLoopPanel(); // Re-render when a new region is available
+      }
+    });
+    subscribe('discovery:changed', () => {
+      // General catch-all for other discovery changes (like reset)
+      if (this.isLoopModeActive) {
+        this.renderLoopPanel();
+      }
     });
 
     // Loop reset
@@ -682,13 +689,36 @@ export class LoopUI {
       // // If loop mode changed, we might need to re-render again or publish the event
       // this.renderLoopPanel(); // Potentially re-render if mode changed
       // eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
+
+      // Listen for explore action repeat events
+      subscribe('loopState:exploreActionRepeated', (data) => {
+        if (this.isLoopModeActive) {
+          this.regionsInQueue.add(data.regionName);
+          this.renderLoopPanel(); // Update the UI
+        }
+      });
     });
 
-    // Listen for explore action repeat events
-    subscribe('loopState:exploreActionRepeated', (data) => {
-      if (this.isLoopModeActive) {
-        this.regionsInQueue.add(data.regionName);
-        this.renderLoopPanel(); // Update the UI
+    // <<< ADD SUBSCRIPTION FOR LOOP MODE REQUEST >>>
+    subscribe('system:requestLoopMode', () => {
+      console.log(
+        '[LoopUI] Received system:requestLoopMode, activating loop mode...'
+      );
+      if (!this.isLoopModeActive) {
+        this.toggleLoopMode();
+        // Additionally, activate the loopsPanel if panelManagerInstance is available
+        if (panelManagerInstance) {
+          try {
+            console.log('[LoopUI] Activating loopsPanel...');
+            panelManagerInstance.activatePanel('loopsPanel');
+          } catch (error) {
+            console.error('[LoopUI] Error activating loopsPanel:', error);
+          }
+        } else {
+          console.warn(
+            '[LoopUI] panelManagerInstance not available to activate panel.'
+          );
+        }
       }
     });
   }
@@ -721,11 +751,11 @@ export class LoopUI {
     console.log('LoopUI onPanelDestroy called');
     this._stopAnimationLoop();
     this.unsubscribeFromEvents();
+    window.loopUIInstance = null; // Clear global reference
     if (this.settingsUnsubscribe) {
       this.settingsUnsubscribe(); // Unsubscribe
       this.settingsUnsubscribe = null;
     }
-    window.loopUIInstance = null; // Clear global reference
   }
 
   /**
@@ -969,121 +999,6 @@ export class LoopUI {
   }
 
   /**
-   * Update displayed discovered items for a region
-   * @param {string} regionName - Name of the region
-   */
-  _updateDiscoveredItems(regionName) {
-    const regionData = stateManagerSingleton.regions[regionName];
-    if (!regionData) {
-      console.warn(`Region data not found for ${regionName}`);
-      return; // Exit if region data is not found
-    }
-
-    const locationsContainer = document.querySelector(
-      `#loop-region-${commonUI.sanitizeForId(regionName)} .discovered-locations`
-    );
-    const exitsContainer = document.querySelector(
-      `#loop-region-${commonUI.sanitizeForId(regionName)} .discovered-exits`
-    );
-
-    if (!locationsContainer || !exitsContainer) return;
-
-    // Clear previous lists
-    locationsContainer.innerHTML = '';
-    exitsContainer.innerHTML = '';
-
-    // Get discovered status from DiscoveryState
-    const isRegionDiscovered =
-      discoveryStateSingleton.isRegionDiscovered(regionName); // <<< Use discoveryStateSingleton
-
-    // Locations
-    if (regionData.locations) {
-      const sortedLocations = [...regionData.locations].sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      sortedLocations.forEach((loc) => {
-        const isDiscovered = discoveryStateSingleton.isLocationDiscovered(
-          loc.name
-        ); // <<< Use discoveryStateSingleton
-        if (isDiscovered || isRegionDiscovered) {
-          const locElement = document.createElement('div');
-          locElement.className = `item discovered-location ${
-            isDiscovered ? 'active' : 'inactive'
-          }`;
-          locElement.innerHTML = `<span>${loc.name}</span>`;
-          locationsContainer.appendChild(locElement);
-        }
-      });
-    }
-
-    // Exits
-    if (regionData.exits) {
-      const sortedExits = [...regionData.exits].sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      sortedExits.forEach((exit) => {
-        const isDiscovered = discoveryStateSingleton.isExitDiscovered(
-          regionName,
-          exit.name
-        ); // <<< Use discoveryStateSingleton
-        if (isDiscovered || isRegionDiscovered) {
-          const exitElement = document.createElement('div');
-          exitElement.className = `item discovered-exit ${
-            isDiscovered ? 'active' : 'inactive'
-          }`;
-          exitElement.innerHTML = `<span>${exit.name} → ${exit.connected_region}</span>`;
-          exitsContainer.appendChild(exitElement);
-        }
-      });
-    }
-  }
-
-  /**
-   * Update discovery count display for a region
-   * @param {string} regionName - Name of the region
-   */
-  _updateDiscoveryCountDisplay(regionName) {
-    const regionData = stateManagerSingleton.regions[regionName];
-    if (!regionData) return;
-
-    const isRegionDiscovered =
-      discoveryStateSingleton.isRegionDiscovered(regionName); // <<< Use discoveryStateSingleton
-    if (!isRegionDiscovered) return; // Don't update counts for undiscovered regions
-
-    let discoveredLocations = 0;
-    let totalLocations = regionData.locations?.length || 0;
-    if (regionData.locations) {
-      regionData.locations.forEach((loc) => {
-        if (discoveryStateSingleton.isLocationDiscovered(loc.name)) {
-          // <<< Use discoveryStateSingleton
-          discoveredLocations++;
-        }
-      });
-    }
-
-    let discoveredExits = 0;
-    let totalExits = regionData.exits?.length || 0;
-    if (regionData.exits) {
-      regionData.exits.forEach((exit) => {
-        if (discoveryStateSingleton.isExitDiscovered(regionName, exit.name)) {
-          // <<< Use discoveryStateSingleton
-          discoveredExits++;
-        }
-      });
-    }
-
-    const countsElement = document.querySelector(
-      `#loop-region-${commonUI.sanitizeForId(regionName)} .discovery-counts`
-    );
-    if (countsElement) {
-      countsElement.innerHTML = `
-        Locations: ${discoveredLocations} / ${totalLocations}<br>
-        Exits: ${discoveredExits} / ${totalExits}
-      `;
-    }
-  }
-
-  /**
    * Update the region XP display
    * @param {string} regionName - Name of the region
    */
@@ -1139,65 +1054,6 @@ export class LoopUI {
   }
 
   /**
-   * Update the list of discovered locations in a region
-   * @param {string} regionName - Name of the region
-   * @param {HTMLElement} container - Container element
-   */
-  _updateDiscoveredLocations(regionName, container) {
-    container.innerHTML = ''; // Clear previous content
-    const regionData = stateManagerSingleton.regions[regionName];
-    if (!regionData || !regionData.locations) return;
-
-    // Use colorblind setting from settingsManager
-    const useColorblind = settingsManager.getSetting(
-      'colorblindMode.loops',
-      false
-    );
-
-    const sortedLocations = [...regionData.locations].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-
-    sortedLocations.forEach((loc) => {
-      const isDiscovered = discoveryStateSingleton.isLocationDiscovered(
-        loc.name
-      ); // <<< Use discoveryStateSingleton
-      if (!isDiscovered) return;
-
-      const isChecked = stateManagerSingleton.isLocationChecked(loc.name);
-      const isAccessible = stateManager.isLocationAccessible(loc);
-
-      const div = document.createElement('div');
-      div.className = 'item discovered-location active'; // Always active since it's discovered
-      div.dataset.locationName = loc.name;
-
-      const statusClasses = commonUI.getItemStatusClasses(
-        isChecked,
-        isAccessible,
-        false,
-        useColorblind
-      );
-      div.classList.add(...statusClasses);
-
-      const button = document.createElement('button');
-      button.className = 'button item-button';
-      button.textContent = loc.name;
-      button.title = `Check ${loc.name}`;
-      button.disabled = isChecked; // Disable if already checked
-
-      button.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent region header click
-        if (!isChecked) {
-          this._queueCheckLocationAction(regionName, loc.name);
-        }
-      });
-
-      div.appendChild(button);
-      container.appendChild(div);
-    });
-  }
-
-  /**
    * Queue a location check action
    * @param {string} regionName - Name of the region
    * @param {string} locationName - Name of the location
@@ -1225,76 +1081,6 @@ export class LoopUI {
 
     // Force re-render to update UI
     this.renderLoopPanel();
-  }
-
-  /**
-   * Update the list of discovered exits in a region
-   * @param {string} regionName - Name of the region
-   * @param {HTMLElement} container - Container element
-   */
-  _updateDiscoveredExits(regionName, container) {
-    container.innerHTML = ''; // Clear previous content
-    const regionData = stateManagerSingleton.regions[regionName];
-    if (!regionData || !regionData.exits) return;
-
-    // Use colorblind setting from settingsManager
-    const useColorblind = settingsManager.getSetting(
-      'colorblindMode.loops',
-      false
-    );
-
-    const sortedExits = [...regionData.exits].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-
-    sortedExits.forEach((exit) => {
-      const isDiscovered = discoveryStateSingleton.isExitDiscovered(
-        regionName,
-        exit.name
-      ); // <<< Use discoveryStateSingleton
-      if (!isDiscovered) return;
-
-      const targetRegion = exit.connected_region;
-      const isTargetRegionDiscovered =
-        discoveryStateSingleton.isRegionDiscovered(targetRegion); // <<< Use discoveryStateSingleton
-
-      // Evaluate exit accessibility ONLY IF the target region is discovered
-      // Otherwise, consider it inaccessible for the purpose of styling/action
-      const isAccessible =
-        isTargetRegionDiscovered &&
-        stateManager.helpers.evaluateRule(exit.rule);
-
-      const div = document.createElement('div');
-      div.className = 'item discovered-exit active'; // Always active since discovered
-      div.dataset.regionName = regionName;
-      div.dataset.exitName = exit.name;
-      div.dataset.destinationRegion = targetRegion;
-
-      // Determine status class based on accessibility
-      const statusClasses = commonUI.getItemStatusClasses(
-        false, // Exits aren't 'checked'
-        isAccessible,
-        false,
-        useColorblind
-      );
-      div.classList.add(...statusClasses);
-
-      const button = document.createElement('button');
-      button.className = 'button item-button';
-      button.textContent = `${exit.name} → ${targetRegion}`;
-      button.title = `Move to ${targetRegion} via ${exit.name}`;
-      button.disabled = !isTargetRegionDiscovered; // Disable if target region isn't discovered
-
-      button.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent region header click
-        if (isTargetRegionDiscovered) {
-          this._queueMoveAction(regionName, exit.name, targetRegion);
-        }
-      });
-
-      div.appendChild(button);
-      container.appendChild(div);
-    });
   }
 
   /**
@@ -1460,9 +1246,13 @@ export class LoopUI {
   expandAllRegions() {
     console.log('LoopUI: Expanding all regions');
     if (!this.isLoopModeActive) return;
-    const discoveredRegions = loopState.discoveredRegions;
+    // <<< Use discoveryStateSingleton >>>
+    const discoveredRegions = discoveryStateSingleton.discoveredRegions;
     if (!discoveredRegions || typeof discoveredRegions.forEach !== 'function') {
-      console.error('discoveredRegions is not a valid Set:', discoveredRegions);
+      console.error(
+        'discoveryStateSingleton.discoveredRegions is not a valid Set:',
+        discoveredRegions
+      );
       return;
     }
     discoveredRegions.forEach((regionName) => {
@@ -1587,7 +1377,8 @@ export class LoopUI {
     // }
 
     // Get discovered regions (only render if loop mode is active)
-    const discoveredRegions = loopState.discoveredRegions;
+    // <<< Use discoveryStateSingleton >>>
+    const discoveredRegions = discoveryStateSingleton.discoveredRegions;
 
     // Use the cached or queried regionsArea
     if (!regionsArea) {
@@ -1618,7 +1409,7 @@ export class LoopUI {
     });
 
     sortedRegions.forEach((regionName) => {
-      const region = stateManagerSingleton.regions[regionName];
+      const region = stateManagerSingleton.instance.regions[regionName];
       if (!region) return;
       // Show regions that are 'Menu', have actions queued, or are the destination of a move action
       const isDestination = loopState.actionQueue.some(
@@ -1751,15 +1542,18 @@ export class LoopUI {
       detailEl.appendChild(xpDisplay);
 
       // Discovery Stats
-      const regionData = stateManagerSingleton.regions[regionName]; // Get full data
+      // Use stateManagerSingleton directly
+      const regionData = stateManagerSingleton.instance.regions[regionName]; // Get full data
       const totalLocations = regionData?.locations?.length || 0;
       const totalExits = regionData?.exits?.length || 0;
+      // <<< Use discoveryStateSingleton
       const discoveredLocationCount =
         regionData?.locations?.filter((loc) =>
-          loopState.isLocationDiscovered(loc.name)
+          discoveryStateSingleton.isLocationDiscovered(loc.name)
         ).length || 0;
       const discoveredExitCount =
-        loopState.discoveredExits.get(regionName)?.size || 0;
+        discoveryStateSingleton.discoveredExits.get(regionName)?.size || 0;
+      // >>> End discoveryStateSingleton use
       const totalItems = totalLocations + totalExits;
       const discoveredItems = discoveredLocationCount + discoveredExitCount;
       const explorationPercentage =
@@ -1831,7 +1625,9 @@ export class LoopUI {
         const locationsContainer = document.createElement('div');
         locationsContainer.className = 'loop-region-locations-container';
         locationsContainer.classList.toggle('colorblind-mode', useColorblind); // Apply to lists
-        this._updateDiscoveredLocations(regionName, locationsContainer); // Populate
+        // <<< Call new method with singleton
+        this._renderLocationList(regionName, locationsContainer, useColorblind);
+        // >>>
         detailEl.appendChild(locationsContainer);
       }
 
@@ -1840,7 +1636,9 @@ export class LoopUI {
         const exitsContainer = document.createElement('div');
         exitsContainer.className = 'loop-region-exits-container';
         exitsContainer.classList.toggle('colorblind-mode', useColorblind); // Apply to lists
-        this._updateDiscoveredExits(regionName, exitsContainer); // Populate
+        // <<< Call new method with singleton
+        this._renderExitList(regionName, exitsContainer, useColorblind);
+        // >>>
         detailEl.appendChild(exitsContainer);
       }
 
@@ -1848,6 +1646,168 @@ export class LoopUI {
     }
 
     return regionBlock;
+  }
+
+  // --- NEW: Helper to render location list using DiscoveryState --- //
+  /**
+   * Renders the list of discovered locations for a region.
+   * @param {string} regionName
+   * @param {HTMLElement} container
+   * @param {boolean} useColorblind
+   */
+  _renderLocationList(regionName, container, useColorblind) {
+    container.innerHTML = ''; // Clear previous content
+    const regionData = stateManagerSingleton.instance.regions[regionName];
+    if (!regionData || !regionData.locations) return;
+
+    const sortedLocations = [...regionData.locations].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    sortedLocations.forEach((loc) => {
+      // Check discovery status using the singleton
+      const isDiscovered = discoveryStateSingleton.isLocationDiscovered(
+        loc.name
+      );
+
+      // Only render if the location itself is discovered
+      if (!isDiscovered) {
+        return; // Skip undiscovered locations
+      }
+
+      const isChecked = stateManagerSingleton.instance.isLocationChecked(
+        loc.name
+      );
+      const isAccessible =
+        stateManagerSingleton.instance.isLocationAccessible(loc);
+
+      const div = document.createElement('div');
+      div.className = 'loop-location-wrapper';
+      div.dataset.locationName = loc.name;
+
+      if (isChecked) {
+        div.classList.add('checked-loc');
+      } else {
+        div.classList.toggle('accessible', isAccessible);
+        div.classList.toggle('inaccessible', !isAccessible);
+      }
+
+      const button = document.createElement('button');
+      button.className = 'loop-check-loc-btn button';
+      button.textContent = loc.name;
+      button.title = isChecked ? `${loc.name} (Checked)` : `Check ${loc.name}`;
+      button.disabled = isChecked;
+
+      button.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent region header click
+        if (!isChecked) {
+          this._queueCheckLocationAction(regionName, loc.name);
+        }
+      });
+
+      if (useColorblind) {
+        const symbolSpan = document.createElement('span');
+        symbolSpan.classList.add('colorblind-symbol');
+        if (isChecked) {
+          symbolSpan.textContent = '✓ ';
+          symbolSpan.classList.add('checked-loc');
+        } else if (isAccessible) {
+          symbolSpan.textContent = '✓ ';
+          symbolSpan.classList.add('accessible');
+        } else {
+          symbolSpan.textContent = '✗ ';
+          symbolSpan.classList.add('inaccessible');
+        }
+        div.appendChild(symbolSpan); // Add symbol before button
+      }
+
+      div.appendChild(button);
+
+      if (isChecked) {
+        const checkMark = document.createElement('span');
+        checkMark.className = 'loop-check-mark';
+        checkMark.textContent = '✓';
+        div.appendChild(checkMark);
+      }
+
+      container.appendChild(div);
+    });
+  }
+
+  // --- NEW: Helper to render exit list using DiscoveryState --- //
+  /**
+   * Renders the list of discovered exits for a region.
+   * @param {string} regionName
+   * @param {HTMLElement} container
+   * @param {boolean} useColorblind
+   */
+  _renderExitList(regionName, container, useColorblind) {
+    container.innerHTML = ''; // Clear previous content
+    const regionData = stateManagerSingleton.instance.regions[regionName];
+    if (!regionData || !regionData.exits) return;
+
+    const sortedExits = [...regionData.exits].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    sortedExits.forEach((exit) => {
+      // Check discovery status using the singleton
+      const isDiscovered = discoveryStateSingleton.isExitDiscovered(
+        regionName,
+        exit.name
+      );
+
+      // Only render if the exit itself is discovered
+      if (!isDiscovered) {
+        return; // Skip undiscovered exits
+      }
+
+      const targetRegion = exit.connected_region;
+      const isTargetRegionDiscovered =
+        discoveryStateSingleton.isRegionDiscovered(targetRegion);
+      const isAccessible =
+        isTargetRegionDiscovered &&
+        stateManagerSingleton.instance.helpers.evaluateRule(exit.rule);
+
+      const div = document.createElement('div');
+      div.className = 'loop-exit-wrapper';
+      div.dataset.regionName = regionName;
+      div.dataset.exitName = exit.name;
+      div.dataset.destinationRegion = targetRegion;
+
+      div.classList.toggle('accessible', isAccessible);
+      div.classList.toggle('inaccessible', !isAccessible);
+
+      const button = document.createElement('button');
+      button.className = 'loop-move-btn button';
+      button.textContent = `${exit.name} → ${targetRegion}`;
+      button.title = `Move to ${targetRegion} via ${exit.name}`;
+      // Disable if the target region isn't discovered OR if the exit isn't accessible
+      button.disabled = !isTargetRegionDiscovered || !isAccessible;
+
+      button.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent region header click
+        if (isTargetRegionDiscovered && isAccessible) {
+          this._queueMoveAction(regionName, exit.name, targetRegion);
+        }
+      });
+
+      if (useColorblind) {
+        const symbolSpan = document.createElement('span');
+        symbolSpan.classList.add('colorblind-symbol');
+        if (isAccessible) {
+          symbolSpan.textContent = '✓ ';
+          symbolSpan.classList.add('accessible');
+        } else {
+          symbolSpan.textContent = '✗ ';
+          symbolSpan.classList.add('inaccessible');
+        }
+        div.appendChild(symbolSpan); // Add symbol before button
+      }
+
+      div.appendChild(button);
+      container.appendChild(div);
+    });
   }
 
   /**
@@ -2103,14 +2063,12 @@ export class LoopUI {
         URL.revokeObjectURL(url);
       }, 0);
 
-      if (window.consoleManager) {
-        window.consoleManager.print('Game state exported!', 'success');
-      }
+      // Use console.info instead of window.consoleManager
+      console.info('Game state exported!');
     } catch (error) {
       console.error('Failed to export state:', error);
-      if (window.consoleManager) {
-        window.consoleManager.print(`Export failed: ${error.message}`, 'error');
-      }
+      // Use console.error instead of window.consoleManager
+      console.error(`Export failed: ${error.message}`);
     }
   }
 
@@ -2128,17 +2086,12 @@ export class LoopUI {
         loopState.loadFromSerializedState(stateObj);
         this.renderLoopPanel();
 
-        if (window.consoleManager) {
-          window.consoleManager.print('Game state imported!', 'success');
-        }
+        // Use console.info instead of window.consoleManager
+        console.info('Game state imported!');
       } catch (error) {
         console.error('Failed to import state:', error);
-        if (window.consoleManager) {
-          window.consoleManager.print(
-            `Import failed: ${error.message}`,
-            'error'
-          );
-        }
+        // Use console.error instead of window.consoleManager
+        console.error(`Import failed: ${error.message}`);
       }
     };
 
@@ -2177,7 +2130,7 @@ export class LoopUI {
     // Clear internal state
     this.expandedRegions.clear();
     this.regionsInQueue.clear();
-    this.repeatExploreStates.clear();
+    // REMOVED: this.repeatExploreStates.clear(); - Now handled by LoopState
     // Don't clear currentAction, let loopState manage it
 
     // Clear the regions area in the DOM if rootElement exists

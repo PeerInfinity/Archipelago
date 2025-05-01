@@ -5,13 +5,12 @@
  * - Action queue
  * - Mana resources
  * - Loop progress and reset logic
- * - Region and location discovery
  */
 
-import { stateManagerSingleton } from '../stateManager/index.js';
+// REMOVED: import { stateManagerSingleton } from '../stateManager/index.js';
 // Correctly import the default export from the singleton file if needed
 // import stateManagerSingleton from '../stateManager/stateManagerSingleton.js';
-import eventBus from '../../app/core/eventBus.js';
+// REMOVED: import eventBus from '../../app/core/eventBus.js';
 import {
   proposedLinearReduction,
   proposedLinearFinalCost,
@@ -19,6 +18,10 @@ import {
 
 export class LoopState {
   constructor() {
+    // Injected dependencies (will be set via setDependencies)
+    this.eventBus = null;
+    this.stateManager = null;
+
     // Resources
     this.maxMana = 100;
     this.currentMana = 100;
@@ -36,21 +39,41 @@ export class LoopState {
     this.autoRestartQueue = false; // Flag to auto-restart queue when complete
     this.gameSpeed = 10; // Multiplier for processing speed
 
-    // Discovery tracking
-    this.discoveredRegions = new Set(['Menu']); // Start with Menu discovered
-    this.discoveredLocations = new Set();
-    this.discoveredExits = new Map(); // regionName -> Set of exit names
+    // REMOVED: Discovery tracking
+    // this.discoveredRegions = new Set(['Menu']); // Start with Menu discovered
+    // this.discoveredLocations = new Set();
+    // this.discoveredExits = new Map(); // regionName -> Set of exit names
+    this.repeatExploreStates = new Map(); // NEW: regionName -> boolean
 
-    // Initialize exits for the starting region
-    this.discoveredExits.set('Menu', new Set());
+    // REMOVED: Initialize exits for the starting region
+    // this.discoveredExits.set('Menu', new Set());
 
     // Animation frame tracking
     this._animationFrameId = null;
 
     // Auto-save interval
     this._saveIntervalId = null;
+  }
 
-    // Listen for inventory changes to update max mana
+  /**
+   * Sets the required dependencies for the LoopState instance.
+   * Should be called before or during initialize.
+   * @param {object} dependencies - Object containing dependencies.
+   * @param {EventBus} dependencies.eventBus - The application's event bus instance.
+   * @param {StateManager} dependencies.stateManager - The application's state manager instance.
+   */
+  setDependencies(dependencies) {
+    if (!dependencies.eventBus || !dependencies.stateManager) {
+      console.error(
+        '[LoopState] Missing required dependencies (eventBus, stateManager).'
+      );
+      return;
+    }
+    console.log('[LoopState] Setting dependencies...');
+    this.eventBus = dependencies.eventBus;
+    this.stateManager = dependencies.stateManager;
+
+    // Re-setup listeners that depend on the event bus
     this._setupEventListeners();
   }
 
@@ -58,7 +81,14 @@ export class LoopState {
    * Sets up event listeners for game events
    */
   _setupEventListeners() {
-    eventBus.subscribe('stateManager:inventoryChanged', () => {
+    // Ensure eventBus dependency is set
+    if (!this.eventBus) {
+      console.warn(
+        '[LoopState] Attempted to set up event listeners before eventBus dependency was set.'
+      );
+      return;
+    }
+    this.eventBus.subscribe('stateManager:inventoryChanged', () => {
       this.recalculateMaxMana();
     });
   }
@@ -67,11 +97,16 @@ export class LoopState {
    * Initialize the loop state when data is loaded
    */
   initialize() {
+    // Ensure dependencies are set
+    if (!this.stateManager || !this.eventBus) {
+      console.error('[LoopState] Cannot initialize: Dependencies not set.');
+      return;
+    }
     // Calculate initial mana based on current inventory
     this.recalculateMaxMana();
 
-    // Initialize discoverable regions and exits
-    this._initializeDiscoverableData();
+    // REMOVED: Initialize discoverable regions and exits
+    // this._initializeDiscoverableData();
 
     // Set up auto-save timer
     this._setupAutoSave();
@@ -81,40 +116,26 @@ export class LoopState {
   }
 
   /**
-   * Initialize data about what regions, locations, and exits can be discovered
-   */
-  _initializeDiscoverableData() {
-    // Ensure Menu region starts as discovered with its exits visible
-    this.discoveredRegions.add('Menu');
-
-    if (!this.discoveredExits.has('Menu')) {
-      this.discoveredExits.set('Menu', new Set());
-    }
-
-    // Add all exits from Menu to the discovered exits
-    const menuRegion = stateManagerSingleton.instance.regions['Menu'];
-    if (menuRegion && menuRegion.exits) {
-      const menuExits = this.discoveredExits.get('Menu');
-      menuRegion.exits.forEach((exit) => {
-        menuExits.add(exit.name);
-      });
-    }
-  }
-
-  /**
    * Calculate max mana based on inventory items
    */
   recalculateMaxMana() {
+    // Ensure dependencies are set
+    if (!this.stateManager || !this.eventBus) {
+      console.warn(
+        '[LoopState] Cannot recalculate max mana: Dependencies not set.'
+      );
+      return;
+    }
     // Base mana + extra for each inventory item
     const baseMana = 100;
     let itemCount = 0;
 
     // Count all items in inventory
     if (
-      stateManagerSingleton.instance.inventory &&
-      stateManagerSingleton.instance.inventory.items
+      this.stateManager.instance.inventory &&
+      this.stateManager.instance.inventory.items
     ) {
-      stateManagerSingleton.instance.inventory.items.forEach((count, item) => {
+      this.stateManager.instance.inventory.items.forEach((count, item) => {
         if (count > 0) {
           itemCount += count;
         }
@@ -129,7 +150,7 @@ export class LoopState {
     }
 
     // Notify about mana changes
-    eventBus.publish('loopState:manaChanged', {
+    this.eventBus.publish('loopState:manaChanged', {
       current: this.currentMana,
       max: this.maxMana,
     });
@@ -169,7 +190,7 @@ export class LoopState {
       xpData.xpForNextLevel = this._calculateXPForNextLevel(xpData.level);
 
       // Always notify UI of level up
-      eventBus.publish('loopState:xpChanged', { regionName, xpData });
+      this.eventBus.publish('loopState:xpChanged', { regionName, xpData });
     }
   }
 
@@ -207,7 +228,9 @@ export class LoopState {
     }
 
     //console.log('Action queued:', action);
-    eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });
+    this.eventBus.publish('loopState:queueUpdated', {
+      queue: this.actionQueue,
+    });
     //console.log('Published loopState:queueUpdated event');
 
     // Start processing if not already running
@@ -285,7 +308,9 @@ export class LoopState {
     }
 
     // Notify queue updated
-    eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });
+    this.eventBus.publish('loopState:queueUpdated', {
+      queue: this.actionQueue,
+    });
 
     // Restart processing if stopped and there are actions to process
     if (!this.isProcessing && this.actionQueue.length > 0 && !this.isPaused) {
@@ -342,7 +367,7 @@ export class LoopState {
 
     //console.log('Started processing action:', this.currentAction);
 
-    eventBus.publish('loopState:processingStarted', {
+    this.eventBus.publish('loopState:processingStarted', {
       action: this.currentAction,
     });
   }
@@ -366,7 +391,7 @@ export class LoopState {
       this._animationFrameId = null;
     }
 
-    eventBus.publish('loopState:processingStopped', {});
+    this.eventBus.publish('loopState:processingStopped', {});
   }
 
   /**
@@ -378,13 +403,13 @@ export class LoopState {
 
     if (isPaused) {
       this.stopProcessing();
-      eventBus.publish('loopState:paused', { isPaused: true });
+      this.eventBus.publish('loopState:paused', { isPaused: true });
     } else if (this.actionQueue.length > 0) {
       this.startProcessing();
-      eventBus.publish('loopState:resumed', { isPaused: false });
+      this.eventBus.publish('loopState:resumed', { isPaused: false });
     } else {
       // Even if there are no actions, still publish the state change
-      eventBus.publish('loopState:pauseStateChanged', {
+      this.eventBus.publish('loopState:pauseStateChanged', {
         isPaused: this.isPaused,
       });
     }
@@ -402,7 +427,7 @@ export class LoopState {
       this._lastFrameTime = null;
     }
 
-    eventBus.publish('loopState:speedChanged', { speed: this.gameSpeed });
+    this.eventBus.publish('loopState:speedChanged', { speed: this.gameSpeed });
   }
 
   /**
@@ -463,7 +488,7 @@ export class LoopState {
       this.currentMana = Math.max(0, this.currentMana - manaCost);
 
       // Publish mana changed event immediately after update
-      eventBus.publish('loopState:manaChanged', {
+      this.eventBus.publish('loopState:manaChanged', {
         current: this.currentMana,
         max: this.maxMana,
       });
@@ -473,37 +498,14 @@ export class LoopState {
         // Award 1 XP per mana spent
         const xpGain = (progressIncrement / 100) * actionCost;
 
-        // For explore actions on fully explored regions, give 4x XP (Farm Region XP mode)
-        if (this.currentAction.type === 'explore') {
-          const regionName = this.currentAction.regionName;
-          const regionData = stateManagerSingleton.instance.regions[regionName];
-
-          if (regionData) {
-            // Check if region is fully explored
-            const undiscoveredLocations =
-              this._countUndiscoveredLocations(regionName);
-            const undiscoveredExits = this._countUndiscoveredExits(regionName);
-
-            // If everything is discovered (Farm Region XP mode)
-            if (undiscoveredLocations + undiscoveredExits === 0) {
-              // 4x XP for farming
-              this.addRegionXP(regionName, xpGain * 4);
-            } else {
-              // Normal XP for exploring
-              this.addRegionXP(regionName, xpGain);
-            }
-          } else {
-            // Fallback if region data not found
-            this.addRegionXP(this.currentAction.regionName, xpGain);
-          }
-        } else {
-          // For non-explore actions, normal XP gain
-          this.addRegionXP(this.currentAction.regionName, xpGain);
-        }
+        // SIMPLIFIED XP Gain: Always award 1x XP during explore/other actions.
+        // The 4x "farming" logic relied on discovery state which is now removed.
+        // This logic can be reinstated later by querying DiscoveryState if needed.
+        this.addRegionXP(this.currentAction.regionName, xpGain);
 
         // Notify UI about XP change even for small increments
         const xpData = this.getRegionXP(this.currentAction.regionName);
-        eventBus.publish('loopState:xpChanged', {
+        this.eventBus.publish('loopState:xpChanged', {
           regionName: this.currentAction.regionName,
           xpData,
         });
@@ -547,7 +549,7 @@ export class LoopState {
         eventData.action = this.currentAction;
       }
 
-      eventBus.publish('loopState:progressUpdated', eventData);
+      this.eventBus.publish('loopState:progressUpdated', eventData);
     } catch (error) {
       console.error('Error in _processFrame:', error);
       // Try to recover by stopping processing
@@ -573,7 +575,7 @@ export class LoopState {
     this.currentAction.progress = 100; // Ensure it shows 100% complete
 
     // Notify completion
-    eventBus.publish('loopState:actionCompleted', {
+    this.eventBus.publish('loopState:actionCompleted', {
       action: this.currentAction,
     });
 
@@ -582,12 +584,8 @@ export class LoopState {
       // Get the regionName from the action
       const regionName = this.currentAction.regionName;
 
-      // Get the repeat state from LoopUI's map
-      let shouldRepeat = false;
-      if (window.loopUIInstance && window.loopUIInstance.repeatExploreStates) {
-        shouldRepeat =
-          window.loopUIInstance.repeatExploreStates.get(regionName) || false;
-      }
+      // Get the repeat state from THIS instance's map
+      const shouldRepeat = this.getRepeatExplore(regionName); // Use internal method
 
       // Check if there are already more explore actions for this region in the queue
       const hasMoreExploreActions = this.actionQueue.some(
@@ -616,7 +614,7 @@ export class LoopState {
         this.actionQueue.splice(this.currentActionIndex + 1, 0, repeatAction);
 
         // Notify that a new explore action was added
-        eventBus.publish('loopState:exploreActionRepeated', {
+        this.eventBus.publish('loopState:exploreActionRepeated', {
           action: repeatAction,
           regionName: repeatAction.regionName,
         });
@@ -633,9 +631,7 @@ export class LoopState {
       // Check if it's a checkLocation action for an already checked location
       if (
         nextAction.type === 'checkLocation' &&
-        stateManagerSingleton.instance.isLocationChecked(
-          nextAction.locationName
-        )
+        this.stateManager.instance.isLocationChecked(nextAction.locationName)
       ) {
         //console.log(
         //  `Skipping already checked location: ${nextAction.locationName}. Removing action.`
@@ -648,10 +644,10 @@ export class LoopState {
         if (this.actionQueue.length === 0) {
           this.currentAction = null;
           this.isProcessing = false;
-          eventBus.publish('loopState:queueCompleted', {});
-          eventBus.publish('loopState:queueUpdated', {
+          this.eventBus.publish('loopState:queueCompleted', {});
+          this.eventBus.publish('loopState:queueUpdated', {
             queue: this.actionQueue,
-          }); // Notify UI of empty queue
+          });
           return; // Exit the function
         }
 
@@ -672,7 +668,7 @@ export class LoopState {
         // Queue completed
         this.currentAction = null;
         this.isProcessing = false;
-        eventBus.publish('loopState:queueCompleted', {});
+        this.eventBus.publish('loopState:queueCompleted', {});
         return;
       }
     }
@@ -681,7 +677,7 @@ export class LoopState {
     if (this.currentActionIndex < this.actionQueue.length) {
       this.currentAction = this.actionQueue[this.currentActionIndex];
       this.currentAction.progress = 0;
-      eventBus.publish('loopState:newActionStarted', {
+      this.eventBus.publish('loopState:newActionStarted', {
         action: this.currentAction,
       });
     }
@@ -692,210 +688,73 @@ export class LoopState {
    * @param {Object} action - The completed action
    */
   _applyActionEffects(action) {
-    switch (action.type) {
-      case 'explore':
-        this._handleExploreCompletion(action);
-        break;
-      case 'checkLocation':
-        this._handleLocationCheckCompletion(action);
-        break;
-      case 'moveToRegion':
-        this._handleMoveCompletion(action);
-        break;
-    }
-  }
-
-  /**
-   * Handle completion of an explore action
-   * @param {Object} action - The explore action
-   */
-  _handleExploreCompletion(action) {
-    // Get region data
-    const regionName = action.regionName;
-    const regionData = stateManagerSingleton.instance.regions[regionName];
-
-    if (!regionData) {
+    // Ensure eventBus dependency is set
+    if (!this.eventBus) {
+      console.warn(
+        '[LoopState] Cannot apply action effects: eventBus dependency missing.'
+      );
       return;
     }
 
-    // Logic to reveal a new location or exit
-    // First, count how many are left to discover
-    const undiscoveredLocations = this._countUndiscoveredLocations(regionName);
-    const undiscoveredExits = this._countUndiscoveredExits(regionName);
-
-    // If there's something to discover
-    if (undiscoveredLocations + undiscoveredExits > 0) {
-      // Randomly choose between location and exit, weighted by how many are left
-      const revealLocation =
-        Math.random() * (undiscoveredLocations + undiscoveredExits) <
-        undiscoveredLocations;
-
-      if (revealLocation && undiscoveredLocations > 0) {
-        this._revealRandomLocation(regionName);
-      } else if (undiscoveredExits > 0) {
-        this._revealRandomExit(regionName);
-      }
-
-      // No XP bonus on completion - XP is awarded continuously during the action
-    } else {
-      // No XP bonus on completion - XP is awarded continuously during the action (at 4x rate)
+    switch (action.type) {
+      case 'explore':
+        // Publish event for discovery module
+        this.eventBus.publish('loop:exploreCompleted', {
+          regionName: action.regionName,
+          // Any other relevant data loopState knows? Probably just the region.
+        });
+        break;
+      case 'checkLocation':
+        // Mark location as checked in stateManager (assuming this is still desired)
+        this._handleLocationCheckCompletion(action);
+        // Publish event for discovery module
+        this.eventBus.publish('loop:locationChecked', {
+          locationName: action.locationName,
+          regionName: action.regionName, // Include region for context
+          // Include item info if needed by discovery/other modules?
+        });
+        break;
+      case 'moveToRegion':
+        // Publish event for discovery module
+        this.eventBus.publish('loop:moveCompleted', {
+          sourceRegion: action.regionName,
+          destinationRegion: action.destinationRegion,
+          exitName: action.exitName,
+        });
+        break;
     }
   }
 
   /**
-   * Handle completion of a location check action
+   * Handle completion of a location check action (Internal State Update Only)
+   * NOTE: This *only* updates the core game state (checked status, inventory).
+   * The discovery aspect is now handled by publishing 'loop:locationChecked'.
    * @param {Object} action - The location check action
    */
   _handleLocationCheckCompletion(action) {
+    // Ensure dependencies are set
+    if (!this.stateManager) {
+      console.warn(
+        '[LoopState] Cannot handle location check: stateManager dependency missing.'
+      );
+      return;
+    }
     // Mark location as checked
     const locationName = action.locationName;
-    stateManagerSingleton.instance.checkLocation(locationName);
+    // Use this.stateManager
+    this.stateManager.instance.checkLocation(locationName);
 
     // Get item from location if available
-    const location = stateManagerSingleton.instance.locations.find(
+    // Use this.stateManager
+    const location = this.stateManager.instance.locations.find(
       (loc) => loc.name === locationName
     );
     if (location && location.item) {
-      stateManagerSingleton.instance.addItemToInventory(location.item.name);
+      // Use this.stateManager
+      this.stateManager.instance.addItemToInventory(location.item.name);
     }
 
     // No XP bonus on completion - XP is awarded continuously during the action
-  }
-
-  /**
-   * Handle completion of a move to region action
-   * @param {Object} action - The move action
-   */
-  _handleMoveCompletion(action) {
-    // Mark destination region as discovered
-    this.discoveredRegions.add(action.destinationRegion);
-
-    // No XP bonus on completion - XP is awarded continuously during the action
-
-    // Notify region discovery
-    eventBus.publish('loopState:regionDiscovered', {
-      regionName: action.destinationRegion,
-    });
-  }
-
-  /**
-   * Count how many undiscovered locations are in a region
-   * @param {string} regionName - Name of the region
-   * @returns {number} - Count of undiscovered locations
-   */
-  _countUndiscoveredLocations(regionName) {
-    const regionData = stateManagerSingleton.instance.regions[regionName];
-    if (!regionData || !regionData.locations) {
-      return 0;
-    }
-
-    let count = 0;
-    for (const location of regionData.locations) {
-      if (!this.discoveredLocations.has(location.name)) {
-        count++;
-      }
-    }
-
-    return count;
-  }
-
-  /**
-   * Count how many undiscovered exits are in a region
-   * @param {string} regionName - Name of the region
-   * @returns {number} - Count of undiscovered exits
-   */
-  _countUndiscoveredExits(regionName) {
-    const regionData = stateManagerSingleton.instance.regions[regionName];
-    if (!regionData || !regionData.exits) {
-      return 0;
-    }
-
-    const discoveredExits = this.discoveredExits.get(regionName) || new Set();
-    let count = 0;
-
-    for (const exit of regionData.exits) {
-      if (!discoveredExits.has(exit.name)) {
-        count++;
-      }
-    }
-
-    return count;
-  }
-
-  /**
-   * Reveal a random undiscovered location in a region
-   * @param {string} regionName - Name of the region
-   */
-  _revealRandomLocation(regionName) {
-    const regionData = stateManagerSingleton.instance.regions[regionName];
-    if (!regionData || !regionData.locations) {
-      return;
-    }
-
-    // Find all undiscovered locations
-    const undiscoveredLocations = regionData.locations.filter(
-      (loc) => !this.discoveredLocations.has(loc.name)
-    );
-
-    if (undiscoveredLocations.length === 0) {
-      return;
-    }
-
-    // Pick a random one
-    const randomIndex = Math.floor(
-      Math.random() * undiscoveredLocations.length
-    );
-    const location = undiscoveredLocations[randomIndex];
-
-    // Mark as discovered
-    this.discoveredLocations.add(location.name);
-
-    // Notify discovery
-    eventBus.publish('loopState:locationDiscovered', {
-      locationName: location.name,
-      regionName,
-    });
-  }
-
-  /**
-   * Reveal a random undiscovered exit in a region
-   * @param {string} regionName - Name of the region
-   */
-  _revealRandomExit(regionName) {
-    const regionData = stateManagerSingleton.instance.regions[regionName];
-    if (!regionData || !regionData.exits) {
-      return;
-    }
-
-    // Ensure the region has an entry in discoveredExits
-    if (!this.discoveredExits.has(regionName)) {
-      this.discoveredExits.set(regionName, new Set());
-    }
-
-    const discoveredExits = this.discoveredExits.get(regionName);
-
-    // Find all undiscovered exits
-    const undiscoveredExits = regionData.exits.filter(
-      (exit) => !discoveredExits.has(exit.name)
-    );
-
-    if (undiscoveredExits.length === 0) {
-      return;
-    }
-
-    // Pick a random one
-    const randomIndex = Math.floor(Math.random() * undiscoveredExits.length);
-    const exit = undiscoveredExits[randomIndex];
-
-    // Mark as discovered
-    discoveredExits.add(exit.name);
-
-    // Notify discovery
-    eventBus.publish('loopState:exitDiscovered', {
-      exitName: exit.name,
-      regionName,
-      destinationRegion: exit.connected_region,
-    });
   }
 
   /**
@@ -955,7 +814,7 @@ export class LoopState {
       this.setPaused(true);
 
       // Notify loop reset but don't reset progress
-      eventBus.publish('loopState:loopReset', {
+      this.eventBus.publish('loopState:loopReset', {
         mana: {
           current: this.currentMana,
           max: this.maxMana,
@@ -979,7 +838,7 @@ export class LoopState {
     }
 
     // Notify loop reset
-    eventBus.publish('loopState:loopReset', {
+    this.eventBus.publish('loopState:loopReset', {
       mana: {
         current: this.currentMana,
         max: this.maxMana,
@@ -994,7 +853,7 @@ export class LoopState {
    */
   setAutoRestartQueue(autoRestart) {
     this.autoRestartQueue = autoRestart;
-    eventBus.publish('loopState:autoRestartChanged', {
+    this.eventBus.publish('loopState:autoRestartChanged', {
       autoRestart: this.autoRestartQueue,
     });
   }
@@ -1045,13 +904,15 @@ export class LoopState {
     this.currentMana = this.maxMana;
 
     // Notify about mana change
-    eventBus.publish('loopState:manaChanged', {
+    this.eventBus.publish('loopState:manaChanged', {
       current: this.currentMana,
       max: this.maxMana,
     });
 
     // Notify about queue update (so UI can refresh)
-    eventBus.publish('loopState:queueUpdated', { queue: this.actionQueue });
+    this.eventBus.publish('loopState:queueUpdated', {
+      queue: this.actionQueue,
+    });
 
     // Start processing if there are actions
     if (this.actionQueue.length > 0 && !this.isPaused) {
@@ -1060,43 +921,22 @@ export class LoopState {
   }
 
   /**
-   * Check if a region is discovered
-   * @param {string} regionName - Name of the region
-   * @returns {boolean} - Whether region is discovered
+   * Set the repeat state for exploring a region.
+   * @param {string} regionName
+   * @param {boolean} repeat
    */
-  isRegionDiscovered(regionName) {
-    // Menu is always discovered
-    if (regionName === 'Menu') return true;
-
-    return this.discoveredRegions.has(regionName);
+  setRepeatExplore(regionName, repeat) {
+    this.repeatExploreStates.set(regionName, repeat);
+    // Optionally save this state? For now, it's ephemeral.
   }
 
   /**
-   * Check if a location is discovered
-   * @param {string} locationName - Name of the location
-   * @returns {boolean} - Whether location is discovered
+   * Get the repeat state for exploring a region.
+   * @param {string} regionName
+   * @returns {boolean}
    */
-  isLocationDiscovered(locationName) {
-    // If location is checked, consider it discovered
-    if (stateManagerSingleton.instance.isLocationChecked(locationName))
-      return true;
-
-    // Otherwise check discovery state
-    return this.discoveredLocations.has(locationName);
-  }
-
-  /**
-   * Check if an exit is discovered
-   * @param {string} regionName - Name of the region containing the exit
-   * @param {string} exitName - Name of the exit
-   * @returns {boolean} - Whether exit is discovered
-   */
-  isExitDiscovered(regionName, exitName) {
-    // Exits in Menu are always discovered
-    if (regionName === 'Menu') return true;
-
-    const regionExits = this.discoveredExits.get(regionName);
-    return regionExits ? regionExits.has(exitName) : false;
+  getRepeatExplore(regionName) {
+    return this.repeatExploreStates.get(regionName) || false;
   }
 
   /**
@@ -1108,15 +948,17 @@ export class LoopState {
       // Don't save maxMana as it should be calculated dynamically based on inventory
       currentMana: this.currentMana,
       regionXP: Array.from(this.regionXP.entries()),
-      discoveredRegions: Array.from(this.discoveredRegions),
-      discoveredLocations: Array.from(this.discoveredLocations),
-      discoveredExits: Array.from(this.discoveredExits.entries()).map(
-        ([region, exits]) => [region, Array.from(exits)]
-      ),
+      // REMOVED: Discovery state saving
+      // discoveredRegions: Array.from(this.discoveredRegions),
+      // discoveredLocations: Array.from(this.discoveredLocations),
+      // discoveredExits: Array.from(this.discoveredExits.entries()).map(
+      //   ([region, exits]) => [region, Array.from(exits)]
+      // ),
       gameSpeed: this.gameSpeed,
       autoRestartQueue: this.autoRestartQueue,
       actionQueue: this.actionQueue,
       currentActionIndex: this.currentActionIndex,
+      repeatExploreStates: Array.from(this.repeatExploreStates.entries()),
     };
   }
 
@@ -1139,18 +981,15 @@ export class LoopState {
     // Load region XP
     this.regionXP = new Map(state.regionXP || []);
 
-    // Load discoveries
-    this.discoveredRegions = new Set(state.discoveredRegions || ['Menu']);
-    this.discoveredLocations = new Set(state.discoveredLocations || []);
-
-    // Load discovered exits
-    this.discoveredExits = new Map();
-    (state.discoveredExits || []).forEach(([region, exits]) => {
-      this.discoveredExits.set(region, new Set(exits));
-    });
-
+    // REMOVED: Discovery state loading
+    // this.discoveredRegions = new Set(state.discoveredRegions || ['Menu']);
+    // this.discoveredLocations = new Set(state.discoveredLocations || []);
+    // this.discoveredExits = new Map();
+    // (state.discoveredExits || []).forEach(([region, exits]) => {
+    //   this.discoveredExits.set(region, new Set(exits));
+    // });
     // Ensure Menu region is discovered with its exits
-    this._initializeDiscoverableData();
+    // this._initializeDiscoverableData(); // <-- No longer needed/exists
 
     // Load game speed
     this.gameSpeed = state.gameSpeed ?? 10;
@@ -1167,8 +1006,11 @@ export class LoopState {
       }
     }
 
+    // ADDED: Load repeatExploreStates
+    this.repeatExploreStates = new Map(state.repeatExploreStates || []);
+
     // Notify state loaded
-    eventBus.publish('loopState:stateLoaded', {});
+    this.eventBus.publish('loopState:stateLoaded', {});
   }
 
   /**

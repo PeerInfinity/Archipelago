@@ -1,5 +1,6 @@
 // frontend/app/core/panelManagerSingleton.js
-import PanelManager from './panelManager.js';
+// Import the instance created and exported by panelManager.js
+import panelManagerInstance from './panelManager.js';
 
-const panelManagerInstance = new PanelManager();
+// Re-export the instance
 export default panelManagerInstance;

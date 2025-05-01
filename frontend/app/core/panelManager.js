@@ -1,6 +1,5 @@
 // frontend/app/core/panelManager.js
 import eventBus from './eventBus.js';
-import panelManagerInstance from './panelManagerSingleton.js'; // Import the singleton instance
 import { GoldenLayout } from '../../libs/golden-layout/js/esm/golden-layout.js';
 import { centralRegistry } from './centralRegistry.js'; // Corrected import
 
@@ -668,6 +667,70 @@ class PanelManager {
       // Handle potential errors during addComponent, e.g., if the layout is full or misconfigured
     }
   }
+
+  // --- NEW: Method to activate a panel --- //
+  /**
+   * Finds and activates the first panel matching the given component type.
+   * @param {string} componentType - The component type name (e.g., 'loopsPanel').
+   */
+  activatePanel(componentType) {
+    console.log(
+      `[PanelManager] Attempting to activate panel: ${componentType}`
+    );
+    if (!this.layout || !this.layout.root) {
+      console.error(
+        '[PanelManager] Cannot activate panel, layout or root not available.'
+      );
+      return;
+    }
+
+    let componentItem = null;
+    let stack = null;
+
+    // Iterate through the known panel mappings
+    for (const [container, mapping] of this.panelMap.entries()) {
+      if (container.componentType === componentType) {
+        // Found the container for the desired component type
+        componentItem = container.parent; // ComponentItem is the parent of the Container
+        stack = componentItem?.parent; // Stack is the parent of the ComponentItem
+        console.log(
+          `[PanelManager] Found container for ${componentType}. ComponentItem:`,
+          componentItem,
+          'Stack:',
+          stack
+        );
+        break; // Stop after finding the first match
+      }
+    }
+
+    if (
+      stack &&
+      stack.isStack &&
+      componentItem &&
+      typeof stack.setActiveComponentItem === 'function'
+    ) {
+      if (stack.getActiveComponentItem() !== componentItem) {
+        console.log(`[PanelManager] Activating panel tab for ${componentType}`);
+        stack.setActiveComponentItem(componentItem);
+      } else {
+        console.log(
+          `[PanelManager] Panel tab for ${componentType} is already active.`
+        );
+      }
+    } else {
+      console.warn(
+        `[PanelManager] Could not activate panel for ${componentType}. Stack or ComponentItem not found, or stack invalid.`
+      );
+      // Maybe the panel isn't open? Try creating it as a fallback?
+      // this.createPanelForComponent(componentType, componentType); // Optional: Add fallback creation
+    }
+  }
+  // --- END NEW METHOD --- //
 }
 
-export default PanelManager; // Export the class
+// --- Create Singleton Instance AFTER Class Definition --- //
+const panelManagerInstance = new PanelManager();
+
+// --- Export Singleton --- //
+// Export the singleton instance directly
+export default panelManagerInstance;

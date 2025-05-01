@@ -781,6 +781,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     eventBus.publish('init:complete');
     console.log("[Init] Published 'init:complete' event.");
 
+    // --- Check for URL parameters AFTER StateManager is ready --- //
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'loop') {
+      console.log(
+        '[Init] Found mode=loop parameter, waiting for stateManager:ready...'
+      );
+      const unsubscribe = eventBus.subscribe('stateManager:ready', () => {
+        console.log(
+          '[Init] stateManager:ready received, requesting loop mode activation...'
+        );
+        eventBus.publish('system:requestLoopMode');
+        unsubscribe(); // Only run this once
+      });
+    }
+    // ------------------------------------------------------- //
+
     // --- Listener for Dynamic Module Loading ---
     eventBus.subscribe(
       'module:loadExternalRequest',

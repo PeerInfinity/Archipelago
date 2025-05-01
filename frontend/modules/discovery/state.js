@@ -1,10 +1,6 @@
-import eventBus from '../../app/core/eventBus.js';
+// REMOVED: import eventBus from '../../app/core/eventBus.js';
 
-// Assume stateManager is accessible for initialization or provide it.
-// For now, assume it needs to be passed or accessed via singleton pattern.
-// Let's import the stateManager singleton directly for now.
-// import { stateManager } from '../stateManager/index.js'; // Keep commented or remove if not used directly
-import stateManagerSingleton from '../stateManager/stateManagerSingleton.js'; // Correct default import
+// REMOVED: import stateManagerSingleton from '../stateManager/stateManagerSingleton.js';
 
 /**
  * Manages the discovery state of regions, locations, and exits within the game.
@@ -12,19 +8,50 @@ import stateManagerSingleton from '../stateManager/stateManagerSingleton.js'; //
  */
 export class DiscoveryState {
   constructor() {
+    // Dependencies (injected via setDependencies)
+    this.stateManager = null;
+    this.eventBus = null;
+
+    // State
     this.discoveredRegions = new Set(['Menu']); // Start with Menu discovered
     this.discoveredLocations = new Set();
     this.discoveredExits = new Map(); // regionName -> Set of exit names
 
-    console.log('[DiscoveryState] Initialized');
+    console.log('[DiscoveryState] Constructed');
+  }
+
+  /**
+   * Sets the required dependencies for the DiscoveryState instance.
+   * Should be called before initialize.
+   * @param {object} dependencies - Object containing dependencies.
+   * @param {EventBus} dependencies.eventBus - The application's event bus instance.
+   * @param {StateManager} dependencies.stateManager - The application's state manager instance.
+   */
+  setDependencies(dependencies) {
+    if (!dependencies.eventBus || !dependencies.stateManager) {
+      console.error(
+        '[DiscoveryState] Missing required dependencies (eventBus, stateManager).'
+      );
+      return;
+    }
+    console.log('[DiscoveryState] Setting dependencies...');
+    this.eventBus = dependencies.eventBus;
+    this.stateManager = dependencies.stateManager;
   }
 
   /**
    * Initializes the discoverable data based on the loaded game state.
-   * Should be called after stateManager has loaded JSON data.
+   * Should be called after dependencies are set and stateManager has loaded JSON data.
    */
   initialize() {
     console.log('[DiscoveryState] Initializing discoverable data...');
+    if (!this.stateManager || !this.eventBus) {
+      console.error(
+        '[DiscoveryState] Cannot initialize: Dependencies not set.'
+      );
+      return;
+    }
+
     // Ensure Menu region starts as discovered with its exits visible
     this.discoveredRegions.add('Menu');
 
@@ -34,20 +61,17 @@ export class DiscoveryState {
 
     // Add all exits from Menu to the discovered exits
     try {
-      // Get the CURRENT instance from the singleton
-      const currentStateManager = stateManagerSingleton.instance;
+      const currentStateManager = this.stateManager.instance; // Use injected instance
       if (!currentStateManager) {
-        throw new Error('StateManager instance is not available yet.');
+        throw new Error('StateManager instance is not available.');
       }
 
       const menuRegion = currentStateManager.regions['Menu'];
       if (menuRegion && menuRegion.exits) {
         const menuExits = this.discoveredExits.get('Menu');
         menuRegion.exits.forEach((exit) => {
-          // Check if already discovered to avoid duplicate events
           if (!menuExits.has(exit.name)) {
             menuExits.add(exit.name);
-            // No event needed for initial Menu exits typically
           }
         });
         console.log('[DiscoveryState] Initialized Menu exits:', menuExits);
@@ -62,9 +86,6 @@ export class DiscoveryState {
         error
       );
     }
-
-    // Maybe subscribe to stateManager:jsonDataLoaded here?
-    // eventBus.subscribe('stateManager:jsonDataLoaded', () => this.initialize());
   }
 
   // --- Discovery Checking Methods ---
@@ -87,6 +108,7 @@ export class DiscoveryState {
   // --- Discovery Action Methods ---
 
   discoverRegion(regionName) {
+    if (!this.eventBus) return false; // Need eventBus to publish
     if (!this.discoveredRegions.has(regionName)) {
       this.discoveredRegions.add(regionName);
       console.log(`[DiscoveryState] Discovered Region: ${regionName}`);
@@ -96,27 +118,29 @@ export class DiscoveryState {
         this.discoveredExits.set(regionName, new Set());
       }
 
-      eventBus.publish('discovery:regionDiscovered', { regionName });
-      eventBus.publish('discovery:changed', {}); // General change event
+      this.eventBus.publish('discovery:regionDiscovered', { regionName });
+      this.eventBus.publish('discovery:changed', {}); // General change event
       return true; // Indicate that a change occurred
     }
     return false;
   }
 
   discoverLocation(locationName) {
+    if (!this.eventBus) return false;
     if (!this.discoveredLocations.has(locationName)) {
       this.discoveredLocations.add(locationName);
       console.log(`[DiscoveryState] Discovered Location: ${locationName}`);
-      eventBus.publish('discovery:locationDiscovered', { locationName });
-      eventBus.publish('discovery:changed', {});
+      this.eventBus.publish('discovery:locationDiscovered', { locationName });
+      this.eventBus.publish('discovery:changed', {});
       return true;
     }
     return false;
   }
 
   discoverExit(regionName, exitName) {
+    if (!this.eventBus) return false;
     // Ensure the region itself is discovered first
-    this.discoverRegion(regionName);
+    this.discoverRegion(regionName); // This uses eventBus internally
 
     const exits = this.discoveredExits.get(regionName);
     if (exits && !exits.has(exitName)) {
@@ -124,8 +148,11 @@ export class DiscoveryState {
       console.log(
         `[DiscoveryState] Discovered Exit: ${regionName} -> ${exitName}`
       );
-      eventBus.publish('discovery:exitDiscovered', { regionName, exitName });
-      eventBus.publish('discovery:changed', {});
+      this.eventBus.publish('discovery:exitDiscovered', {
+        regionName,
+        exitName,
+      });
+      this.eventBus.publish('discovery:changed', {});
       return true;
     }
     return false;
@@ -159,7 +186,13 @@ export class DiscoveryState {
       this.discoveredExits.set('Menu', new Set());
     }
     console.log('[DiscoveryState] State loaded.');
-    eventBus.publish('discovery:changed', {}); // Notify UI after loading
+    if (this.eventBus) {
+      this.eventBus.publish('discovery:changed', {}); // Notify UI after loading
+    } else {
+      console.warn(
+        '[DiscoveryState] Cannot publish discovery:changed after load, eventBus not set.'
+      );
+    }
   }
 
   clearDiscovery() {
@@ -169,6 +202,20 @@ export class DiscoveryState {
     this.discoveredExits = new Map();
     this.discoveredExits.set('Menu', new Set()); // Re-initialize Menu exits map
     this.initialize(); // Re-initialize based on current game data
-    eventBus.publish('discovery:changed', {});
+    if (this.eventBus) {
+      this.eventBus.publish('discovery:changed', {});
+    } else {
+      console.warn(
+        '[DiscoveryState] Cannot publish discovery:changed after clear, eventBus not set.'
+      );
+    }
+  }
+
+  /**
+   * Placeholder for cleanup logic.
+   */
+  dispose() {
+    console.log('[DiscoveryState] Disposing...');
+    // No subscriptions managed internally in this version yet.
   }
 }
