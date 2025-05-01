@@ -2,7 +2,7 @@
 import { stateManagerSingleton } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
 import commonUI, { debounce } from '../commonUI/index.js';
-import loopState from '../loops/loopStateSingleton.js';
+import loopStateSingleton from '../loops/loopStateSingleton.js';
 import eventBus from '../../app/core/eventBus.js';
 import settingsManager from '../../app/core/settingsManager.js';
 
@@ -136,18 +136,23 @@ export class ExitUI {
    * @param {Object} exit - The exit data
    */
   handleExitClick(exit) {
-    // Check if loop mode is active
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    // Get loop mode status
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
 
     if (!isLoopModeActive) return;
 
     // Determine if the exit is discovered
-    const isExitDiscovered = loopState.isExitDiscovered(exit.region, exit.name);
+    const isExitDiscovered = loopStateSingleton.isExitDiscovered(
+      exit.region,
+      exit.name
+    );
 
     // --- New Logic for Initial Checks ---
-    if (loopState.actionQueue.length > 0) {
+    if (loopStateSingleton.actionQueue.length > 0) {
       const lastAction =
-        loopState.actionQueue[loopState.actionQueue.length - 1];
+        loopStateSingleton.actionQueue[
+          loopStateSingleton.actionQueue.length - 1
+        ];
 
       if (!isExitDiscovered) {
         // If exit is undiscovered, and the last action is an explore for this exit's region, do nothing
@@ -159,7 +164,7 @@ export class ExitUI {
         }
       } else {
         // If exit is discovered, check if a move action for this specific exit already exists
-        const moveExists = loopState.actionQueue.some(
+        const moveExists = loopStateSingleton.actionQueue.some(
           (action) =>
             action.type === 'moveToRegion' &&
             action.regionName === exit.region && // The region *containing* the exit
@@ -195,12 +200,12 @@ export class ExitUI {
         // Path found - process it
 
         // Pause processing the action queue
-        loopState.setPaused(true);
+        loopStateSingleton.setPaused(true);
 
         // Clear the current queue
-        loopState.actionQueue = [];
-        loopState.currentAction = null;
-        loopState.currentActionIndex = 0;
+        loopStateSingleton.actionQueue = [];
+        loopStateSingleton.currentAction = null;
+        loopStateSingleton.currentActionIndex = 0;
 
         // Queue move actions for each region transition along the path
         for (let i = 0; i < path.length - 1; i++) {
@@ -214,7 +219,7 @@ export class ExitUI {
           const exitToUse = regionData?.exits?.find(
             (e) =>
               e.connected_region === toRegion &&
-              loopState.isExitDiscovered(fromRegion, e.name)
+              loopStateSingleton.isExitDiscovered(fromRegion, e.name)
           );
 
           if (exitToUse) {
@@ -231,7 +236,7 @@ export class ExitUI {
               completed: false,
             };
 
-            loopState.actionQueue.push(moveAction);
+            loopStateSingleton.actionQueue.push(moveAction);
           } else {
             console.warn(
               `Could not find a discovered exit from ${fromRegion} to ${toRegion} while building path.`
@@ -252,14 +257,11 @@ export class ExitUI {
             progress: 0,
             completed: false,
           };
-          loopState.actionQueue.push(exploreAction);
+          loopStateSingleton.actionQueue.push(exploreAction);
 
           // Set the region's "repeat explore action" checkbox to checked
-          if (
-            window.loopUIInstance &&
-            window.loopUIInstance.repeatExploreStates
-          ) {
-            window.loopUIInstance.repeatExploreStates.set(exit.region, true);
+          if (loopStateSingleton) {
+            loopStateSingleton.setRepeatExplore(exit.region, true);
           }
         } else {
           // If the exit is discovered, queue a move action *through* this specific exit
@@ -274,17 +276,17 @@ export class ExitUI {
             progress: 0,
             completed: false,
           };
-          loopState.actionQueue.push(moveThroughExitAction);
+          loopStateSingleton.actionQueue.push(moveThroughExitAction);
         }
         // --- End New Logic for Final Action ---
 
         // Begin processing the action queue
-        loopState.setPaused(false);
-        loopState.startProcessing(); // This will pick up the new queue
+        loopStateSingleton.setPaused(false);
+        loopStateSingleton.startProcessing(); // This will pick up the new queue
 
         // Notify UI components about queue changes
         eventBus.publish('loopState:queueUpdated', {
-          queue: loopState.actionQueue,
+          queue: loopStateSingleton.actionQueue,
         });
       } else {
         // Path not found - display error message
@@ -386,15 +388,17 @@ export class ExitUI {
     let filteredExits = allExits;
 
     // Only show discovered exits in Loop Mode if not showing all
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
     if (isLoopModeActive) {
       const showingExplored = showExplored;
 
       filteredExits = allExits.filter((exit) => {
-        const regionDiscovered = loopState.isRegionDiscovered(exit.region);
+        const regionDiscovered = loopStateSingleton.isRegionDiscovered(
+          exit.region
+        );
         if (!regionDiscovered) return false;
 
-        const exitDiscovered = loopState.isExitDiscovered(
+        const exitDiscovered = loopStateSingleton.isExitDiscovered(
           exit.region,
           exit.name
         );
@@ -477,11 +481,13 @@ export class ExitUI {
 
       // Handle Loop Mode display
       let exitName = exit.name;
-      const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+      const isLoopModeActive = loopStateSingleton.isLoopModeActive;
 
       if (isLoopModeActive) {
-        const isRegionDiscovered = loopState.isRegionDiscovered(exit.region);
-        const isExitDiscovered = loopState.isExitDiscovered(
+        const isRegionDiscovered = loopStateSingleton.isRegionDiscovered(
+          exit.region
+        );
+        const isExitDiscovered = loopStateSingleton.isExitDiscovered(
           exit.region,
           exit.name
         );

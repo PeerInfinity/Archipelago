@@ -52,8 +52,16 @@
       "path": "./modules/loops/index.js",
       "enabled": true
     },
-    "files": {
-      "path": "./modules/files/index.js",
+    "presets": {
+      "path": "./modules/presets/index.js",
+      "enabled": true
+    },
+    "testCases": {
+      "path": "./modules/testCases/index.js",
+      "enabled": true
+    },
+    "testPlaythroughs": {
+      "path": "./modules/testPlaythroughs/index.js",
       "enabled": true
     }
   },
@@ -71,6 +79,8 @@
     "regions",
     "discovery",
     "loops",
-    "files"
+    "presets",
+    "testCases",
+    "testPlaythroughs"
   ]
 }

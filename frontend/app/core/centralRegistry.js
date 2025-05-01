@@ -114,17 +114,16 @@ class CentralRegistry {
    * @param {string} moduleId - The ID of the module intending to subscribe.
    * @param {string} eventName - The name of the event.
    */
-  registerEventBusSubscriber(moduleId, eventName) {
+  registerEventBusSubscriberIntent(moduleId, eventName) {
     if (!this.eventBusSubscribers.has(eventName)) {
       this.eventBusSubscribers.set(eventName, []);
     }
-    const subscribers = this.eventBusSubscribers.get(eventName);
-    // Avoid duplicate entries for the same module
-    if (!subscribers.some((sub) => sub.moduleId === moduleId)) {
+    const subscribersForEvent = this.eventBusSubscribers.get(eventName);
+    if (!subscribersForEvent.some((sub) => sub.moduleId === moduleId)) {
       console.log(
         `[Registry] Registering event bus subscriber intent for '${eventName}' from ${moduleId}`
       );
-      subscribers.push({ moduleId, enabled: true }); // Default enabled state
+      subscribersForEvent.push({ moduleId, enabled: true });
     } else {
       console.log(
         `[Registry] Module ${moduleId} already registered subscriber intent for ${eventName}.`
@@ -233,14 +232,7 @@ class CentralRegistry {
       }
     } else if (Array.isArray(entries)) {
       // For handlers, senders, subscribers
-      const entry =
-        map === this.eventBusSubscribers
-          ? entries.find((e) => e.moduleId === moduleId) // Find by module ID only for eventBusSubscribers
-          : entries.find(
-              (e) =>
-                e.moduleId === moduleId &&
-                (!findCallback || e.callback === findCallback)
-            ); // Original logic otherwise
+      const entry = entries.find((e) => e.moduleId === moduleId);
 
       if (entry) {
         entry.enabled = isEnabled;
@@ -300,15 +292,28 @@ class CentralRegistry {
     return true;
   }
 
-  setEventBusSubscriberEnabled(eventName, moduleId, isEnabled) {
-    // Find the subscriber entry by moduleId only
+  setEventBusSubscriberIntentEnabled(eventName, moduleId, isEnabled) {
     return this._setEnabledState(
       this.eventBusSubscribers,
       eventName,
       moduleId,
       isEnabled
-      // No findCallback needed here
     );
+  }
+
+  _getEnabledState(map, eventName, moduleId) {
+    if (!map.has(eventName)) {
+      return false;
+    }
+    const entries = map.get(eventName);
+
+    // Simplified logic using Map access or Array find
+    if (entries instanceof Map) {
+      return entries.get(moduleId)?.enabled ?? false;
+    } else if (Array.isArray(entries)) {
+      return entries.find((e) => e.moduleId === moduleId)?.enabled ?? false;
+    }
+    return false; // Event or module not found
   }
 }
 

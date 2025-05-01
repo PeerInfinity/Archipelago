@@ -192,8 +192,10 @@ function createRegistrationApi(moduleId, moduleInstance) {
       centralRegistry.registerEventBusPublisher(moduleId, eventName);
     },
     // New EventBus subscriber registration (for tracking intent only)
-    registerEventBusSubscriber: (eventName) => {
-      centralRegistry.registerEventBusSubscriber(moduleId, eventName);
+    registerEventBusSubscriberIntent: (eventName) => {
+      // This function is primarily for tracking/validation purposes.
+      // The actual subscription happens within the module's UI component.
+      centralRegistry.registerEventBusSubscriberIntent(moduleId, eventName);
     },
     registerSettingsSchema: (schemaSnippet) => {
       centralRegistry.registerSettingsSchema(moduleId, schemaSnippet);

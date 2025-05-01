@@ -28,9 +28,8 @@ export function register(registrationApi) {
 
   // Register event bus subscribers via centralRegistry for tracking/control
   // The actual subscription happens within the InventoryUI instance.
-  registrationApi.registerEventBusSubscriber('inventory', 'state:rulesLoaded');
-  registrationApi.registerEventBusSubscriber(
-    'inventory',
+  registrationApi.registerEventBusSubscriberIntent('stateManager:rulesLoaded');
+  registrationApi.registerEventBusSubscriberIntent(
     'stateManager:inventoryChanged'
   );
 
@@ -43,6 +42,8 @@ export function register(registrationApi) {
 
   // Register settings schema if needed
   // No settings schema specific to Inventory registration.
+
+  console.log('[Inventory Module] Registration complete.');
 }
 
 /**

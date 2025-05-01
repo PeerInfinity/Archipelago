@@ -3,7 +3,7 @@ import { stateManagerSingleton } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
 import commonUI, { debounce } from '../commonUI/index.js';
 import messageHandler from '../client/core/messageHandler.js';
-import loopState from '../loops/loopStateSingleton.js';
+import loopStateSingleton from '../loops/loopStateSingleton.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import eventBus from '../../app/core/eventBus.js';
 
@@ -242,8 +242,11 @@ export class LocationUI {
   }
 
   handleLocationClick(location) {
+    // Log the click event
+    console.log('Location clicked:', location);
+
     // Check if loop mode is active
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
 
     if (isLoopModeActive) {
       // LOOP MODE BEHAVIOR
@@ -252,12 +255,16 @@ export class LocationUI {
       if (stateManagerSingleton.isLocationChecked(location.name)) return;
 
       // Get the location's discovered status in loop mode
-      const isUndiscovered = !loopState.isLocationDiscovered(location.name);
+      const isUndiscovered = !loopStateSingleton.isLocationDiscovered(
+        location.name
+      );
 
       // Check if the last action in the queue is already handling this location
-      if (loopState.actionQueue.length > 0) {
+      if (loopStateSingleton.actionQueue.length > 0) {
         const lastAction =
-          loopState.actionQueue[loopState.actionQueue.length - 1];
+          loopStateSingleton.actionQueue[
+            loopStateSingleton.actionQueue.length - 1
+          ];
 
         // If the location is undiscovered and the last action is an explore for this region, do nothing
         if (
@@ -290,12 +297,12 @@ export class LocationUI {
           // Path found - process it
 
           // Pause processing the action queue
-          loopState.setPaused(true);
+          loopStateSingleton.setPaused(true);
 
           // Clear the current queue
-          loopState.actionQueue = [];
-          loopState.currentAction = null;
-          loopState.currentActionIndex = 0;
+          loopStateSingleton.actionQueue = [];
+          loopStateSingleton.currentAction = null;
+          loopStateSingleton.currentActionIndex = 0;
 
           // Queue move actions for each region transition
           for (let i = 0; i < path.length - 1; i++) {
@@ -322,12 +329,18 @@ export class LocationUI {
                 completed: false,
               };
 
-              loopState.actionQueue.push(moveAction);
+              loopStateSingleton.actionQueue.push(moveAction);
 
               // Make sure the loopUI knows these regions are in the queue
-              if (window.loopUIInstance) {
-                window.loopUIInstance.regionsInQueue.add(fromRegion);
-                window.loopUIInstance.regionsInQueue.add(toRegion);
+              if (loopStateSingleton) {
+                loopStateSingleton.regionsInQueue.add(fromRegion);
+                loopStateSingleton.regionsInQueue.add(toRegion);
+              }
+
+              // Also, mark the source region to repeat explore
+              // This ensures the player doesn't get stuck if the only way forward was through the region just moved from.
+              if (loopStateSingleton) {
+                loopStateSingleton.setRepeatExplore(fromRegion, true);
               }
             }
           }
@@ -345,17 +358,11 @@ export class LocationUI {
               completed: false,
             };
 
-            loopState.actionQueue.push(exploreAction);
+            loopStateSingleton.actionQueue.push(exploreAction);
 
             // Set the region's "repeat explore action" checkbox to checked
-            if (
-              window.loopUIInstance &&
-              window.loopUIInstance.repeatExploreStates
-            ) {
-              window.loopUIInstance.repeatExploreStates.set(
-                location.region,
-                true
-              );
+            if (loopStateSingleton && loopStateSingleton.repeatExploreStates) {
+              loopStateSingleton.repeatExploreStates.set(location.region, true);
             }
           } else {
             // If location is discovered but unchecked, queue a check location action
@@ -370,23 +377,23 @@ export class LocationUI {
               completed: false,
             };
 
-            loopState.actionQueue.push(checkAction);
+            loopStateSingleton.actionQueue.push(checkAction);
           }
 
           // Begin processing the action queue
-          loopState.setPaused(false);
-          loopState.startProcessing();
+          loopStateSingleton.setPaused(false);
+          loopStateSingleton.startProcessing();
 
           // Notify UI components about queue changes
           if (window.eventBus) {
             window.eventBus.publish('loopState:queueUpdated', {
-              queue: loopState.actionQueue,
+              queue: loopStateSingleton.actionQueue,
             });
           }
 
           // Update the loop UI
-          if (window.loopUIInstance) {
-            window.loopUIInstance.renderLoopPanel();
+          if (loopStateSingleton) {
+            loopStateSingleton.renderLoopPanel();
           }
         } else {
           // Path not found - display error message
@@ -460,7 +467,7 @@ export class LocationUI {
       this.rootElement.querySelector('#sort-select')?.value ?? 'original';
 
     // Check if Loop Mode is active
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
 
     // Toggle visibility of the "Show Explored" checkbox based on Loop Mode
     const showExploredCheckbox =
@@ -522,13 +529,13 @@ export class LocationUI {
     if (isLoopModeActive) {
       filteredLocations = filteredLocations.filter((location) => {
         // Only show locations from discovered regions
-        const isRegionDiscovered = loopState.isRegionDiscovered(
+        const isRegionDiscovered = loopStateSingleton.isRegionDiscovered(
           location.region
         );
         if (!isRegionDiscovered) return false;
 
         // Handle exploring filter
-        const isLocationDiscovered = loopState.isLocationDiscovered(
+        const isLocationDiscovered = loopStateSingleton.isLocationDiscovered(
           location.name
         );
         return showExplored || !isLocationDiscovered;
@@ -605,10 +612,10 @@ export class LocationUI {
       let regionName = location.region;
 
       if (isLoopModeActive) {
-        const isRegionDiscovered = loopState.isRegionDiscovered(
+        const isRegionDiscovered = loopStateSingleton.isRegionDiscovered(
           location.region
         );
-        const isLocationDiscovered = loopState.isLocationDiscovered(
+        const isLocationDiscovered = loopStateSingleton.isLocationDiscovered(
           location.name
         );
         if (!isRegionDiscovered || !isLocationDiscovered) {

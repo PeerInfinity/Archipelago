@@ -46,6 +46,14 @@ class MainContentUI {
     this.eventBus.subscribe('connection:reconnecting', () => {
       this.updateConnectionStatus('connecting');
     });
+
+    // <<< ADDED: Subscribe to console print requests >>>
+    this.eventBus.subscribe('ui:printToConsole', (payload) => {
+      if (payload && payload.message) {
+        this.appendConsoleMessage(payload.message, payload.type || 'info');
+      }
+    });
+    // <<< END ADDED >>>
   }
 
   getRootElement() {

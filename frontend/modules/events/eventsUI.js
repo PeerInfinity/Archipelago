@@ -148,7 +148,7 @@ class EventsUI {
       this.moduleStateChangeHandler
     );
     // Register this subscription with the registry
-    centralRegistry.registerEventBusSubscriber(
+    centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
       'module:stateChanged',
       this.moduleStateChangeHandler

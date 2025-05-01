@@ -1,5 +1,4 @@
 import { evaluateRule } from './ruleEngine.js';
-import eventBus from '../../app/core/eventBus.js';
 import { ALTTPInventory } from './games/alttp/inventory.js';
 import { ALTTPState } from './games/alttp/state.js';
 import { ALTTPHelpers } from './games/alttp/helpers.js';
@@ -15,6 +14,9 @@ export class StateManager {
     this.inventory = new ALTTPInventory();
     this.state = new ALTTPState();
     this.helpers = new ALTTPHelpers(this);
+
+    // Injected dependencies
+    this.eventBus = null;
 
     // Player identification
     this.playerSlot = 1; // Default player slot to 1 for single-player/offline
@@ -66,6 +68,15 @@ export class StateManager {
   }
 
   /**
+   * Sets the event bus instance dependency.
+   * @param {object} eventBusInstance - The application's event bus.
+   */
+  setEventBus(eventBusInstance) {
+    console.log('[StateManager Class] Setting EventBus instance...');
+    this.eventBus = eventBusInstance;
+  }
+
+  /**
    * Initializes inventory with loaded game data
    */
   initializeInventory(items, progressionMapping, itemData) {
@@ -85,8 +96,8 @@ export class StateManager {
 
     // Also emit to eventBus for ProgressUI
     try {
-      if (eventBus) {
-        eventBus.publish(`stateManager:${eventType}`, {});
+      if (this.eventBus) {
+        this.eventBus.publish(`stateManager:${eventType}`, {});
       }
     } catch (e) {
       console.warn('Could not publish to eventBus:', e);
@@ -363,12 +374,12 @@ export class StateManager {
     try {
       // Use setTimeout to ensure this event fires after returning from the method
       setTimeout(() => {
-        if (eventBus) {
+        if (this.eventBus) {
           console.log('Publishing stateManager:jsonDataLoaded event');
-          eventBus.publish('stateManager:jsonDataLoaded', {});
+          this.eventBus.publish('stateManager:jsonDataLoaded', {});
           // Publish ready event immediately after data loaded event (within timeout)
           console.log('Publishing stateManager:ready event (delayed)');
-          eventBus.publish('stateManager:ready', {
+          this.eventBus.publish('stateManager:ready', {
             playerSlot: this.playerSlot,
           });
         }
@@ -394,9 +405,9 @@ export class StateManager {
 
     // Notify that the manager is ready (potentially after a short delay)
     setTimeout(() => {
-      if (eventBus) {
+      if (this.eventBus) {
         console.log('Publishing stateManager:ready event');
-        eventBus.publish('stateManager:ready', {
+        this.eventBus.publish('stateManager:ready', {
           playerSlot: this.playerSlot,
         });
       }
@@ -993,17 +1004,20 @@ export class StateManager {
    * Notifies listeners via the event bus.
    */
   _publishEvent(eventType, eventData = {}) {
-    try {
-      const fullEventName = `stateManager:${eventType}`;
-      eventBus.publish(fullEventName, eventData);
-      this._logDebug(
-        `[StateManager Class] Published ${fullEventName} via eventBus`,
-        eventData
-      );
-    } catch (e) {
+    // Publish state changes to the event bus if available
+    if (this.eventBus) {
+      try {
+        this.eventBus.publish(`stateManager:${eventType}`, eventData);
+        this._logDebug(`[StateManager Class] Published ${eventType} event.`);
+      } catch (error) {
+        console.error(
+          `[StateManager Class] Error publishing ${eventType} event:`,
+          error
+        );
+      }
+    } else {
       console.warn(
-        `[StateManager Class] Could not publish ${eventType} to eventBus:`,
-        e
+        `[StateManager Class] Event bus not available to publish ${eventType}.`
       );
     }
   }

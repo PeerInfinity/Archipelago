@@ -1,5 +1,4 @@
-import { stateManager } from '../stateManager/index.js';
-import eventBus from '../../app/core/eventBus.js';
+import { stateManagerSingleton } from '../stateManager/index.js';
 
 export class TestPlaythroughUI {
   constructor() {
@@ -11,6 +10,8 @@ export class TestPlaythroughUI {
     this.abortController = null; // To cancel ongoing tests
     this.playthroughsPanelContainer = null; // Cache container element
     this.viewChangeSubscription = null;
+    this.eventBus = null; // Add placeholder
+    this.rootElement = null; // Added
 
     // State for stepping through tests
     this.logEvents = null;
@@ -20,11 +21,25 @@ export class TestPlaythroughUI {
     this.testStateInitialized = false;
   }
 
-  initialize(container) {
-    // Try to find the container directly from the passed container
-    this.testPlaythroughsContainer = container?.querySelector(
-      '#test-playthroughs-panel'
-    );
+  getRootElement() {
+    if (!this.rootElement) {
+      this.rootElement = document.createElement('div');
+      this.rootElement.id = 'test-playthroughs-panel';
+      this.rootElement.classList.add('panel-container');
+      this.rootElement.style.height = '100%';
+      this.rootElement.style.overflowY = 'auto';
+      // Add initial content
+      this.rootElement.innerHTML = '<p>Loading playthroughs...</p>';
+      // Store reference to this root element if needed internally, though
+      // initialize will run after this is added to the DOM
+      this.testPlaythroughsContainer = this.rootElement;
+    }
+    return this.rootElement;
+  }
+
+  async initialize() {
+    // Ensure root element is created and reference stored
+    this.getRootElement();
 
     if (!this.testPlaythroughsContainer) {
       console.error(
@@ -34,54 +49,76 @@ export class TestPlaythroughUI {
       return false;
     }
 
-    this.initialized = true; // Set initialized flag early
+    // Initialized is now set after async fetch completes
+    this.initialized = false;
     this.testPlaythroughsContainer.innerHTML =
-      '<p>Loading playthrough list...</p>';
+      '<p>Loading playthrough list...</p>'; // Reset content
+
+    // --- Dynamically Import and Subscribe to EventBus (moved here) ---
+    try {
+      const eventBusModule = await import('../../app/core/eventBus.js');
+      this.eventBus = eventBusModule.default;
+
+      if (this.eventBus) {
+        if (this.viewChangeSubscription) {
+          this.viewChangeSubscription();
+        }
+        this.viewChangeSubscription = this.eventBus.subscribe(
+          'ui:fileViewChanged',
+          (data) => {
+            if (data.newView !== 'test-playthroughs') {
+              console.log(
+                '[TestPlaythroughUI] View changed away, clearing display.'
+              );
+              this.clearDisplay();
+            }
+          }
+        );
+      } else {
+        console.error(
+          '[TestPlaythroughUI] Failed to load eventBus dynamically.'
+        );
+      }
+    } catch (err) {
+      console.error(
+        '[TestPlaythroughUI] Error importing or subscribing to eventBus:',
+        err
+      );
+    }
+    // --- End Event Subscription ---
 
     try {
-      const loadJSON = (url) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, false);
-        xhr.send();
-        if (xhr.status === 200) {
-          return JSON.parse(xhr.responseText);
-        } else {
-          throw new Error(`Failed to load ${url}: ${xhr.status}`);
-        }
-      };
-
-      this.playthroughFiles = loadJSON('./playthroughs/playthrough_files.json');
-      console.log('Loaded playthrough files:', this.playthroughFiles);
-
-      this.renderPlaythroughList(); // Initial view
-
-      // --- Add Event Subscription ---
-      if (this.viewChangeSubscription) {
-        this.viewChangeSubscription();
-      }
-      this.viewChangeSubscription = eventBus.subscribe(
-        'ui:fileViewChanged',
-        (data) => {
-          // If the new view is NOT test-playthroughs, clear the display
-          if (data.newView !== 'test-playthroughs') {
-            console.log(
-              '[TestPlaythroughUI] View changed away, clearing display.'
-            );
-            this.clearDisplay(); // Call its cleanup method
+      // Load playthrough_files.json asynchronously
+      fetch('./playthroughs/playthrough_files.json')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-        }
-      );
-      // --- End Event Subscription ---
+          return response.json();
+        })
+        .then((data) => {
+          this.playthroughFiles = data;
+          console.log('Loaded playthrough files:', this.playthroughFiles);
+          this.renderPlaythroughList(); // Initial view
+          this.initialized = true; // Set initialized after successful load
+          console.log('[TestPlaythroughUI] Initialized successfully.');
+        })
+        .catch((error) => {
+          console.error('Error loading playthrough files data:', error);
+          if (this.testPlaythroughsContainer) {
+            this.testPlaythroughsContainer.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
+          }
+          this.initialized = false;
+        });
 
-      return true;
+      return true; // Indicate setup started
     } catch (error) {
-      console.error('Error loading playthrough files data:', error);
-      // container.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
+      console.error('Error setting up playthrough files loading:', error);
       if (this.testPlaythroughsContainer) {
-        this.testPlaythroughsContainer.innerHTML = `<div class="error-message">Failed to load playthroughs: ${error.message}</div>`;
+        this.testPlaythroughsContainer.innerHTML = `<div class="error-message">Error initializing playthroughs: ${error.message}</div>`;
       }
-      this.initialized = false; // Reset on error
-      return false; // Return false from catch block
+      this.initialized = false;
+      return false;
     }
   }
 
@@ -414,7 +451,7 @@ export class TestPlaythroughUI {
 
       case 'initial_state':
         this.log('state', 'Comparing initial state...');
-        stateManager.computeReachableRegions(); // Ensure initial compute after load
+        stateManagerSingleton.computeReachableRegions(); // Ensure initial compute after load
         this.compareAccessibleLocations(
           event.accessible_locations,
           'Initial State'
@@ -426,7 +463,7 @@ export class TestPlaythroughUI {
           const locName = event.location.name;
           this.log('info', `Simulating check for location: "${locName}"`);
 
-          const locData = stateManager.locations.find(
+          const locData = stateManagerSingleton.locations.find(
             (l) => l.name === locName
           );
 
@@ -436,8 +473,12 @@ export class TestPlaythroughUI {
               `Location "${locName}" from log not found in current rules. Skipping check.`
             );
           } else {
-            const wasAccessible = stateManager.isLocationAccessible(locData);
-            if (!wasAccessible && !stateManager.isLocationChecked(locName)) {
+            const wasAccessible =
+              stateManagerSingleton.isLocationAccessible(locData);
+            if (
+              !wasAccessible &&
+              !stateManagerSingleton.isLocationChecked(locName)
+            ) {
               this.log(
                 'error',
                 `Log indicates checking "${locName}", but it was NOT accessible according to current logic!`
@@ -447,12 +488,15 @@ export class TestPlaythroughUI {
               );
             }
 
-            if (locData.item && !stateManager.isLocationChecked(locName)) {
+            if (
+              locData.item &&
+              !stateManagerSingleton.isLocationChecked(locName)
+            ) {
               this.log(
                 'info',
                 `Found item "${locData.item.name}" at "${locName}". Adding to inventory.`
               );
-              const itemAdded = stateManager.addItemToInventory(
+              const itemAdded = stateManagerSingleton.addItemToInventory(
                 locData.item.name
               );
               if (!itemAdded) {
@@ -463,7 +507,7 @@ export class TestPlaythroughUI {
               }
             }
 
-            stateManager.checkLocation(locName);
+            stateManagerSingleton.checkLocation(locName);
             this.log('info', `Location "${locName}" marked as checked.`);
           }
         } else {
@@ -597,7 +641,7 @@ export class TestPlaythroughUI {
             this.gameUI.currentRules = jsonData; // Track current rules
 
             // Use stateManager directly
-            stateManager.initializeInventory(
+            stateManagerSingleton.initializeInventory(
               [], // Start with empty inventory for preset load
               jsonData.progression_mapping?.[playerId],
               jsonData.items?.[playerId],
@@ -605,7 +649,7 @@ export class TestPlaythroughUI {
             );
 
             // Load settings, shops, starting items etc. via stateManager
-            stateManager.loadFromJSON(jsonData, playerId);
+            stateManagerSingleton.loadFromJSON(jsonData, playerId);
 
             // Initialize the main UI (regions, locations etc.) - Crucial for inventoryUI setup
             this.gameUI.initializeUI(jsonData, playerId);
@@ -678,9 +722,9 @@ export class TestPlaythroughUI {
 
   compareAccessibleLocations(logAccessible, context) {
     // Get reachable but unchecked locations from stateManager
-    const stateAccessibleUnchecked = stateManager
+    const stateAccessibleUnchecked = stateManagerSingleton
       .getProcessedLocations(undefined, true, false) // Get only reachable locations
-      .filter((loc) => !stateManager.isLocationChecked(loc.name)) // Filter out checked locations
+      .filter((loc) => !stateManagerSingleton.isLocationChecked(loc.name)) // Filter out checked locations
       .map((loc) => loc.name);
 
     const stateAccessibleSet = new Set(stateAccessibleUnchecked);
@@ -772,14 +816,26 @@ export class TestPlaythroughUI {
       this.logContainer.innerHTML = '';
     }
     this.updateStepInfo(); // Clear step info display
+    this.eventBus = null; // Clear reference
   }
 
   dispose() {
+    console.log('[TestPlaythroughUI] Disposing...');
+    if (this.abortController) {
+      this.abortController.abort();
+      this.abortController = null;
+    }
+    // Unsubscribe if the handle exists
     if (this.viewChangeSubscription) {
       this.viewChangeSubscription();
       this.viewChangeSubscription = null;
+      console.log('[TestPlaythroughUI] Unsubscribed from ui:fileViewChanged.');
     }
-    console.log('[TestPlaythroughUI] Disposed and unsubscribed from events.');
+    this.clearTestState();
+    // Clear container content?
+    // if (this.testPlaythroughsContainer) {
+    //   this.testPlaythroughsContainer.innerHTML = '';
+    // }
   }
 }
 

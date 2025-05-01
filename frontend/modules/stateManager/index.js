@@ -53,10 +53,7 @@ export function register(registrationApi) {
   );
 
   // Register events this module subscribes to on the EventBus
-  registrationApi.registerEventBusSubscriber(
-    'stateManager',
-    'init:postInitComplete'
-  );
+  registrationApi.registerEventBusSubscriberIntent('init:postInitComplete');
 
   // Note: StateManager currently uses the DISPATCHER to publish state:rulesLoaded
   // as a test case. We register the intent to send it, but the actual handler
@@ -99,6 +96,18 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
         );
         const realInstance = new StateManager();
         stateManagerSingleton.setInstance(realInstance);
+
+        // <<< ADDED: Inject EventBus >>>
+        const eventBusInstance = initializationApi.getEventBus();
+        if (eventBusInstance) {
+          realInstance.setEventBus(eventBusInstance);
+        } else {
+          console.error(
+            '[StateManager Module] Failed to get EventBus instance from API. Event publishing may fail.'
+          );
+        }
+        // <<< END ADDED >>>
+
         isInitialized = true;
         console.log('[StateManager Module] Real StateManager instance created');
         resolve(realInstance);

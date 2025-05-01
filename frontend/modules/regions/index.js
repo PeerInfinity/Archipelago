@@ -39,7 +39,7 @@ export function register(registrationApi) {
     'settings:changed', // For colorblind mode etc. within RegionUI
   ];
   eventsToSubscribe.forEach((eventName) => {
-    registrationApi.registerEventBusSubscriber(moduleId, eventName);
+    registrationApi.registerEventBusSubscriberIntent(eventName);
   });
 
   // Register EventBus publisher intentions (used by RegionUI)

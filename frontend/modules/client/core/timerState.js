@@ -6,7 +6,11 @@ import messageHandler from './messageHandler.js';
 import locationManager from './locationManager.js';
 
 // Import loopState for loop mode interaction
-import loopState from '../../loops/loopStateSingleton.js';
+import loopStateSingleton from '../../loops/loopStateSingleton.js';
+import stateManager from '../../stateManager/stateManagerSingleton.js';
+
+// <<< IMPORT SHARED STATE >>>
+import { sharedClientState } from './sharedState.js';
 
 export class TimerState {
   constructor() {
@@ -149,16 +153,16 @@ export class TimerState {
     // Only try to restart if we're paused by loop mode
     if (!this.timerPausedByLoopMode) return;
 
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
     if (!isLoopModeActive) return;
 
     // Check conditions to restart:
     // 1. Queue is finished (empty or all actions completed)
     // 2. Mana is depleted
-    const queue = loopState.actionQueue || []; // Handle potential null/undefined queue
+    const queue = loopStateSingleton.actionQueue || []; // Handle potential null/undefined queue
     const queueFinished =
       queue.length === 0 || queue.every((action) => action.completed === true);
-    const manaDepleted = loopState.currentMana <= 0;
+    const manaDepleted = loopStateSingleton.currentMana <= 0;
 
     // Restart if the queue is finished OR if there's no mana left
     if (queueFinished || manaDepleted) {
@@ -256,7 +260,7 @@ export class TimerState {
   // The "Quick Check" button calls this method
   async checkQuickLocation() {
     // Check if loop mode is active
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
 
     if (isLoopModeActive) {
       await this._handleLoopModeQuickCheck();
@@ -285,9 +289,13 @@ export class TimerState {
     const locations = stateManager.getProcessedLocations() || [];
 
     locations.forEach((loc) => {
-      const isRegionDiscovered = loopState.isRegionDiscovered(loc.region);
+      const isRegionDiscovered = loopStateSingleton.isRegionDiscovered(
+        loc.region
+      );
       const isRegionReachable = stateManager.isRegionReachable(loc.region);
-      const isLocationDiscovered = loopState.isLocationDiscovered(loc.name);
+      const isLocationDiscovered = loopStateSingleton.isLocationDiscovered(
+        loc.name
+      );
       const isLocationChecked = stateManager.isLocationChecked(loc.name);
       const isLocationAccessible = stateManager.isLocationAccessible(loc);
 
@@ -310,14 +318,15 @@ export class TimerState {
     if (stateManager.regions) {
       Object.entries(stateManager.regions).forEach(([regionName, region]) => {
         if (region.exits && Array.isArray(region.exits)) {
-          const isRegionDiscovered = loopState.isRegionDiscovered(regionName);
+          const isRegionDiscovered =
+            loopStateSingleton.isRegionDiscovered(regionName);
           const isRegionReachable = stateManager.isRegionReachable(regionName);
 
           // Only process exits in discovered and reachable regions
           if (isRegionDiscovered && isRegionReachable) {
             region.exits.forEach((exit) => {
               // Check if exit is discovered
-              const isExitDiscovered = loopState.isExitDiscovered(
+              const isExitDiscovered = loopStateSingleton.isExitDiscovered(
                 regionName,
                 exit.name
               );
@@ -325,7 +334,7 @@ export class TimerState {
               // Check if the target region is discovered (only if a target region exists)
               // If no connected_region, it cannot be undiscovered, so treat as discovered for this check.
               const isTargetRegionDiscovered = exit.connected_region
-                ? loopState.isRegionDiscovered(exit.connected_region)
+                ? loopStateSingleton.isRegionDiscovered(exit.connected_region)
                 : true;
 
               // Add to options if:
@@ -368,14 +377,17 @@ export class TimerState {
       let status = '';
       if (selectedOption.type === 'location') {
         const loc = selectedOption.data;
-        const isDiscovered = loopState.isLocationDiscovered(loc.name);
+        const isDiscovered = loopStateSingleton.isLocationDiscovered(loc.name);
         const isChecked = stateManager.isLocationChecked(loc.name);
         status = `(Discovered: ${isDiscovered}, Checked: ${isChecked})`;
       } else if (selectedOption.type === 'exit') {
         const exit = selectedOption.data;
-        const isDiscovered = loopState.isExitDiscovered(exit.region, exit.name);
+        const isDiscovered = loopStateSingleton.isExitDiscovered(
+          exit.region,
+          exit.name
+        );
         const isTargetRegionDiscovered = exit.connected_region
-          ? loopState.isRegionDiscovered(exit.connected_region)
+          ? loopStateSingleton.isRegionDiscovered(exit.connected_region)
           : 'N/A';
         status = `(Discovered: ${isDiscovered}, Target Region Discovered: ${isTargetRegionDiscovered})`;
       }

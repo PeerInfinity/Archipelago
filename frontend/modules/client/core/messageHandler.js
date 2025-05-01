@@ -9,6 +9,7 @@ import {
   initializeMappingsFromDataPackage,
   loadMappingsFromStorage,
 } from '../utils/idMapping.js';
+import { sharedClientState } from './sharedState.js';
 
 export class MessageHandler {
   constructor() {
@@ -252,7 +253,14 @@ export class MessageHandler {
 
   _handleConnectionRefused(data) {
     // Use injected eventBus
-    this.eventBus?.publish('connection:refused', data);
+    this.eventBus?.publish('network:connectionRefused', data);
+    const message = `Connection refused: ${data.errors.join(', ')}`;
+    console.error('[MessageHandler]', message);
+    // Publish event instead of directly printing
+    this.eventBus?.publish('ui:printToConsole', {
+      message: message,
+      type: 'error',
+    });
   }
 
   /**
@@ -270,13 +278,13 @@ export class MessageHandler {
     }
 
     // Skip if we're already processing
-    if (window._processingBatchItems) {
+    if (sharedClientState.processingBatchItems) {
       console.log('Already processing an item batch, skipping duplicate');
       return;
     }
 
     // Set processing flag
-    window._processingBatchItems = true;
+    sharedClientState.processingBatchItems = true;
     console.log(`Processing ${data.items.length} items from server`);
 
     try {
@@ -297,13 +305,13 @@ export class MessageHandler {
 
           // Skip if this item was just clicked by the user
           if (
-            window._userClickedItems &&
-            window._userClickedItems.has(itemName)
+            sharedClientState.userClickedItems &&
+            sharedClientState.userClickedItems.has(itemName)
           ) {
             console.log(
               `Skipping server item ${itemName} as it was just clicked by user`
             );
-            window._userClickedItems.delete(itemName);
+            sharedClientState.userClickedItems.delete(itemName);
             continue;
           }
 
@@ -335,7 +343,7 @@ export class MessageHandler {
     } finally {
       // Always clear the processing flag
       setTimeout(() => {
-        window._processingBatchItems = false;
+        sharedClientState.processingBatchItems = false;
       }, 100);
     }
 
@@ -365,7 +373,8 @@ export class MessageHandler {
   }
 
   _handlePrint(data) {
-    this.eventBus?.publish('console:message', data.text);
+    // Publish event instead of directly printing
+    this.eventBus?.publish('ui:printToConsole', { message: data.text });
   }
 
   async _handlePrintJSON(data) {
@@ -748,16 +757,11 @@ export class MessageHandler {
     stateManager.checkLocation(location.name);
 
     // Add this location ID to a temporary tracking set to avoid duplicate processing
-    if (!window._pendingLocationChecks) {
-      window._pendingLocationChecks = new Set();
-    }
-    window._pendingLocationChecks.add(location.id);
+    sharedClientState.pendingLocationChecks.add(location.id);
 
     // Set a timeout to remove from pending set (in case server never responds)
     setTimeout(() => {
-      if (window._pendingLocationChecks) {
-        window._pendingLocationChecks.delete(location.id);
-      }
+      sharedClientState.pendingLocationChecks.delete(location.id);
     }, 10000); // 10 second timeout
 
     // Send to server if connected

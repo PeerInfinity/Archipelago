@@ -4,7 +4,7 @@ import { evaluateRule } from '../stateManager/ruleEngine.js';
 import { PathAnalyzerUI } from '../pathAnalyzer/index.js';
 import commonUI from '../commonUI/index.js';
 import messageHandler from '../client/core/messageHandler.js';
-import loopState from '../loops/loopStateSingleton.js';
+import loopStateSingleton from '../loops/loopStateSingleton.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import eventBus from '../../app/core/eventBus.js';
 import { debounce } from '../commonUI/index.js';
@@ -603,10 +603,13 @@ export class RegionUI {
       stateManagerSingleton.instance.isRegionReachable(regionName);
 
     // Check if Loop Mode is active
-    const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
+    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
 
     // In Loop Mode, only show discovered regions
-    if (isLoopModeActive && !loopState.isRegionDiscovered(regionName)) {
+    if (
+      isLoopModeActive &&
+      !loopStateSingleton.isRegionDiscovered(regionName)
+    ) {
       return document.createElement('div'); // Return empty div for undiscovered regions
     }
 
@@ -679,7 +682,10 @@ export class RegionUI {
             document.getElementById('show-explored')?.checked ?? true;
 
           if (isLoopModeActive) {
-            isDiscovered = loopState.isExitDiscovered(regionName, exit.name);
+            isDiscovered = loopStateSingleton.isExitDiscovered(
+              regionName,
+              exit.name
+            );
             // Skip this exit if it's not discovered and we're not showing explored
             if (!isDiscovered && !showExplored) {
               return; // Using 'return' here inside forEach callback instead of 'continue'
@@ -705,9 +711,8 @@ export class RegionUI {
 
             // In Loop Mode, check if the connected region is discovered
             if (isLoopModeActive) {
-              const isConnectedRegionDiscovered = loopState.isRegionDiscovered(
-                exit.connected_region
-              );
+              const isConnectedRegionDiscovered =
+                loopStateSingleton.isRegionDiscovered(exit.connected_region);
               if (!isConnectedRegionDiscovered) {
                 connectedRegionName = '???';
               }
@@ -719,7 +724,7 @@ export class RegionUI {
 
             if (
               isLoopModeActive &&
-              !loopState.isRegionDiscovered(exit.connected_region)
+              !loopStateSingleton.isRegionDiscovered(exit.connected_region)
             ) {
               regionLink.classList.add('undiscovered-region');
             }
@@ -791,7 +796,7 @@ export class RegionUI {
             document.getElementById('show-explored')?.checked ?? true;
 
           if (isLoopModeActive) {
-            isDiscovered = loopState.isLocationDiscovered(loc.name);
+            isDiscovered = loopStateSingleton.isLocationDiscovered(loc.name);
             if (!isDiscovered && !showExplored) {
               return; // Skip this location if it's not discovered and we're not showing explored
             }

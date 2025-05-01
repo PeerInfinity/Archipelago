@@ -1,7 +1,6 @@
 import commonUI from '../commonUI/index.js';
 import { stateManagerSingleton } from '../stateManager/index.js';
 // import { TestCase } from '../../tests/TestCase.js'; // Removed unused import
-import eventBus from '../../app/core/eventBus.js';
 
 export class TestCaseUI {
   constructor() {
@@ -14,11 +13,29 @@ export class TestCaseUI {
     this.initialized = false;
     this.testCasesListContainer = null;
     this.viewChangeSubscription = null;
+    this.eventBus = null; // Add placeholder for event bus instance
+    this.rootElement = null; // Added
   }
 
-  initialize(container) {
-    // Try to find the test cases list container directly from the passed container
-    this.testCasesListContainer = container?.querySelector('#test-cases-list');
+  getRootElement() {
+    if (!this.rootElement) {
+      this.rootElement = document.createElement('div');
+      this.rootElement.id = 'test-cases-panel';
+      this.rootElement.classList.add('panel-container');
+      this.rootElement.style.height = '100%';
+      this.rootElement.style.overflowY = 'auto';
+      // Add the inner container
+      this.rootElement.innerHTML =
+        '<div id="test-cases-list">Loading test sets...</div>';
+      this.testCasesListContainer =
+        this.rootElement.querySelector('#test-cases-list');
+    }
+    return this.rootElement;
+  }
+
+  async initialize(/* container removed */) {
+    // Ensure root element and inner container are created
+    this.getRootElement();
 
     if (!this.testCasesListContainer) {
       console.error(
@@ -28,53 +45,75 @@ export class TestCaseUI {
       return false;
     }
 
-    this.initialized = true; // Set initialized flag early if container found
+    // Initialized is now set after async fetch completes
+    this.initialized = false;
+
+    // --- Dynamically Import and Subscribe to EventBus (moved here) ---
+    try {
+      // Import eventBus dynamically
+      const eventBusModule = await import('../../app/core/eventBus.js');
+      this.eventBus = eventBusModule.default; // Store the instance
+
+      if (this.eventBus) {
+        // Unsubscribe first if already subscribed (e.g., re-initialization)
+        if (this.viewChangeSubscription) {
+          this.viewChangeSubscription();
+        }
+        // Subscribe to view changes using the stored instance
+        this.viewChangeSubscription = this.eventBus.subscribe(
+          'ui:fileViewChanged',
+          (data) => {
+            if (data.newView !== 'test-cases') {
+              console.log(
+                '[TestCaseUI] View changed away, clearing test data.'
+              );
+              this.clearTestData();
+            }
+          }
+        );
+      } else {
+        console.error('[TestCaseUI] Failed to load eventBus dynamically.');
+      }
+    } catch (err) {
+      console.error(
+        '[TestCaseUI] Error importing or subscribing to eventBus:',
+        err
+      );
+    }
+    // --- End Event Subscription ---
 
     try {
-      // Load the test_files.json which contains the list of available test sets
-      const loadJSON = (url) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, false); // false makes it synchronous
-        xhr.send();
-        if (xhr.status === 200) {
-          return JSON.parse(xhr.responseText);
-        } else {
-          throw new Error(`Failed to load ${url}: ${xhr.status}`);
-        }
-      };
-
-      // Load the list of available test sets
-      this.availableTestSets = loadJSON('./tests/test_files.json');
-
-      // Render the test set selector instead of loading test cases immediately
-      this.renderTestSetSelector();
-
-      // --- Add Event Subscription ---
-      // Unsubscribe first if already subscribed (e.g., re-initialization)
-      if (this.viewChangeSubscription) {
-        this.viewChangeSubscription();
-      }
-      // Subscribe to view changes
-      this.viewChangeSubscription = eventBus.subscribe(
-        'ui:fileViewChanged',
-        (data) => {
-          // If the new view is NOT test-cases, clear the data
-          if (data.newView !== 'test-cases') {
-            console.log('[TestCaseUI] View changed away, clearing test data.');
-            this.clearTestData();
+      // Load the test_files.json asynchronously
+      fetch('./tests/test_files.json')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-        }
-      );
-      // --- End Event Subscription ---
+          return response.json();
+        })
+        .then((data) => {
+          this.availableTestSets = data;
+          this.renderTestSetSelector();
+          this.initialized = true; // Set initialized after successful load
+          console.log('[TestCaseUI] Initialized successfully.');
+        })
+        .catch((error) => {
+          console.error('Error loading test sets data:', error);
+          if (this.testCasesListContainer) {
+            this.testCasesListContainer.innerHTML = `<div class="error">Error loading test sets: ${error.message}</div>`;
+          }
+          this.initialized = false;
+        });
 
-      return true; // Return true from try block
+      return true; // Indicate setup started
     } catch (error) {
-      console.error('Error loading test sets data:', error);
+      // Catch potential errors during setup (less likely now)
+      console.error('Error setting up test sets loading:', error);
       if (this.testCasesListContainer) {
-        this.testCasesListContainer.innerHTML = `<div class="error">Error loading test sets: ${error.message}</div>`;
+        this.testCasesListContainer.innerHTML = `<div class="error">Error initializing test sets: ${error.message}</div>`;
       }
-      this.initialized = false; // Reset on error
-      return false; // Return false from catch block
+      this.initialized = false;
+      return false;
     }
   }
 
@@ -247,6 +286,17 @@ export class TestCaseUI {
         }
       }, 100);
 
+      // Update state manager
+      stateManagerSingleton.loadFromJSON(this.testRules, '1'); // Always use Player 1 for tests
+
+      // Publish notification using the dynamically imported eventBus
+      if (this.eventBus) {
+        this.eventBus.publish('ui:notification', {
+          type: 'info',
+          message: `Test rules reloaded from ${this.currentTestSet}`,
+        });
+      }
+
       return true;
     } catch (error) {
       console.error('Failed to load test set:', error);
@@ -284,6 +334,16 @@ export class TestCaseUI {
     if (this.isUsingTestData()) {
       this.gameUI.clearExistingData();
       this.gameUI.initializeUI(this.gameUI.defaultRules, '1');
+    }
+
+    // Publish completion using the dynamically imported eventBus
+    if (this.eventBus) {
+      this.eventBus.publish('ui:notification', {
+        type: 'success',
+        message: `All ${this.testCases?.length || 0} tests completed. Passed: ${
+          this.passed || 0
+        }, Failed: ${this.failed || 0}`,
+      });
     }
   }
 
@@ -530,6 +590,14 @@ export class TestCaseUI {
 
     // Add debug button
     this.addDebugButton();
+
+    // Publish completion using the dynamically imported eventBus
+    if (this.eventBus) {
+      this.eventBus.publish('ui:notification', {
+        type: 'success',
+        message: `All ${this.testCases.length} tests completed. Passed: ${passed}, Failed: ${failed}`,
+      });
+    }
   }
 
   renderTestCasesList() {
@@ -1033,6 +1101,10 @@ export class TestCaseUI {
     if (this.viewChangeSubscription) {
       this.viewChangeSubscription(); // Call the unsubscribe function
       this.viewChangeSubscription = null;
+    }
+    if (this.eventBus) {
+      this.eventBus.unsubscribe('ui:fileViewChanged');
+      this.eventBus = null;
     }
     console.log('[TestCaseUI] Disposed and unsubscribed from events.');
   }

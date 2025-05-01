@@ -1,5 +1,6 @@
 import { centralRegistry } from '../../app/core/centralRegistry.js';
 import eventBus from '../../app/core/eventBus.js';
+import { getInitializationApi } from './index.js';
 // import ModuleManagerAPI from '../managerAPI.js'; // REMOVED - Use window.moduleManagerApi instead
 
 // Basic CSS for the panel
@@ -78,6 +79,7 @@ export class ModulesPanel {
     this.moduleLoadHandler = this._handleModuleLoaded.bind(this);
     this.moduleFailHandler = this._handleModuleLoadFailed.bind(this);
     this.moduleId = 'modules'; // Assume module ID is known or passed differently if needed
+    this.initApi = getInitializationApi(); // Get the API object
 
     // GoldenLayout specifics
     this.container.setTitle('Modules');
@@ -121,18 +123,16 @@ export class ModulesPanel {
       this.initCompleteHandler
     );
     // NOW register the subscription with the registry
-    centralRegistry.registerEventBusSubscriber(
+    centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
-      'init:complete',
-      this.initCompleteHandler
+      'init:complete'
     );
 
     // Subscribe to external events using bound handlers
     eventBus.subscribe('module:stateChanged', this.moduleStateHandler);
-    centralRegistry.registerEventBusSubscriber(
+    centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
-      'module:stateChanged',
-      this.moduleStateHandler
+      'module:stateChanged'
     );
 
     // eventBus.subscribe('panel:closed', this._handlePanelClosed.bind(this)); // Keep commented for now
