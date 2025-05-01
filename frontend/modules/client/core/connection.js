@@ -1,6 +1,5 @@
 // client/core/connection.js
 import Config from './config.js';
-import eventBus from '../../../app/core/eventBus.js';
 import storage from './storage.js';
 
 export class Connection {
@@ -13,6 +12,12 @@ export class Connection {
     this.reconnectTimeout = null;
     this.preventReconnect = false;
     this.maxReconnectAttempts = 10;
+    this.eventBus = null;
+  }
+
+  setEventBus(busInstance) {
+    console.log('[Connection] Setting EventBus instance.');
+    this.eventBus = busInstance;
   }
 
   initialize() {
@@ -69,7 +74,7 @@ export class Connection {
       return true;
     } catch (error) {
       console.error('Error connecting to server:', error);
-      eventBus.publish('connection:error', {
+      this.eventBus?.publish('connection:error', {
         message: `Failed to connect: ${error.message}`,
       });
       return false;
@@ -78,20 +83,24 @@ export class Connection {
 
   // Private event handlers
   _onOpen() {
-    eventBus.publish('connection:open', { serverAddress: this.serverAddress });
+    this.eventBus?.publish('connection:open', {
+      serverAddress: this.serverAddress,
+    });
   }
 
   _onMessage(event) {
     try {
       const commands = JSON.parse(event.data);
-      eventBus.publish('connection:message', commands);
+      this.eventBus?.publish('connection:message', commands);
     } catch (error) {
       console.error('Error parsing server message:', error);
     }
   }
 
   _onClose() {
-    eventBus.publish('connection:close', { serverAddress: this.serverAddress });
+    this.eventBus?.publish('connection:close', {
+      serverAddress: this.serverAddress,
+    });
 
     // Handle reconnection logic
     if (this.preventReconnect || !this.serverAddress) {
@@ -116,14 +125,14 @@ export class Connection {
 
       // Do not exceed the limit of reconnection attempts
       if (++this.reconnectAttempts > this.maxReconnectAttempts) {
-        eventBus.publish('connection:error', {
+        this.eventBus?.publish('connection:error', {
           message:
             'Archipelago server connection lost. Maximum reconnection attempts reached.',
         });
         return;
       }
 
-      eventBus.publish('connection:reconnecting', {
+      this.eventBus?.publish('connection:reconnecting', {
         attempt: this.reconnectAttempts,
         maxAttempts: this.maxReconnectAttempts,
       });
@@ -135,7 +144,7 @@ export class Connection {
 
   _onError() {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      eventBus.publish('connection:error', {
+      this.eventBus?.publish('connection:error', {
         message:
           'Archipelago server connection lost. The connection closed unexpectedly.',
       });

@@ -116,7 +116,7 @@ function createInitializationApi(moduleId) {
   // console.log('[API Factory] dispatcher:', dispatcher); // Reduce log noise
 
   return {
-    getSettings: async () => settingsManager.getModuleSettings(moduleId),
+    getModuleSettings: async () => settingsManager.getModuleSettings(moduleId),
     getDispatcher: () => ({
       publish: dispatcher.publish.bind(dispatcher),
       publishToNextModule: dispatcher.publishToNextModule.bind(dispatcher),
@@ -174,7 +174,7 @@ function createRegistrationApi(moduleId, moduleInstance) {
       centralRegistry.registerDispatcherReceiver(
         moduleId,
         eventName,
-        handlerFunction.bind(moduleInstance), // Ensure correct 'this'
+        handlerFunction,
         propagationDetails
       );
     },

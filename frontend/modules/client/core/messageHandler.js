@@ -1,6 +1,5 @@
 // client/core/messageHandler.js - Updated to handle data package properly
 
-import eventBus from '../../../app/core/eventBus.js';
 import connection from './connection.js';
 import storage from './storage.js';
 import Config from './config.js';
@@ -22,14 +21,15 @@ export class MessageHandler {
 
     // Cache for stateManager instance
     this.stateManager = null;
+    this.eventBus = null; // Add property for injected eventBus
+  }
 
-    // Subscribe to connection events
-    eventBus.subscribe('connection:open', () => {
-      // Clear caches when connection opens
-      this.players = [];
-      this.clientSlot = 0;
-      this.clientTeam = 0;
-    });
+  // Add method to inject eventBus
+  setEventBus(busInstance) {
+    console.log('[MessageHandler] Setting EventBus instance.');
+    this.eventBus = busInstance;
+    // Now subscribe to connection events *after* eventBus is set
+    this._subscribeToConnectionEvents();
   }
 
   initialize() {
@@ -44,12 +44,27 @@ export class MessageHandler {
       console.log('Successfully loaded mappings from cached data package');
     }
 
-    // Subscribe to connection messages
-    eventBus.subscribe('connection:message', (commands) => {
-      commands.forEach((command) => this.processMessage(command));
-    });
+    // Defer subscriptions until eventBus is injected via setEventBus
+    // eventBus.subscribe('connection:message', ...);
 
     console.log('MessageHandler module initialized');
+  }
+
+  // Separate subscription logic
+  _subscribeToConnectionEvents() {
+    if (!this.eventBus) {
+      console.error('[MessageHandler] Cannot subscribe: EventBus not set.');
+      return;
+    }
+    console.log('[MessageHandler] Subscribing to connection events...');
+    this.eventBus.subscribe('connection:open', () => {
+      this.players = [];
+      this.clientSlot = 0;
+      this.clientTeam = 0;
+    });
+    this.eventBus.subscribe('connection:message', (commands) => {
+      commands.forEach((command) => this.processMessage(command));
+    });
   }
 
   processMessage(command) {
@@ -87,13 +102,13 @@ export class MessageHandler {
         break;
 
       case 'Bounced':
-        // Pass directly to event system
-        eventBus.publish('game:bounced', command);
+        // Use injected eventBus
+        this.eventBus?.publish('game:bounced', command);
         break;
 
       default:
-        // Unhandled events are published as raw events
-        eventBus.publish(`game:raw:${command.cmd}`, command);
+        // Use injected eventBus
+        this.eventBus?.publish(`game:raw:${command.cmd}`, command);
         break;
     }
   }
@@ -127,8 +142,8 @@ export class MessageHandler {
       this._requestDataPackage();
     }
 
-    // Notify UI of room info
-    eventBus.publish('game:roomInfo', data);
+    // Use injected eventBus
+    this.eventBus?.publish('game:roomInfo', data);
 
     // Prompt for slot name
     this.clientSlotName = prompt('Enter your slot name:', 'Player1');
@@ -225,8 +240,8 @@ export class MessageHandler {
       }
     }
 
-    // Publish connected event with essential data
-    eventBus.publish('game:connected', {
+    // Use injected eventBus
+    this.eventBus?.publish('game:connected', {
       slot: this.clientSlot,
       team: this.clientTeam,
       players: this.players,
@@ -236,7 +251,8 @@ export class MessageHandler {
   }
 
   _handleConnectionRefused(data) {
-    eventBus.publish('connection:refused', data);
+    // Use injected eventBus
+    this.eventBus?.publish('connection:refused', data);
   }
 
   /**
@@ -324,7 +340,7 @@ export class MessageHandler {
     }
 
     // Publish notification
-    eventBus.publish('game:itemsReceived', {
+    this.eventBus?.publish('game:itemsReceived', {
       index: data.index,
       count: data.items.length,
     });
@@ -345,11 +361,11 @@ export class MessageHandler {
     }
 
     // Publish the event for UI updates
-    eventBus.publish('game:roomUpdate', data);
+    this.eventBus?.publish('game:roomUpdate', data);
   }
 
   _handlePrint(data) {
-    eventBus.publish('console:message', data.text);
+    this.eventBus?.publish('console:message', data.text);
   }
 
   async _handlePrintJSON(data) {
@@ -384,11 +400,11 @@ export class MessageHandler {
     }
 
     // Forward to UI
-    eventBus.publish('console:formattedMessage', data.data);
+    this.eventBus?.publish('console:formattedMessage', data.data);
 
     // Emit a special event for PrintJSON processing that ProgressUI can listen for
     if (shouldUpdateProgress) {
-      eventBus.publish('messageHandler:printJSONProcessed', {
+      this.eventBus?.publish('messageHandler:printJSONProcessed', {
         type: data.type,
       });
     }
@@ -413,8 +429,8 @@ export class MessageHandler {
       console.warn('Received data package with version 0, not storing');
     }
 
-    // Publish event immediately so UI can update
-    eventBus.publish('game:dataPackageReceived', data.data);
+    // Use injected eventBus if needed
+    this.eventBus?.publish('game:dataPackageReceived', data.data);
   }
 
   /**
@@ -595,7 +611,7 @@ export class MessageHandler {
     }
 
     // Clear inventory UI before sync
-    eventBus.publish('inventory:clear', {});
+    this.eventBus?.publish('inventory:clear', {});
 
     return connection.send([{ cmd: 'Sync' }]);
   }

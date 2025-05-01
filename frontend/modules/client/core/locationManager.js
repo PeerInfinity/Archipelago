@@ -1,12 +1,13 @@
 // client/core/locationManager.js - Updated to handle null ID locations locally
 
-import eventBus from '../../../app/core/eventBus.js';
 import connection from './connection.js';
 import messageHandler from './messageHandler.js';
 import { getServerLocationId } from '../utils/idMapping.js';
 
 export class LocationManager {
   static stateManager = null;
+  static eventBus = null; // Add property for injected eventBus
+  static unsubscribeHandles = []; // For cleanup
 
   /**
    * Get the stateManager instance dynamically
@@ -29,14 +30,48 @@ export class LocationManager {
     }
   }
 
+  // Method to inject eventBus
+  static setEventBus(busInstance) {
+    console.log('[LocationManager] Setting EventBus instance.');
+    this.eventBus = busInstance;
+    this._subscribeToEvents(); // Subscribe after bus is set
+  }
+
   static initialize() {
     console.log('LocationManager module initialized');
+    // Defer subscriptions until eventBus is injected
+  }
 
-    // Subscribe to events for UI updates
-    eventBus.subscribe('game:connected', () => {
-      // Just trigger UI updates
-      eventBus.publish('locations:updated', {});
+  // Separate subscription logic
+  static _subscribeToEvents() {
+    if (!this.eventBus) {
+      console.error('[LocationManager] Cannot subscribe: EventBus not set.');
+      return;
+    }
+    // Clear existing handles
+    this.unsubscribeHandles.forEach((unsub) => unsub());
+    this.unsubscribeHandles = [];
+
+    console.log('[LocationManager] Subscribing to events...');
+    const subscribe = (eventName, handler) => {
+      const unsub = this.eventBus.subscribe(eventName, handler);
+      this.unsubscribeHandles.push(unsub);
+    };
+
+    subscribe('game:connected', () => {
+      // Use injected eventBus
+      this.eventBus?.publish('locations:updated', {});
     });
+    // Add other subscriptions if needed
+  }
+
+  // Add a cleanup method
+  static dispose() {
+    console.log('[LocationManager] Disposing...');
+    this.unsubscribeHandles.forEach((unsub) => unsub());
+    this.unsubscribeHandles = [];
+    this.eventBus = null; // Clear reference
+    this.stateManager = null; // Clear stateManager cache
   }
 
   static async getCheckedLocations() {

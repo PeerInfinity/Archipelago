@@ -1,13 +1,15 @@
 // MainContentUI - Central panel containing console and connection status
 
 import ConsoleUI from './consoleUI.js';
-import eventBus from '../../../app/core/eventBus.js';
-import connection from '../core/connection.js';
 import { stateManagerSingleton } from '../../stateManager/index.js';
 import ProgressUI from './progressUI.js';
+import timerState from '../core/timerState.js'; // Import timerState singleton
+import messageHandler from '../core/messageHandler.js'; // Import messageHandler singleton
+import eventBus from '../../../app/core/eventBus.js'; // Import eventBus singleton
+import connection from '../core/connection.js'; // Import connection singleton
 
 class MainContentUI {
-  constructor() {
+  constructor(/* Removed eventBusInstance, connectionInstance */) {
     console.log('[MainContentUI] Constructor called');
     this.rootElement = null;
     this.consoleElement = null;
@@ -19,17 +21,29 @@ class MainContentUI {
     this.checksSentElement = null;
     this.controlButton = null;
     this.quickCheckButton = null;
-    // Subscribe to connection events
-    eventBus.subscribe('connection:open', () => {
+    this.serverAddressInput = null;
+    this.progressUICleanup = null; // Add property to store cleanup function
+
+    // Use imported singletons directly
+    this.eventBus = eventBus;
+    this.connection = connection;
+
+    // Store references needed by console commands
+    this.stateManager = stateManagerSingleton; // Keep direct ref for now
+    this.timerState = timerState;
+    this.messageHandler = messageHandler;
+
+    // Subscribe to connection events using the imported eventBus singleton
+    this.eventBus.subscribe('connection:open', () => {
       this.updateConnectionStatus(true);
     });
-    eventBus.subscribe('connection:close', () => {
+    this.eventBus.subscribe('connection:close', () => {
       this.updateConnectionStatus(false);
     });
-    eventBus.subscribe('connection:error', () => {
+    this.eventBus.subscribe('connection:error', () => {
       this.updateConnectionStatus(false);
     });
-    eventBus.subscribe('connection:reconnecting', () => {
+    this.eventBus.subscribe('connection:reconnecting', () => {
       this.updateConnectionStatus('connecting');
     });
   }
@@ -131,37 +145,6 @@ class MainContentUI {
     this.controlButton = root.querySelector('#control-button');
     this.quickCheckButton = root.querySelector('#quick-check-button');
 
-    // Also create aliases for backwards compatibility with old code
-    document.getElementById = (function (originalFunction) {
-      return function (id) {
-        // First try the original function
-        const result = originalFunction.call(document, id);
-        if (result) return result;
-
-        // If not found, map our elements for backwards compatibility
-        switch (id) {
-          case 'console':
-            return root.querySelector('#main-console');
-          case 'console-input':
-            return root.querySelector('#main-console-input');
-          case 'server-status':
-            return root.querySelector('#server-status');
-          case 'progress-bar':
-            return root.querySelector('#progress-bar');
-          case 'checks-sent':
-            return root.querySelector('#checks-sent');
-          case 'control-button':
-            return root.querySelector('#control-button');
-          case 'quick-check-button':
-            return root.querySelector('#quick-check-button');
-          case 'server-address':
-            return root.querySelector('#server-address');
-          default:
-            return null;
-        }
-      };
-    })(document.getElementById);
-
     // Attach event listeners
     this.attachEventListeners();
 
@@ -171,16 +154,21 @@ class MainContentUI {
     // Register console commands
     this.registerConsoleCommands();
 
-    // Update connection status initially
+    // Update connection status initially using injected connection instance
     this.updateConnectionStatus(
-      connection.isConnected() ? 'connected' : 'disconnected'
+      this.connection.isConnected() ? 'connected' : 'disconnected'
     );
 
     // Initialize ProgressUI within this component's root element
     try {
       if (ProgressUI && typeof ProgressUI.initializeWithin === 'function') {
         console.log('[MainContentUI] Initializing ProgressUI within root...');
-        ProgressUI.initializeWithin(root); // Pass the root element
+        // Pass the root element AND the injected eventBus
+        // Store the returned cleanup function
+        this.progressUICleanup = ProgressUI.initializeWithin(
+          this.rootElement,
+          this.eventBus
+        );
       } else {
         console.warn(
           '[MainContentUI] ProgressUI or initializeWithin method not found.'
@@ -199,16 +187,15 @@ class MainContentUI {
       this.connectButton.addEventListener('click', () => {
         console.log('[MainContentUI] Connect button clicked');
 
-        if (connection.isConnected()) {
-          // If connected, disconnect
-          eventBus.publish('network:disconnectRequest', {});
+        // Use injected connection and eventBus
+        if (this.connection.isConnected()) {
+          this.eventBus.publish('network:disconnectRequest', {});
         } else {
-          // If disconnected, connect using the address from the input field
           const serverAddress =
             this.serverAddressInput.value || 'ws://localhost:38281';
-          eventBus.publish('network:connectRequest', {
+          this.eventBus.publish('network:connectRequest', {
             serverAddress,
-            password: '', // Add password input if needed
+            password: '',
           });
         }
       });
@@ -218,7 +205,8 @@ class MainContentUI {
     if (this.controlButton) {
       this.controlButton.addEventListener('click', () => {
         console.log('[MainContentUI] Control button clicked');
-        eventBus.publish('control:start', {});
+        // Use injected eventBus
+        this.eventBus.publish('control:start', {});
       });
     }
 
@@ -226,7 +214,8 @@ class MainContentUI {
     if (this.quickCheckButton) {
       this.quickCheckButton.addEventListener('click', () => {
         console.log('[MainContentUI] Quick Check button clicked');
-        eventBus.publish('control:quickCheck', {});
+        // Use injected eventBus
+        this.eventBus.publish('control:quickCheck', {});
       });
     }
 
@@ -249,15 +238,6 @@ class MainContentUI {
 
   initializeConsole() {
     console.log('[MainContentUI] Initializing console');
-
-    // If we have the ConsoleUI module available, let it know about our elements
-    window.consoleManager = {
-      print: this.appendConsoleMessage.bind(this),
-      executeCommand: this.executeCommand.bind(this),
-      registerCommand: this.registerCommand.bind(this),
-      clearConsole: this.clearConsole.bind(this),
-      commands: {},
-    };
 
     this.appendConsoleMessage(
       'Console initialized. Type "help" for available commands.',
@@ -344,27 +324,24 @@ class MainContentUI {
 
   registerCommand(name, description, handler) {
     if (!window.consoleManager) return;
-
-    window.consoleManager.commands[name] = {
+    window.consoleManager.commands[name.toLowerCase()] = {
       description,
       handler,
     };
-
     console.log(`[MainContentUI] Registered console command: ${name}`);
   }
 
   showHelp() {
     this.appendConsoleMessage('Available commands:', 'system');
-    this.appendConsoleMessage('help - Show this help message', 'info');
-    this.appendConsoleMessage('clear - Clear the console', 'info');
-
-    // Show registered commands
     if (window.consoleManager && window.consoleManager.commands) {
-      Object.entries(window.consoleManager.commands).forEach(
-        ([name, { description }]) => {
-          this.appendConsoleMessage(`${name} - ${description}`, 'info');
-        }
-      );
+      Object.entries(window.consoleManager.commands)
+        .sort(([a], [b]) => a.localeCompare(b)) // Sort alphabetically
+        .forEach(([name, { description }]) => {
+          this.appendConsoleMessage(
+            `${name} - ${description || 'No description'}`,
+            'info'
+          );
+        });
     }
   }
 
@@ -376,102 +353,105 @@ class MainContentUI {
   }
 
   registerConsoleCommands() {
-    // Command to show current game state
+    // --- MainContentUI Commands ---
     this.registerCommand('state', 'Show current game state.', () => {
-      const currentState = stateManagerSingleton.getStateForPlayer(
-        stateManagerSingleton.selectedPlayerId
+      const currentState = this.stateManager?.instance?.getStateForPlayer(
+        this.stateManager?.selectedPlayerId
       );
-      this.appendConsoleMessage(JSON.stringify(currentState, null, 2), 'info');
+      this.appendConsoleMessage(
+        JSON.stringify(currentState || {}, null, 2),
+        'info'
+      );
     });
-
-    // Command to list reachable locations
     this.registerCommand('reachable', 'List reachable locations.', () => {
-      const reachable = stateManagerSingleton
-        .getPathAnalyzer()
-        ?.getReachableLocations();
+      const reachable = this.stateManager?.instance
+        ?.getPathAnalyzer?.()
+        ?.getReachableLocations?.();
       this.appendConsoleMessage(
         `Reachable locations: ${reachable?.join(', ') || 'None'}`,
         'info'
       );
     });
-
-    // Command to list inventory items
     this.registerCommand('inventory', 'List current inventory items.', () => {
-      const inventory = stateManagerSingleton.getCurrentInventory();
+      const inventory = this.stateManager?.instance?.getCurrentInventory?.();
       this.appendConsoleMessage(
-        `Inventory: ${inventory.join(', ') || 'Empty'}`,
+        `Inventory: ${inventory?.join(', ') || 'Empty'}`,
         'info'
       );
     });
-
-    // Command to toggle debug mode
-    this.registerCommand('debug', 'Toggle debug mode.', () => {
-      const debugMode = !stateManagerSingleton.getDebugMode();
-      stateManagerSingleton.setDebugMode?.(debugMode);
+    this.registerCommand('debug', 'Toggle stateManager debug mode.', () => {
+      const debugMode = !this.stateManager?.instance?.getDebugMode?.();
+      this.stateManager?.instance?.setDebugMode?.(debugMode);
       this.appendConsoleMessage(
         `Debug mode ${debugMode ? 'enabled' : 'disabled'}.`,
         'info'
       );
     });
-
-    // Network command
     this.registerCommand(
       'connect',
-      'Connect to a server. Usage: connect [server_address]',
+      'Connect to server. Usage: connect [addr]',
       (args) => {
         const serverAddress = args || 'ws://localhost:38281';
         this.appendConsoleMessage(
           `Connecting to ${serverAddress}...`,
           'system'
         );
-        eventBus.publish('network:connectRequest', {
+        this.eventBus.publish('network:connectRequest', {
           serverAddress,
-          password: '', // Add password input if needed
+          password: '',
         });
       }
     );
-
-    this.registerCommand('disconnect', 'Disconnect from the server.', () => {
+    this.registerCommand('disconnect', 'Disconnect from server.', () => {
       this.appendConsoleMessage('Disconnecting...', 'system');
-      eventBus.publish('network:disconnectRequest', {});
+      this.eventBus.publish('network:disconnectRequest', {});
+    });
+    this.registerCommand('help', 'Show available commands.', () =>
+      this.showHelp()
+    );
+    this.registerCommand('clear', 'Clear the console.', () =>
+      this.clearConsole()
+    );
+
+    // --- Register ConsoleUI Commands ---
+    // Pass the register function and dependencies to ConsoleUI
+    ConsoleUI.registerCommands(this.registerCommand.bind(this), {
+      stateManager: this.stateManager,
+      timerState: this.timerState,
+      messageHandler: this.messageHandler,
+      connection: this.connection, // From constructor
+      // Pass specific console methods needed by ConsoleUI handlers
+      consoleManager: {
+        print: this.appendConsoleMessage.bind(this),
+        // Add clearConsole etc. if needed by ConsoleUI handlers
+      },
     });
 
-    console.log('[MainContentUI] Registered console commands');
+    console.log('[MainContentUI] Registered all console commands');
   }
 
   updateConnectionStatus(status) {
     if (!this.statusIndicator || !this.connectButton) return;
 
-    // Update the status indicator
-    // Handle both string status values and boolean values
-    const isConnected =
-      typeof status === 'boolean' ? status : status === 'connected';
-    const isConnecting = status === 'connecting';
-
-    if (isConnected) {
-      this.statusIndicator.textContent = 'Connected';
-      this.statusIndicator.style.color = '#51cf66'; // Green
-      this.connectButton.textContent = 'Disconnect';
-
-      // Enable control buttons
-      if (this.controlButton) this.controlButton.disabled = false;
-      if (this.quickCheckButton) this.quickCheckButton.disabled = false;
-    } else if (isConnecting) {
-      this.statusIndicator.textContent = 'Connecting...';
-      this.statusIndicator.style.color = '#fcc419'; // Yellow
-      this.connectButton.textContent = 'Cancel';
-
-      // Disable control buttons
-      if (this.controlButton) this.controlButton.disabled = true;
-      if (this.quickCheckButton) this.quickCheckButton.disabled = true;
-    } else {
-      this.statusIndicator.textContent = 'Not Connected';
-      this.statusIndicator.style.color = '#ff6b6b'; // Red
-      this.connectButton.textContent = 'Connect';
-
-      // Disable control buttons
-      if (this.controlButton) this.controlButton.disabled = true;
-      if (this.quickCheckButton) this.quickCheckButton.disabled = true;
+    switch (status) {
+      case true:
+      case 'connected':
+        this.statusIndicator.textContent = 'Connected';
+        this.statusIndicator.style.color = 'lime';
+        this.connectButton.textContent = 'Disconnect';
+        break;
+      case 'connecting':
+        this.statusIndicator.textContent = 'Connecting...';
+        this.statusIndicator.style.color = 'orange';
+        this.connectButton.textContent = 'Cancel'; // Or keep as Disconnect?
+        break;
+      case false:
+      case 'disconnected':
+      default:
+        this.statusIndicator.textContent = 'Not Connected';
+        this.statusIndicator.style.color = 'yellow';
+        this.connectButton.textContent = 'Connect';
+        break;
     }
   }
 
@@ -493,6 +473,20 @@ class MainContentUI {
     if (this.controlButton) {
       this.controlButton.textContent = isStarted ? 'Pause' : 'Begin!';
     }
+  }
+
+  // Add a cleanup method to be called by PanelManager/GoldenLayout
+  dispose() {
+    console.log('[MainContentUI] Disposing...');
+    // Call the cleanup function returned by ProgressUI.initializeWithin
+    if (typeof this.progressUICleanup === 'function') {
+      console.log('[MainContentUI] Cleaning up ProgressUI listeners...');
+      this.progressUICleanup();
+      this.progressUICleanup = null;
+    }
+    // Add any other cleanup needed for MainContentUI itself
+    // (e.g., remove own event listeners if any were attached directly to document/window)
+    console.log('[MainContentUI] Dispose complete.');
   }
 }
 

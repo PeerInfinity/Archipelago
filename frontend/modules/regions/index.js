@@ -8,7 +8,7 @@ import { RegionUI } from './regionUI.js';
 // };
 
 // Store module-level references
-let moduleEventBus = null;
+// let moduleEventBus = null; // Removed unused variable
 export let moduleDispatcher = null; // Export the dispatcher
 let moduleId = 'regions'; // Store module ID
 let moduleUnsubscribeHandles = [];
@@ -63,36 +63,32 @@ export function register(registrationApi) {
  * Gets core APIs and sets up module-level subscriptions if any.
  */
 export async function initialize(mId, priorityIndex, initializationApi) {
-  moduleId = mId; // Update module ID from init
+  moduleId = mId;
   console.log(
     `[${moduleId} Module] Initializing with priority ${priorityIndex}...`
   );
 
-  // Get necessary APIs and store them for potential module-level use
-  // and for the panel factory closure
-  moduleEventBus = initializationApi.getEventBus();
+  // moduleEventBus = initializationApi.getEventBus(); // Removed unused assignment
+  // Assign the dispatcher to the exported variable
   moduleDispatcher = initializationApi.getDispatcher();
-  // const settings = initializationApi.getModuleSettings();
-  // const publicFunc = initializationApi.getModuleFunction;
 
-  // Clean up previous module-level subscriptions if re-initializing
-  moduleUnsubscribeHandles.forEach((unsubscribe) => unsubscribe());
-  moduleUnsubscribeHandles = [];
+  // Example: Subscribe to something using the module-wide eventBus if needed later
+  // const handle = moduleEventBus.subscribe('some:event', () => {});
+  // moduleUnsubscribeHandles.push(handle);
 
-  // --- Setup Module-Level Subscriptions Here (if needed) ---
-  // Example: If the module itself needs to react globally, not just the UI instance
-  // const handleGlobalEvent = (data) => { console.log(`[${moduleId}] Global event received:`, data); };
-  // const unsubscribe = moduleEventBus.subscribe('some:globalEvent', handleGlobalEvent);
-  // moduleUnsubscribeHandles.push(unsubscribe);
-  // --------------------------------------------------------
-
-  if (!moduleDispatcher) {
-    console.error(
-      `[${moduleId} Module] Failed to get Dispatcher during initialization! Location checks will fail.`
-    );
-  }
+  // If the module needs to perform async setup, do it here
+  // await someAsyncSetup();
 
   console.log(`[${moduleId} Module] Initialization complete.`);
+
+  // Return cleanup function if necessary
+  return () => {
+    console.log(`[${moduleId} Module] Cleaning up...`);
+    moduleUnsubscribeHandles.forEach((unsubscribe) => unsubscribe());
+    moduleUnsubscribeHandles = [];
+    // Any other cleanup specific to this module's initialize phase
+    moduleDispatcher = null; // Clear dispatcher reference
+  };
 }
 
 // Remove postInitialize function entirely

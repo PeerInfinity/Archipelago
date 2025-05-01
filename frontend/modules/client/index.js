@@ -6,12 +6,11 @@ import connection from './core/connection.js';
 import { loadMappingsFromStorage } from './utils/idMapping.js';
 import messageHandler from './core/messageHandler.js';
 import LocationManager from './core/locationManager.js';
+import timerState from './core/timerState.js'; // Import timerState singleton
 // import {
 //   initializeTimerState,
 //   attachLoopModeListeners,
 // } from './core/timerState.js'; // Commented out
-import eventBus from '../../app/core/eventBus.js';
-import { centralRegistry } from '../../app/core/centralRegistry.js';
 // import ProgressUI from './ui/progressUI.js'; // REMOVED Import
 
 // --- Module Info --- //
@@ -56,84 +55,38 @@ export const moduleInfo = {
 //   },
 // };
 
-// --- Registration --- //
-export function register(registrationApi) {
-  console.log('[Client Module] Registering...');
+// Store core API references received during initialization
+let moduleEventBus = null;
+let coreStorage = null;
+let coreConnection = null;
+let coreMessageHandler = null;
+let coreLocationManager = LocationManager;
+let coreTimerState = timerState; // Store timerState singleton reference
 
-  centralRegistry.registerPanelComponent(
-    moduleInfo.name,
-    'clientPanel',
-    MainContentUI
-  );
-
-  // registrationApi.registerSettingsSchema(moduleInfo.name, settingsSchema);
-
-  // Register dispatcher listeners
-  registrationApi.registerDispatcherReceiver(
-    'network:connectRequest',
-    handleConnectRequest
-  );
-  registrationApi.registerDispatcherReceiver(
-    'network:disconnectRequest',
-    handleDisconnectRequest
-  );
-}
-
-// --- Initialization --- //
-export async function initialize(moduleId, priorityIndex, initializationApi) {
-  console.log(`[Client Module] Initializing with priority ${priorityIndex}...`);
-  // Restore initializers
-  storage.initialize(); // Assuming storage has an initialize method
-  connection.initialize();
-  loadMappingsFromStorage(); // Try loading mappings early
-  messageHandler.initialize(); // Assuming messageHandler has an initialize method
-  LocationManager.initialize();
-  // initializeTimerState(); // Still commented out
-  // attachLoopModeListeners(); // Still commented out
-
-  // Attach ProgressUI to window for PanelManager  <- REMOVED
-  // window.ProgressUI = ProgressUI;                 <- REMOVED
-  // console.log('[Client Module] ProgressUI attached to window.'); <- REMOVED
-
-  // Apply settings (Restore this section)
-  console.log('[Client Module] Attempting to get settings...');
-  let settings = null;
-  try {
-    settings = await initializationApi.getSettings(); // Add await
-    console.log('[Client Module] Settings retrieved:', settings);
-  } catch (error) {
-    console.error('[Client Module] Error getting settings:', error);
-    // Decide how to handle settings error - potentially return or throw
-  }
-
-  if (settings?.timing) {
-    // Access timerState appropriately if/when restored
-    // const timerState = window.timerState;
-    console.log('[Client Module] Timing settings found:', settings.timing);
-  }
-
-  console.log('[Client Module] Initialization complete.');
-}
-
-// --- Post-Initialization --- //
-export function postInitialize(postInitializationApi) {
-  console.log('[Client Module] Post-initializing...');
-  // const settings = postInitializationApi.getSettings(); // Use await? Check settingsManager
-
-  // Example: Connect automatically if settings allow (or based on a specific setting)
-  // if (settings?.autoConnect) {
-  //    handleConnectRequest({}, postInitializationApi); // Pass API as context?
-  // }
-}
-
-// --- Dispatcher Handlers --- //
-function handleConnectRequest(data, context) {
+// --- Dispatcher Handlers (Defined before register to ensure availability) --- //
+// Note: These handlers now implicitly use the module-level variables
+// (moduleEventBus, coreStorage, coreConnection) set during initialize.
+// This assumes initialize runs before any events are dispatched to these handlers.
+async function handleConnectRequest(data) {
+  // Context argument removed for simplicity for now
   console.log('[Client Module] Received connect request via dispatcher.');
-  // Ensure connection is initialized (it should be by now)
-  // const storage = getStorage(); // How to get storage now? Maybe context?
-  const settings = storage.getItem('clientSettings') // Need access to storage
-    ? JSON.parse(storage.getItem('clientSettings'))
-    : {}; // Get settings
+  if (!coreStorage || !coreConnection) {
+    console.error(
+      '[Client Module] Cannot handle connect: Core components not initialized.'
+    );
+    return;
+  }
+
+  // Get settings directly from the module settings potentially?
+  // Or rely on coreStorage if it holds the relevant connection settings.
+  let settings = {};
+  try {
+    // Example: Assume connection settings are stored via coreStorage
+    const storedSettings = coreStorage.getItem('clientSettings');
+    if (storedSettings) settings = JSON.parse(storedSettings);
+  } catch (e) {
+    console.error('[Client Module] Error reading settings from storage:', e);
+  }
 
   // Use provided data if available, otherwise use stored settings
   const connectAddress =
@@ -141,20 +94,129 @@ function handleConnectRequest(data, context) {
   const connectPassword = data?.password || settings?.connection?.password;
 
   if (connectAddress) {
-    connection.connect(connectAddress, connectPassword);
+    coreConnection.connect(connectAddress, connectPassword);
   } else {
     console.warn(
       '[Client Module] Cannot connect: Connection settings not found.'
     );
-    // Optionally publish an error event
-    eventBus.publish('error:client', {
-      message: 'Connection settings not found.',
-    });
+    if (moduleEventBus) {
+      moduleEventBus.publish('error:client', {
+        message: 'Connection settings not found.',
+      });
+    } else {
+      console.error(
+        '[Client Module] Cannot publish error: moduleEventBus not available.'
+      );
+    }
   }
 }
 
-function handleDisconnectRequest(data, context) {
+function handleDisconnectRequest(data) {
+  // Context removed
   console.log('[Client Module] Received disconnect request via dispatcher.');
-  // Ensure connection is initialized
-  connection.disconnect();
+  if (!coreConnection) {
+    console.error(
+      '[Client Module] Cannot handle disconnect: Core connection not initialized.'
+    );
+    return;
+  }
+  coreConnection.disconnect();
 }
+
+// --- Registration --- //
+export function register(registrationApi) {
+  console.log('[Client Module] Registering...');
+
+  // Register panel component with the CLASS CONSTRUCTOR directly
+  registrationApi.registerPanelComponent(
+    'clientPanel',
+    MainContentUI // Pass the class constructor
+  );
+
+  // Register dispatcher listeners using registrationApi
+  registrationApi.registerDispatcherReceiver(
+    moduleInfo.name, // Associate receiver with this module
+    'network:connectRequest',
+    handleConnectRequest // Pass the handler function directly
+  );
+  registrationApi.registerDispatcherReceiver(
+    moduleInfo.name,
+    'network:disconnectRequest',
+    handleDisconnectRequest
+  );
+
+  // Register settings schema if applicable (uncomment if needed)
+  // registrationApi.registerSettingsSchema(moduleInfo.name, settingsSchema);
+
+  // Register EventBus publisher intentions if this module publishes
+  registrationApi.registerEventBusPublisher(moduleInfo.name, 'error:client');
+  // Add other events published by MainContentUI
+  registrationApi.registerEventBusPublisher(
+    moduleInfo.name,
+    'network:disconnectRequest'
+  );
+  registrationApi.registerEventBusPublisher(
+    moduleInfo.name,
+    'network:connectRequest'
+  );
+  registrationApi.registerEventBusPublisher(moduleInfo.name, 'control:start');
+  registrationApi.registerEventBusPublisher(
+    moduleInfo.name,
+    'control:quickCheck'
+  );
+}
+
+// --- Initialization --- //
+export async function initialize(moduleId, priorityIndex, initializationApi) {
+  console.log(`[Client Module] Initializing with priority ${priorityIndex}...`);
+
+  // Get core APIs from the initializationApi
+  moduleEventBus = initializationApi.getEventBus();
+  const moduleSettings = await initializationApi.getModuleSettings(moduleId);
+
+  // Store references
+  coreStorage = storage;
+  coreConnection = connection;
+  coreMessageHandler = messageHandler;
+
+  // Initialize core components and inject dependencies
+  coreStorage.initialize();
+  coreConnection.initialize();
+  coreConnection.setEventBus(moduleEventBus);
+  coreMessageHandler.initialize();
+  coreMessageHandler.setEventBus(moduleEventBus);
+  coreLocationManager.initialize();
+  coreLocationManager.setEventBus(moduleEventBus);
+  coreTimerState.initialize(); // Initialize timer state
+  coreTimerState.setEventBus(moduleEventBus); // Inject eventBus into timer state
+  loadMappingsFromStorage();
+
+  console.log('[Client Module] Core components initialized.');
+  console.log('[Client Module] Settings retrieved:', moduleSettings);
+
+  // Apply settings if needed (example)
+  // if (moduleSettings?.timing) {
+  //   console.log('[Client Module] Timing settings found:', moduleSettings.timing);
+  // }
+
+  console.log('[Client Module] Initialization complete.');
+
+  // Return cleanup function
+  return () => {
+    console.log('[Client Module] Cleaning up... (Placeholder)');
+    coreConnection?.disconnect?.();
+    coreLocationManager?.dispose?.();
+    coreTimerState?.dispose?.(); // Call timerState dispose
+    // Add cleanup for storage, messageHandler etc.
+    moduleEventBus = null;
+    coreStorage = null;
+    coreConnection = null;
+    coreMessageHandler = null;
+    coreTimerState = null; // Clear timerState reference
+  };
+}
+
+// --- Dispatcher Handlers --- //
+// REMOVED DUPLICATE DEFINITIONS - These are now defined before the register function.
+// async function handleConnectRequest(data) { ... }
+// function handleDisconnectRequest(data) { ... }

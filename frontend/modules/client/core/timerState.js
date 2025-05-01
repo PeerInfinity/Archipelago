@@ -1,7 +1,6 @@
 // client/core/timerState.js - Updated to work directly with stateManager
 
 import Config from './config.js';
-import eventBus from '../../../app/core/eventBus.js';
 import connection from './connection.js';
 import messageHandler from './messageHandler.js';
 import locationManager from './locationManager.js';
@@ -13,8 +12,6 @@ export class TimerState {
   constructor() {
     // Private variables
     this.gameInterval = null;
-    this.progressBar = null;
-    this.itemCounter = null;
     this.gameComplete = false;
 
     // Timer settings
@@ -33,12 +30,15 @@ export class TimerState {
     this.loopModeEventHandlersAttached = false;
 
     // Make this instance available globally
-    if (typeof window !== 'undefined') {
-      window.timerState = this;
-    }
+    // if (typeof window !== 'undefined') {
+    //   window.timerState = this;
+    // }
 
     // Initialize global tracking set for clicked items
-    window._userClickedItems = new Set();
+    this._userClickedItems = new Set();
+
+    // For injected eventBus
+    this.eventBus = null;
   }
 
   // Getter methods for timing settings
@@ -76,58 +76,71 @@ export class TimerState {
 
     this.gameComplete = false;
     this.timerPausedByLoopMode = false;
+    this._userClickedItems.clear(); // Clear clicked items on init
 
-    // Get UI references
-    this.progressBar = document.getElementById('progress-bar');
-    this.itemCounter = document.getElementById('checks-sent');
+    // *** REMOVED getElementById and UI reset ***
+    // this.progressBar = document.getElementById('progress-bar');
+    // ...
 
-    // Reset UI
-    if (this.progressBar) {
-      this.progressBar.setAttribute('value', '0');
-    }
+    // *** REMOVED re-exposing to window ***
 
-    if (this.itemCounter) {
-      this.itemCounter.innerText =
-        'Checked: 0/0, Reachable: 0, Unreachable: 0, Events: 0/0';
-    }
-
-    // Re-expose this instance to window
-    if (typeof window !== 'undefined') {
-      window.timerState = this;
-    }
-
-    // Set up event listeners for loop mode
-    this._setupLoopModeEventHandlers();
+    // Listeners are now set up when eventBus is injected
+    // this._setupLoopModeEventHandlers();
 
     console.log('TimerState module initialized');
   }
 
+  // Method to inject eventBus
+  setEventBus(busInstance) {
+    console.log('[TimerState] Setting EventBus instance.');
+    this.eventBus = busInstance;
+    // Can now setup listeners if needed immediately
+    this._setupLoopModeEventHandlers();
+  }
+
   // Set up event listeners to handle loop mode events
   _setupLoopModeEventHandlers() {
-    if (this.loopModeEventHandlersAttached) return;
+    if (this.loopModeEventHandlersAttached || !this.eventBus) return;
+    this.loopModeEventHandlersAttached = true; // Set flag earlier
+    console.log('[TimerState] Setting up event listeners...');
+
+    const subscribe = (eventName, handler) => {
+      // Basic subscribe without storing handle here
+      this.eventBus.subscribe(eventName, handler);
+    };
 
     try {
-      // Listen for action queue completion
-      eventBus.subscribe('loopState:queueCompleted', () => {
+      // Loop mode events
+      subscribe('loopState:queueCompleted', () => {
         this._checkLoopModeTimerRestart();
       });
-
-      // Listen for mana changes
-      eventBus.subscribe('loopState:manaChanged', (data) => {
-        // Check if we should restart the timer
+      subscribe('loopState:manaChanged', () => {
         this._checkLoopModeTimerRestart();
       });
-
-      // Listen for loop mode deactivation
-      eventBus.subscribe('loopUI:modeChanged', (data) => {
+      subscribe('loop:modeChanged', (data) => {
+        // Use correct event name
         this.stop();
         this.timerPausedByLoopMode = false;
       });
 
-      this.loopModeEventHandlersAttached = true;
-      console.log('Loop mode event listeners attached for timer control');
+      // --- Listen for UI Requests ---
+      subscribe('timer:toggleRequest', () => {
+        console.log('[TimerState] Received timer:toggleRequest');
+        if (this.isRunning()) {
+          this.stop();
+        } else {
+          this.begin();
+        }
+      });
+      subscribe('timer:quickCheckRequest', () => {
+        console.log('[TimerState] Received timer:quickCheckRequest');
+        this.checkQuickLocation(); // Call the existing method
+      });
+
+      console.log('[TimerState] Event listeners attached.');
     } catch (error) {
-      console.error('Error setting up loop mode event listeners:', error);
+      console.error('[TimerState] Error setting up event listeners:', error);
+      this.loopModeEventHandlersAttached = false; // Reset flag on error
     }
   }
 
@@ -172,144 +185,72 @@ export class TimerState {
 
   // Update the timer interval check to also check if locations are left
   begin() {
-    // Get references to UI elements if not already cached
-    this.progressBar =
-      this.progressBar || document.getElementById('progress-bar');
-    this.itemCounter =
-      this.itemCounter || document.getElementById('checks-sent');
-
-    // Get control button
-    const controlButton = document.getElementById('control-button');
-
-    // If already running, stop the timer
     if (this.isRunning()) {
-      //console.log('Timer already running, stopping...');
       this.stop();
       return;
     }
-
-    //console.log('Starting timer...');
-
-    // Remove connection check to allow offline operation
-    // Get timing settings from instance variables
+    // Removed connection check
     const minDelay = this.minCheckDelay;
     const maxDelay = this.maxCheckDelay;
     const rangeMs = (maxDelay - minDelay) * 1000;
     const baseMs = minDelay * 1000;
-
-    // Calculate random delay within range
     const initialDelay = Math.floor(Math.random() * rangeMs + baseMs);
 
-    //console.log(
-    //  `Using timer delay range of ${minDelay}-${maxDelay} seconds (initial: ${
-    //    initialDelay / 1000
-    //  }s)`
-    //);
+    // *** REMOVED button manipulation ***
+    // const controlButton = document.getElementById('control-button');
+    // if (controlButton) { controlButton.innerText = 'Stop'; ... }
 
-    // Change button text to "Stop" immediately
-    if (controlButton) {
-      controlButton.innerText = 'Stop';
-      // Ensure it's not disabled
-      controlButton.removeAttribute('disabled');
-    }
-
-    // Set timer state
     this.startTime = new Date().getTime();
     this.endTime = this.startTime + initialDelay;
 
-    // Update progress bar
-    if (this.progressBar) {
-      this.progressBar.setAttribute(
-        'max',
-        (this.endTime - this.startTime).toString()
-      );
-    }
+    // Publish timer started event instead of DOM manipulation
+    this.eventBus?.publish('timer:started', {
+      startTime: this.startTime,
+      endTime: this.endTime,
+    });
+    // Publish initial progress
+    this.eventBus?.publish('timer:progressUpdate', {
+      value: 0,
+      max: this.endTime - this.startTime,
+    });
 
-    // Update initial count
-    this._updateItemCount();
+    // Update item count initially (this might need its own event)
+    // this._updateItemCount(); // Maybe publish 'timer:statsUpdate'?
 
-    // Clear previous interval if any
     if (this.gameInterval) {
       clearInterval(this.gameInterval);
-      this.gameInterval = null;
     }
 
-    // Start interval for checking progress
-    try {
-      this.gameInterval = setInterval(async () => {
-        const currentTime = new Date().getTime();
+    this.gameInterval = setInterval(async () => {
+      const currentTime = new Date().getTime();
+      const elapsed = currentTime - this.startTime;
+      const totalDuration = this.endTime - this.startTime;
 
-        // Update progress bar
-        if (this.progressBar) {
-          this.progressBar.setAttribute(
-            'value',
-            (currentTime - this.startTime).toString()
-          );
+      // Publish progress update event
+      this.eventBus?.publish('timer:progressUpdate', {
+        value: elapsed,
+        max: totalDuration,
+      });
+
+      if (currentTime >= this.endTime) {
+        // Timer expired, check a location
+        const checkPerformed = await this._checkNextAvailableLocation();
+        if (!checkPerformed || this.gameComplete) {
+          // No location checked (none available or game over), stop timer
+          this.stop();
+        } else {
+          // Location checked, reset timer for next check
+          const nextDelay = Math.floor(Math.random() * rangeMs + baseMs);
+          this.startTime = new Date().getTime();
+          this.endTime = this.startTime + nextDelay;
+          // Publish new times for progress bar max update
+          this.eventBus?.publish('timer:started', {
+            startTime: this.startTime,
+            endTime: this.endTime,
+          });
         }
-
-        // Check if timer has expired
-        if (currentTime >= this.endTime) {
-          // Check if there are any locations left to check before proceeding
-          const locationsLeft = await this._areAnyLocationsLeftToCheck();
-
-          if (!locationsLeft) {
-            console.log('No locations left to check, stopping timer...');
-            this.stop();
-
-            // Update button text to indicate completion
-            if (controlButton) {
-              controlButton.innerText = 'All Checked!';
-            }
-
-            return;
-          }
-
-          // Check a location through standard method
-          await this.checkQuickLocation();
-
-          // In loop mode, pause the timer until conditions are right
-          const isLoopModeActive = window.loopUIInstance?.isLoopModeActive;
-
-          if (isLoopModeActive && loopState) {
-            //console.log(
-            //  'Loop mode active, pausing timer until queue empties or mana depletes'
-            //);
-            this.timerPausedByLoopMode = true;
-            this.stop();
-
-            // Change the button text to indicate waiting for loop mode
-            if (controlButton) {
-              controlButton.innerText = 'Loop Mode Active';
-            }
-            return;
-          }
-
-          // Reset timer with a new random delay
-          this.startTime = currentTime;
-          const newDelay = Math.floor(Math.random() * rangeMs + baseMs);
-          this.endTime = currentTime + newDelay;
-
-          // Update progress bar
-          if (this.progressBar) {
-            this.progressBar.setAttribute(
-              'max',
-              (this.endTime - this.startTime).toString()
-            );
-            this.progressBar.setAttribute('value', '0');
-          }
-
-          //console.log(`Timer reset with delay: ${newDelay / 1000} seconds`);
-        }
-      }, 1000);
-
-      //console.log('Timer started successfully');
-    } catch (error) {
-      console.error('Error starting timer:', error);
-      // Reset button if there was an error
-      if (controlButton) {
-        controlButton.innerText = 'Begin!';
       }
-    }
+    }, Config.TIMER_INTERVAL_MS || 50); // Use config or default
   }
 
   // The "Quick Check" button calls this method
@@ -491,18 +432,16 @@ export class TimerState {
         this.stop();
 
         // Notify the user that all locations have been checked
-        const controlButton = document.getElementById('control-button');
-        if (controlButton) {
-          controlButton.innerText = 'All Checked!';
-        }
+        // const controlButton = document.getElementById('control-button');
+        // if (controlButton) { controlButton.innerText = 'All Checked!'; }
 
         // Optionally, update the item counter for visual confirmation
         this._updateItemCount();
 
         // Show a notification (if available in the UI)
         try {
-          if (eventBus) {
-            eventBus.publish('game:allLocationsChecked', {});
+          if (this.eventBus) {
+            this.eventBus.publish('game:allLocationsChecked', {});
           }
         } catch (e) {
           console.warn('Could not publish event:', e);
@@ -674,25 +613,22 @@ export class TimerState {
   }
 
   stop() {
-    // Clear the timer interval
-    if (this.gameInterval) {
-      clearInterval(this.gameInterval);
-      this.gameInterval = null;
+    if (!this.isRunning()) {
+      return;
     }
+    clearInterval(this.gameInterval);
+    this.gameInterval = null;
+    this.startTime = 0;
+    this.endTime = 0;
 
-    // Reset UI only if not paused by loop mode
-    if (!this.timerPausedByLoopMode) {
-      if (this.progressBar) {
-        this.progressBar.setAttribute('value', '0');
-      }
+    // *** REMOVED button manipulation ***
+    // const controlButton = document.getElementById('control-button');
+    // if (controlButton) { controlButton.innerText = 'Begin!'; }
 
-      // Reset control button to "Begin!"
-      const controlButton = document.getElementById('control-button');
-      if (controlButton) {
-        controlButton.innerText = 'Begin!';
-        controlButton.removeAttribute('disabled');
-      }
-    }
+    // Publish stopped event
+    this.eventBus?.publish('timer:stopped', {});
+    // Publish final progress as 0
+    this.eventBus?.publish('timer:progressUpdate', { value: 0, max: 1 });
   }
 
   isRunning() {
@@ -705,6 +641,15 @@ export class TimerState {
 
   isComplete() {
     return this.gameComplete;
+  }
+
+  // Add dispose method for cleanup
+  dispose() {
+    console.log('[TimerState] Disposing...');
+    this.stop(); // Ensure interval is cleared
+    // Add other cleanup if needed
+    this.eventBus = null; // Clear injected reference
+    this.stateManager = null;
   }
 }
 
