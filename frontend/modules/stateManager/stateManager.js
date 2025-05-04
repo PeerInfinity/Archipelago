@@ -131,7 +131,6 @@ export class StateManager {
     this.indirectConnections = new Map();
     this.invalidateCache();
     this._logDebug('[StateManager Class] Full state cleared.');
-    this.computeReachableRegions(); // Recompute first
     this._publishEvent('inventoryChanged'); // Publish inventory change after state clear
   }
 
@@ -589,8 +588,10 @@ export class StateManager {
       this._computing = false;
     }
 
-    this.notifyUI('reachableRegionsComputed');
-    this._publishEvent('regionsComputed'); // Publish event here
+    // this.notifyUI('reachableRegionsComputed'); // Removed redundant call
+    this._publishEvent('regionsComputed', {
+      knownReachableRegions: this.knownReachableRegions,
+    }); // Publish event here with data
     return this.knownReachableRegions;
   }
 
@@ -599,63 +600,116 @@ export class StateManager {
    * Implements Python's _update_reachable_regions_auto_indirect_conditions approach
    */
   runBFSPass() {
-    const queue = this.getStartRegions();
-    const reachedInPass = new Set(queue);
-    const visitedEntrances = new Set();
-    queue.forEach((regionName) => {
-      if (!this.path.has(regionName)) {
-        this.path.set(regionName, {
-          name: regionName,
-          entrance: null,
-          previousRegion: null,
-        });
-      }
-    });
-    let head = 0;
-    while (head < queue.length) {
-      const currentRegionName = queue[head++];
-      const currentRegion = this.regions[currentRegionName];
-      if (!currentRegion) {
-        this._logDebug(`Warning: Region data missing for ${currentRegionName}`);
-        continue;
-      }
-      currentRegion.exits.forEach((exit) => {
-        const destinationRegionName = exit.connects;
-        const entranceName = exit.name;
-        if (!destinationRegionName || !this.regions[destinationRegionName]) {
-          return;
+    let newRegionsFound = false;
+
+    // Exactly match Python's nested loop structure
+    let newConnection = true;
+    while (newConnection) {
+      newConnection = false;
+
+      let queue = [...this.blockedConnections];
+      while (queue.length > 0) {
+        const connection = queue.shift();
+        const { fromRegion, exit } = connection;
+        const targetRegion = exit.connected_region; // Use connected_region consistently
+
+        // Skip if the target region is already reachable
+        if (this.knownReachableRegions.has(targetRegion)) {
+          this.blockedConnections.delete(connection);
+          continue;
         }
-        if (visitedEntrances.has(entranceName)) {
-          return;
+
+        // Skip if the source region isn't reachable (important check)
+        if (!this.knownReachableRegions.has(fromRegion)) {
+          continue;
         }
-        const ruleContext = { region: currentRegion, exit: exit };
-        const canPass = this.evaluateRuleWithPathContext(
-          exit.rule,
-          ruleContext
-        );
-        if (canPass) {
-          visitedEntrances.add(entranceName);
-          this.blockedConnections.delete(entranceName);
-          if (!reachedInPass.has(destinationRegionName)) {
-            reachedInPass.add(destinationRegionName);
-            queue.push(destinationRegionName);
-            this._logDebug(
-              `Reached ${destinationRegionName} via ${entranceName}`
-            );
-            if (!this.path.has(destinationRegionName)) {
-              this.path.set(destinationRegionName, {
-                name: destinationRegionName,
-                entrance: entranceName,
-                previousRegion: currentRegionName,
-              });
+
+        // Check if exit is traversable using evaluateRule
+        const canTraverse = !exit.access_rule || evaluateRule(exit.access_rule);
+
+        if (canTraverse) {
+          // Region is now reachable
+          this.knownReachableRegions.add(targetRegion);
+          newRegionsFound = true;
+          newConnection = true; // Signal that we found a new connection
+
+          // Remove from blocked connections
+          this.blockedConnections.delete(connection);
+
+          // Record the path taken to reach this region
+          if (!this.path.has(targetRegion)) {
+            // Only set path if not already set
+            this.path.set(targetRegion, {
+              name: targetRegion,
+              entrance: exit.name,
+              previousRegion: fromRegion,
+            });
+          }
+
+          // Add all exits from the newly reachable region to blockedConnections (if not already processed)
+          const region = this.regions[targetRegion];
+          if (region && region.exits) {
+            for (const newExit of region.exits) {
+              // Ensure the target of the new exit exists
+              if (
+                newExit.connected_region &&
+                this.regions[newExit.connected_region]
+              ) {
+                const newConnObj = {
+                  fromRegion: targetRegion,
+                  exit: newExit,
+                };
+                // Avoid adding duplicates or exits leading to already reachable regions
+                if (!this.knownReachableRegions.has(newExit.connected_region)) {
+                  let alreadyBlocked = false;
+                  for (const blocked of this.blockedConnections) {
+                    if (
+                      blocked.fromRegion === newConnObj.fromRegion &&
+                      blocked.exit.name === newConnObj.exit.name
+                    ) {
+                      alreadyBlocked = true;
+                      break;
+                    }
+                  }
+                  if (!alreadyBlocked) {
+                    this.blockedConnections.add(newConnObj);
+                    queue.push(newConnObj); // Add to the current pass queue
+                  }
+                }
+              }
             }
           }
-        } else {
-          this.blockedConnections.add(entranceName);
+
+          // Check for indirect connections affected by this region
+          if (this.indirectConnections.has(targetRegion)) {
+            // Use the indirect connections structure which maps region -> set of EXIT NAMES
+            const affectedExitNames =
+              this.indirectConnections.get(targetRegion);
+            affectedExitNames.forEach((exitName) => {
+              // Find the actual connection object in blockedConnections using the exit name
+              for (const blockedConn of this.blockedConnections) {
+                if (blockedConn.exit.name === exitName) {
+                  // Re-add this connection to the queue to re-evaluate it,
+                  // but only if its source region is reachable.
+                  if (this.knownReachableRegions.has(blockedConn.fromRegion)) {
+                    queue.push(blockedConn);
+                  }
+                  break; // Found the connection, move to next affected exit name
+                }
+              }
+            });
+          }
         }
-      });
+      }
+      // Python equivalent: queue.extend(blocked_connections)
+      // We've finished the current queue, next iteration will recheck all remaining blocked connections
+      if (this.debugMode && newConnection) {
+        this._logDebug(
+          'BFS pass: Found new regions/connections, rechecking blocked connections'
+        );
+      }
     }
-    return reachedInPass;
+    return newRegionsFound;
   }
 
   /**
