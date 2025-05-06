@@ -139,6 +139,17 @@ export const evaluateRule = (rule, context, depth = 0) => {
   }
 
   // --- Context Detection ---
+  // --- ADDED LOGGING ---
+  console.log(
+    `[evaluateRule Debug] Depth: ${depth}, Context Type: ${typeof context}, Has executeHelper: ${typeof context?.executeHelper}`
+  );
+  if (context && typeof context.executeHelper !== 'function') {
+    console.log(
+      '[evaluateRule Debug] Context object keys:',
+      Object.keys(context)
+    );
+  }
+  // --- END LOGGING ---
   // Check if we have full state manager capabilities (worker context) vs. just snapshot access (main thread)
   const isWorkerContext =
     context && typeof context.executeHelper === 'function'; // Use executeHelper as a marker

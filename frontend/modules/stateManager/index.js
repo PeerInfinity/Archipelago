@@ -206,22 +206,39 @@ async function postInitialize(initializationApi) {
         const region = regionData[regionName];
         // Locations
         if (region && region.locations) {
-          for (const locationName in region.locations) {
-            const compositeLocationKey = `${regionName}-${locationName}`;
-            aggregatedLocationData[compositeLocationKey] = {
-              ...region.locations[locationName],
+          for (const locationKey in region.locations) {
+            const location = region.locations[locationKey];
+            const uniqueLocationName = location.name;
+
+            if (aggregatedLocationData.hasOwnProperty(uniqueLocationName)) {
+              console.warn(
+                `[StateManager Aggregation] Overwriting location key: ${uniqueLocationName} (New region: ${regionName}, Existing region: ${aggregatedLocationData[uniqueLocationName].parentRegion})`
+              );
+            }
+
+            aggregatedLocationData[uniqueLocationName] = {
+              ...location,
               parentRegion: regionName,
             };
           }
         }
         // Exits
         if (region && region.exits) {
-          for (const exitName in region.exits) {
-            const compositeExitKey = `${regionName}-${exitName}`;
-            aggregatedExitData[compositeExitKey] = {
-              ...region.exits[exitName],
+          for (const exitKey in region.exits) {
+            const exit = region.exits[exitKey];
+            const uniqueExitName = exit.name;
+
+            if (aggregatedExitData.hasOwnProperty(uniqueExitName)) {
+              // Optional: Add overwrite check for exits too if needed
+              // if (aggregatedExitData.hasOwnProperty(uniqueExitName)) {
+              //    console.warn(...);
+              // }
+            }
+
+            aggregatedExitData[uniqueExitName] = {
+              ...exit,
               parentRegion: regionName,
-              connectedRegion: region.exits[exitName].connected_region,
+              connectedRegion: exit.connected_region,
             };
           }
         }

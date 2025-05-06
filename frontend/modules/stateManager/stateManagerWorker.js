@@ -155,7 +155,52 @@ async function processInternalQueue() {
             );
           }
           break;
-        // TODO: Add handlers for other commands/queries (checkLocation, syncCheckedLocationsFromServer, etc.)
+        // --- ADDED HANDLER for evaluateRuleRequest ---
+        case 'evaluateRuleRequest':
+          console.log(
+            '[stateManagerWorker] Handling evaluateRuleRequest...',
+            message.payload
+          );
+          if (message.payload?.rule && message.queryId) {
+            try {
+              const result = stateManagerInstance.evaluateRuleFromEngine(
+                message.payload.rule,
+                stateManagerInstance._createSelfSnapshotInterface() // Use the worker's internal context
+              );
+              self.postMessage({
+                type: 'queryResponse',
+                queryId: message.queryId,
+                result: result,
+              });
+              console.log(
+                `[stateManagerWorker] Sent evaluateRuleResponse for query ${message.queryId}.`
+              );
+            } catch (evalError) {
+              console.error(
+                '[stateManagerWorker] Error evaluating rule for evaluateRuleRequest:',
+                evalError
+              );
+              self.postMessage({
+                type: 'queryResponse',
+                queryId: message.queryId,
+                error:
+                  evalError.message || 'Error during remote rule evaluation',
+              });
+            }
+          } else {
+            console.warn(
+              '[stateManagerWorker] Invalid payload for evaluateRuleRequest.'
+            );
+            if (message.queryId) {
+              self.postMessage({
+                type: 'queryResponse',
+                queryId: message.queryId,
+                error: 'Invalid payload for evaluateRuleRequest',
+              });
+            }
+          }
+          break;
+        // --- END ADDED HANDLER ---
         default:
           console.warn(
             `[stateManagerWorker] Unknown command/query: ${

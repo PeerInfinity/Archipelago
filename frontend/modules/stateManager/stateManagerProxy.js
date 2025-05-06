@@ -17,6 +17,7 @@ class StateManagerProxy {
     this.initialLoadResolver = null;
     this.staticDataIsSet = false; // Flag for static data readiness
     this.isReadyPublished = false; // Flag to prevent multiple ready events
+    this.isPotentialStaleSnapshot = false; // <<< ADDED: Staleness flag
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -123,11 +124,12 @@ class StateManagerProxy {
       }
       case 'stateSnapshot':
         console.debug(
-          '[StateManagerProxy] Received stateSnapshot from worker.',
+          '[stateManagerProxy] Received stateSnapshot from worker.',
           message.snapshot
         );
         if (message.snapshot) {
           this.uiCache = message.snapshot;
+          this.isPotentialStaleSnapshot = false; // <<< ADDED: Reset flag on snapshot arrival
           // Publish a generic event indicating the cache is updated
           this.eventBus.publish('stateManager:snapshotUpdated', {
             snapshot: this.uiCache,
@@ -354,20 +356,16 @@ class StateManagerProxy {
       command: 'addItemToInventory',
       payload: { item, quantity },
     });
+    this.isPotentialStaleSnapshot = true; // <<< ADDED: Set flag
     // Fire-and-forget - updates come via stateSnapshot events
   }
 
   async checkLocation(locationName) {
     console.log(
-      '[StateManagerProxy checkLocation] Context:',
-      this,
-      'Has _sendCommand:',
-      typeof this._sendCommand
-    );
-    console.log(
       `[StateManagerProxy] Sending checkLocation command for ${locationName}`
     );
-    return this.sendCommandToWorker('checkLocation', { locationName });
+    this.isPotentialStaleSnapshot = true; // <<< ADDED: Set flag
+    return this.sendCommandToWorker('checkLocation', { locationName }); // <<< FIX: Pass command and payload
   }
 
   async syncCheckedLocationsFromServer(checkedLocationIds) {
@@ -379,6 +377,7 @@ class StateManagerProxy {
       command: 'syncCheckedLocationsFromServer',
       payload: { checkedLocationIds },
     });
+    this.isPotentialStaleSnapshot = true; // <<< ADDED: Set flag
   }
 
   async toggleQueueReporting(enabled) {
@@ -390,6 +389,8 @@ class StateManagerProxy {
       command: 'toggleQueueReporting',
       payload: { enabled },
     });
+    // Return the promise that tracks the initial load confirmation
+    return this.initialLoadPromise;
   }
 
   // --- Queries ---
@@ -454,6 +455,89 @@ class StateManagerProxy {
     }
   }
   // --- END ADDED --- >
+
+  /**
+   * Sends a command to the worker and potentially waits for a response.
+   * Internal use.
+   */
+  async _sendCommand(
+    command,
+    payload = null,
+    expectResponse = false,
+    timeout = 5000
+  ) {
+    // ... existing code ...
+  }
+
+  /**
+   * Requests the worker to evaluate a specific rule using its full context.
+   * @param {object} rule The rule object to evaluate.
+   * @returns {Promise<any>} The result of the rule evaluation from the worker.
+   */
+  async evaluateRuleRemote(rule) {
+    if (!this.worker) {
+      console.error(
+        '[StateManagerProxy] Worker not initialized, cannot evaluate rule remotely.'
+      );
+      return false; // Or throw error
+    }
+    if (this._initialLoadComplete) {
+      console.log(
+        `[StateManagerProxy] Sending evaluateRuleRequest for rule:`,
+        rule
+      );
+      try {
+        const response = await this._sendCommand(
+          'evaluateRuleRequest',
+          { rule },
+          true // Expect a response
+        );
+        console.log(
+          `[StateManagerProxy] Received evaluateRuleResponse:`,
+          response
+        );
+        // Assuming the response structure includes { result: ... } or { error: ... }
+        if (response && typeof response.error !== 'undefined') {
+          console.error(
+            '[StateManagerProxy] Worker returned error during remote rule evaluation:',
+            response.error
+          );
+          return false; // Propagate failure
+        }
+        return response?.result;
+      } catch (error) {
+        console.error(
+          '[StateManagerProxy] Error during remote rule evaluation request:',
+          error
+        );
+        return false; // Indicate failure
+      }
+    } else {
+      console.warn(
+        '[StateManagerProxy] Worker not ready, cannot evaluate rule remotely yet.'
+      );
+      return false; // Worker isn't loaded/ready
+    }
+  }
+
+  /**
+   * Retrieves the current state snapshot held by the proxy.
+   * Returns null if the snapshot hasn't been received yet.
+   */
+  getCurrentStateSnapshot() {
+    // ... existing code ...
+  }
+
+  // <<< ADDED: Accessor for staleness flag >>>
+  /**
+   * Checks if a state-modifying command has been sent to the worker
+   * since the last snapshot was received.
+   * @returns {boolean} True if the current snapshot might be stale.
+   */
+  isSnapshotPotentiallyStale() {
+    return this.isPotentialStaleSnapshot;
+  }
+  // <<< END ADDED >>>
 }
 
 export default StateManagerProxy;

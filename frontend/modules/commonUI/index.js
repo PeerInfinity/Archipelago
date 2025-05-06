@@ -6,6 +6,7 @@ import {
   createLocationLink,
   applyColorblindClass,
 } from './commonUI.js';
+import { stateManagerProxySingleton } from '../stateManager/index.js';
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -27,105 +28,119 @@ export {
 };
 
 /**
- * Creates an interface object that allows rule evaluation against a static snapshot.
- * This is used on the main thread (e.g., in UI components) to evaluate rules
- * based on the latest cached state from the worker, without needing direct
- * access to the full StateManager instance.
- *
- * @param {object} snapshot - The plain JavaScript snapshot object received from the worker.
- * @param {object} staticData - The static game data (items, locations, groups, regions etc.).
- * @returns {object} An object implementing the StateSnapshotInterface methods.
+ * Creates a consistent interface object for accessing state information,
+ * primarily for use with evaluateRule on the main thread.
+ * @param {object} snapshot - The state snapshot (from StateManagerProxy).
+ * @param {object} staticData - Static game data (items, groups, locations, regions).
+ * @returns {object} An interface object with methods like hasItem, countItem, etc.
  */
-function createStateSnapshotInterface(snapshot, staticData) {
+export function createStateSnapshotInterface(snapshot, staticData) {
   if (!snapshot || !staticData) {
     console.warn(
-      '[createStateSnapshotInterface] Snapshot or staticData missing, returning dummy interface.'
+      '[createStateSnapshotInterface] Called with null snapshot or staticData. Returning limited interface.'
     );
-    // Return a dummy interface that always evaluates to false/0/unknown
+    // Return a dummy interface that always returns false/0/null to prevent errors
     return {
       hasItem: () => false,
-      countItem: () => 0,
+      getItemCount: () => 0,
+      hasGroup: () => false,
       countGroup: () => 0,
       hasFlag: () => false,
-      getReachabilityStatus: () => 'unknown',
       getSetting: () => undefined,
-      executeHelper: () => false, // Add stub
-      executeStateManagerMethod: () => false, // Add stub
-      // Add any other methods expected by evaluateRule, defaulting to safe values
+      getAllSettings: () => ({}),
+      isRegionReachable: () => false,
+      isLocationChecked: () => false,
+      executeHelper: () => false, // Cannot execute helpers
+      executeStateManagerMethod: () => false, // Cannot execute manager methods
+      getCurrentRegion: () => null,
+      getAllItems: () => ({}),
+      getAllLocations: () => [],
+      getAllRegions: () => ({}),
+      getPlayerSlot: () => 1,
+      getDifficultyRequirements: () => ({}),
+      getShops: () => [],
+      getGameMode: () => null,
+      getStaticData: () => staticData || {},
+      // --- ADDED: Staleness Check --- >
+      isPotentiallyStale: () =>
+        stateManagerProxySingleton.isSnapshotPotentiallyStale(),
     };
   }
 
-  // Helper to get group definitions
-  const getGroupDef = (groupName) => staticData.groups?.[groupName];
+  // Helper to safely get item data
+  const getItemData = (itemName) => staticData.items?.[itemName];
+  const getGroupData = (groupName) => staticData.groups?.[groupName];
 
   return {
-    hasItem: (itemName) => {
-      const count = snapshot.inventory?.[itemName] ?? 0;
-      return count > 0;
-    },
+    // Inventory checks (use snapshot.inventory)
+    hasItem: (itemName) => (snapshot.inventory?.[itemName] ?? 0) > 0,
+    getItemCount: (itemName) => snapshot.inventory?.[itemName] ?? 0,
 
-    countItem: (itemName) => {
-      return snapshot.inventory?.[itemName] ?? 0;
+    // Group checks (iterate through group items and sum counts from snapshot)
+    hasGroup: (groupName) => {
+      const groupInfo = getGroupData(groupName);
+      if (!groupInfo || !groupInfo.items) return false;
+      return groupInfo.items.some(
+        (item) => (snapshot.inventory?.[item] ?? 0) > 0
+      );
     },
-
     countGroup: (groupName) => {
-      const groupDef = getGroupDef(groupName);
-      if (!groupDef || !groupDef.items || !snapshot.inventory) {
-        // console.warn(`[SnapshotInterface] Group definition or inventory missing for group '${groupName}'`);
-        return 0;
-      }
-      return groupDef.items.reduce((total, itemName) => {
-        return total + (snapshot.inventory[itemName] ?? 0);
-      }, 0);
+      const groupInfo = getGroupData(groupName);
+      if (!groupInfo || !groupInfo.items) return 0;
+      return groupInfo.items.reduce(
+        (sum, item) => sum + (snapshot.inventory?.[item] ?? 0),
+        0
+      );
     },
 
-    hasFlag: (flagName) => {
-      // Check flags array/set first
-      if (Array.isArray(snapshot.flags)) {
-        return snapshot.flags.includes(flagName);
-      } else if (snapshot.flags instanceof Set) {
-        // Note: Sets likely won't survive JSON serialization from worker
-        return snapshot.flags.has(flagName);
-      }
-      // Check checkedLocations as a fallback if flags aren't used for this
-      if (
-        Array.isArray(snapshot.checkedLocations) &&
-        snapshot.checkedLocations.includes(flagName)
-      ) {
-        // console.debug(`[SnapshotInterface] hasFlag found '${flagName}' in checkedLocations`);
-        return true;
-      }
-      return false;
-    },
+    // Flag checks (use snapshot.flags or snapshot.checkedLocations)
+    hasFlag: (flagName) =>
+      snapshot.flags?.includes(flagName) ||
+      snapshot.checkedLocations?.includes(flagName) ||
+      false,
 
-    getReachabilityStatus: (name /* location or region name */) => {
-      return snapshot.reachability?.[name] ?? 'unknown'; // Default to unknown
-    },
+    // Setting checks (use snapshot.settings)
+    getSetting: (settingName) => snapshot.settings?.[settingName],
+    getAllSettings: () => snapshot.settings || {},
 
-    getSetting: (settingName) => {
-      // Settings might be nested, handle basic access
-      return snapshot.settings?.[settingName];
-    },
+    // --- MODIFIED: Reachability Check (use snapshot.reachability) --- >
+    isRegionReachable: (regionName) =>
+      snapshot.reachability?.[regionName] === true,
 
-    // Add stubs or basic implementations for other methods potentially
-    // used by evaluateRule if they only rely on snapshot data.
-    // Helpers and state methods CANNOT be executed here as they require full context.
-    executeHelper: (helperName, args) => {
+    // Checked location checks (use snapshot.checkedLocations)
+    isLocationChecked: (locName) =>
+      snapshot.checkedLocations?.includes(locName) || false,
+
+    // --- Cannot execute helpers or manager methods on main thread --- >
+    executeHelper: (name /* ...args */) => {
       console.warn(
-        `[SnapshotInterface] Attempted to execute complex helper '${helperName}' on main thread. Not supported. Assuming false.`
+        `[SnapshotInterface] Attempted to execute helper '${name}' on main thread.`
       );
       return false;
     },
-    executeStateManagerMethod: (methodName, args) => {
+    executeStateManagerMethod: (name /* ...args */) => {
       console.warn(
-        `[SnapshotInterface] Attempted to execute StateManager method '${methodName}' on main thread. Not supported. Assuming false.`
+        `[SnapshotInterface] Attempted to execute StateManager method '${name}' on main thread.`
       );
       return false;
     },
-    // Potentially add getters for static data if needed directly by rules?
-    // getItemData: (itemName) => staticData?.items?.[itemName],
-    // getLocationData: (locName) => staticData?.locations?.[locName],
-    // getRegionData: (regionName) => staticData?.regions?.[regionName],
+
+    // Other potential methods needed by rules/helpers, based on snapshot/static data
+    getCurrentRegion: () => null, // Often requires live state, return null from snapshot
+    getAllItems: () => staticData.items || {},
+    getAllLocations: () => staticData.locations || [], // Use aggregated static data
+    getAllRegions: () => staticData.regions || {}, // Use original static data
+    getPlayerSlot: () => snapshot.playerSlot ?? 1,
+    getDifficultyRequirements: () => snapshot.difficultyRequirements || {},
+    getShops: () => snapshot.shops || [],
+    getGameMode: () => snapshot.gameMode || null,
+
+    // Provide access to static data if needed directly
+    getStaticData: () => staticData,
+
+    // --- ADDED: Staleness Check --- >
+    isPotentiallyStale: () =>
+      stateManagerProxySingleton.isSnapshotPotentiallyStale(),
   };
 }
 

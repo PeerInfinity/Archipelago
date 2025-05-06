@@ -420,6 +420,17 @@ export class LocationUI {
       return;
     }
 
+    //// --- ADD: Log structure of staticData.locations --- >
+    //console.log(
+    //  '[LocationUI] First few keys in staticData.locations:',
+    //  Object.keys(staticData.locations).slice(0, 5)
+    //);
+    //console.log(
+    //  '[LocationUI] First location object in staticData.locations:',
+    //  Object.values(staticData.locations)[0]
+    //);
+    //// --- END LOG --- >
+
     // Get filter/sort states from controls
     const showChecked = this.rootElement.querySelector('#show-checked').checked;
     const showReachable =
@@ -434,11 +445,22 @@ export class LocationUI {
       .value.toLowerCase();
 
     // Filter locations
+    let filterLogCount = 0; // Counter for logging
     let filteredLocations = Object.values(staticData.locations).filter(
       (loc) => {
-        const status = this.getLocationStatus(loc.name, snapshot);
+        // --- ADD: Log filtering step --- >
+        const originalName = loc.name;
+        const status = this.getLocationStatus(originalName, snapshot);
+        if (filterLogCount < 5) {
+          // Log first 5 attempts
+          //console.log(
+          //  `[LocationUI Filter] Name: ${originalName}, Status: ${status}`
+          //);
+          filterLogCount++;
+        }
+        // --- END LOG --- >
         const isExplored = discoveryStateSingleton.isLocationDiscovered(
-          loc.name
+          originalName // Use originalName here too
         );
 
         // Visibility checks
@@ -548,16 +570,22 @@ export class LocationUI {
 
   // Helper to determine status based on snapshot
   getLocationStatus(locationName, snapshot) {
+    // --- ADD: Log input and snapshot data --- >
+    //console.log(`[LocationUI getLocationStatus] Checking: ${locationName}`);
     if (!snapshot || !snapshot.reachability) {
+      //console.log(
+      //  `[LocationUI getLocationStatus] Snapshot or reachability missing for ${locationName}`
+      //);
       return 'unknown'; // Or some default/loading state
     }
     const reachabilityStatus = snapshot.reachability[locationName];
-
-    // Check if the location is marked as checked (this might be in flags or a dedicated set)
-    // Adapt this based on how 'checked' status is stored in the snapshot
     const isChecked =
       snapshot.flags?.includes(locationName) ||
       snapshot.checkedLocations?.includes(locationName); // Example check
+    //console.log(
+    //  `[LocationUI getLocationStatus] Name: ${locationName}, Reachability: ${reachabilityStatus}, Checked: ${isChecked}`
+    //);
+    // --- END LOG --- >
 
     if (isChecked) {
       return 'checked';
@@ -580,82 +608,80 @@ export class LocationUI {
     return 'unreachable'; // Default to unreachable if not explicitly reachable or checked
   }
 
-  // --- Modal Logic (Restored and Adapted) ---
+  /**
+   * Displays detailed information about a specific location, including its access rules.
+   * @param {object} location - The location object from static data.
+   */
   showLocationDetails(location) {
-    const modal = this.rootElement.querySelector('#location-modal');
-    const modalName = this.rootElement.querySelector('#modal-location-name');
-    const modalDetails = this.rootElement.querySelector(
-      '#modal-location-details'
+    console.log(
+      `[LocationUI] showLocationDetails called for: ${location.name}`
     );
-    const modalRuleTree = this.rootElement.querySelector('#modal-rule-tree');
+    if (!location) return;
 
-    if (!modal || !modalName || !modalDetails || !modalRuleTree || !location) {
-      console.error('[LocationUI] Modal elements or location data missing.');
+    // Get current snapshot and static data (ensure they are ready)
+    const snapshot = stateManagerProxySingleton.getCurrentStateSnapshot();
+    const staticData = stateManagerProxySingleton.getStaticData();
+
+    if (!snapshot || !staticData) {
+      console.warn(
+        '[LocationUI showLocationDetails] Snapshot or static data not ready.'
+      );
+      commonUI.showModal(
+        `Details for ${location.name}`,
+        '<p>State information is not yet available.</p>'
+      );
       return;
     }
 
-    modalName.textContent = location.name;
+    // --- REVERTED: Use local evaluation with snapshot interface --- >
+    // Create the snapshot interface needed for evaluateRule on the main thread
+    const snapshotInterface = createStateSnapshotInterface(
+      snapshot,
+      staticData
+    );
 
-    // Populate details
-    let detailsHtml = ``;
-    if (location.region) {
-      detailsHtml += `<p><strong>Region:</strong> ${location.region}</p>`;
-    }
-    // Add other relevant details from location data if available
-    detailsHtml += `<p><strong>Type:</strong> ${location.type || 'N/A'}</p>`;
-    // Display item if known (might be in location data or need lookup)
-    // detailsHtml += `<p><strong>Item:</strong> ${location.item || 'Unknown'}</p>`;
-
-    // Get current status from snapshot
-    const snapshot = stateManager.getLatestStateSnapshot();
-    if (snapshot) {
-      const status = this.getLocationStatus(location.name, snapshot);
-      detailsHtml += `<p><strong>Current Status:</strong> <span class="location-status-${status}">${status}</span></p>`;
-
-      // Create snapshot interface for rule evaluation display
-      // Pass BOTH snapshot and staticData to the interface creator
-      const staticData = stateManager.getStaticData(); // Get static data separately
-      const snapshotInterface = createStateSnapshotInterface(
-        snapshot,
-        staticData
-      );
-
-      // Display Rule
-      modalRuleTree.innerHTML = ''; // Clear previous
-      if (location.rule) {
-        try {
-          const ruleElement = commonUI.renderLogicTree(
-            location.rule,
-            snapshotInterface, // Pass the interface (now created correctly)
-            evaluateRule, // Pass the evaluateRule function
-            false // isExpanded initially false
-          );
-          if (ruleElement) {
-            modalRuleTree.appendChild(ruleElement);
-          } else {
-            modalRuleTree.innerHTML = '<p>Could not render rule tree.</p>';
-          }
-        } catch (error) {
-          console.error(
-            `[LocationUI] Error rendering rule tree for ${location.name}:`,
-            error
-          );
-          modalRuleTree.innerHTML = '<p>Error rendering rule tree.</p>';
+    // Evaluate the rule (if it exists) using the main thread evaluator
+    let accessResultText = 'Rule not defined or evaluation failed.';
+    if (location.access_rule) {
+      try {
+        const isAccessible = evaluateRule(
+          location.access_rule,
+          snapshotInterface
+        );
+        accessResultText = `Rule evaluates to: ${
+          isAccessible ? 'TRUE' : 'FALSE'
+        }`;
+        // Check staleness
+        if (snapshotInterface.isPotentiallyStale()) {
+          accessResultText += ' (Snapshot might be stale)';
         }
-      } else {
-        modalRuleTree.innerHTML =
-          '<p>No specific accessibility rule defined (always accessible?).</p>';
+      } catch (error) {
+        console.error(
+          '[LocationUI showLocationDetails] Error evaluating rule locally:',
+          error
+        );
+        accessResultText = `Error evaluating rule locally: ${error.message}`;
       }
     } else {
-      detailsHtml +=
-        '<p><strong>Current Status:</strong> Unknown (Snapshot not available)</p>';
-      modalRuleTree.innerHTML =
-        '<p>Cannot display rule (Snapshot not available).</p>';
+      accessResultText = 'No access rule defined.';
     }
+    // --- END REVERTED ---
 
-    modalDetails.innerHTML = detailsHtml;
+    // Construct the modal content
+    let content = `<p><strong>Region:</strong> ${location.region}</p>`;
+    content += `<p><strong>Type:</strong> ${location.type || 'N/A'}</p>`;
+    // Add more location details as needed
 
-    modal.classList.remove('hidden');
+    content += `<h4>Access Rule:</h4>`;
+    content += `<pre>${JSON.stringify(
+      location.access_rule || { info: 'No rule' },
+      null,
+      2
+    )}</pre>`;
+    content += `<p><strong>${accessResultText}</strong></p>`; // Show local evaluation result
+
+    // Display the modal
+    commonUI.showModal(`Details for ${location.name}`, content);
   }
 }
 

@@ -1673,15 +1673,37 @@ export class StateManager {
     const flagsSnapshot = Array.from(this.flags || []);
 
     // --- ADDED DEBUG LOG ---
-    console.debug(
-      '[StateManager getSnapshot] Inventory Snapshot:',
-      inventorySnapshot
-    );
+    // console.debug(
+    //   '[StateManager getSnapshot] Inventory Snapshot:',
+    //   inventorySnapshot
+    // );
     // --- END DEBUG LOG ---
+
+    // --- ADDED: Reachability Snapshot --- >
+    const reachabilitySnapshot = {};
+    if (this.knownReachableRegions instanceof Set) {
+      for (const regionName of this.knownReachableRegions) {
+        reachabilitySnapshot[regionName] = true;
+      }
+    } else {
+      console.warn(
+        '[StateManager getSnapshot] knownReachableRegions is not a Set.'
+      );
+    }
+
+    // --- ADDED: Checked Locations Snapshot --- >
+    const checkedLocationsSnapshot = Array.from(this.checkedLocations || []);
 
     return {
       inventory: inventorySnapshot,
       flags: flagsSnapshot,
+      reachability: reachabilitySnapshot,
+      checkedLocations: checkedLocationsSnapshot,
+      settings: this.settings,
+      playerSlot: this.playerSlot,
+      difficultyRequirements: this.state?.difficultyRequirements,
+      shops: this.state?.shops,
+      gameMode: this.mode,
     };
   }
 }
