@@ -425,24 +425,26 @@ export class LocationUI {
     // });
     // --- END DEBUG LOG ---
 
-    if (!staticData?.locations) {
-      console.warn(
-        '[LocationUI] Static location data not ready. (Check failed)'
-      ); // Added note
+    if (!staticData?.locations || !snapshot) {
+      // Also ensure snapshot exists
+      console.warn('[LocationUI] Static location data or snapshot not ready.');
       this.locationsGrid.innerHTML = '<p>Loading location data...</p>';
       return;
     }
 
-    //// --- ADD: Log structure of staticData.locations --- >
-    //console.log(
-    //  '[LocationUI] First few keys in staticData.locations:',
-    //  Object.keys(staticData.locations).slice(0, 5)
-    //);
-    //console.log(
-    //  '[LocationUI] First location object in staticData.locations:',
-    //  Object.values(staticData.locations)[0]
-    //);
-    //// --- END LOG --- >
+    // --- ADDED: Create snapshot interface for rule evaluation on main thread --- >
+    const snapshotInterface = createStateSnapshotInterface(
+      snapshot,
+      staticData
+    );
+    if (!snapshotInterface) {
+      console.error(
+        '[LocationUI] Failed to create snapshot interface. Aborting render.'
+      );
+      this.locationsGrid.innerHTML = '<p>Error creating display context.</p>';
+      return;
+    }
+    // --- END ADDED ---
 
     // Get filter/sort states from controls
     const showChecked = this.rootElement.querySelector('#show-checked').checked;
@@ -561,43 +563,46 @@ export class LocationUI {
         locationCard.className = 'location-card'; // Base class
         const name = location.name;
 
-        // Determine reachability and checked status directly from snapshot for class toggling
-        const isReachableFromSnapshot = !!snapshot?.reachability?.[name]; // Ensure boolean
-        const isChecked = !!snapshot?.checkedLocations?.includes(name); // Ensure boolean
+        const isReachableFromSnapshot = !!snapshot?.reachability?.[name];
+        const isChecked = !!snapshot?.checkedLocations?.includes(name);
 
-        locationCard.classList.toggle('checked', isChecked);
-        locationCard.classList.toggle(
-          'reachable',
-          isReachableFromSnapshot && !isChecked
-        );
-        locationCard.classList.toggle(
-          'unreachable',
-          !isReachableFromSnapshot && !isChecked
-        );
+        // Determine detailed status for text and classes
+        let statusText = 'Locked';
+        let stateClass = 'unreachable'; // Default class
+
+        if (isChecked) {
+          statusText = 'Checked';
+          stateClass = 'checked';
+        } else if (isReachableFromSnapshot) {
+          statusText = 'Available';
+          stateClass = 'reachable';
+        } else {
+          // More detailed status if not simply reachable or checked
+          // This requires evaluating the region's reachability and the location's own rule separately
+          // For now, we'll stick to simpler states based on direct snapshot.
+          // To get finer-grained status like "Region accessible, but rule fails",
+          // we'd need to evaluate location.access_rule and region reachability here.
+          // This might be slow if done for every card. The snapshot's `isLocationAccessible`
+          // already did this combined check.
+          statusText = 'Unreachable'; // Default for not reachable & not checked
+          stateClass = 'unreachable';
+        }
+
+        // Apply primary state class
+        locationCard.classList.add(stateClass);
 
         locationCard.classList.toggle(
           'explored',
           loopStateSingleton.isLoopModeActive && !!isExplored
         );
 
-        // Determine the status string for colorblind and potentially other specific styling
-        let statusForColorblind = 'unreachable'; // Default
-        if (isChecked) {
-          statusForColorblind = 'checked';
-        } else if (isReachableFromSnapshot) {
-          statusForColorblind = 'reachable';
-        }
-        // Add other statuses if your getLocationStatus has them, e.g., 'processing'
-        // For now, this covers the primary visual states.
-
-        // Apply colorblind class (using the determined status string)
+        // Apply colorblind class (using the primary state class)
         applyColorblindClass(
           locationCard,
-          statusForColorblind,
+          stateClass, // Use 'checked', 'reachable', or 'unreachable'
           this.colorblindSettings
         );
 
-        // Store full data for click handler
         try {
           locationCard.dataset.location = encodeURIComponent(
             JSON.stringify(location)
@@ -606,17 +611,47 @@ export class LocationUI {
           console.error('Error stringifying location data:', location, e);
         }
 
-        locationCard.innerHTML = `
-            <span class="location-name">${name}</span>
-            ${
-              location.parent_region
-                ? `<span class="location-region">(${commonUI.createRegionLink(
-                    location.parent_region
-                  )})</span>`
-                : ''
-            }
-        `;
-        // Add Explored Indicator if in loop mode and explored (visual only)
+        let cardHTML = `<span class="location-name">${name}</span>`;
+
+        // Player Info
+        if (location.player) {
+          cardHTML += `<div class="text-sm">Player ${location.player}</div>`;
+        }
+
+        // Region Info & Link
+        if (location.parent_region) {
+          // We need to determine parent_region's accessibility.
+          // This isn't directly in the location's reachability snapshot.
+          // For simplicity, we'll rely on the location's overall reachability for now
+          // or assume parent_region accessibility is part of the location's accessibility.
+          // A more accurate way would be to check snapshot.reachability for the region itself,
+          // but that data isn't structured per region in the current snapshot.
+          const regionIsAccessible = isReachableFromSnapshot; // Approximation
+          const regionLink = commonUI.createRegionLink(
+            location.parent_region,
+            this.colorblindSettings
+          );
+          // regionLink.style.color = regionIsAccessible ? 'inherit' : 'red'; // Styling handled by commonUI or CSS
+
+          cardHTML += `<div class="text-sm">Region: ${regionLink.outerHTML} 
+            (${regionIsAccessible ? 'Accessible' : 'Inaccessible'})</div>`;
+        }
+
+        // Location Logic Tree
+        if (location.access_rule) {
+          const logicTreeElement = commonUI.renderLogicTree(
+            location.access_rule,
+            this.colorblindSettings,
+            snapshotInterface
+          );
+          cardHTML += `<div class="text-sm">Rule: ${logicTreeElement.outerHTML}</div>`;
+        }
+
+        // Detailed Status Text
+        cardHTML += `<div class="text-sm">Status: ${statusText}</div>`;
+
+        locationCard.innerHTML = cardHTML;
+
         if (loopStateSingleton.isLoopModeActive && !!isExplored) {
           const exploredIndicator = document.createElement('span');
           exploredIndicator.className = 'location-explored-indicator';

@@ -554,32 +554,59 @@ class StateManagerProxy {
  * @returns {object} - An object conforming to the StateSnapshotInterface.
  */
 export function createStateSnapshotInterface(snapshot, staticData) {
-  // Handle cases where snapshot or static data might be missing
-  const inv = snapshot?.inventory || {};
-  const flags = new Set(snapshot?.flags || []);
-  const reach = snapshot?.reachability || {};
-  const settings = snapshot?.settings || {};
-  const items = staticData?.itemData || {}; // Assuming structure from setStaticData
-  const groups = staticData?.groupData || {}; // Assuming structure from setStaticData
+  if (!snapshot || !staticData) {
+    console.warn(
+      '[createStateSnapshotInterface] Snapshot or staticData is missing.'
+    );
+    return null;
+  }
+  // Ensure staticData sub-objects exist to prevent errors during destructuring or access
+  const items = staticData.items || {};
+  const groups = staticData.groups || {};
+  const locations = staticData.locations || {}; // aggregated locations
+  const regions = staticData.regions || {}; // original regions
 
-  // Helper to count items within a group
-  const countGroupItems = (groupName) => {
-    const group = groups[groupName];
-    if (!group || !group.items) return 0;
-    return group.items.reduce((sum, itemName) => sum + (inv[itemName] || 0), 0);
-  };
+  // Provides a subset of StateManager functionality based *only* on the snapshot
+  // and static game data. Does NOT have access to the worker's live StateManager instance.
+  const snapshotInterface = {
+    _isSnapshotInterface: true, // Marker property
 
-  return {
-    hasItem: (itemName) => (inv[itemName] || 0) > 0,
-    countItem: (itemName) => inv[itemName] || 0,
-    countGroup: (groupName) => countGroupItems(groupName), // Use helper
-    hasFlag: (flagName) => flags.has(flagName),
-    getReachabilityStatus: (name) => reach[name] || 'unknown', // Default to 'unknown' if not present
-    getSetting: (settingName) => settings[settingName],
+    // --- Inventory Access ---
+    hasItem: (itemName) => {
+      const itemCount = snapshot.inventory[itemName] || 0;
+      return itemCount > 0;
+    },
+    getItemCount: (itemName) => snapshot.inventory[itemName] || 0,
+    countGroup: (groupName) => {
+      const group = groups[groupName];
+      if (!group || !group.items) return 0;
+      return group.items.reduce(
+        (sum, itemName) => sum + (items[itemName] || 0),
+        0
+      );
+    },
+    hasFlag: (flagName) => {
+      const flags = snapshot.flags || [];
+      return flags.includes(flagName);
+    },
+    getReachabilityStatus: (name) => {
+      const reachability = snapshot.reachability || {};
+      return reachability[name] || 'unknown';
+    },
+    getSetting: (settingName) => {
+      const settings = snapshot.settings || {};
+      return settings[settingName];
+    },
+    // --- ADDED: getPlayerSlot method for UI snapshot --- >
+    getPlayerSlot: () => snapshot.playerSlot,
+    // --- END ADDED --- >
+
     // Add any other methods required by the evaluateRule function when running on the main thread
     // Ensure this aligns with the expectations outlined in the planning doc (Section 6)
     // NOTE: This interface CANNOT execute helpers or state methods directly.
   };
+
+  return snapshotInterface;
 }
 // --- END ADDED FUNCTION ---
 

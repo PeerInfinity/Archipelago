@@ -601,10 +601,9 @@ export class StateManager {
         }
 
         // Check if exit is traversable using the *injected* evaluateRule engine
-        const snapshotInterface = this._createSelfSnapshotInterface();
         const canTraverse =
           !exit.access_rule ||
-          this.evaluateRuleFromEngine(exit.access_rule, snapshotInterface);
+          this.evaluateRuleFromEngine(exit.access_rule, this);
 
         if (canTraverse) {
           // Region is now reachable
@@ -1612,7 +1611,8 @@ export class StateManager {
   // Needed for internal methods that rely on rule evaluation (like isLocationAccessible)
   _createSelfSnapshotInterface() {
     const self = this;
-    return {
+    const anInterface = {
+      _isSnapshotInterface: true,
       hasItem: (itemName) => self.inventory.has(itemName),
       getItemCount: (itemName) => self.inventory.count(itemName),
       hasGroup: (groupName) => self.inventory.countGroup(groupName) > 0,
@@ -1645,6 +1645,12 @@ export class StateManager {
       getPlayerSlot: () => self.playerSlot,
       helpers: self.helpers, // Provide access to game-specific helpers
     };
+    // --- ADDED: Log the created interface object --- >
+    console.log(
+      '[StateManager _createSelfSnapshotInterface] Returning interface:',
+      anInterface
+    );
+    return anInterface; // Ensure we use a consistent name if we log it
   }
 
   /**
