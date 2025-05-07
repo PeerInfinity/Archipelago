@@ -168,7 +168,7 @@ export class ALTTPState extends GameState {
   }
 
   // Debug helper
-  dumpState() {
+  getState() {
     return {
       flags: this.getFlags(),
       events: this.getEvents(),

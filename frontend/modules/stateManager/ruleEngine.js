@@ -468,6 +468,19 @@ export const evaluateRule = (rule, context, depth = 0) => {
           case '!=':
             result = left != right;
             break;
+          case 'in':
+            if (Array.isArray(right)) {
+              result = right.includes(left);
+            } else if (typeof right === 'string') {
+              result = right.includes(left);
+            } else {
+              console.warn(
+                '[evaluateRule] "in" operator used with non-array/non-string on the right side:',
+                { left, right }
+              );
+              result = false;
+            }
+            break;
           default:
             console.warn(
               `[evaluateRule] Unsupported comparison operator: ${op}`
@@ -511,18 +524,16 @@ export const evaluateRule = (rule, context, depth = 0) => {
         if (isSnapshotInterfaceContext) {
           if (typeof context.countItem === 'function') {
             // ADDING DETAILED LOG FOR THIS SPECIFIC CASE
-            if (isSnapshotInterfaceContext) {
-              console.log(
-                '[evaluateRule count_check SnapshotIF Specific Log]',
-                {
-                  contextType: typeof context,
-                  isSnapshotInterfaceProp: context._isSnapshotInterface,
-                  hasCountItemMethod: typeof context.countItem,
-                  itemName,
-                  requiredCount,
-                }
-              );
-            }
+            // console.warn( // Temporarily commented out
+            //   '[evaluateRule count_check SnapshotIF Specific Log]',
+            //   {
+            //     contextType: typeof context,
+            //     isSnapshotInterfaceProp: context._isSnapshotInterface,
+            //     hasCountItemMethod: typeof context.countItem,
+            //     itemName,
+            //     requiredCount,
+            //   }
+            // );
             const currentCount = context.countItem(itemName);
             if (currentCount === undefined && isSnapshotInterfaceContext) {
               // If countItem itself returns undefined
@@ -609,7 +620,26 @@ export const evaluateRule = (rule, context, depth = 0) => {
       case 'name': {
         if (isSnapshotInterfaceContext) {
           if (typeof context.resolveRuleObject === 'function') {
+            if (rule.name === 'player') {
+              console.log(
+                "[evaluateRule SnapshotIF 'player'] Rule before resolve:",
+                JSON.parse(JSON.stringify(rule))
+              );
+              console.log(
+                "[evaluateRule SnapshotIF 'player'] Context before resolve:",
+                {
+                  isSnapshotInterface: context._isSnapshotInterface,
+                  hasPlayer: !!(context.snapshot && context.snapshot.player),
+                  playerSlot: context.snapshot?.player?.slot,
+                }
+              );
+            }
             result = context.resolveRuleObject(rule);
+            if (rule.name === 'player') {
+              console.log(
+                `[evaluateRule SnapshotIF 'player'] Value of 'result' after call: ${result} (type: ${typeof result})`
+              );
+            }
             if (result === undefined) {
               console.warn(
                 `[evaluateRule SnapshotIF] Name '${rule.name}' resolved to undefined by resolveRuleObject.`

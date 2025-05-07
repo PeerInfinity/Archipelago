@@ -2,8 +2,9 @@ console.log('[stateManagerProxy] Module loaded');
 
 // TODO: Import eventBus
 
-import { ALTTPHelpers } from './games/alttp/helpers.js'; // Added import
-import { evaluateRule } from './ruleEngine.js'; // Added import, though might not be directly used by helpers
+// import { ALTTPHelpers } from './games/alttp/helpers.js'; // OLD - REMOVE/REPLACE
+import { ALTTPSnapshotHelpers } from './games/alttp/alttpSnapshotHelpers.js'; // NEW
+// import { evaluateRule } from './ruleEngine.js'; // Already imported
 
 class StateManagerProxy {
   constructor(eventBus) {
@@ -343,7 +344,7 @@ class StateManagerProxy {
   // Method to retrieve all cached static data
   getStaticData() {
     if (!this.staticDataCache) {
-      // console.warn( // Quieting this down as UI handles null return
+      // console.warn( // Quieting this down
       //   '[StateManagerProxy] Attempted to get static data before it was set.'
       // );
       return null;
@@ -564,71 +565,14 @@ class StateManagerProxy {
  * @returns {object} - An object conforming to the StateSnapshotInterface.
  */
 export function createStateSnapshotInterface(snapshot, staticData) {
-  // console.log('[SnapshotIF] Creating with snapshot:', snapshot, 'and staticData:', staticData);
-
-  // The interface object needs to be defined first to be passed to ALTTPHelpers
   let snapshotInterfaceInstance = null;
 
-  // Create an ALTTPHelpers instance specifically for this snapshot interface
-  // It needs the interface itself to call methods like hasItem, getSetting etc.
-  // And staticData for item/group definitions if helpers access them directly (though ideally via snapshot methods)
-  const helpersContext = {
-    // Construct a context for ALTTPHelpers
-    // Provide methods that ALTTPHelpers expects if it were a full StateManager
-    // This is a bit of a shim.
-    inventory: {
-      has: (itemName) => snapshotInterfaceInstance.hasItem(itemName),
-      count: (itemName) => snapshotInterfaceInstance.countItem(itemName),
-      countGroup: (groupName) =>
-        snapshotInterfaceInstance.countGroup(groupName),
-      // ALTTPHelpers constructor also checks for inventory.itemData
-      itemData: staticData.items, // Pass static item data
-    },
-    helpers: null, // Will be set to the helper instance itself later if needed for self-reference
-    state: {
-      // Shim for state properties helpers might try to access
-      hasFlag: (flagName) => snapshotInterfaceInstance.hasFlag(flagName),
-      // Add other state properties if helpers try to access them directly
-      // e.g., difficultyRequirements, shops
-      difficultyRequirements: snapshot?.difficultyRequirements,
-      shops: snapshot?.shops,
-    },
-    settings: snapshot?.settings,
-    mode: snapshot?.gameMode, // Assuming gameMode is on the snapshot
-    playerSlot: snapshot?.playerSlot,
-    // Provide a way for helpers to access static game data if necessary,
-    // though ideally, they rely on the snapshot's methods.
-    staticGameData: staticData,
-
-    // Methods from StateManager that helpers might call if they were in worker
-    // These should mostly return undefined or throw if called in snapshot context
-    // unless they can be meaningfully simulated.
-    isRegionReachable: (regionName) =>
-      snapshotInterfaceInstance.isRegionReachable(regionName),
-    isLocationAccessible: (locationNameOrObject) =>
-      snapshotInterfaceInstance.isLocationAccessible(locationNameOrObject),
-    // evaluateRule: (rule) => evaluateRule(rule, snapshotInterfaceInstance) // Allow helpers to call evaluateRule with this snapshot context.
-    // Expose evaluateRule if helpers need to recursively call it (complex case)
-    _evaluateRule: (rule) => evaluateRule(rule, snapshotInterfaceInstance),
-
-    // Mimic StateManager context for ALTTPHelpers constructor
-    getSnapshot: () => snapshot, // Helpers shouldn't call this, but for constructor compatibility
-    _isSnapshotInterface: true, // Mark this context clearly for ALTTPHelpers constructor if it checks
-    hasItem: (itemName) => snapshotInterfaceInstance.hasItem(itemName), // also for constructor check
-    getSetting: (settingName) =>
-      snapshotInterfaceInstance.getSetting(settingName),
-  };
-
-  const altlpHelpersInstance = new ALTTPHelpers(helpersContext);
-  // If helpers need to reference themselves (e.g. context.helpers.method()), set it.
-  helpersContext.helpers = altlpHelpersInstance;
-
-  snapshotInterfaceInstance = {
-    _isSnapshotInterface: true,
-    snapshot: snapshot, // Direct access to the raw snapshot data
-    staticData: staticData, // Direct access to static data
-
-    // --- Inventory Access ---
+  // First, define the core methods of the snapshot interface that helpers will need.
+  // This rawInterface is what ALTTPSnapshotHelpers constructor will receive.
+  const rawInterfaceForHelpers = {
+    _isSnapshotInterface: true, // Crucial marker for helper constructor
+    snapshot: snapshot,
+    staticData: staticData,
     hasItem: (itemName) =>
       !!(snapshot?.inventory && snapshot.inventory[itemName] > 0),
     countItem: (itemName) => snapshot?.inventory?.[itemName] || 0,
@@ -637,128 +581,259 @@ export function createStateSnapshotInterface(snapshot, staticData) {
         !staticData?.groups ||
         !staticData.groups[groupName] ||
         !snapshot?.inventory
-      ) {
+      )
         return 0;
-      }
       let count = 0;
       for (const itemInGroup of staticData.groups[groupName]) {
         count += snapshot.inventory[itemInGroup] || 0;
       }
       return count;
     },
-
-    // --- Flag Access ---
     hasFlag: (flagName) =>
       !!(snapshot?.flags && snapshot.flags.includes(flagName)),
-
-    // --- Settings Access ---
     getSetting: (settingName) => snapshot?.settings?.[settingName],
-
-    // --- Reachability (can only use snapshot data, may be limited) ---
-    getReachabilityStatus: (name) =>
-      snapshot?.reachability?.[name] || 'unknown',
-
     isRegionReachable: (regionName) => {
-      // Extremely simplified: can only check if explicitly in snapshot.
-      // Complex reachability is not possible here.
+      // TEMP LOGGING
+      console.log(
+        `[SnapshotIF isRegionReachable] Checking region: '${regionName}'. Reachability data:`,
+        snapshot?.reachability
+      );
       const status = snapshot?.reachability?.[regionName];
-      if (status === 'reachable') return true;
-      if (status === 'unreachable' || status === 'checked') return false; // checked implies it was reachable
-      // If 'processing' or 'unknown' or not present, we can't determine from snapshot alone.
-      return undefined; // Indicate "unknown"
-    },
-
-    isLocationAccessible: (locationNameOrObject) => {
-      // Similar to regions, can only use snapshot data.
-      const name =
-        typeof locationNameOrObject === 'object'
-          ? locationNameOrObject.name
-          : locationNameOrObject;
-      const status = snapshot?.reachability?.[name];
-      if (status === 'reachable') return true;
-      if (status === 'checked') return true; // if a location is checked, it must have been accessible.
+      if (status === 'reachable' || status === 'checked') return true;
       if (status === 'unreachable') return false;
-      return undefined; // "unknown" for 'processing' or if not in snapshot
+      return undefined;
     },
-
-    // --- Player/Game Info ---
-    getPlayerSlot: () => snapshot?.playerSlot,
-    getGameMode: () => snapshot?.gameMode, // Assuming gameMode is on the snapshot
-    getDifficultyRequirements: () => snapshot?.difficultyRequirements, // From snapshot
-    getShops: () => snapshot?.shops, // From snapshot
+    getPlayerSlot: () =>
+      snapshot && snapshot.player ? snapshot.player.slot : undefined,
+    getGameMode: () => snapshot?.gameMode,
+    getDifficultyRequirements: () =>
+      snapshot && snapshot.state && snapshot.state.difficultyRequirements
+        ? snapshot.state.difficultyRequirements
+        : undefined,
+    getShops: () =>
+      snapshot && snapshot.state && snapshot.state.shops
+        ? snapshot.state.shops
+        : undefined,
     getRegionData: (regionName) => {
-      // This should come from the staticData that was aggregated.
-      // The snapshot itself doesn't store all region properties.
-      return staticData?.regions?.[regionName];
-    },
-
-    // --- Helper Execution ---
-    helpers: altlpHelpersInstance, // Make helpers directly accessible if rules do `context.helpers.method()`
-    executeHelper: (name, ...args) => {
       if (
-        altlpHelpersInstance &&
-        typeof altlpHelpersInstance[name] === 'function'
+        !staticData ||
+        !staticData.regionData ||
+        !staticData.regionData[regionName]
       ) {
-        try {
-          // Call the helper method on the instance.
-          // The helper method itself will check if it's in snapshot context
-          // and return true/false or undefined.
-          return altlpHelpersInstance[name](...args);
-        } catch (e) {
-          console.warn(
-            `[SnapshotIF] Error in snapshot executeHelper for '${name}':`,
-            e
-          );
-          return undefined; // Unknown on error during execution
+        return undefined;
+      }
+      return staticData.regionData[regionName];
+    },
+    getStaticData: () => staticData, // Allow helpers to access all staticData if needed
+    getStateValue: (pathString) => {
+      if (!snapshot || !snapshot.state) {
+        return undefined;
+      }
+      if (typeof pathString !== 'string' || pathString.trim() === '') {
+        return undefined;
+      }
+      const keys = pathString.split('.');
+      let current = snapshot.state;
+      for (const key of keys) {
+        if (current && typeof current === 'object' && key in current) {
+          current = current[key];
+        } else {
+          return undefined;
         }
       }
-      console.warn(
-        `[SnapshotIF] Helper '${name}' not found on ALTTPHelpers instance for snapshot.`
-      );
-      return undefined; // Helper not found, treat as unknown
+      return current;
     },
+    getLocationItem: (locationName) => {
+      if (!snapshot || !snapshot.locationItems) {
+        // console.warn('[SnapshotInterface] getLocationItem: snapshot.locationItems not available.');
+        return undefined; // Data structure not in snapshot
+      }
+      const itemDetail = snapshot.locationItems[locationName];
+      if (itemDetail === undefined) {
+        // console.warn(`[SnapshotInterface] getLocationItem: No item detail for location '${locationName}'.`);
+        return undefined; // Location not in the map, or explicitly undefined
+      }
+      // itemDetail could be null (if explicitly no item) or { name, player }
+      // The helper function (location_item_name in ALTTPSnapshotHelpers) will format this.
+      return itemDetail;
+    },
+    // Add other necessary methods that ALTTPSnapshotHelpers might need from the snapshot
+  };
 
-    // --- StateManager Method Execution (Limited/Simulated) ---
-    // Only include methods that can be reasonably simulated or are essential for some UI rules
-    // and *cannot* be done via a helper. Most complex ones should return undefined.
-    executeStateManagerMethod: (methodName, ...args) => {
-      // Example: if StateManager had a simple method like `isSwordlessMode()`
-      // if (methodName === 'isSwordlessMode') {
-      //   return snapshot?.settings?.swordless;
-      // }
-      // For most complex StateManager methods, we can't execute them here.
+  // const altlpHelpersInstance = new ALTTPHelpers(helpersContext); // OLD
+  const altlpSnapshotHelpersInstance = new ALTTPSnapshotHelpers(
+    rawInterfaceForHelpers
+  ); // NEW
+
+  // Now construct the final snapshotInterfaceInstance that UI will use,
+  // which includes an executeHelper method that uses the altlpSnapshotHelpersInstance.
+  snapshotInterfaceInstance = {
+    ...rawInterfaceForHelpers, // Spread the core methods
+
+    // Expose the created helper instance directly if needed by some advanced rule structures
+    helpers: altlpSnapshotHelpersInstance,
+
+    executeHelper: (name, ...args) => {
+      if (
+        altlpSnapshotHelpersInstance &&
+        typeof altlpSnapshotHelpersInstance.executeHelper === 'function'
+      ) {
+        // ALTTPSnapshotHelpers.executeHelper will call the actual helper method (this[name])
+        return altlpSnapshotHelpersInstance.executeHelper(name, ...args);
+      }
       console.warn(
-        `[SnapshotIF] StateManager method '${methodName}' cannot be reliably executed by snapshot interface. Assuming undefined.`
+        `[SnapshotIF executeHelper] Helper dispatcher not available or method ${name} not found on instance.`
       );
       return undefined;
     },
 
-    // Method for evaluateRule to get the 'this' for function calls on entities like 'old_man.can_reach()'
-    // It should resolve 'old_man' to the entity object provided by ALTTPHelpers.
     resolveRuleObject: (ruleObjectPath) => {
       if (ruleObjectPath && ruleObjectPath.type === 'name') {
         const name = ruleObjectPath.name;
-        if (name === 'helpers' && altlpHelpersInstance) {
-          return altlpHelpersInstance;
-        }
+        if (name === 'helpers') return altlpSnapshotHelpersInstance;
         if (name === 'state' || name === 'settings' || name === 'inventory') {
-          // For state.getSetting, inventory.hasItem etc., the methods are directly on the snapshotInterfaceInstance
           return snapshotInterfaceInstance;
         }
         if (name === 'player') {
-          // Added player resolution
-          return snapshot?.playerSlot; // Get from the raw snapshot data
+          const slotValue = snapshot?.player?.slot; // Calculate it once
+          console.log(
+            "[SnapshotIF resolveRuleObject for 'player' (ENTRY LOG)]",
+            {
+              // Modified original log
+              snapshotExists: !!snapshot,
+              snapshotPlayerIsObject:
+                typeof snapshot?.player === 'object' &&
+                snapshot?.player !== null,
+              slotValueFromSnapshot: slotValue, // Log the calculated value
+              // Attempt to log the player object safely
+              snapshotPlayerObjectDetails: snapshot?.player
+                ? JSON.parse(JSON.stringify(snapshot.player))
+                : null,
+            }
+          );
+          console.log(
+            `[SnapshotIF resolveRuleObject for 'player' (PRE-RETURN)] Returning: ${slotValue} (type: ${typeof slotValue})`
+          ); // New log
+          return slotValue;
         }
         if (
-          altlpHelpersInstance &&
-          altlpHelpersInstance.entities &&
-          altlpHelpersInstance.entities[name]
+          altlpSnapshotHelpersInstance &&
+          altlpSnapshotHelpersInstance.entities &&
+          altlpSnapshotHelpersInstance.entities[name]
         ) {
-          return altlpHelpersInstance.entities[name];
+          return altlpSnapshotHelpersInstance.entities[name];
         }
       }
-      // Default to returning the interface itself for chained calls or if no specific resolution.
       return snapshotInterfaceInstance;
+    },
+
+    executeStateManagerMethod: (methodName, ...args) => {
+      // This method allows rules of type 'state_method' to be routed
+      // to appropriate helper methods or direct snapshot interface methods.
+      switch (methodName) {
+        case 'can_reach':
+          // can_reach in old helpers often took (name, type, player)
+          // type was 'Region' or 'Location'. Player usually defaulted to current.
+          if (
+            args.length >= 2 &&
+            typeof args[0] === 'string' &&
+            typeof args[1] === 'string'
+          ) {
+            const name = args[0];
+            const type = args[1];
+            if (type === 'Region') {
+              if (
+                typeof snapshotInterfaceInstance.isRegionReachable ===
+                'function'
+              ) {
+                return snapshotInterfaceInstance.isRegionReachable(name);
+              }
+            } else if (type === 'Location') {
+              if (
+                typeof snapshotInterfaceInstance.isLocationAccessible ===
+                'function'
+              ) {
+                return snapshotInterfaceInstance.isLocationAccessible(name);
+              }
+            }
+            console.warn(
+              `[SnapshotIF executeStateManagerMethod] 'can_reach' for type '${type}' could not be resolved to a snapshot method.`
+            );
+            return undefined;
+          } else if (args.length === 1 && typeof args[0] === 'string') {
+            // Simplified case: if only one string arg, assume it's a region name
+            if (
+              typeof snapshotInterfaceInstance.isRegionReachable === 'function'
+            ) {
+              return snapshotInterfaceInstance.isRegionReachable(args[0]);
+            }
+            return undefined;
+          }
+          console.warn(
+            `[SnapshotIF executeStateManagerMethod] 'can_reach' called with unhandled args:`,
+            args,
+            `Falling back to undefined.`
+          );
+          return undefined;
+        case '_lttp_has_key':
+          // Map to the migrated helper method name
+          return altlpSnapshotHelpersInstance.executeHelper(
+            '_has_specific_key_count',
+            ...args
+          );
+        case 'has_any':
+          return altlpSnapshotHelpersInstance.executeHelper('has_any', ...args);
+        // Add other state methods that need specific handling or delegation here
+        default:
+          console.warn(
+            `[SnapshotIF executeStateManagerMethod] Unknown method '${methodName}' called.`
+          );
+          return undefined;
+      }
+    },
+
+    isLocationAccessible: (locationOrName) => {
+      // Essential checks for data presence
+      if (!staticData || !staticData.locationData) {
+        // console.warn("[SnapshotInterface] isLocationAccessible: Missing staticData.locationData");
+        return undefined;
+      }
+      // snapshot.reachability is implicitly checked by isRegionReachable
+      if (!snapshot) {
+        // console.warn("[SnapshotInterface] isLocationAccessible: Missing snapshot data");
+        return undefined;
+      }
+
+      let locationName =
+        typeof locationOrName === 'string'
+          ? locationOrName
+          : locationOrName?.name; // Added optional chaining for name
+
+      if (!locationName) {
+        // console.warn("[SnapshotInterface] isLocationAccessible: Invalid locationOrName provided.", locationOrName);
+        return undefined;
+      }
+
+      const locData = staticData.locationData[locationName];
+      if (!locData) {
+        // console.warn(`[SnapshotInterface] isLocationAccessible: Location static data not found for '${locationName}'`);
+        return undefined;
+      }
+
+      const regionName = locData.region;
+      if (!regionName) {
+        // console.warn(`[SnapshotInterface] isLocationAccessible: Region not defined for location '${locationName}'`);
+        return undefined;
+      }
+
+      // Delegate to isRegionReachable. `snapshotInterface` here refers to the object being constructed.
+      // Ensure that isRegionReachable is available on the object being built.
+      // It should be, as it's defined just above in rawInterfaceForHelpers.
+      if (typeof snapshotInterfaceInstance.isRegionReachable !== 'function') {
+        // console.error("[SnapshotInterface] isLocationAccessible: isRegionReachable not found on constructed instance!");
+        return undefined; // Should not happen
+      }
+      return snapshotInterfaceInstance.isRegionReachable(regionName);
     },
   };
   return snapshotInterfaceInstance;

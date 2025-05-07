@@ -1,6 +1,6 @@
 import { ALTTPInventory } from './games/alttp/inventory.js';
 import { ALTTPState } from './games/alttp/state.js';
-import { ALTTPHelpers } from './games/alttp/helpers.js';
+import { ALTTPWorkerHelpers } from './games/alttp/alttpWorkerHelpers.js';
 
 /**
  * Manages game state including inventory and reachable regions/locations.
@@ -251,170 +251,116 @@ export class StateManager {
     this.settings = playerData.settings;
     this.startRegions = playerData.startRegions;
     this.mode = playerData.mode;
-    this.itempool_counts = playerData.itempoolCounts;
+    this.itempoolCounts = playerData.itempoolCounts;
 
-    // Create a map of item names to IDs for fast lookup (using selected player's items)
+    // Initialize item and location name to ID maps
     this.itemNameToId = {};
-    if (this.itemData) {
-      Object.entries(this.itemData).forEach(([itemName, data]) => {
-        if (data.id !== undefined && data.id !== null) {
-          this.itemNameToId[itemName] = data.id;
-          if (this.inventory.itemData[itemName]) {
-            this.inventory.itemData[itemName].id = data.id;
-          }
-        }
-      });
-      console.log(`Loaded ${Object.keys(this.itemNameToId).length} item IDs`);
-
-      // Debug: Print first 5 item ID entries
-      const itemEntries = Object.entries(this.itemNameToId).slice(0, 5);
+    for (const id in this.itemData) {
+      this.itemNameToId[this.itemData[id].name] = id;
     }
+    console.log(`Loaded ${Object.keys(this.itemNameToId).length} item IDs`);
 
-    // Create a map of location names to IDs for fast lookup
-    this.locationNameToId = {};
-
-    // Update the inventory's progression mapping and item data if inventory exists
-    if (this.inventory) {
-      this.inventory.progressionMapping = this.progressionMapping;
-      this.inventory.itemData = this.itemData;
-      this.inventory.groupData = this.groupData;
-
-      // Store item IDs directly on item data objects for easier access
-      if (this.itemNameToId) {
-        Object.entries(this.itemNameToId).forEach(([itemName, id]) => {
-          if (this.inventory.itemData[itemName]) {
-            this.inventory.itemData[itemName].id = id;
-          }
-        });
-      }
-    }
-
-    // Process locations and events
+    // Aggregate all locations from all regions into a flat list and build nameToId map
     this.locations = [];
-    this.eventLocations.clear();
-    this.indirectConnections = new Map(); // Clear indirect connections
-
-    // Build indirect connections map to match Python implementation
-    // This maps regions to exits that depend on those regions in their access rules
-    this.buildIndirectConnections();
-
-    // Extract shop data from regions
-    const shops = [];
-    if (this.regions) {
-      Object.values(this.regions).forEach((region) => {
-        if (region.shop) {
-          shops.push(region.shop);
-        }
-
-        // Process locations in this region
-        region.locations.forEach((loc) => {
-          // Directly add the region name to the original location object within the nested structure
-          loc.region = region.name;
-
-          const locationData = {
-            ...loc,
-            region: region.name, // This is now slightly redundant but harmless
-            player: region.player,
+    this.locationNameToId = {};
+    for (const regionName in this.regions) {
+      const region = this.regions[regionName];
+      if (region.locations) {
+        for (const locName in region.locations) {
+          const locationData = region.locations[locName];
+          // Ensure location objects have a name property for easy lookup
+          const fullLocationObject = {
+            ...locationData,
+            name: locName, // The key is the name
+            id: this.locations.length, // Assign a temporary numeric ID or use a more robust one if available
+            region: regionName,
+            // Item details (name, player) will be populated by the fill algorithm or game setup
+            // For now, it might be undefined or null.
+            item: locationData.item || null,
           };
-
-          // Location ID is already part of the location object from the backend
-          // Just ensure it's included in the lookup map
-          if (loc.id !== undefined && loc.id !== null) {
-            this.locationNameToId[loc.name] = loc.id;
-          }
-
-          this.locations.push(locationData);
-          if (locationData.item && locationData.item.type === 'Event') {
-            this.eventLocations.set(locationData.name, locationData);
-          }
-        });
-      });
-
-      console.log(
-        `Loaded ${Object.keys(this.locationNameToId).length} location IDs`
-      );
-
-      // Debug: Print first 5 location ID entries
-      const locationEntries = Object.entries(this.locationNameToId).slice(0, 5);
-    }
-
-    // Initialize the state object with settings and data for the selected player
-    if (this.state) {
-      // Pass the settings for the selected player to the state for loading
-      this.state.loadSettings(this.settings);
-
-      // Pass shop data (assuming shops might be player-specific or need filtering later)
-      this.state.loadShops(shops);
-
-      // Store game mode in state for the selected player
-      if (this.mode) {
-        this.state.gameMode = this.mode;
-      }
-
-      // Store start regions in state for the selected player
-      if (this.startRegions && this.startRegions.length > 0) {
-        this.state.startRegions = [...this.startRegions];
-      } else {
-        // Default might need adjustment based on game logic if start regions differ per player
-        this.state.startRegions = ['Menu'];
-      }
-    }
-
-    // --- Moved Helper Initialization Earlier ---
-    if (ALTTPHelpers) {
-      this.helpers = new ALTTPHelpers(this);
-      console.log(
-        '[StateManager loadFromJSON] ALTTPHelpers instantiated BEFORE enhance/compute.'
-      );
-    } else {
-      console.error(
-        '[StateManager loadFromJSON] ALTTPHelpers class not available to instantiate.'
-      );
-    }
-    // --- END HELPER INITIALIZATION MOVED ---
-
-    // Process starting items after inventory is initialized
-    const startingItems = jsonData.starting_items?.[selectedPlayerId] || [];
-    if (startingItems && startingItems.length > 0) {
-      console.log(
-        `Adding ${startingItems.length} starting items for player ${selectedPlayerId}`
-      );
-      this.beginBatchUpdate(true); // Defer computation until after adding items
-      startingItems.forEach((itemName) => {
-        // Ensure the item exists in itemData before trying to add
-        if (this.inventory.itemData && this.inventory.itemData[itemName]) {
-          this.addItemToInventory(itemName);
-        } else {
-          console.warn(
-            `Starting item '${itemName}' not found in itemData, skipping.`
-          );
+          this.locations.push(fullLocationObject);
+          this.locationNameToId[locName] = fullLocationObject.id; // Or a more stable ID from data if present
         }
-      });
-      this.commitBatchUpdate(); // Commit changes, this will trigger computation if deferred
-    } else {
-      // If no starting items, still need to ensure computation runs if it was deferred implicitly
-      // However, commitBatchUpdate already handles this if we didn't start a batch.
-      // If we *did* start a batch for other reasons (unlikely here), this ensures cleanup.
-      if (this._batchMode) {
-        this.commitBatchUpdate();
       }
     }
+    console.log(`Loaded ${this.locations.length} location IDs`);
 
-    this.invalidateCache();
-
-    // Immediately compute reachable regions to collect initial events
-    // This will trigger the snapshot update via computeReachableRegions finishing
-    this.computeReachableRegions();
-
-    if (
-      this.helpers &&
-      typeof this.helpers.enhanceLocationsWithShopData === 'function'
-    ) {
-      this.helpers.enhanceLocationsWithShopData();
+    // After loading base data, initialize helpers
+    // Crucially, helpers need access to the manager instance, especially for worker context
+    // For ALTTP, this would be new ALTTPWorkerHelpers(this);
+    // TODO: Make this game-agnostic based on this.game or similar
+    if (this.settings && this.settings.game === 'A Link to the Past') {
+      this.helpers = new ALTTPWorkerHelpers(this);
+      console.log(
+        '[StateManager loadFromJSON] ALTTPWorkerHelpers instantiated AFTER data load.'
+      );
+    } else {
+      // TODO: Instantiate generic GameWorkerHelpers or throw error if game not supported
+      console.warn(
+        '[StateManager loadFromJSON] No specific helpers for game:',
+        this.settings?.game
+      );
+      // this.helpers = new GameWorkerHelpers(this); // Fallback if needed
     }
 
-    this._logDebug('[StateManager Class] Finished processing JSON load.');
-    return true;
+    // Initialize inventory with the loaded item data and progression mapping
+    this.initializeInventory(
+      [], // Initial inventory is empty
+      playerData.progressionMapping,
+      playerData.itemData
+    );
+    this.inventory.groupData = playerData.groupData; // Also set group data
+
+    // Load settings into the state object
+    this.state.loadSettings(playerData.settings);
+
+    // Load shop data if available in jsonData
+    if (jsonData.shops && jsonData.shops[selectedPlayerId]) {
+      this.state.loadShops(jsonData.shops[selectedPlayerId]);
+    } else {
+      console.warn('No shop data found for player in JSON.');
+    }
+
+    // Compute initial reachability after all data is loaded
+    this.enhanceLocationsWithStaticRules();
+    this.buildIndirectConnections();
+    this.computeReachableRegions(); // This will also trigger an initial snapshot update
+    this._logDebug('[StateManager Class] JSON data loaded and processed.');
+  }
+
+  getLocationItem(locationName) {
+    if (!this.locations || this.locations.length === 0) {
+      this._logDebug(
+        `[StateManager getLocationItem] Locations array is empty or not initialized.`
+      );
+      return null;
+    }
+    const location = this.locations.find((loc) => loc.name === locationName);
+    if (location && location.item) {
+      // Ensure item has name and player properties
+      if (
+        typeof location.item.name === 'string' &&
+        typeof location.item.player === 'number'
+      ) {
+        return { name: location.item.name, player: location.item.player };
+      }
+      this._logDebug(
+        `[StateManager getLocationItem] Location ${locationName} found, but item has malformed data:`,
+        location.item
+      );
+      return null;
+    }
+    this._logDebug(
+      `[StateManager getLocationItem] Location ${locationName} not found or has no item.`
+    );
+    return null;
+  }
+
+  /**
+   * Processes location data to attach static rule objects directly for faster evaluation.
+   */
+  enhanceLocationsWithStaticRules() {
+    // Implementation of enhanceLocationsWithStaticRules method
   }
 
   /**
@@ -849,28 +795,28 @@ export class StateManager {
     // Handle excludedItems by using itempool_counts
     if (excludedItems?.length > 0) {
       // Check if we have itempool_counts data directly on the stateManager
-      if (this.itempool_counts) {
+      if (this.itempoolCounts) {
         //console.log(
         //  'Using itempool_counts data for test inventory:',
-        //  this.itempool_counts
+        //  this.itempoolCounts
         //);
 
         // Process special maximum values first to ensure state is properly configured
-        if (this.itempool_counts['__max_progressive_bottle']) {
+        if (this.itempoolCounts['__max_progressive_bottle']) {
           this.state.difficultyRequirements.progressive_bottle_limit =
-            this.itempool_counts['__max_progressive_bottle'];
+            this.itempoolCounts['__max_progressive_bottle'];
         }
-        if (this.itempool_counts['__max_boss_heart_container']) {
+        if (this.itempoolCounts['__max_boss_heart_container']) {
           this.state.difficultyRequirements.boss_heart_container_limit =
-            this.itempool_counts['__max_boss_heart_container'];
+            this.itempoolCounts['__max_boss_heart_container'];
         }
-        if (this.itempool_counts['__max_heart_piece']) {
+        if (this.itempoolCounts['__max_heart_piece']) {
           this.state.difficultyRequirements.heart_piece_limit =
-            this.itempool_counts['__max_heart_piece'];
+            this.itempoolCounts['__max_heart_piece'];
         }
 
         // Add items based on their counts from the pool
-        Object.entries(this.itempool_counts).forEach(([itemName, count]) => {
+        Object.entries(this.itempoolCounts).forEach(([itemName, count]) => {
           // Skip special max values that start with __
           if (itemName.startsWith('__')) return;
 
@@ -1721,65 +1667,92 @@ export class StateManager {
   }
 
   getSnapshot() {
-    // 1. Inventory: Create simple { itemName: count } map
+    if (!this.cacheValid) {
+      this._logDebug(
+        '[StateManager getSnapshot] Cache invalid, recomputing reachability...'
+      );
+      this.computeReachableRegions();
+    }
+
+    // 1. Inventory
     const inventorySnapshot = {};
-    // --- MODIFIED: Iterate over the internal 'items' Map --- >
     if (this.inventory && this.inventory.items instanceof Map) {
       for (const [item, count] of this.inventory.items.entries()) {
         inventorySnapshot[item] = count !== undefined ? count : 0;
       }
     } else {
-      // Keep the warning
       console.warn(
-        `[StateManager Class] Inventory or inventory.items is not a Map in getSnapshot. Type: ${typeof this
+        `[StateManager getSnapshot] Inventory or inventory.items is not a Map. Type: ${typeof this
           .inventory?.items}, Constructor: ${
           this.inventory?.items?.constructor?.name
         }`
       );
     }
-    // --- END MODIFIED ---
 
-    // 2. Flags: Convert Set to Array
-    const flagsSnapshot = Array.from(this.flags || []);
-
-    // --- ADDED DEBUG LOG ---
-    // console.debug(
-    //   '[StateManager getSnapshot] Inventory Snapshot:',
-    //   inventorySnapshot
-    // );
-    // --- END DEBUG LOG ---
-
-    // --- ADDED: Reachability Snapshot --- >
-    const reachabilitySnapshot = {};
-    // --- MODIFIED: Populate with location-specific reachability ---
-    if (this.locations && Array.isArray(this.locations)) {
-      for (const location of this.locations) {
-        if (location && location.name) {
-          // Ensure location and name are valid
-          reachabilitySnapshot[location.name] =
-            this.isLocationAccessible(location);
+    // 2. Reachability
+    const finalReachability = {};
+    if (this.regions) {
+      for (const regionName in this.regions) {
+        if (this.knownReachableRegions.has(regionName)) {
+          finalReachability[regionName] = 'reachable';
+        } else {
+          finalReachability[regionName] = this.knownUnreachableRegions.has(
+            regionName
+          )
+            ? 'unreachable'
+            : 'unreachable';
         }
       }
-    } else {
-      console.warn(
-        '[StateManager getSnapshot] this.locations is not an array or is undefined.'
-      );
     }
-    // --- END MODIFIED ---
+    if (this.locations) {
+      this.locations.forEach((loc) => {
+        if (this.isLocationChecked(loc.name)) {
+          finalReachability[loc.name] = 'checked';
+        } else if (this.isLocationAccessible(loc)) {
+          finalReachability[loc.name] = 'reachable';
+        } else {
+          finalReachability[loc.name] = 'unreachable';
+        }
+      });
+    }
 
-    // --- ADDED: Checked Locations Snapshot --- >
-    const checkedLocationsSnapshot = Array.from(this.checkedLocations || []);
+    // 3. LocationItems
+    const locationItemsMap = {};
+    if (this.locations) {
+      this.locations.forEach((loc) => {
+        if (
+          loc.item &&
+          typeof loc.item.name === 'string' &&
+          typeof loc.item.player === 'number'
+        ) {
+          locationItemsMap[loc.name] = {
+            name: loc.item.name,
+            player: loc.item.player,
+          };
+        } else if (loc.item) {
+          locationItemsMap[loc.name] = null;
+        }
+      });
+    }
 
-    return {
+    // 4. Assemble Snapshot
+    const snapshot = {
       inventory: inventorySnapshot,
-      flags: flagsSnapshot,
-      reachability: reachabilitySnapshot,
-      checkedLocations: checkedLocationsSnapshot,
-      settings: this.settings,
-      playerSlot: this.playerSlot,
+      settings: { ...this.settings },
+      flags: Array.from(this.checkedLocations || []),
+      state: this.state.getState(), // Contains game-specific state like mode, dungeon states
+      reachability: finalReachability,
+      locationItems: locationItemsMap,
+      player: {
+        name: this.settings?.playerName || `Player ${this.playerSlot}`,
+        slot: this.playerSlot,
+        team: this.team, // Assuming this.team exists on StateManager
+      },
+      game: this.settings?.game || 'Unknown',
       difficultyRequirements: this.state?.difficultyRequirements,
       shops: this.state?.shops,
       gameMode: this.mode,
     };
+    return snapshot;
   }
 }
