@@ -125,8 +125,10 @@ async function postInitialize(initializationApi) {
     let itemData = null;
     let groupData = null;
     let regionData = null;
-    let aggregatedLocationData = {}; // Initialize empty
-    let aggregatedExitData = {}; // Initialize empty
+    const aggregatedLocationData = {};
+    const aggregatedExitData = {};
+    const trueOriginalLocationOrder = []; // New array for true original order
+    const trueOriginalExitOrder = []; // New array for true original order
 
     try {
       // 1. Fetch Rules JSON
@@ -204,10 +206,14 @@ async function postInitialize(initializationApi) {
         const region = regionData[regionName];
         // Locations
         if (region && region.locations) {
+          // Assuming region.locations is an array or an object that iterates in original file order
           for (const locationKey in region.locations) {
             const location = region.locations[locationKey];
             const uniqueLocationName = location.name;
 
+            if (!aggregatedLocationData.hasOwnProperty(uniqueLocationName)) {
+              trueOriginalLocationOrder.push(uniqueLocationName); // Add to true order list only once
+            }
             if (aggregatedLocationData.hasOwnProperty(uniqueLocationName)) {
               console.warn(
                 `[StateManager Aggregation] Overwriting location key: ${uniqueLocationName} (New region: ${regionName}, Existing region: ${aggregatedLocationData[uniqueLocationName].parentRegion})`
@@ -222,10 +228,14 @@ async function postInitialize(initializationApi) {
         }
         // Exits
         if (region && region.exits) {
+          // Assuming region.exits is an array or an object that iterates in original file order
           for (const exitKey in region.exits) {
             const exit = region.exits[exitKey];
-            const uniqueExitName = exit.name;
+            const uniqueExitName = exit.name; // Assuming exits also have a unique .name property for their key in aggregatedExitData
 
+            if (!aggregatedExitData.hasOwnProperty(uniqueExitName)) {
+              trueOriginalExitOrder.push(uniqueExitName); // Add to true order list only once
+            }
             if (aggregatedExitData.hasOwnProperty(uniqueExitName)) {
               // Optional: Add overwrite check for exits too if needed
               // if (aggregatedExitData.hasOwnProperty(uniqueExitName)) {
@@ -246,6 +256,12 @@ async function postInitialize(initializationApi) {
           Object.keys(aggregatedLocationData).length
         } locations and ${Object.keys(aggregatedExitData).length} exits.`
       );
+      console.log(
+        `[StateManager Module] True original location order captured: ${trueOriginalLocationOrder.length} items`
+      );
+      console.log(
+        `[StateManager Module] True original exit order captured: ${trueOriginalExitOrder.length} items`
+      );
 
       // 5. Cache ALL Static Data on Proxy
       console.log('[StateManager Module] Caching static data on proxy...');
@@ -254,7 +270,9 @@ async function postInitialize(initializationApi) {
         groupData, // Might be null/undefined
         aggregatedLocationData,
         regionData, // Original regions
-        aggregatedExitData
+        aggregatedExitData,
+        trueOriginalLocationOrder, // Pass the true original order array
+        trueOriginalExitOrder // Pass the true original order array
       );
       console.log(
         '[StateManager Module] Static data successfully cached on proxy.'

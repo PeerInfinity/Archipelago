@@ -93,11 +93,10 @@ export class LocationUI {
           console.log('[LocationUI] Performing initial setup and render.');
           const currentStaticData = stateManager.getStaticData(); // Get static data
           if (currentStaticData && currentStaticData.locations) {
-            this.originalLocationOrder = Object.keys(
-              currentStaticData.locations
-            );
+            this.originalLocationOrder =
+              stateManager.getOriginalLocationOrder(); // Get true original order
             console.log(
-              `[LocationUI] Stored ${this.originalLocationOrder.length} location keys for original order.`
+              `[LocationUI] Stored ${this.originalLocationOrder.length} location keys for original order from proxy getter.`
             );
           }
           this.updateLocationDisplay(); // Initial render
@@ -186,8 +185,9 @@ export class LocationUI {
         <input type="search" id="location-search" placeholder="Search locations..." style="margin-right: 10px;">
         <select id="sort-select">
           <option value="original">Original Order</option>
-          <option value="accessibility">Sort by Accessibility</option>
-          <option value="name">Sort by Name</option> <!-- Added Name sort -->
+          <option value="name">Sort by Name</option>
+          <option value="accessibility_original">Sort by Accessibility (Original)</option>
+          <option value="accessibility">Sort by Accessibility (Name)</option>
         </select>
         <label>
           <input type="checkbox" id="show-checked" checked />
@@ -643,6 +643,95 @@ export class LocationUI {
           return orderA - orderB;
         }
         return a.name.localeCompare(b.name);
+      } else if (sortMethod === 'accessibility_original') {
+        // Determine detailedStatus for item a (similar to 'accessibility' sort)
+        const isCheckedA = !!snapshot?.checkedLocations?.includes(a.name);
+        const parentRegionNameA = a.parent_region || a.region;
+        const parentRegionReachabilityStatusA =
+          snapshot?.reachability?.[parentRegionNameA];
+        const isParentRegionEffectivelyReachableA =
+          parentRegionReachabilityStatusA === 'reachable' ||
+          parentRegionReachabilityStatusA === 'checked';
+        const locationAccessRuleA = a.access_rule;
+        const locationRuleEvalResultA = locationAccessRuleA
+          ? evaluateRule(locationAccessRuleA, snapshotInterface)
+          : true;
+        const doesLocationRuleEffectivelyPassA =
+          locationRuleEvalResultA === true;
+        let detailedStatusA = 'fully_unreachable';
+        if (isCheckedA) detailedStatusA = 'checked';
+        else if (
+          isParentRegionEffectivelyReachableA &&
+          doesLocationRuleEffectivelyPassA
+        )
+          detailedStatusA = 'fully_reachable';
+        else if (
+          !isParentRegionEffectivelyReachableA &&
+          doesLocationRuleEffectivelyPassA
+        )
+          detailedStatusA = 'location_rule_passes_region_fails';
+        else if (
+          isParentRegionEffectivelyReachableA &&
+          !doesLocationRuleEffectivelyPassA
+        )
+          detailedStatusA = 'region_accessible_location_rule_fails';
+
+        // Determine detailedStatus for item b (similar to 'accessibility' sort)
+        const isCheckedB = !!snapshot?.checkedLocations?.includes(b.name);
+        const parentRegionNameB = b.parent_region || b.region;
+        const parentRegionReachabilityStatusB =
+          snapshot?.reachability?.[parentRegionNameB];
+        const isParentRegionEffectivelyReachableB =
+          parentRegionReachabilityStatusB === 'reachable' ||
+          parentRegionReachabilityStatusB === 'checked';
+        const locationAccessRuleB = b.access_rule;
+        const locationRuleEvalResultB = locationAccessRuleB
+          ? evaluateRule(locationAccessRuleB, snapshotInterface)
+          : true;
+        const doesLocationRuleEffectivelyPassB =
+          locationRuleEvalResultB === true;
+        let detailedStatusB = 'fully_unreachable';
+        if (isCheckedB) detailedStatusB = 'checked';
+        else if (
+          isParentRegionEffectivelyReachableB &&
+          doesLocationRuleEffectivelyPassB
+        )
+          detailedStatusB = 'fully_reachable';
+        else if (
+          !isParentRegionEffectivelyReachableB &&
+          doesLocationRuleEffectivelyPassB
+        )
+          detailedStatusB = 'location_rule_passes_region_fails';
+        else if (
+          isParentRegionEffectivelyReachableB &&
+          !doesLocationRuleEffectivelyPassB
+        )
+          detailedStatusB = 'region_accessible_location_rule_fails';
+
+        const orderA =
+          accessibilitySortOrder[detailedStatusA] ??
+          accessibilitySortOrder.unknown;
+        const orderB =
+          accessibilitySortOrder[detailedStatusB] ??
+          accessibilitySortOrder.unknown;
+
+        if (orderA !== orderB) {
+          return orderA - orderB;
+        }
+        // Secondary sort: original order
+        if (
+          this.originalLocationOrder &&
+          this.originalLocationOrder.length > 0
+        ) {
+          const indexA = this.originalLocationOrder.indexOf(a.name);
+          const indexB = this.originalLocationOrder.indexOf(b.name);
+          if (indexA !== -1 && indexB !== -1) {
+            if (indexA !== indexB) return indexA - indexB;
+          }
+          if (indexA === -1 && indexB !== -1) return 1;
+          if (indexA !== -1 && indexB === -1) return -1;
+        }
+        return a.name.localeCompare(b.name); // Ultimate fallback to name sort
       } else if (sortMethod === 'name') {
         return a.name.localeCompare(b.name);
       } else {
@@ -671,7 +760,7 @@ export class LocationUI {
 
     // Render
     this.locationsGrid.innerHTML = ''; // Clear previous content
-    this.locationsGrid.style.gridTemplateColumns = `repeat(${this.columns}, 1fr)`; // Apply columns
+    this.locationsGrid.style.gridTemplateColumns = `repeat(${this.columns}, minmax(0, 1fr))`; // Apply columns allowing shrink
     this.locationsGrid.style.display = 'grid'; // Ensure grid display
     this.locationsGrid.style.gap = '5px'; // Add gap
 
@@ -758,14 +847,24 @@ export class LocationUI {
           loopStateSingleton.isLoopModeActive && !!isExplored
         );
 
-        // Apply colorblind class (using the primary state class)
-        //console.log(
-        //  `[LocationUI Render] Applying class '${stateClass}' for location '${name}'`
-        //);
+        // Apply colorblind class correctly
+        // Determine if colorblind mode should be applied to this card
+        const csObject = this.colorblindSettings;
+        let shouldUseColorblindOnCard = false;
+        if (typeof csObject === 'boolean') {
+          shouldUseColorblindOnCard = csObject;
+        } else if (typeof csObject === 'string') {
+          // Handle "true" / "false" strings from settings
+          shouldUseColorblindOnCard = csObject.toLowerCase() === 'true';
+        } else if (typeof csObject === 'object' && csObject !== null) {
+          // Handles cases where csObject might be {} (e.g., if original setting was false, null, or undefined),
+          // in which case Object.keys().length will be 0, correctly resulting in false.
+          shouldUseColorblindOnCard = Object.keys(csObject).length > 0;
+        }
+
         applyColorblindClass(
           locationCard,
-          stateClass, // Use the calculated stateClass
-          this.colorblindSettings
+          shouldUseColorblindOnCard // Pass the derived boolean, removing the incorrect stateClass and third arg
         );
 
         try {

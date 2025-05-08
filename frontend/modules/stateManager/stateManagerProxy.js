@@ -316,10 +316,18 @@ class StateManagerProxy {
     return this.uiCache;
   }
 
-  // Method to accept and cache static data (items, groups, locations, regions)
-  setStaticData(itemData, groupData, locationData, regionData, exitData) {
+  // Method to accept and cache static data (items, groups, locations, regions, exits, and their original order)
+  setStaticData(
+    itemData,
+    groupData,
+    locationData,
+    regionData,
+    exitData,
+    originalLocationOrder,
+    originalExitOrder
+  ) {
     console.log(
-      '[StateManagerProxy] Caching static item/group/location(aggregated)/region(original)/exit(aggregated) data.'
+      '[StateManagerProxy] Caching static data including original orders.'
     );
     this.staticDataCache = {
       items: itemData,
@@ -327,6 +335,8 @@ class StateManagerProxy {
       locations: locationData,
       regions: regionData,
       exits: exitData,
+      locationOrder: originalLocationOrder || [], // Store original location order
+      exitOrder: originalExitOrder || [], // Store original exit order
     };
     this.staticDataIsSet = true; // Set flag when static data arrives
     // Log the structure briefly
@@ -336,6 +346,10 @@ class StateManagerProxy {
       locations: locationData ? Object.keys(locationData).length : 0,
       regions: regionData ? Object.keys(regionData).length : 0,
       exits: exitData ? Object.keys(exitData).length : 0,
+      locationOrderLength: originalLocationOrder
+        ? originalLocationOrder.length
+        : 0,
+      exitOrderLength: originalExitOrder ? originalExitOrder.length : 0,
     });
 
     // Check if ready to publish event
@@ -345,12 +359,21 @@ class StateManagerProxy {
   // Method to retrieve all cached static data
   getStaticData() {
     if (!this.staticDataCache) {
-      // console.warn( // Quieting this down
-      //   '[StateManagerProxy] Attempted to get static data before it was set.'
-      // );
       return null;
     }
+    // Note: This returns the whole cache. UI modules might still access specific parts like staticData.locations.
+    // The new getOriginalLocationOrder / getOriginalExitOrder are more specific for order.
     return this.staticDataCache;
+  }
+
+  // New getter for original location order
+  getOriginalLocationOrder() {
+    return this.staticDataCache?.locationOrder || [];
+  }
+
+  // New getter for original exit order
+  getOriginalExitOrder() {
+    return this.staticDataCache?.exitOrder || [];
   }
 
   async addItemToInventory(item, quantity = 1) {
@@ -594,15 +617,97 @@ export function createStateSnapshotInterface(snapshot, staticData) {
       !!(snapshot?.flags && snapshot.flags.includes(flagName)),
     getSetting: (settingName) => snapshot?.settings?.[settingName],
     isRegionReachable: (regionName) => {
-      // TEMP LOGGING
-      //console.log(
-      //  `[SnapshotIF isRegionReachable] Checking region: '${regionName}'. Reachability data:`,
-      //  snapshot?.reachability
-      //);
       const status = snapshot?.reachability?.[regionName];
       if (status === 'reachable' || status === 'checked') return true;
       if (status === 'unreachable') return false;
       return undefined;
+    },
+    isLocationAccessible: function (locationOrName) {
+      // Use function keyword for 'this' if needed, or ensure 'this' refers to rawInterfaceForHelpers correctly
+      // Essential checks for data presence
+      if (!this.staticData || !this.staticData.locations) {
+        // Changed from staticData.locationData to staticData.locations to match LocationUI
+        console.warn(
+          '[SnapshotInterface] isLocationAccessible: Missing staticData.locations'
+        );
+        return undefined;
+      }
+      if (!this.snapshot) {
+        console.warn(
+          '[SnapshotInterface] isLocationAccessible: Missing snapshot data'
+        );
+        return undefined;
+      }
+
+      let locationName =
+        typeof locationOrName === 'string'
+          ? locationOrName
+          : locationOrName?.name;
+
+      if (!locationName) {
+        console.warn(
+          '[SnapshotInterface] isLocationAccessible: Invalid locationOrName provided.',
+          locationOrName
+        );
+        return undefined;
+      }
+
+      const locData = this.staticData.locations[locationName]; // locData contains the location's properties, including its access_rule
+      if (!locData) {
+        console.warn(
+          `[SnapshotInterface] isLocationAccessible: Location static data not found for '${locationName}'`
+        );
+        return undefined;
+      }
+
+      const regionName = locData.parent_region || locData.region; // Match LocationUI logic for finding region
+      if (!regionName) {
+        console.warn(
+          `[SnapshotInterface] isLocationAccessible: Region not defined for location '${locationName}'`
+        );
+        return undefined;
+      }
+
+      // Step 1: Check parent region reachability using this.isRegionReachable
+      const parentRegionIsReachable = this.isRegionReachable(regionName);
+
+      const logData = {
+        locationName,
+        regionName,
+        parentRegionIsReachable,
+        accessRule: locData.access_rule
+          ? JSON.parse(JSON.stringify(locData.access_rule))
+          : null,
+        locationRuleResult: null,
+        finalOutcome: null,
+      };
+
+      if (parentRegionIsReachable === undefined) {
+        logData.finalOutcome = undefined;
+        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
+        return undefined;
+      }
+      if (parentRegionIsReachable === false) {
+        logData.finalOutcome = false;
+        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
+        return false;
+      }
+
+      if (!locData.access_rule) {
+        logData.finalOutcome = true;
+        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
+        return true;
+      }
+
+      // Evaluate the location's access_rule using 'this' (the interface) as context.
+      const locationRuleResult = evaluateRule(
+        locData.access_rule,
+        this // 'this' is rawInterfaceForHelpers (which becomes snapshotInterfaceInstance)
+      );
+      logData.locationRuleResult = locationRuleResult;
+      logData.finalOutcome = locationRuleResult;
+      // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
+      return locationRuleResult;
     },
     getPlayerSlot: () =>
       snapshot && snapshot.player ? snapshot.player.slot : undefined,
@@ -669,7 +774,7 @@ export function createStateSnapshotInterface(snapshot, staticData) {
   // Now construct the final snapshotInterfaceInstance that UI will use,
   // which includes an executeHelper method that uses the altlpSnapshotHelpersInstance.
   snapshotInterfaceInstance = {
-    ...rawInterfaceForHelpers, // Spread the core methods
+    ...rawInterfaceForHelpers, // Spread the core methods (now including isLocationAccessible)
 
     // Expose the created helper instance directly if needed by some advanced rule structures
     helpers: altlpSnapshotHelpersInstance,
@@ -773,99 +878,6 @@ export function createStateSnapshotInterface(snapshot, staticData) {
           );
           return undefined;
       }
-    },
-
-    isLocationAccessible: (locationOrName) => {
-      // Essential checks for data presence
-      if (!staticData || !staticData.locationData) {
-        // console.warn("[SnapshotInterface] isLocationAccessible: Missing staticData.locationData");
-        return undefined;
-      }
-      if (!snapshot) {
-        // console.warn("[SnapshotInterface] isLocationAccessible: Missing snapshot data");
-        return undefined;
-      }
-
-      let locationName =
-        typeof locationOrName === 'string'
-          ? locationOrName
-          : locationOrName?.name; // Added optional chaining for name
-
-      if (!locationName) {
-        // console.warn("[SnapshotInterface] isLocationAccessible: Invalid locationOrName provided.", locationOrName);
-        return undefined;
-      }
-
-      const locData = staticData.locationData[locationName]; // locData contains the location's properties, including its access_rule
-      if (!locData) {
-        // console.warn(`[SnapshotInterface] isLocationAccessible: Location static data not found for '${locationName}'`);
-        return undefined;
-      }
-
-      const regionName = locData.region;
-      if (!regionName) {
-        // console.warn(`[SnapshotInterface] isLocationAccessible: Region not defined for location '${locationName}'`);
-        return undefined;
-      }
-
-      // Step 1: Check parent region reachability using the already defined isRegionReachable on snapshotInterfaceInstance
-      const parentRegionIsReachable =
-        snapshotInterfaceInstance.isRegionReachable(regionName);
-
-      // <<< ADDED LOGGING >>>
-      const logData = {
-        locationName,
-        regionName,
-        parentRegionIsReachable,
-        accessRule: locData.access_rule
-          ? JSON.parse(JSON.stringify(locData.access_rule))
-          : null,
-        locationRuleResult: null, // Will be filled later
-        finalOutcome: null, // Will be filled before returning
-      };
-      // <<< END ADDED LOGGING >>>
-
-      if (parentRegionIsReachable === undefined) {
-        // If parent region's reachability is unknown, location's is too
-        // <<< ADDED LOGGING >>>
-        logData.finalOutcome = undefined;
-        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData);
-        // <<< END ADDED LOGGING >>>
-        return undefined;
-      }
-      if (parentRegionIsReachable === false) {
-        // If parent region is not reachable, location is not reachable
-        // <<< ADDED LOGGING >>>
-        logData.finalOutcome = false;
-        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData);
-        // <<< END ADDED LOGGING >>>
-        return false;
-      }
-
-      // Step 2: If parent region is reachable, check the location's own access_rule (if it exists)
-      if (!locData.access_rule) {
-        // No specific rule for this location, so it's accessible if its region is
-        // <<< ADDED LOGGING >>>
-        logData.finalOutcome = true;
-        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData);
-        // <<< END ADDED LOGGING >>>
-        return true;
-      }
-
-      // Evaluate the location's access_rule using the snapshotInterfaceInstance as context.
-      // evaluateRule should be available in this scope from the import at the top of the file.
-      const locationRuleResult = evaluateRule(
-        locData.access_rule,
-        snapshotInterfaceInstance
-      );
-      logData.locationRuleResult = locationRuleResult; // <<< ADDED LOGGING >>>
-
-      // The result of evaluateRule can be true, false, or undefined (for snapshot context if rule can't be fully determined)
-      // <<< ADDED LOGGING >>>
-      logData.finalOutcome = locationRuleResult;
-      console.log('[SnapshotIF isLocationAccessible DEBUG]', logData); // Log only once at the end for clarity
-      // <<< END ADDED LOGGING >>>
-      return locationRuleResult;
     },
   };
   return snapshotInterfaceInstance;

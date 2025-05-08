@@ -77,9 +77,9 @@ export class ExitUI {
         const currentStaticData = stateManager.getStaticData(); // Get static data
         if (currentStaticData && currentStaticData.exits) {
           // Exits in staticData are expected to be an object/map, so we take Object.keys
-          this.originalExitOrder = Object.keys(currentStaticData.exits);
+          this.originalExitOrder = stateManager.getOriginalExitOrder(); // Get true original order
           console.log(
-            `[ExitUI] Stored ${this.originalExitOrder.length} exit keys for original order.`
+            `[ExitUI] Stored ${this.originalExitOrder.length} exit keys for original order from proxy getter.`
           );
         } else {
           console.warn(
@@ -140,8 +140,9 @@ export class ExitUI {
         <input type="search" id="exit-search" placeholder="Search exits..." style="margin-right: 10px;">
         <select id="exit-sort-select">
           <option value="original">Original Order</option>
-          <option value="accessibility">Sort by Accessibility</option>
           <option value="name">Sort by Name</option>
+          <option value="accessibility_original">Sort by Accessibility (Original)</option>
+          <option value="accessibility">Sort by Accessibility (Name)</option>
         </select>
         <label>
           <input type="checkbox" id="exit-show-traversable" checked />
@@ -661,6 +662,79 @@ export class ExitUI {
           return orderA - orderB;
         }
         return a.name.localeCompare(b.name); // Fallback to name sort for same accessibility
+      } else if (sortMethod === 'accessibility_original') {
+        // Determine status for A (same as 'accessibility' sort)
+        const parentAReachable =
+          snapshot.reachability?.[a.parentRegion] === true ||
+          /* ... */ snapshot.reachability?.[a.parentRegion] === 'checked';
+        const connectedAReachable =
+          snapshot.reachability?.[a.connectedRegion] === true ||
+          /* ... */ snapshot.reachability?.[a.connectedRegion] === 'checked';
+        let ruleAPasses = true;
+        if (a.access_rule)
+          try {
+            ruleAPasses = evaluateRule(a.access_rule, snapshotInterface);
+          } catch (e) {
+            ruleAPasses = false;
+          }
+        let statusA = 'unknown';
+        if (parentAReachable && ruleAPasses && connectedAReachable)
+          statusA = 'traversable';
+        else if (parentAReachable && ruleAPasses && !connectedAReachable)
+          statusA = 'parent_rule_ok_connected_locked';
+        else if (parentAReachable && !ruleAPasses)
+          statusA = 'parent_ok_rule_fails';
+        else if (!parentAReachable && ruleAPasses)
+          statusA = 'parent_locked_rule_ok';
+        else if (!parentAReachable && !ruleAPasses)
+          statusA = 'parent_locked_rule_fails';
+
+        // Determine status for B (same as 'accessibility' sort)
+        const parentBReachable =
+          snapshot.reachability?.[b.parentRegion] === true ||
+          /* ... */ snapshot.reachability?.[b.parentRegion] === 'checked';
+        const connectedBReachable =
+          snapshot.reachability?.[b.connectedRegion] === true ||
+          /* ... */ snapshot.reachability?.[b.connectedRegion] === 'checked';
+        let ruleBPasses = true;
+        if (b.access_rule)
+          try {
+            ruleBPasses = evaluateRule(b.access_rule, snapshotInterface);
+          } catch (e) {
+            ruleBPasses = false;
+          }
+        let statusB = 'unknown';
+        if (parentBReachable && ruleBPasses && connectedBReachable)
+          statusB = 'traversable';
+        else if (parentBReachable && ruleBPasses && !connectedBReachable)
+          statusB = 'parent_rule_ok_connected_locked';
+        else if (parentBReachable && !ruleBPasses)
+          statusB = 'parent_ok_rule_fails';
+        else if (!parentBReachable && ruleBPasses)
+          statusB = 'parent_locked_rule_ok';
+        else if (!parentBReachable && !ruleBPasses)
+          statusB = 'parent_locked_rule_fails';
+
+        const orderA =
+          accessibilitySortOrder[statusA] ?? accessibilitySortOrder.unknown;
+        const orderB =
+          accessibilitySortOrder[statusB] ?? accessibilitySortOrder.unknown;
+
+        if (orderA !== orderB) {
+          return orderA - orderB;
+        }
+        // Secondary sort: original order
+        if (this.originalExitOrder && this.originalExitOrder.length > 0) {
+          const indexA = this.originalExitOrder.indexOf(a.name);
+          const indexB = this.originalExitOrder.indexOf(b.name);
+          if (indexA !== -1 && indexB !== -1) {
+            if (indexA !== indexB) return indexA - indexB;
+          }
+          // Handle cases where one or both might not be in original order (e.g., new items)
+          if (indexA === -1 && indexB !== -1) return 1; // A not found, B comes first
+          if (indexA !== -1 && indexB === -1) return -1; // B not found, A comes first
+        }
+        return a.name.localeCompare(b.name); // Ultimate fallback to name sort
       } else if (sortMethod === 'name') {
         return a.name.localeCompare(b.name);
       } else {
@@ -692,7 +766,7 @@ export class ExitUI {
 
     // Render
     this.exitsGrid.innerHTML = ''; // Clear previous content
-    this.exitsGrid.style.gridTemplateColumns = `repeat(${this.columns}, 1fr)`;
+    this.exitsGrid.style.gridTemplateColumns = `repeat(${this.columns}, minmax(0, 1fr))`;
     this.exitsGrid.style.display = 'grid';
     this.exitsGrid.style.gap = '5px';
 
@@ -729,33 +803,58 @@ export class ExitUI {
             rulePasses = false;
           }
 
-        let stateClass = 'unknown';
-        let statusText = 'Unknown';
+        let stateClass = 'unknown-exit-state'; // Default for truly unknown/edge cases
+        let statusText = 'Unknown Status';
 
-        if (parentRegionReachable && rulePasses && connectedRegionReachable) {
-          stateClass = 'traversable';
-          statusText = 'Traversable';
+        // Check for undefined results from reachability or rule evaluation first
+        if (
+          parentRegionReachable === undefined ||
+          connectedRegionReachable === undefined ||
+          rulePasses === undefined
+        ) {
+          stateClass = 'unknown-accessibility'; // Style this gray
+          statusText = 'Accessibility Unknown';
+          if (parentRegionReachable === undefined)
+            statusText = 'Origin Unknown, ' + statusText;
+          if (connectedRegionReachable === undefined)
+            statusText = 'Dest Unknown, ' + statusText;
+          if (rulePasses === undefined)
+            statusText = 'Rule Eval Unknown, ' + statusText;
         } else if (
           parentRegionReachable &&
           rulePasses &&
-          !connectedRegionReachable
+          connectedRegionReachable
         ) {
-          stateClass = 'parent-rule-ok-connected-locked';
-          statusText = 'To Locked Region';
-        } else if (parentRegionReachable && !rulePasses) {
-          stateClass = 'parent-ok-rule-fails';
-          statusText = 'Rule Fails';
-        } else if (!parentRegionReachable && rulePasses) {
-          stateClass = 'parent-locked-rule-ok';
-          statusText = 'From Locked Region, Rule OK';
+          stateClass = 'traversable'; // Style this green
+          statusText = 'Traversable';
         } else {
-          // !parentRegionReachable && !rulePasses (or other fallbacks)
-          stateClass = 'fully-locked';
-          statusText = 'Fully Locked';
+          // All other cases are definitively non-traversable for a known reason
+          stateClass = 'non-traversable-locked'; // Style this red
+          // More specific statusText can remain as before or be simplified
+          if (
+            parentRegionReachable &&
+            rulePasses &&
+            !connectedRegionReachable
+          ) {
+            statusText = 'To Locked Region';
+          } else if (parentRegionReachable && !rulePasses) {
+            statusText = 'Rule Fails';
+          } else if (!parentRegionReachable && rulePasses) {
+            statusText = 'From Locked Region, Rule OK';
+          } else {
+            // !parentRegionReachable && !rulePasses
+            statusText = 'Fully Locked';
+          }
         }
 
+        // Remove all potentially existing state classes before adding the new one
+        card.classList.remove(
+          'unknown-exit-state',
+          'unknown-accessibility',
+          'traversable',
+          'non-traversable-locked'
+        );
         card.classList.add(stateClass);
-        // commonUI.applyColorblindClass(card, stateClass, this.colorblindSettings); // If commonUI.applyColorblindClass is ready and takes these params
         card.classList.toggle('colorblind-mode', useColorblind); // Simple toggle for now
 
         const isExplored =

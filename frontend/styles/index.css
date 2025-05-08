@@ -388,7 +388,7 @@ select:hover {
   overflow-x: hidden; /* Prevent horizontal scrolling */
   padding: 0.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */ /* REMOVED to allow JS to control this */
   gap: 0.5rem;
   box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
@@ -430,15 +430,26 @@ select:hover {
 }
 /* --- END NEW Detailed Statuses --- */
 
-.location-card.reachable, /* Keep old for compatibility? Or remove if fully transitioned */
+/* --- Exit Card Statuses --- */
 .exit-card.traversable {
-  background-color: #0a3318;
+  background-color: #0a3318; /* Green */
 }
 
-.location-card.unreachable,
+.exit-card.non-traversable-locked {
+  background-color: #3a0808; /* Red for locked/non-traversable */
+}
+
+.exit-card.unknown-accessibility,
+.exit-card.unknown-exit-state {
+  background-color: #333333; /* Gray for unknown states */
+}
+
+/* Old .not-traversable, can be removed if .non-traversable-locked covers all red cases */
+/*
 .exit-card.not-traversable {
   background-color: #3a0808;
 }
+*/
 
 .location-card.region-accessible-but-locked {
   background-color: #665508; /* Yellow-ish */
