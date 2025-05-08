@@ -595,10 +595,10 @@ export function createStateSnapshotInterface(snapshot, staticData) {
     getSetting: (settingName) => snapshot?.settings?.[settingName],
     isRegionReachable: (regionName) => {
       // TEMP LOGGING
-      console.log(
-        `[SnapshotIF isRegionReachable] Checking region: '${regionName}'. Reachability data:`,
-        snapshot?.reachability
-      );
+      //console.log(
+      //  `[SnapshotIF isRegionReachable] Checking region: '${regionName}'. Reachability data:`,
+      //  snapshot?.reachability
+      //);
       const status = snapshot?.reachability?.[regionName];
       if (status === 'reachable' || status === 'checked') return true;
       if (status === 'unreachable') return false;

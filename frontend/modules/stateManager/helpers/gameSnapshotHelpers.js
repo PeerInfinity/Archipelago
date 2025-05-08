@@ -1,3 +1,5 @@
+import { evaluateRule } from '../ruleEngine.js'; // Adjusted path
+
 export class GameSnapshotHelpers {
   constructor(snapshotInterface) {
     if (!snapshotInterface) {
@@ -46,6 +48,48 @@ export class GameSnapshotHelpers {
 
   _isLocationAccessible(locationOrName) {
     return this.snapshot.isLocationAccessible(locationOrName);
+
+    // 'this.snapshot' is the snapshotInterface instance passed to the constructor.
+    // It should provide access to staticData.
+    if (typeof locationOrName !== 'string') {
+      console.warn(
+        '[GameSnapshotHelpers._isLocationAccessible] Expected locationOrName to be a string, got:',
+        locationOrName
+      );
+      return false;
+    }
+    const locationName = locationOrName;
+
+    if (
+      !this.snapshot.staticData ||
+      !this.snapshot.staticData.locations ||
+      !this.snapshot.staticData.locations[locationName]
+    ) {
+      console.warn(
+        `[GameSnapshotHelpers._isLocationAccessible] Location '${locationName}' not found in staticData.`
+      );
+      return false;
+    }
+    const locationData = this.snapshot.staticData.locations[locationName];
+
+    if (!locationData.access_rule) {
+      // Default behavior: if no access_rule, assume accessible.
+      // This might need to be adjusted based on specific game logic (e.g., depends on region accessibility only).
+      // console.log(`[GameSnapshotHelpers._isLocationAccessible] Location '${locationName}' has no access_rule, assuming accessible.`);
+      return true;
+    }
+
+    try {
+      // Pass the snapshotInterface (this.snapshot) as the context for rule evaluation.
+      return evaluateRule(locationData.access_rule, this.snapshot);
+    } catch (e) {
+      console.error(
+        `[GameSnapshotHelpers._isLocationAccessible] Error evaluating access rule for '${locationName}':`,
+        e,
+        locationData.access_rule
+      );
+      return false; // Treat rule evaluation errors as inaccessible
+    }
   }
 
   _getPlayerSlot() {

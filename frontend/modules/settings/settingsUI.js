@@ -1,10 +1,10 @@
 import settingsManager from '../../app/core/settingsManager.js'; // <<< Import Settings Manager
 
-class OptionsUI {
+class SettingsUI {
   constructor() {
-    console.log('OptionsUI instance created');
+    console.log('SettingsUI instance created');
     this.rootElement = document.createElement('div');
-    this.rootElement.classList.add('options-panel-content', 'panel-container'); // Add classes for styling
+    this.rootElement.classList.add('settings-panel-content', 'panel-container'); // Add classes for styling
     this.rootElement.style.width = '100%';
     this.rootElement.style.height = '100%';
     this.rootElement.style.overflow = 'auto'; // Ensure content can scroll if needed
@@ -27,11 +27,11 @@ class OptionsUI {
 
   initialize() {
     if (!this.isInitialized) {
-      console.log('Initializing OptionsUI...');
+      console.log('Initializing SettingsUI...');
       this.initializeEditor();
       this.isInitialized = true;
     } else {
-      console.log('OptionsUI already initialized.');
+      console.log('SettingsUI already initialized.');
       // Potentially refresh if needed when re-opened
       if (this.editor) {
         this.editor.setValue(this.currentData);
@@ -51,7 +51,7 @@ class OptionsUI {
 
     if (this.editor) {
       console.log(
-        'Options editor already exists. Destroying previous instance.'
+        'Settings editor already exists. Destroying previous instance.'
       );
       this.destroyEditor();
     }
@@ -116,7 +116,7 @@ class OptionsUI {
         required: ['colorblindMode'],
       };
 
-      const options = {
+      const settings = {
         theme: 'bootstrap4',
         iconlib: 'fontawesome5',
         schema: this.currentSchema,
@@ -126,7 +126,7 @@ class OptionsUI {
         // remove_empty_properties: false, // Keep structure
       };
 
-      this.editor = new JSONEditor(this.editorContainer, options);
+      this.editor = new JSONEditor(this.editorContainer, settings);
 
       this.editor.on('change', () => {
         if (this.editor) {
@@ -138,7 +138,7 @@ class OptionsUI {
             this.currentData = settingsManager.getSettings();
           } catch (e) {
             console.error(
-              'Error getting/updating value from options editor:',
+              'Error getting/updating value from settings editor:',
               e
             );
           }
@@ -148,14 +148,14 @@ class OptionsUI {
       console.log('json-editor instance created successfully.');
     } catch (error) {
       console.error('Failed to initialize JSONEditor (json-editor):', error);
-      this.editorContainer.innerHTML = `<p style="color: red;">Error loading Options Editor: ${error.message}. Check console.</p>`;
+      this.editorContainer.innerHTML = `<p style="color: red;">Error loading Settings Editor: ${error.message}. Check console.</p>`;
       this.editor = null; // Ensure editor is null on error
     }
   }
 
   // Basic implementation, json-editor might resize itself
   onPanelResize(width, height) {
-    console.log(`OptionsUI resized to ${width}x${height}`);
+    console.log(`SettingsUI resized to ${width}x${height}`);
     // You might trigger a resize/refresh on the editor if needed
   }
 
@@ -172,31 +172,31 @@ class OptionsUI {
   }
 
   onPanelDestroy() {
-    console.log('OptionsUI destroyed');
+    console.log('SettingsUI destroyed');
     this.destroyEditor();
     this.isInitialized = false;
   }
 
   dispose() {
-    console.log('Disposing OptionsUI...');
+    console.log('Disposing SettingsUI...');
     this.onPanelDestroy();
   }
 
   // --- Methods to interact with the editor ---
   setData(newData, newSchema = null) {
-    console.log('OptionsUI setData called.');
+    console.log('SettingsUI setData called.');
     // This method might become less relevant if editor always loads from settingsManager
     // Or could be used to force-reload from settingsManager if needed
     this.currentData = settingsManager.getSettings();
     if (this.editor) {
-      console.log('Reloading options editor data from settingsManager...');
+      console.log('Reloading settings editor data from settingsManager...');
       try {
         this.editor.setValue(this.currentData);
       } catch (e) {
-        console.error('Error setting value in options editor:', e);
+        console.error('Error setting value in settings editor:', e);
       }
     } else {
-      console.log('Options editor not initialized yet. Will load on init.');
+      console.log('Settings editor not initialized yet. Will load on init.');
       if (this.isInitialized) {
         this.initializeEditor();
       }
@@ -209,4 +209,4 @@ class OptionsUI {
   }
 }
 
-export default OptionsUI;
+export default SettingsUI;

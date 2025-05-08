@@ -498,10 +498,11 @@ export class LocationUI {
 
         // Debug logging for specific locations
         if (
-          name === 'Mushroom' ||
-          name === "King's Tomb" ||
-          name === 'Potion Shop' ||
-          name === 'Sahasrahla'
+          //name === 'Mushroom' ||
+          //name === "King's Tomb" ||
+          //name === 'Potion Shop' ||
+          //name === 'Sahasrahla' ||
+          false
         ) {
           // Add more names if needed
           console.log(`[LocationUI Filter DEBUG] Loc: '${name}'`, {
@@ -758,9 +759,9 @@ export class LocationUI {
         );
 
         // Apply colorblind class (using the primary state class)
-        console.log(
-          `[LocationUI Render] Applying class '${stateClass}' for location '${name}'`
-        );
+        //console.log(
+        //  `[LocationUI Render] Applying class '${stateClass}' for location '${name}'`
+        //);
         applyColorblindClass(
           locationCard,
           stateClass, // Use the calculated stateClass
@@ -794,7 +795,8 @@ export class LocationUI {
             parentRegionReachabilityStatus === 'reachable'; // Approximation
           const regionLink = commonUI.createRegionLink(
             location.parent_region,
-            this.colorblindSettings
+            this.colorblindSettings,
+            snapshot // Pass the snapshot object
           );
           // regionLink.style.color = regionIsAccessible ? 'inherit' : 'red'; // Styling handled by commonUI or CSS
 

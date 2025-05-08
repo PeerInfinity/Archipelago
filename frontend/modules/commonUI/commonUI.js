@@ -684,19 +684,59 @@ class CommonUI {
     link.dataset.region = regionName;
     link.title = `Click to view the ${regionName} region`;
 
-    // Determine if region is reachable FROM THE SNAPSHOT
-    const reachableRegions = new Set(snapshot?.reachableRegions || []);
-    const isReachable = reachableRegions.has(regionName);
+    // Determine region accessibility status from snapshot.reachability
+    const rawStatus = snapshot?.reachability?.[regionName];
+    let displayStatus; // Will be true (accessible), false (inaccessible), or undefined (unknown)
 
-    // Set appropriate color
-    link.style.color = isReachable ? 'inherit' : 'red';
+    if (
+      rawStatus === 'reachable' ||
+      rawStatus === 'checked' ||
+      rawStatus === true
+    ) {
+      displayStatus = true;
+    } else if (rawStatus === undefined) {
+      displayStatus = undefined; // Explicitly undefined if not in snapshot or snapshot missing
+    } else {
+      // Covers: false, 'unreachable', 'locked', or any other string not explicitly 'reachable' or 'checked'
+      displayStatus = false;
+    }
+
+    // Set appropriate color and class
+    link.classList.remove('accessible', 'inaccessible', 'unknown-reachability'); // Clear previous classes
+    if (displayStatus === true) {
+      link.style.color = 'inherit'; // Or a specific green, e.g., from CSS variables
+      link.classList.add('accessible');
+    } else if (displayStatus === false) {
+      link.style.color = 'red'; // Consistent with other inaccessible elements
+      link.classList.add('inaccessible');
+    } else {
+      // displayStatus is undefined
+      link.style.color = '#808080'; // Gray for unknown
+      link.classList.add('unknown-reachability'); // Use a specific class for unknown
+    }
 
     // Add colorblind symbol if enabled
     if (useColorblindMode) {
+      // Remove existing symbol if any, to prevent duplicates on re-renders
+      const existingSymbol = link.querySelector('.colorblind-symbol');
+      if (existingSymbol) {
+        existingSymbol.remove();
+      }
+
       const symbolSpan = document.createElement('span');
       symbolSpan.classList.add('colorblind-symbol');
-      symbolSpan.textContent = isReachable ? ' ✓' : ' ✗';
-      symbolSpan.classList.add(isReachable ? 'accessible' : 'inaccessible');
+
+      if (displayStatus === true) {
+        symbolSpan.textContent = ' ✓';
+        symbolSpan.classList.add('accessible');
+      } else if (displayStatus === false) {
+        symbolSpan.textContent = ' ✗';
+        symbolSpan.classList.add('inaccessible');
+      } else {
+        // displayStatus is undefined
+        symbolSpan.textContent = ' ?';
+        symbolSpan.classList.add('unknown');
+      }
       link.appendChild(symbolSpan);
     }
 

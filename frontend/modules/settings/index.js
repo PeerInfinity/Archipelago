@@ -1,47 +1,47 @@
 // UI Class for this module
-import OptionsUI from './optionsUI.js';
+import SettingsUI from './settingsUI.js';
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Options',
+  name: 'Settings',
   description: 'Settings editor panel.',
 };
 
 // Store instances or state needed by the module
-let optionsInstance = null;
+let settingsInstance = null;
 
 /**
- * Registration function for the Options module.
- * Registers the options panel component.
+ * Registration function for the settings module.
+ * Registers the settings panel component.
  */
 export function register(registrationApi) {
-  console.log('[Options Module] Registering...');
+  console.log('[Settings Module] Registering...');
 
   // Register the panel component class constructor
-  registrationApi.registerPanelComponent('optionsPanel', OptionsUI);
+  registrationApi.registerPanelComponent('settingsPanel', SettingsUI);
 
-  // Options might have its own settings schema distinct from the main one it edits?
+  // Settings might have its own settings schema distinct from the main one it edits?
   // registrationApi.registerSettingsSchema({ ... });
 
-  // OptionsUI directly uses settingsManager.updateSettings, doesn't need dispatcher for saves.
+  // SettingsUI directly uses settingsManager.updateSettings, doesn't need dispatcher for saves.
   // Might register handlers if it needs to react to external events.
   // registrationApi.registerEventHandler('some:event', handleSomeEvent);
 }
 
 /**
- * Initialization function for the Options module.
+ * Initialization function for the Settings module.
  * Currently minimal.
  */
 export function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(
-    `[Options Module] Initializing with priority ${priorityIndex}...`
+    `[Settings Module] Initializing with priority ${priorityIndex}...`
   );
   // const eventBus = initializationApi.getEventBus();
   // const settings = await initializationApi.getSettings(); // Maybe get initial settings?
   // const dispatcher = initializationApi.getDispatcher();
 
-  // OptionsUI fetches/updates settings via the imported settingsManager singleton directly.
+  // SettingsUI fetches/updates settings via the imported settingsManager singleton directly.
   // No specific initialization steps required here based on current plan.
 
-  console.log('[Options Module] Initialization complete.');
+  console.log('[Settings Module] Initialization complete.');
 }

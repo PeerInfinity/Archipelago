@@ -552,6 +552,11 @@ select:hover {
   color: #b0b0b0; /* Light gray/off-white for the question mark */
 }
 
+/* Style for region links with unknown reachability */
+.region-link.unknown-reachability {
+  color: #9e9e9e !important; /* Using !important to ensure override if inline styles conflict, adjust as needed */
+}
+
 /* Buttons and Controls */
 .button {
   background-color: #000080;
