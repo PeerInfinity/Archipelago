@@ -136,7 +136,7 @@ export class ExitUI {
     element.style.overflow = 'hidden';
 
     element.innerHTML = `
-      <div class="control-group exit-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
+       <div class="control-group exit-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
         <input type="search" id="exit-search" placeholder="Search exits..." style="margin-right: 10px;">
         <select id="exit-sort-select">
           <option value="original">Original Order</option>

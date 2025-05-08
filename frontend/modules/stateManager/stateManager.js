@@ -607,9 +607,13 @@ export class StateManager {
         }
 
         // Check if exit is traversable using the *injected* evaluateRule engine
+        const snapshotInterfaceContext = this._createSelfSnapshotInterface();
         const canTraverse =
           !exit.access_rule ||
-          this.evaluateRuleFromEngine(exit.access_rule, this);
+          this.evaluateRuleFromEngine(
+            exit.access_rule,
+            snapshotInterfaceContext
+          );
 
         if (canTraverse) {
           // Region is now reachable

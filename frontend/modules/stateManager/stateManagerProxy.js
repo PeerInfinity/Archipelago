@@ -324,7 +324,8 @@ class StateManagerProxy {
     regionData,
     exitData,
     originalLocationOrder,
-    originalExitOrder
+    originalExitOrder,
+    originalRegionOrder
   ) {
     console.log(
       '[StateManagerProxy] Caching static data including original orders.'
@@ -337,6 +338,7 @@ class StateManagerProxy {
       exits: exitData,
       locationOrder: originalLocationOrder || [], // Store original location order
       exitOrder: originalExitOrder || [], // Store original exit order
+      regionOrder: originalRegionOrder || [], // Store original region order
     };
     this.staticDataIsSet = true; // Set flag when static data arrives
     // Log the structure briefly
@@ -350,6 +352,7 @@ class StateManagerProxy {
         ? originalLocationOrder.length
         : 0,
       exitOrderLength: originalExitOrder ? originalExitOrder.length : 0,
+      regionOrderLength: originalRegionOrder ? originalRegionOrder.length : 0,
     });
 
     // Check if ready to publish event
@@ -375,6 +378,12 @@ class StateManagerProxy {
   getOriginalExitOrder() {
     return this.staticDataCache?.exitOrder || [];
   }
+
+  // <<< ADDED: New getter for original region order >>>
+  getOriginalRegionOrder() {
+    return this.staticDataCache?.regionOrder || [];
+  }
+  // <<< END ADDED >>>
 
   async addItemToInventory(item, quantity = 1) {
     await this.ensureReady(); // Ensure worker is loaded before sending commands
@@ -597,6 +606,36 @@ export function createStateSnapshotInterface(snapshot, staticData) {
     _isSnapshotInterface: true, // Crucial marker for helper constructor
     snapshot: snapshot,
     staticData: staticData,
+    resolveName: (name) => {
+      switch (name) {
+        case 'True':
+          return true;
+        case 'False':
+          return false;
+        case 'None':
+          return null;
+        case 'inventory':
+          return snapshot?.inventory;
+        case 'settings':
+          return snapshot?.settings;
+        case 'flags':
+          return snapshot?.flags; // Checked locations etc.
+        case 'state':
+          return snapshot?.state; // Game-specific state object
+        case 'regions':
+          return staticData?.regions;
+        case 'locations':
+          return staticData?.locations;
+        case 'items':
+          return staticData?.items;
+        case 'groups':
+          return staticData?.groups;
+        // Add other common top-level names if needed by rules
+        default:
+          // console.warn(`[SnapshotInterface resolveName] Unhandled name: ${name}`);
+          return undefined;
+      }
+    },
     hasItem: (itemName) =>
       !!(snapshot?.inventory && snapshot.inventory[itemName] > 0),
     countItem: (itemName) => snapshot?.inventory?.[itemName] || 0,
@@ -865,12 +904,35 @@ export function createStateSnapshotInterface(snapshot, staticData) {
           return undefined;
         case '_lttp_has_key':
           // Map to the migrated helper method name
-          return altlpSnapshotHelpersInstance.executeHelper(
-            '_has_specific_key_count',
-            ...args
+          // Ensure executeHelper exists before calling
+          if (
+            altlpSnapshotHelpersInstance &&
+            typeof altlpSnapshotHelpersInstance.executeHelper === 'function'
+          ) {
+            return altlpSnapshotHelpersInstance.executeHelper(
+              '_has_specific_key_count',
+              ...args
+            );
+          }
+          console.warn(
+            '[SnapshotIF executeStateManagerMethod] Could not delegate _lttp_has_key: helpers or executeHelper missing.'
           );
+          return undefined;
         case 'has_any':
-          return altlpSnapshotHelpersInstance.executeHelper('has_any', ...args);
+          // Ensure executeHelper exists before calling
+          if (
+            altlpSnapshotHelpersInstance &&
+            typeof altlpSnapshotHelpersInstance.executeHelper === 'function'
+          ) {
+            return altlpSnapshotHelpersInstance.executeHelper(
+              'has_any',
+              ...args
+            );
+          }
+          console.warn(
+            '[SnapshotIF executeStateManagerMethod] Could not delegate has_any: helpers or executeHelper missing.'
+          );
+          return undefined;
         // Add other state methods that need specific handling or delegation here
         default:
           console.warn(
@@ -879,6 +941,9 @@ export function createStateSnapshotInterface(snapshot, staticData) {
           return undefined;
       }
     },
+    // --- ADDED: Add resolveName to the final interface too ---
+    resolveName: rawInterfaceForHelpers.resolveName,
+    // --- END ADDED ---
   };
   return snapshotInterfaceInstance;
 }

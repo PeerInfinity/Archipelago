@@ -129,6 +129,7 @@ async function postInitialize(initializationApi) {
     const aggregatedExitData = {};
     const trueOriginalLocationOrder = []; // New array for true original order
     const trueOriginalExitOrder = []; // New array for true original order
+    const trueOriginalRegionOrder = []; // New array for true original region order
 
     try {
       // 1. Fetch Rules JSON
@@ -203,6 +204,7 @@ async function postInitialize(initializationApi) {
         '[StateManager Module] Aggregating locations/exits from regions...'
       );
       for (const regionName in regionData) {
+        trueOriginalRegionOrder.push(regionName);
         const region = regionData[regionName];
         // Locations
         if (region && region.locations) {
@@ -262,6 +264,9 @@ async function postInitialize(initializationApi) {
       console.log(
         `[StateManager Module] True original exit order captured: ${trueOriginalExitOrder.length} items`
       );
+      console.log(
+        `[StateManager Module] True original region order captured: ${trueOriginalRegionOrder.length} items`
+      );
 
       // 5. Cache ALL Static Data on Proxy
       console.log('[StateManager Module] Caching static data on proxy...');
@@ -272,7 +277,8 @@ async function postInitialize(initializationApi) {
         regionData, // Original regions
         aggregatedExitData,
         trueOriginalLocationOrder, // Pass the true original order array
-        trueOriginalExitOrder // Pass the true original order array
+        trueOriginalExitOrder, // Pass the true original order array
+        trueOriginalRegionOrder // Pass the true original region order array
       );
       console.log(
         '[StateManager Module] Static data successfully cached on proxy.'

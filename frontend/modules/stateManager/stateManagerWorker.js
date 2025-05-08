@@ -59,10 +59,10 @@ async function processInternalQueue() {
 
   while (internalQueue.length > 0) {
     const message = internalQueue.shift();
-    console.log(
-      '[stateManagerWorker processInternalQueue] Dequeued message:',
-      JSON.stringify(message)
-    );
+    //console.log(
+    //  '[stateManagerWorker processInternalQueue] Dequeued message:',
+    //  JSON.stringify(message)
+    //);
     console.log('[stateManagerWorker] Processing message:', message);
     try {
       // Route command/query to stateManagerInstance method
@@ -256,11 +256,11 @@ async function processInternalQueue() {
 }
 
 self.onmessage = (event) => {
-  console.log(
-    '[stateManagerWorker onmessage] Raw event.data:',
-    JSON.stringify(event.data)
-  );
-  console.log('[stateManagerWorker] Received message:', event.data);
+  //console.log(
+  //  '[stateManagerWorker onmessage] Raw event.data:',
+  //  JSON.stringify(event.data)
+  //);
+  //console.log('[stateManagerWorker] Received message:', event.data);
   internalQueue.push(event.data);
   // Trigger processing asynchronously
   setTimeout(processInternalQueue, 0);

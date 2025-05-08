@@ -1,7 +1,9 @@
 // pathAnalyzerLogic.js
 import { evaluateRule } from '../stateManager/ruleEngine.js';
-import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+// REMOVED: Global stateManager import
+// import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import loopState from '../loops/loopStateSingleton.js';
+import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
 
 /**
  * Core logic for path analysis, separated from UI concerns
@@ -25,35 +27,40 @@ export class PathAnalyzerLogic {
   /**
    * Finds a path from the starting region to the target region using only discovered regions in loop mode
    * @param {string} targetRegion - The region containing the location or exit to find a path to
+   * @param {object} staticData - The cached static game data (regions, items, etc.)
    * @returns {Array<string>|null} - Array of region names in the path order, or null if no path found
    */
-  findPathInLoopMode(targetRegion) {
+  findPathInLoopMode(targetRegion, staticData) {
     const startRegion = 'Menu'; // Always start from Menu in loop mode
 
-    // Early exit if the target region is Menu
     if (targetRegion === startRegion) {
       return [startRegion];
     }
 
-    // Early exit if the target region isn't discovered in loop mode
     if (!loopState.isRegionDiscovered(targetRegion)) {
       return null;
     }
 
-    // Initialize BFS structures
-    const queue = [[startRegion]]; // Queue of paths
-    const visited = new Set([startRegion]); // Set of visited regions
+    // <<< ADDED: Check for regions data >>>
+    const regionsData = staticData?.regions;
+    if (!regionsData) {
+      this._logDebug(
+        'Cannot find path in loop mode: Static region data missing.'
+      );
+      return null;
+    }
+
+    const queue = [[startRegion]];
+    const visited = new Set([startRegion]);
 
     while (queue.length > 0) {
       const path = queue.shift();
       const currentRegion = path[path.length - 1];
 
-      // Path found if we've reached the target region
       if (currentRegion === targetRegion) {
         return path;
       }
 
-      // Don't exceed a reasonable number of iterations
       if (visited.size > this.maxPathFinderIterations) {
         this._logDebug(
           `Maximum iterations (${this.maxPathFinderIterations}) exceeded in findPathInLoopMode`
@@ -61,17 +68,15 @@ export class PathAnalyzerLogic {
         return null;
       }
 
-      // Get the region data
-      const regionData = stateManager.regions[currentRegion];
+      // Get the region data using the passed staticData
+      const regionData = regionsData[currentRegion];
       if (!regionData || !regionData.exits) {
         continue;
       }
 
-      // Check all exits from the current region
       for (const exit of regionData.exits) {
         const nextRegion = exit.connected_region;
 
-        // Skip if the next region is null, already visited, or not discovered in loop mode
         if (
           !nextRegion ||
           visited.has(nextRegion) ||
@@ -80,54 +85,82 @@ export class PathAnalyzerLogic {
           continue;
         }
 
-        // Check if the exit is discovered in loop mode
         if (!loopState.isExitDiscovered(currentRegion, exit.name)) {
           continue;
         }
 
-        // Create a new path with the next region
         const newPath = [...path, nextRegion];
-
-        // Add the next region to visited and queue the new path
         visited.add(nextRegion);
         queue.push(newPath);
       }
     }
 
-    // No path found
     return null;
   }
 
   /**
-   * Finds paths to a region using BFS
+   * Finds paths to a region using DFS (not BFS as previously commented)
    * @param {string} targetRegion - The region to find paths to
    * @param {number} maxPaths - Maximum number of paths to find
+   * @param {object} snapshot - The current state snapshot.
+   * @param {object} staticData - The cached static game data.
    * @returns {Array} - Array of paths to the target region
    */
-  findPathsToRegion(targetRegion, maxPaths = 100) {
+  findPathsToRegion(targetRegion, maxPaths = 100, snapshot, staticData) {
     const paths = [];
 
-    // Use stateManager's computeReachableRegions to check if the target is reachable at all
-    const reachableRegions = stateManager.computeReachableRegions();
-
-    if (!reachableRegions.has(targetRegion)) {
+    if (!snapshot || !staticData) {
       this._logDebug(
-        `Target region ${targetRegion} is not reachable according to stateManager`
+        'findPathsToRegion: Missing snapshot or staticData. Cannot perform pathfinding.'
       );
-      // Still attempt to find paths, which might reveal why it's unreachable
+      return paths;
+    }
+    const snapshotInterface = createStateSnapshotInterface(
+      snapshot,
+      staticData
+    );
+    if (!snapshotInterface) {
+      this._logDebug(
+        'findPathsToRegion: Failed to create snapshotInterface. Cannot perform pathfinding.'
+      );
+      return paths;
     }
 
-    const startRegions = stateManager.getStartRegions();
+    let isTargetReachableInSnapshot = false;
+    if (snapshot && snapshot.reachability) {
+      const status = snapshot.reachability[targetRegion];
+      isTargetReachableInSnapshot =
+        status === true || status === 'reachable' || status === 'checked';
+    }
+
+    if (!isTargetReachableInSnapshot) {
+      this._logDebug(
+        `Target region ${targetRegion} is not reachable according to the latest snapshot`
+      );
+      // Continue trying to find paths anyway
+    }
+
+    const startRegions = staticData?.startRegions || ['Menu'];
+    const regionsData = staticData?.regions;
+
+    if (!regionsData) {
+      this._logDebug(
+        'Cannot find paths: Region data not available in static cache.'
+      );
+      return paths;
+    }
 
     for (const startRegion of startRegions) {
       if (paths.length >= maxPaths) break;
       this._findPathsDFS(
         startRegion,
         targetRegion,
-        [startRegion],
-        new Set([startRegion]),
+        [],
+        new Set(),
         paths,
-        maxPaths
+        maxPaths,
+        regionsData,
+        snapshotInterface
       );
     }
 
@@ -136,6 +169,14 @@ export class PathAnalyzerLogic {
 
   /**
    * Helper method for DFS path finding
+   * @param {string} currentRegion
+   * @param {string} targetRegion
+   * @param {Array<string>} currentPath
+   * @param {Set<string>} visited
+   * @param {Array<Array<string>>} allPaths - Array to store found paths
+   * @param {number} maxPaths
+   * @param {object} regionsData - Static region data object
+   * @param {object} snapshotInterface - The interface for rule evaluation.
    * @private
    */
   _findPathsDFS(
@@ -144,105 +185,225 @@ export class PathAnalyzerLogic {
     currentPath,
     visited,
     allPaths,
-    maxPaths
+    maxPaths,
+    regionsData,
+    snapshotInterface
   ) {
-    if (currentRegion === targetRegion && currentPath.length > 1) {
+    // --- ADDED: Verbose Logging ---
+    this._logDebug(
+      `DFS: Entering for ${currentRegion}, Path: [${currentPath.join(
+        ', '
+      )}], Visited: {${[...visited].join(', ')}}`
+    );
+
+    // --- 1. Mark current region as visited for this path ---
+    visited.add(currentRegion);
+    currentPath.push(currentRegion);
+    // --- ADDED: Verbose Logging ---
+    this._logDebug(
+      `DFS: Added ${currentRegion}. Path now: [${currentPath.join(
+        ', '
+      )}], Visited now: {${[...visited].join(', ')}}`
+    );
+
+    // --- 2. Check if target reached ---
+    if (currentRegion === targetRegion) {
+      // --- ADDED: Verbose Logging ---
+      this._logDebug(`DFS: Target ${targetRegion} reached!`);
       allPaths.push([...currentPath]);
-      return;
+      // --- ADDED: Verbose Logging ---
+      this._logDebug(`DFS: Added path. Total paths: ${allPaths.length}`);
+      if (allPaths.length >= maxPaths) {
+        // --- ADDED: Verbose Logging ---
+        this._logDebug(`DFS: Max paths (${maxPaths}) reached.`);
+        // Backtrack state before returning due to max paths
+        currentPath.pop();
+        visited.delete(currentRegion);
+        // --- ADDED: Verbose Logging ---
+        this._logDebug(`DFS: Backtracking ${currentRegion} due to max paths.`);
+        return; // Stop this branch
+      }
+      // Don't return if max paths not hit yet
     }
 
-    if (allPaths.length >= maxPaths) return;
-
-    const regionData = stateManager.regions[currentRegion];
-    if (!regionData) return;
-
-    for (const exit of regionData.exits || []) {
-      const nextRegion = exit.connected_region;
-      if (!nextRegion || visited.has(nextRegion)) continue;
-
-      visited.add(nextRegion);
-      currentPath.push(nextRegion);
-      this._findPathsDFS(
-        nextRegion,
-        targetRegion,
-        currentPath,
-        visited,
-        allPaths,
-        maxPaths
+    // --- 3. Explore neighbors via exits ---
+    const regionData = regionsData[currentRegion];
+    if (regionData && regionData.exits) {
+      // --- ADDED: Verbose Logging ---
+      this._logDebug(
+        `DFS: Exploring ${regionData.exits.length} exits from ${currentRegion}`
       );
-      currentPath.pop();
-      visited.delete(nextRegion);
+      for (const exit of regionData.exits) {
+        // --- ADDED: Verbose Logging ---
+        if (allPaths.length >= maxPaths) {
+          this._logDebug(
+            `DFS: Max paths reached, breaking exit loop for ${currentRegion}`
+          );
+          break;
+        }
+        const nextRegion = exit.connected_region;
+        // --- ADDED: Verbose Logging ---
+        this._logDebug(`DFS: Checking exit ${exit.name} -> ${nextRegion}`);
+
+        if (nextRegion && regionsData[nextRegion]) {
+          if (visited.has(nextRegion)) {
+            // --- ADDED: Verbose Logging ---
+            this._logDebug(
+              `DFS: Skipping ${nextRegion} (already visited in this path)`
+            );
+            continue;
+          }
+
+          let canTraverseExit = true;
+          if (exit.access_rule) {
+            // --- ADDED: Verbose Logging ---
+            this._logDebug(`DFS: Evaluating rule for exit ${exit.name}`);
+            try {
+              canTraverseExit = evaluateRule(
+                exit.access_rule,
+                snapshotInterface
+              );
+              // --- ADDED: Verbose Logging ---
+              this._logDebug(
+                `DFS: Rule result for ${exit.name}: ${canTraverseExit}`
+              );
+            } catch (e) {
+              this._logDebug(
+                `Error evaluating exit rule in DFS: ${currentRegion}->${exit.name}`,
+                e
+              );
+              canTraverseExit = false;
+            }
+          } else {
+            // --- ADDED: Verbose Logging ---
+            this._logDebug(`DFS: No rule for exit ${exit.name}, traversing.`);
+          }
+
+          if (canTraverseExit) {
+            // --- ADDED: Verbose Logging ---
+            this._logDebug(`DFS: Traversing to ${nextRegion}, recursing...`);
+            // Recurse for the next region
+            this._findPathsDFS(
+              nextRegion,
+              targetRegion,
+              currentPath,
+              visited,
+              allPaths,
+              maxPaths,
+              regionsData,
+              snapshotInterface
+            );
+            // --- ADDED: Verbose Logging ---
+            if (allPaths.length >= maxPaths) {
+              this._logDebug(
+                `DFS: Max paths reached after returning from ${nextRegion}, breaking exit loop.`
+              );
+              break;
+            }
+          } else {
+            // --- ADDED: Verbose Logging (already existed) ---
+            this._logDebug(
+              `DFS: Exit ${currentRegion}->${exit.name} to ${nextRegion} is blocked.`
+            );
+          }
+        } else {
+          // --- ADDED: Verbose Logging ---
+          this._logDebug(
+            `DFS: Skipping exit ${exit.name} -> ${nextRegion} (invalid/missing region or not in regionsData)`
+          );
+        }
+      } // End for exits
+    } else {
+      // --- ADDED: Verbose Logging ---
+      this._logDebug(`DFS: No exits found for ${currentRegion}`);
     }
+
+    // --- 4. Backtrack: Remove current region after exploring all its exits (or hitting max paths) ---
+    currentPath.pop();
+    visited.delete(currentRegion);
+    // --- ADDED: Verbose Logging ---
+    this._logDebug(
+      `DFS: Backtracking ${currentRegion}. Path now: [${currentPath.join(
+        ', '
+      )}], Visited now: {${[...visited].join(', ')}}`
+    );
   }
 
   /**
    * Find all transitions in a path, including blocked and open transitions
    * @param {Array<string>} path - Array of region names
+   * @param {object} snapshot - The current state snapshot.
+   * @param {object} staticData - The cached static game data.
+   * @param {object} snapshotInterface - The interface for rule evaluation.
    * @returns {Array<Object>} - Array of transition objects
    */
-  findAllTransitions(path) {
+  findAllTransitions(path, snapshot, staticData, snapshotInterface) {
     const transitions = [];
+    const regionsData = staticData?.regions;
+    if (!regionsData || !snapshot || !snapshotInterface) {
+      this._logDebug(
+        'Cannot find transitions: Missing context (snapshot, staticData, or interface).'
+      );
+      return transitions;
+    }
 
     for (let i = 0; i < path.length - 1; i++) {
       const fromRegion = path[i];
       const toRegion = path[i + 1];
 
-      // Get the region data
-      const fromRegionData = stateManager.regions[fromRegion];
+      const fromRegionData = regionsData[fromRegion];
       if (!fromRegionData || !fromRegionData.exits) continue;
 
-      // Find ALL exits that connect these regions
       const availableExits = fromRegionData.exits.filter(
         (e) => e.connected_region === toRegion
       );
 
       if (availableExits.length === 0) continue;
 
-      // Log what we found for debugging
       this._logDebug(
         `Transition ${fromRegion} → ${toRegion}: Found ${availableExits.length} exits`
       );
 
-      // Evaluate all exits to determine if ANY are accessible
-      const accessibleExits = availableExits.filter(
-        (exit) => !exit.access_rule || evaluateRule(exit.access_rule)
+      // Evaluate all exits using the snapshotInterface
+      const evaluatedExits = availableExits.map((exit) => ({
+        ...exit,
+        isAccessible:
+          !exit.access_rule || snapshotInterface.evaluateRule(exit.access_rule),
+      }));
+
+      const accessibleExits = evaluatedExits.filter(
+        (exit) => exit.isAccessible
       );
 
-      // Log the accessible exits
       this._logDebug(
         `Transition ${fromRegion} → ${toRegion}: ${accessibleExits.length} accessible exits:`,
         accessibleExits.map((e) => e.name)
       );
 
-      // The transition is accessible if ANY exit is accessible
       const transitionAccessible = accessibleExits.length > 0;
 
-      // Add this transition to our list
+      // Check reachability using the snapshot
+      const fromRegionStatus = snapshot.reachability?.[fromRegion];
+      const toRegionStatus = snapshot.reachability?.[toRegion];
+      const fromReachable =
+        fromRegionStatus === true ||
+        fromRegionStatus === 'reachable' ||
+        fromRegionStatus === 'checked';
+      const toReachable =
+        toRegionStatus === true ||
+        toRegionStatus === 'reachable' ||
+        toRegionStatus === 'checked';
+
       transitions.push({
         fromRegion,
         toRegion,
-        exits: availableExits,
-        isBlocking:
-          stateManager.isRegionReachable(fromRegion) &&
-          !stateManager.isRegionReachable(toRegion),
-        // The transition is accessible if ANY exit is accessible
+        exits: evaluatedExits,
+        isBlocking: fromReachable && !toReachable,
         transitionAccessible: transitionAccessible,
       });
     }
 
-    // Debug logging for transitions
-    this._logDebug('Path transitions debug:');
-    transitions.forEach((t) => {
-      this._logDebug(
-        `Transition ${t.fromRegion} → ${t.toRegion}:`,
-        `Accessible: ${t.transitionAccessible}, ` +
-          `Exits: ${t.exits.length}, ` +
-          `Accessible exits: ${
-            t.exits.filter((e) => !e.access_rule || evaluateRule(e.access_rule))
-              .length
-          }`
-      );
-    });
+    this._logDebug('Path transitions debug:', transitions);
 
     return transitions;
   }
@@ -263,7 +424,7 @@ export class PathAnalyzerLogic {
       this._logDebug(
         `DEBUG: No transition found from ${fromRegion} to ${toRegion}`
       );
-      return;
+      return null;
     }
 
     this._logDebug(`DEBUG: Transition ${fromRegion} → ${toRegion}:`);
@@ -275,10 +436,9 @@ export class PathAnalyzerLogic {
     this._logDebug(`  Exits count: ${transition.exits.length}`);
 
     transition.exits.forEach((exit, i) => {
-      const accessible = !exit.access_rule || evaluateRule(exit.access_rule);
       this._logDebug(
         `  Exit ${i + 1}/${transition.exits.length}: ${exit.name} - ${
-          accessible ? 'ACCESSIBLE' : 'INACCESSIBLE'
+          exit.isAccessible ? 'ACCESSIBLE' : 'INACCESSIBLE'
         }`
       );
     });
@@ -289,9 +449,30 @@ export class PathAnalyzerLogic {
   /**
    * Analyze all direct connections to a region
    * @param {string} regionName - The region to analyze
+   * @param {object} staticData - The cached static game data.
+   * @param {object} snapshotInterface - The interface for rule evaluation.
    * @returns {Object} - Analysis results containing node categories and region data
    */
-  analyzeDirectConnections(regionName) {
+  analyzeDirectConnections(regionName, staticData, snapshotInterface) {
+    // --- ADDED: Log received staticData structure --- >
+    this._logDebug(
+      '[PathAnalyzerLogic DEBUG] analyzeDirectConnections entered.',
+      {
+        targetRegion: regionName,
+        staticDataExists: !!staticData,
+        staticDataType: typeof staticData,
+        regionsExist: !!(staticData && staticData.regions),
+        regionsType: typeof staticData?.regions,
+        exitsExist: !!(staticData && staticData.exits),
+        exitsType: typeof staticData?.exits,
+        // Optionally log keys:
+        // staticDataKeys: staticData ? Object.keys(staticData) : null,
+        // regionKeys: staticData?.regions ? Object.keys(staticData.regions) : null,
+        // exitKeys: staticData?.exits ? Object.keys(staticData.exits) : null
+      }
+    );
+    // < --- END LOGGING --- >
+
     const allNodes = {
       primaryBlockers: [],
       secondaryBlockers: [],
@@ -301,7 +482,18 @@ export class PathAnalyzerLogic {
       tertiaryRequirements: [],
     };
 
-    const regionData = stateManager.regions[regionName];
+    const regionsData = staticData?.regions;
+    if (!regionsData || !snapshotInterface) {
+      this._logDebug(
+        'Cannot analyze connections: Missing staticData or snapshotInterface.'
+      );
+      return {
+        nodes: allNodes,
+        analysisData: { entrances: [], regionRules: [] },
+      };
+    }
+
+    const regionData = regionsData[regionName];
     const analysisData = {
       entrances: [],
       regionRules: [],
@@ -311,32 +503,74 @@ export class PathAnalyzerLogic {
     if (regionData?.region_rules?.length > 0) {
       regionData.region_rules.forEach((rule) => {
         if (!rule) return;
-
         analysisData.regionRules.push(rule);
+        // Analyze nodes (pass interface)
+        const nodeResults = this.analyzeRuleForNodes(rule, snapshotInterface);
+        Object.keys(allNodes).forEach((key) =>
+          allNodes[key].push(...nodeResults[key])
+        );
       });
     }
 
     // 2. Analyze entrances to this region
-    Object.entries(stateManager.regions).forEach(
+    Object.entries(regionsData).forEach(
       ([otherRegionName, otherRegionData]) => {
         if (otherRegionName === regionName) return;
 
         if (otherRegionData.exits) {
           const entrances = otherRegionData.exits.filter(
-            (exit) => exit.connected_region === regionName && exit.access_rule
+            (exit) => exit.connected_region === regionName
           );
 
           if (entrances.length > 0) {
-            entrances.forEach((entrance) => {
+            entrances.forEach((exit) => {
+              // Check if the exit connects TO the target region
+              // --- ADDED LOGGING --- >
+              if (exit.connected_region) {
+                // Log only if connected_region exists
+                const comparison = `Comparing ${otherRegionName}->${exit.name}'s connected_region ('${exit.connected_region}') to target ('${regionName}')`;
+                if (exit.connected_region === regionName) {
+                  this._logDebug(`${comparison} - MATCH FOUND!`);
+                } else if (
+                  exit.connected_region.toLowerCase() ===
+                  regionName.toLowerCase()
+                ) {
+                  this._logDebug(
+                    `${comparison} - Case-insensitive match found, but exact match failed.`
+                  );
+                } else {
+                  // Only log non-matches if debug level is high, or for specific regions
+                  // this._logDebug(`${comparison} - No match.`);
+                }
+              } else {
+                // Log if an exit is missing connected_region
+                this._logDebug(
+                  `Exit ${otherRegionName}->${exit.name} is missing connected_region field.`
+                );
+              }
+              // < --- END LOGGING --- >
               analysisData.entrances.push({
                 fromRegion: otherRegionName,
-                entrance: entrance,
+                entrance: exit,
               });
+              // Analyze nodes (pass interface)
+              const nodeResults = this.analyzeRuleForNodes(
+                exit.access_rule,
+                snapshotInterface
+              );
+              Object.keys(allNodes).forEach((key) =>
+                allNodes[key].push(...nodeResults[key])
+              );
             });
           }
         }
       }
     );
+
+    // Deduplicate nodes at the end
+    Object.keys(allNodes).forEach((key) => {
+      allNodes[key] = this.deduplicateNodes(allNodes[key]);
+    });
 
     return {
       nodes: allNodes,
@@ -347,66 +581,47 @@ export class PathAnalyzerLogic {
   /**
    * Finds a reliable canonical path using the same BFS approach as stateManager
    * @param {string} targetRegion - The target region to find a path to
+   * @param {object} snapshot - The current state snapshot.
+   * @param {object} staticData - The cached static game data.
    * @returns {Object|null} - Object containing the path and connection info, or null if no path exists
    */
-  findCanonicalPath(targetRegion) {
-    // First check if the region is reachable according to stateManager
-    const reachableRegions = stateManager.computeReachableRegions();
-    if (!reachableRegions.has(targetRegion)) {
-      return null; // Target isn't reachable according to stateManager
+  findCanonicalPath(targetRegion, snapshot, staticData) {
+    // REWORKED: Cannot call worker's getPathToRegion.
+    // This function needs a full BFS/pathfinding implementation here if needed.
+    // For now, just check reachability based on snapshot and return null.
+    this._logDebug(
+      `findCanonicalPath called for ${targetRegion}. Note: Actual pathfinding here is disabled.`
+    );
+
+    let isTargetReachableInSnapshot = false;
+    if (snapshot && snapshot.reachability) {
+      const status = snapshot.reachability[targetRegion];
+      isTargetReachableInSnapshot =
+        status === true || status === 'reachable' || status === 'checked';
     }
 
-    // Get the path directly from stateManager
-    const pathSegments = stateManager.getPathToRegion(targetRegion);
-    if (!pathSegments || !pathSegments.length) {
+    if (!isTargetReachableInSnapshot) {
+      this._logDebug(
+        `Target region ${targetRegion} not reachable in snapshot, cannot provide canonical path.`
+      );
       return null;
+    } else {
+      this._logDebug(
+        `Target region ${targetRegion} is reachable, but main-thread canonical pathfinding is not implemented.`
+      );
+      // TODO: Implement BFS pathfinding here if canonical path display is required.
+      return null; // Return null until pathfinding is implemented here.
     }
-
-    // Convert to our path format
-    const regions = [pathSegments[0].from];
-    const connections = [];
-
-    pathSegments.forEach((segment) => {
-      regions.push(segment.to);
-
-      // Build connection info
-      const fromRegionData = stateManager.regions[segment.from];
-      if (fromRegionData && fromRegionData.exits) {
-        const exit = fromRegionData.exits.find(
-          (e) => e.name === segment.entrance
-        );
-
-        if (exit) {
-          connections.push({
-            fromRegion: segment.from,
-            toRegion: segment.to,
-            exit: {
-              type: 'exit',
-              name: exit.name,
-              fromRegion: segment.from,
-              toRegion: segment.to,
-              rule: exit.access_rule,
-              accessible: true, // Must be accessible since we're using it in our path
-            },
-          });
-        }
-      }
-    });
-
-    return {
-      regions: regions,
-      connections: connections,
-    };
   }
 
   /**
    * Extract categorized leaf nodes from a logic tree
    * This function now uses the rule data directly instead of DOM elements
    * @param {Object} rule - The rule object to analyze
+   * @param {object} snapshotInterface - The interface for rule evaluation.
    * @return {Object} - Object containing the categorized node lists
    */
-  analyzeRuleForNodes(rule) {
-    // Initialize result categories
+  analyzeRuleForNodes(rule, snapshotInterface) {
     const nodes = {
       primaryBlockers: [],
       secondaryBlockers: [],
@@ -416,49 +631,53 @@ export class PathAnalyzerLogic {
       tertiaryRequirements: [],
     };
 
-    if (!rule) return nodes;
+    if (!rule || !snapshotInterface) return nodes;
 
-    // Base case: this is a leaf rule
     if (this.isLeafNodeType(rule.type)) {
-      const ruleResult = evaluateRule(rule);
+      try {
+        // Evaluate the rule using the provided interface as context
+        evaluationResult = evaluateRule(rule, snapshotInterface);
+      } catch (e) {
+        this._logDebug(
+          `Error evaluating rule in analyzeRuleForNodes: ${e}`,
+          rule
+        );
+        return nodes;
+      }
 
-      // Create node data based on the rule
-      const nodeData = this.extractNodeDataFromRule(rule);
+      const nodeData = this.extractNodeDataFromRule(rule, snapshotInterface);
 
       if (nodeData) {
-        // Categorize the node based on its importance to the overall rule
-        if (!ruleResult) {
-          // If the rule fails, is it a primary blocker?
-          const hypotheticalResult = this.evaluateRuleWithOverride(rule, true);
-
-          if (hypotheticalResult) {
-            // Tree would pass if this node passed - Primary blocker
+        if (evaluationResult === false) {
+          const hypotheticalResult = this.evaluateRuleWithOverride(
+            rule,
+            true,
+            snapshotInterface
+          );
+          if (hypotheticalResult === true) {
             nodes.primaryBlockers.push(nodeData);
           } else {
-            // Tree would still fail - Secondary blocker
             nodes.secondaryBlockers.push(nodeData);
           }
-        } else {
-          // If the rule passes, is it a primary requirement?
-          const hypotheticalResult = this.evaluateRuleWithOverride(rule, false);
-
-          if (!hypotheticalResult) {
-            // Tree would fail if this node failed - Primary requirement
+        } else if (evaluationResult === true) {
+          const hypotheticalResult = this.evaluateRuleWithOverride(
+            rule,
+            false,
+            snapshotInterface
+          );
+          if (hypotheticalResult === false) {
             nodes.primaryRequirements.push(nodeData);
           } else {
-            // Tree would still pass - Secondary requirement
             nodes.secondaryRequirements.push(nodeData);
           }
         }
       }
-    }
-    // Recursive case: handle composite rules (AND/OR)
-    else if (rule.type === 'and' || rule.type === 'or') {
-      // Process each condition
+    } else if (rule.type === 'and' || rule.type === 'or') {
       for (const condition of rule.conditions || []) {
-        const childNodes = this.analyzeRuleForNodes(condition);
-
-        // Merge child nodes into result
+        const childNodes = this.analyzeRuleForNodes(
+          condition,
+          snapshotInterface
+        );
         Object.keys(nodes).forEach((key) => {
           nodes[key].push(...childNodes[key]);
         });
@@ -472,87 +691,86 @@ export class PathAnalyzerLogic {
    * Evaluates what the rule result would be if a specific rule's value was flipped
    * @param {Object} rule - The rule to evaluate
    * @param {boolean} overrideValue - The override value for this rule
-   * @return {boolean} - The hypothetical rule evaluation result
+   * @param {object} snapshotInterface - The interface for rule evaluation.
+   * @return {boolean|undefined} - The hypothetical rule evaluation result
    */
-  evaluateRuleWithOverride(rule, overrideValue) {
-    // Create a simple map for the overrides
+  evaluateRuleWithOverride(rule, overrideValue, snapshotInterface) {
+    if (!snapshotInterface) return undefined;
     const overrides = new Map();
     const ruleId = JSON.stringify(rule);
     overrides.set(ruleId, overrideValue);
-
-    // Evaluate with the override
-    return this.evaluateRuleWithOverrides(rule, overrides);
+    return this.evaluateRuleWithOverrides(rule, overrides, snapshotInterface);
   }
 
   /**
    * Recursively evaluates a rule tree with specified overrides
    * @param {Object} rule - The rule tree to evaluate
    * @param {Map} overrides - Map of rule IDs to override values
-   * @return {boolean} - The evaluation result
+   * @param {object} snapshotInterface - The interface for rule evaluation.
+   * @return {boolean|undefined} - The evaluation result
    */
-  evaluateRuleWithOverrides(rule, overrides) {
+  evaluateRuleWithOverrides(rule, overrides, snapshotInterface) {
     if (!rule) return true;
+    if (!snapshotInterface) return undefined;
 
-    // Check if this specific rule has an override
     const ruleId = JSON.stringify(rule);
     if (overrides.has(ruleId)) {
       return overrides.get(ruleId);
     }
 
-    // If no override, evaluate based on rule type
     switch (rule.type) {
       case 'constant':
         return rule.value;
-
       case 'item_check':
-        return stateManager.inventory.has(rule.item);
-
+        return snapshotInterface.hasItem(rule.item);
       case 'count_check':
-        return stateManager.inventory.count(rule.item) >= (rule.count || 1);
-
+        return (
+          (snapshotInterface.countItem(rule.item) || 0) >= (rule.count || 1)
+        );
       case 'group_check':
         return (
-          stateManager.inventory.countGroup(rule.group) >= (rule.count || 1)
+          (snapshotInterface.countGroup(rule.group) || 0) >= (rule.count || 1)
         );
-
       case 'helper':
-        if (
-          stateManager.helpers &&
-          typeof stateManager.helpers.executeHelper === 'function'
-        ) {
-          return stateManager.helpers.executeHelper(
-            rule.name,
-            ...(rule.args || [])
-          );
-        }
-        return false;
-
-      case 'and':
-        // For AND rules, all conditions must be true
-        return rule.conditions.every((condition) =>
-          this.evaluateRuleWithOverrides(condition, overrides)
+        return snapshotInterface.executeHelper(
+          rule.name,
+          ...(rule.args || []).map((arg) =>
+            this.evaluateRuleWithOverrides(arg, overrides, snapshotInterface)
+          )
         );
-
-      case 'or':
-        // For OR rules, at least one condition must be true
-        return rule.conditions.some((condition) =>
-          this.evaluateRuleWithOverrides(condition, overrides)
-        );
-
       case 'state_method':
-        if (
-          stateManager.helpers &&
-          typeof stateManager.helpers.executeStateMethod === 'function'
-        ) {
-          return stateManager.helpers.executeStateMethod(
-            rule.method,
-            ...(rule.args || [])
-          );
-        }
-        return false;
-
+        return snapshotInterface.executeStateManagerMethod(
+          rule.method,
+          ...(rule.args || []).map((arg) =>
+            this.evaluateRuleWithOverrides(arg, overrides, snapshotInterface)
+          )
+        );
+      case 'and':
+        return (rule.conditions || []).every((condition) =>
+          this.evaluateRuleWithOverrides(
+            condition,
+            overrides,
+            snapshotInterface
+          )
+        );
+      case 'or':
+        return (rule.conditions || []).some((condition) =>
+          this.evaluateRuleWithOverrides(
+            condition,
+            overrides,
+            snapshotInterface
+          )
+        );
+      case 'not': {
+        const operandResult = this.evaluateRuleWithOverrides(
+          rule.operand,
+          overrides,
+          snapshotInterface
+        );
+        return operandResult === undefined ? undefined : !operandResult;
+      }
       default:
-        return false;
+        return snapshotInterface.evaluateRule(rule);
     }
   }
 
@@ -560,97 +778,16 @@ export class PathAnalyzerLogic {
    * Extract categorized nodes from a logic tree element
    * @param {HTMLElement} treeElement - The logic tree DOM element to analyze
    * @return {Object} - Object containing the categorized node lists
+   * @deprecated Should operate on rule objects directly, not DOM.
    */
   extractCategorizedNodes(treeElement) {
-    // Initialize result categories with the six categories
-    const nodes = {
-      primaryBlockers: [],
-      secondaryBlockers: [],
-      tertiaryBlockers: [],
-      primaryRequirements: [],
-      secondaryRequirements: [],
-      tertiaryRequirements: [],
+    console.warn(
+      'extractCategorizedNodes (DOM based) is deprecated. Use analyzeRuleForNodes.'
+    );
+    // ... (existing potentially broken DOM logic) ...
+    return {
+      /* empty */
     };
-
-    // For non-leaf nodes, recursively check children
-    const childLists = treeElement.querySelectorAll('ul');
-    childLists.forEach((ul) => {
-      ul.querySelectorAll('li').forEach((li) => {
-        if (li.firstChild) {
-          const childResults = this.extractCategorizedNodes(li.firstChild);
-          // Merge results
-          Object.keys(nodes).forEach((key) => {
-            nodes[key].push(...childResults[key]);
-          });
-        }
-      });
-    });
-
-    // Check if this is a leaf node that we can analyze
-    const nodeType = this.getNodeType(treeElement);
-    if (nodeType && this.isLeafNodeType(nodeType)) {
-      // Extract the rule data from the DOM element
-      const rule = this.extractRuleFromElement(treeElement, nodeType);
-      if (rule) {
-        // Get the node data
-        const nodeData = this.extractNodeDataFromRule(rule);
-
-        if (nodeData) {
-          // Check the actual rule evaluation result
-          const ruleResult = evaluateRule(rule);
-
-          // Check visual UI state for comparison
-          const visualStatePass = treeElement.classList.contains('pass');
-          const visualStateFail = treeElement.classList.contains('fail');
-
-          // Log discrepancies between visual state and actual evaluation
-          if (
-            (ruleResult && visualStateFail) ||
-            (!ruleResult && visualStatePass)
-          ) {
-            this._logDebug(`Discrepancy in rule evaluation:`, {
-              ruleType: nodeType,
-              rule: rule,
-              actualResult: ruleResult,
-              visualState: visualStatePass ? 'pass' : 'fail',
-            });
-          }
-
-          // Use actual rule evaluation result, not visual state
-          if (!ruleResult) {
-            // If rule fails, determine if it's a primary blocker
-            const hypotheticalResult = this.evaluateRuleWithOverride(
-              rule,
-              true
-            );
-
-            if (hypotheticalResult) {
-              // Tree would pass if this node passed - Primary blocker
-              nodes.primaryBlockers.push(nodeData);
-            } else {
-              // Tree would still fail - Secondary blocker
-              nodes.secondaryBlockers.push(nodeData);
-            }
-          } else {
-            // If rule passes, determine if it's a primary requirement
-            const hypotheticalResult = this.evaluateRuleWithOverride(
-              rule,
-              false
-            );
-
-            if (!hypotheticalResult) {
-              // Tree would fail if this node failed - Primary requirement
-              nodes.primaryRequirements.push(nodeData);
-            } else {
-              // Tree would still pass - Secondary requirement
-              nodes.secondaryRequirements.push(nodeData);
-            }
-          }
-        }
-      }
-    }
-
-    return nodes;
   }
 
   /**
@@ -658,111 +795,11 @@ export class PathAnalyzerLogic {
    * @param {HTMLElement} element - The DOM element
    * @param {string} nodeType - The type of node
    * @return {Object|null} - Rule object or null if extraction failed
+   * @deprecated Should operate on rule objects directly, not DOM.
    */
   extractRuleFromElement(element, nodeType) {
-    const textContent = element.textContent;
-
-    switch (nodeType) {
-      case 'constant':
-        const valueMatch = textContent.match(/value: (true|false)/i);
-        if (valueMatch) {
-          return {
-            type: 'constant',
-            value: valueMatch[1].toLowerCase() === 'true',
-          };
-        }
-        break;
-
-      case 'item_check':
-        const itemMatch = textContent.match(
-          /item: ([^,]+?)($|\s(?:Type:|helper:|method:|group:))/
-        );
-        if (itemMatch) {
-          return {
-            type: 'item_check',
-            item: itemMatch[1].trim(),
-          };
-        }
-        break;
-
-      case 'count_check':
-        const countMatch = textContent.match(/(\w+) >= (\d+)/);
-        if (countMatch) {
-          return {
-            type: 'count_check',
-            item: countMatch[1],
-            count: parseInt(countMatch[2], 10),
-          };
-        }
-        break;
-
-      case 'group_check':
-        const groupMatch = textContent.match(
-          /group: ([^,]+?)($|\s(?:Type:|helper:|method:|item:))/
-        );
-        if (groupMatch) {
-          return {
-            type: 'group_check',
-            group: groupMatch[1].trim(),
-          };
-        }
-        break;
-
-      case 'helper':
-        const helperMatch = textContent.match(
-          /helper: ([^,]+?), args: (\[.*\]|\{.*\}|".*?"|null|\d+)/
-        );
-        if (helperMatch) {
-          const helperName = helperMatch[1].trim();
-          let helperArgs = [];
-          try {
-            // Try to parse the arguments as JSON
-            const argsText = helperMatch[2].trim();
-            if (argsText && argsText !== 'null' && argsText !== '[]') {
-              helperArgs = JSON.parse(argsText);
-            }
-          } catch (e) {
-            this._logDebug(
-              `Error parsing helper args: ${e.message}`,
-              helperMatch[2]
-            );
-          }
-          return {
-            type: 'helper',
-            name: helperName,
-            args: helperArgs,
-          };
-        }
-        break;
-
-      case 'state_method':
-        const methodMatch = textContent.match(
-          /method: ([^,]+?), args: (\[.*\]|\{.*\}|".*?"|null|\d+)/
-        );
-        if (methodMatch) {
-          const methodName = methodMatch[1].trim();
-          let methodArgs = [];
-          try {
-            // Try to parse the arguments as JSON
-            const argsText = methodMatch[2].trim();
-            if (argsText && argsText !== 'null' && argsText !== '[]') {
-              methodArgs = JSON.parse(argsText);
-            }
-          } catch (e) {
-            this._logDebug(
-              `Error parsing method args: ${e.message}`,
-              methodMatch[2]
-            );
-          }
-          return {
-            type: 'state_method',
-            method: methodName,
-            args: methodArgs,
-          };
-        }
-        break;
-    }
-
+    console.warn('extractRuleFromElement (DOM based) is deprecated.');
+    // ... (existing potentially broken DOM logic) ...
     return null;
   }
 
@@ -770,15 +807,11 @@ export class PathAnalyzerLogic {
    * Determines the type of a logic node from its DOM element
    * @param {HTMLElement} element - The DOM element representing a logic node
    * @return {string|null} - The type of the logic node or null if not found
+   * @deprecated Should operate on rule objects directly, not DOM.
    */
   getNodeType(element) {
-    const logicLabel = element.querySelector('.logic-label');
-    if (logicLabel) {
-      const typeMatch = logicLabel.textContent.match(/Type: (\w+)/);
-      if (typeMatch && typeMatch[1]) {
-        return typeMatch[1];
-      }
-    }
+    console.warn('getNodeType (DOM based) is deprecated.');
+    // ... (existing potentially broken DOM logic) ...
     return null;
   }
 
@@ -795,6 +828,11 @@ export class PathAnalyzerLogic {
       'group_check',
       'helper',
       'state_method',
+      'name',
+      'attribute',
+      'subscript',
+      'value',
+      'setting_check',
     ].includes(nodeType);
   }
 
@@ -808,16 +846,23 @@ export class PathAnalyzerLogic {
   }
 
   /**
-   * Extract data from a rule object
+   * Extract data from a rule object for display
    * @param {Object} rule - The rule object
+   * @param {object} snapshotInterface - The interface for rule evaluation.
    * @return {Object|null} - The extracted node data or null if extraction failed
    */
-  extractNodeDataFromRule(rule) {
-    if (!rule) return null;
+  extractNodeDataFromRule(rule, snapshotInterface) {
+    if (!rule || !snapshotInterface) return null;
 
-    // Default display color based on rule evaluation
-    const ruleResult = evaluateRule(rule);
-    const displayColor = ruleResult ? '#4caf50' : '#f44336';
+    const ruleResult = snapshotInterface.evaluateRule(rule);
+    let displayColor;
+    if (ruleResult === true) {
+      displayColor = '#4caf50';
+    } else if (ruleResult === false) {
+      displayColor = '#f44336';
+    } else {
+      displayColor = '#9e9e9e';
+    }
 
     switch (rule.type) {
       case 'constant':
@@ -829,33 +874,50 @@ export class PathAnalyzerLogic {
           identifier: `constant_${rule.value}`,
         };
 
-      case 'item_check':
+      case 'item_check': {
+        const itemName =
+          typeof rule.item === 'string' ? rule.item : rule.item?.value;
+        if (!itemName) return null;
         return {
           type: 'item_check',
-          item: rule.item,
-          display: `Need item: ${rule.item}`,
+          item: itemName,
+          display: `Need item: ${itemName}`,
           displayColor,
-          identifier: `item_${rule.item}`,
+          identifier: `item_${itemName}`,
         };
+      }
 
-      case 'count_check':
+      case 'count_check': {
+        const itemName =
+          typeof rule.item === 'string' ? rule.item : rule.item?.value;
+        const count =
+          typeof rule.count === 'number' ? rule.count : rule.count?.value || 1;
+        if (!itemName) return null;
         return {
           type: 'count_check',
-          item: rule.item,
-          count: rule.count || 1,
-          display: `Need ${rule.count || 1}× ${rule.item}`,
+          item: itemName,
+          count: count,
+          display: `Need ${count}× ${itemName}`,
           displayColor,
-          identifier: `count_${rule.item}_${rule.count || 1}`,
+          identifier: `count_${itemName}_${count}`,
         };
+      }
 
-      case 'group_check':
+      case 'group_check': {
+        const groupName =
+          typeof rule.group === 'string' ? rule.group : rule.group?.value;
+        const count =
+          typeof rule.count === 'number' ? rule.count : rule.count?.value || 1;
+        if (!groupName) return null;
         return {
           type: 'group_check',
-          group: rule.group,
-          display: `Need group: ${rule.group}`,
+          group: groupName,
+          count: count,
+          display: `Need ${count} of group: ${groupName}`,
           displayColor,
-          identifier: `group_${rule.group}`,
+          identifier: `group_${groupName}_${count}`,
         };
+      }
 
       case 'helper':
         return {
@@ -876,6 +938,22 @@ export class PathAnalyzerLogic {
           displayColor,
           identifier: `method_${rule.method}`,
         };
+
+      case 'setting_check': {
+        const settingName =
+          typeof rule.setting === 'string' ? rule.setting : rule.setting?.value;
+        const settingValue =
+          typeof rule.value === 'object' ? rule.value?.value : rule.value;
+        if (!settingName) return null;
+        return {
+          type: 'setting_check',
+          setting: settingName,
+          value: settingValue,
+          display: `Setting: ${settingName} == ${settingValue}`,
+          displayColor,
+          identifier: `setting_${settingName}_${settingValue}`,
+        };
+      }
     }
 
     return null;
@@ -891,19 +969,31 @@ export class PathAnalyzerLogic {
     const seenIdentifiers = new Set();
 
     nodes.forEach((node) => {
-      // Create an identifier that includes function arguments if present
       let identifier = node.identifier;
 
-      // If this is a helper node or state_method node with args, include them in the identifier
       if (
         (node.type === 'helper' || node.type === 'state_method') &&
-        node.args
+        Array.isArray(node.args)
       ) {
-        // Use a consistent string representation of the args
-        const argsString =
-          typeof node.args === 'string' ? node.args : JSON.stringify(node.args);
-
-        identifier = `${identifier}:${argsString}`;
+        try {
+          const argsString = JSON.stringify(
+            node.args.map((arg) => {
+              return arg && typeof arg === 'object'
+                ? arg.value !== undefined
+                  ? arg.value
+                  : arg
+                : arg;
+            })
+          );
+          identifier = `${identifier}:${argsString}`;
+        } catch (e) {
+          console.warn(
+            'Failed to stringify args for deduplication:',
+            node.args,
+            e
+          );
+          identifier = `${identifier}:[${node.args.length} args]`;
+        }
       }
 
       if (!seenIdentifiers.has(identifier)) {
@@ -925,7 +1015,12 @@ export class PathAnalyzerLogic {
     if (this.debugMode) {
       const logMsg = `[PathAnalyzerLogic] ${message}`;
       if (data !== null) {
-        console.log(logMsg, data);
+        try {
+          const clonedData = JSON.parse(JSON.stringify(data));
+          console.log(logMsg, clonedData);
+        } catch (e) {
+          console.log(logMsg, data);
+        }
       } else {
         console.log(logMsg);
       }

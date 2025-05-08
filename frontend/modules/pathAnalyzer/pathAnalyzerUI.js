@@ -6,6 +6,7 @@ import commonUI from '../commonUI/index.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import eventBus from '../../app/core/eventBus.js';
 import loopState from '../loops/loopStateSingleton.js';
+import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
 
 /**
  * Handles UI aspects of path analysis for regions in the game
@@ -166,8 +167,13 @@ export class PathAnalyzerUI {
     pathsContainer.innerHTML = '';
 
     // PHASE 1: Check actual reachability using stateManager
-    const isRegionActuallyReachable =
-      stateManager.isRegionReachable(regionName);
+    const snapshot = stateManager.getLatestStateSnapshot();
+    let isRegionActuallyReachable = false;
+    if (snapshot && snapshot.reachability) {
+      const status = snapshot.reachability[regionName];
+      isRegionActuallyReachable =
+        status === true || status === 'reachable' || status === 'checked';
+    }
 
     // Create the status indicator first - this will appear at the top
     const statusIndicator = document.createElement('div');
@@ -409,7 +415,37 @@ export class PathAnalyzerUI {
       pathsDiv.appendChild(noPathsMessage);
 
       // Try to provide more details about why no paths were found
-      this._analyzeDirectConnections(regionName, pathsDiv);
+      const currentSnapshot = stateManager.getLatestStateSnapshot(); // Re-fetch snapshot
+      const currentStaticData = stateManager.getStaticData(); // Re-fetch static data
+
+      if (!currentSnapshot || !currentStaticData) {
+        console.error(
+          '[PathAnalyzerUI] Missing snapshot or static data when analyzing direct connections for empty path.'
+        );
+        pathsDiv.innerHTML +=
+          '<p>Error: State data unavailable for detailed analysis.</p>';
+      } else {
+        // Create the interface using the data fetched *within this block*
+        const currentSnapshotInterface = createStateSnapshotInterface(
+          currentSnapshot,
+          currentStaticData
+        );
+        if (!currentSnapshotInterface) {
+          console.error(
+            '[PathAnalyzerUI] Failed to create snapshot interface for direct connection analysis.'
+          );
+          pathsDiv.innerHTML +=
+            '<p>Error: Context unavailable for detailed analysis.</p>';
+        } else {
+          // Call with the newly created, validated data
+          this._analyzeDirectConnections(
+            regionName,
+            pathsDiv,
+            currentStaticData, // Pass the fetched staticData
+            currentSnapshotInterface // Pass the newly created interface
+          );
+        }
+      }
     }
 
     // Display paths count
@@ -722,7 +758,12 @@ export class PathAnalyzerUI {
           if (exit.access_rule) {
             const ruleContainer = document.createElement('div');
             ruleContainer.classList.add('path-exit-rule');
-            const ruleElement = commonUI.renderLogicTree(exit.access_rule);
+            const useColorblind = this.colorblindMode; // Get the current colorblind state
+            const ruleElement = commonUI.renderLogicTree(
+              exit.access_rule,
+              useColorblind,
+              snapshotInterface
+            );
             ruleContainer.appendChild(ruleElement);
             exitRuleContainer.appendChild(ruleContainer);
 
@@ -758,8 +799,55 @@ export class PathAnalyzerUI {
    * Analyzes direct connections to a region and displays the results
    * @param {string} regionName - The region to analyze
    * @param {HTMLElement} container - The container to add the analysis to
+   * @param {Object} staticData - The static data to analyze
+   * @param {Object} snapshotInterface - The snapshot interface to use
    */
-  _analyzeDirectConnections(regionName, container) {
+  _analyzeDirectConnections(
+    regionName,
+    container,
+    staticData,
+    snapshotInterface
+  ) {
+    container.innerHTML = '<h4>Direct Connections & Rules:</h4>';
+
+    // --- MOVED AND REFINED: Detailed logging for staticData --- >
+    console.log(
+      '[PathAnalyzerUI DEBUG] Entered _analyzeDirectConnections. regionName:',
+      regionName
+    );
+    console.log(
+      '[PathAnalyzerUI DEBUG] _analyzeDirectConnections - staticData (parameter) value:',
+      staticData
+    );
+    console.log(
+      '[PathAnalyzerUI DEBUG] _analyzeDirectConnections - typeof staticData (parameter):',
+      typeof staticData
+    );
+
+    if (staticData && typeof staticData === 'object') {
+      console.log(
+        '[PathAnalyzerUI DEBUG] _analyzeDirectConnections - staticData.regions details:',
+        {
+          regionsPropertyExists: 'regions' in staticData,
+          regionsPropertyType: typeof staticData.regions,
+          regionsIsNull: staticData.regions === null,
+        }
+      );
+    } else {
+      console.log(
+        '[PathAnalyzerUI DEBUG] _analyzeDirectConnections - staticData is not a valid object or is null/undefined.'
+      );
+    }
+    // < --- END MOVED AND REFINED --- >
+
+    // Original robust check for staticData and staticData.regions still important
+    if (!staticData || typeof staticData !== 'object' || staticData === null) {
+      this._logDebug(
+        'Error: staticData is not a valid object or is null/undefined. Unable to analyze direct connections.'
+      );
+      return;
+    }
+
     const allNodes = {
       primaryBlockers: [],
       secondaryBlockers: [],
@@ -770,8 +858,14 @@ export class PathAnalyzerUI {
     };
 
     // Get analysis data from the logic component
-    const analysisResult = this.logic.analyzeDirectConnections(regionName);
-    const regionData = stateManager.regions[regionName];
+    const analysisResult = this.logic.analyzeDirectConnections(
+      regionName,
+      staticData,
+      snapshotInterface
+    );
+
+    // Use the staticData parameter to get regionData, not the global stateManager
+    const regionData = staticData.regions[regionName];
 
     // 1. Analyze region's own rules
     if (regionData?.region_rules?.length > 0) {
@@ -786,15 +880,34 @@ export class PathAnalyzerUI {
         ruleDiv.style.marginLeft = '20px';
         ruleDiv.style.marginBottom = '10px';
 
-        const ruleElement = commonUI.renderLogicTree(rule);
+        const useColorblind = this.colorblindMode; // Get the current colorblind state
+        const ruleElement = commonUI.renderLogicTree(
+          rule,
+          useColorblind,
+          snapshotInterface
+        );
         ruleDiv.appendChild(ruleElement);
         rulesContainer.appendChild(ruleDiv);
 
-        // Analyze nodes
-        const nodeResults = this.logic.extractCategorizedNodes(ruleElement);
-        Object.keys(allNodes).forEach((key) => {
-          allNodes[key].push(...nodeResults[key]);
-        });
+        const nodeResults = this.logic.analyzeRuleForNodes(
+          rule,
+          snapshotInterface
+        );
+
+        // Aggregate nodes (ensure nodeResults is valid)
+        if (nodeResults) {
+          Object.keys(allNodes).forEach((key) => {
+            // Check if nodeResults[key] exists and is an array before spreading
+            if (nodeResults[key] && Array.isArray(nodeResults[key])) {
+              allNodes[key].push(...nodeResults[key]);
+            } else if (nodeResults[key] !== undefined) {
+              console.warn(
+                `[PathUI] nodeResults[${key}] was not an array:`,
+                nodeResults[key]
+              );
+            }
+          });
+        }
       });
     }
 
@@ -819,15 +932,34 @@ export class PathAnalyzerUI {
           entranceDiv.appendChild(header);
 
           // Show the rule
-          const ruleElement = commonUI.renderLogicTree(entrance.access_rule);
+          const useColorblindForExit = this.colorblindMode; // Get the current colorblind state
+          const ruleElement = commonUI.renderLogicTree(
+            entrance.access_rule,
+            useColorblindForExit,
+            snapshotInterface
+          );
           entranceDiv.appendChild(ruleElement);
           entrancesContainer.appendChild(entranceDiv);
 
-          // Analyze nodes
-          const nodeResults = this.logic.extractCategorizedNodes(ruleElement);
-          Object.keys(allNodes).forEach((key) => {
-            allNodes[key].push(...nodeResults[key]);
-          });
+          const nodeResults = this.logic.analyzeRuleForNodes(
+            entrance.access_rule,
+            snapshotInterface
+          );
+
+          // Aggregate nodes (ensure nodeResults is valid)
+          if (nodeResults) {
+            Object.keys(allNodes).forEach((key) => {
+              // Check if nodeResults[key] exists and is an array before spreading
+              if (nodeResults[key] && Array.isArray(nodeResults[key])) {
+                allNodes[key].push(...nodeResults[key]);
+              } else if (nodeResults[key] !== undefined) {
+                console.warn(
+                  `[PathUI] nodeResults[${key}] for entrance ${entrance.name} was not an array:`,
+                  nodeResults[key]
+                );
+              }
+            });
+          }
         }
       );
     }
