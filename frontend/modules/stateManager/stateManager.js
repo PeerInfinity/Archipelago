@@ -82,6 +82,19 @@ export class StateManager {
   }
 
   /**
+   * Applies initial settings to the StateManager instance.
+   * @param {object} settingsObject - The settings object to apply.
+   */
+  applySettings(settingsObject) {
+    this.settings = settingsObject;
+    console.log('[StateManager Class] Settings applied:', this.settings);
+    // Potentially call other methods if settings need immediate effect
+    // For example, this.state.loadSettings(this.settings) if that wasn't done elsewhere
+    // or if settings affect helper instantiation or other core components.
+    // For now, just storing them.
+  }
+
+  /**
    * Sets the event bus instance dependency (legacy/optional).
    * @param {object} eventBusInstance - The application's event bus.
    */
@@ -1640,8 +1653,12 @@ export class StateManager {
       countItem: (itemName) => self.inventory.count(itemName),
       hasGroup: (groupName) => self.inventory.countGroup(groupName) > 0,
       countGroup: (groupName) => self.inventory.countGroup(groupName),
+      // Flags in this context usually refer to checked locations or game-specific state flags
       hasFlag: (flagName) =>
-        self.state.hasFlag(flagName) || self.checkedLocations.has(flagName),
+        self.checkedLocations.has(flagName) ||
+        (self.state &&
+          typeof self.state.hasFlag === 'function' &&
+          self.state.hasFlag(flagName)),
       getSetting: (settingName) =>
         self.settings ? self.settings[settingName] : undefined,
       getAllSettings: () => self.settings,
@@ -1663,25 +1680,69 @@ export class StateManager {
       getAllRegions: () => self.regions,
       getPlayerSlot: () => self.playerSlot,
       helpers: self.helpers,
-      resolveRuleObject: (ruleObjectPath) => {
-        if (ruleObjectPath && ruleObjectPath.type === 'name') {
-          const name = ruleObjectPath.name;
-          if (name === 'helpers') return self.helpers;
-          if (name === 'state') return self;
-          if (name === 'settings') return self.settings;
-          if (name === 'inventory') return self.inventory;
-          if (name === 'player') return self.playerSlot;
-          if (
-            self.helpers &&
-            self.helpers.entities &&
-            self.helpers.entities[name]
-          ) {
-            return self.helpers.entities[name];
-          }
-          if (self[name] !== undefined) return self[name];
+      resolveName: (name) => {
+        // Standard constants
+        if (name === 'True') return true;
+        if (name === 'False') return false;
+        if (name === 'None') return null;
+
+        // Player slot
+        if (name === 'player') return self.playerSlot;
+
+        // Game-specific entities (e.g., 'old_man') from helpers.entities
+        if (
+          self.helpers &&
+          self.helpers.entities &&
+          typeof self.helpers.entities === 'object' &&
+          Object.prototype.hasOwnProperty.call(self.helpers.entities, name)
+        ) {
+          return self.helpers.entities[name];
         }
-        return anInterface;
+
+        // Core StateManager components often accessed by rules
+        if (name === 'inventory') return self.inventory; // The ALTTPInventory instance
+        if (name === 'state') return self.state; // The ALTTPState instance (for game-specific flags/logic)
+        if (name === 'settings') return self.settings; // The settings object for the current game
+        // Note: 'helpers' itself is usually not resolved by name directly in rules this way,
+        // rather its methods are called via 'helper' or 'state_method' rule types,
+        // or its entities are resolved as above. Exposing it directly could be an option if specific rules need it.
+        // if (name === 'helpers') return self.helpers;
+
+        // Checked locations are often used as flags (covered by hasFlag, but direct access if needed)
+        if (name === 'flags') return self.checkedLocations; // The Set of checked location names
+
+        // Static data from StateManager
+        if (name === 'regions') return self.regions;
+        if (name === 'locations') return self.locations; // The flat array of all location objects
+        if (name === 'items') return self.itemData; // Item definitions
+        if (name === 'groups') return self.groupData; // Item group definitions
+
+        // Fallback: if 'name' is a direct method or property on the helpers object
+        if (
+          self.helpers &&
+          Object.prototype.hasOwnProperty.call(self.helpers, name)
+        ) {
+          const helperProp = self.helpers[name];
+          if (typeof helperProp === 'function') {
+            // Bind to helpers context if it's a function from helpers
+            return helperProp.bind(self.helpers);
+          }
+          return helperProp; // Return property value
+        }
+
+        // If the name refers to a setting property directly (already covered by getSetting)
+        // but direct name resolution might be expected by some rules.
+        if (
+          self.settings &&
+          Object.prototype.hasOwnProperty.call(self.settings, name)
+        ) {
+          return self.settings[name];
+        }
+
+        // console.warn(`[StateManager SelfSnapshotInterface resolveName] Unhandled name: ${name}`);
+        return undefined; // Crucial: return undefined for unhandled names
       },
+      // Static data accessors (mirroring proxy's snapshot interface)
       staticData: {
         items: self.itemData,
         groups: self.groupData,
@@ -1819,5 +1880,83 @@ export class StateManager {
       gameMode: this.mode,
     };
     return snapshot;
+  }
+
+  async loadRules(source) {
+    this.eventBus.publish('stateManager:loadingRules', { source });
+    console.log(`[StateManager] Attempting to load rules from source:`, source);
+
+    if (
+      this.gameSpecificState &&
+      typeof this.gameSpecificState.resetForNewRules === 'function'
+    ) {
+      this.gameSpecificState.resetForNewRules();
+    }
+
+    if (typeof source === 'string') {
+      // Source is a URL
+      console.log(`[StateManager] Loading rules from URL: ${source}`);
+      try {
+        const response = await fetch(source);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const parsedRules = await response.json();
+        this.rules = parsedRules;
+        console.log(
+          '[StateManager] Successfully fetched and parsed rules from URL.'
+        );
+      } catch (error) {
+        console.error('[StateManager] Error loading rules from URL:', error);
+        this.eventBus.publish('stateManager:rulesLoadFailed', {
+          source,
+          error,
+        });
+        this.rules = null; // Ensure rules are null on failure
+        return; // Exit early
+      }
+    } else if (typeof source === 'object' && source !== null) {
+      // Source is direct data
+      console.log('[StateManager] Loading rules from provided object data.');
+      this.rules = source; // Assign the object directly
+      // Perform a basic validation
+      if (!this.rules || typeof this.rules.regions === 'undefined') {
+        // Example check
+        console.error(
+          '[StateManager] Provided rules data is malformed or missing essential parts (e.g., regions). Data:',
+          this.rules
+        );
+        this.eventBus.publish('stateManager:rulesLoadFailed', {
+          source: 'directData',
+          error: 'Malformed direct rules data',
+        });
+        this.rules = null; // Ensure rules are null on failure
+        return; // Exit early
+      }
+      console.log(
+        '[StateManager] Successfully loaded rules from direct object data.'
+      );
+    } else {
+      console.warn(
+        '[StateManager] loadRules called with invalid source type:',
+        source
+      );
+      this.eventBus.publish('stateManager:rulesLoadFailed', {
+        source,
+        error: 'Invalid rules source type',
+      });
+      this.rules = null;
+      return; // Exit early
+    }
+
+    if (!this.rules) {
+      console.error(
+        '[StateManager] Rules are null after loading attempt. Cannot proceed.'
+      );
+      // No rulesLoadFailed event here as it should have been published by the failing block
+      return;
+    }
+
+    // Reset and re-initialize game-specific state components based on new rules
   }
 }

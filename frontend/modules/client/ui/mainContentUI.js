@@ -9,8 +9,11 @@ import eventBus from '../../../app/core/eventBus.js'; // Import eventBus singlet
 import connection from '../core/connection.js'; // Import connection singleton
 
 class MainContentUI {
-  constructor(/* Removed eventBusInstance, connectionInstance */) {
+  constructor(container, componentState) {
     console.log('[MainContentUI] Constructor called');
+    this.container = container;
+    this.componentState = componentState;
+
     this.rootElement = null;
     this.consoleElement = null;
     this.consoleInputElement = null;
@@ -54,6 +57,22 @@ class MainContentUI {
       }
     });
     // <<< END ADDED >>>
+
+    // Defer full element initialization and event listener setup
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[MainContentUI] Received app:readyForUiDataLoad. Initializing elements.'
+      );
+      // Pass the GoldenLayout container's DOM element to initializeElements
+      this.initializeElements(this.container.element);
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      // ADDED: Ensure cleanup
+      this.dispose();
+    });
   }
 
   getRootElement() {
@@ -129,10 +148,10 @@ class MainContentUI {
       containerElement
     );
 
-    // Get the root element
+    // Get the root element - this will create it if it doesn't exist
     const root = this.getRootElement();
 
-    // Clear the container first to prevent duplicates
+    // Clear the container first to prevent duplicates if called multiple times (though should only be once now)
     while (containerElement.firstChild) {
       containerElement.removeChild(containerElement.firstChild);
     }

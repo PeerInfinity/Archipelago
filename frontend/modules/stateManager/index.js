@@ -98,43 +98,31 @@ async function initialize(moduleId, priorityIndex, initializationApi) {
  * Waits for the worker to confirm loading is complete.
  * @param {object} initializationApi - API provided by the initialization script.
  */
-async function postInitialize(initializationApi) {
-  console.log('[StateManager Module] Post-initializing...');
-  // Ensure we have the full initApi stored from the initialize step
-  const eventBus = initApi?.getEventBus();
-  if (!initApi || !eventBus) {
+async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
+  console.log(
+    '[StateManager Module] Post-initializing... triggering initial proxy setup and rule load...'
+  );
+  const eventBus = initApi?.getEventBus(); // eventBus might still be needed for publishing
+  if (!initApi) {
+    // Removed eventBus from critical check if only used for publishing optional events
     console.error(
-      '[StateManager Module] Initialization API or EventBus not available in postInitialize. Cannot load rules.'
+      '[StateManager Module] Initialization API not available in postInitialize. Cannot load rules.'
     );
-    // Publish a critical error?
     return;
   }
 
-  // Listen for the signal that all modules are post-initialized
-  console.log(
-    '[StateManager Module] Subscribing to init:postInitComplete on eventBus...'
-  );
-  eventBus.subscribe('init:postInitComplete', async () => {
-    console.log(
-      '[StateManager Module] Received init:postInitComplete, triggering load of default rules...'
-    );
+  let jsonData = null; // This will hold rules fetched if moduleSpecificConfig doesn't have them
+  let playerInfo = {}; // Default empty, to be populated
+  let gameId = moduleSpecificConfig.gameId || 'ALTTP';
 
-    // --- RESTRUCTURED LOGIC --- >
-    let jsonData = null;
-    let playerInfo = null;
-    let itemData = null;
-    let groupData = null;
-    let regionData = null;
-    const aggregatedLocationData = {};
-    const aggregatedExitData = {};
-    const trueOriginalLocationOrder = []; // New array for true original order
-    const trueOriginalExitOrder = []; // New array for true original order
-    const trueOriginalRegionOrder = []; // New array for true original region order
+  try {
+    let rulesConfigToUse = moduleSpecificConfig.rulesConfig;
+    let playerIdToUse = moduleSpecificConfig.playerId;
+    let settingsToUse = moduleSpecificConfig.settings;
 
-    try {
-      // 1. Fetch Rules JSON
+    if (!rulesConfigToUse) {
       console.log(
-        '[StateManager Module] Attempting to load default_rules.json...'
+        '[StateManager Module] rulesConfig not in moduleSpecificConfig, fetching default_rules.json...'
       );
       const response = await fetch('./default_rules.json');
       if (!response.ok) {
@@ -143,174 +131,204 @@ async function postInitialize(initializationApi) {
         );
       }
       jsonData = await response.json();
+      rulesConfigToUse = jsonData;
       console.log(
-        '[StateManager Module] Successfully fetched default_rules.json'
+        '[StateManager Module] Successfully fetched and parsed default_rules.json'
       );
+    }
 
-      // 2. Select Player
-      const playerIds = Object.keys(jsonData.player_names || {});
-      const playerNames = jsonData.player_names || {};
-      let selectedPlayerId = null;
+    const playerIds = Object.keys(rulesConfigToUse.player_names || {});
+    const playerNames = rulesConfigToUse.player_names || {};
 
+    if (!playerIdToUse) {
       if (playerIds.length === 0) {
-        throw new Error('No players found in the JSON data.');
-      } else if (playerIds.length === 1) {
-        selectedPlayerId = playerIds[0];
-        console.log(
-          `[StateManager Module] Auto-selected single player ID: ${selectedPlayerId}`
+        console.warn(
+          '[StateManager Module] No players found in rules data. Defaulting to player 1.'
         );
+        playerIdToUse = '1';
       } else {
-        selectedPlayerId = playerIds[0]; // Default to first for now
-        console.warn(
-          `[StateManager Module] Multiple players found, auto-selecting first ID: ${selectedPlayerId}. Implement proper selection.`
+        playerIdToUse = playerIds[0];
+        console.log(
+          `[StateManager Module] Auto-selected player ID from rules: ${playerIdToUse}`
         );
       }
-      playerInfo = {
-        playerId: selectedPlayerId,
-        playerName:
-          playerNames[selectedPlayerId] || `Player ${selectedPlayerId}`,
-        team: 0,
-      };
-      console.log(`[StateManager Module] Selected player info:`, playerInfo);
+    }
+    playerInfo = {
+      playerId: playerIdToUse,
+      playerName: playerNames[playerIdToUse] || `Player ${playerIdToUse}`,
+    };
+    console.log(`[StateManager Module] Effective player info:`, playerInfo);
 
-      // 3. Extract Core Static Data
-      const playerKey = playerInfo.playerId;
-      itemData = jsonData.items?.[playerKey];
-      groupData = jsonData.item_groups;
-      regionData = jsonData.regions?.[playerKey] ?? jsonData.regions;
+    if (rulesConfigToUse.game && !moduleSpecificConfig.gameId) {
+      gameId = rulesConfigToUse.game;
+      console.log(`[StateManager Module] Game ID from rules: ${gameId}`);
+    }
 
-      if (!itemData) {
-        console.warn(
-          '[StateManager Module] itemData not found for player',
-          playerKey
-        );
-        // Decide if this is critical? Maybe not if default items exist?
-      }
-      if (!groupData) {
-        console.warn('[StateManager Module] groupData not found globally.');
-        // Decide if this is critical?
-      }
-      if (!regionData) {
-        console.warn(
-          '[StateManager Module] regionData not found for player or globally',
-          playerKey
-        );
-        // This IS critical for aggregation
-        throw new Error('Region data is missing, cannot proceed.');
-      }
+    console.log(
+      '[StateManager Module] Initializing StateManagerProxy with derived config...'
+    );
+    const proxyInitConfig = {
+      rulesConfig: rulesConfigToUse,
+      gameId: gameId,
+      playerId: playerInfo.playerId,
+      settings:
+        settingsToUse ||
+        (rulesConfigToUse.settings
+          ? rulesConfigToUse.settings[playerInfo.playerId]
+          : {}),
+    };
+    await stateManagerProxySingleton.initialize(proxyInitConfig);
+    console.log(
+      '[StateManager Module] StateManagerProxy.initialize() call completed.'
+    );
 
-      // 4. Aggregate Locations and Exits (if regionData exists)
-      console.log(
-        '[StateManager Module] Aggregating locations/exits from regions...'
+    const staticItemData = rulesConfigToUse.items?.[playerInfo.playerId];
+    const staticGroupData = rulesConfigToUse.item_groups;
+    const staticRegionData =
+      rulesConfigToUse.regions?.[playerInfo.playerId] ??
+      rulesConfigToUse.regions;
+    const aggregatedLocationData = {};
+    const aggregatedExitData = {};
+    const trueOriginalLocationOrder = [];
+    const trueOriginalExitOrder = [];
+    const trueOriginalRegionOrder = [];
+
+    if (!staticRegionData) {
+      throw new Error(
+        'Region data is missing in rulesConfig, cannot proceed with static cache.'
       );
-      for (const regionName in regionData) {
-        trueOriginalRegionOrder.push(regionName);
-        const region = regionData[regionName];
-        // Locations
-        if (region && region.locations) {
-          // Assuming region.locations is an array or an object that iterates in original file order
+    }
+
+    for (const regionName in staticRegionData) {
+      trueOriginalRegionOrder.push(regionName);
+      const region = staticRegionData[regionName];
+      if (region && region.locations) {
+        if (Array.isArray(region.locations)) {
           for (const locationKey in region.locations) {
             const location = region.locations[locationKey];
-            const uniqueLocationName = location.name;
-
-            if (!aggregatedLocationData.hasOwnProperty(uniqueLocationName)) {
-              trueOriginalLocationOrder.push(uniqueLocationName); // Add to true order list only once
-            }
-            if (aggregatedLocationData.hasOwnProperty(uniqueLocationName)) {
+            if (
+              location &&
+              typeof location === 'object' &&
+              location.name &&
+              typeof location.name === 'string'
+            ) {
+              const uniqueLocationName = location.name;
+              if (!aggregatedLocationData.hasOwnProperty(uniqueLocationName)) {
+                trueOriginalLocationOrder.push(uniqueLocationName);
+              }
+              aggregatedLocationData[uniqueLocationName] = {
+                ...location,
+                parent_region: regionName,
+              };
+            } else {
               console.warn(
-                `[StateManager Aggregation] Overwriting location key: ${uniqueLocationName} (New region: ${regionName}, Existing region: ${aggregatedLocationData[uniqueLocationName].parentRegion})`
+                `[StateManager Index] Skipping location in region '${regionName}' (key: ${locationKey}) due to invalid structure or missing/invalid name property. Location data:`,
+                location
               );
             }
-
-            aggregatedLocationData[uniqueLocationName] = {
-              ...location,
-              parent_region: regionName,
-            };
           }
-        }
-        // Exits
-        if (region && region.exits) {
-          // Assuming region.exits is an array or an object that iterates in original file order
-          for (const exitKey in region.exits) {
-            const exit = region.exits[exitKey];
-            const uniqueExitName = exit.name; // Assuming exits also have a unique .name property for their key in aggregatedExitData
-
-            if (!aggregatedExitData.hasOwnProperty(uniqueExitName)) {
-              trueOriginalExitOrder.push(uniqueExitName); // Add to true order list only once
-            }
-            if (aggregatedExitData.hasOwnProperty(uniqueExitName)) {
-              // Optional: Add overwrite check for exits too if needed
-              // if (aggregatedExitData.hasOwnProperty(uniqueExitName)) {
-              //    console.warn(...);
-              // }
-            }
-
-            aggregatedExitData[uniqueExitName] = {
-              ...exit,
-              parentRegion: regionName,
-              connectedRegion: exit.connected_region,
-            };
-          }
+        } else {
+          console.warn(
+            `[StateManager Index] Region '${regionName}' has a 'locations' property that is not an array. Skipping location processing for this region. Locations data:`,
+            region.locations
+          );
         }
       }
-      console.log(
-        `[StateManager Module] Aggregated ${
-          Object.keys(aggregatedLocationData).length
-        } locations and ${Object.keys(aggregatedExitData).length} exits.`
-      );
-      console.log(
-        `[StateManager Module] True original location order captured: ${trueOriginalLocationOrder.length} items`
-      );
-      console.log(
-        `[StateManager Module] True original exit order captured: ${trueOriginalExitOrder.length} items`
-      );
-      console.log(
-        `[StateManager Module] True original region order captured: ${trueOriginalRegionOrder.length} items`
-      );
+      if (region && region.exits) {
+        if (Array.isArray(region.exits)) {
+          for (const exitKey in region.exits) {
+            const exit = region.exits[exitKey];
+            if (
+              exit &&
+              typeof exit === 'object' &&
+              exit.name &&
+              typeof exit.name === 'string'
+            ) {
+              const uniqueExitName = exit.name;
+              if (!aggregatedExitData.hasOwnProperty(uniqueExitName)) {
+                trueOriginalExitOrder.push(uniqueExitName);
+              }
+              aggregatedExitData[uniqueExitName] = {
+                ...exit,
+                parentRegion: regionName,
+                connectedRegion: exit.connected_region,
+              };
+            } else {
+              console.warn(
+                `[StateManager Index] Skipping exit in region '${regionName}' (key: ${exitKey}) due to invalid structure or missing/invalid name property. Exit data:`,
+                exit
+              );
+            }
+          }
+        } else {
+          console.warn(
+            `[StateManager Index] Region '${regionName}' has an 'exits' property that is not an array. Skipping exit processing for this region. Exits data:`,
+            region.exits
+          );
+        }
+      }
+    }
 
-      // 5. Cache ALL Static Data on Proxy
-      console.log('[StateManager Module] Caching static data on proxy...');
-      stateManagerProxySingleton.setStaticData(
-        itemData, // Might be null/undefined, proxy should handle
-        groupData, // Might be null/undefined
-        aggregatedLocationData,
-        regionData, // Original regions
-        aggregatedExitData,
-        trueOriginalLocationOrder, // Pass the true original order array
-        trueOriginalExitOrder, // Pass the true original order array
-        trueOriginalRegionOrder // Pass the true original region order array
-      );
-      console.log(
-        '[StateManager Module] Static data successfully cached on proxy.'
-      );
+    console.log(
+      `[StateManager Index] Generated original orders - Locations: ${trueOriginalLocationOrder.length}, Exits: ${trueOriginalExitOrder.length}, Regions: ${trueOriginalRegionOrder.length}`
+    );
 
-      // 6. Send Rules to Worker (only after static data is cached)
-      console.log('[StateManager Module] Sending rules to worker via proxy...');
-      await stateManagerProxySingleton.loadRules(jsonData, playerInfo);
-      console.log(
-        '[StateManager Module] Worker confirmed rules loaded (proxy loadRules resolved).'
-      );
+    console.log(
+      '[StateManager Module] Caching static data on proxy (derived from rulesConfigToUse)...'
+    );
+    stateManagerProxySingleton.setStaticData(
+      staticItemData,
+      staticGroupData,
+      aggregatedLocationData,
+      staticRegionData,
+      aggregatedExitData,
+      trueOriginalLocationOrder,
+      trueOriginalExitOrder,
+      trueOriginalRegionOrder
+    );
+    console.log(
+      '[StateManager Module] Static data successfully cached on proxy.'
+    );
 
-      // 7. Publish Raw Data (Optional)
+    console.log(
+      '[StateManager Module] Calling StateManagerProxy.loadRules()...'
+    );
+    await stateManagerProxySingleton.loadRules(rulesConfigToUse, playerInfo);
+    console.log(
+      '[StateManager Module] StateManagerProxy.loadRules() call completed.'
+    );
+
+    if (eventBus) {
       eventBus.publish('stateManager:rawJsonDataLoaded', {
-        source: 'default_rules.json',
-        rawJsonData: jsonData,
+        source:
+          rulesConfigToUse === jsonData
+            ? 'default_rules.json'
+            : 'moduleSpecificConfig',
+        rawJsonData: rulesConfigToUse,
         selectedPlayerInfo: playerInfo,
       });
       console.log(
         '[StateManager Module] Published stateManager:rawJsonDataLoaded.'
       );
-    } catch (error) {
-      // Catch ANY error during the fetch/process/cache/load sequence
-      console.error(
-        `[StateManager Module] CRITICAL ERROR during rule loading/processing: ${error.message}`,
-        error
+    } else {
+      console.warn(
+        '[StateManager Module] EventBus not available for rawJsonDataLoaded event.'
       );
+    }
+  } catch (error) {
+    console.error(
+      `[StateManager Module] CRITICAL ERROR during initial proxy/rule setup: ${error.message}`,
+      error
+    );
+    if (eventBus) {
       eventBus.publish('stateManager:error', {
-        message: `Failed to load/process default rules: ${error.message}`,
+        message: `Failed to initialize proxy or load rules: ${error.message}`,
         isCritical: true,
       });
+    } else {
+      console.error(
+        '[StateManager Module] EventBus not available to publish critical error.'
+      );
     }
-    // --- END RESTRUCTURED LOGIC --- >
-  });
+  }
 }

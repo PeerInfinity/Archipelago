@@ -1,7 +1,12 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import eventBus from '../../app/core/eventBus.js'; // ADDED: Static import
 
 export class TestPlaythroughUI {
-  constructor() {
+  constructor(container, componentState) {
+    // MODIFIED: GL constructor
+    this.container = container; // ADDED
+    this.componentState = componentState; // ADDED
+
     this.initialized = false;
     this.testPlaythroughsContainer = null;
     this.playthroughFiles = null;
@@ -10,7 +15,7 @@ export class TestPlaythroughUI {
     this.abortController = null; // To cancel ongoing tests
     this.playthroughsPanelContainer = null; // Cache container element
     this.viewChangeSubscription = null;
-    this.eventBus = null; // Add placeholder
+    this.eventBus = eventBus; // MODIFIED: Use statically imported eventBus
     this.rootElement = null; // Added
 
     // State for stepping through tests
@@ -19,6 +24,31 @@ export class TestPlaythroughUI {
     this.rulesLoaded = false;
     this.presetInfo = null;
     this.testStateInitialized = false;
+
+    // Create and append root element immediately
+    this.getRootElement(); // This creates this.rootElement and sets this.testPlaythroughsContainer
+    if (this.rootElement) {
+      this.container.element.appendChild(this.rootElement);
+    } else {
+      console.error(
+        '[TestPlaythroughUI] Root element not created in constructor!'
+      );
+    }
+
+    // Defer the rest of initialization
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[TestPlaythroughUI] Received app:readyForUiDataLoad. Initializing playthroughs.'
+      );
+      this.initialize();
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      // ADDED: Ensure cleanup
+      this.dispose();
+    });
   }
 
   getRootElement() {
@@ -39,7 +69,7 @@ export class TestPlaythroughUI {
 
   async initialize() {
     // Ensure root element is created and reference stored
-    this.getRootElement();
+    // this.getRootElement(); // Already called in constructor
 
     if (!this.testPlaythroughsContainer) {
       console.error(
@@ -54,35 +84,25 @@ export class TestPlaythroughUI {
     this.testPlaythroughsContainer.innerHTML =
       '<p>Loading playthrough list...</p>'; // Reset content
 
-    // --- Dynamically Import and Subscribe to EventBus (moved here) ---
-    try {
-      const eventBusModule = await import('../../app/core/eventBus.js');
-      this.eventBus = eventBusModule.default;
-
-      if (this.eventBus) {
-        if (this.viewChangeSubscription) {
-          this.viewChangeSubscription();
-        }
-        this.viewChangeSubscription = this.eventBus.subscribe(
-          'ui:fileViewChanged',
-          (data) => {
-            if (data.newView !== 'test-playthroughs') {
-              console.log(
-                '[TestPlaythroughUI] View changed away, clearing display.'
-              );
-              this.clearDisplay();
-            }
-          }
-        );
-      } else {
-        console.error(
-          '[TestPlaythroughUI] Failed to load eventBus dynamically.'
-        );
+    // --- EventBus Subscription (using statically imported eventBus) ---
+    if (this.eventBus) {
+      if (this.viewChangeSubscription) {
+        this.viewChangeSubscription(); // This should be a function returned by eventBus.subscribe
       }
-    } catch (err) {
+      this.viewChangeSubscription = this.eventBus.subscribe(
+        'ui:fileViewChanged',
+        (data) => {
+          if (data.newView !== 'test-playthroughs') {
+            console.log(
+              '[TestPlaythroughUI] View changed away, clearing display.'
+            );
+            this.clearDisplay();
+          }
+        }
+      );
+    } else {
       console.error(
-        '[TestPlaythroughUI] Error importing or subscribing to eventBus:',
-        err
+        '[TestPlaythroughUI] eventBus not available for subscription.'
       );
     }
     // --- End Event Subscription ---

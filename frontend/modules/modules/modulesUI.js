@@ -74,7 +74,7 @@ export class ModulesPanel {
     this.buttonContainer = null; // Added
     this.moduleListContainer = null; // Added
     this.externalModuleCounter = 0; // Counter for unique external module IDs
-    this.initCompleteHandler = this._handleInitComplete.bind(this); // Store bound handler
+    this.appReadyHandler = this._handleAppReady.bind(this); // MODIFIED: Store bound handler for app:ready
     this.moduleStateHandler = this._handleModuleStateChange.bind(this);
     this.moduleLoadHandler = this._handleModuleLoaded.bind(this);
     this.moduleFailHandler = this._handleModuleLoadFailed.bind(this);
@@ -116,16 +116,16 @@ export class ModulesPanel {
     // Add controls like buttons to the button container
     this._addControls(); // Renamed from _addTestButton
 
-    // Listen for initialization complete event before fetching data
+    // Listen for app ready event before fetching data
     // Use the bound named handler
-    this.initCompleteListener = eventBus.subscribe(
-      'init:complete',
-      this.initCompleteHandler
+    this.appReadyListener = eventBus.subscribe(
+      'app:readyForUiDataLoad', // MODIFIED: Listen to app:ready
+      this.appReadyHandler
     );
     // NOW register the subscription with the registry
     centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
-      'init:complete'
+      'app:readyForUiDataLoad' // MODIFIED: Register intent for app:ready
     );
 
     // Subscribe to external events using bound handlers
@@ -420,17 +420,18 @@ export class ModulesPanel {
     eventBus.publish('module:loadExternalRequest', { moduleId, modulePath });
   }
 
-  // --- Handler for init:complete --- //
-  _handleInitComplete() {
+  // MODIFIED: Renamed from _handleInitComplete to _handleAppReady
+  _handleAppReady() {
     console.log(
-      '[ModulesPanel] Received init:complete, requesting module data...'
+      'ModulesPanel: Received app:readyForUiDataLoad. Requesting module data.'
     );
-    this._requestModuleData();
-    // Optionally unsubscribe after first fetch if it's only needed once
-    // if (this.initCompleteListener) {
-    //     this.initCompleteListener();
-    //     this.initCompleteListener = null;
-    // }
+    this._requestModuleData(); // Now fetch module data
+    // No need to unsubscribe from app:ready here if we want to react to it multiple times,
+    // but for initial load, unsubscribing is fine. For now, let's assume it's for initial load.
+    if (this.appReadyListener) {
+      eventBus.unsubscribe('app:readyForUiDataLoad', this.appReadyHandler);
+      this.appReadyListener = null; // Clear the stored listener handle
+    }
   }
 
   // Called by GoldenLayout when the panel is destroyed
@@ -440,11 +441,11 @@ export class ModulesPanel {
     eventBus.unsubscribe('module:stateChanged', this.moduleStateHandler);
     eventBus.unsubscribe('module:loaded', this.moduleLoadHandler);
     eventBus.unsubscribe('module:loadFailed', this.moduleFailHandler);
-    // Unsubscribe from init:complete if listener exists
+    // Unsubscribe from app:ready if listener exists
     // Use the named handler for unsubscribe
-    if (this.initCompleteListener) {
-      eventBus.unsubscribe('init:complete', this.initCompleteHandler);
-      this.initCompleteListener = null;
+    if (this.appReadyListener) {
+      eventBus.unsubscribe('app:readyForUiDataLoad', this.appReadyHandler);
+      this.appReadyListener = null;
     }
 
     // Clean up DOM

@@ -3,8 +3,11 @@ import eventBus from '../../app/core/eventBus.js'; // <<< Import eventBus
 // import { setEditorInstance } from './index.js';
 
 class EditorUI {
-  constructor() {
+  constructor(container, componentState) {
     console.log('EditorUI instance created with Textarea');
+    this.container = container;
+    this.componentState = componentState;
+
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('editor-panel-content'); // Add a class for styling if needed
     this.rootElement.style.width = '100%'; // Ensure it fills container width
@@ -22,8 +25,21 @@ class EditorUI {
       text: '{\n  "greeting": "Hello World",\n  "value": 123\n}',
     };
 
-    // REMOVED: No longer need to register instance with module index
-    // setEditorInstance(this);
+    this.container.element.appendChild(this.rootElement);
+
+    // Defer full initialization until app is ready
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[EditorUI] Received app:readyForUiDataLoad. Initializing editor.'
+      );
+      this.initialize(); // This will create the textarea and subscribe to data events
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      this.onPanelDestroy();
+    });
   }
 
   getRootElement() {

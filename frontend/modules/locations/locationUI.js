@@ -18,8 +18,9 @@ import {
 } from '../commonUI/index.js';
 
 export class LocationUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
+  constructor(container, componentState) {
+    this.container = container;
+    this.componentState = componentState;
     this.columns = 2; // Default number of columns
     this.rootElement = this.createRootElement(); // Create the root element on instantiation
     this.locationsGrid = this.rootElement.querySelector('#locations-grid'); // Cache grid element
@@ -29,10 +30,50 @@ export class LocationUI {
     this.isInitialized = false; // Add flag
     this.originalLocationOrder = []; // ADDED: To store original keys
 
+    this.container.element.appendChild(this.rootElement);
+
     // Attach control listeners immediately
     this.attachEventListeners();
     // Subscribe to settings
     this.subscribeToSettings();
+
+    // Defer full data-dependent initialization
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[LocationUI] Received app:readyForUiDataLoad. Initializing.'
+      );
+      this.initialize(); // This sets up stateManager event listeners like snapshotUpdated
+
+      // --- ADDED: Proactive data fetching ---
+      console.log(
+        '[LocationUI] Proactively fetching static data and original order after app:readyForUiDataLoad.'
+      );
+      const currentStaticData = stateManager.getStaticData();
+      if (currentStaticData && currentStaticData.locations) {
+        this.originalLocationOrder = stateManager.getOriginalLocationOrder();
+        console.log(
+          `[LocationUI] Stored ${this.originalLocationOrder.length} location keys for original order (proactive fetch).`
+        );
+      } else {
+        console.warn(
+          '[LocationUI] Proactive fetch: Static data or locations not yet available from proxy.'
+        );
+      }
+
+      this.updateLocationDisplay(); // Perform initial render with whatever data is available
+      this.isInitialized = true; // Mark as initialized
+      console.log(
+        '[LocationUI] Initial setup and render complete after app:readyForUiDataLoad.'
+      );
+      // --- END ADDED ---
+
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      this.onPanelDestroy();
+    });
   }
 
   subscribeToSettings() {
@@ -88,19 +129,35 @@ export class LocationUI {
 
       // --- ADDED: Handler for stateManager:ready ---
       const handleReady = () => {
-        console.log('[LocationUI] Received stateManager:ready event.');
+        console.log(
+          '[LocationUI] Received stateManager:ready event (after initial setup).'
+        );
+        // This event confirms StateManager is fully ready.
+        // If UI isn't initialized yet (e.g. if stateManager:ready fired before app:readyForUiDataLoad for some reason),
+        // the constructor's app:readyForUiDataLoad handler will take precedence for the first load.
+        // If already initialized, this can serve as a trigger for a refresh if needed,
+        // or to fetch data if it was missed.
         if (!this.isInitialized) {
-          console.log('[LocationUI] Performing initial setup and render.');
-          const currentStaticData = stateManager.getStaticData(); // Get static data
+          console.log(
+            '[LocationUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Attempting to load data now.'
+          );
+          const currentStaticData = stateManager.getStaticData();
           if (currentStaticData && currentStaticData.locations) {
             this.originalLocationOrder =
-              stateManager.getOriginalLocationOrder(); // Get true original order
+              stateManager.getOriginalLocationOrder();
             console.log(
-              `[LocationUI] Stored ${this.originalLocationOrder.length} location keys for original order from proxy getter.`
+              `[LocationUI stateManager:ready] Stored ${this.originalLocationOrder.length} location keys for original order.`
             );
           }
-          this.updateLocationDisplay(); // Initial render
+          this.updateLocationDisplay();
           this.isInitialized = true;
+        } else {
+          // Potentially re-fetch or update if static data could change and a specific event for that isn't used.
+          // For now, just ensure display is up-to-date with latest snapshot that might have arrived with 'ready'.
+          console.log(
+            '[LocationUI stateManager:ready] UI already initialized. Triggering updateLocationDisplay.'
+          );
+          this.updateLocationDisplay();
         }
       };
       subscribe('stateManager:ready', handleReady);
@@ -238,7 +295,9 @@ export class LocationUI {
   // Called when the panel is initialized
   async initialize() {
     // Make async
-    console.log('[LocationUI] Initializing panel...');
+    console.log(
+      '[LocationUI] Initializing panel (subscribing to state events)...'
+    );
 
     // Initialization now relies solely on the stateManager:ready event handler.
     this.subscribeToStateEvents(); // Ensure subscriptions are set up

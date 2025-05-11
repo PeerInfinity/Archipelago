@@ -1,12 +1,38 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import eventBus from '../../app/core/eventBus.js';
 
 export class PresetUI {
-  constructor() {
+  constructor(container, componentState) {
+    this.container = container;
+    this.componentState = componentState;
+
     this.presets = null;
     this.currentPlayer = null;
     this.initialized = false;
     this.presetsListContainer = null;
     this.rootElement = null;
+
+    // Create and append root element immediately in constructor to have a target for GL
+    this.getRootElement();
+    if (this.rootElement) {
+      this.container.element.appendChild(this.rootElement);
+    } else {
+      console.error('[PresetUI] Root element not created in constructor!');
+    }
+
+    // Defer the rest of initialization (fetching data, rendering)
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[PresetUI] Received app:readyForUiDataLoad. Initializing presets.'
+      );
+      this.initialize();
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      this.onPanelDestroy();
+    });
   }
 
   getRootElement() {
@@ -78,6 +104,15 @@ export class PresetUI {
       }
       this.initialized = false;
       return false;
+    }
+  }
+
+  onPanelDestroy() {
+    console.log('[PresetUI] Panel destroyed. Cleaning up if necessary.');
+    this.initialized = false;
+    this.presets = null;
+    if (this.presetsListContainer) {
+      this.presetsListContainer.innerHTML = '';
     }
   }
 
@@ -507,9 +542,6 @@ export class PresetUI {
   }
 
   async loadRulesFile(gameId, folderId, rulesFile, playerId = '1') {
-    // Re-import eventBus here for simplicity, acknowledging it's not ideal DI
-    const eventBus = (await import('../../app/core/eventBus.js')).default;
-
     const fullPath = `./presets/${gameId}/${folderId}/${rulesFile}`;
     console.log(`Loading rules file: ${fullPath}`);
 

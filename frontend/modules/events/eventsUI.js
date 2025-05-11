@@ -129,49 +129,60 @@ class EventsUI {
     this.rootElement = null;
     this.eventBusSection = null;
     this.dispatcherSection = null;
-    // this.initApi = getInitApi(); // REMOVED Call to getInitApi
     this.moduleStateChangeHandler = this.handleModuleStateChange.bind(this);
-    this.unsubscribeModuleState = null; // Handle for unsubscribing
-    this.moduleId = 'events'; // Assume module ID is known
-
-    /* REMOVED initApi check
-    if (!this.initApi) {
-      console.error('[EventsUI] Failed to get initApi!');
-      // Handle error - maybe display a message in the panel?
-    }
-    */
+    this.unsubscribeModuleState = null;
+    this.moduleId = 'events';
+    this.initApi = null; // To store initApi when received
 
     this._createUI();
-    // Pass centralRegistry directly instead of relying on initApi
-    this._loadAndRenderData(centralRegistry); // Pass centralRegistry
 
-    // Subscribe to module state changes to refresh the UI
+    // Defer loading data until the app signals it's ready
+    eventBus.subscribe(
+      'app:readyForUiDataLoad',
+      this.handleAppReady.bind(this)
+    );
+
     this.unsubscribeModuleState = eventBus.subscribe(
       'module:stateChanged',
       this.moduleStateChangeHandler
     );
-    // Register this subscription with the registry
     centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
       'module:stateChanged',
       this.moduleStateChangeHandler
     );
 
-    // Golden Layout: Listen for destroy event to unsubscribe
     this.container.on('destroy', () => {
       this.destroy();
     });
 
-    // Add CSS styles
     const style = document.createElement('style');
     style.textContent = CSS;
-    // Prepend to ensure it's added early, avoid FOUC
     this.container.element.prepend(style);
-
-    // TODO: Set up listeners if needed (e.g., to refresh when modules are dynamically loaded/unloaded)
   }
 
-  // Method expected by PanelManager/WrapperComponent
+  handleAppReady(initApi) {
+    console.log(
+      '[EventsUI] Received app:readyForUiDataLoad, full initApi should be available.'
+    );
+    // Now attempt to get moduleManager from initApi if it was passed, otherwise fallback to window (less ideal)
+    // This assumes initApi is now fully populated and passed with the event.
+    // If initApi is not passed with the event, this won't work directly.
+    // For now, let's assume window.moduleManagerApi will be set by the time this event fires.
+    // A cleaner solution would be to pass initApi with the event.
+    if (window.moduleManagerApi) {
+      this._loadAndRenderData(centralRegistry, window.moduleManagerApi);
+    } else {
+      console.error(
+        '[EventsUI] moduleManagerApi not found on window when app:readyForUiDataLoad was received.'
+      );
+      this.eventBusSection.textContent =
+        'Error: ModuleManagerAPI not available.';
+      this.dispatcherSection.textContent =
+        'Error: ModuleManagerAPI not available.';
+    }
+  }
+
   getRootElement() {
     return this.rootElement;
   }
@@ -201,7 +212,7 @@ class EventsUI {
     this.container.element.appendChild(this.rootElement);
   }
 
-  async _loadAndRenderData(registry) {
+  async _loadAndRenderData(registry, moduleManager) {
     if (!registry) {
       this.eventBusSection.textContent = 'Error: Initialization API not found.';
       this.dispatcherSection.textContent =
@@ -210,10 +221,8 @@ class EventsUI {
     }
 
     try {
-      const moduleManager = window.moduleManagerApi;
-
       if (!moduleManager) {
-        throw new Error('Failed to retrieve module manager.');
+        throw new Error('ModuleManager not available to _loadAndRenderData.');
       }
 
       const eventBusPublishers = registry.getAllEventBusPublishers();
@@ -221,7 +230,6 @@ class EventsUI {
       const dispatcherSenders = registry.getAllDispatcherSenders();
       const dispatcherHandlers = registry.getAllDispatcherHandlers();
       const loadPriority = await moduleManager.getCurrentLoadPriority();
-      // Fetch current module enabled states
       const moduleStates = await moduleManager.getAllModuleStates();
 
       this._renderEventBus(
@@ -234,7 +242,7 @@ class EventsUI {
         dispatcherSenders,
         dispatcherHandlers,
         loadPriority,
-        moduleStates // Pass states
+        moduleStates
       );
     } catch (error) {
       console.error('[EventsUI] Error loading or rendering event data:', error);
@@ -624,7 +632,7 @@ class EventsUI {
       `[EventsUI] Received module:stateChanged for ${payload.moduleId}. Refreshing data...`
     );
     // Simple approach: reload all data and re-render
-    this._loadAndRenderData(centralRegistry);
+    this._loadAndRenderData(centralRegistry, window.moduleManagerApi);
   }
 
   // Clean up subscriptions when the panel is destroyed

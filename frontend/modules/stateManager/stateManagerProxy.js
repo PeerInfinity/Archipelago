@@ -94,12 +94,29 @@ class StateManagerProxy {
       return;
     }
 
+    // ADDED: Detailed log for all incoming messages from worker
+    console.log(
+      '[StateManagerProxy] DETAILED << WORKER:',
+      JSON.parse(JSON.stringify(message))
+    );
+
     switch (message.type) {
       case 'queryResponse':
         this._handleQueryResponse(message);
         break;
+      case 'workerInitializedConfirmation': // ADDED: Handle worker initialization confirmation
+        console.log(
+          '[StateManagerProxy] Worker initialized confirmation received:',
+          JSON.parse(JSON.stringify(message.configEcho || {}))
+        );
+        // Worker is up, but we still wait for rules to be loaded for the main "ready" state.
+        // This event could be used for finer-grained readiness if needed in the future.
+        break;
       case 'rulesLoadedConfirmation': {
-        console.log('[stateManagerProxy] Rules loaded confirmation received.');
+        console.log(
+          '[stateManagerProxy] Rules loaded confirmation received (raw message):',
+          JSON.parse(JSON.stringify(message))
+        ); // ADDED: Log raw message
         // Cache the initial snapshot sent with the confirmation
         // --- FIX: Access snapshot via message.initialSnapshot (matching worker) ---
         if (message.initialSnapshot) {
@@ -169,7 +186,46 @@ class StateManagerProxy {
           message: message.message,
           stack: message.stack,
           originalCommand: message.originalCommand,
+          queryId: message.queryId, // Forward queryId if the error is related to a query
         });
+        // If the error is tied to a specific query, reject that query's promise
+        if (message.queryId) {
+          const pending = this.pendingQueries.get(message.queryId);
+          if (pending) {
+            if (pending.timeoutId) clearTimeout(pending.timeoutId);
+            pending.reject(
+              new Error(
+                message.message || 'Worker reported an error for this query.'
+              )
+            );
+            this.pendingQueries.delete(message.queryId);
+          }
+        }
+        break;
+      case 'workerError': // This is the new message type from the simplified worker onmessage
+        console.error(
+          '[StateManagerProxy] General worker error (from new handler):',
+          message
+        );
+        this.eventBus.publish('stateManager:workerError', {
+          message: message.errorMessage,
+          stack: message.errorStack,
+          originalCommand: message.command, // From the worker's new error structure
+          queryId: message.queryId,
+        });
+        if (message.queryId) {
+          const pending = this.pendingQueries.get(message.queryId);
+          if (pending) {
+            if (pending.timeoutId) clearTimeout(pending.timeoutId);
+            pending.reject(
+              new Error(
+                message.errorMessage ||
+                  'Worker reported an error processing command.'
+              )
+            );
+            this.pendingQueries.delete(message.queryId);
+          }
+        }
         break;
       default:
         console.warn(
@@ -515,7 +571,35 @@ class StateManagerProxy {
     expectResponse = false,
     timeout = 5000
   ) {
-    // ... existing code ...
+    const message = { command, payload };
+    // queryId is not relevant for this version of _sendCommand, it's for sendQueryToWorker
+
+    console.log(
+      '[StateManagerProxy _sendCommand] Sending to worker:',
+      JSON.parse(JSON.stringify(message))
+    );
+
+    if (!this.worker) {
+      console.error(
+        '[stateManagerProxy] Worker not available for _sendCommand.'
+      );
+      // Optionally throw an error or handle gracefully
+      return;
+    }
+    try {
+      this.worker.postMessage(message);
+    } catch (error) {
+      console.error(
+        '[stateManagerProxy] Error sending command to worker:',
+        error,
+        message
+      );
+      // Handle serialization errors, etc.
+      this.eventBus.publish('stateManager:error', {
+        message: 'Error communicating with StateManager worker.',
+        isCritical: true,
+      });
+    }
   }
 
   /**
@@ -587,6 +671,93 @@ class StateManagerProxy {
     return this.isPotentialStaleSnapshot;
   }
   // <<< END ADDED >>>
+
+  initialize(initialConfig = {}) {
+    console.log(
+      '[StateManagerProxy] initialize method ENTERED. Config received:',
+      JSON.parse(JSON.stringify(initialConfig))
+    );
+    // Store the initial configuration for the worker
+    // initialConfig might contain rulesConfig (as data), gameId, etc.
+    this.initialConfig = {
+      gameId: initialConfig.gameId || 'ALTTP', // Default if not provided
+      rulesData: initialConfig.rulesConfig, // Expects rulesConfig to be the actual rules JSON object
+      playerId: initialConfig.playerId || '1', // ADDED: Store and use playerId from initialConfig
+      rulesUrl: null, // Explicitly null if rulesData is provided; worker will prioritize rulesData
+      eventsConfig: initialConfig.eventsConfig, // Pass through if provided
+      settings: initialConfig.settings, // Pass through if provided
+      // Add any other config that needs to be relayed from the main thread init to the worker
+    };
+
+    console.log(
+      '[StateManagerProxy] Preparing to send initialize command to worker. Config snapshot:',
+      // Be cautious with logging very large objects directly
+      {
+        gameId: this.initialConfig.gameId,
+        playerId: this.initialConfig.playerId,
+        rulesDataKeys: this.initialConfig.rulesData
+          ? Object.keys(this.initialConfig.rulesData)
+          : null,
+        rulesUrl: this.initialConfig.rulesUrl,
+        eventsConfigExists: !!this.initialConfig.eventsConfig,
+        settingsExists: !!this.initialConfig.settings,
+      }
+    );
+
+    const messageToSend = {
+      command: 'initialize',
+      config: {
+        gameId: this.initialConfig.gameId,
+        rulesData: this.initialConfig.rulesData, // Pass the direct rules data
+        playerId: this.initialConfig.playerId, // ADDED: Pass playerId to worker config
+        rulesUrl: this.initialConfig.rulesUrl, // Pass URL (will be null if rulesData is present)
+        eventsConfig: this.initialConfig.eventsConfig,
+        settings: this.initialConfig.settings,
+        // workerPath: this.workerPath, // Not needed by worker itself for init
+      },
+    };
+
+    try {
+      console.log(
+        '[StateManagerProxy] Attempting this.worker.postMessage with initialize command.'
+      );
+      this.worker.postMessage(messageToSend);
+      console.log(
+        '[StateManagerProxy] this.worker.postMessage for initialize command completed without immediate error.'
+      );
+    } catch (error) {
+      console.error(
+        '[StateManagerProxy] CRITICAL: Error synchronously thrown by this.worker.postMessage for initialize command:',
+        error,
+        messageToSend
+      );
+      // Log the stringified version if the direct log fails due to circular refs in error or message
+      try {
+        console.error(
+          '[StateManagerProxy] CRITICAL (stringified): Error:',
+          JSON.stringify(error),
+          'Message:',
+          JSON.stringify(messageToSend)
+        );
+      } catch (stringifyError) {
+        console.error(
+          '[StateManagerProxy] CRITICAL: Could not even stringify the error/message for logging.',
+          stringifyError
+        );
+      }
+      // Potentially rethrow or publish a critical error event
+      this.eventBus.publish('stateManager:error', {
+        message:
+          'Critical error posting initialize message to worker: ' +
+          error.message,
+        isCritical: true,
+      });
+    }
+  }
+
+  async _loadStaticDataAndEmitReady() {
+    // ... existing code ...
+  }
 }
 
 // --- ADDED: Function to create the main-thread snapshot interface ---

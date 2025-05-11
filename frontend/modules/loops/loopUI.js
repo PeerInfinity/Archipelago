@@ -14,7 +14,11 @@ import {
 import settingsManager from '../../app/core/settingsManager.js';
 
 export class LoopUI {
-  constructor(/* removed discoveryState */) {
+  constructor(container, componentState) {
+    // MODIFIED: GL constructor
+    this.container = container; // ADDED
+    this.componentState = componentState; // ADDED
+
     // UI state
     this.expandedRegions = new Set();
     this.regionsInQueue = new Set(); // Track which regions have actions in the queue
@@ -35,6 +39,8 @@ export class LoopUI {
     this.loopTopControlsContainer =
       this.rootElement.querySelector('.loop-controls'); // Cache TOP controls container
 
+    this.container.element.appendChild(this.rootElement); // ADDED: Append to GL container
+
     // --- Moved Listener Attachment ---
     // Event listener attachment is now deferred to attachInternalListeners()
     // _attachControlEventListeners() is renamed and moved
@@ -45,6 +51,21 @@ export class LoopUI {
 
     // Set up animation frame for continuous UI updates
     this._startAnimationLoop();
+
+    // Defer full initialization until app is ready
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[LoopUI] Received app:readyForUiDataLoad. Initializing panel.'
+      );
+      this.initialize(); // This will call buildInitialStructure and attachInternalListeners
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      // ADDED: Ensure cleanup
+      this.onPanelDestroy();
+    });
   }
 
   // <<< Add Subscription Logic >>>
@@ -376,42 +397,9 @@ export class LoopUI {
    * Initialize the loop UI
    */
   initialize() {
-    // Clear UI and prep container
-    this.clear(); // Calls renderLoopPanel internally
-
-    // Initialize loop state (might have been loaded from storage)
-    loopState.initialize();
-
-    // Set initial expanded state for starting region
-    this.expandedRegions.add('Menu');
-
-    // Render initial state based on whether loop mode is already active
-    this.renderLoopPanel(); // Render based on current isLoopModeActive state
-
-    // Update controls based on initial loopState
-    this._updatePauseButtonState(loopState.isPaused);
-    const autoRestartBtn = this.rootElement.querySelector(
-      '#loop-ui-toggle-auto-restart'
-    );
-    if (autoRestartBtn) {
-      autoRestartBtn.textContent = loopState.autoRestartQueue
-        ? 'Restart when queue complete'
-        : 'Pause when queue complete';
-    }
-    const speedSlider = this.rootElement.querySelector('#loop-ui-game-speed');
-    const speedValueSpan = this.rootElement.querySelector(
-      '#loop-ui-speed-value'
-    );
-    if (speedSlider && speedValueSpan) {
-      speedSlider.value = loopState.gameSpeed;
-      speedValueSpan.textContent = `${loopState.gameSpeed.toFixed(1)}x`;
-    }
-    const colorblindCheckbox = this.rootElement.querySelector(
-      '#loop-ui-colorblind'
-    );
-    if (colorblindCheckbox) colorblindCheckbox.checked = this.colorblindMode; // Assuming colorblindMode is persisted/set elsewhere if needed
-
-    return true;
+    console.log('[LoopUI] Initializing LoopUI panel content...'); // Added log
+    this.buildInitialStructure();
+    this.attachInternalListeners(); // Attach listeners for the newly built structure
   }
 
   /**

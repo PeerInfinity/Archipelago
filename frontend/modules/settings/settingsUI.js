@@ -1,8 +1,13 @@
 import settingsManager from '../../app/core/settingsManager.js'; // <<< Import Settings Manager
+import eventBus from '../../app/core/eventBus.js'; // ADDED: Import eventBus
 
 class SettingsUI {
-  constructor() {
+  constructor(container, componentState) {
+    // MODIFIED: GL constructor
     console.log('SettingsUI instance created');
+    this.container = container; // ADDED
+    this.componentState = componentState; // ADDED
+
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('settings-panel-content', 'panel-container'); // Add classes for styling
     this.rootElement.style.width = '100%';
@@ -15,10 +20,27 @@ class SettingsUI {
     this.editorContainer.style.minHeight = '300px'; // Example min height
     this.rootElement.appendChild(this.editorContainer);
 
+    this.container.element.appendChild(this.rootElement); // ADDED: Append to GL container
+
     this.editor = null;
     this.isInitialized = false;
     this.currentSchema = null; // Store schema if needed
     this.currentData = {}; // Store data
+
+    // Defer full initialization until app is ready
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[SettingsUI] Received app:readyForUiDataLoad. Initializing editor.'
+      );
+      this.initialize(); // This will create the JSONEditor instance
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      // ADDED: Ensure cleanup
+      this.onPanelDestroy();
+    });
   }
 
   getRootElement() {

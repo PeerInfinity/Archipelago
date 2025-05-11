@@ -14,8 +14,9 @@ import eventBus from '../../app/core/eventBus.js';
 import settingsManager from '../../app/core/settingsManager.js';
 
 export class ExitUI {
-  constructor(gameUI) {
-    this.gameUI = gameUI;
+  constructor(container, componentState) {
+    this.container = container;
+    this.componentState = componentState;
     this.columns = 2; // Default number of columns
     this.rootElement = this.createRootElement();
     this.exitsGrid = this.rootElement.querySelector('#exits-grid');
@@ -24,8 +25,46 @@ export class ExitUI {
     this.colorblindSettings = {};
     this.isInitialized = false;
     this.originalExitOrder = [];
+    this.container.element.appendChild(this.rootElement);
     this.attachEventListeners();
     this.subscribeToSettings();
+
+    // Defer full data-dependent initialization
+    const readyHandler = (eventPayload) => {
+      console.log('[ExitUI] Received app:readyForUiDataLoad. Initializing.');
+      this.initialize(); // This will set up stateManager event listeners
+
+      // --- ADDED: Proactive data fetching ---
+      console.log(
+        '[ExitUI] Proactively fetching static data and original order after app:readyForUiDataLoad.'
+      );
+      const currentStaticData = stateManager.getStaticData();
+      if (currentStaticData && currentStaticData.exits) {
+        this.originalExitOrder = stateManager.getOriginalExitOrder();
+        console.log(
+          `[ExitUI] Stored ${this.originalExitOrder.length} exit keys for original order (proactive fetch).`
+        );
+      } else {
+        console.warn(
+          '[ExitUI] Proactive fetch: Static data or exits not yet available from proxy.'
+        );
+      }
+
+      this.updateExitDisplay(); // Perform initial render with whatever data is available
+      this.isInitialized = true; // Mark as initialized
+      console.log(
+        '[ExitUI] Initial setup and render complete after app:readyForUiDataLoad.'
+      );
+      // --- END ADDED ---
+
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      // ADDED: Ensure cleanup
+      this.onPanelDestroy();
+    });
   }
 
   subscribeToSettings() {
@@ -71,24 +110,39 @@ export class ExitUI {
     };
 
     const handleReady = () => {
-      console.log('[ExitUI] Received stateManager:ready event.');
+      console.log(
+        '[ExitUI] Received stateManager:ready event (after initial setup).'
+      );
+      // This event confirms StateManager is fully ready.
+      // If UI isn't initialized yet (e.g. if stateManager:ready fired before app:readyForUiDataLoad),
+      // the constructor's app:readyForUiDataLoad handler will take precedence for the first load.
+      // If already initialized, this can serve as a trigger for a refresh if needed,
+      // or to fetch data if it was missed.
       if (!this.isInitialized) {
-        console.log('[ExitUI] Performing initial setup and render.');
-        const currentStaticData = stateManager.getStaticData(); // Get static data
+        console.log(
+          '[ExitUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Attempting to load data now.'
+        );
+        const currentStaticData = stateManager.getStaticData();
         if (currentStaticData && currentStaticData.exits) {
-          // Exits in staticData are expected to be an object/map, so we take Object.keys
-          this.originalExitOrder = stateManager.getOriginalExitOrder(); // Get true original order
+          this.originalExitOrder = stateManager.getOriginalExitOrder();
           console.log(
-            `[ExitUI] Stored ${this.originalExitOrder.length} exit keys for original order from proxy getter.`
+            `[ExitUI stateManager:ready] Stored ${this.originalExitOrder.length} exit keys for original order.`
           );
         } else {
           console.warn(
-            '[ExitUI] Static exit data not available at ready event.'
+            '[ExitUI stateManager:ready] Static exit data not available.'
           );
-          this.originalExitOrder = []; // Ensure it's an empty array if data is missing
+          this.originalExitOrder = []; // Ensure it's an empty array
         }
-        this.updateExitDisplay(); // Initial render
-        this.isInitialized = true;
+        this.updateExitDisplay();
+        this.isInitialized = true; // Mark as initialized here too as a fallback
+      } else {
+        // Potentially re-fetch or update if static data could change and a specific event for that isn't used.
+        // For now, just ensure display is up-to-date with latest snapshot that might have arrived with 'ready'.
+        console.log(
+          '[ExitUI stateManager:ready] UI already initialized. Triggering updateExitDisplay.'
+        );
+        this.updateExitDisplay(); // Refresh with potentially new snapshot data
       }
     };
     subscribe('stateManager:ready', handleReady);
@@ -359,9 +413,9 @@ export class ExitUI {
 
   // Called when the panel is initialized by PanelManager
   initialize() {
-    console.log('[ExitUI] Initializing panel...');
-    this.isInitialized = false;
-    this.subscribeToStateEvents();
+    console.log('[ExitUI] Initializing panel (subscribing to state events)...');
+    // Initialization now relies solely on the stateManager:ready event handler.
+    this.subscribeToStateEvents(); // Ensure subscriptions are set up
   }
 
   clear() {
@@ -666,10 +720,10 @@ export class ExitUI {
         // Determine status for A (same as 'accessibility' sort)
         const parentAReachable =
           snapshot.reachability?.[a.parentRegion] === true ||
-          /* ... */ snapshot.reachability?.[a.parentRegion] === 'checked';
+          snapshot.reachability?.[a.parentRegion] === 'checked';
         const connectedAReachable =
           snapshot.reachability?.[a.connectedRegion] === true ||
-          /* ... */ snapshot.reachability?.[a.connectedRegion] === 'checked';
+          snapshot.reachability?.[a.connectedRegion] === 'checked';
         let ruleAPasses = true;
         if (a.access_rule)
           try {
@@ -692,10 +746,10 @@ export class ExitUI {
         // Determine status for B (same as 'accessibility' sort)
         const parentBReachable =
           snapshot.reachability?.[b.parentRegion] === true ||
-          /* ... */ snapshot.reachability?.[b.parentRegion] === 'checked';
+          snapshot.reachability?.[b.parentRegion] === 'checked';
         const connectedBReachable =
           snapshot.reachability?.[b.connectedRegion] === true ||
-          /* ... */ snapshot.reachability?.[b.connectedRegion] === 'checked';
+          snapshot.reachability?.[b.connectedRegion] === 'checked';
         let ruleBPasses = true;
         if (b.access_rule)
           try {

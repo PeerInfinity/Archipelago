@@ -1,9 +1,14 @@
 import commonUI from '../commonUI/index.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import eventBus from '../../app/core/eventBus.js'; // ADDED: Static import
 // import { TestCase } from '../../tests/TestCase.js'; // Removed unused import
 
 export class TestCaseUI {
-  constructor() {
+  constructor(container, componentState) {
+    // MODIFIED: GL constructor
+    this.container = container; // ADDED
+    this.componentState = componentState; // ADDED
+
     this.testCases = null;
     this.testRules = null;
     this.currentTest = null;
@@ -13,8 +18,31 @@ export class TestCaseUI {
     this.initialized = false;
     this.testCasesListContainer = null;
     this.viewChangeSubscription = null;
-    this.eventBus = null; // Add placeholder for event bus instance
+    this.eventBus = eventBus; // MODIFIED: Use statically imported eventBus
     this.rootElement = null; // Added
+
+    // Create and append root element immediately
+    this.getRootElement(); // This creates this.rootElement and this.testCasesListContainer
+    if (this.rootElement) {
+      this.container.element.appendChild(this.rootElement);
+    } else {
+      console.error('[TestCaseUI] Root element not created in constructor!');
+    }
+
+    // Defer the rest of initialization
+    const readyHandler = (eventPayload) => {
+      console.log(
+        '[TestCaseUI] Received app:readyForUiDataLoad. Initializing test cases.'
+      );
+      this.initialize();
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      // ADDED: Ensure cleanup
+      this.dispose();
+    });
   }
 
   getRootElement() {
@@ -35,7 +63,7 @@ export class TestCaseUI {
 
   async initialize(/* container removed */) {
     // Ensure root element and inner container are created
-    this.getRootElement();
+    // this.getRootElement(); // Already called in constructor
 
     if (!this.testCasesListContainer) {
       console.error(
@@ -48,37 +76,24 @@ export class TestCaseUI {
     // Initialized is now set after async fetch completes
     this.initialized = false;
 
-    // --- Dynamically Import and Subscribe to EventBus (moved here) ---
-    try {
-      // Import eventBus dynamically
-      const eventBusModule = await import('../../app/core/eventBus.js');
-      this.eventBus = eventBusModule.default; // Store the instance
-
-      if (this.eventBus) {
-        // Unsubscribe first if already subscribed (e.g., re-initialization)
-        if (this.viewChangeSubscription) {
-          this.viewChangeSubscription();
-        }
-        // Subscribe to view changes using the stored instance
-        this.viewChangeSubscription = this.eventBus.subscribe(
-          'ui:fileViewChanged',
-          (data) => {
-            if (data.newView !== 'test-cases') {
-              console.log(
-                '[TestCaseUI] View changed away, clearing test data.'
-              );
-              this.clearTestData();
-            }
-          }
-        );
-      } else {
-        console.error('[TestCaseUI] Failed to load eventBus dynamically.');
+    // --- EventBus Subscription (using statically imported eventBus) ---
+    if (this.eventBus) {
+      // Unsubscribe first if already subscribed (e.g., re-initialization)
+      if (this.viewChangeSubscription) {
+        this.viewChangeSubscription(); // This should be a function returned by eventBus.subscribe
       }
-    } catch (err) {
-      console.error(
-        '[TestCaseUI] Error importing or subscribing to eventBus:',
-        err
+      // Subscribe to view changes using the stored instance
+      this.viewChangeSubscription = this.eventBus.subscribe(
+        'ui:fileViewChanged',
+        (data) => {
+          if (data.newView !== 'test-cases') {
+            console.log('[TestCaseUI] View changed away, clearing test data.');
+            this.clearTestData();
+          }
+        }
       );
+    } else {
+      console.error('[TestCaseUI] eventBus not available for subscription.');
     }
     // --- End Event Subscription ---
 

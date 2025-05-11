@@ -18,7 +18,10 @@ import {
 } from '../commonUI/index.js';
 
 export class RegionUI {
-  constructor() {
+  constructor(container, componentState) {
+    this.container = container;
+    this.componentState = componentState;
+
     // Add instance property for unsubscribe handles
     this.unsubscribeHandles = [];
 
@@ -45,10 +48,63 @@ export class RegionUI {
     );
     this.statusElement = null; // Initialize status element ref
 
-    // Subscribe to necessary events when the instance is created
-    // REMOVE: this._subscribeToEvents(); // Called by initialize
+    this.container.element.appendChild(this.rootElement);
 
+    // Event listeners for controls on the static rootElement can be attached here
     this.attachEventListeners();
+
+    // Defer full data-dependent initialization (including _subscribeToEvents via initialize)
+    const readyHandler = (eventPayload) => {
+      console.log('[RegionUI] Received app:readyForUiDataLoad. Initializing.');
+      this.initialize(); // This will call _subscribeToEvents
+
+      // --- ADDED: Proactive data fetching and initialization ---
+      console.log(
+        '[RegionUI app:readyForUiDataLoad] Proactively fetching static data and original order.'
+      );
+      this.colorblindSettings =
+        settingsManager.getSetting('colorblindMode.regions') || {};
+
+      const currentStaticData = stateManager.getStaticData();
+      if (currentStaticData && currentStaticData.regions) {
+        this.originalRegionOrder = stateManager.getOriginalRegionOrder();
+        console.log(
+          `[RegionUI app:readyForUiDataLoad] Stored ${this.originalRegionOrder.length} region keys for original order.`
+        );
+      } else {
+        console.warn(
+          '[RegionUI app:readyForUiDataLoad] Static region data not available for fetching original order.'
+        );
+        this.originalRegionOrder = [];
+      }
+
+      const showAllCheckbox =
+        this.rootElement.querySelector('#show-all-regions');
+      this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
+
+      if (!this.showAll) {
+        console.log(
+          "[RegionUI app:readyForUiDataLoad] Show All is off, setting start region to 'Menu'."
+        );
+        this.showStartRegion('Menu'); // Initialize visitedRegions with Menu
+      } else {
+        console.log('[RegionUI app:readyForUiDataLoad] Show All is on.');
+      }
+
+      this.update(); // Perform initial render
+      this.isInitialized = true; // Mark as initialized
+      console.log(
+        '[RegionUI app:readyForUiDataLoad] Initial setup and render complete.'
+      );
+      // --- END ADDED ---
+
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
+    };
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+
+    this.container.on('destroy', () => {
+      this.onPanelDestroy();
+    });
   }
 
   // Called by PanelManager when panel is created/shown
@@ -79,40 +135,56 @@ export class RegionUI {
 
     // --- ADDED: Handler for stateManager:ready --- Similar to LocationUI/ExitUI
     const handleReady = () => {
-      console.log('[RegionUI] Received stateManager:ready event.');
+      console.log(
+        '[RegionUI] Received stateManager:ready event (after initial setup).'
+      );
+      // This event confirms StateManager is fully ready.
+      // If UI isn't initialized yet by app:readyForUiDataLoad (e.g. if stateManager:ready fired extremely early),
+      // perform the full initialization. Otherwise, just refresh.
       if (!this.isInitialized) {
-        console.log('[RegionUI] Performing initial setup and render.');
-        // Update colorblind settings cache on ready
+        console.log(
+          '[RegionUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Performing full setup now.'
+        );
         this.colorblindSettings =
           settingsManager.getSetting('colorblindMode.regions') || {};
 
-        // Fetch original region order
         const currentStaticData = stateManager.getStaticData();
         if (currentStaticData && currentStaticData.regions) {
           this.originalRegionOrder = stateManager.getOriginalRegionOrder();
           console.log(
-            `[RegionUI] Stored ${this.originalRegionOrder.length} region keys for original order from proxy getter.`
+            `[RegionUI stateManager:ready] Stored ${this.originalRegionOrder.length} region keys for original order.`
           );
         } else {
           console.warn(
-            '[RegionUI] Static region data not available at ready event for fetching original order.'
+            '[RegionUI stateManager:ready] Static region data not available for fetching original order.'
           );
           this.originalRegionOrder = [];
         }
 
-        // Check if we should show only the start region initially
         const showAllCheckbox =
           this.rootElement.querySelector('#show-all-regions');
-        this.showAll = showAllCheckbox ? showAllCheckbox.checked : false; // Update showAll state from checkbox
+        this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
         if (!this.showAll) {
           console.log(
-            "[RegionUI] Show All is off, attempting to set start region to 'Menu'..."
+            "[RegionUI stateManager:ready] Show All is off, setting start region to 'Menu'."
           );
-          this.showStartRegion('Menu'); // Initialize visitedRegions with Menu
+          this.showStartRegion('Menu');
+        } else {
+          console.log('[RegionUI stateManager:ready] Show All is on.');
         }
 
-        this.update(); // Initial render (will use populated visitedRegions if showAll is false)
-        this.isInitialized = true;
+        this.update(); // Initial render
+        this.isInitialized = true; // Mark as initialized
+        console.log(
+          '[RegionUI stateManager:ready] Fallback setup and render complete.'
+        );
+      } else {
+        console.log(
+          '[RegionUI stateManager:ready] UI already initialized. Triggering update.'
+        );
+        // Potentially refresh colorblind settings again if they could change without a settings:changed event
+        // this.colorblindSettings = settingsManager.getSetting('colorblindMode.regions') || {};
+        this.update(); // Refresh with potentially new snapshot data
       }
     };
     subscribe('stateManager:ready', handleReady);

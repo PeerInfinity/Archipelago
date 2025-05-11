@@ -4,11 +4,30 @@ import eventBus from './eventBus.js';
 
 class SettingsManager {
   constructor() {
-    // Settings are now loaded asynchronously
     this.settings = null;
-    this.isLoading = true;
-    this.loadPromise = this._loadSettingsFromServer();
-    // console.log('SettingsManager initializing...'); // Log removed, handled in load
+    this.isLoading = true; // Will be set to false once settings are loaded or provided
+    this.loadPromise = null; // Initialize to null, created by ensureLoaded if needed
+    // console.log('SettingsManager initializing...');
+  }
+
+  setInitialSettings(initialSettings) {
+    if (initialSettings && typeof initialSettings === 'object') {
+      console.log(
+        '[SettingsManager] Setting initial settings directly:',
+        initialSettings
+      );
+      this.settings = JSON.parse(JSON.stringify(initialSettings)); // Deep copy
+      this.isLoading = false;
+      // If there was a loadPromise, it's now irrelevant or should be handled.
+      // For simplicity, ensureLoaded will check isLoading and this.settings.
+      eventBus.publish('settings:loaded', this.settings);
+    } else {
+      console.warn(
+        '[SettingsManager] setInitialSettings called with invalid settings object.',
+        initialSettings
+      );
+      // Do not set isLoading to false, allow normal loading to proceed if ensureLoaded is called.
+    }
   }
 
   async _loadSettingsFromServer() {
@@ -51,9 +70,22 @@ class SettingsManager {
 
   // Method to ensure settings are loaded before accessing them
   async ensureLoaded() {
-    if (this.isLoading) {
+    if (this.isLoading && !this.settings) {
+      // Only load from server if still loading AND no initial settings were provided
+      if (!this.loadPromise) {
+        // Create load promise only if needed
+        this.loadPromise = this._loadSettingsFromServer();
+      }
       await this.loadPromise;
+    } else if (this.isLoading && this.settings) {
+      // This case means setInitialSettings was called, but isLoading wasn't set to false properly, or an edge case.
+      // For safety, mark as not loading if settings are present.
+      this.isLoading = false;
+      console.log(
+        '[SettingsManager] ensureLoaded: Settings already provided, marking as not loading.'
+      );
     }
+    // If !this.isLoading, settings are already loaded (either via setInitialSettings or previous _loadSettingsFromServer)
     return this.settings;
   }
 
