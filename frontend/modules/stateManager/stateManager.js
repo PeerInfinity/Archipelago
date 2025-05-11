@@ -196,8 +196,7 @@ export class StateManager {
       this.inventory.addItem(itemName);
       this._logDebug(`[StateManager Class] Added item: ${itemName}`);
       this.invalidateCache();
-      this.computeReachableRegions(); // Recompute, triggers snapshot update
-      // this._publishEvent('inventoryChanged'); // Snapshot implies this
+      this._sendSnapshotUpdate();
     }
     return true;
   }
@@ -392,8 +391,96 @@ export class StateManager {
     if (jsonData.shops && jsonData.shops[selectedPlayerId]) {
       this.state.loadShops(jsonData.shops[selectedPlayerId]);
     } else {
-      console.warn('No shop data found for player in JSON.');
+      // console.warn('No shop data found for player in JSON.');
     }
+
+    // --- Start of new group processing logic ---
+    console.log(
+      `[StateManager loadFromJSON] Processing group data. Player ID: ${selectedPlayerId}. Raw jsonData.item_groups:`,
+      jsonData.item_groups
+        ? JSON.parse(JSON.stringify(jsonData.item_groups))
+        : 'undefined'
+    );
+
+    if (
+      jsonData.item_groups &&
+      typeof jsonData.item_groups === 'object' &&
+      jsonData.item_groups !== null
+    ) {
+      const playerSpecificGroups =
+        jsonData.item_groups[String(selectedPlayerId)]; // Ensure playerId is a string key
+      if (Array.isArray(playerSpecificGroups)) {
+        this.groupData = playerSpecificGroups;
+        console.log(
+          `[StateManager loadFromJSON] Loaded player-specific item_groups for player ${selectedPlayerId}:`,
+          JSON.parse(JSON.stringify(this.groupData))
+        );
+      } else {
+        console.log(
+          `[StateManager loadFromJSON] item_groups found, but no specific entry for player ${selectedPlayerId} or entry is not an array. Player entry:`,
+          playerSpecificGroups
+        );
+        this.groupData = []; // Default to empty if player-specific groups are not an array
+      }
+    } else if (jsonData.groups && Array.isArray(jsonData.groups)) {
+      // Fallback for old global 'groups' array format if item_groups is not present
+      console.log(
+        `[StateManager loadFromJSON] No player-specific item_groups found or item_groups is not an object. Falling back to global jsonData.groups (if array).`
+      );
+      this.groupData = jsonData.groups;
+    } else {
+      console.log(
+        `[StateManager loadFromJSON] No player-specific item_groups or suitable global fallback found. Setting groupData to [].`
+      );
+      this.groupData = [];
+    }
+    console.log(
+      `[StateManager loadFromJSON] Final this.groupData for player ${selectedPlayerId}:`,
+      JSON.parse(JSON.stringify(this.groupData)),
+      'Is Array:',
+      Array.isArray(this.groupData)
+    );
+    // --- End of new group processing logic ---
+
+    // Process starting items
+    const startingItems = jsonData.starting_items?.[selectedPlayerId] || [];
+    if (startingItems && startingItems.length > 0) {
+      console.log(
+        `[StateManager loadFromJSON] Adding ${startingItems.length} starting items for player ${selectedPlayerId}:`,
+        startingItems
+      );
+      this.beginBatchUpdate(true); // Defer computation until after adding all items
+      startingItems.forEach((itemName) => {
+        // Ensure the item exists in itemData before trying to add
+        if (this.itemData && this.itemData[itemName]) {
+          this.addItemToInventory(itemName); // This will add to _batchedUpdates
+        } else {
+          console.warn(
+            `[StateManager loadFromJSON] Starting item '${itemName}' not found in itemData, skipping.`
+          );
+        }
+      });
+      this.commitBatchUpdate(); // This will apply batched items and trigger computation if needed
+      console.log(
+        '[StateManager loadFromJSON] Starting items processed and batch committed.'
+      );
+    } else {
+      console.log('[StateManager loadFromJSON] No starting items to process.');
+      // If batch mode was somehow active and we didn't add items, ensure it's reset.
+      // And if no starting items, we still need an initial computation if cache is still invalid.
+      if (this._batchMode) {
+        // If a batch was started for some other reason (unlikely here)
+        this.commitBatchUpdate(); // Ensure it's committed.
+      } else if (!this.cacheValid) {
+        // If no starting items and cache is invalid (e.g. fresh load), trigger computation
+        // This computeReachableRegions will update the cache. The snapshot is sent later.
+        console.log(
+          '[StateManager loadFromJSON] No starting items, ensuring initial computation.'
+        );
+        this.computeReachableRegions();
+      }
+    }
+    // --- END ADDED ---
 
     // Compute initial reachability after all data is loaded
     this.enhanceLocationsWithStaticRules();
@@ -595,10 +682,6 @@ export class StateManager {
     } finally {
       this._computing = false;
     }
-
-    // Send snapshot update AFTER computation is fully complete
-    this._sendSnapshotUpdate();
-    // this._publishEvent('regionsComputed', ...); // Covered by snapshot
 
     return this.knownReachableRegions;
   }
@@ -1014,9 +1097,7 @@ export class StateManager {
       }
       // --- END ADDED --- >
 
-      // Publish specific event for this?
-      // this._publishEvent('locationChecked', ...);
-      // Send a full snapshot update instead/as well
+      this.invalidateCache();
       this._sendSnapshotUpdate();
     }
   }
@@ -1074,20 +1155,26 @@ export class StateManager {
 
     this._batchedUpdates.clear();
 
+    let needsSnapshotUpdate = false;
+
     if (inventoryChanged) {
       this._logDebug('Inventory changed during batch update.');
       this.invalidateCache();
+      needsSnapshotUpdate = true;
     }
+
     // Compute regions if not deferred OR if inventory changed (which invalidates cache)
     if (!this._deferRegionComputation || inventoryChanged) {
-      this._logDebug('Recomputing regions after batch commit.');
-      // computeReachableRegions will trigger the snapshot update
-      this.computeReachableRegions();
+      this._logDebug(
+        'Recomputing regions after batch commit (if cache was invalid).'
+      );
+      this.computeReachableRegions(); // This will update cache if invalid. Does not send snapshot.
+      needsSnapshotUpdate = true; // Ensure snapshot is sent if recomputation happened or was due.
     }
-    // Publish inventoryChanged *after* recomputation, only if it actually changed
-    // if (inventoryChanged) {
-    //   this._publishEvent('inventoryChanged'); // Covered by snapshot
-    // }
+
+    if (needsSnapshotUpdate) {
+      this._sendSnapshotUpdate();
+    }
     this._logDebug('[StateManager Class] Batch update committed.');
   }
 

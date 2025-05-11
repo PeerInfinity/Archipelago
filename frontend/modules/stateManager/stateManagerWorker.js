@@ -154,16 +154,52 @@ self.onmessage = async function (e) {
         stateManagerInstance.loadFromJSON(rulesData, playerId);
         // computeReachableRegions is called internally by loadFromJSON
         const initialSnapshot = stateManagerInstance.getSnapshot();
+        // MODIFIED: Construct static data object directly from instance properties
+        const workerStaticGameData = {
+          items: stateManagerInstance.itemData,
+          groups: stateManagerInstance.groupData, // This should now be the processed array of strings
+          locations: stateManagerInstance.locations,
+          regions: stateManagerInstance.regions,
+          // Add other static data pieces if needed by the proxy or UI later
+        };
+
         console.log(
-          '[stateManagerWorker onmessage] Rules loaded. Posting confirmation with snapshot.'
+          '[stateManagerWorker onmessage] Rules loaded. Posting confirmation with snapshot and worker static groups.'
         );
         self.postMessage({
           type: 'rulesLoadedConfirmation',
           initialSnapshot: initialSnapshot,
           gameId: workerConfig.gameId,
           playerId: playerId,
-          // workerQueueSummary: [] // Keeping this if proxy expects it, but internalQueue isn't used by this simple handler
+          workerStaticGroups: workerStaticGameData.groups, // Send the processed groups
         });
+        break;
+
+      case 'addItemToInventory':
+        if (!stateManagerInstance) {
+          console.error(
+            '[stateManagerWorker] StateManager not initialized for addItemToInventory'
+          );
+          break;
+        }
+        try {
+          const { item, quantity } = message.payload;
+          if (typeof item === 'string') {
+            stateManagerInstance.addItemToInventory(item, quantity || 1);
+            // stateManagerInstance.addItemToInventory already sends a snapshot update
+          } else {
+            console.error(
+              '[stateManagerWorker] Invalid payload for addItemToInventory: item name missing or not a string.',
+              message.payload
+            );
+          }
+        } catch (e) {
+          console.error(
+            '[stateManagerWorker] Error processing addItemToInventory:',
+            e
+          );
+          // Optionally send an error back
+        }
         break;
 
       // Basic query handling for commands that expect a response via queryId
@@ -208,8 +244,33 @@ self.onmessage = async function (e) {
               queryId: message.queryId,
               result: staticData,
             });
+          } else if (message.command === 'checkLocation') {
+            try {
+              const locationName = message.payload;
+              if (typeof locationName !== 'string') {
+                throw new Error(
+                  'Invalid payload for checkLocation: expected a string locationName.'
+                );
+              }
+              stateManagerInstance.checkLocation(locationName);
+              self.postMessage({
+                type: 'queryResponse',
+                queryId: message.queryId,
+                result: { success: true, locationName: locationName },
+              });
+            } catch (error) {
+              console.error(
+                `[stateManagerWorker] Error processing checkLocation for ${message.payload}:`,
+                error
+              );
+              self.postMessage({
+                type: 'queryResponse',
+                queryId: message.queryId,
+                error: `Error processing checkLocation: ${error.message}`,
+              });
+            }
           } else {
-            // For checkLocation, evaluateRuleRequest, we'd need more complex handling.
+            // For evaluateRuleRequest, we'd need more complex handling.
             // This is a simplification for now to get the init/loadRules flow working.
             console.warn(
               `[stateManagerWorker] Command ${message.command} needs full handler beyond this basic switch.`

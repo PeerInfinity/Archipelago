@@ -557,9 +557,9 @@ class EventsUI {
       });
 
     // TODO: Implement detailed arrow/symbol logic for dispatcher events
-    console.warn(
-      '[EventsUI] Dispatcher event rendering is basic. Needs symbol/arrow implementation.'
-    );
+    //console.warn(
+    //  '[EventsUI] Dispatcher event rendering is basic. Needs symbol/arrow implementation.'
+    //);
   }
 
   // --- Helper to create toggle checkboxes --- //

@@ -303,7 +303,6 @@ export class InventoryUI {
       this.sortAlphabetically = event.target.checked;
       if (this.itemData && this.groupNames) {
         this.initializeUI(this.itemData, this.groupNames);
-        this.syncWithState();
       } else {
         console.warn(
           '[InventoryUI] Cannot re-sort: State or rules not available.'
@@ -370,7 +369,7 @@ export class InventoryUI {
   _handleSnapshotUpdated(snapshotData) {
     if (this.isInitialized) {
       if (snapshotData) {
-        this.syncWithState();
+        this.updateDisplay();
       } else {
         console.warn(
           '[InventoryUI] snapshotUpdated event received null snapshotData?'
@@ -381,7 +380,7 @@ export class InventoryUI {
 
   _handleInventoryChanged() {
     if (this.isInitialized) {
-      this.syncWithState();
+      this.updateDisplay();
     }
   }
 
@@ -448,26 +447,44 @@ export class InventoryUI {
     try {
       const staticData = stateManager.getStaticData();
 
+      console.log(
+        '[InventoryUI] Raw staticData.groups received in syncWithState:',
+        staticData && staticData.groups
+          ? JSON.parse(JSON.stringify(staticData.groups))
+          : 'undefined'
+      );
+
       if (!staticData || !staticData.items) {
         console.error(
-          '[InventoryUI] Failed to load static data or items are missing.'
+          '[InventoryUI] Item data is missing in static data cache. Cannot initialize.'
         );
-        this.displayError(
-          'Failed to load item definitions. Check console for errors.'
-        );
-        this.itemData = {};
-        this.groupNames = [];
-      } else {
-        this.itemData = staticData.items || {};
-        this.groupNames = Object.keys(staticData.groups || {});
-        console.log(
-          '[InventoryUI] Successfully loaded items and group names from static data cache.',
-          {
-            itemCount: Object.keys(this.itemData).length,
-            groupCount: this.groupNames.length,
-          }
-        );
+        this.isInitialized = false;
+        return;
       }
+
+      this.itemData = staticData.items || {};
+
+      if (staticData.groups && Array.isArray(staticData.groups)) {
+        this.groupNames = staticData.groups;
+        console.log(
+          '[InventoryUI] Successfully assigned groupNames directly from staticData.groups (array): ',
+          JSON.parse(JSON.stringify(this.groupNames))
+        );
+      } else {
+        console.warn(
+          '[InventoryUI] staticData.groups is not an array as expected. Defaulting to empty groups. Received:',
+          staticData.groups
+        );
+        this.groupNames = [];
+      }
+
+      console.log(
+        '[InventoryUI] Successfully loaded items and group names from static data cache.',
+        {
+          itemCount: Object.keys(this.itemData).length,
+          groupCount: this.groupNames.length,
+        }
+      );
 
       this.initializeUI(this.itemData, this.groupNames);
 

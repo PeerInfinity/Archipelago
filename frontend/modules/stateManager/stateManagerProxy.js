@@ -95,10 +95,10 @@ class StateManagerProxy {
     }
 
     // ADDED: Detailed log for all incoming messages from worker
-    console.log(
-      '[StateManagerProxy] DETAILED << WORKER:',
-      JSON.parse(JSON.stringify(message))
-    );
+    // console.log(
+    //   '[StateManagerProxy] DETAILED << WORKER:',
+    //   JSON.parse(JSON.stringify(message))
+    // );
 
     switch (message.type) {
       case 'queryResponse':
@@ -142,6 +142,27 @@ class StateManagerProxy {
         }
         // Call the readiness check instead
         this._checkAndPublishReady();
+
+        if (message.workerStaticGroups && this.staticDataCache) {
+          console.log(
+            '[StateManagerProxy] Received workerStaticGroups from rulesLoadedConfirmation, updating staticDataCache.groups:',
+            JSON.parse(JSON.stringify(message.workerStaticGroups))
+          );
+          this.staticDataCache.groups = message.workerStaticGroups; // Update the cache
+        } else if (message.workerStaticGroups && !this.staticDataCache) {
+          console.warn(
+            '[StateManagerProxy] Received workerStaticGroups, but staticDataCache is null. This might be an order issue.'
+          );
+        } else if (!message.workerStaticGroups && this.staticDataCache) {
+          console.warn(
+            '[StateManagerProxy] staticDataCache exists, but workerStaticGroups not received in rulesLoadedConfirmation. Current staticDataCache.groups:',
+            this.staticDataCache.groups
+              ? JSON.parse(JSON.stringify(this.staticDataCache.groups))
+              : 'undefined'
+          );
+        }
+
+        this._setUiReady(true); // Mark UI as ready (snapshot is available)
         break;
       }
       case 'stateSnapshot':
