@@ -162,7 +162,7 @@ class StateManagerProxy {
           );
         }
 
-        this._setUiReady(true); // Mark UI as ready (snapshot is available)
+        // this._setUiReady(true); // Mark UI as ready (snapshot is available)
         break;
       }
       case 'stateSnapshot':

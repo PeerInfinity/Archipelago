@@ -85,63 +85,17 @@ class SettingsUI {
 
       // Define a schema based on the settings structure
       // This could be generated dynamically, but hardcode for now
+      // MODIFIED to be a permissive schema
       this.currentSchema = {
         title: 'Application Settings',
         type: 'object',
-        properties: {
-          colorblindMode: {
-            title: 'Colorblind Mode Toggles',
-            type: 'object',
-            properties: {
-              regions: {
-                type: 'boolean',
-                title: 'Regions Panel',
-                default: true,
-                format: 'checkbox',
-              },
-              locations: {
-                type: 'boolean',
-                title: 'Locations Panel',
-                default: true,
-                format: 'checkbox',
-              },
-              exits: {
-                type: 'boolean',
-                title: 'Exits Panel',
-                default: true,
-                format: 'checkbox',
-              },
-              loops: {
-                type: 'boolean',
-                title: 'Loops Panel',
-                default: true,
-                format: 'checkbox',
-              },
-              pathAnalyzer: {
-                title: 'Path Analyzer',
-                type: 'boolean',
-                format: 'checkbox',
-                default: false,
-              },
-              // Add other areas as needed
-            },
-            required: [
-              'regions',
-              'locations',
-              'exits',
-              'loops',
-              'pathAnalyzer',
-            ],
-          },
-          // Add other top-level settings here
-        },
-        required: ['colorblindMode'],
+        // No properties defined, so it should allow anything at the top level
       };
 
       const settings = {
         theme: 'bootstrap4',
         iconlib: 'fontawesome5',
-        schema: this.currentSchema,
+        schema: this.currentSchema, // UNCOMMENTED and using the new permissive schema
         startval: this.currentData,
         // Ensure keys aren't added/removed if not in schema?
         // no_additional_properties: true, // Might be too strict initially

@@ -576,6 +576,7 @@ select:hover {
   padding: 0.25rem 0.5rem;
   cursor: pointer;
   font-size: 0.8rem;
+  border-radius: 4px;
 }
 
 .button:hover {
@@ -1074,3 +1075,26 @@ label {
 .panel-container .control-group label {
   color: #cecece !important; /* Use !important to ensure override */
 }
+
+/* Style for the file input label to look like a button */
+.file-input-button-label {
+  display: inline-block;
+  padding: 0.25rem 0.5rem; /* Match other button padding */
+  background-color: #000080; /* Match button background */
+  color: #cecece; /* Match button text color */
+  border: 1px solid #666; /* Match button border */
+  border-radius: 4px; /* Optional: match button border-radius */
+  cursor: pointer;
+  font-size: 0.8rem; /* Match button font size */
+  text-align: center;
+  line-height: normal; /* Ensure text is vertically centered like a button */
+}
+
+.file-input-button-label:hover {
+  background-color: #0000a0; /* Match button hover background */
+}
+
+/* Hide the actual file input, as the label triggers it */
+/* input[type="file"]#json-btn-load-file { */ /* This was already style="display: none;" inline */
+/*   display: none; */
+/* } */

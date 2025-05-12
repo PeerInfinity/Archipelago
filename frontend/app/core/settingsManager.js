@@ -119,6 +119,12 @@ class SettingsManager {
    */
   async getSettings() {
     await this.ensureLoaded();
+    console.log(
+      '[SettingsManager getSettings] this.settings BEFORE stringify/parse:',
+      this.settings
+        ? JSON.parse(JSON.stringify(this.settings))
+        : 'null or undefined'
+    );
     // Return a deep copy to prevent accidental mutation
     return JSON.parse(JSON.stringify(this.settings));
   }

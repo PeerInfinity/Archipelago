@@ -519,6 +519,10 @@ async function main() {
   if (G_combinedModeData.userSettings) {
     // Assuming settingsManager has a method like setInitialSettings or can be adapted.
     // This is a placeholder for actual integration with settingsManager's API.
+    console.log(
+      '[Init] G_combinedModeData.userSettings BEFORE calling setInitialSettings:',
+      JSON.parse(JSON.stringify(G_combinedModeData.userSettings))
+    );
     if (typeof settingsManager.setInitialSettings === 'function') {
       settingsManager.setInitialSettings(G_combinedModeData.userSettings);
       console.log(
