@@ -154,6 +154,22 @@ self.onmessage = async function (e) {
         stateManagerInstance.loadFromJSON(rulesData, playerId);
         // computeReachableRegions is called internally by loadFromJSON
         const initialSnapshot = stateManagerInstance.getSnapshot();
+
+        console.log(
+          '[stateManagerWorker PRE-CONSTRUCT] Checking stateManagerInstance.originalExitOrder. Type:',
+          typeof stateManagerInstance.originalExitOrder,
+          'Is Array:',
+          Array.isArray(stateManagerInstance.originalExitOrder),
+          'Length:',
+          stateManagerInstance.originalExitOrder
+            ? stateManagerInstance.originalExitOrder.length
+            : 'N/A',
+          'Sample:',
+          stateManagerInstance.originalExitOrder
+            ? stateManagerInstance.originalExitOrder.slice(0, 5)
+            : 'N/A'
+        );
+
         // MODIFIED: Construct static data object directly from instance properties
         const workerStaticGameData = {
           items: stateManagerInstance.itemData,
@@ -161,11 +177,35 @@ self.onmessage = async function (e) {
           locations: stateManagerInstance.locations,
           regions: stateManagerInstance.regions,
           exits: stateManagerInstance.exits, // Ensure exits are included
-          locationOrder: stateManagerInstance.originalLocationOrder, // Ensure orders are included
-          exitOrder: stateManagerInstance.originalExitOrder,
-          regionOrder: stateManagerInstance.originalRegionOrder,
+          originalLocationOrder: stateManagerInstance.originalLocationOrder, // Ensure orders are included
+          originalExitOrder: stateManagerInstance.originalExitOrder,
+          originalRegionOrder: stateManagerInstance.originalRegionOrder,
           // Add other static data pieces if needed by the proxy or UI later
         };
+
+        console.log(
+          '[stateManagerWorker onmessage] Rules loaded. About to postMessage. WorkerStaticGameData details:'
+        );
+        console.log(
+          '  workerStaticGameData keys:',
+          Object.keys(workerStaticGameData)
+        );
+        console.log(
+          '  workerStaticGameData.originalExitOrder type:',
+          typeof workerStaticGameData.originalExitOrder,
+          'Is Array:',
+          Array.isArray(workerStaticGameData.originalExitOrder),
+          'Length:',
+          workerStaticGameData.originalExitOrder
+            ? workerStaticGameData.originalExitOrder.length
+            : 'N/A'
+        );
+        console.log(
+          '  Sample originalExitOrder from workerStaticGameData:',
+          workerStaticGameData.originalExitOrder
+            ? workerStaticGameData.originalExitOrder.slice(0, 5)
+            : 'N/A'
+        );
 
         console.log(
           '[stateManagerWorker onmessage] Rules loaded. Posting confirmation with snapshot and full newStaticData.'

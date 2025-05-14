@@ -226,6 +226,14 @@ export class StateManager {
    * @param {string} selectedPlayerId - The ID of the player whose data should be loaded.
    */
   loadFromJSON(jsonData, selectedPlayerId) {
+    // --- VERY EARLY DIAGNOSTIC LOG (using console.log directly) ---
+    console.log(
+      `[StateManager Worker loadFromJSON VERY EARLY DIRECT LOG] Entered method. Player ID: ${selectedPlayerId}. jsonData keys: ${
+        jsonData ? Object.keys(jsonData) : 'jsonData is null/undefined'
+      }`
+    );
+    // --- END VERY EARLY DIAGNOSTIC LOG ---
+
     this._logDebug(
       `[StateManager Class] Loading JSON for player ${selectedPlayerId}...`
     );
@@ -235,114 +243,150 @@ export class StateManager {
     this.originalRegionOrder = [];
     this.originalExitOrder = [];
 
-    if (jsonData?.regions?.[selectedPlayerId]) {
-      const sampleRegionName = Object.keys(
-        jsonData.regions[selectedPlayerId]
-      )[0];
-      if (sampleRegionName) {
-        const sampleRegionLocations =
-          jsonData.regions[selectedPlayerId][sampleRegionName]?.locations;
-        if (sampleRegionLocations) {
-          console.log(
-            `[StateManager loadFromJSON ENTRY] Player ${selectedPlayerId}, Sample region \'${sampleRegionName}\' location keys:`,
-            Object.keys(sampleRegionLocations)
-          );
-        } else {
-          console.log(
-            `[StateManager loadFromJSON ENTRY] Player ${selectedPlayerId}, Sample region \'${sampleRegionName}\' has no locations object.`
-          );
-        }
-      } else {
-        console.log(
-          `[StateManager loadFromJSON ENTRY] Player ${selectedPlayerId} has no regions.`
-        );
-      }
-    } else {
-      console.log(
-        `[StateManager loadFromJSON ENTRY] No regions data for player ${selectedPlayerId} in jsonData.`
+    if (!jsonData) {
+      console.error(
+        '[StateManager loadFromJSON] jsonData is null or undefined. Aborting.'
       );
-    }
-    if (!jsonData.schema_version || jsonData.schema_version !== 3) {
-      throw new Error('Invalid JSON format: requires schema version 3');
+      throw new Error('Invalid JSON data provided to loadFromJSON');
     }
     if (!selectedPlayerId) {
+      console.error(
+        '[StateManager loadFromJSON] selectedPlayerId is not provided. Aborting.'
+      );
       throw new Error('loadFromJSON called without selectedPlayerId');
+    }
+    if (!jsonData.schema_version || jsonData.schema_version !== 3) {
+      // It's often better to log an error and continue with a defined (but perhaps empty) state
+      // rather than throwing an error that might crash the worker, unless schema version is absolutely critical.
+      console.error(
+        `[StateManager loadFromJSON] Invalid JSON schema version: ${jsonData.schema_version}. Expected 3. Proceeding with caution.`
+      );
+      // Depending on strictness, you might still want to throw:
+      // throw new Error('Invalid JSON format: requires schema version 3');
     }
 
     // Set the player slot based on selection
     this.playerSlot = parseInt(selectedPlayerId, 10);
     console.log(`StateManager playerSlot set to: ${this.playerSlot}`);
 
-    // Load data for the selected player
-    const playerData = {
-      regions: jsonData.regions?.[selectedPlayerId],
-      itemData: jsonData.items?.[selectedPlayerId],
-      groupData: jsonData.item_groups?.[selectedPlayerId],
-      progressionMapping: jsonData.progression_mapping?.[selectedPlayerId],
-      itempoolCounts: jsonData.itempool_counts?.[selectedPlayerId],
-      settings: jsonData.settings?.[selectedPlayerId],
-      startRegions: jsonData.start_regions?.[selectedPlayerId],
-      mode: jsonData.mode?.[selectedPlayerId],
-    };
-
-    if (
-      !playerData.regions ||
-      !playerData.itemData ||
-      !playerData.groupData ||
-      !playerData.progressionMapping ||
-      !playerData.settings
-    ) {
-      throw new Error('Invalid player data format');
-    }
-
-    this.regions = playerData.regions;
-    this.itemData = playerData.itemData;
-    this.groupData = playerData.groupData;
-    this.settings = playerData.settings;
-    this.startRegions = playerData.startRegions;
-    this.mode = playerData.mode;
-    this.itempoolCounts = playerData.itempoolCounts;
-
-    // Initialize item and location name to ID maps
+    // Load item data for the selected player
+    this.itemData = jsonData.items?.[selectedPlayerId] || {};
     this.itemNameToId = {};
     for (const id in this.itemData) {
-      this.itemNameToId[this.itemData[id].name] = id;
+      if (Object.hasOwn(this.itemData, id) && this.itemData[id]?.name) {
+        this.itemNameToId[this.itemData[id].name] = id;
+      }
     }
-    console.log(`Loaded ${Object.keys(this.itemNameToId).length} item IDs`);
+    this._logDebug(
+      `Loaded ${
+        Object.keys(this.itemNameToId).length
+      } item IDs and populated itemNameToId map.`
+    );
+
+    // Load regions for the selected player and their original order
+    this.regions = jsonData.regions?.[selectedPlayerId] || {};
+    this.originalRegionOrder = Object.keys(this.regions); // Order based on keys from JSON
+    this._logDebug(
+      `Loaded ${this.originalRegionOrder.length} regions and their original order.`
+    );
+
+    // Load group data for the selected player
+    const playerSpecificGroupData =
+      jsonData.item_groups?.[String(selectedPlayerId)];
+    if (Array.isArray(playerSpecificGroupData)) {
+      this.groupData = playerSpecificGroupData;
+      this._logDebug(
+        `Loaded player-specific item_groups for player ${selectedPlayerId}: ${this.groupData.length} groups.`
+      );
+    } else if (jsonData.groups && Array.isArray(jsonData.groups)) {
+      this.groupData = jsonData.groups; // Fallback to global jsonData.groups
+      this._logDebug(
+        `Used global jsonData.groups for player ${selectedPlayerId}: ${this.groupData.length} groups (item_groups not suitable).`
+      );
+    } else {
+      this.groupData = []; // Default to empty array if no suitable group data is found
+      console.warn(
+        `[StateManager loadFromJSON] No valid group data found for player ${selectedPlayerId}. Defaulting to empty array.`
+      );
+    }
+
+    // Load other direct properties
+    this.settings = jsonData.settings?.[selectedPlayerId] || {};
+    this.startRegions = jsonData.start_regions?.[selectedPlayerId] || [];
+    this.mode = jsonData.mode?.[selectedPlayerId] || null; // Default to null if not present
+    this.itempoolCounts = jsonData.itempool_counts?.[selectedPlayerId] || {};
+    this.progressionMapping =
+      jsonData.progression_mapping?.[selectedPlayerId] || {};
+    this._logDebug(
+      'Loaded settings, startRegions, mode, itempoolCounts, and progressionMapping.'
+    );
+
+    // The following diagnostic log can be very verbose, enable if needed for deep debugging of regions
+    // if (jsonData?.regions?.[selectedPlayerId]) {
+    //   const sampleRegionName = Object.keys(
+    //     jsonData.regions[selectedPlayerId]
+    //   )[0];
+    //   if (sampleRegionName) {
+    //     const sampleRegionLocations =
+    //       jsonData.regions[selectedPlayerId][sampleRegionName]?.locations;
+    //     if (sampleRegionLocations) {
+    //       this._logDebug(
+    //         `[StateManager loadFromJSON ENTRY] Player ${selectedPlayerId}, Sample region '${sampleRegionName}' location keys:`,
+    //         Object.keys(sampleRegionLocations)
+    //       );
+    //     } else {
+    //       this._logDebug(
+    //         `[StateManager loadFromJSON ENTRY] Player ${selectedPlayerId}, Sample region '${sampleRegionName}' has no locations object.`
+    //       );
+    //     }
+    //   } else {
+    //     this._logDebug(
+    //       `[StateManager loadFromJSON ENTRY] Player ${selectedPlayerId} has no regions.`
+    //     );
+    //   }
+    // } else {
+    //   this._logDebug(
+    //     `[StateManager loadFromJSON ENTRY] No regions data for player ${selectedPlayerId} in jsonData.`
+    //   );
+    // }
+
+    // console.log(`Loaded ${Object.keys(this.itemNameToId).length} item IDs`); // Covered by _logDebug
 
     // Aggregate all locations from all regions into a flat list and build nameToId map
     this.locations = [];
     this.locationNameToId = {};
     this.eventLocations.clear(); // Clear event locations before populating
 
-    for (const regionName in this.regions) {
-      const region = this.regions[regionName];
+    // Iterate regions using the guaranteed originalRegionOrder for consistent processing order
+    for (const regionName of this.originalRegionOrder) {
+      const region = this.regions[regionName]; // Get region data using the name
+      if (!region) {
+        console.warn(
+          `[StateManager loadFromJSON] Region data for '${regionName}' not found in this.regions. Skipping.`
+        );
+        continue;
+      }
+
       if (region.locations && Array.isArray(region.locations)) {
-        // Ensure it's an array
         region.locations.forEach((locationDataItem) => {
-          // Iterate array of location objects
-          const descriptiveName = locationDataItem.name; // e.g., "Mushroom", "Bottle Merchant"
+          const descriptiveName = locationDataItem.name;
 
           if (!descriptiveName) {
             console.warn(
               `[StateManager loadFromJSON] Location data in region '${regionName}' is missing a 'name' property:`,
               locationDataItem
             );
-            return; // Skip this malformed location data
+            return;
           }
 
-          // Create the object to be stored in this.locations array.
-          // It should retain its original properties (like its original id from JSON, item, access_rule, etc.)
-          // and crucially, its 'name' property must be the descriptive one.
           const locationObjectForArray = {
-            ...locationDataItem, // Spread all original properties (includes original name, id, item, etc.)
-            region: regionName, // Add/ensure region context is present
+            ...locationDataItem,
+            region: regionName, // Ensure parent region context is explicitly set
           };
 
           this.locations.push(locationObjectForArray);
           this.originalLocationOrder.push(descriptiveName);
 
-          // Populate eventLocations
           if (
             locationObjectForArray.item &&
             locationObjectForArray.item.type === 'Event'
@@ -353,22 +397,91 @@ export class StateManager {
             );
           }
 
-          // The locationNameToId map should map the descriptive name to the index in the this.locations array
-          // for quick retrieval if needed, or to its original ID if that's more useful.
-          // Given the previous structure `this.locationNameToId[locName] = fullLocationObject.id` where `fullLocationObject.id` was `this.locations.length`,
-          // mapping to the array index seems intended.
           this.locationNameToId[descriptiveName] = this.locations.length - 1;
         });
       } else if (region.locations) {
-        // If region.locations exists but is not an array, log a warning.
-        // This could happen if the JSON structure is unexpectedly an object here.
         console.warn(
           `[StateManager loadFromJSON] region.locations for region '${regionName}' is not an array:`,
           region.locations
         );
       }
     }
-    console.log(`Loaded ${this.locations.length} location IDs`);
+    this._logDebug(
+      `Processed ${this.locations.length} locations and populated originalLocationOrder.`
+    );
+
+    // Initialize exits array and populate it along with originalExitOrder
+    this.exits = [];
+    this._logDebug(
+      '[StateManager Worker loadFromJSON] Populating this.exits...'
+    );
+
+    for (const regionName of this.originalRegionOrder) {
+      // Use the ordered list of region names
+      const regionObject = this.regions[regionName]; // Access the region object
+      if (!regionObject) {
+        // This case should ideally not happen if originalRegionOrder is derived from Object.keys(this.regions)
+        // but as a safeguard:
+        console.warn(
+          `[StateManager loadFromJSON] Region data for '${regionName}' not found in this.regions during exit processing. Skipping.`
+        );
+        continue;
+      }
+
+      if (regionObject.exits && Array.isArray(regionObject.exits)) {
+        regionObject.exits.forEach((originalExitObject) => {
+          if (
+            originalExitObject &&
+            typeof originalExitObject === 'object' &&
+            originalExitObject.name
+          ) {
+            const connectedRegionValue = originalExitObject.connected_region;
+
+            if (
+              !connectedRegionValue ||
+              typeof connectedRegionValue !== 'string' ||
+              connectedRegionValue.trim() === ''
+            ) {
+              //this._logDebug(
+              //  `[StateManager Worker loadFromJSON] Exit '${
+              //    originalExitObject.name
+              //  }' in region '${regionName}' has missing, empty, or non-string 'connected_region'. Original Exit Object: ${JSON.stringify(
+              //    originalExitObject
+              //  )}. Connected region value was: '${connectedRegionValue}'`
+              //);
+              // We still push the exit, connected_region will be what it was (e.g., undefined)
+            }
+
+            const processedExit = {
+              name: originalExitObject.name,
+              connectedRegion: connectedRegionValue,
+              access_rule: originalExitObject.access_rule, // Rule object reference is fine
+              parentRegion: regionName,
+              // Explicitly copy other specified properties, defaulting if not present on original
+              player:
+                originalExitObject.player !== undefined
+                  ? originalExitObject.player
+                  : this.playerSlot, // Default to current player if not specified
+              type: originalExitObject.type || 'Exit', // Default type if not specified
+              // Add any other properties that systems might expect if they exist on originalExitObject
+              // e.g., id: originalExitObject.id (if exits have original IDs like locations)
+            };
+
+            this.exits.push(processedExit);
+          } else {
+            this._logDebug(
+              `[StateManager Worker loadFromJSON] Malformed or unnamed exit object in region '${regionName}':`,
+              originalExitObject
+            );
+          }
+        });
+      }
+    }
+    // After populating this.exits, create the originalExitOrder
+    this.originalExitOrder = this.exits.map((exit) => exit.name);
+    this._logDebug(
+      `Processed ${this.exits.length} exits and populated originalExitOrder.`
+    );
 
     // After loading base data, initialize helpers
     // Crucially, helpers need access to the manager instance, especially for worker context
@@ -391,13 +504,13 @@ export class StateManager {
     // Initialize inventory with the loaded item data and progression mapping
     this.initializeInventory(
       [], // Initial inventory is empty
-      playerData.progressionMapping,
-      playerData.itemData
+      this.progressionMapping, // Corrected: Use this.progressionMapping
+      this.itemData // Corrected: Use this.itemData
     );
-    this.inventory.groupData = playerData.groupData; // Also set group data
+    this.inventory.groupData = this.groupData; // Corrected: Use this.groupData
 
     // Load settings into the state object
-    this.state.loadSettings(playerData.settings);
+    this.state.loadSettings(this.settings); // Corrected: Use this.settings
 
     // Load shop data if available in jsonData
     if (jsonData.shops && jsonData.shops[selectedPlayerId]) {
@@ -531,32 +644,181 @@ export class StateManager {
     );
 
     this.exits = []; // Reset exits array
-    // Iterate over the keys of this.regions to ensure correct parentRegion assignment
+    this._logDebug(
+      '[StateManager Worker loadFromJSON] Populating this.exits...'
+    );
+
+    // --- BEGIN DIAGNOSTIC LOGGING (using console.log directly for first few) ---
+    //console.log(
+    //  '[StateManager Worker loadFromJSON] DIAGNOSTIC (direct log): Listing all incoming exit names from jsonData.regions...'
+    //);
+    //console.log(
+    //  `[StateManager Worker loadFromJSON] DIAGNOSTIC (direct log): Content of jsonData.regions[${selectedPlayerId}]:`,
+    //  jsonData.regions
+    //    ? jsonData.regions[selectedPlayerId]
+    //    : 'jsonData.regions is undefined'
+    //);
+
+    if (jsonData.regions && jsonData.regions[selectedPlayerId]) {
+      for (const regionKey in jsonData.regions[selectedPlayerId]) {
+        const regionData = jsonData.regions[selectedPlayerId][regionKey];
+        if (regionData.exits && Array.isArray(regionData.exits)) {
+          regionData.exits.forEach((exit, index) => {
+            if (exit && typeof exit === 'object') {
+              // Using console.log for this initial raw dump as well
+              //console.log(
+              //  `  DIAGNOSTIC (direct log): Region '${regionKey}', Exit Index ${index}, Name: '${exit.name}', Connected Region (snake): '${exit.connected_region}', Connected Region (camel): '${exit.connectedRegion}'`
+              //);
+            }
+          });
+        }
+      }
+    } else {
+      //console.log(
+      //  '[StateManager Worker loadFromJSON] DIAGNOSTIC (direct log): jsonData.regions or player-specific region data for diagnostic loop not found.'
+      //);
+    }
+    //console.log(
+    //  '[StateManager Worker loadFromJSON] DIAGNOSTIC (direct log): End of incoming exit name listing.'
+    //);
+    // --- END DIAGNOSTIC LOGGING ---
+
     for (const regionKey in this.regions) {
-      const regionObject = this.regions[regionKey];
+      const regionObject = this.regions[regionKey]; // This is jsonData.regions[selectedPlayerId][regionKey]
+
       if (regionObject.exits && Array.isArray(regionObject.exits)) {
-        regionObject.exits.forEach((exitObject) => {
-          // Ensure parentRegion is set using the regionKey from the this.regions map
-          exitObject.parentRegion = regionKey;
-          // Also ensure the exit itself has a name, default if necessary for robustness, though rules should provide it.
-          if (!exitObject.name) {
+        regionObject.exits.forEach((originalExitObject) => {
+          if (originalExitObject && typeof originalExitObject === 'object') {
+            // Create a new object for the this.exits array
+            // This ensures we explicitly copy the properties we need and avoid potential
+            // issues with shared references or missing properties on the source object.
+
+            // Resolve connected_region, checking for snake_case and then camelCase
+            const connectedRegionValue =
+              originalExitObject.connected_region !== undefined
+                ? originalExitObject.connected_region
+                : originalExitObject.connectedRegion; // Fallback to camelCase
+
+            const processedExit = {
+              name: originalExitObject.name,
+              connectedRegion: connectedRegionValue, // Use the resolved value
+              access_rule: originalExitObject.access_rule, // Reference is fine for the rule object itself
+              parentRegion: regionKey, // Add the parentRegion context
+              // Copy any other properties that ExitUI or other systems might expect
+              // For example, if 'player' or 'type' are relevant for exits:
+              player: originalExitObject.player,
+              type: originalExitObject.type,
+            };
+
+            // Debugging for the specific problematic exit - MORE GENERAL CHECK (ANY REGION)
+            // This will use _logDebug and depends on debugMode being true by this point
+            if (originalExitObject.name === 'Links House S&Q') {
+              console.log(
+                `[StateManager Worker loadFromJSON] Processing "Links House S&Q" (Region: ${regionKey}):`
+              );
+              console.log(
+                `  Original Exit Object (raw): ${JSON.stringify(
+                  originalExitObject
+                )}`
+              );
+              console.log(
+                `  Attempted snake_case originalExitObject.connected_region: ${originalExitObject.connected_region}`
+              );
+              console.log(
+                `  Attempted camelCase originalExitObject.connectedRegion: ${originalExitObject.connectedRegion}`
+              );
+              console.log(
+                `  Resolved connectedRegionValue for processedExit: ${connectedRegionValue}`
+              );
+              console.log(
+                `  Processed Exit Object (to be pushed): ${JSON.stringify(
+                  processedExit
+                )}`
+              );
+              console.log(
+                `  Value of connected_region being pushed: ${processedExit.connected_region}`
+              );
+            }
+
+            if (!processedExit.name) {
+              //console.warn(
+              //  `[StateManager Worker loadFromJSON] Exit in region '${regionKey}' is missing a 'name'. Original object:`,
+              //  JSON.stringify(originalExitObject)
+              //);
+              // Decide if you want to skip, or assign a default name:
+              // processedExit.name = `Unnamed Exit from ${regionKey} to ${processedExit.connected_region || 'Unknown'}`;
+            }
+
+            // Crucially, ensure connected_region is actually present and valid before relying on it.
+            const isConnectedRegionValid =
+              processedExit.connected_region &&
+              typeof processedExit.connected_region === 'string' &&
+              processedExit.connected_region.trim() !== '';
+
+            if (!isConnectedRegionValid) {
+              // This warning will use console.warn directly
+              //console.warn(
+              //  `[StateManager Worker loadFromJSON] Exit "${
+              //    processedExit.name || 'Unnamed'
+              //  }" in region '${regionKey}' has a problematic 'connected_region'. ` +
+              //    `Type: ${typeof processedExit.connected_region}, Value: "${
+              //      processedExit.connected_region
+              //    }". ` +
+              //    `Source snake_case: "${originalExitObject.connected_region}", camelCase: "${originalExitObject.connectedRegion}". ` +
+              //    `This will likely cause issues in ExitUI.`
+              //);
+              // Depending on requirements, you might want to:
+              // 1. Skip this exit: return; (from forEach callback)
+              // 2. Assign a placeholder: processedExit.connected_region = "UNKNOWN_DESTINATION";
+              // 3. Let it proceed as is and handle it in ExitUI
+            }
+
+            this.exits.push(processedExit);
+          } else {
             console.warn(
-              `[StateManager loadFromJSON] Exit in region '${regionKey}' is missing a name:`,
-              exitObject
+              `[StateManager Worker loadFromJSON] Encountered invalid exit data in region '${regionKey}':`,
+              originalExitObject
             );
-            // Assign a default name or skip if names are critical for functionality and always expected
-            // exitObject.name = `Unnamed Exit from ${regionKey} to ${exitObject.connected_region || 'Unknown'}`;
           }
-          this.exits.push(exitObject); // Push the potentially modified exit object
         });
       } else if (regionObject.exits) {
+        // Log if regionObject.exits is defined but not an array (unexpected structure)
         console.warn(
-          `[StateManager loadFromJSON] region.exits for region '${regionKey}' is not an array:`,
+          `[StateManager Worker loadFromJSON] region.exits for region '${regionKey}' is not an array:`,
           regionObject.exits
         );
       }
     }
-  }
+    this._logDebug(
+      `[StateManager Worker loadFromJSON] Populated this.exits with ${this.exits.length} entries.`
+    );
+
+    // Ensure originalExitOrder is populated based on the newly processed this.exits
+    this.originalExitOrder = [];
+    this.exits.forEach((exit) => {
+      if (exit && exit.name) {
+        this.originalExitOrder.push(exit.name);
+      }
+    });
+    this._logDebug(
+      `[StateManager Worker loadFromJSON] Repopulated originalExitOrder with ${this.originalExitOrder.length} entries.`
+    );
+
+    this._logDebug(
+      '[StateManager loadFromJSON] Initial reachable regions computation complete.'
+    );
+
+    console.log(
+      '[StateManager loadFromJSON END] Final check before return. this.originalExitOrder type:',
+      typeof this.originalExitOrder,
+      'Is Array:',
+      Array.isArray(this.originalExitOrder),
+      'Length:',
+      this.originalExitOrder ? this.originalExitOrder.length : 'N/A',
+      'Sample:',
+      this.originalExitOrder ? this.originalExitOrder.slice(0, 5) : 'N/A'
+    );
+  } // End of loadFromJSON
 
   getLocationItem(locationName) {
     if (!this.locations || this.locations.length === 0) {

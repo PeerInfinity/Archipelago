@@ -36,6 +36,7 @@ export class StateManagerProxy {
     this.staticDataIsSet = false; // Flag for static data readiness
     this.isReadyPublished = false; // Flag to prevent multiple ready events
     this.isPotentialStaleSnapshot = false; // <<< ADDED: Staleness flag
+    this.debugMode = false; // Initialize debugMode
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -127,24 +128,89 @@ export class StateManagerProxy {
         break;
       case 'rulesLoadedConfirmation': {
         console.log(
-          '[stateManagerProxy] Rules loaded confirmation received (raw message):',
-          JSON.parse(JSON.stringify(message))
+          '[StateManagerProxy] Received rulesLoadedConfirmation from worker.',
+          message
         );
-
-        // IMPORTANT: Update the entire staticDataCache with data from the worker
-        // This ensures that subsequent calls to getStaticData() return the new ruleset.
         if (message.newStaticData) {
           console.log(
-            '[StateManagerProxy] Replacing staticDataCache with newStaticData from worker.'
+            '[StateManagerProxy rulesLoadedConfirmation] Received newStaticData from worker. Keys:',
+            Object.keys(message.newStaticData)
           );
-          this.staticDataCache = message.newStaticData;
-          this.staticDataIsSet = true; // Mark that static data (the new set) is ready
+          console.log(
+            '[StateManagerProxy rulesLoadedConfirmation] newStaticData.originalExitOrder type:',
+            typeof message.newStaticData.originalExitOrder,
+            'Is Array:',
+            Array.isArray(message.newStaticData.originalExitOrder),
+            'Length:',
+            message.newStaticData.originalExitOrder
+              ? message.newStaticData.originalExitOrder.length
+              : 'N/A',
+            'Sample:',
+            message.newStaticData.originalExitOrder
+              ? message.newStaticData.originalExitOrder.slice(0, 5)
+              : 'N/A'
+          );
+
+          const newCache = { ...message.newStaticData };
+
+          if (Array.isArray(newCache.exits)) {
+            console.log(
+              '[StateManagerProxy] newStaticData.exits is an array. Converting to object keyed by exit.name.'
+            );
+            const exitsObject = {};
+            newCache.exits.forEach((exit) => {
+              if (exit && exit.name) {
+                exitsObject[exit.name] = exit;
+              } else {
+                console.warn(
+                  '[StateManagerProxy] Encountered exit without a name during array to object conversion:',
+                  exit
+                );
+              }
+            });
+            newCache.exits = exitsObject;
+            console.log(
+              `[StateManagerProxy] Converted newStaticData.exits to object: ${
+                Object.keys(newCache.exits).length
+              } entries.`
+            );
+          }
+
+          this.staticDataCache = newCache;
+          console.log(
+            '[StateManagerProxy rulesLoadedConfirmation] Updated staticDataCache. Keys in cache:',
+            Object.keys(this.staticDataCache)
+          );
+          console.log(
+            '[StateManagerProxy rulesLoadedConfirmation] originalExitOrder type in cache:',
+            typeof this.staticDataCache.originalExitOrder,
+            'Is Array:',
+            Array.isArray(this.staticDataCache.originalExitOrder),
+            'Length:',
+            this.staticDataCache.originalExitOrder
+              ? this.staticDataCache.originalExitOrder.length
+              : 'N/A',
+            'Sample in cache:',
+            this.staticDataCache.originalExitOrder
+              ? this.staticDataCache.originalExitOrder.slice(0, 5)
+              : 'N/A'
+          );
+
+          // Add a log to specifically check the content of originalExitOrder after caching
+          if (Array.isArray(this.staticDataCache.originalExitOrder)) {
+            console.log(
+              '[StateManagerProxy rulesLoadedConfirmation] Cached originalExitOrder (first 10):',
+              this.staticDataCache.originalExitOrder.slice(0, 10)
+            );
+          } else {
+            console.log(
+              '[StateManagerProxy rulesLoadedConfirmation] Cached originalExitOrder is not an array or is null.'
+            );
+          }
         } else {
           console.warn(
-            '[StateManagerProxy] rulesLoadedConfirmation received WITHOUT newStaticData. Static cache may be stale.'
+            '[StateManagerProxy] rulesLoadedConfirmation received, but newStaticData is missing.'
           );
-          // If newStaticData is not provided, we should probably clear the old one or mark it as definitely stale.
-          // For now, we rely on the worker sending it.
         }
 
         if (message.initialSnapshot) {
@@ -186,8 +252,20 @@ export class StateManagerProxy {
           this.staticDataCache.groups = message.workerStaticGroups;
         }
 
-        // _checkAndPublishReady() is still important for the overall 'stateManager:ready'
-        this._checkAndPublishReady();
+        // --- BEGIN ADDED LOGGING ---
+        console.log(
+          '[StateManagerProxy rulesLoadedConfirmation] BEFORE _checkAndPublishReady. staticDataCache keys:',
+          this.staticDataCache
+            ? Object.keys(this.staticDataCache).join(',')
+            : 'null',
+          'uiDataCache is set:',
+          !!this.uiCache,
+          'initialSnapshot was present on message:',
+          !!message.initialSnapshot
+        );
+        // --- END ADDED LOGGING ---
+
+        this._checkAndPublishReady(); // Ensure this is the correct place relative to logic
         break;
       }
       case 'stateSnapshot':
@@ -418,31 +496,92 @@ export class StateManagerProxy {
   }
 
   /**
-   * Waits until the initial rules load is confirmed by the worker.
+   * Waits until the initial rules and snapshot have been loaded from the worker.
+   * This is critical for UI components or modules that need static game data or
+   * an initial state snapshot before they can render or operate.
+   * @param {number} [timeoutMs=15000] - Maximum time to wait.
+   * @returns {Promise<boolean>} True if ready, false if timed out.
    */
-  async ensureReady() {
-    if (!this.worker) {
-      throw new Error('Worker not initialized.');
+  async ensureReady(timeoutMs = 15000) {
+    // Check if already ready to avoid re-subscribing or re-promising
+    if (this._isReadyPublished) {
+      this._logDebug('[StateManagerProxy ensureReady] Already ready.');
+      return true;
     }
-    if (this.uiCache !== null) {
-      return true; // Already loaded
+
+    // If initialLoadPromise is still active, wait for it
+    if (this.initialLoadPromise) {
+      this._logDebug(
+        '[StateManagerProxy ensureReady] Waiting for initialLoadPromise...'
+      );
+      try {
+        const ready = await Promise.race([
+          this.initialLoadPromise,
+          new Promise((_, reject) =>
+            setTimeout(
+              () => reject(new Error('Timeout waiting for initial load')),
+              timeoutMs
+            )
+          ),
+        ]);
+        if (ready) {
+          this._logDebug(
+            '[StateManagerProxy ensureReady] initialLoadPromise resolved. Ready.'
+          );
+          return true;
+        }
+      } catch (error) {
+        console.error(
+          '[StateManagerProxy ensureReady] Error or Timeout:',
+          error.message
+        );
+        return false;
+      }
     }
-    console.log('[stateManagerProxy] Waiting for worker initial load...');
-    return this.initialLoadPromise;
+
+    // Fallback check if initialLoadPromise was already resolved or nulled out
+    // This path might be hit if ensureReady is called *after* initial load but before _isReadyPublished is true
+    // which could happen if there's a slight race or multiple calls.
+    this._logDebug(
+      '[StateManagerProxy ensureReady] initialLoadPromise already handled. Checking current ready status.'
+    );
+    if (
+      this.uiCache &&
+      this.staticDataCache &&
+      Object.keys(this.staticDataCache).length > 0
+    ) {
+      if (!this._isReadyPublished) {
+        this._logDebug(
+          '[StateManagerProxy ensureReady] Conditions met, but _isReadyPublished is false. Calling _checkAndPublishReady.'
+        );
+        this._checkAndPublishReady(); // Attempt to publish if conditions are met
+      }
+      return this._isReadyPublished; // Return the current status
+    }
+
+    // If still not ready, it means something is off or it's a genuine timeout from a previous state.
+    console.warn(
+      '[StateManagerProxy ensureReady] Fell through all checks, returning current (likely false) ready state.'
+    );
+    return false; // Or this._isReadyPublished which would be false
   }
 
   /**
-   * Returns the latest state snapshot received from the worker.
-   * Returns null if no snapshot has been received yet.
+   * Retrieves the current snapshot from the cache.
+   * Returns null if no snapshot is available yet.
+   * @returns {object|null} The current game state snapshot.
    */
   getSnapshot() {
-    // It's recommended to use ensureReady() before calling this
-    // if you need to guarantee a non-null snapshot on initial load.
-    // However, event handlers reacting to snapshotUpdated can call this safely.
-    return this.uiCache;
+    // console.debug('[StateManagerProxy getSnapshot] Retrieving snapshot from cache.');
+    return this.uiCache; // uiCache IS the snapshot
   }
 
-  // Method to accept and cache static data (items, groups, locations, regions, exits, and their original order)
+  /**
+   * @deprecated This method is primarily for the old main-thread processing flow.
+   * The worker now sends fully processed static data via 'rulesLoadedConfirmation'.
+   * This method might still be used if there's a need to override static data
+   * from the main thread post-initialization, but that should be rare.
+   */
   setStaticData(
     itemData,
     groupData,
@@ -453,202 +592,200 @@ export class StateManagerProxy {
     originalExitOrder,
     originalRegionOrder
   ) {
-    console.log(
-      '[StateManagerProxy] Caching static data including original orders.'
+    console.warn(
+      '[StateManagerProxy setStaticData] DEPRECATED: This method should generally not be used. Static data comes from worker.'
     );
 
-    let processedGroupData = [];
-    if (groupData) {
-      if (Array.isArray(groupData)) {
-        processedGroupData = groupData;
-      } else if (
-        typeof groupData === 'object' &&
-        this.config &&
-        this.config.playerId
-      ) {
-        processedGroupData = groupData[this.config.playerId] || [];
-      } else if (typeof groupData === 'object') {
-        // Fallback if playerId is somehow not available or groupData is an unexpected object structure
-        // Try to get the first player's groups if any
-        const firstPlayerKey = Object.keys(groupData)[0];
-        if (firstPlayerKey && Array.isArray(groupData[firstPlayerKey])) {
-          processedGroupData = groupData[firstPlayerKey];
-          console.warn(
-            '[StateManagerProxy setStaticData] Used first player key for groups as fallback.'
-          );
-        } else {
-          processedGroupData = [];
-          console.warn(
-            '[StateManagerProxy setStaticData] groupData was an object but no player-specific array found or no playerId configured on proxy. Defaulting to empty groups for initial static cache.'
-          );
-        }
-      } else {
-        processedGroupData = [];
-        console.warn(
-          '[StateManagerProxy setStaticData] groupData was not an array or expected object. Defaulting to empty groups for initial static cache.'
-        );
-      }
-    }
-
-    this.staticDataCache = {
-      items: itemData || {},
-      groups: processedGroupData, // Use the processed array
-      locations: locationData || {},
-      regions: regionData || {},
-      exits: exitData || {},
-      locationOrder: originalLocationOrder || [],
-      exitOrder: originalExitOrder || [],
-      regionOrder: originalRegionOrder || [],
-    };
-    this.staticDataIsSet = true;
-    this._checkAndPublishReady(); // Check if we can publish ready state
-  }
-
-  // Method to retrieve all cached static data
-  getStaticData() {
+    // For safety, ensure this.staticDataCache is initialized if it's null
     if (!this.staticDataCache) {
-      return null;
+      this.staticDataCache = {};
     }
-    // Note: This returns the whole cache. UI modules might still access specific parts like staticData.locations.
-    // The new getOriginalLocationOrder / getOriginalExitOrder are more specific for order.
-    return this.staticDataCache;
-  }
 
-  // New getter for original location order
-  getOriginalLocationOrder() {
-    return this.staticDataCache?.locationOrder || [];
-  }
+    // Update the cache directly. This is simpler than the worker's more complex
+    // object construction, as this data is assumed to be already in the correct format.
+    this.staticDataCache.items = itemData;
+    this.staticDataCache.groups = groupData; // Assume it's an object {id: group} or array [group] as needed by consumers
+    this.staticDataCache.locations = locationData; // Assumed to be an object {name: loc}
+    this.staticDataCache.regions = regionData; // Assumed to be an object {name: region}
+    this.staticDataCache.exits = exitData; // Assumed to be an object {name: exit}
 
-  // New getter for original exit order
-  getOriginalExitOrder() {
-    return this.staticDataCache?.exitOrder || [];
-  }
+    this.staticDataCache.originalLocationOrder = originalLocationOrder;
+    this.staticDataCache.originalExitOrder = originalExitOrder;
+    this.staticDataCache.originalRegionOrder = originalRegionOrder;
 
-  // <<< ADDED: New getter for original region order >>>
-  getOriginalRegionOrder() {
-    return this.staticDataCache?.regionOrder || [];
-  }
-  // <<< END ADDED >>>
-
-  async addItemToInventory(item, quantity = 1) {
-    await this.ensureReady(); // Ensure worker is loaded before sending commands
+    this.staticDataIsSet = true; // Mark static data as set
     console.log(
-      `[stateManagerProxy] Sending addItemToInventory command for ${item}`
+      '[StateManagerProxy setStaticData (DEPRECATED)] Static data cache updated on main thread proxy.'
     );
-    this.sendCommandToWorker({
-      command: 'addItemToInventory',
-      payload: { item, quantity },
-    });
-    this.isPotentialStaleSnapshot = true; // <<< ADDED: Set flag
-    // Fire-and-forget - updates come via stateSnapshot events
-  }
-
-  async checkLocation(locationName) {
-    console.log(
-      `[StateManagerProxy] Sending checkLocation command for ${locationName}`
-    );
-    const messageToSend = { command: 'checkLocation', payload: locationName };
-    console.log(
-      '[StateManagerProxy checkLocation] Message to send to worker:',
-      JSON.stringify(messageToSend)
-    ); // ADDED DEBUG
-    // Await the response (even if it's just an ack or error)
-    return this.sendQueryToWorker(messageToSend);
-  }
-
-  async syncCheckedLocationsFromServer(checkedLocationIds) {
-    await this.ensureReady();
-    console.log(
-      `[stateManagerProxy] Sending syncCheckedLocationsFromServer command.`
-    );
-    this.sendCommandToWorker({
-      command: 'syncCheckedLocationsFromServer',
-      payload: { checkedLocationIds },
-    });
-    this.isPotentialStaleSnapshot = true; // <<< ADDED: Set flag
-  }
-
-  async toggleQueueReporting(enabled) {
-    await this.ensureReady();
-    console.log(
-      `[stateManagerProxy] Sending toggleQueueReporting command (${enabled}).`
-    );
-    this.sendCommandToWorker({
-      command: 'toggleQueueReporting',
-      payload: { enabled },
-    });
-    // Return the promise that tracks the initial load confirmation
-    return this.initialLoadPromise;
-  }
-
-  // --- Queries ---
-
-  async getFullSnapshot() {
-    await this.ensureReady();
-    console.log('[stateManagerProxy] Querying for full snapshot...');
-    return this.sendQueryToWorker({ command: 'getFullSnapshot' });
-  }
-
-  async getWorkerQueueStatus() {
-    await this.ensureReady();
-    console.log('[stateManagerProxy] Querying for worker queue status...');
-    return this.sendQueryToWorker({ command: 'getWorkerQueueStatus' });
+    this._checkAndPublishReady();
   }
 
   /**
-   * Synchronously returns the latest state snapshot held by the proxy.
-   * Returns null if the initial snapshot hasn't been received yet.
+   * Retrieves the entire static data cache.
+   * UI components should use this to get definitions for items, locations, etc.
+   * @returns {object|null} The cached static game data.
    */
+  getStaticData() {
+    // console.log('[StateManagerProxy getStaticData] Called. Cache:', this.staticDataCache);
+    return this.staticDataCache;
+  }
+
+  // --- Start of specific static data getters ---
+  /**
+   * @returns {string[]|null} Array of location names in their original order.
+   */
+  getOriginalLocationOrder() {
+    return this.staticDataCache
+      ? this.staticDataCache.originalLocationOrder
+      : null;
+  }
+  /**
+   * @returns {string[]|null} Array of exit names in their original order.
+   */
+  getOriginalExitOrder() {
+    return this.staticDataCache ? this.staticDataCache.originalExitOrder : null;
+  }
+  /**
+   * @returns {string[]|null} Array of region names in their original order.
+   */
+  getOriginalRegionOrder() {
+    return this.staticDataCache
+      ? this.staticDataCache.originalRegionOrder
+      : null;
+  }
+  // --- End of specific static data getters ---
+
+  async addItemToInventory(item, quantity = 1) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.ADD_ITEM,
+      { item, quantity },
+      true
+    );
+  }
+
+  async removeItemFromInventory(item, quantity = 1) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.REMOVE_ITEM,
+      { item, quantity },
+      true
+    );
+  }
+
+  async checkLocation(locationName) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.CHECK_LOCATION,
+      { locationName },
+      true
+    );
+  }
+
+  async uncheckLocation(locationName) {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.UNCHECK_LOCATION,
+      { locationName },
+      true
+    );
+  }
+
+  /**
+   * Synchronizes the worker's checked locations with a list from the server (e.g., AP server).
+   * @param {string[]} checkedLocationIds - An array of location IDs that are confirmed checked.
+   * @returns {Promise<object>} A promise that resolves with the result from the worker.
+   */
+  async syncCheckedLocationsFromServer(checkedLocationIds) {
+    this._logDebug(
+      '[StateManagerProxy] Syncing checked locations from server:',
+      checkedLocationIds
+    );
+    return this._sendCommand(
+      'syncCheckedLocationsFromServer', // Command name matches worker
+      { checkedLocationIds },
+      true // Expect a response (e.g., updated snapshot or confirmation)
+    );
+  }
+
+  /**
+   * Toggles whether the worker should queue and report state changes.
+   * @param {boolean} enabled - True to enable queueing, false to disable.
+   * @returns {Promise<object>} Confirmation from the worker.
+   */
+  async toggleQueueReporting(enabled) {
+    this._logDebug(
+      `[StateManagerProxy] Setting worker queue reporting to: ${enabled}`
+    );
+    return this._sendCommand(
+      'toggleQueueReporting',
+      { enabled },
+      true // Expect confirmation
+    );
+  }
+
+  /**
+   * Requests a full snapshot of the current game state from the worker.
+   * @returns {Promise<object>} A promise that resolves with the game state snapshot.
+   */
+  async getFullSnapshot() {
+    return this._sendCommand(
+      StateManagerProxy.COMMANDS.GET_SNAPSHOT,
+      null,
+      true
+    );
+  }
+
+  /**
+   * Gets the status of the worker's internal processing queue.
+   * @returns {Promise<object>} A promise that resolves with the queue status.
+   */
+  async getWorkerQueueStatus() {
+    return this._sendCommand('getQueueStatus', null, true);
+  }
+
+  // Public method to get the latest snapshot directly from the cache
+  // This is synchronous and used by UI components that need immediate access
+  // and have already waited for `ensureReady` or subscribed to snapshot updates.
   getLatestStateSnapshot() {
     if (!this.uiCache) {
-      // console.warn( // Quieting this down
-      //   '[StateManagerProxy] Attempted to get latest snapshot before it was set.'
-      // );
-      return null;
+      // console.warn('[StateManagerProxy getLatestStateSnapshot] No snapshot in cache. Ensure rules/state are loaded.');
     }
-    // Synchronous access to the cached state
     return this.uiCache;
   }
 
   terminateWorker() {
     if (this.worker) {
-      console.log('[stateManagerProxy] Terminating worker.');
       this.worker.terminate();
       this.worker = null;
-      // Reject any remaining pending queries
-      this.pendingQueries.forEach(({ reject, timeoutId }) => {
-        if (timeoutId) clearTimeout(timeoutId);
-        reject(new Error('Worker terminated'));
-      });
-      this.pendingQueries.clear();
-      // Reset initial load promise for potential restart?
-      this._setupInitialLoadPromise();
-      this.uiCache = null;
+      console.log('[StateManagerProxy] Worker terminated.');
     }
   }
 
-  // --- ADDED: Helper to check readiness and publish event --- >
   _checkAndPublishReady() {
-    console.log('[StateManagerProxy] _checkAndPublishReady called. Status:', {
+    const status = {
       uiCacheNotNull: !!this.uiCache,
-      staticDataIsSet: this.staticDataIsSet,
-      isReadyPublished: this.isReadyPublished,
-    });
-    if (this.uiCache && this.staticDataIsSet && !this.isReadyPublished) {
-      if (this.eventBus) {
-        console.log(
-          '[stateManagerProxy] Publishing stateManager:ready event (Snapshot & Static Data Ready).'
-        );
-        this.eventBus.publish('stateManager:ready');
-        this.isReadyPublished = true; // Prevent publishing again
-      } else {
-        console.warn(
-          '[stateManagerProxy] EventBus not available to publish stateManager:ready.'
-        );
-      }
+      staticDataIsSet:
+        !!this.staticDataCache && Object.keys(this.staticDataCache).length > 0,
+      isReadyPublished: this.isReadyPublished, // Renamed from this._isReadyPublished for consistency
+    };
+    // Use console.log for this critical path
+    console.log(
+      '[StateManagerProxy _checkAndPublishReady] Status check:',
+      status
+    );
+
+    if (
+      status.uiCacheNotNull &&
+      status.staticDataIsSet &&
+      !status.isReadyPublished // Use the consistent local variable
+    ) {
+      this.isReadyPublished = true; // Set the instance member
+      // Use console.log for this critical path
+      console.log('[StateManagerProxy] Publishing stateManager:ready event.');
+      this.eventBus.publish('stateManager:ready', {
+        // Directly use event name string
+        gameId: this.config ? this.config.gameId : null,
+        playerId: this.config ? this.config.playerId : null,
+      });
     }
   }
-  // --- END ADDED --- >
 
   /**
    * Sends a command to the worker and potentially waits for a response.
@@ -903,6 +1040,24 @@ export class StateManagerProxy {
 
   // Method to get game-specific helper functions instance
   // ... existing code ...
+
+  // --- ADDED: _logDebug method ---
+  _logDebug(message, data = null) {
+    if (this.debugMode) {
+      if (data) {
+        try {
+          // Attempt to clone data to avoid issues with logging complex objects directly
+          const clonedData = JSON.parse(JSON.stringify(data));
+          console.debug(message, clonedData);
+        } catch (e) {
+          console.debug(message, '[Could not clone data for _logDebug]', data);
+        }
+      } else {
+        console.debug(message);
+      }
+    }
+  }
+  // --- END ADDED ---
 }
 
 // --- ADDED: Function to create the main-thread snapshot interface ---

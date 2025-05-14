@@ -232,6 +232,35 @@ export class RegionUI {
     };
     subscribe('settings:changed', settingsHandler);
 
+    // --- BEGIN ADDED: Handler for stateManager:rulesLoaded ---
+    subscribe('stateManager:rulesLoaded', (/* payload */) => {
+      console.log(
+        '[RegionUI] Received stateManager:rulesLoaded event. Re-fetching original order and updating display.'
+      );
+      // Re-fetch original region order as it might have changed with new rules
+      const currentStaticData = stateManager.getStaticData();
+      if (currentStaticData && currentStaticData.regions) {
+        this.originalRegionOrder = stateManager.getOriginalRegionOrder();
+        console.log(
+          `[RegionUI rulesLoaded] Stored ${
+            this.originalRegionOrder ? this.originalRegionOrder.length : 0
+          } region keys for original order.`
+        );
+      } else {
+        console.warn(
+          '[RegionUI rulesLoaded] Static data or regions not available from proxy when trying to refresh order.'
+        );
+        this.originalRegionOrder = []; // Reset if not available
+      }
+      // Now static data should be available via proxy, and snapshot should also be updated or soon will be.
+      // Directly trigger a display update.
+      if (this.isInitialized) {
+        // Only update if already initialized
+        this.update();
+      }
+    });
+    // --- END ADDED ---
+
     console.log('[RegionUI] Event subscriptions complete.');
   }
 

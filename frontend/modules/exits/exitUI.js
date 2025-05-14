@@ -171,6 +171,32 @@ export class ExitUI {
           : 'none';
       }
     });
+
+    // --- BEGIN ADDED: Handler for stateManager:rulesLoaded ---
+    subscribe('stateManager:rulesLoaded', (/* payload */) => {
+      console.log(
+        '[ExitUI] Received stateManager:rulesLoaded event. Re-fetching original order and updating display.'
+      );
+      // Re-fetch original exit order as it might have changed with new rules
+      const currentStaticData = stateManager.getStaticData();
+      if (currentStaticData && currentStaticData.exits) {
+        this.originalExitOrder = stateManager.getOriginalExitOrder();
+        console.log(
+          `[ExitUI rulesLoaded] Stored ${
+            this.originalExitOrder ? this.originalExitOrder.length : 0
+          } exit keys for original order.`
+        );
+      } else {
+        console.warn(
+          '[ExitUI rulesLoaded] Static data or exits not available from proxy when trying to refresh order.'
+        );
+        this.originalExitOrder = []; // Reset if not available
+      }
+      // Now static data should be available via proxy, and snapshot should also be updated or soon will be.
+      // Directly trigger a display update.
+      this.updateExitDisplay();
+    });
+    // --- END ADDED ---
   }
 
   unsubscribeFromStateEvents() {
@@ -601,12 +627,12 @@ export class ExitUI {
       // ADDED LOGGING HERE
       if (connectedRegionName) {
         // Only log if there's a connected region
-        console.log(
-          `[ExitUI Check] Exit: ${exit.name} (from ${
-            parentRegionName || 'N/A'
-          }) -> ${connectedRegionName}. Reachability[${connectedRegionName}]:`,
-          snapshot.reachability?.[connectedRegionName]
-        );
+        //console.log(
+        //  `[ExitUI Check] Exit: ${exit.name} (from ${
+        //    parentRegionName || 'N/A'
+        //  }) -> ${connectedRegionName}. Reachability[${connectedRegionName}]:`,
+        //  snapshot.reachability?.[connectedRegionName]
+        //);
       }
 
       const connectedRegionReachable =
