@@ -7,6 +7,7 @@ import settingsManager from './app/core/settingsManager.js';
 import { centralRegistry } from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
 import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
+import { stateManagerProxySingleton } from './modules/stateManager/index.js';
 
 // --- Mode Management Globals ---
 let G_currentActiveMode = 'default';
@@ -1012,6 +1013,47 @@ async function main() {
   );
   eventBus.publish('app:activeModeDetermined', {
     activeMode: G_currentActiveMode,
+  });
+
+  // Attach a global listener for files:jsonLoaded to update rules in StateManager
+  eventBus.subscribe('files:jsonLoaded', async (eventData) => {
+    console.log(
+      '[Init] files:jsonLoaded event RECEIVED. Full eventData:',
+      JSON.parse(JSON.stringify(eventData)) // Log a deep copy
+    );
+    if (
+      eventData &&
+      eventData.jsonData &&
+      eventData.selectedPlayerId !== undefined
+    ) {
+      console.log(
+        `[Init] files:jsonLoaded: Valid data. jsonData keys: ${Object.keys(
+          eventData.jsonData
+        ).join(', ')}, PlayerID: ${
+          eventData.selectedPlayerId
+        }. Calling stateManager.loadRules.`
+      );
+      try {
+        G_combinedModeData.rulesConfig = eventData.jsonData;
+        console.log(
+          '[Init] files:jsonLoaded: G_combinedModeData.rulesConfig updated.'
+        );
+
+        const playerInfo = eventData.playerInfo || {
+          playerName: `Player${eventData.selectedPlayerId}`,
+        };
+
+        await stateManagerProxySingleton.loadRules(eventData.jsonData, {
+          playerId: String(eventData.selectedPlayerId),
+          playerName: playerInfo.playerName,
+        });
+        console.log(
+          '[Init] files:jsonLoaded: stateManagerProxySingleton.loadRules call COMPLETED.'
+        );
+      } catch (error) {
+        console.error('[Init] Error handling files:jsonLoaded event:', error);
+      }
+    }
   });
 }
 

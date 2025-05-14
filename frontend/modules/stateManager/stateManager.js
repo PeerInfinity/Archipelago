@@ -78,6 +78,11 @@ export class StateManager {
     this.itemNameToId = {};
     this.locationNameToId = {};
 
+    // Initialize order arrays
+    this.originalLocationOrder = [];
+    this.originalRegionOrder = [];
+    this.originalExitOrder = [];
+
     console.log('[StateManager Class] Instance created.');
   }
 
@@ -224,6 +229,12 @@ export class StateManager {
     this._logDebug(
       `[StateManager Class] Loading JSON for player ${selectedPlayerId}...`
     );
+
+    // Initialize order arrays
+    this.originalLocationOrder = [];
+    this.originalRegionOrder = [];
+    this.originalExitOrder = [];
+
     if (jsonData?.regions?.[selectedPlayerId]) {
       const sampleRegionName = Object.keys(
         jsonData.regions[selectedPlayerId]
@@ -329,6 +340,7 @@ export class StateManager {
           };
 
           this.locations.push(locationObjectForArray);
+          this.originalLocationOrder.push(descriptiveName);
 
           // Populate eventLocations
           if (
@@ -487,6 +499,63 @@ export class StateManager {
     this.buildIndirectConnections();
     this.computeReachableRegions(); // This will also trigger an initial snapshot update
     this._logDebug('[StateManager Class] JSON data loaded and processed.');
+
+    // Populate original region order
+    this.originalRegionOrder = Object.keys(jsonData.regions[selectedPlayerId]);
+    this._logDebug(
+      `[StateManager Class] Processed regions. Original order stored.`
+    );
+
+    // Populate original exit order by iterating through regions in their original order
+    this.originalRegionOrder.forEach((regionKey) => {
+      const region = this.regions[regionKey];
+      if (region && region.exits) {
+        // Exits in the rules file might be an array of objects or an object
+        if (Array.isArray(region.exits)) {
+          region.exits.forEach((exit) => {
+            if (exit && exit.name) {
+              this.originalExitOrder.push(exit.name);
+            }
+          });
+        } else if (typeof region.exits === 'object') {
+          // Assuming exits are an object keyed by exit name
+          Object.keys(region.exits).forEach((exitName) => {
+            this.originalExitOrder.push(exitName);
+          });
+        }
+      }
+    });
+
+    this._logDebug(
+      `[StateManager Class] Original exit order stored. Total exits: ${this.originalExitOrder.length}`
+    );
+
+    this.exits = []; // Reset exits array
+    // Iterate over the keys of this.regions to ensure correct parentRegion assignment
+    for (const regionKey in this.regions) {
+      const regionObject = this.regions[regionKey];
+      if (regionObject.exits && Array.isArray(regionObject.exits)) {
+        regionObject.exits.forEach((exitObject) => {
+          // Ensure parentRegion is set using the regionKey from the this.regions map
+          exitObject.parentRegion = regionKey;
+          // Also ensure the exit itself has a name, default if necessary for robustness, though rules should provide it.
+          if (!exitObject.name) {
+            console.warn(
+              `[StateManager loadFromJSON] Exit in region '${regionKey}' is missing a name:`,
+              exitObject
+            );
+            // Assign a default name or skip if names are critical for functionality and always expected
+            // exitObject.name = `Unnamed Exit from ${regionKey} to ${exitObject.connected_region || 'Unknown'}`;
+          }
+          this.exits.push(exitObject); // Push the potentially modified exit object
+        });
+      } else if (regionObject.exits) {
+        console.warn(
+          `[StateManager loadFromJSON] region.exits for region '${regionKey}' is not an array:`,
+          regionObject.exits
+        );
+      }
+    }
   }
 
   getLocationItem(locationName) {

@@ -193,9 +193,25 @@ export class LocationUI {
       // Subscribe to loop state changes if relevant
       // Also need rules loaded to trigger initial display and get static data
       subscribe('stateManager:rulesLoaded', (/* payload */) => {
-        console.log('[LocationUI] Received stateManager:rulesLoaded event.');
-        // Now static data should be available via proxy
-        // Initial display will happen via the first snapshotUpdated event
+        console.log(
+          '[LocationUI] Received stateManager:rulesLoaded event. Re-fetching original order and updating display.'
+        );
+        // Re-fetch original location order as it might have changed with new rules
+        const currentStaticData = stateManager.getStaticData();
+        if (currentStaticData && currentStaticData.locations) {
+          this.originalLocationOrder = stateManager.getOriginalLocationOrder();
+          console.log(
+            `[LocationUI rulesLoaded] Stored ${this.originalLocationOrder.length} location keys for original order.`
+          );
+        } else {
+          console.warn(
+            '[LocationUI rulesLoaded] Static data or locations not available from proxy when trying to refresh order.'
+          );
+          this.originalLocationOrder = []; // Reset if not available
+        }
+        // Now static data should be available via proxy, and snapshot should also be updated or soon will be.
+        // Directly trigger a display update.
+        this.updateLocationDisplay();
       });
 
       // Subscribe to loop state changes if relevant

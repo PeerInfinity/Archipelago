@@ -130,6 +130,23 @@ export class StateManagerProxy {
           '[stateManagerProxy] Rules loaded confirmation received (raw message):',
           JSON.parse(JSON.stringify(message))
         );
+
+        // IMPORTANT: Update the entire staticDataCache with data from the worker
+        // This ensures that subsequent calls to getStaticData() return the new ruleset.
+        if (message.newStaticData) {
+          console.log(
+            '[StateManagerProxy] Replacing staticDataCache with newStaticData from worker.'
+          );
+          this.staticDataCache = message.newStaticData;
+          this.staticDataIsSet = true; // Mark that static data (the new set) is ready
+        } else {
+          console.warn(
+            '[StateManagerProxy] rulesLoadedConfirmation received WITHOUT newStaticData. Static cache may be stale.'
+          );
+          // If newStaticData is not provided, we should probably clear the old one or mark it as definitely stale.
+          // For now, we rely on the worker sending it.
+        }
+
         if (message.initialSnapshot) {
           this.uiCache = message.initialSnapshot;
           console.debug(
@@ -373,22 +390,22 @@ export class StateManagerProxy {
       !playerInfo ||
       typeof playerInfo.playerId === 'undefined'
     ) {
-      // Check playerId specifically
       const errorMsg =
         '[StateManagerProxy] Invalid arguments for loadRules. rulesData and playerInfo (with playerId) are required.';
-      console.error(errorMsg, { rulesData, playerInfo });
+      console.error(errorMsg, {
+        rulesDataKeys: Object.keys(rulesData || {}),
+        playerInfo,
+      });
       return Promise.reject(new Error(errorMsg));
     }
 
     console.log(
-      '[StateManagerProxy] Sending loadRules command to worker with payload:',
-      // Avoid logging full rulesData here, just keys and playerInfo
-      { rulesDataKeys: Object.keys(rulesData || {}), playerInfo }
+      '[StateManagerProxy loadRules] CALLED. Sending command to worker. PlayerInfo:',
+      JSON.parse(JSON.stringify(playerInfo)),
+      'Rules data keys:',
+      Object.keys(rulesData || {})
     );
 
-    // Send the command to the worker.
-    // This action is asynchronous in its effect (worker processes, then confirms).
-    // The caller should await the 'stateManager:rulesLoaded' event for confirmation.
     this.sendCommandToWorker({
       command: 'loadRules',
       payload: { rulesData, playerInfo },

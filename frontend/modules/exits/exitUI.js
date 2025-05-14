@@ -598,6 +598,17 @@ export class ExitUI {
         snapshot.reachability?.[parentRegionName] === 'reachable' ||
         snapshot.reachability?.[parentRegionName] === 'checked';
 
+      // ADDED LOGGING HERE
+      if (connectedRegionName) {
+        // Only log if there's a connected region
+        console.log(
+          `[ExitUI Check] Exit: ${exit.name} (from ${
+            parentRegionName || 'N/A'
+          }) -> ${connectedRegionName}. Reachability[${connectedRegionName}]:`,
+          snapshot.reachability?.[connectedRegionName]
+        );
+      }
+
       const connectedRegionReachable =
         snapshot.reachability?.[connectedRegionName] === true ||
         snapshot.reachability?.[connectedRegionName] === 'reachable' ||

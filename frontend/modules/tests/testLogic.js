@@ -496,6 +496,26 @@ const testFunctions = {
         },
         regions: {
           1: {
+            'Menu': {
+              name: 'Menu',
+              type: 1,
+              player: 1,
+              entrances: [],
+              exits: [
+                {
+                  name: 'Hyrule Castle Courtyard',
+                  connected_region: 'Hyrule Castle Courtyard',
+                  access_rule: {
+                    type: 'constant',
+                    value: true,
+                  },
+                  type: 'Exit',
+                },
+              ],
+              locations: [],
+              is_light_world: true,
+              is_dark_world: false,
+            },
             'Hyrule Castle Courtyard': {
               name: 'Hyrule Castle Courtyard',
               is_light_world: true,

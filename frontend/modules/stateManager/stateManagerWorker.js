@@ -160,18 +160,22 @@ self.onmessage = async function (e) {
           groups: stateManagerInstance.groupData, // This should now be the processed array of strings
           locations: stateManagerInstance.locations,
           regions: stateManagerInstance.regions,
+          exits: stateManagerInstance.exits, // Ensure exits are included
+          locationOrder: stateManagerInstance.originalLocationOrder, // Ensure orders are included
+          exitOrder: stateManagerInstance.originalExitOrder,
+          regionOrder: stateManagerInstance.originalRegionOrder,
           // Add other static data pieces if needed by the proxy or UI later
         };
 
         console.log(
-          '[stateManagerWorker onmessage] Rules loaded. Posting confirmation with snapshot and worker static groups.'
+          '[stateManagerWorker onmessage] Rules loaded. Posting confirmation with snapshot and full newStaticData.'
         );
         self.postMessage({
           type: 'rulesLoadedConfirmation',
           initialSnapshot: initialSnapshot,
           gameId: workerConfig.gameId,
           playerId: playerId,
-          workerStaticGroups: workerStaticGameData.groups, // Send the processed groups
+          newStaticData: workerStaticGameData, // Send the entire new static data object
         });
         break;
 

@@ -364,6 +364,7 @@ export class InventoryUI {
       'stateManager:inventoryChanged',
       this._handleInventoryChanged.bind(this)
     );
+    subscribe('stateManager:rulesLoaded', this._handleRulesLoaded.bind(this));
   }
 
   _handleSnapshotUpdated(snapshotData) {
@@ -382,6 +383,13 @@ export class InventoryUI {
     if (this.isInitialized) {
       this.updateDisplay();
     }
+  }
+
+  async _handleRulesLoaded(eventData) {
+    console.log(
+      '[InventoryUI] Received stateManager:rulesLoaded event. Syncing state.'
+    );
+    await this.syncWithState();
   }
 
   destroy() {
