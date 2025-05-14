@@ -129,53 +129,48 @@ export class StateManagerProxy {
         console.log(
           '[stateManagerProxy] Rules loaded confirmation received (raw message):',
           JSON.parse(JSON.stringify(message))
-        ); // ADDED: Log raw message
-        // Cache the initial snapshot sent with the confirmation
-        // --- FIX: Access snapshot via message.initialSnapshot (matching worker) ---
+        );
         if (message.initialSnapshot) {
           this.uiCache = message.initialSnapshot;
-          // --- END FIX ---
           console.debug(
-            '[stateManagerProxy] Initial snapshot cached from confirmation.',
-            this.uiCache
+            '[stateManagerProxy] Snapshot cached from rulesLoadedConfirmation.'
+            // this.uiCache // Avoid logging potentially large snapshot here
           );
         } else {
           console.warn(
             '[stateManagerProxy] rulesLoadedConfirmation received without initial snapshot.'
           );
         }
-        // Resolve the initial load promise
-        if (this.initialLoadResolver) {
-          this.initialLoadResolver(true);
-          this.initialLoadResolver = null; // Prevent multiple resolves
-        } else {
-          console.warn(
-            '[StateManagerProxy] Initial load promise already resolved or resolver missing.'
-          );
-        }
-        // Call the readiness check instead
-        this._checkAndPublishReady();
 
+        // Resolve the initial load promise ONLY IF IT'S THE VERY FIRST LOAD
+        if (this.initialLoadResolver) {
+          this.initialLoadResolver(true); // Resolves the promise from ensureReady()
+          this.initialLoadResolver = null; // Prevent multiple resolves
+        }
+
+        // Always publish 'stateManager:rulesLoaded' event
+        // This allows tests or other modules to react to rule reloads.
+        console.log(
+          '[stateManagerProxy] Publishing stateManager:rulesLoaded event.'
+        );
+        this.eventBus.publish('stateManager:rulesLoaded', {
+          snapshot: this.uiCache, // Provide the latest snapshot
+          gameId: message.gameId, // Forward gameId from worker confirmation
+          playerId: message.playerId, // Forward playerId
+          source: 'workerConfirmation', // Indicate source
+        });
+
+        // Update static groups cache if provided by worker
         if (message.workerStaticGroups && this.staticDataCache) {
           console.log(
             '[StateManagerProxy] Received workerStaticGroups from rulesLoadedConfirmation, updating staticDataCache.groups:',
             JSON.parse(JSON.stringify(message.workerStaticGroups))
           );
-          this.staticDataCache.groups = message.workerStaticGroups; // Update the cache
-        } else if (message.workerStaticGroups && !this.staticDataCache) {
-          console.warn(
-            '[StateManagerProxy] Received workerStaticGroups, but staticDataCache is null. This might be an order issue.'
-          );
-        } else if (!message.workerStaticGroups && this.staticDataCache) {
-          console.warn(
-            '[StateManagerProxy] staticDataCache exists, but workerStaticGroups not received in rulesLoadedConfirmation. Current staticDataCache.groups:',
-            this.staticDataCache.groups
-              ? JSON.parse(JSON.stringify(this.staticDataCache.groups))
-              : 'undefined'
-          );
+          this.staticDataCache.groups = message.workerStaticGroups;
         }
 
-        // this._setUiReady(true); // Mark UI as ready (snapshot is available)
+        // _checkAndPublishReady() is still important for the overall 'stateManager:ready'
+        this._checkAndPublishReady();
         break;
       }
       case 'stateSnapshot':
@@ -368,17 +363,41 @@ export class StateManagerProxy {
    */
   async loadRules(rulesData, playerInfo) {
     if (!this.worker) {
-      return Promise.reject(new Error('Worker not initialized.'));
+      const errorMsg =
+        '[StateManagerProxy] Worker not initialized when calling loadRules.';
+      console.error(errorMsg);
+      return Promise.reject(new Error(errorMsg)); // Reject if worker isn't up
     }
+    if (
+      !rulesData ||
+      !playerInfo ||
+      typeof playerInfo.playerId === 'undefined'
+    ) {
+      // Check playerId specifically
+      const errorMsg =
+        '[StateManagerProxy] Invalid arguments for loadRules. rulesData and playerInfo (with playerId) are required.';
+      console.error(errorMsg, { rulesData, playerInfo });
+      return Promise.reject(new Error(errorMsg));
+    }
+
     console.log(
-      '[stateManagerProxy] Sending loadRules command to worker (rules only)...'
+      '[StateManagerProxy] Sending loadRules command to worker with payload:',
+      // Avoid logging full rulesData here, just keys and playerInfo
+      { rulesDataKeys: Object.keys(rulesData || {}), playerInfo }
     );
+
+    // Send the command to the worker.
+    // This action is asynchronous in its effect (worker processes, then confirms).
+    // The caller should await the 'stateManager:rulesLoaded' event for confirmation.
     this.sendCommandToWorker({
       command: 'loadRules',
-      payload: { rulesData, playerInfo }, // Send full rulesData
+      payload: { rulesData, playerInfo },
     });
-    // Return the promise that tracks the initial load confirmation
-    return this.initialLoadPromise;
+
+    // No promise directly tied to *this specific* loadRules completion is returned here.
+    // The pattern is: command -> worker processes -> worker confirms -> proxy publishes event.
+    // Tests will `await testController.waitForEvent('stateManager:rulesLoaded')`.
+    return Promise.resolve(); // Return a resolved promise to indicate the command was sent.
   }
 
   /**
@@ -420,33 +439,52 @@ export class StateManagerProxy {
     console.log(
       '[StateManagerProxy] Caching static data including original orders.'
     );
-    this.staticDataCache = {
-      items: itemData,
-      groups: groupData,
-      locations: locationData,
-      regions: regionData,
-      exits: exitData,
-      locationOrder: originalLocationOrder || [], // Store original location order
-      exitOrder: originalExitOrder || [], // Store original exit order
-      regionOrder: originalRegionOrder || [], // Store original region order
-    };
-    this.staticDataIsSet = true; // Set flag when static data arrives
-    // Log the structure briefly
-    console.debug('[StateManagerProxy] Cached static data structure:', {
-      items: itemData ? Object.keys(itemData).length : 0,
-      groups: groupData ? Object.keys(groupData).length : 0,
-      locations: locationData ? Object.keys(locationData).length : 0,
-      regions: regionData ? Object.keys(regionData).length : 0,
-      exits: exitData ? Object.keys(exitData).length : 0,
-      locationOrderLength: originalLocationOrder
-        ? originalLocationOrder.length
-        : 0,
-      exitOrderLength: originalExitOrder ? originalExitOrder.length : 0,
-      regionOrderLength: originalRegionOrder ? originalRegionOrder.length : 0,
-    });
 
-    // Check if ready to publish event
-    this._checkAndPublishReady();
+    let processedGroupData = [];
+    if (groupData) {
+      if (Array.isArray(groupData)) {
+        processedGroupData = groupData;
+      } else if (
+        typeof groupData === 'object' &&
+        this.config &&
+        this.config.playerId
+      ) {
+        processedGroupData = groupData[this.config.playerId] || [];
+      } else if (typeof groupData === 'object') {
+        // Fallback if playerId is somehow not available or groupData is an unexpected object structure
+        // Try to get the first player's groups if any
+        const firstPlayerKey = Object.keys(groupData)[0];
+        if (firstPlayerKey && Array.isArray(groupData[firstPlayerKey])) {
+          processedGroupData = groupData[firstPlayerKey];
+          console.warn(
+            '[StateManagerProxy setStaticData] Used first player key for groups as fallback.'
+          );
+        } else {
+          processedGroupData = [];
+          console.warn(
+            '[StateManagerProxy setStaticData] groupData was an object but no player-specific array found or no playerId configured on proxy. Defaulting to empty groups for initial static cache.'
+          );
+        }
+      } else {
+        processedGroupData = [];
+        console.warn(
+          '[StateManagerProxy setStaticData] groupData was not an array or expected object. Defaulting to empty groups for initial static cache.'
+        );
+      }
+    }
+
+    this.staticDataCache = {
+      items: itemData || {},
+      groups: processedGroupData, // Use the processed array
+      locations: locationData || {},
+      regions: regionData || {},
+      exits: exitData || {},
+      locationOrder: originalLocationOrder || [],
+      exitOrder: originalExitOrder || [],
+      regionOrder: originalRegionOrder || [],
+    };
+    this.staticDataIsSet = true;
+    this._checkAndPublishReady(); // Check if we can publish ready state
   }
 
   // Method to retrieve all cached static data

@@ -6,7 +6,7 @@ export class TestUI {
   constructor(container, componentState) {
     this.container = container;
     this.rootElement = document.createElement('div');
-    this.rootElement.className = 'tests-panel-content panel-container'; // Added panel-container
+    this.rootElement.className = 'tests-panel-content panel-container';
     this.rootElement.style.padding = '10px';
     this.rootElement.style.height = '100%';
     this.rootElement.style.overflowY = 'auto';
@@ -19,15 +19,13 @@ export class TestUI {
     this._buildInitialUI();
     this.container.element.appendChild(this.rootElement);
 
-    this._attachEventListeners();
+    this._attachEventListeners(); // Listeners are attached once
     this._subscribeToLogicEvents();
 
-    // Initial render
-    this.renderTestList();
+    this.renderTestList(); // Initial render
 
-    // GoldenLayout lifecycle
     this.container.on('destroy', () => this.destroy());
-    this.container.on('open', () => this.renderTestList()); // Re-render if panel is re-opened
+    this.container.on('open', () => this.renderTestList());
   }
 
   _buildInitialUI() {
@@ -40,7 +38,6 @@ export class TestUI {
     runAllButton.className = 'button run-all-tests-button';
     controlsContainer.appendChild(runAllButton);
 
-    // Placeholder for overall status
     this.overallStatusElement = document.createElement('div');
     this.overallStatusElement.className = 'overall-test-status';
     this.overallStatusElement.style.marginTop = '5px';
@@ -55,16 +52,17 @@ export class TestUI {
       .querySelector('.run-all-tests-button')
       .addEventListener('click', async () => {
         this.overallStatusElement.textContent = 'Running all tests...';
+        this.overallStatusElement.style.color = 'lightblue'; // Indicate running
         try {
           await testLogic.runAllEnabledTests();
+          // Summary is handled by 'test:allRunsCompleted' event
         } catch (error) {
           console.error('Error running all tests:', error);
           this.overallStatusElement.textContent = `Error: ${error.message}`;
-          this.overallStatusElement.style.color = 'red';
+          this.overallStatusElement.style.color = 'lightcoral';
         }
       });
 
-    // Event delegation for individual test buttons
     this.testListContainer.addEventListener('click', (event) => {
       const target = event.target;
       const testItemElement = target.closest('.test-item');
@@ -73,14 +71,19 @@ export class TestUI {
       const testId = testItemElement.dataset.testId;
 
       if (target.classList.contains('run-single-test-button')) {
+        // Clear overall status when running a single test
+        if (this.overallStatusElement)
+          this.overallStatusElement.textContent = '';
         testLogic.runTest(testId);
       } else if (target.classList.contains('test-enable-checkbox')) {
         testLogic.toggleTestEnabled(testId, target.checked);
-        // testLogic should emit test:listUpdated, which will trigger re-render
+        // The list will re-render via 'test:listUpdated'
       } else if (target.classList.contains('move-test-up-button')) {
         testLogic.updateTestOrder(testId, 'up');
+        // The list will re-render via 'test:listUpdated'
       } else if (target.classList.contains('move-test-down-button')) {
         testLogic.updateTestOrder(testId, 'down');
+        // The list will re-render via 'test:listUpdated'
       }
     });
   }
@@ -92,6 +95,9 @@ export class TestUI {
         this.updateTestStatus(data.testId, data.status, data.eventWaitingFor),
       'test:conditionReported': (data) =>
         this.updateTestCondition(data.testId, data.condition),
+      'test:executionStarted': (data) => {
+        /* Optionally handle test start indication */
+      },
       'test:allRunsCompleted': (data) =>
         this.displayOverallSummary(data.summary),
       'test:logMessage': (data) =>
@@ -105,8 +111,8 @@ export class TestUI {
   }
 
   renderTestList(testsToRender = null) {
-    const tests = testsToRender || testLogic.getTests();
-    this.testListContainer.innerHTML = ''; // Clear previous content
+    const tests = testsToRender || testLogic.getTests(); // Get sorted list
+    this.testListContainer.innerHTML = '';
 
     if (!tests || tests.length === 0) {
       this.testListContainer.textContent = 'No tests defined yet.';
@@ -114,25 +120,22 @@ export class TestUI {
     }
 
     const ul = document.createElement('ul');
-    ul.className = 'tests-ul';
+    ul.className = 'tests-ul'; // Consistent class name
     ul.style.listStyle = 'none';
     ul.style.padding = '0';
 
-    tests.forEach((test) => {
+    tests.forEach((test, index) => {
+      // Added index for button disabling
       const li = document.createElement('li');
       li.className = 'test-item';
       li.dataset.testId = test.id;
-      li.style.border = '1px solid #444';
-      li.style.marginBottom = '8px';
-      li.style.padding = '8px';
-      li.style.borderRadius = '4px';
+      // Basic styling applied in index.css
 
       const header = document.createElement('div');
-      header.style.display = 'flex';
-      header.style.justifyContent = 'space-between';
-      header.style.alignItems = 'center';
+      header.className = 'test-item-header'; // Use class for styling
 
       const nameDescDiv = document.createElement('div');
+      nameDescDiv.className = 'test-item-name-desc'; // Class for styling
       const nameEl = document.createElement('strong');
       nameEl.textContent = test.name;
       nameDescDiv.appendChild(nameEl);
@@ -140,22 +143,14 @@ export class TestUI {
       if (test.description) {
         const descEl = document.createElement('p');
         descEl.textContent = test.description;
-        descEl.style.fontSize = '0.9em';
-        descEl.style.color = '#aaa';
-        descEl.style.margin = '4px 0 0 0';
         nameDescDiv.appendChild(descEl);
       }
       header.appendChild(nameDescDiv);
 
       const controlsDiv = document.createElement('div');
       controlsDiv.className = 'test-item-controls';
-      controlsDiv.style.display = 'flex';
-      controlsDiv.style.alignItems = 'center';
-      controlsDiv.style.gap = '5px';
 
       const enableLabel = document.createElement('label');
-      enableLabel.style.display = 'flex';
-      enableLabel.style.alignItems = 'center';
       const enableCheckbox = document.createElement('input');
       enableCheckbox.type = 'checkbox';
       enableCheckbox.className = 'test-enable-checkbox';
@@ -169,12 +164,14 @@ export class TestUI {
       upButton.textContent = '↑';
       upButton.className = 'button button-small move-test-up-button';
       upButton.title = 'Move Up';
+      upButton.disabled = index === 0; // Disable if first item
       controlsDiv.appendChild(upButton);
 
       const downButton = document.createElement('button');
       downButton.textContent = '↓';
       downButton.className = 'button button-small move-test-down-button';
       downButton.title = 'Move Down';
+      downButton.disabled = index === tests.length - 1; // Disable if last item
       controlsDiv.appendChild(downButton);
 
       const runButton = document.createElement('button');
@@ -187,41 +184,32 @@ export class TestUI {
 
       const statusEl = document.createElement('div');
       statusEl.className = 'test-status-display';
-      statusEl.textContent = `Status: ${test.status || 'pending'}`;
-      if (test.status === 'waiting_for_event' && test.currentEventWaitingFor) {
-        statusEl.textContent += ` (Waiting for: ${test.currentEventWaitingFor})`;
-      }
-      statusEl.style.fontSize = '0.9em';
-      statusEl.style.marginTop = '4px';
-      this._setTestStatusColor(statusEl, test.status);
+      statusEl.dataset.statusFor = test.id; // For easier selection
+      this.updateTestStatusElement(
+        statusEl,
+        test.status,
+        test.currentEventWaitingFor
+      );
       li.appendChild(statusEl);
 
       const conditionsEl = document.createElement('ul');
       conditionsEl.className = 'test-conditions-list';
-      conditionsEl.style.paddingLeft = '20px';
-      conditionsEl.style.marginTop = '5px';
-      conditionsEl.style.fontSize = '0.85em';
+      conditionsEl.dataset.conditionsFor = test.id; // For easier selection
       test.conditions.forEach((cond) => {
         const condItem = document.createElement('li');
         condItem.textContent = `${cond.status === 'passed' ? '✅' : '❌'} ${
           cond.description
         }`;
-        condItem.style.color =
-          cond.status === 'passed' ? 'lightgreen' : 'lightcoral';
+        condItem.classList.add(
+          cond.status === 'passed' ? 'condition-passed' : 'condition-failed'
+        );
         conditionsEl.appendChild(condItem);
       });
       li.appendChild(conditionsEl);
 
-      // Log area for this specific test
       const logArea = document.createElement('div');
       logArea.className = 'test-log-area';
-      logArea.style.maxHeight = '100px';
-      logArea.style.overflowY = 'auto';
-      logArea.style.background = '#2a2a2a';
-      logArea.style.padding = '5px';
-      logArea.style.fontSize = '0.8em';
-      logArea.style.marginTop = '5px';
-      logArea.style.border = '1px solid #404040';
+      logArea.dataset.logFor = test.id; // For easier selection
       li.appendChild(logArea);
 
       ul.appendChild(li);
@@ -229,97 +217,76 @@ export class TestUI {
     this.testListContainer.appendChild(ul);
   }
 
-  updateTestStatus(testId, status, eventWaitingFor = null) {
-    const testItemElement = this.testListContainer.querySelector(
-      `.test-item[data-test-id="${testId}"]`
+  updateTestStatusElement(element, status, eventWaitingFor = null) {
+    if (!element) return;
+    element.textContent = `Status: ${status || 'pending'}`;
+    if (status === 'waiting_for_event' && eventWaitingFor) {
+      element.textContent += ` (Waiting for: ${eventWaitingFor})`;
+    }
+    // Remove old status classes and add the new one
+    element.classList.remove(
+      'test-status-pending',
+      'test-status-running',
+      'test-status-waiting_for_event',
+      'test-status-passed',
+      'test-status-failed'
     );
-    if (testItemElement) {
-      const statusEl = testItemElement.querySelector('.test-status-display');
-      if (statusEl) {
-        statusEl.textContent = `Status: ${status}`;
-        if (status === 'waiting_for_event' && eventWaitingFor) {
-          statusEl.textContent += ` (Waiting for: ${eventWaitingFor})`;
-        }
-        this._setTestStatusColor(statusEl, status);
-      }
-      if (status === 'running') {
-        // Clear previous conditions and logs when a test starts running
-        const conditionsList = testItemElement.querySelector(
-          '.test-conditions-list'
-        );
-        if (conditionsList) conditionsList.innerHTML = '';
-        const logArea = testItemElement.querySelector('.test-log-area');
-        if (logArea) logArea.innerHTML = '';
-      }
+    element.classList.add(`test-status-${status || 'pending'}`);
+  }
+
+  updateTestStatus(testId, status, eventWaitingFor = null) {
+    const statusEl = this.testListContainer.querySelector(
+      `.test-status-display[data-status-for="${testId}"]`
+    );
+    if (statusEl) {
+      this.updateTestStatusElement(statusEl, status, eventWaitingFor);
+    }
+    if (status === 'running' || status === 'pending') {
+      const conditionsList = this.testListContainer.querySelector(
+        `.test-conditions-list[data-conditions-for="${testId}"]`
+      );
+      if (conditionsList) conditionsList.innerHTML = '';
+      const logArea = this.testListContainer.querySelector(
+        `.test-log-area[data-log-for="${testId}"]`
+      );
+      if (logArea) logArea.innerHTML = '';
     }
   }
 
   updateTestCondition(testId, condition) {
-    const testItemElement = this.testListContainer.querySelector(
-      `.test-item[data-test-id="${testId}"]`
+    const conditionsList = this.testListContainer.querySelector(
+      `.test-conditions-list[data-conditions-for="${testId}"]`
     );
-    if (testItemElement) {
-      const conditionsList = testItemElement.querySelector(
-        '.test-conditions-list'
+    if (conditionsList) {
+      const condItem = document.createElement('li');
+      condItem.textContent = `${condition.status === 'passed' ? '✅' : '❌'} ${
+        condition.description
+      }`;
+      condItem.classList.add(
+        condition.status === 'passed' ? 'condition-passed' : 'condition-failed'
       );
-      if (conditionsList) {
-        const condItem = document.createElement('li');
-        condItem.textContent = `${
-          condition.status === 'passed' ? '✅' : '❌'
-        } ${condition.description}`;
-        condItem.style.color =
-          condition.status === 'passed' ? 'lightgreen' : 'lightcoral';
-        conditionsList.appendChild(condItem);
-      }
+      conditionsList.appendChild(condItem);
     }
   }
 
-  logTestMessage(testId, message, type = 'info') {
-    const testItemElement = this.testListContainer.querySelector(
-      `.test-item[data-test-id="${testId}"]`
+  logTestMessage(testId, message, type) {
+    const logArea = this.testListContainer.querySelector(
+      `.test-log-area[data-log-for="${testId}"]`
     );
-    if (testItemElement) {
-      const logArea = testItemElement.querySelector('.test-log-area');
-      if (logArea) {
-        const logEntry = document.createElement('div');
-        logEntry.textContent = message;
-        if (type === 'error') logEntry.style.color = 'lightcoral';
-        else if (type === 'warn') logEntry.style.color = 'orange';
-        else logEntry.style.color = '#ccc'; // Default log color
-        logArea.appendChild(logEntry);
-        logArea.scrollTop = logArea.scrollHeight; // Auto-scroll
-      }
+    if (logArea) {
+      const logEntry = document.createElement('div');
+      logEntry.textContent = message;
+      logEntry.classList.add(`test-log-${type}`); // Use class for styling
+      logArea.appendChild(logEntry);
+      logArea.scrollTop = logArea.scrollHeight;
     }
   }
 
   displayOverallSummary(summary) {
     if (this.overallStatusElement) {
       this.overallStatusElement.textContent = `All tests finished. Passed: ${summary.passedCount}, Failed: ${summary.failedCount}, Total: ${summary.totalRun}.`;
-      if (summary.failedCount > 0) {
-        this.overallStatusElement.style.color = 'lightcoral';
-      } else {
-        this.overallStatusElement.style.color = 'lightgreen';
-      }
-    }
-  }
-
-  _setTestStatusColor(element, status) {
-    switch (status) {
-      case 'pending':
-        element.style.color = '#ccc';
-        break;
-      case 'running':
-      case 'waiting_for_event':
-        element.style.color = 'lightblue';
-        break;
-      case 'passed':
-        element.style.color = 'lightgreen';
-        break;
-      case 'failed':
-        element.style.color = 'lightcoral';
-        break;
-      default:
-        element.style.color = '#ccc';
+      this.overallStatusElement.style.color =
+        summary.failedCount > 0 ? 'lightcoral' : 'lightgreen';
     }
   }
 
@@ -329,6 +296,5 @@ export class TestUI {
     );
     this.unsubscribeHandles.forEach((unsub) => unsub());
     this.unsubscribeHandles = [];
-    // Further cleanup if necessary
   }
 }

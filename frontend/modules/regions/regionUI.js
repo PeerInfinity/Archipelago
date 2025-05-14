@@ -520,11 +520,16 @@ export class RegionUI {
   }
 
   renderAllRegions() {
-    // REMOVED: Old initialization check, handled by event system now
-    /*
-    if (!this.isInitialized || !stateManager.getStaticData()?.regions) { ... }
-    */
-    resetUnknownEvaluationCounter(); // Reset counter
+    if (!this.rootElement) {
+      console.error(
+        '[RegionUI renderAllRegions] CRITICAL: this.rootElement is NULL or Falsy. Aborting render. Instance:',
+        this
+      );
+      this._updateSectionVisibility();
+      return;
+    }
+
+    resetUnknownEvaluationCounter();
     console.log('[RegionUI] renderAllRegions called.');
 
     const snapshot = stateManager.getLatestStateSnapshot();
@@ -534,37 +539,90 @@ export class RegionUI {
         ? this.colorblindSettings
         : Object.keys(this.colorblindSettings).length > 0;
 
+    // Get references to structural elements within this.regionsContainer
+    // this.regionsContainer is this.rootElement.querySelector('#region-details-container') (set in constructor)
+    const accessibilitySortedSectionsDiv = this.regionsContainer.querySelector(
+      '#accessibility-sorted-sections'
+    );
+    const generalSortedListSectionDiv = this.regionsContainer.querySelector(
+      '#general-sorted-list-section'
+    );
+
+    let availableContentContainer,
+      unavailableContentContainer,
+      generalSortedListContent;
+
+    if (accessibilitySortedSectionsDiv) {
+      availableContentContainer = accessibilitySortedSectionsDiv.querySelector(
+        '#available-regions-section .region-category-content'
+      );
+      unavailableContentContainer =
+        accessibilitySortedSectionsDiv.querySelector(
+          '#unavailable-regions-section .region-category-content'
+        );
+    } else {
+      console.warn(
+        '[RegionUI renderAllRegions] #accessibility-sorted-sections div not found in this.regionsContainer.'
+      );
+    }
+
+    if (generalSortedListSectionDiv) {
+      generalSortedListContent = generalSortedListSectionDiv.querySelector(
+        '.region-category-content'
+      );
+    } else {
+      console.warn(
+        '[RegionUI renderAllRegions] #general-sorted-list-section div not found in this.regionsContainer.'
+      );
+    }
+
     console.log(
       '[RegionUI renderAllRegions] Start State - Snapshot:',
       !!snapshot,
       'Static Data:',
-      !!staticData
+      !!staticData,
+      'accessibilitySortedSectionsDiv:',
+      !!accessibilitySortedSectionsDiv,
+      'generalSortedListSectionDiv:',
+      !!generalSortedListSectionDiv,
+      'availableContentContainer:',
+      !!availableContentContainer,
+      'unavailableContentContainer:',
+      !!unavailableContentContainer,
+      'generalSortedListContent:',
+      !!generalSortedListContent
     );
 
     if (!staticData?.regions || !snapshot) {
       console.warn(
-        '[RegionUI] Static region data or snapshot not ready for renderAllRegions.'
+        '[RegionUI] Static region data or snapshot not ready. Displaying loading message.'
       );
-      if (
-        this.regionsContainer &&
-        !this.regionsContainer.innerHTML.includes('Loading')
-      ) {
-        this.regionsContainer.innerHTML = '<p>Loading region data...</p>';
+      if (availableContentContainer) availableContentContainer.innerHTML = '';
+      if (unavailableContentContainer)
+        unavailableContentContainer.innerHTML = '';
+
+      if (generalSortedListContent) {
+        generalSortedListContent.innerHTML = '<p>Loading region data...</p>';
+      } else {
+        // Fallback if the structure is somehow missing, use the main container but this is not ideal
+        console.error(
+          '[RegionUI] generalSortedListContent not found! Cannot display loading message correctly.'
+        );
+        if (this.regionsContainer)
+          this.regionsContainer.innerHTML =
+            '<p>Loading region data... (structure fault)</p>';
       }
-      const accessibilitySortedSectionsDiv = this.rootElement.querySelector(
-        '#accessibility-sorted-sections'
-      );
-      const generalSortedListSectionDiv = this.rootElement.querySelector(
-        '#general-sorted-list-section'
-      );
+
       if (accessibilitySortedSectionsDiv)
         accessibilitySortedSectionsDiv.style.display = 'none';
       if (generalSortedListSectionDiv)
-        generalSortedListSectionDiv.style.display = 'none';
-      this._updateSectionVisibility();
+        generalSortedListSectionDiv.style.display = ''; // Ensure general section (with loading msg) is visible
+
+      // this._updateSectionVisibility(); // Not strictly needed here as we manually set display styles
       return;
     }
 
+    // If data is ready, proceed with full rendering.
     const snapshotInterface = createStateSnapshotInterface(
       snapshot,
       staticData
@@ -573,37 +631,33 @@ export class RegionUI {
       console.error(
         '[RegionUI] Failed to create snapshot interface. Rendering may be incomplete.'
       );
+      // Potentially return or show error message
     }
 
-    const sortMethod = this.rootElement.querySelector(
-      '#region-sort-select'
-    ).value;
-
-    const accessibilitySortedSectionsDiv = this.rootElement.querySelector(
-      '#accessibility-sorted-sections'
-    );
-    const availableContentContainer =
-      accessibilitySortedSectionsDiv.querySelector(
-        '#available-regions-section .region-category-content'
-      );
-    const unavailableContentContainer =
-      accessibilitySortedSectionsDiv.querySelector(
-        '#unavailable-regions-section .region-category-content'
-      );
-
-    const generalSortedListSectionDiv = this.rootElement.querySelector(
-      '#general-sorted-list-section'
-    );
-    const generalSortedListContent = generalSortedListSectionDiv.querySelector(
-      '.region-category-content'
-    );
-
+    // Clear content areas before populating
     if (availableContentContainer) availableContentContainer.innerHTML = '';
     if (unavailableContentContainer) unavailableContentContainer.innerHTML = '';
     if (generalSortedListContent) generalSortedListContent.innerHTML = '';
-    if (this.statusElement) this.statusElement.textContent = '';
 
-    // Determine which sections to display
+    // --- Enhanced Diagnostic Logging (can be removed after fix is confirmed) ---
+    // console.log('[RegionUI PRE-QUERY] About to query #region-sort-select.');
+    // ... (rest of the diagnostic block can be removed or commented out) ...
+    // --- End Enhanced Diagnostic Logging ---
+
+    const sortSelectElement = this.rootElement.querySelector(
+      '#region-sort-select'
+    );
+    if (!sortSelectElement) {
+      console.error(
+        '[RegionUI renderAllRegions] #region-sort-select NOT FOUND within this.rootElement!'
+      );
+      // Fallback or return if this critical control is missing
+      this._updateSectionVisibility();
+      return;
+    }
+    const sortMethod = sortSelectElement.value;
+
+    // Determine which sections to display based on sortMethod and showAll
     const useAccessibilitySections =
       this.showAll && sortMethod.startsWith('accessibility');
 
@@ -619,13 +673,8 @@ export class RegionUI {
         generalSortedListSectionDiv.style.display = '';
     }
 
-    const regionContainer = this.rootElement.querySelector(
-      '#region-details-container'
-    );
-    if (!regionContainer) {
-      console.error('[RegionUI] region-details-container not found!');
-      return;
-    }
+    // const regionContainer = this.rootElement.querySelector('#region-details-container'); // Already have this.regionsContainer
+    // No need to re-query if this.regionsContainer is used consistently
 
     const searchTerm = this.rootElement
       .querySelector('#region-search')
@@ -638,7 +687,6 @@ export class RegionUI {
     ).checked;
 
     let regionsToRender = [];
-    let menuWasJustAdded = false;
     if (this.showAll) {
       regionsToRender = Object.keys(staticData.regions).map((name) => ({
         name,
@@ -663,21 +711,13 @@ export class RegionUI {
           snapshot.reachability?.[vr.name] === 'reachable' ||
           snapshot.reachability?.[vr.name] === 'checked',
       }));
-      console.log(
-        '[RegionUI] "Show All" is OFF. Initial regionsToRender from visitedRegions:',
-        JSON.parse(JSON.stringify(regionsToRender))
-      );
+      // console.log('[RegionUI] "Show All" is OFF. Initial regionsToRender from visitedRegions:', JSON.parse(JSON.stringify(regionsToRender)));
       if (regionsToRender.length === 0) {
-        console.log(
-          "[RegionUI] Show All is off and visited list is empty, attempting to show start region 'Menu'..."
-        );
-        const success = this.showStartRegion('Menu');
+        // console.log("[RegionUI] Show All is off and visited list is empty, attempting to show start region 'Menu'...");
+        const success = this.showStartRegion('Menu'); // showStartRegion adds to this.visitedRegions
         if (success) {
-          console.log(
-            "[RegionUI] Successfully set start region 'Menu'. Visited regions now:",
-            JSON.parse(JSON.stringify(this.visitedRegions))
-          );
-          menuWasJustAdded = true;
+          // console.log("[RegionUI] Successfully set start region 'Menu'. Visited regions now:", JSON.parse(JSON.stringify(this.visitedRegions)));
+          // Re-populate regionsToRender from the now updated this.visitedRegions
           regionsToRender = this.visitedRegions.map((vr) => ({
             name: vr.name,
             isVisited: true,
@@ -778,22 +818,21 @@ export class RegionUI {
       );
       if (!regionBlock) {
         if (regionName === 'Menu') {
-          console.warn(
-            '[RegionUI] buildRegionBlock returned null for Menu region. This might make the panel appear empty.'
-          );
+          // console.warn('[RegionUI] buildRegionBlock returned null for Menu region. This might make the panel appear empty.');
         }
         continue;
       }
 
       if (useAccessibilitySections) {
-        // Use the flag determined earlier
-        if (isReachable) {
+        if (isReachable && availableContentContainer) {
           availableFragment.appendChild(regionBlock);
-        } else {
+        } else if (!isReachable && unavailableContentContainer) {
           unavailableFragment.appendChild(regionBlock);
         }
       } else {
-        generalFragment.appendChild(regionBlock);
+        if (generalSortedListContent) {
+          generalFragment.appendChild(regionBlock);
+        }
       }
     }
 
@@ -802,14 +841,12 @@ export class RegionUI {
         availableContentContainer.appendChild(availableFragment);
       if (unavailableContentContainer)
         unavailableContentContainer.appendChild(unavailableFragment);
-      this._updateSectionVisibility();
     } else {
       if (generalSortedListContent)
         generalSortedListContent.appendChild(generalFragment);
-      // Ensure accessibility sections are hidden if general list is used
-      if (accessibilitySortedSectionsDiv)
-        accessibilitySortedSectionsDiv.style.display = 'none';
     }
+
+    this._updateSectionVisibility(); // Call this at the end to correctly hide/show sections based on content
 
     console.log(
       `[RegionUI] Finished rendering regions. Displayed: ${regionsToRender.length}`
