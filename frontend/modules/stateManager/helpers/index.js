@@ -37,8 +37,11 @@ export class GameHelpers {
 
 // Base class for game-specific state tracking
 export class GameState {
-  constructor(debugLog = null) {
+  constructor(gameName = 'UnknownGame', debugLog = null) {
     this.flags = new Set();
+    this.settings = {};
+    this.game = gameName;
+    this.startRegions = ['Menu'];
     // Properly set up debug object if debugLog is provided
     this.debug = debugLog
       ? {
@@ -63,6 +66,22 @@ export class GameState {
         };
   }
 
+  loadSettings(settings) {
+    this.settings = settings || {};
+    this.game = this.settings.game || this.game;
+    this.log(
+      `[GameState base] loadSettings called. Game in state set to: ${this.game}`
+    );
+    this.log(
+      `[GameState base] this.settings object after assignment: ${JSON.stringify(
+        this.settings
+      )}`
+    );
+    this.log(
+      `[GameState base] this.settings.game after assignment: ${this.settings.game}`
+    );
+  }
+
   log(message) {
     if (this.debug?.log) {
       this.debug.log(message);
@@ -78,5 +97,14 @@ export class GameState {
     const hasFlag = this.flags.has(flag);
     this.log(`Checking flag ${flag}: ${hasFlag}`);
     return hasFlag;
+  }
+
+  getState() {
+    this.log(`[GameState base] getState() called. Game: ${this.game}`);
+    return {
+      flags: Array.from(this.flags),
+      settings: this.settings,
+      game: this.game,
+    };
   }
 }

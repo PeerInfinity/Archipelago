@@ -40,32 +40,23 @@ export class LocationUI {
     // Defer full data-dependent initialization
     const readyHandler = (eventPayload) => {
       console.log(
-        '[LocationUI] Received app:readyForUiDataLoad. Initializing.'
+        '[LocationUI] Received app:readyForUiDataLoad. Initializing base panel structure and event listeners.'
       );
       this.initialize(); // This sets up stateManager event listeners like snapshotUpdated
 
-      // --- ADDED: Proactive data fetching ---
-      console.log(
-        '[LocationUI] Proactively fetching static data and original order after app:readyForUiDataLoad.'
-      );
-      const currentStaticData = stateManager.getStaticData();
-      if (currentStaticData && currentStaticData.locations) {
-        this.originalLocationOrder = stateManager.getOriginalLocationOrder();
-        console.log(
-          `[LocationUI] Stored ${this.originalLocationOrder.length} location keys for original order (proactive fetch).`
-        );
-      } else {
-        console.warn(
-          '[LocationUI] Proactive fetch: Static data or locations not yet available from proxy.'
-        );
-      }
+      // DO NOT proactively fetch data or render here.
+      // Static data (like original orders) will be fetched on 'stateManager:rulesLoaded'.
+      // Full render will occur on 'stateManager:ready'.
 
-      this.updateLocationDisplay(); // Perform initial render with whatever data is available
-      this.isInitialized = true; // Mark as initialized
+      // Display a loading message or ensure the UI shows a pending state if not already handled by CSS/initial HTML.
+      // For example, if locationsGrid is empty, it might implicitly show as loading.
+      // If a specific loading indicator is desired:
+      // this.locationsGrid.innerHTML = '<p>Loading locations...</p>';
+
+      this.isInitialized = true; // Mark that basic panel setup is done.
       console.log(
-        '[LocationUI] Initial setup and render complete after app:readyForUiDataLoad.'
+        '[LocationUI] Basic panel setup complete after app:readyForUiDataLoad. Awaiting StateManager readiness.'
       );
-      // --- END ADDED ---
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
@@ -129,36 +120,45 @@ export class LocationUI {
 
       // --- ADDED: Handler for stateManager:ready ---
       const handleReady = () => {
-        console.log(
-          '[LocationUI] Received stateManager:ready event (after initial setup).'
-        );
-        // This event confirms StateManager is fully ready.
-        // If UI isn't initialized yet (e.g. if stateManager:ready fired before app:readyForUiDataLoad for some reason),
-        // the constructor's app:readyForUiDataLoad handler will take precedence for the first load.
-        // If already initialized, this can serve as a trigger for a refresh if needed,
-        // or to fetch data if it was missed.
+        console.log('[LocationUI] Received stateManager:ready event.');
+        // This event confirms StateManager is fully ready (static data and initial snapshot).
+        // originalLocationOrder should have been populated by the 'stateManager:rulesLoaded' handler.
+
         if (!this.isInitialized) {
-          console.log(
-            '[LocationUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Attempting to load data now.'
+          // This case should be rare if app:readyForUiDataLoad sets isInitialized correctly.
+          console.warn(
+            '[LocationUI stateManager:ready] Panel base not yet initialized by app:readyForUiDataLoad. This is unexpected. Proceeding with render attempt.'
+          );
+          // Attempt to initialize basic event subscriptions if not done.
+          // this.initialize(); // Might be redundant or cause issues if called twice. Best to ensure app:readyForUiDataLoad runs first.
+        }
+
+        // Ensure originalLocationOrder is available (it should be from rulesLoaded handler)
+        if (
+          !this.originalLocationOrder ||
+          this.originalLocationOrder.length === 0
+        ) {
+          console.warn(
+            '[LocationUI stateManager:ready] Original location order not available. Attempting to fetch now.'
           );
           const currentStaticData = stateManager.getStaticData();
           if (currentStaticData && currentStaticData.locations) {
             this.originalLocationOrder =
               stateManager.getOriginalLocationOrder();
             console.log(
-              `[LocationUI stateManager:ready] Stored ${this.originalLocationOrder.length} location keys for original order.`
+              `[LocationUI stateManager:ready] Fetched ${this.originalLocationOrder.length} location keys for original order.`
+            );
+          } else {
+            console.error(
+              '[LocationUI stateManager:ready] Failed to fetch static data/locations for original order. Location panel may not display correctly.'
             );
           }
-          this.updateLocationDisplay();
-          this.isInitialized = true;
-        } else {
-          // Potentially re-fetch or update if static data could change and a specific event for that isn't used.
-          // For now, just ensure display is up-to-date with latest snapshot that might have arrived with 'ready'.
-          console.log(
-            '[LocationUI stateManager:ready] UI already initialized. Triggering updateLocationDisplay.'
-          );
-          this.updateLocationDisplay();
         }
+
+        console.log(
+          '[LocationUI stateManager:ready] Triggering initial full display update.'
+        );
+        this.updateLocationDisplay(); // This is now the primary trigger for the first full render.
       };
       subscribe('stateManager:ready', handleReady);
       // --- END ADDED ---
@@ -192,25 +192,44 @@ export class LocationUI {
 
       // Subscribe to loop state changes if relevant
       // Also need rules loaded to trigger initial display and get static data
-      subscribe('stateManager:rulesLoaded', (/* payload */) => {
+      subscribe('stateManager:rulesLoaded', (event) => {
         console.log(
-          '[LocationUI] Received stateManager:rulesLoaded event. Re-fetching original order and updating display.'
+          '[LocationUI] Received stateManager:rulesLoaded event. Full refresh triggered.'
         );
-        // Re-fetch original location order as it might have changed with new rules
+
+        // Access snapshot from event (this is the new initial snapshot for the loaded rules)
+        const newSnapshot = event.snapshot;
+        if (!newSnapshot) {
+          console.warn(
+            '[LocationUI rulesLoaded] Snapshot missing from event payload. Aborting refresh.'
+          );
+          return;
+        }
+        // Note: this.uiCache in StateManagerProxy is updated with this snapshot,
+        // so stateManager.getLatestStateSnapshot() SHOULD return this soon after,
+        // but using event.snapshot is more direct for this event.
+
+        // Fetch and store the NEW static data, including the original location order.
         const currentStaticData = stateManager.getStaticData();
         if (currentStaticData && currentStaticData.locations) {
           this.originalLocationOrder = stateManager.getOriginalLocationOrder();
           console.log(
-            `[LocationUI rulesLoaded] Stored ${this.originalLocationOrder.length} location keys for original order.`
+            `[LocationUI rulesLoaded] Stored ${
+              this.originalLocationOrder ? this.originalLocationOrder.length : 0
+            } location keys for original order.`
           );
         } else {
           console.warn(
-            '[LocationUI rulesLoaded] Static data or locations not available from proxy when trying to refresh order.'
+            '[LocationUI rulesLoaded] Static data or locations not available from proxy when trying to refresh order. Panel may not sort correctly.'
           );
           this.originalLocationOrder = []; // Reset if not available
         }
-        // Now static data should be available via proxy, and snapshot should also be updated or soon will be.
-        // Directly trigger a display update.
+
+        // Now that new static data (including order) and the new snapshot are available,
+        // trigger a full display update.
+        // The updateLocationDisplay method will use stateManager.getLatestStateSnapshot()
+        // and stateManager.getStaticData() which should reflect the newly loaded data.
+        console.log('[LocationUI rulesLoaded] Triggering full display update.');
         this.updateLocationDisplay();
       });
 
@@ -483,23 +502,64 @@ export class LocationUI {
   // --- Main Rendering Logic ---
   updateLocationDisplay() {
     console.log('[LocationUI] updateLocationDisplay called.');
-    resetUnknownEvaluationCounter(); // Reset counter at the beginning of the update
+
+    // Ensure the panel's basic initialization (DOM structure, non-data listeners) is done.
+    // this.isInitialized is set by the app:readyForUiDataLoad handler.
+    if (!this.isInitialized) {
+      console.warn(
+        '[LocationUI updateLocationDisplay] Panel not yet initialized by app:readyForUiDataLoad. Aborting display update.'
+      );
+      return;
+    }
 
     const snapshot = stateManager.getLatestStateSnapshot();
     const staticData = stateManager.getStaticData();
+
     console.log(
-      '[LocationUI updateLocationDisplay] Start State - Snapshot:',
-      !!snapshot,
-      'Static Data:',
-      !!staticData
+      `[LocationUI updateLocationDisplay] Start State - Snapshot: ${!!snapshot} Static Data: ${!!staticData}`
     );
 
-    if (!staticData?.locations || !snapshot) {
-      // Also ensure snapshot exists
-      console.warn('[LocationUI] Static location data or snapshot not ready.');
+    if (
+      !snapshot ||
+      !staticData ||
+      !staticData.locations ||
+      !staticData.items
+    ) {
+      console.warn(
+        '[LocationUI] Static location/item data or snapshot not ready. Displaying loading message or clearing grid.'
+      );
+      // Clear the grid or show a specific loading message
       this.locationsGrid.innerHTML = '<p>Loading location data...</p>';
       return;
     }
+
+    if (
+      !this.originalLocationOrder ||
+      this.originalLocationOrder.length === 0
+    ) {
+      console.warn(
+        '[LocationUI updateLocationDisplay] Original location order not yet available. Locations might appear unsorted or panel might wait for re-render.'
+      );
+      // Optionally, fetch it now if it should absolutely be here
+      // This can be a fallback, but ideally it's populated by stateManager:rulesLoaded
+      const freshlyFetchedOrder = stateManager.getOriginalLocationOrder();
+      if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
+        this.originalLocationOrder = freshlyFetchedOrder;
+        console.log(
+          `[LocationUI updateLocationDisplay] Fallback fetch for originalLocationOrder succeeded: ${this.originalLocationOrder.length} items.`
+        );
+      } else {
+        // If still no order, might display loading or unsorted.
+        // For now, we'll proceed, and sorting might be off or alphabetical.
+        // Consider adding a specific loading message if this.originalLocationOrder is critical for ANY display.
+        // this.locationsGrid.innerHTML = '<p>Preparing location order...</p>';
+        // return; // Or, allow to proceed with default/name sort if that's acceptable.
+      }
+    }
+
+    // Reset the unknown evaluation counter for this rendering cycle
+    // commonUI.resetUnknownEvaluationCounter(); // This should be done if commonUI is an instance
+    resetUnknownEvaluationCounter(); // Assuming this is a global/static reset from commonUI/index.js
 
     // --- ADDED: Create snapshot interface for rule evaluation on main thread --- >
     const snapshotInterface = createStateSnapshotInterface(

@@ -27,27 +27,14 @@ export class InventoryUI {
 
     const readyHandler = async (eventPayload) => {
       console.log(
-        '[InventoryUI app:readyForUiDataLoad] Received. Proactively fetching data.'
+        '[InventoryUI app:readyForUiDataLoad] Received. Setting up base UI and event listeners.'
       );
-      try {
-        await this.syncWithState();
-        this.isInitialized = true;
-        console.log(
-          '[InventoryUI app:readyForUiDataLoad] Data fetched and isInitialized set. Calling updateDisplay and attaching event bus listeners.'
-        );
-        this.updateDisplay();
-        this.attachEventBusListeners();
-      } catch (error) {
-        console.error(
-          '[InventoryUI app:readyForUiDataLoad] Error during initial data sync or setup:',
-          error
-        );
-        this.displayError(
-          'Failed to load inventory data. Please try refreshing.'
-        );
-      } finally {
-        eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
-      }
+      this.attachEventBusListeners();
+      this.isInitialized = true;
+      console.log(
+        '[InventoryUI app:readyForUiDataLoad] Base setup complete. Awaiting StateManager readiness.'
+      );
+      eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
     eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
@@ -312,59 +299,70 @@ export class InventoryUI {
   }
 
   attachEventBusListeners() {
-    console.log('[InventoryUI] Subscribing instance to EventBus events...');
-    this.unsubscribeHandles.forEach((u) => u());
-    this.unsubscribeHandles = [];
-
-    if (!eventBus) {
-      console.error('[InventoryUI] EventBus not available for subscriptions.');
-      return;
-    }
+    this.destroy();
 
     const subscribe = (eventName, handler) => {
       console.log(`[InventoryUI] Subscribing to ${eventName}`);
-      const unsubscribe = eventBus.subscribe(eventName, handler);
+      const unsubscribe = eventBus.subscribe(eventName, handler.bind(this));
       this.unsubscribeHandles.push(unsubscribe);
     };
 
     const handleReady = async () => {
       console.log('[InventoryUI] Received stateManager:ready event.');
       if (!this.isInitialized) {
-        console.log(
-          '[InventoryUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Performing full sync and setup now.'
+        console.warn(
+          '[InventoryUI stateManager:ready] Panel base not yet initialized by app:readyForUiDataLoad. This is unexpected.'
         );
-        try {
-          await this.syncWithState();
-          this.isInitialized = true;
-          this.updateDisplay();
-          console.log(
-            '[InventoryUI stateManager:ready] Fallback sync and render complete.'
-          );
-        } catch (error) {
-          console.error(
-            '[InventoryUI stateManager:ready] Error during fallback data sync or setup:',
-            error
-          );
-          this.displayError('Failed to load inventory data on ready.');
-        }
-      } else {
-        console.log(
-          '[InventoryUI stateManager:ready] UI already initialized. Triggering updateDisplay.'
-        );
-        this.updateDisplay();
       }
+
+      if (!this.itemData || !this.groupNames || this.groupNames.length === 0) {
+        console.warn(
+          '[InventoryUI stateManager:ready] Item/group data not available. Attempting to fetch/initialize now as a fallback.'
+        );
+        const staticData = stateManager.getStaticData();
+        if (staticData && staticData.items && staticData.groups) {
+          this.itemData = staticData.items;
+          this.groupNames = Array.isArray(staticData.groups)
+            ? staticData.groups
+            : Object.keys(staticData.groups || {});
+
+          if (this.itemData && this.groupNames) {
+            this.initializeUI(this.itemData, this.groupNames);
+            console.log(
+              '[InventoryUI stateManager:ready] Fallback static data fetch and initializeUI complete.'
+            );
+          } else {
+            console.error(
+              '[InventoryUI stateManager:ready] Fallback fetch for static data failed. Inventory may not display correctly.'
+            );
+            this.displayError('Failed to load inventory structure.');
+            return;
+          }
+        } else {
+          console.error(
+            '[InventoryUI stateManager:ready] Static data not available from proxy for fallback. Inventory may not display correctly.'
+          );
+          this.displayError('Inventory structure data missing.');
+          return;
+        }
+      }
+
+      console.log(
+        '[InventoryUI stateManager:ready] Triggering initial full display update.'
+      );
+      this.updateDisplay();
     };
     subscribe('stateManager:ready', handleReady);
 
-    subscribe(
-      'stateManager:snapshotUpdated',
-      this._handleSnapshotUpdated.bind(this)
-    );
-    subscribe(
-      'stateManager:inventoryChanged',
-      this._handleInventoryChanged.bind(this)
-    );
-    subscribe('stateManager:rulesLoaded', this._handleRulesLoaded.bind(this));
+    subscribe('stateManager:snapshotUpdated', this._handleSnapshotUpdated);
+    subscribe('stateManager:inventoryChanged', this._handleInventoryChanged);
+    subscribe('stateManager:rulesLoaded', this._handleRulesLoaded);
+
+    subscribe('loop:modeChanged', (isLoopMode) => {
+      if (this.isInitialized) this.updateDisplay();
+    });
+
+    console.log('[InventoryUI] EventBus listeners attached.');
   }
 
   _handleSnapshotUpdated(snapshotData) {
@@ -380,6 +378,9 @@ export class InventoryUI {
   }
 
   _handleInventoryChanged() {
+    console.log(
+      '[InventoryUI] stateManager:inventoryChanged received. Triggering display update.'
+    );
     if (this.isInitialized) {
       this.updateDisplay();
     }
@@ -387,9 +388,50 @@ export class InventoryUI {
 
   async _handleRulesLoaded(eventData) {
     console.log(
-      '[InventoryUI] Received stateManager:rulesLoaded event. Syncing state.'
+      '[InventoryUI] Received stateManager:rulesLoaded event. Fetching static item/group data and initializing UI structure.'
     );
-    await this.syncWithState();
+    if (!this.isInitialized) {
+      console.warn(
+        '[InventoryUI rulesLoaded] Panel not yet initialized by app:readyForUiDataLoad. Static data might not be processed correctly if base UI setup is missing.'
+      );
+      return;
+    }
+
+    try {
+      const staticData = stateManager.getStaticData();
+      if (staticData && staticData.items && staticData.groups) {
+        this.itemData = staticData.items;
+        this.groupNames = Array.isArray(staticData.groups)
+          ? staticData.groups
+          : Object.keys(staticData.groups || {});
+
+        console.log(
+          `[InventoryUI rulesLoaded] Successfully loaded items and group names from static data cache. Item count: ${
+            Object.keys(this.itemData || {}).length
+          }, Group count: ${this.groupNames.length}`
+        );
+
+        this.initializeUI(this.itemData, this.groupNames);
+        console.log(
+          '[InventoryUI rulesLoaded] UI structure initialized with static data.'
+        );
+      } else {
+        console.error(
+          '[InventoryUI rulesLoaded] Static item or group data missing from StateManager. Cannot initialize inventory structure.'
+        );
+        this.displayError('Failed to load inventory item definitions.');
+        this.itemData = null;
+        this.groupNames = [];
+      }
+    } catch (error) {
+      console.error(
+        '[InventoryUI rulesLoaded] Error processing static data:',
+        error
+      );
+      this.displayError('Error initializing inventory structure.');
+      this.itemData = null;
+      this.groupNames = [];
+    }
   }
 
   destroy() {
@@ -438,86 +480,66 @@ export class InventoryUI {
   }
 
   clear() {
-    if (this.groupedContainer) this.groupedContainer.innerHTML = '';
-    if (this.flatContainer) this.flatContainer.innerHTML = '';
     this.itemData = null;
     this.groupNames = [];
-    console.log('[InventoryUI] Cleared UI elements and data.');
+    if (this.groupedContainer) this.groupedContainer.innerHTML = '';
+    if (this.flatContainer) this.flatContainer.innerHTML = '';
   }
 
-  initialize() {
-    console.log('[InventoryUI] initialize() called. Clearing previous state.');
-    this.clear();
-  }
+  initialize() {}
 
   async syncWithState() {
-    console.log('[InventoryUI] Attempting to sync with stateManager...');
-    try {
-      const staticData = stateManager.getStaticData();
+    console.log(
+      '[InventoryUI syncWithState] Called. Note: Primary init relies on event flow.'
+    );
 
-      console.log(
-        '[InventoryUI] Raw staticData.groups received in syncWithState:',
-        staticData && staticData.groups
-          ? JSON.parse(JSON.stringify(staticData.groups))
-          : 'undefined'
-      );
+    const staticData = stateManager.getStaticData();
+    let itemDataChanged = false;
 
-      if (!staticData || !staticData.items) {
-        console.error(
-          '[InventoryUI] Item data is missing in static data cache. Cannot initialize.'
-        );
-        this.isInitialized = false;
-        return;
+    if (staticData && staticData.items) {
+      if (
+        !this.itemData ||
+        Object.keys(this.itemData).length !==
+          Object.keys(staticData.items).length
+      ) {
+        this.itemData = staticData.items;
+        itemDataChanged = true;
+        console.log('[InventoryUI syncWithState] Updated this.itemData.');
       }
-
-      this.itemData = staticData.items || {};
-
-      if (staticData.groups && Array.isArray(staticData.groups)) {
-        this.groupNames = staticData.groups;
-        console.log(
-          '[InventoryUI] Successfully assigned groupNames directly from staticData.groups (array): ',
-          JSON.parse(JSON.stringify(this.groupNames))
-        );
-      } else {
-        console.warn(
-          '[InventoryUI] staticData.groups is not an array as expected. Defaulting to empty groups. Received:',
-          staticData.groups
-        );
-        this.groupNames = [];
-      }
-
-      console.log(
-        '[InventoryUI] Successfully loaded items and group names from static data cache.',
-        {
-          itemCount: Object.keys(this.itemData).length,
-          groupCount: this.groupNames.length,
-        }
+    } else {
+      console.warn(
+        '[InventoryUI syncWithState] Static item data not available from StateManager.'
       );
-
-      this.initializeUI(this.itemData, this.groupNames);
-
-      const snapshotData = stateManager.getLatestStateSnapshot();
-      if (snapshotData && snapshotData.inventory) {
-        this._handleSnapshotUpdated(snapshotData);
-      } else {
-        console.warn(
-          '[InventoryUI] No initial snapshot data found to apply item counts.'
-        );
-        this.updateDisplay();
-      }
-
-      this.isInitialized = true;
-      console.log('[InventoryUI] Sync with state complete and UI initialized.');
-    } catch (error) {
-      console.error('[InventoryUI] Error during syncWithState:', error);
-      this.displayError(
-        `Error initializing inventory: ${error.message}. Check console.`
-      );
-      this.itemData = {};
-      this.groupNames = [];
-      this.initializeUI(this.itemData, this.groupNames);
-      this.updateDisplay();
     }
+
+    if (staticData && staticData.groups) {
+      const newGroupNames = Array.isArray(staticData.groups)
+        ? staticData.groups
+        : Object.keys(staticData.groups || {});
+      if (
+        !this.groupNames ||
+        this.groupNames.length !== newGroupNames.length ||
+        !this.groupNames.every((g, i) => g === newGroupNames[i])
+      ) {
+        this.groupNames = newGroupNames;
+        itemDataChanged = true;
+        console.log('[InventoryUI syncWithState] Updated this.groupNames.');
+      }
+    } else {
+      console.warn(
+        '[InventoryUI syncWithState] Static group data not available from StateManager.'
+      );
+    }
+
+    if (itemDataChanged) {
+      console.log(
+        '[InventoryUI syncWithState] Item or group structure changed, re-initializing UI structure.'
+      );
+      this.initializeUI(this.itemData, this.groupNames);
+    }
+
+    this.updateDisplay();
+    console.log('[InventoryUI syncWithState] UpdateDisplay called at the end.');
   }
 
   displayError(message) {

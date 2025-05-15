@@ -32,9 +32,9 @@ class CommonUI {
   logAndGetUnknownEvaluationCount(
     contextMessage = 'Logic tree rendering cycle'
   ) {
-    console.log(
-      `[CommonUI] ${contextMessage}: Encountered ${this.unknownEvaluationCount} unresolved rule evaluations (undefined).`
-    );
+    //console.log(
+    //  `[CommonUI] ${contextMessage}: Encountered ${this.unknownEvaluationCount} unresolved rule evaluations (undefined).`
+    //);
     return this.unknownEvaluationCount;
   }
 

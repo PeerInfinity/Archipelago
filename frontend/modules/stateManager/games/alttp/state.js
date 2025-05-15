@@ -30,42 +30,63 @@ export class ALTTPState extends GameState {
    * @param {Object} settings - Game settings from the rules JSON
    */
   loadSettings(settings) {
-    console.log('loadSettings called with:', settings);
+    super.loadSettings(settings);
+    console.log(
+      '[ALTTPState AFTER super.loadSettings] this.settings:',
+      JSON.stringify(this.settings)
+    );
+    console.log(
+      `[ALTTPState AFTER super.loadSettings] this.settings.game: ${this.settings.game}, this.game (instance prop): ${this.game}`
+    );
+
+    console.log(
+      '[ALTTPState Raw input] loadSettings called with:',
+      JSON.stringify(settings)
+    );
     if (!settings) return;
 
-    this.gameSettings = settings;
+    // this.gameSettings = settings; // Redundant if super.loadSettings sets this.settings correctly. Rely on this.settings.
 
-    // Set common flags based on settings
-    if (settings.bombless_start) this.setFlag('bombless_start');
-    if (settings.retro_bow) this.setFlag('retro_bow');
-    if (settings.swordless) this.setFlag('swordless');
-    if (settings.enemy_shuffle) this.setFlag('enemy_shuffle');
+    // Set common flags based on settings (use this.settings from base class)
+    if (this.settings.bombless_start) this.setFlag('bombless_start');
+    if (this.settings.retro_bow) this.setFlag('retro_bow');
+    if (this.settings.swordless) this.setFlag('swordless');
+    if (this.settings.enemy_shuffle) this.setFlag('enemy_shuffle');
 
-    // Store game mode
-    this.gameMode = settings.game_mode || 'standard';
+    // Store game mode (use this.settings)
+    this.gameMode = this.settings.game_mode || 'standard';
 
-    // Store difficulty requirements
-    if (settings.difficulty_requirements) {
+    // Store difficulty requirements (use this.settings)
+    if (this.settings.difficulty_requirements) {
       this.difficultyRequirements = {
         ...this.difficultyRequirements,
-        ...settings.difficulty_requirements,
+        ...this.settings.difficulty_requirements,
       };
     }
 
-    // Store medallions
+    // Store medallions (use this.settings)
     if (
-      settings.required_medallions &&
-      Array.isArray(settings.required_medallions)
+      this.settings.required_medallions &&
+      Array.isArray(this.settings.required_medallions)
     ) {
-      this.requiredMedallions = settings.required_medallions;
+      this.requiredMedallions = this.settings.required_medallions;
     }
 
-    // Store treasure hunt count
-    if (typeof settings.treasure_hunt_required === 'number') {
-      this.treasureHuntRequired = settings.treasure_hunt_required;
+    // Store treasure hunt count (use this.settings)
+    if (typeof this.settings.treasure_hunt_required === 'number') {
+      this.treasureHuntRequired = this.settings.treasure_hunt_required;
     }
 
-    this.log('Settings loaded:', settings);
+    // Ensure this.game (instance property) is also aligned if super didn't pick it up or was overridden by ALTTP specifics
+    this.game = this.settings.game || this.game || 'A Link to the Past';
+
+    this.log('[ALTTPState] Settings processed.');
+    console.log(
+      `[ALTTPState FINAL] this.settings: ${JSON.stringify(this.settings)}`
+    );
+    console.log(
+      `[ALTTPState FINAL] this.settings.game: ${this.settings.game}, this.game (instance prop): ${this.game}`
+    );
   }
 
   /**
@@ -169,11 +190,13 @@ export class ALTTPState extends GameState {
 
   // Debug helper
   getState() {
+    const baseState = super.getState(); // Get base state from GameState (includes flags, settings, game)
     return {
-      flags: this.getFlags(),
+      ...baseState, // Spread the base state
+      // ALTTP-specific additions or overrides
       events: this.getEvents(),
       gameMode: this.gameMode,
-      settings: this.gameSettings,
+      // baseState.settings already contains this.settings, so no need to add this.gameSettings if it's just a copy
       requirements: this.difficultyRequirements,
       medallions: this.requiredMedallions,
       shops: this.shops.map((s) => s.type),

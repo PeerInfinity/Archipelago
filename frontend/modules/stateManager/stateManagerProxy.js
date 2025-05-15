@@ -6,6 +6,7 @@ console.log('[stateManagerProxy] Module loaded');
 import { ALTTPSnapshotHelpers } from './games/alttp/alttpSnapshotHelpers.js'; // NEW
 import { evaluateRule } from './ruleEngine.js'; // Make this an active import
 // import { evaluateRule } from './ruleEngine.js'; // Already imported
+import { GameSnapshotHelpers } from './helpers/gameSnapshotHelpers.js'; // Added import
 
 export class StateManagerProxy {
   static COMMANDS = {
@@ -1069,7 +1070,8 @@ export class StateManagerProxy {
  * @returns {object} - An object conforming to the StateSnapshotInterface.
  */
 export function createStateSnapshotInterface(snapshot, staticData) {
-  let snapshotInterfaceInstance = null;
+  let snapshotHelpersInstance = null; // Changed variable name for clarity
+  const gameId = snapshot?.game; // Get gameId from the snapshot
 
   // First, define the core methods of the snapshot interface that helpers will need.
   // This rawInterface is what ALTTPSnapshotHelpers constructor will receive.
@@ -1277,25 +1279,35 @@ export function createStateSnapshotInterface(snapshot, staticData) {
   };
 
   // const altlpHelpersInstance = new ALTTPHelpers(helpersContext); // OLD
-  const altlpSnapshotHelpersInstance = new ALTTPSnapshotHelpers(
-    rawInterfaceForHelpers
-  ); // NEW
+  // Conditionally instantiate helpers based on gameId
+  if (gameId === 'A Link to the Past') {
+    snapshotHelpersInstance = new ALTTPSnapshotHelpers(rawInterfaceForHelpers);
+  } else if (gameId === 'Adventure') {
+    snapshotHelpersInstance = new GameSnapshotHelpers(rawInterfaceForHelpers); // Use GameSnapshotHelpers for Adventure
+  } else {
+    // Fallback for other/unknown games
+    console.warn(
+      `[createStateSnapshotInterface] Unknown gameId '${gameId}'. Falling back to GameSnapshotHelpers.`
+    );
+    snapshotHelpersInstance = new GameSnapshotHelpers(rawInterfaceForHelpers);
+  }
 
   // Now construct the final snapshotInterfaceInstance that UI will use,
-  // which includes an executeHelper method that uses the altlpSnapshotHelpersInstance.
-  snapshotInterfaceInstance = {
+  // which includes an executeHelper method that uses the snapshotHelpersInstance.
+  const finalSnapshotInterface = {
+    // Renamed for clarity
     ...rawInterfaceForHelpers, // Spread the core methods (now including isLocationAccessible)
 
     // Expose the created helper instance directly if needed by some advanced rule structures
-    helpers: altlpSnapshotHelpersInstance,
+    helpers: snapshotHelpersInstance, // Use the conditionally created instance
 
     executeHelper: (name, ...args) => {
       if (
-        altlpSnapshotHelpersInstance &&
-        typeof altlpSnapshotHelpersInstance.executeHelper === 'function'
+        snapshotHelpersInstance &&
+        typeof snapshotHelpersInstance.executeHelper === 'function'
       ) {
-        // ALTTPSnapshotHelpers.executeHelper will call the actual helper method (this[name])
-        return altlpSnapshotHelpersInstance.executeHelper(name, ...args);
+        // snapshotHelpersInstance.executeHelper will call the actual helper method (this[name])
+        return snapshotHelpersInstance.executeHelper(name, ...args);
       }
       console.warn(
         `[SnapshotIF executeHelper] Helper dispatcher not available or method ${name} not found on instance.`
@@ -1306,23 +1318,23 @@ export function createStateSnapshotInterface(snapshot, staticData) {
     resolveRuleObject: (ruleObjectPath) => {
       if (ruleObjectPath && ruleObjectPath.type === 'name') {
         const name = ruleObjectPath.name;
-        if (name === 'helpers') return altlpSnapshotHelpersInstance;
+        if (name === 'helpers') return snapshotHelpersInstance; // Use the conditionally created instance
         if (name === 'state' || name === 'settings' || name === 'inventory') {
-          return snapshotInterfaceInstance;
+          return finalSnapshotInterface; // Use the final interface
         }
         if (name === 'player') {
           const slotValue = snapshot?.player?.slot;
           return slotValue;
         }
         if (
-          altlpSnapshotHelpersInstance &&
-          altlpSnapshotHelpersInstance.entities &&
-          altlpSnapshotHelpersInstance.entities[name]
+          snapshotHelpersInstance &&
+          snapshotHelpersInstance.entities &&
+          snapshotHelpersInstance.entities[name]
         ) {
-          return altlpSnapshotHelpersInstance.entities[name];
+          return snapshotHelpersInstance.entities[name];
         }
       }
-      return snapshotInterfaceInstance;
+      return finalSnapshotInterface;
     },
 
     executeStateManagerMethod: (methodName, ...args) => {
@@ -1341,17 +1353,16 @@ export function createStateSnapshotInterface(snapshot, staticData) {
             const type = args[1];
             if (type === 'Region') {
               if (
-                typeof snapshotInterfaceInstance.isRegionReachable ===
-                'function'
+                typeof finalSnapshotInterface.isRegionReachable === 'function'
               ) {
-                return snapshotInterfaceInstance.isRegionReachable(name);
+                return finalSnapshotInterface.isRegionReachable(name);
               }
             } else if (type === 'Location') {
               if (
-                typeof snapshotInterfaceInstance.isLocationAccessible ===
+                typeof finalSnapshotInterface.isLocationAccessible ===
                 'function'
               ) {
-                return snapshotInterfaceInstance.isLocationAccessible(name);
+                return finalSnapshotInterface.isLocationAccessible(name);
               }
             }
             console.warn(
@@ -1361,9 +1372,9 @@ export function createStateSnapshotInterface(snapshot, staticData) {
           } else if (args.length === 1 && typeof args[0] === 'string') {
             // Simplified case: if only one string arg, assume it's a region name
             if (
-              typeof snapshotInterfaceInstance.isRegionReachable === 'function'
+              typeof finalSnapshotInterface.isRegionReachable === 'function'
             ) {
-              return snapshotInterfaceInstance.isRegionReachable(args[0]);
+              return finalSnapshotInterface.isRegionReachable(args[0]);
             }
             return undefined;
           }
@@ -1377,10 +1388,10 @@ export function createStateSnapshotInterface(snapshot, staticData) {
           // Map to the migrated helper method name
           // Ensure executeHelper exists before calling
           if (
-            altlpSnapshotHelpersInstance &&
-            typeof altlpSnapshotHelpersInstance.executeHelper === 'function'
+            snapshotHelpersInstance &&
+            typeof snapshotHelpersInstance.executeHelper === 'function'
           ) {
-            return altlpSnapshotHelpersInstance.executeHelper(
+            return snapshotHelpersInstance.executeHelper(
               '_has_specific_key_count',
               ...args
             );
@@ -1392,13 +1403,10 @@ export function createStateSnapshotInterface(snapshot, staticData) {
         case 'has_any':
           // Ensure executeHelper exists before calling
           if (
-            altlpSnapshotHelpersInstance &&
-            typeof altlpSnapshotHelpersInstance.executeHelper === 'function'
+            snapshotHelpersInstance &&
+            typeof snapshotHelpersInstance.executeHelper === 'function'
           ) {
-            return altlpSnapshotHelpersInstance.executeHelper(
-              'has_any',
-              ...args
-            );
+            return snapshotHelpersInstance.executeHelper('has_any', ...args);
           }
           console.warn(
             '[SnapshotIF executeStateManagerMethod] Could not delegate has_any: helpers or executeHelper missing.'
@@ -1416,7 +1424,7 @@ export function createStateSnapshotInterface(snapshot, staticData) {
     resolveName: rawInterfaceForHelpers.resolveName,
     // --- END ADDED ---
   };
-  return snapshotInterfaceInstance;
+  return finalSnapshotInterface; // Return the final interface
 }
 // --- END ADDED FUNCTION ---
 

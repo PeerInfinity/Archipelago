@@ -31,31 +31,19 @@ export class ExitUI {
 
     // Defer full data-dependent initialization
     const readyHandler = (eventPayload) => {
-      console.log('[ExitUI] Received app:readyForUiDataLoad. Initializing.');
+      console.log(
+        '[ExitUI] Received app:readyForUiDataLoad. Initializing base panel structure and event listeners.'
+      );
       this.initialize(); // This will set up stateManager event listeners
 
-      // --- ADDED: Proactive data fetching ---
-      console.log(
-        '[ExitUI] Proactively fetching static data and original order after app:readyForUiDataLoad.'
-      );
-      const currentStaticData = stateManager.getStaticData();
-      if (currentStaticData && currentStaticData.exits) {
-        this.originalExitOrder = stateManager.getOriginalExitOrder();
-        console.log(
-          `[ExitUI] Stored ${this.originalExitOrder.length} exit keys for original order (proactive fetch).`
-        );
-      } else {
-        console.warn(
-          '[ExitUI] Proactive fetch: Static data or exits not yet available from proxy.'
-        );
-      }
+      // DO NOT proactively fetch data or render here.
+      // Static data (like original orders) will be fetched on 'stateManager:rulesLoaded'.
+      // Full render will occur on 'stateManager:ready'.
 
-      this.updateExitDisplay(); // Perform initial render with whatever data is available
-      this.isInitialized = true; // Mark as initialized
+      this.isInitialized = true; // Mark that basic panel setup is done.
       console.log(
-        '[ExitUI] Initial setup and render complete after app:readyForUiDataLoad.'
+        '[ExitUI] Basic panel setup complete after app:readyForUiDataLoad. Awaiting StateManager readiness.'
       );
-      // --- END ADDED ---
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
@@ -110,40 +98,38 @@ export class ExitUI {
     };
 
     const handleReady = () => {
-      console.log(
-        '[ExitUI] Received stateManager:ready event (after initial setup).'
-      );
-      // This event confirms StateManager is fully ready.
-      // If UI isn't initialized yet (e.g. if stateManager:ready fired before app:readyForUiDataLoad),
-      // the constructor's app:readyForUiDataLoad handler will take precedence for the first load.
-      // If already initialized, this can serve as a trigger for a refresh if needed,
-      // or to fetch data if it was missed.
+      console.log('[ExitUI] Received stateManager:ready event.');
+      // This event confirms StateManager is fully ready (static data and initial snapshot).
+      // originalExitOrder should have been populated by the 'stateManager:rulesLoaded' handler.
+
       if (!this.isInitialized) {
-        console.log(
-          '[ExitUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Attempting to load data now.'
+        console.warn(
+          '[ExitUI stateManager:ready] Panel base not yet initialized by app:readyForUiDataLoad. This is unexpected. Proceeding with render attempt.'
+        );
+      }
+
+      // Ensure originalExitOrder is available (it should be from rulesLoaded handler)
+      if (!this.originalExitOrder || this.originalExitOrder.length === 0) {
+        console.warn(
+          '[ExitUI stateManager:ready] Original exit order not available. Attempting to fetch now.'
         );
         const currentStaticData = stateManager.getStaticData();
         if (currentStaticData && currentStaticData.exits) {
           this.originalExitOrder = stateManager.getOriginalExitOrder();
           console.log(
-            `[ExitUI stateManager:ready] Stored ${this.originalExitOrder.length} exit keys for original order.`
+            `[ExitUI stateManager:ready] Fetched ${this.originalExitOrder.length} exit keys for original order.`
           );
         } else {
-          console.warn(
-            '[ExitUI stateManager:ready] Static exit data not available.'
+          console.error(
+            '[ExitUI stateManager:ready] Failed to fetch static data/exits for original order. Exit panel may not display correctly.'
           );
-          this.originalExitOrder = []; // Ensure it's an empty array
         }
-        this.updateExitDisplay();
-        this.isInitialized = true; // Mark as initialized here too as a fallback
-      } else {
-        // Potentially re-fetch or update if static data could change and a specific event for that isn't used.
-        // For now, just ensure display is up-to-date with latest snapshot that might have arrived with 'ready'.
-        console.log(
-          '[ExitUI stateManager:ready] UI already initialized. Triggering updateExitDisplay.'
-        );
-        this.updateExitDisplay(); // Refresh with potentially new snapshot data
       }
+
+      console.log(
+        '[ExitUI stateManager:ready] Triggering initial full display update.'
+      );
+      this.updateExitDisplay(); // This is now the primary trigger for the first full render.
     };
     subscribe('stateManager:ready', handleReady);
 
@@ -173,11 +159,21 @@ export class ExitUI {
     });
 
     // --- BEGIN ADDED: Handler for stateManager:rulesLoaded ---
-    subscribe('stateManager:rulesLoaded', (/* payload */) => {
+    subscribe('stateManager:rulesLoaded', (event) => {
       console.log(
-        '[ExitUI] Received stateManager:rulesLoaded event. Re-fetching original order and updating display.'
+        '[ExitUI] Received stateManager:rulesLoaded event. Full refresh triggered.'
       );
-      // Re-fetch original exit order as it might have changed with new rules
+
+      // Access snapshot from event (this is the new initial snapshot for the loaded rules)
+      const newSnapshot = event.snapshot;
+      if (!newSnapshot) {
+        console.warn(
+          '[ExitUI rulesLoaded] Snapshot missing from event payload. Aborting refresh.'
+        );
+        return;
+      }
+
+      // Fetch and store the NEW static data, including the original exit order.
       const currentStaticData = stateManager.getStaticData();
       if (currentStaticData && currentStaticData.exits) {
         this.originalExitOrder = stateManager.getOriginalExitOrder();
@@ -188,12 +184,14 @@ export class ExitUI {
         );
       } else {
         console.warn(
-          '[ExitUI rulesLoaded] Static data or exits not available from proxy when trying to refresh order.'
+          '[ExitUI rulesLoaded] Static data or exits not available from proxy when trying to refresh order. Panel may not sort correctly.'
         );
         this.originalExitOrder = []; // Reset if not available
       }
-      // Now static data should be available via proxy, and snapshot should also be updated or soon will be.
-      // Directly trigger a display update.
+
+      // Now that new static data (including order) and the new snapshot are available,
+      // trigger a full display update.
+      console.log('[ExitUI rulesLoaded] Triggering full display update.');
       this.updateExitDisplay();
     });
     // --- END ADDED ---
@@ -538,31 +536,53 @@ export class ExitUI {
 
   updateExitDisplay() {
     console.log('[ExitUI] updateExitDisplay called.');
-    resetUnknownEvaluationCounter(); // Reset counter at the beginning of the update
 
-    const snapshot = stateManager.getLatestStateSnapshot();
-    const staticData = stateManager.getStaticData();
-    console.log(
-      '[ExitUI updateExitDisplay] Start State - Snapshot:',
-      !!snapshot,
-      'Static Data:',
-      !!staticData
-    );
-
-    if (!staticData?.exits || !staticData?.regions || !snapshot) {
-      console.warn('[ExitUI] Static exit/region data or snapshot not ready.');
-      if (this.exitsGrid) {
-        this.exitsGrid.innerHTML = '<p>Loading exit data...</p>';
-      }
-      return;
-    }
-
-    if (!this.exitsGrid) {
+    // Ensure the panel's basic initialization (DOM structure, non-data listeners) is done.
+    if (!this.isInitialized) {
       console.warn(
-        '[ExitUI] exitsGrid element not found during update. Aborting.'
+        '[ExitUI updateExitDisplay] Panel not yet initialized by app:readyForUiDataLoad. Aborting display update.'
       );
       return;
     }
+
+    const snapshot = stateManager.getLatestStateSnapshot();
+    const staticData = stateManager.getStaticData();
+
+    console.log(
+      `[ExitUI updateExitDisplay] Start State - Snapshot: ${!!snapshot} Static Data: ${!!staticData}`
+    );
+
+    if (
+      !snapshot ||
+      !staticData ||
+      !staticData.exits ||
+      !staticData.items ||
+      !staticData.regions
+    ) {
+      console.warn(
+        '[ExitUI] Static exit/item/region data or snapshot not ready. Displaying loading message or clearing grid.'
+      );
+      this.exitsGrid.innerHTML = '<p>Loading exit data...</p>';
+      return;
+    }
+
+    if (!this.originalExitOrder || this.originalExitOrder.length === 0) {
+      console.warn(
+        '[ExitUI updateExitDisplay] Original exit order not yet available. Exits might appear unsorted or panel might wait for re-render.'
+      );
+      const freshlyFetchedOrder = stateManager.getOriginalExitOrder();
+      if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
+        this.originalExitOrder = freshlyFetchedOrder;
+        console.log(
+          `[ExitUI updateExitDisplay] Fallback fetch for originalExitOrder succeeded: ${this.originalExitOrder.length} items.`
+        );
+      } else {
+        // Potentially show specific loading for order, or allow to proceed with default/name sort.
+      }
+    }
+
+    // Reset the unknown evaluation counter for this rendering cycle
+    resetUnknownEvaluationCounter();
 
     const snapshotInterface = createStateSnapshotInterface(
       snapshot,

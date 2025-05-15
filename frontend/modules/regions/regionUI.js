@@ -55,48 +55,26 @@ export class RegionUI {
 
     // Defer full data-dependent initialization (including _subscribeToEvents via initialize)
     const readyHandler = (eventPayload) => {
-      console.log('[RegionUI] Received app:readyForUiDataLoad. Initializing.');
+      console.log(
+        '[RegionUI] Received app:readyForUiDataLoad. Initializing base panel structure and event listeners.'
+      );
       this.initialize(); // This will call _subscribeToEvents
 
-      // --- ADDED: Proactive data fetching and initialization ---
-      console.log(
-        '[RegionUI app:readyForUiDataLoad] Proactively fetching static data and original order.'
-      );
+      // DO NOT proactively fetch data or render here.
+      // Static data (like original orders) will be fetched on 'stateManager:rulesLoaded'.
+      // Full render will occur on 'stateManager:ready'.
+
+      // Initialize settings cache and showAll state here as they don't depend on StateManager data
       this.colorblindSettings =
         settingsManager.getSetting('colorblindMode.regions') || {};
-
-      const currentStaticData = stateManager.getStaticData();
-      if (currentStaticData && currentStaticData.regions) {
-        this.originalRegionOrder = stateManager.getOriginalRegionOrder();
-        console.log(
-          `[RegionUI app:readyForUiDataLoad] Stored ${this.originalRegionOrder.length} region keys for original order.`
-        );
-      } else {
-        console.warn(
-          '[RegionUI app:readyForUiDataLoad] Static region data not available for fetching original order.'
-        );
-        this.originalRegionOrder = [];
-      }
-
       const showAllCheckbox =
         this.rootElement.querySelector('#show-all-regions');
       this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
 
-      if (!this.showAll) {
-        console.log(
-          "[RegionUI app:readyForUiDataLoad] Show All is off, setting start region to 'Menu'."
-        );
-        this.showStartRegion('Menu'); // Initialize visitedRegions with Menu
-      } else {
-        console.log('[RegionUI app:readyForUiDataLoad] Show All is on.');
-      }
-
-      this.update(); // Perform initial render
-      this.isInitialized = true; // Mark as initialized
+      this.isInitialized = true; // Mark that basic panel setup is done.
       console.log(
-        '[RegionUI app:readyForUiDataLoad] Initial setup and render complete.'
+        '[RegionUI] Basic panel setup complete after app:readyForUiDataLoad. Awaiting StateManager readiness.'
       );
-      // --- END ADDED ---
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
@@ -135,57 +113,58 @@ export class RegionUI {
 
     // --- ADDED: Handler for stateManager:ready --- Similar to LocationUI/ExitUI
     const handleReady = () => {
-      console.log(
-        '[RegionUI] Received stateManager:ready event (after initial setup).'
-      );
-      // This event confirms StateManager is fully ready.
-      // If UI isn't initialized yet by app:readyForUiDataLoad (e.g. if stateManager:ready fired extremely early),
-      // perform the full initialization. Otherwise, just refresh.
+      console.log('[RegionUI] Received stateManager:ready event.');
+      // This event confirms StateManager is fully ready (static data and initial snapshot).
+      // originalRegionOrder should have been populated by the 'stateManager:rulesLoaded' handler.
+
       if (!this.isInitialized) {
-        console.log(
-          '[RegionUI stateManager:ready] UI not yet initialized by app:readyForUiDataLoad. Performing full setup now.'
+        console.warn(
+          '[RegionUI stateManager:ready] Panel base not yet initialized by app:readyForUiDataLoad. This is unexpected. Proceeding with render attempt.'
         );
+        // Initialize settings cache and showAll state if not done by app:readyForUiDataLoad handler
         this.colorblindSettings =
           settingsManager.getSetting('colorblindMode.regions') || {};
+        const showAllCheckbox =
+          this.rootElement.querySelector('#show-all-regions');
+        this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
+      }
 
+      // Ensure originalRegionOrder is available (it should be from rulesLoaded handler)
+      if (!this.originalRegionOrder || this.originalRegionOrder.length === 0) {
+        console.warn(
+          '[RegionUI stateManager:ready] Original region order not available. Attempting to fetch now.'
+        );
         const currentStaticData = stateManager.getStaticData();
         if (currentStaticData && currentStaticData.regions) {
           this.originalRegionOrder = stateManager.getOriginalRegionOrder();
           console.log(
-            `[RegionUI stateManager:ready] Stored ${this.originalRegionOrder.length} region keys for original order.`
+            `[RegionUI stateManager:ready] Fetched ${this.originalRegionOrder.length} region keys for original order.`
           );
         } else {
-          console.warn(
-            '[RegionUI stateManager:ready] Static region data not available for fetching original order.'
+          console.error(
+            '[RegionUI stateManager:ready] Failed to fetch static data/regions for original order. Region panel may not display correctly.'
           );
-          this.originalRegionOrder = [];
         }
-
-        const showAllCheckbox =
-          this.rootElement.querySelector('#show-all-regions');
-        this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
-        if (!this.showAll) {
-          console.log(
-            "[RegionUI stateManager:ready] Show All is off, setting start region to 'Menu'."
-          );
-          this.showStartRegion('Menu');
-        } else {
-          console.log('[RegionUI stateManager:ready] Show All is on.');
-        }
-
-        this.update(); // Initial render
-        this.isInitialized = true; // Mark as initialized
-        console.log(
-          '[RegionUI stateManager:ready] Fallback setup and render complete.'
-        );
-      } else {
-        console.log(
-          '[RegionUI stateManager:ready] UI already initialized. Triggering update.'
-        );
-        // Potentially refresh colorblind settings again if they could change without a settings:changed event
-        // this.colorblindSettings = settingsManager.getSetting('colorblindMode.regions') || {};
-        this.update(); // Refresh with potentially new snapshot data
       }
+
+      // Initialize visitedRegions with Menu if showAll is false
+      // This needs to happen after staticData is confirmed (for region existence checks within showStartRegion)
+      // and originalRegionOrder is available.
+      if (!this.showAll && this.visitedRegions.length === 0) {
+        console.log(
+          "[RegionUI stateManager:ready] Show All is off and visitedRegions is empty, setting start region to 'Menu'."
+        );
+        this.showStartRegion('Menu');
+      } else if (this.showAll) {
+        console.log(
+          '[RegionUI stateManager:ready] Show All is on, visitedRegions will be based on all regions.'
+        );
+      }
+
+      console.log(
+        '[RegionUI stateManager:ready] Triggering initial full display update.'
+      );
+      this.update(); // This is now the primary trigger for the first full render.
     };
     subscribe('stateManager:ready', handleReady);
     // --- END ADDED ---
@@ -233,11 +212,21 @@ export class RegionUI {
     subscribe('settings:changed', settingsHandler);
 
     // --- BEGIN ADDED: Handler for stateManager:rulesLoaded ---
-    subscribe('stateManager:rulesLoaded', (/* payload */) => {
+    subscribe('stateManager:rulesLoaded', (event) => {
       console.log(
-        '[RegionUI] Received stateManager:rulesLoaded event. Re-fetching original order and updating display.'
+        '[RegionUI] Received stateManager:rulesLoaded event. Full refresh triggered.'
       );
-      // Re-fetch original region order as it might have changed with new rules
+
+      // Access snapshot from event (this is the new initial snapshot for the loaded rules)
+      const newSnapshot = event.snapshot;
+      if (!newSnapshot) {
+        console.warn(
+          '[RegionUI rulesLoaded] Snapshot missing from event payload. Aborting refresh.'
+        );
+        return;
+      }
+
+      // Fetch and store the NEW static data, including the original region order.
       const currentStaticData = stateManager.getStaticData();
       if (currentStaticData && currentStaticData.regions) {
         this.originalRegionOrder = stateManager.getOriginalRegionOrder();
@@ -248,15 +237,23 @@ export class RegionUI {
         );
       } else {
         console.warn(
-          '[RegionUI rulesLoaded] Static data or regions not available from proxy when trying to refresh order.'
+          '[RegionUI rulesLoaded] Static data or regions not available from proxy when trying to refresh order. Panel may not sort correctly.'
         );
         this.originalRegionOrder = []; // Reset if not available
       }
-      // Now static data should be available via proxy, and snapshot should also be updated or soon will be.
-      // Directly trigger a display update.
-      if (this.isInitialized) {
-        // Only update if already initialized
-        this.update();
+
+      // If 'Show All' is off and visitedRegions is empty (e.g., after a rules reload clears it),
+      // re-initialize with the start region. This needs the new staticData.
+      if (!this.showAll && this.visitedRegions.length === 0) {
+        console.log(
+          "[RegionUI rulesLoaded] Show All is off and visitedRegions is empty after rules load, setting start region to 'Menu'."
+        );
+        // showStartRegion internally calls this.update() if successful
+        this.showStartRegion('Menu');
+      } else {
+        // Otherwise, trigger a full display update directly.
+        console.log('[RegionUI rulesLoaded] Triggering full display update.');
+        this.update(); // this.update() calls renderAllRegions()
       }
     });
     // --- END ADDED ---
@@ -404,7 +401,7 @@ export class RegionUI {
   }
 
   update() {
-    // No readiness check needed here, it's event driven or called after initialize ensures ready
+    // Renamed from renderAllRegions to update, to be consistent with other panels
     console.log('[RegionUI] update() called, calling renderAllRegions().');
     this.renderAllRegions();
   }
@@ -413,27 +410,27 @@ export class RegionUI {
     console.log(
       `[RegionUI] Attempting to show start region: ${startRegionName}`
     );
-    // --- REMOVED: Wait for proxy readiness ---
-    /*
-    if (!stateManager) { ... }
-    try { ... await stateManager.ensureReady(); ... } catch { ... }
-    */
-    // --- END REMOVED ---
-
-    // Ensure instance and regions are available before proceeding
+    const staticData = stateManager.getStaticData();
     const snapshot = stateManager.getLatestStateSnapshot();
-    const staticData = stateManager.getStaticData(); // Also check static data
 
-    if (
-      !snapshot ||
-      !staticData?.regions ||
-      !staticData.regions[startRegionName]
-    ) {
+    // Ensure staticData and regions are available before proceeding
+    if (!staticData || !staticData.regions || !snapshot) {
       console.warn(
         `[RegionUI] Warning: start region ${startRegionName} not found or state/static data not ready.`
       );
-      return false; // Indicate failure
+      this.visitedRegions = []; // Clear if data not ready
+      return;
     }
+
+    // Check if the start region exists in the static data
+    if (!staticData.regions[startRegionName]) {
+      console.warn(
+        `[RegionUI] Start region ${startRegionName} does not exist in static region data.`
+      );
+      this.visitedRegions = []; // Clear if region doesn't exist
+      return;
+    }
+
     console.log(`[RegionUI] Setting start region: ${startRegionName}`);
     this.visitedRegions = [
       {
@@ -442,8 +439,7 @@ export class RegionUI {
         uid: this.nextUID++,
       },
     ];
-    // Don't call renderAllRegions here, let the calling context handle it
-    return true; // Indicate success
+    this.update(); // Update display after setting start region
   }
 
   moveToRegion(oldRegionName, newRegionName) {
@@ -549,27 +545,20 @@ export class RegionUI {
   }
 
   renderAllRegions() {
-    if (!this.rootElement) {
-      console.error(
-        '[RegionUI renderAllRegions] CRITICAL: this.rootElement is NULL or Falsy. Aborting render. Instance:',
-        this
+    console.log('[RegionUI] renderAllRegions called.');
+
+    // Ensure the panel's basic initialization (DOM structure, non-data listeners) is done.
+    if (!this.isInitialized) {
+      console.warn(
+        '[RegionUI renderAllRegions] Panel not yet initialized by app:readyForUiDataLoad. Aborting display update.'
       );
-      this._updateSectionVisibility();
       return;
     }
 
-    resetUnknownEvaluationCounter();
-    console.log('[RegionUI] renderAllRegions called.');
-
     const snapshot = stateManager.getLatestStateSnapshot();
     const staticData = stateManager.getStaticData();
-    const useColorblind =
-      typeof this.colorblindSettings === 'boolean'
-        ? this.colorblindSettings
-        : Object.keys(this.colorblindSettings).length > 0;
 
-    // Get references to structural elements within this.regionsContainer
-    // this.regionsContainer is this.rootElement.querySelector('#region-details-container') (set in constructor)
+    // Correctly define and query for section divs from this.regionsContainer
     const accessibilitySortedSectionsDiv = this.regionsContainer.querySelector(
       '#accessibility-sorted-sections'
     );
@@ -577,10 +566,13 @@ export class RegionUI {
       '#general-sorted-list-section'
     );
 
-    let availableContentContainer,
-      unavailableContentContainer,
-      generalSortedListContent;
+    // Declare content containers, will be assigned below
+    let availableContentContainer = null;
+    let unavailableContentContainer = null;
+    let generalSortedListContent = null;
 
+    // Get references to structural elements AND ASSIGN content containers
+    // Note: The console.warn messages remain, which is good for debugging if elements are still not found.
     if (accessibilitySortedSectionsDiv) {
       availableContentContainer = accessibilitySortedSectionsDiv.querySelector(
         '#available-regions-section .region-category-content'
@@ -604,6 +596,51 @@ export class RegionUI {
         '[RegionUI renderAllRegions] #general-sorted-list-section div not found in this.regionsContainer.'
       );
     }
+
+    // Now log the status of all these correctly assigned (or null) variables
+    console.log(
+      `[RegionUI renderAllRegions] Start State - Snapshot: ${!!snapshot} Static Data: ${!!staticData} accessibilitySortedSectionsDiv: ${!!accessibilitySortedSectionsDiv} generalSortedListSectionDiv: ${!!generalSortedListSectionDiv} availableContentContainer: ${!!availableContentContainer} unavailableContentContainer: ${!!unavailableContentContainer} generalSortedListContent: ${!!generalSortedListContent}`
+    );
+
+    if (!snapshot || !staticData || !staticData.regions || !staticData.items) {
+      console.warn(
+        '[RegionUI] Static region data or snapshot not ready. Displaying loading message.'
+      );
+      if (this.regionsContainer) {
+        this.regionsContainer.innerHTML = '<p>Loading region data...</p>';
+      }
+      return;
+    }
+
+    if (!this.originalRegionOrder || this.originalRegionOrder.length === 0) {
+      console.warn(
+        '[RegionUI renderAllRegions] Original region order not yet available. Regions might appear unsorted or panel might wait for re-render.'
+      );
+      // Fallback fetch, though ideally it's populated by stateManager:rulesLoaded
+      const freshlyFetchedOrder = stateManager.getOriginalRegionOrder();
+      if (freshlyFetchedOrder && freshlyFetchedOrder.length > 0) {
+        this.originalRegionOrder = freshlyFetchedOrder;
+        console.log(
+          `[RegionUI renderAllRegions] Fallback fetch for originalRegionOrder succeeded: ${this.originalRegionOrder.length} items.`
+        );
+      } else {
+        // If still no order, might display loading or unsorted.
+        // this.regionsContainer.innerHTML = '<p>Preparing region order...</p>';
+        // return; // Or allow to proceed with default/name sort if acceptable.
+      }
+    }
+
+    // Reset the unknown evaluation counter for this rendering cycle
+    resetUnknownEvaluationCounter();
+
+    const useColorblind =
+      typeof this.colorblindSettings === 'boolean'
+        ? this.colorblindSettings
+        : Object.keys(this.colorblindSettings).length > 0;
+
+    // Get references to structural elements within this.regionsContainer
+    // this.regionsContainer is this.rootElement.querySelector('#region-details-container') (set in constructor)
+    // availableContentContainer, unavailableContentContainer, and generalSortedListContent are now assigned above.
 
     console.log(
       '[RegionUI renderAllRegions] Start State - Snapshot:',

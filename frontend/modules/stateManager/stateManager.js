@@ -1,6 +1,9 @@
 import { ALTTPInventory } from './games/alttp/inventory.js';
 import { ALTTPState } from './games/alttp/state.js';
 import { ALTTPWorkerHelpers } from './games/alttp/alttpWorkerHelpers.js';
+import { GameInventory } from './helpers/gameInventory.js'; // Ensure GameInventory is imported
+import { GameState } from './helpers/index.js'; // Added import for GameState
+import { GameWorkerHelpers } from './helpers/gameWorkerHelpers.js'; // Added import for GameWorkerHelpers
 
 /**
  * Manages game state including inventory and reachable regions/locations.
@@ -14,8 +17,8 @@ export class StateManager {
    */
   constructor(evaluateRuleFunction) {
     // Core state storage
-    this.inventory = new ALTTPInventory();
-    this.state = new ALTTPState();
+    this.inventory = null; // Initialize as null
+    this.state = null; // Initialize as null
     // Pass 'this' (the manager instance) to helpers when running in worker context
     this.helpers = null; // Initialize as null
 
@@ -127,9 +130,44 @@ export class StateManager {
   /**
    * Initializes inventory with loaded game data
    */
-  initializeInventory(items, progressionMapping, itemData) {
-    this.inventory = new ALTTPInventory(items, progressionMapping, itemData);
+  initializeInventory(
+    gameName,
+    items,
+    progressionMapping,
+    itemData,
+    groupData
+  ) {
+    // +gameName, +groupData
+    if (gameName === 'Adventure') {
+      // TODO: Create AdventureInventory if it needs specific logic beyond ALTTPInventory.
+      // For now, Adventure will use ALTTPInventory structure.
+      this.inventory = new ALTTPInventory(items, progressionMapping, itemData);
+      console.log(
+        '[StateManager initializeInventory] Instantiated ALTTPInventory for Adventure game.'
+      );
+    } else {
+      // Default to A Link to the Past or other games using ALTTPInventory
+      this.inventory = new ALTTPInventory(items, progressionMapping, itemData);
+      console.log(
+        '[StateManager initializeInventory] Instantiated ALTTPInventory for game:',
+        gameName
+      );
+    }
+
     this.itemData = itemData; // Store for convenience
+    this.groupData = groupData; // Store groupData
+
+    if (this.inventory && this.groupData) {
+      // Ensure inventory is created before assigning groupData
+      this.inventory.groupData = this.groupData;
+      this._logDebug(
+        '[StateManager initializeInventory] Assigned groupData to inventory.'
+      );
+    } else {
+      console.warn(
+        '[StateManager initializeInventory] Inventory or groupData not available for assignment to inventory.groupData.'
+      );
+    }
     // Do not publish here, wait for full rules load
   }
 
@@ -226,6 +264,8 @@ export class StateManager {
    * @param {string} selectedPlayerId - The ID of the player whose data should be loaded.
    */
   loadFromJSON(jsonData, selectedPlayerId) {
+    this.invalidateCache(); // +++ ADDED: Ensure cache is cleared for new rules load +++
+
     // --- VERY EARLY DIAGNOSTIC LOG (using console.log directly) ---
     console.log(
       `[StateManager Worker loadFromJSON VERY EARLY DIRECT LOG] Entered method. Player ID: ${selectedPlayerId}. jsonData keys: ${
@@ -311,15 +351,104 @@ export class StateManager {
     }
 
     // Load other direct properties
-    this.settings = jsonData.settings?.[selectedPlayerId] || {};
-    this.startRegions = jsonData.start_regions?.[selectedPlayerId] || [];
+    this.gameId = jsonData.game_name || 'UnknownGame'; // Extract gameId early
+    // this.settings = jsonData.settings?.[selectedPlayerId] || {}; // Settings will be loaded into the game-specific state
+    this.startRegions = jsonData.start_regions?.[selectedPlayerId] || []; // Keep this for now, though game-specific state might override
     this.mode = jsonData.mode?.[selectedPlayerId] || null; // Default to null if not present
     this.itempoolCounts = jsonData.itempool_counts?.[selectedPlayerId] || {};
     this.progressionMapping =
       jsonData.progression_mapping?.[selectedPlayerId] || {};
     this._logDebug(
-      'Loaded settings, startRegions, mode, itempoolCounts, and progressionMapping.'
+      'Loaded gameId, startRegions, mode, itempoolCounts, and progressionMapping.'
     );
+
+    // --- Instantiate Game-Specific State ---
+    const gameSettings = jsonData.settings?.[selectedPlayerId] || {};
+    const determinedGameName = gameSettings.game || this.gameId; // Prefer setting, fallback to game_name
+
+    if (determinedGameName === 'Adventure') {
+      this.state = new GameState(determinedGameName); // Use GameState for Adventure
+      console.log(
+        '[StateManager loadFromJSON] GameState instantiated for Adventure.'
+      );
+    } else if (determinedGameName === 'A Link to the Past') {
+      this.state = new ALTTPState(); // ALTTPState handles its own game name initialization
+      console.log(
+        '[StateManager loadFromJSON] ALTTPState instantiated for A Link to the Past.'
+      );
+    } else {
+      // Fallback for other unknown games, using GameState
+      this.state = new GameState(determinedGameName);
+      console.warn(
+        `[StateManager loadFromJSON] Unknown game '${determinedGameName}'. Using base GameState.`
+      );
+    }
+    this.state.loadSettings(gameSettings); // Load settings into the game-specific state instance
+    this.settings = this.state.settings; // Sync StateManager's settings with the game-specific state's settings
+
+    // --- ADDED DIAGNOSTIC ---
+    if (this.settings === undefined) {
+      console.error(
+        "[StateManager CRITICAL] this.settings is UNDEFINED after 'this.settings = this.state.settings;'"
+      );
+      console.log(
+        '[StateManager DETAIL] this.state is:',
+        this.state ? this.state.constructor.name : 'null/undefined'
+      );
+      if (this.state) {
+        console.log(
+          '[StateManager DETAIL] this.state.settings is:',
+          this.state.settings === undefined
+            ? 'undefined'
+            : JSON.parse(JSON.stringify(this.state.settings))
+        );
+      }
+    } else if (this.settings === null) {
+      console.warn(
+        "[StateManager WARNING] this.settings is NULL after 'this.settings = this.state.settings;'"
+      );
+      console.log(
+        '[StateManager DETAIL] this.state is:',
+        this.state ? this.state.constructor.name : 'null/undefined'
+      );
+      if (this.state) {
+        console.log(
+          '[StateManager DETAIL] this.state.settings is:',
+          this.state.settings === null
+            ? 'null'
+            : JSON.parse(JSON.stringify(this.state.settings))
+        );
+      }
+    } else {
+      this._logDebug(
+        '[StateManager DIAGNOSTIC] this.settings successfully assigned from this.state.settings.'
+      );
+      // Logging this.settings.game here directly might still be risky if this.settings is an empty object without 'game'
+      // The subsequent log `Effective game: ${this.settings.game}` will test it.
+    }
+    // --- END DIAGNOSTIC ---
+
+    // this.settings.game should now be correctly set.
+    this._logDebug(
+      `[StateManager loadFromJSON] Game-specific state loaded. Effective game: ${this.settings.game}`
+    );
+    // --- END Instantiate Game-Specific State ---
+
+    // --- MOVED UP: Load settings into the game-specific state object (e.g., ALTTPState) ---
+    // This allows the game-specific state to process jsonData.settings and update
+    // this.settings (e.g., this.settings.game) before helpers are chosen.
+    // COMMENTED OUT - Replaced by new section above
+    // if (this.state && typeof this.state.loadSettings === 'function') {
+    //   this.state.loadSettings(this.settings);
+    //   this._logDebug(
+    //     '[StateManager loadFromJSON] Called this.state.loadSettings() with raw settings.'
+    //   );
+    // } else {
+    //   console.warn(
+    //     '[StateManager loadFromJSON] this.state.loadSettings is not a function. Game-specific settings might not be fully processed.'
+    //   );
+    // }
+    // --- END MOVED UP ---
 
     // The following diagnostic log can be very verbose, enable if needed for deep debugging of regions
     // if (jsonData?.regions?.[selectedPlayerId]) {
@@ -483,40 +612,58 @@ export class StateManager {
       `Processed ${this.exits.length} exits and populated originalExitOrder.`
     );
 
-    // After loading base data, initialize helpers
-    // Crucially, helpers need access to the manager instance, especially for worker context
-    // For ALTTP, this would be new ALTTPWorkerHelpers(this);
-    // TODO: Make this game-agnostic based on this.game or similar
+    // --- Helper Instantiation: Now occurs AFTER this.state.loadSettings() ---
+    // this.settings.game should now be correctly set by the game-specific state's loadSettings method.
+    this.helpers = null; // Ensure helpers are reset
     if (this.settings && this.settings.game === 'A Link to the Past') {
       this.helpers = new ALTTPWorkerHelpers(this);
       console.log(
-        '[StateManager loadFromJSON] ALTTPWorkerHelpers instantiated AFTER data load.'
+        '[StateManager loadFromJSON] ALTTPWorkerHelpers instantiated.'
+      );
+    } else if (this.settings && this.settings.game === 'Adventure') {
+      this.helpers = new GameWorkerHelpers(this); // Use GameWorkerHelpers for Adventure
+      console.log(
+        '[StateManager loadFromJSON] GameWorkerHelpers instantiated for Adventure.'
       );
     } else {
-      // TODO: Instantiate generic GameWorkerHelpers or throw error if game not supported
       console.warn(
         '[StateManager loadFromJSON] No specific helpers for game:',
-        this.settings?.game
+        this.settings ? this.settings.game : 'undefined',
+        '. Using base GameWorkerHelpers as a fallback.'
       );
-      // this.helpers = new GameWorkerHelpers(this); // Fallback if needed
+      this.helpers = new GameWorkerHelpers(this); // Fallback to GameWorkerHelpers
     }
+    // --- END Helper Instantiation ---
 
-    // Initialize inventory with the loaded item data and progression mapping
-    this.initializeInventory(
-      [], // Initial inventory is empty
-      this.progressionMapping, // Corrected: Use this.progressionMapping
-      this.itemData // Corrected: Use this.itemData
-    );
-    this.inventory.groupData = this.groupData; // Corrected: Use this.groupData
-
-    // Load settings into the state object
-    this.state.loadSettings(this.settings); // Corrected: Use this.settings
-
-    // Load shop data if available in jsonData
-    if (jsonData.shops && jsonData.shops[selectedPlayerId]) {
-      this.state.loadShops(jsonData.shops[selectedPlayerId]);
+    // --- Create game-specific inventory instance ---
+    this.inventory = this._createInventoryInstance(this.settings.game);
+    if (!this.inventory) {
+      // This case should ideally not be reached if _createInventoryInstance always returns an instance
+      console.error(
+        '[StateManager loadFromJSON CRITICAL] Failed to create inventory instance! this.inventory is null/undefined.'
+      );
+      // Depending on how critical inventory is, you might want to throw an error here
+      // throw new Error("Failed to initialize inventory in StateManager");
     } else {
-      // console.warn('No shop data found for player in JSON.');
+      this._logDebug(
+        `[StateManager loadFromJSON] Game-specific inventory instance ${this.inventory.constructor.name} created.`
+      );
+      // If groupData specifically needs to be on the inventory instance itself and inventory classes support it:
+      // Example: if (this.groupData && typeof this.inventory.setGroupData === 'function') {
+      //   this.inventory.setGroupData(this.groupData);
+      // } else if (this.groupData && this.inventory) { // Check this.inventory again
+      //   this.inventory.groupData = this.groupData; // Direct assignment if that's the pattern for relevant inventory class
+      // }
+    }
+    // --- END Create game-specific inventory instance ---
+
+    // Load shop data if available in jsonData (depends on this.state being set, which it is by constructor)
+    if (this.state && typeof this.state.loadShops === 'function') {
+      if (jsonData.shops && jsonData.shops[selectedPlayerId]) {
+        this.state.loadShops(jsonData.shops[selectedPlayerId]);
+      } else {
+        // console.warn('No shop data found for player in JSON.');
+      }
     }
 
     // --- Start of new group processing logic ---
@@ -818,7 +965,87 @@ export class StateManager {
       'Sample:',
       this.originalExitOrder ? this.originalExitOrder.slice(0, 5) : 'N/A'
     );
-  } // End of loadFromJSON
+
+    // Ensure game-specific state (like events from ALTTPState) is initialized/reset if game changes
+    // This should ideally happen AFTER helpers are instantiated and settings are fully loaded,
+    // as the game-specific state (e.g., ALTTPState instance) might depend on them.
+    // However, gameStateInstance is not clearly defined/used. This block might need review.
+    if (
+      this.gameStateInstance && // gameStateInstance seems to be an undefined property
+      typeof this.gameStateInstance.resetEvents === 'function'
+    ) {
+      this.gameStateInstance.resetEvents();
+      this._logDebug(
+        '[StateManager loadFromJSON] Called resetEvents on gameStateInstance.'
+      );
+    } else if (this.state && typeof this.state.resetEvents === 'function') {
+      // Check this.state directly
+      this.state.resetEvents();
+      this._logDebug(
+        '[StateManager loadFromJSON] Called resetEvents on this.state.'
+      );
+    }
+
+    // --- '_initializeInventory' was a helper method added for a specific purpose earlier.
+    // The main inventory initialization is now handled by the call to 'this.initializeInventory' moved above.
+    // The call to 'this._initializeInventory' below seems redundant with the main 'this.initializeInventory' call if its purpose was general setup.
+    // If jsonData.starting_items logic requires a different kind of inventory interaction, it should be distinct.
+    // For now, commenting out the direct call to this._initializeInventory as its role is unclear post-refactor.
+    /*
+    this._initializeInventory(
+      jsonData.starting_items || [], // This was passing starting_items
+      jsonData.items, // This was passing jsonData.items (raw)
+      selectedPlayerId
+    );
+    */
+    // The 'Process starting items' block later in the code handles starting_items correctly
+    // by calling this.addItemToInventory, which uses the already initialized 'this.inventory'.
+
+    // --- Sanity check and correction for settings.activeGame ---
+    // Ensure this.settings exists before trying to access or assign to its properties
+    this.settings = this.settings || {};
+
+    if (this.gameId && this.settings.activeGame !== this.gameId) {
+      console.warn(
+        `[StateManager loadFromJSON] Discrepancy! this.gameId ('${this.gameId}') vs settings.activeGame ('${this.settings.activeGame}'). Correcting settings.`
+      );
+      this.settings.activeGame = this.gameId;
+    } else if (
+      this.gameId &&
+      !Object.prototype.hasOwnProperty.call(this.settings, 'activeGame')
+    ) {
+      console.warn(
+        `[StateManager loadFromJSON] settings.activeGame missing. Setting to this.gameId ('${this.gameId}').`
+      );
+      this.settings.activeGame = this.gameId;
+    } else if (!this.gameId && this.settings.activeGame) {
+      console.warn(
+        `[StateManager loadFromJSON] this.gameId is null/undefined, but settings.activeGame is ('${this.settings.activeGame}'). Syncing gameId from settings.`
+      );
+      this.gameId = this.settings.activeGame;
+    }
+    // --- END ADDED ---
+
+    // Initial computation of reachable regions based on current inventory and rules
+    this._logDebug(
+      '[StateManager loadFromJSON] Triggering initial _computeReachability...'
+    );
+    // this.computeReachableRegions(); // MODIFIED: Was this._computeReachability(this.settings.gameMode);
+    // The call to computeReachableRegions() is already present a bit earlier (after starting_items processing)
+    // and also after buildIndirectConnections. Let's ensure it's called appropriately.
+    // The existing calls seem sufficient.
+
+    this._logDebug('[StateManager loadFromJSON] loadFromJSON completed.');
+  }
+
+  // --- ADDED: Helper for inventory initialization ---
+  _initializeInventory(startingItems, itemData, playerId) {
+    // This method should be implemented to initialize the inventory based on the given starting items, item data, and player ID
+    // You might want to call this.initializeInventory(startingItems, itemData, playerId) from the main loadFromJSON method
+    // or implement it separately if needed.
+    // For example, you can use this method to add items based on the itempool_counts,
+    // or to handle any other specific initialization logic for the inventory.
+  }
 
   getLocationItem(locationName) {
     if (!this.locations || this.locations.length === 0) {
@@ -1033,7 +1260,27 @@ export class StateManager {
       while (queue.length > 0) {
         const connection = queue.shift();
         const { fromRegion, exit } = connection;
-        const targetRegion = exit.connected_region; // Use connected_region consistently
+        // Prioritize snake_case connected_region from JSON, fallback to camelCase if needed
+        const targetRegion =
+          exit.connected_region !== undefined
+            ? exit.connected_region
+            : exit.connectedRegion;
+
+        // +++ DETAILED LOGGING FOR EXIT PROCESSING +++
+        if (exit.name === 'GameStart' || fromRegion === 'Menu') {
+          console.log(
+            `[StateManager runBFSPass DEBUG] Processing Exit: ${exit.name} from ${fromRegion} to ${targetRegion}`
+          );
+          console.log(`  - Exit Object:`, JSON.parse(JSON.stringify(exit)));
+          console.log(
+            `  - Original snake_case connected_region: ${exit.connected_region}`
+          );
+          console.log(
+            `  - Original camelCase connectedRegion: ${exit.connectedRegion}`
+          );
+          console.log(`  - Resolved targetRegion: ${targetRegion}`);
+        }
+        // +++ END DETAILED LOGGING +++
 
         // Skip if the target region is already reachable
         if (this.knownReachableRegions.has(targetRegion)) {
@@ -1048,12 +1295,27 @@ export class StateManager {
 
         // Check if exit is traversable using the *injected* evaluateRule engine
         const snapshotInterfaceContext = this._createSelfSnapshotInterface();
-        const canTraverse =
-          !exit.access_rule ||
-          this.evaluateRuleFromEngine(
-            exit.access_rule,
-            snapshotInterfaceContext
+        const ruleEvaluationResult = exit.access_rule
+          ? this.evaluateRuleFromEngine(
+              exit.access_rule,
+              snapshotInterfaceContext
+            )
+          : true; // No rule means true
+
+        const canTraverse = !exit.access_rule || ruleEvaluationResult;
+
+        // +++ DETAILED LOGGING FOR RULE EVALUATION +++
+        if (exit.name === 'GameStart' || fromRegion === 'Menu') {
+          console.log(
+            `  - Exit Access Rule:`,
+            exit.access_rule
+              ? JSON.parse(JSON.stringify(exit.access_rule))
+              : 'None (implicitly true)'
           );
+          console.log(`  - Rule Evaluation Result: ${ruleEvaluationResult}`);
+          console.log(`  - CanTraverse: ${canTraverse}`);
+        }
+        // +++ END DETAILED LOGGING +++
 
         if (canTraverse) {
           // Region is now reachable
@@ -2292,7 +2554,7 @@ export class StateManager {
         slot: this.playerSlot,
         team: this.team, // Assuming this.team exists on StateManager
       },
-      game: this.settings?.game || 'Unknown',
+      game: this.gameId || this.settings?.game || 'Unknown', // Prioritize this.gameId
       difficultyRequirements: this.state?.difficultyRequirements,
       shops: this.state?.shops,
       gameMode: this.mode,
@@ -2376,5 +2638,53 @@ export class StateManager {
     }
 
     // Reset and re-initialize game-specific state components based on new rules
+  }
+
+  _createInventoryInstance(gameName) {
+    this._logDebug(
+      `[StateManager _createInventoryInstance] Attempting to create inventory for game: ${gameName}`
+    );
+    if (gameName === 'A Link to the Past') {
+      this._logDebug(
+        `[StateManager _createInventoryInstance] Instantiating ALTTPInventory for ${gameName}`
+      );
+      return new ALTTPInventory(
+        [], // Initial items (empty array)
+        this.progressionMapping, // progressionMapping from StateManager
+        this.itemData // itemData from StateManager
+        // Logger not part of ALTTPInventory constructor, remove if ALTTPInventory doesn't take it
+      );
+    } else if (gameName === 'Adventure') {
+      this._logDebug(
+        `[StateManager _createInventoryInstance] Instantiating AdventureInventory for ${gameName}`
+      );
+      return new GameInventory(this.playerSlot, this.settings, (msg, context) =>
+        this._logDebug(msg, context || 'AdventureInventory')
+      );
+    }
+    // Default or error
+    console.warn(
+      `[StateManager _createInventoryInstance] Unknown game for inventory: '${gameName}'. Defaulting to ALTTPInventory as a fallback.`
+    );
+    return new ALTTPInventory( // Explicitly return fallback
+      [], // Initial items (empty array)
+      this.progressionMapping, // progressionMapping from StateManager
+      this.itemData // itemData from StateManager
+      // Logger not part of ALTTPInventory constructor, remove if ALTTPInventory doesn't take it
+    );
+  }
+
+  initializeInventory(selectedPlayerId, startingItems) {
+    // Ensure this.inventory is an instance of the correct game-specific inventory.
+    // this.inventory is already created by _createInventoryInstance in loadFromJSON based on this.settings.game
+    this._logDebug(
+      `[StateManager initializeInventory] Instantiated ${this.inventory.constructor.name} for game: ${this.settings.game}`
+    );
+
+    if (!this.inventory) {
+      this._logError(
+        '[StateManager initializeInventory CRITICAL] this.inventory is null/undefined before processing items!'
+      );
+    }
   }
 }

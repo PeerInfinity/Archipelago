@@ -213,7 +213,7 @@ self.onmessage = async function (e) {
         self.postMessage({
           type: 'rulesLoadedConfirmation',
           initialSnapshot: initialSnapshot,
-          gameId: workerConfig.gameId,
+          gameId: stateManagerInstance.gameId,
           playerId: playerId,
           newStaticData: workerStaticGameData, // Send the entire new static data object
         });
