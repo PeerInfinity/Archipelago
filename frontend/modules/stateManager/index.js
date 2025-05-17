@@ -70,8 +70,8 @@ function register(registrationApi) {
   // Register dispatcher receiver for user:locationCheck
   registrationApi.registerDispatcherReceiver(
     moduleInfo.name, // 'stateManager'
-    'user:locationCheck',
-    handleUserLocationCheckForStateManager, // Use the new handler
+    'user:locationCheck', // Explicitly the event name we want
+    handleUserLocationCheckForStateManager,
     null // No further propagation
   );
 
@@ -257,6 +257,10 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
 }
 
 async function handleUserLocationCheckForStateManager(eventData) {
+  console.log(
+    '[StateManagerModule] handleUserLocationCheckForStateManager received event:',
+    JSON.parse(JSON.stringify(eventData))
+  );
   console.log(
     '[StateManagerModule] Handling user:locationCheck locally.',
     eventData

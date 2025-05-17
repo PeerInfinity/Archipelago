@@ -831,9 +831,14 @@ export async function handleUserLocationCheckForClient(
   eventData,
   propagationOptions
 ) {
-  // Access the dispatcher from the messageHandlerSingleton, which should have been set during client module initialization.
-  // Or, preferably, get it from getClientModuleDispatcher from client/index.js to avoid relying on singleton state here.
-  const dispatcher = getClientModuleDispatcher();
+  console.log(
+    '[MessageHandler] handleUserLocationCheckForClient received event:',
+    JSON.parse(JSON.stringify(eventData)),
+    'Propagation:',
+    JSON.parse(JSON.stringify(propagationOptions))
+  ); // Added log
+  // Access the dispatcher from the messageHandlerSingleton, which should have been set during client module initialization
+  const dispatcher = messageHandlerSingleton._getDispatcher(); // Use the internal getter for now
 
   if (connection.isConnected()) {
     console.log(

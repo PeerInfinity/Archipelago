@@ -197,15 +197,16 @@ function createRegistrationApi(moduleId, moduleInstance) {
     // },
     // New detailed receiver registration
     registerDispatcherReceiver: (
-      eventName,
-      handlerFunction,
-      propagationDetails
+      moduleIdFromCall, // This is moduleInfo.name from the module (e.g., 'Client') - we'll ignore this or use for validation
+      eventNameFromCall, // This is the actual event name (e.g., 'user:locationCheck')
+      handlerFunctionFromCall, // This is the handler function
+      propagationDetailsFromCall // This is the propagation details
     ) => {
       centralRegistry.registerDispatcherReceiver(
-        moduleId,
-        eventName,
-        handlerFunction,
-        propagationDetails
+        moduleId, // Use moduleId from the closure (e.g. 'client' from modules.json)
+        eventNameFromCall, // Pass the event name from the call
+        handlerFunctionFromCall, // Pass the handler function
+        propagationDetailsFromCall // Pass the propagation details
       );
     },
     // New sender registration

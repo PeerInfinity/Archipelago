@@ -59,7 +59,22 @@ class EventDispatcher {
     const allHandlers = this.getHandlers(); // Get current handlers
     const potentialHandlers = allHandlers.get(eventName) || [];
 
+    console.log(
+      `[EventDispatcher.publish] Event: ${eventName}, Direction: ${direction}, All Handlers Map Size: ${allHandlers.size}, Potential Handlers for Event:`,
+      JSON.parse(
+        JSON.stringify(
+          potentialHandlers.map((h) => ({
+            moduleId: h.moduleId,
+            funcName: h.handlerFunction.name,
+          }))
+        )
+      )
+    );
+
     if (potentialHandlers.length === 0) {
+      console.log(
+        `[EventDispatcher.publish] No potential handlers registered for event: ${eventName}`
+      );
       return; // No handlers registered for this event
     }
 

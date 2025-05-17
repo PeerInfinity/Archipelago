@@ -137,6 +137,7 @@ export class StateManagerProxy {
         if (message.newStaticData) {
           const newCache = { ...message.newStaticData };
 
+          // Convert exits array to object keyed by name
           if (Array.isArray(newCache.exits)) {
             const exitsObject = {};
             newCache.exits.forEach((exit) => {
@@ -150,6 +151,45 @@ export class StateManagerProxy {
               }
             });
             newCache.exits = exitsObject;
+          }
+
+          // Convert locations array to object keyed by name
+          if (Array.isArray(newCache.locations)) {
+            const locationsObject = {};
+            newCache.locations.forEach((location) => {
+              if (location && location.name) {
+                locationsObject[location.name] = location;
+              } else {
+                console.warn(
+                  '[StateManagerProxy] Encountered location without a name during array to object conversion:',
+                  location
+                );
+              }
+            });
+            newCache.locations = locationsObject;
+          } else {
+            // If it's not an array, it might already be an object (e.g. from older structure or direct setStaticData)
+            // We should ensure it's what we expect or log a warning if it's something else.
+            if (
+              typeof newCache.locations !== 'object' ||
+              newCache.locations === null
+            ) {
+              console.warn(
+                '[StateManagerProxy] newStaticData.locations is neither an array nor a valid object. Check worker data structure.',
+                newCache.locations
+              );
+            } else if (
+              Object.values(newCache.locations).some(
+                (loc) => typeof loc !== 'object' || !loc.name
+              )
+            ) {
+              // If it's an object, but not keyed by name properly (e.g. keyed by ID), this won't fix it, but we can warn.
+              // This specific block might be overly cautious if the worker guarantees name-keyed objects when not sending arrays.
+              console.warn(
+                '[StateManagerProxy] newStaticData.locations is an object, but its values may not be location objects with names. Potential issue for snapshot interface.',
+                newCache.locations
+              );
+            }
           }
 
           this.staticDataCache = newCache;
@@ -1277,6 +1317,14 @@ export function createStateSnapshotInterface(snapshot, staticData) {
         `[SnapshotIF executeHelper] Helper dispatcher not available or method ${name} not found on instance.`
       );
       return undefined;
+    },
+
+    // Add the evaluateRule method to the interface
+    evaluateRule: (rule, contextName = null) => {
+      // 'this' inside this method will be finalSnapshotInterface
+      // The imported evaluateRule expects (rule, evaluationContext)
+      // where evaluationContext is an object with methods like hasItem, executeHelper, etc.
+      return evaluateRule(rule, this, contextName); // Pass 'this' (the interface itself) as the context
     },
 
     resolveRuleObject: (ruleObjectPath) => {

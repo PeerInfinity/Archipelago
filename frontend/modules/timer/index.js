@@ -98,6 +98,11 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
   );
 
   dispatcher = initializationApi.getDispatcher();
+  console.log(
+    '[Timer Module] dispatcher type from initializationApi:',
+    typeof dispatcher,
+    dispatcher
+  );
   moduleEventBus = initializationApi.getEventBus();
 
   if (!dispatcher || !moduleEventBus) {

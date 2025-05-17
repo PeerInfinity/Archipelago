@@ -103,7 +103,7 @@ export function register(registrationApi) {
   registrationApi.registerDispatcherReceiver(
     moduleInfo.name,
     'user:locationCheck',
-    handleUserLocationCheckForLoops, // Use the new imported handler
+    handleUserLocationCheckForLoops,
     { direction: 'up', condition: 'conditional', timing: 'immediate' }
   );
 

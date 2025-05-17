@@ -1,18 +1,20 @@
 // locationUI.js
 import {
   stateManagerProxySingleton as stateManager,
-  // REMOVE: createStateSnapshotInterface, // Import from stateManager index
+  // createStateSnapshotInterface, // Removed redundant import
 } from '../stateManager/index.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
-import commonUI, { debounce } from '../commonUI/index.js';
+import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js'; // Keep this one
+import commonUI, {
+  debounce,
+  renderLogicTree,
+  applyColorblindClass,
+} from '../commonUI/index.js';
 import loopStateSingleton from '../loops/loopStateSingleton.js';
 import settingsManager from '../../app/core/settingsManager.js';
 import eventBus from '../../app/core/eventBus.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import {
-  renderLogicTree,
-  applyColorblindClass,
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
 } from '../commonUI/index.js';
@@ -403,7 +405,7 @@ export class LocationUI {
             if (locationData) {
               // Use ctrlKey or metaKey (for Mac) for showing details
               if (event.ctrlKey || event.metaKey) {
-                this.showLocationDetails(locationData);
+                // this.showLocationDetails(locationData); // MODIFIED: Commented out to prevent modal on simple click
               } else {
                 this.handleLocationClick(locationData); // PASS parsed data
               }
@@ -471,20 +473,24 @@ export class LocationUI {
       originalDOMEvent: true, // Assuming this is a direct user click
     };
 
-    if (this.dispatcher) {
-      this.dispatcher.publish('user:locationCheck', payload, {
+    const currentDispatcher = getDispatcher(); // Re-fetch dispatcher instance when needed
+
+    if (currentDispatcher) {
+      // Use the re-fetched instance
+      currentDispatcher.publish('user:locationCheck', payload, {
+        // Use currentDispatcher
         direction: 'bottom',
       });
       console.log('[LocationUI] Dispatched user:locationCheck', payload);
     } else {
       console.error(
-        '[LocationUI] Dispatcher not available to handle location click.'
+        '[LocationUI] Dispatcher still not available to handle location click after re-fetch.' // Updated error message
       );
     }
 
     // The rest of the original function (showing details, logging) can remain if needed.
     // For example, showing details panel:
-    this.showLocationDetails(locationData);
+    // this.showLocationDetails(locationData); // MODIFIED: Commented out to prevent modal on simple click
 
     // If there was logging for which locations were clicked for analytics/debugging:
     // console.log(
@@ -1106,36 +1112,56 @@ export class LocationUI {
    * Displays detailed information about a specific location, including its access rules.
    * @param {object} location - The location object from static data.
    */
-  showLocationDetails(location) {
-    console.log(
-      `[LocationUI] showLocationDetails called for: ${location.name}`
+  async showLocationDetails(location) {
+    console.log('[LocationUI] showLocationDetails called for:', location.name);
+    if (!location || !location.name) {
+      console.warn('[LocationUI] showLocationDetails: Invalid location data.');
+      return;
+    }
+
+    const modalElement = this.rootElement.querySelector('#location-modal');
+    const modalTitle = this.rootElement.querySelector('#modal-location-name');
+    const modalDetails = this.rootElement.querySelector(
+      '#modal-location-details'
     );
-    if (!location) return;
+    const modalRuleTree = this.rootElement.querySelector('#modal-rule-tree');
 
-    // Get current snapshot and static data (ensure they are ready)
-    const snapshot = stateManagerProxySingleton.getCurrentStateSnapshot();
-    const staticData = stateManagerProxySingleton.getStaticData();
-
-    if (!snapshot || !staticData) {
-      console.warn(
-        '[LocationUI showLocationDetails] Snapshot or static data not ready.'
-      );
-      commonUI.showModal(
-        `Details for ${location.name}`,
-        '<p>State information is not yet available.</p>'
+    if (!modalElement || !modalTitle || !modalDetails || !modalRuleTree) {
+      console.error(
+        '[LocationUI] Modal elements not found in this.rootElement.'
       );
       return;
     }
 
-    // --- REVERTED: Use local evaluation with snapshot interface --- >
-    // Create the snapshot interface needed for evaluateRule on the main thread
+    const snapshot = await stateManager.getLatestStateSnapshot();
+    const staticData = stateManager.getStaticData();
+
+    if (!snapshot || !staticData) {
+      // Populate and show modal with error
+      modalTitle.textContent = 'Error';
+      modalDetails.innerHTML =
+        '<p>Could not retrieve current game state or static data to show location details.</p>';
+      modalRuleTree.innerHTML = ''; // Clear rule tree
+      modalElement.classList.remove('hidden');
+      return;
+    }
+
     const snapshotInterface = createStateSnapshotInterface(
       snapshot,
       staticData
     );
+    if (!snapshotInterface) {
+      modalTitle.textContent = 'Error';
+      modalDetails.innerHTML =
+        '<p>Failed to create snapshot interface for details.</p>';
+      modalRuleTree.innerHTML = '';
+      modalElement.classList.remove('hidden');
+      return;
+    }
 
-    // Evaluate the rule (if it exists) using the main thread evaluator
     let accessResultText = 'Rule not defined or evaluation failed.';
+    modalRuleTree.innerHTML = ''; // Clear previous rule tree
+
     if (location.access_rule) {
       try {
         const isAccessible = evaluateRule(
@@ -1145,37 +1171,52 @@ export class LocationUI {
         accessResultText = `Rule evaluates to: ${
           isAccessible ? 'TRUE' : 'FALSE'
         }`;
-        // Check staleness
-        if (snapshotInterface.isPotentiallyStale()) {
-          accessResultText += ' (Snapshot might be stale)';
+
+        // Use stateManager (proxy) to check for staleness
+        if (
+          stateManager.isSnapshotPotentiallyStale &&
+          stateManager.isSnapshotPotentiallyStale()
+        ) {
+          accessResultText += ' (State snapshot might be stale)';
         }
+
+        // Render the rule tree using the imported renderLogicTree
+        // Ensure commonUI default export is not used if renderLogicTree is a named export
+        const treeElement = renderLogicTree(
+          location.access_rule,
+          this.colorblindSettings,
+          snapshotInterface
+        );
+        modalRuleTree.appendChild(treeElement);
       } catch (error) {
         console.error(
           '[LocationUI showLocationDetails] Error evaluating rule locally:',
           error
         );
         accessResultText = `Error evaluating rule locally: ${error.message}`;
+        modalRuleTree.textContent = 'Error rendering rule tree.';
       }
     } else {
       accessResultText = 'No access rule defined.';
+      modalRuleTree.textContent = 'No rule defined.';
     }
-    // --- END REVERTED ---
 
-    // Construct the modal content
-    let content = `<p><strong>Region:</strong> ${location.region}</p>`;
-    content += `<p><strong>Type:</strong> ${location.type || 'N/A'}</p>`;
-    // Add more location details as needed
+    modalTitle.textContent = `Details for ${location.name}`;
+    let detailsContent = `<p><strong>Region:</strong> ${
+      location.region || 'N/A'
+    }</p>`;
+    detailsContent += `<p><strong>Type:</strong> ${location.type || 'N/A'}</p>`;
+    // Add more location details as needed (e.g., item if present in staticData.locations[location.name].item)
+    const staticLocationData = staticData.locations[location.name];
+    if (staticLocationData && staticLocationData.item) {
+      detailsContent += `<p><strong>Item:</strong> ${
+        staticLocationData.item.name || 'Unknown Item'
+      } (Player ${staticLocationData.item.player || 'N/A'})</p>`;
+    }
+    detailsContent += `<p><strong>Current Evaluation:</strong> ${accessResultText}</p>`;
 
-    content += `<h4>Access Rule:</h4>`;
-    content += `<pre>${JSON.stringify(
-      location.access_rule || { info: 'No rule' },
-      null,
-      2
-    )}</pre>`;
-    content += `<p><strong>${accessResultText}</strong></p>`; // Show local evaluation result
-
-    // Display the modal
-    commonUI.showModal(`Details for ${location.name}`, content);
+    modalDetails.innerHTML = detailsContent;
+    modalElement.classList.remove('hidden');
   }
 }
 

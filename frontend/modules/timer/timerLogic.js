@@ -17,9 +17,14 @@ export class TimerLogic {
     this.stateManager = dependencies.stateManager; // This is stateManagerProxySingleton
     this.eventBus = dependencies.eventBus;
     this.dispatcher = dependencies.dispatcher;
+    console.log(
+      '[TimerLogic Constructor] Received dispatcher:',
+      typeof this.dispatcher,
+      this.dispatcher
+    );
 
-    this.minCheckDelay = 30; // Default minimum delay in seconds
-    this.maxCheckDelay = 60; // Default maximum delay in seconds
+    this.minCheckDelay = 5; //30; // Default minimum delay in seconds
+    this.maxCheckDelay = 5; //60; // Default maximum delay in seconds
     this.gameInterval = null;
     this.startTime = 0;
     this.endTime = 0;
@@ -154,162 +159,225 @@ export class TimerLogic {
     console.log('[TimerLogic] Timer stopped.');
   }
 
-  async _determineAndDispatchNextLocationCheck() {
-    console.log('[TimerLogic] Determining next location to check...');
+  async _getSnapshotInterface() {
     if (!this.stateManager) {
-      console.error('[TimerLogic] StateManager not available.');
-      return false;
+      console.error('[TimerLogic] StateManager (Proxy) not available.');
+      return null;
     }
-
     try {
-      await this.stateManager.ensureReady(); // Ensure snapshot/static data is loaded in proxy
+      await this.stateManager.ensureReady();
       const snapshot = this.stateManager.getSnapshot();
       const staticData = this.stateManager.getStaticData();
 
-      if (!snapshot || !staticData || !staticData.locations) {
+      if (!snapshot || !staticData) {
         console.warn(
-          '[TimerLogic] Snapshot or static location data not available for checking.'
+          '[TimerLogic] Snapshot or static data not available for creating interface.'
         );
-        return false;
+        return null;
       }
-
       const snapshotInterface = createStateSnapshotInterface(
         snapshot,
         staticData
       );
       if (!snapshotInterface) {
         console.error('[TimerLogic] Failed to create snapshotInterface.');
-        return false;
+        return null;
       }
-
-      // Find the first reachable and unchecked location
-      // The order of locations in staticData.locations might matter here if "original" order is desired.
-      // Otherwise, .find() will get the first match based on current array order.
-      const locationsArray = Array.isArray(staticData.locations)
-        ? staticData.locations
-        : Object.values(staticData.locations);
-
-      let locationToCheck = null;
-      for (const loc of locationsArray) {
-        const isChecked = snapshot.flags?.includes(loc.name);
-        if (isChecked) continue;
-
-        // Evaluate accessibility using the snapshotInterface
-        let isAccessible = false;
-        if (loc.access_rule) {
-          isAccessible = snapshotInterface.evaluateRule(loc.access_rule);
-        } else {
-          isAccessible = true; // No rule means accessible if region is
-        }
-
-        // Also check parent region's reachability
-        const parentRegionName = loc.parent_region || loc.region;
-        const isParentRegionReachable = parentRegionName
-          ? snapshotInterface.isRegionReachable(parentRegionName)
-          : true;
-
-        if (isAccessible && isParentRegionReachable) {
-          locationToCheck = loc;
-          break;
-        }
-      }
-
-      if (locationToCheck) {
-        console.log(
-          `[TimerLogic] Found location to check: ${locationToCheck.name}`
-        );
-        this.dispatcher.publish(
-          'user:locationCheck',
-          {
-            locationName: locationToCheck.name,
-            regionName: locationToCheck.region || locationToCheck.parent_region, // Pass region context
-            originator: 'TimerModule',
-            originalDOMEvent: false,
-          },
-          { direction: 'bottom' }
-        );
-        return true; // Check was dispatched
-      } else {
-        console.log('[TimerLogic] No reachable and unchecked locations found.');
-        // Potentially publish an event like 'timer:noLocationsToAutoCheck'
-        this.eventBus.publish('ui:notification', {
-          message: 'All available locations checked by timer.',
-          type: 'info',
-        });
-        return false; // No location found/dispatched
-      }
+      return snapshotInterface;
     } catch (error) {
-      console.error(
-        '[TimerLogic] Error in _determineAndDispatchNextLocationCheck:',
-        error
+      console.error('[TimerLogic] Error creating snapshot interface:', error);
+      return null;
+    }
+  }
+
+  async _determineAndDispatchNextLocationCheck() {
+    console.log(
+      '[TimerLogic] Determining next location to check automatically...'
+    );
+    const snapshotInterface = await this._getSnapshotInterface();
+    if (!snapshotInterface) return false;
+
+    const { snapshot, staticData } = snapshotInterface; // Destructure for convenience
+
+    if (!staticData || !staticData.locations) {
+      console.warn(
+        '[TimerLogic] Static location data not available for checking.'
       );
+      return false;
+    }
+
+    const locationsArray = Array.isArray(staticData.locations)
+      ? staticData.locations
+      : Object.values(staticData.locations);
+
+    let locationToCheck = null;
+    for (const loc of locationsArray) {
+      const isChecked = snapshot.flags?.includes(loc.name);
+      if (isChecked) continue;
+
+      // Use snapshotInterface for all evaluations
+      const isAccessible = snapshotInterface.isLocationAccessible(loc.name);
+
+      if (isAccessible) {
+        // isLocationAccessible already considers parent region reachability internally
+        locationToCheck = loc;
+        break;
+      }
+    }
+
+    if (locationToCheck) {
+      console.log(
+        `[TimerLogic] Auto-found location to check: ${locationToCheck.name}`
+      );
+      this.dispatcher.publish(
+        'user:locationCheck',
+        {
+          locationName: locationToCheck.name,
+          regionName: locationToCheck.region || locationToCheck.parent_region,
+          originator: 'TimerModuleAuto', // Differentiate from QuickCheck
+          originalDOMEvent: false,
+        },
+        { direction: 'bottom' }
+      );
+      return true;
+    } else {
+      console.log(
+        '[TimerLogic] No reachable and unchecked locations found for auto-check.'
+      );
+      this.eventBus.publish('ui:notification', {
+        message: 'All available locations checked by timer.',
+        type: 'info',
+      });
       return false;
     }
   }
 
   async determineAndDispatchQuickCheck() {
-    console.log('[TimerLogic] Quick Check initiated.');
-    if (this.isLoopModeActive) {
-      console.log(
-        '[TimerLogic] Quick Check in Loop Mode - Loop module should handle this via user:locationCheck event.'
+    console.log('[TimerLogic] Processing Quick Check...');
+    const snapshotInterface = await this._getSnapshotInterface();
+    if (!snapshotInterface) {
+      this.eventBus.publish('ui:notification', {
+        message: 'State not ready for Quick Check.',
+        type: 'error',
+      });
+      return false;
+    }
+
+    const { snapshot, staticData } = snapshotInterface; // Destructure
+
+    if (!staticData || !staticData.locations || !staticData.regions) {
+      console.warn(
+        '[TimerLogic QuickCheck] Snapshot or static data not available.'
       );
-      // In loop mode, the "Quick Check" effectively asks the loop system to do something smart.
-      // We can dispatch "user:locationCheck" without a specific locationName,
-      // and the Loops module's handler can interpret this as "find next logical action for loop".
+      this.eventBus.publish('ui:notification', {
+        message: 'Static data not ready for Quick Check.',
+        type: 'error',
+      });
+      return false;
+    }
+
+    // Example: Using getDifficultyRequirements from the snapshotInterface
+    // const difficultyReqs = snapshotInterface.getDifficultyRequirements ? snapshotInterface.getDifficultyRequirements() : null;
+    // console.log('[TimerLogic QuickCheck] Difficulty Requirements (via interface):', difficultyReqs);
+
+    // Logic for Quick Check:
+    // 1. Find the "next" most logical un-checked location.
+    // This could be a sophisticated algorithm or a simple one.
+    // For now, let's try to find any accessible, un-checked location.
+    // If multiple, maybe prioritize based on region exploration, or just take the first.
+
+    const locationsArray = Array.isArray(staticData.locations)
+      ? staticData.locations
+      : Object.values(staticData.locations);
+
+    let quickCheckTarget = null;
+
+    for (const loc of locationsArray) {
+      const isChecked = snapshot.flags?.includes(loc.name);
+      if (isChecked) continue;
+
+      // Use snapshotInterface for all evaluations
+      const isAccessible = snapshotInterface.isLocationAccessible(loc.name);
+
+      if (isAccessible) {
+        quickCheckTarget = loc;
+        break; // Found one
+      }
+    }
+
+    if (quickCheckTarget) {
+      console.log(
+        `[TimerLogic QuickCheck] Dispatching check for: ${quickCheckTarget.name}`
+      );
       this.dispatcher.publish(
         'user:locationCheck',
         {
-          locationName: null, // Explicitly null for "next logical"
-          originator: 'QuickCheckButton',
-          originalDOMEvent: true,
+          locationName: quickCheckTarget.name,
+          regionName: quickCheckTarget.region || quickCheckTarget.parent_region,
+          originator: 'TimerModuleQuickCheck',
+          originalDOMEvent: false, // This was triggered by a button, but not a direct location click
         },
         { direction: 'bottom' }
       );
+      this.eventBus.publish('ui:notification', {
+        message: `Quick Check: Sent ${quickCheckTarget.name}.`,
+        type: 'success',
+        duration: 3000,
+      });
+      return true;
+    } else {
+      console.log(
+        '[TimerLogic QuickCheck] No accessible, un-checked location found.'
+      );
+      this.eventBus.publish('ui:notification', {
+        message: 'Quick Check: No new accessible locations found.',
+        type: 'info',
+      });
+      return false;
+    }
+  }
+
+  setCheckDelay(minSeconds, maxSeconds = null) {
+    const newMin = parseInt(minSeconds, 10);
+    const newMax = maxSeconds !== null ? parseInt(maxSeconds, 10) : newMin; // If no max, set to min
+
+    if (isNaN(newMin) || newMin <= 0) {
+      console.warn('[TimerLogic] Invalid minimum check delay provided.');
+      return;
+    }
+    if (isNaN(newMax) || newMax < newMin) {
+      console.warn('[TimerLogic] Invalid maximum check delay provided.');
       return;
     }
 
-    // Standard mode: find and dispatch check for one location
-    const checkDispatched = await this._determineAndDispatchNextLocationCheck(); // Reuses the same logic as timer expiry
-    if (!checkDispatched) {
+    this.minCheckDelay = newMin;
+    this.maxCheckDelay = newMax;
+    console.log(
+      `[TimerLogic] Check delay updated: ${this.minCheckDelay}s - ${this.maxCheckDelay}s`
+    );
+
+    // If timer is running, restart it with new delay logic
+    // (This might be too disruptive, consider if just next interval should use new delay)
+    if (this.isRunning()) {
+      this.stop();
+      // Decide if it should auto-begin. For now, let's not, to avoid surprising users.
+      // this.begin();
       this.eventBus.publish('ui:notification', {
-        message: 'No locations available for Quick Check.',
+        message: 'Timer delay updated. Restart timer to apply.',
         type: 'info',
       });
     }
   }
 
-  setCheckDelay(minSeconds, maxSeconds = null) {
-    if (maxSeconds === null) maxSeconds = minSeconds;
-
-    if (
-      typeof minSeconds !== 'number' ||
-      minSeconds < 1 ||
-      typeof maxSeconds !== 'number' ||
-      maxSeconds < 1
-    ) {
-      console.warn('[TimerLogic] Invalid delay values. Must be numbers >= 1.');
-      return false;
-    }
-    if (minSeconds > maxSeconds) {
-      [minSeconds, maxSeconds] = [maxSeconds, minSeconds];
-    }
-
-    this.minCheckDelay = minSeconds;
-    this.maxCheckDelay = maxSeconds;
-    console.log(
-      `[TimerLogic] Check delay set to ${this.minCheckDelay}-${this.maxCheckDelay} seconds.`
-    );
-
-    // If timer is running, update its current cycle (optional, or let it finish current cycle)
-    // For simplicity, we'll let the current cycle finish with old delay.
-    // Next cycle after a check will use new delay.
-    return true;
-  }
-
   dispose() {
     console.log('[TimerLogic] Disposing...');
     this.stop();
-    this.unsubscribeHandles.forEach((unsub) => unsub());
+    this.unsubscribeHandles.forEach((unsub) => {
+      if (typeof unsub === 'function') {
+        unsub();
+      }
+    });
     this.unsubscribeHandles = [];
+    console.log('[TimerLogic] Disposed.');
   }
 }

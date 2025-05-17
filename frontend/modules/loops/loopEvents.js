@@ -9,6 +9,12 @@ import { getLoopsModuleDispatcher, moduleInfo } from './index.js'; // Import the
  * @param {object} propagationOptions - Options related to event propagation.
  */
 export function handleUserLocationCheckForLoops(eventData, propagationOptions) {
+  console.log(
+    '[LoopsModule] handleUserLocationCheckForLoops received event:',
+    JSON.parse(JSON.stringify(eventData)),
+    'Propagation:',
+    JSON.parse(JSON.stringify(propagationOptions))
+  );
   const dispatcher = getLoopsModuleDispatcher(); // Get the dispatcher
 
   if (loopStateSingleton.isLoopModeActive) {

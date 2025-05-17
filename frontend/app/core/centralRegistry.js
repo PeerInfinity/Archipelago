@@ -71,16 +71,17 @@ class CentralRegistry {
       this.dispatcherHandlers.set(eventName, []);
     }
     // TODO: Add validation for propagationDetails structure?
-    console.log(
-      `[Registry] Registering dispatcher receiver for '${eventName}' from ${moduleId} with details:`,
-      propagationDetails
-    );
     this.dispatcherHandlers.get(eventName).push({
       moduleId,
       handlerFunction,
       propagationDetails, // Store the provided details
       enabled: true, // Default enabled state
     });
+    console.log(
+      `[Registry] Dispatcher receiver registered for MODULE '${moduleId}' on EVENT '${eventName}'. Handler: ${
+        handlerFunction.name || 'anonymous'
+      }. Total distinct event names in map: ${this.dispatcherHandlers.size}`
+    );
   }
 
   registerDispatcherSender(moduleId, eventName, direction, target) {
