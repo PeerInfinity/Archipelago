@@ -1,5 +1,6 @@
 // frontend/modules/timer/timerUI.js
 import { Config } from '../client/core/config.js'; // For default timer interval
+import { stateManagerProxySingleton } from '../stateManager/index.js'; // ADDED
 
 export class TimerUI {
   constructor(dependencies) {
@@ -43,6 +44,71 @@ export class TimerUI {
     this.updateChecksCounter(); // Initial update based on current state
     this.enableControls(false); // Initially disabled until state/connection ready
     // TimerLogic might re-enable if conditions met (e.g., rules loaded)
+  }
+
+  attachToHost(placeholderElement) {
+    if (
+      !placeholderElement ||
+      typeof placeholderElement.appendChild !== 'function'
+    ) {
+      console.error(
+        '[TimerUI] attachToHost: Invalid placeholderElement provided.',
+        placeholderElement
+      );
+      return;
+    }
+    if (!this.domElement) {
+      console.warn(
+        '[TimerUI] attachToHost: domElement not created yet. Creating now.'
+      );
+      this.createDOMElement();
+    }
+
+    // If already parented and the new placeholder is different, detach first.
+    if (
+      this.domElement.parentNode &&
+      this.domElement.parentNode !== placeholderElement
+    ) {
+      console.log(
+        '[TimerUI] attachToHost: DOM element already parented to a different host. Detaching first.'
+      );
+      this.detachFromHost();
+    }
+
+    // Avoid re-appending if already in the correct placeholder
+    if (this.domElement.parentNode === placeholderElement) {
+      console.log(
+        '[TimerUI] attachToHost: DOM element already in the target placeholder. No action needed.'
+      );
+      return;
+    }
+
+    // Clear the placeholder before appending to prevent duplicates if the placeholder might have old content.
+    // Be cautious with this if the placeholder is shared and might have other legitimate children.
+    // For a dedicated placeholder, this is safer.
+    while (placeholderElement.firstChild) {
+      placeholderElement.removeChild(placeholderElement.firstChild);
+    }
+
+    placeholderElement.appendChild(this.domElement);
+    console.log(
+      '[TimerUI] attachToHost: DOM element appended to new host.',
+      placeholderElement
+    );
+  }
+
+  detachFromHost() {
+    if (this.domElement && this.domElement.parentNode) {
+      console.log(
+        '[TimerUI] detachFromHost: Removing DOM element from parent:',
+        this.domElement.parentNode
+      );
+      this.domElement.parentNode.removeChild(this.domElement);
+    } else {
+      console.log(
+        '[TimerUI] detachFromHost: DOM element not parented or does not exist. No action needed.'
+      );
+    }
   }
 
   getDOMElement() {
@@ -132,7 +198,10 @@ export class TimerUI {
 
     // Enable controls when rules are loaded or connection is established
     const enableControlsHandler = () => this.enableControls(true);
-    subscribe('stateManager:rulesLoaded', enableControlsHandler);
+    subscribe('stateManager:rulesLoaded', (eventData) => {
+      enableControlsHandler();
+      this.updateChecksCounter(eventData.snapshot);
+    });
     subscribe('connection:open', enableControlsHandler);
     subscribe('connection:close', () => this.enableControls(false));
 
@@ -187,7 +256,10 @@ export class TimerUI {
       this.updateChecksCounter(eventData.snapshot);
     } else {
       // If no snapshot, perhaps clear or show loading for counter
-      this.updateChecksCounter(null);
+      // Pass the current snapshot from proxy if eventData.snapshot is missing, or null if proxy also has no snapshot
+      this.updateChecksCounter(
+        stateManagerProxySingleton.getLatestStateSnapshot()
+      );
     }
   }
 
@@ -203,26 +275,50 @@ export class TimerUI {
   updateChecksCounter(snapshot = null) {
     if (!this.checksCounter) return;
 
-    if (!snapshot || !snapshot.locations || !snapshot.flags) {
+    // If snapshot wasn't passed, try to get the latest one.
+    const currentSnapshot =
+      snapshot || stateManagerProxySingleton.getLatestStateSnapshot();
+    const staticData = stateManagerProxySingleton.getStaticData();
+
+    if (
+      !currentSnapshot ||
+      !staticData ||
+      !staticData.locations ||
+      !currentSnapshot.flags
+    ) {
       this.checksCounter.textContent = 'Checked: ?/?';
-      this.checksCounter.title = 'Location data not yet available.';
+      this.checksCounter.title = 'Location or snapshot data not yet available.';
       return;
     }
 
-    const locationsArray = Array.isArray(snapshot.locations)
-      ? snapshot.locations
-      : Object.values(snapshot.locations);
+    const allLocationDefinitions = staticData.locations; // This is an object keyed by name
 
-    const totalNonEventLocations = locationsArray.filter(
-      (loc) => loc.id !== null && loc.id !== undefined
-    ).length;
-    const checkedNonEventLocations = snapshot.flags.filter((flagName) => {
-      const loc = locationsArray.find((l) => l.name === flagName);
-      return loc && loc.id !== null && loc.id !== undefined;
-    }).length;
+    let totalNonEventLocations = 0;
+    for (const locName in allLocationDefinitions) {
+      if (
+        Object.prototype.hasOwnProperty.call(allLocationDefinitions, locName)
+      ) {
+        const loc = allLocationDefinitions[locName];
+        // Assuming loc.id is present and loc.id !== undefined and loc.id !== null means it's a "real" location.
+        // Adjust this condition if event locations are identified differently (e.g., a specific type or flag).
+        if (loc && loc.id !== null && loc.id !== undefined) {
+          totalNonEventLocations++;
+        }
+      }
+    }
+
+    let checkedNonEventLocations = 0;
+    if (currentSnapshot.flags && Array.isArray(currentSnapshot.flags)) {
+      currentSnapshot.flags.forEach((flagName) => {
+        const loc = allLocationDefinitions[flagName];
+        if (loc && loc.id !== null && loc.id !== undefined) {
+          checkedNonEventLocations++;
+        }
+      });
+    }
 
     this.checksCounter.textContent = `Checked: ${checkedNonEventLocations}/${totalNonEventLocations}`;
-    this.checksCounter.title = `Locations checked: ${checkedNonEventLocations} out of ${totalNonEventLocations}`;
+    this.checksCounter.title = `Locations checked: ${checkedNonEventLocations} out of ${totalNonEventLocations} non-event locations.`;
   }
 
   setControlButtonState(isStarted) {
@@ -237,8 +333,13 @@ export class TimerUI {
   }
 
   dispose() {
-    console.log('[TimerUI] Disposing...');
-    this.unsubscribeHandles.forEach((unsub) => unsub());
+    console.log('[TimerUI] Disposing TimerUI...');
+    this.detachFromHost(); // Ensure DOM element is removed from any host
+    this.unsubscribeHandles.forEach((unsub) => {
+      if (typeof unsub === 'function') {
+        unsub();
+      }
+    });
     this.unsubscribeHandles = [];
     // DOM element will be removed by its parent (ClientUI or PanelManager)
     this.domElement = null;

@@ -1,3 +1,5 @@
+import eventBus from './eventBus.js'; // Added import
+
 class CentralRegistry {
   constructor() {
     this.panelComponents = new Map(); // componentType -> { moduleId: string, componentClass: Function }
@@ -11,6 +13,8 @@ class CentralRegistry {
     this.dispatcherSenders = new Map(); // eventName -> Array<{moduleId, direction: 'top'|'bottom'|'next', target: 'first'|'last'|'next', enabled: boolean}>
     this.eventBusPublishers = new Map(); // eventName -> Map<moduleId, { enabled: boolean }>
     this.eventBusSubscribers = new Map(); // eventName -> Array<{moduleId: string, enabled: boolean}>
+
+    this.uiHostProviders = new Map(); // Key: uiComponentType (string), Value: Array of host objects
 
     console.log('CentralRegistry initialized');
   }
@@ -211,6 +215,81 @@ class CentralRegistry {
    */
   getAllPanelComponents() {
     return this.panelComponents;
+  }
+
+  registerUIHost(
+    uiComponentType,
+    hostModuleId,
+    placeholderElement,
+    hostPriority
+  ) {
+    if (!this.uiHostProviders.has(uiComponentType)) {
+      this.uiHostProviders.set(uiComponentType, []);
+    }
+    const hostsForType = this.uiHostProviders.get(uiComponentType);
+    const existingIndex = hostsForType.findIndex(
+      (h) => h.moduleId === hostModuleId
+    );
+    if (existingIndex !== -1) {
+      // Prevent duplicate registrations from the same module for the same UI type
+      console.warn(
+        `[CentralRegistry] Host ${hostModuleId} for UI type ${uiComponentType} already registered. Updating placeholder/priority.`
+      );
+      hostsForType[existingIndex] = {
+        moduleId: hostModuleId,
+        placeholder: placeholderElement,
+        priority: hostPriority,
+        isActive: hostsForType[existingIndex].isActive,
+        uiComponentType,
+      };
+    } else {
+      hostsForType.push({
+        moduleId: hostModuleId,
+        placeholder: placeholderElement,
+        priority: hostPriority,
+        isActive: false, // Hosts default to inactive until explicitly set
+        uiComponentType,
+      });
+    }
+    console.log(
+      `[CentralRegistry] Host ${hostModuleId} (priority ${hostPriority}) registered for UI component type: ${uiComponentType}.`
+    );
+  }
+
+  setUIHostActive(uiComponentType, hostModuleId, isActive) {
+    const hosts = this.uiHostProviders.get(uiComponentType);
+    if (hosts) {
+      const host = hosts.find((h) => h.moduleId === hostModuleId);
+      if (host) {
+        if (host.isActive !== isActive) {
+          host.isActive = isActive;
+          console.log(
+            `[CentralRegistry] Host ${hostModuleId} for ${uiComponentType} set to active: ${isActive}.`
+          );
+          eventBus.publish('uiHostRegistry:hostStatusChanged', {
+            uiComponentType: uiComponentType,
+            hostModuleId: hostModuleId,
+            isActive: isActive,
+          });
+        }
+      } else {
+        console.warn(
+          `[CentralRegistry] Host ${hostModuleId} not found for UI type ${uiComponentType} when setting active status.`
+        );
+      }
+    } else {
+      console.warn(
+        `[CentralRegistry] No hosts found for UI type ${uiComponentType} when setting active status for ${hostModuleId}.`
+      );
+    }
+  }
+
+  getActiveUIHosts(uiComponentType) {
+    const hosts = this.uiHostProviders.get(uiComponentType) || [];
+    const activeHosts = hosts.filter((h) => h.isActive);
+    // Sort by priority descending (higher number = higher priority = loaded later)
+    activeHosts.sort((a, b) => b.priority - a.priority);
+    return activeHosts;
   }
 
   registerJsonDataHandler(moduleId, dataKey, handlerObject) {

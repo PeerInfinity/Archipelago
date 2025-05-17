@@ -10,10 +10,13 @@ export const moduleInfo = {
   description: 'Manages the location check timer and related UI elements.',
 };
 
+const TIMER_UI_COMPONENT_TYPE = 'TimerProgressUI'; // Ensure this is unique
+
 let timerLogicInstance = null;
 let timerUIInstance = null;
 let dispatcher = null; // Stored from initializationApi
 let moduleEventBus = null; // Stored from initializationApi
+let hostStatusSubscription = null; // To store the unsubscribe handle
 
 /**
  * Registration function for the Timer module.
@@ -22,27 +25,8 @@ let moduleEventBus = null; // Stored from initializationApi
 export function register(registrationApi) {
   console.log(`[Timer Module] Registering module: ${moduleInfo.name}`);
 
-  registrationApi.registerPublicFunction('getTimerUIDOMElement', () => {
-    if (!timerUIInstance) {
-      console.error(
-        `[${moduleInfo.name} Module] getTimerUIDOMElement called but timerUIInstance is not yet available.`
-      );
-      const errorDiv = document.createElement('div');
-      errorDiv.style.color = 'red';
-      errorDiv.textContent = `${moduleInfo.name} UI not ready.`;
-      return errorDiv;
-    }
-    if (typeof timerUIInstance.getDOMElement !== 'function') {
-      console.error(
-        `[${moduleInfo.name} Module] timerUIInstance.getDOMElement is not a function.`
-      );
-      const errorDiv = document.createElement('div');
-      errorDiv.style.color = 'red';
-      errorDiv.textContent = `${moduleInfo.name} UI method getDOMElement missing.`;
-      return errorDiv;
-    }
-    return timerUIInstance.getDOMElement();
-  });
+  // Public function for getting DOM element is removed.
+  // registrationApi.registerPublicFunction('getTimerUIDOMElement', () => { ... });
 
   // Register events this module publishes
   registrationApi.registerEventBusPublisher(
@@ -82,8 +66,47 @@ export function register(registrationApi) {
     moduleInfo.name,
     'stateManager:rulesLoaded'
   );
+  // New: Register intent to subscribe to host status changes
+  registrationApi.registerEventBusSubscriberIntent(
+    moduleInfo.name,
+    'uiHostRegistry:hostStatusChanged'
+  );
 
   console.log(`[${moduleInfo.name} Module] Registration complete.`);
+}
+
+function updateTimerUIHost() {
+  if (
+    !timerUIInstance ||
+    typeof timerUIInstance.attachToHost !== 'function' ||
+    typeof timerUIInstance.detachFromHost !== 'function'
+  ) {
+    console.warn(
+      `[${moduleInfo.name} Module] Cannot update Timer UI host: TimerUI instance or its methods not ready.`
+    );
+    return;
+  }
+
+  const activeHosts = centralRegistry.getActiveUIHosts(TIMER_UI_COMPONENT_TYPE);
+  console.log(
+    `[${moduleInfo.name} Module] Found ${activeHosts.length} active host(s) for Timer UI (${TIMER_UI_COMPONENT_TYPE}).`
+  );
+
+  if (activeHosts.length === 0) {
+    timerUIInstance.detachFromHost();
+    console.log(
+      `[${moduleInfo.name} Module] No active host for Timer UI. UI detached.`
+    );
+    return;
+  }
+
+  // getActiveUIHosts already sorts by priority descending. The first one is the winner.
+  const chosenHost = activeHosts[0];
+  console.log(
+    `[${moduleInfo.name} Module] Chosen host for Timer UI: Module '${chosenHost.moduleId}' (Priority ${chosenHost.priority}). Attaching to placeholder:`,
+    chosenHost.placeholder
+  );
+  timerUIInstance.attachToHost(chosenHost.placeholder);
 }
 
 /**
@@ -138,7 +161,29 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
     }
 
     if (timerUIInstance && typeof timerUIInstance.initialize === 'function') {
-      timerUIInstance.initialize();
+      timerUIInstance.initialize(); // This should prepare the DOM element but not attach it.
+
+      // Subscribe to host status changes to update UI placement
+      hostStatusSubscription = moduleEventBus.subscribe(
+        'uiHostRegistry:hostStatusChanged',
+        (data) => {
+          // Check if the change is relevant to the Timer's UI type
+          if (data && data.uiComponentType === TIMER_UI_COMPONENT_TYPE) {
+            console.log(
+              `[${moduleInfo.name} Module] Host status changed for ${TIMER_UI_COMPONENT_TYPE}. Re-evaluating host for Timer UI.`
+            );
+            updateTimerUIHost();
+          }
+        }
+      );
+
+      // Initial attempt to place the UI once everything is set up
+      // This relies on hosts registering during their own init phase.
+      // A more robust solution might involve an 'app:allModulesInitialized' event,
+      // or ensuring init.js calls this after all modules init.
+      // For now, if hosts are initialized before or concurrently, this should work.
+      // A small delay could be a temporary workaround if race conditions occur often.
+      setTimeout(updateTimerUIHost, 0); // Use setTimeout to allow other initializations to complete.
     } else {
       console.error(
         `[${moduleInfo.name} Module] timerUIInstance or its initialize method is problematic.`
@@ -149,7 +194,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       `[${moduleInfo.name} Module] Error during instantiation or initialization of TimerLogic/TimerUI:`,
       error
     );
-    // Ensure timerUIInstance is null if its instantiation failed before getTimerUIDOMElement might be called
+    // Ensure timerUIInstance is null if its instantiation failed
     timerUIInstance = null;
   }
 
@@ -157,6 +202,19 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
 
   return () => {
     console.log(`[${moduleInfo.name} Module] Cleaning up...`);
+    if (
+      hostStatusSubscription &&
+      typeof hostStatusSubscription.unsubscribe === 'function'
+    ) {
+      hostStatusSubscription.unsubscribe();
+      hostStatusSubscription = null;
+    }
+    if (
+      timerUIInstance &&
+      typeof timerUIInstance.detachFromHost === 'function'
+    ) {
+      timerUIInstance.detachFromHost(); // Ensure UI is detached on module cleanup
+    }
     if (
       timerLogicInstance &&
       typeof timerLogicInstance.dispose === 'function'

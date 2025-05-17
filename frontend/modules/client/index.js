@@ -65,6 +65,7 @@ let coreMessageHandler = messageHandler;
 let coreLocationManager = LocationManager;
 // let coreTimerState = timerState; // Removed
 let moduleDispatcher = null; // Renamed from 'dispatcher' for clarity and consistency
+let clientModuleLoadPriority = -1; // Added to store load priority
 
 // --- Dispatcher Handler for Disconnect (Connect is now handled directly by connection.js) --- //
 function handleDisconnectRequest(data) {
@@ -82,7 +83,7 @@ function handleDisconnectRequest(data) {
 export function register(registrationApi) {
   console.log('[Client Module] Registering...');
 
-  registrationApi.registerPanelComponent('clientPanel', MainContentUI);
+  registrationApi.registerPanelComponent('clientPanel', MainContentUI); // Ensure componentType matches GoldenLayout config
 
   // Only register dispatcher listener for disconnect
   registrationApi.registerDispatcherReceiver(
@@ -118,6 +119,7 @@ export function register(registrationApi) {
 // --- Initialization --- //
 export async function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(`[Client Module] Initializing with priority ${priorityIndex}...`);
+  clientModuleLoadPriority = priorityIndex; // Store it
 
   moduleEventBus = initializationApi.getEventBus();
   moduleDispatcher = initializationApi.getDispatcher(); // Store dispatcher
@@ -161,12 +163,18 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
     coreMessageHandler = null;
     // coreTimerState = null; // Removed
     moduleDispatcher = null;
+    clientModuleLoadPriority = -1;
   };
 }
 
 // Export dispatcher for use by other files in this module (e.g., messageHandler.js)
 export function getClientModuleDispatcher() {
   return moduleDispatcher;
+}
+
+// Export load priority for MainContentUI
+export function getClientModuleLoadPriority() {
+  return clientModuleLoadPriority;
 }
 
 // --- Dispatcher Handlers --- //
