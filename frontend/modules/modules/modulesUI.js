@@ -164,10 +164,11 @@ export class ModulesPanel {
     }
     try {
       // Fetch data using await for clarity
-      this.moduleStates = await moduleManager.getAllModuleStates();
+      const rawModuleStates = await moduleManager.getAllModuleStates();
+      this.moduleStates = rawModuleStates;
+
       this.loadPriority = await moduleManager.getCurrentLoadPriority();
-      console.log('Fetched module states:', this.moduleStates); // Debug log
-      console.log('Fetched load priority:', this.loadPriority); // Debug log
+
       this._renderModules();
     } catch (error) {
       console.error('ModulesPanel: Failed to fetch module data:', error);
@@ -177,20 +178,40 @@ export class ModulesPanel {
   }
 
   _renderModules() {
+    // console.log('ModulesPanel: _renderModules invoked.');
+
     // Target the specific container for the list
-    if (!this.moduleListContainer) return;
+    if (!this.moduleListContainer) {
+      // console.error(
+      //   'ModulesPanel: _renderModules - this.moduleListContainer is null or undefined!'
+      // );
+      return;
+    }
     this.moduleListContainer.innerHTML = ''; // Clear previous list content
 
     if (!this.loadPriority || this.loadPriority.length === 0) {
+      // console.warn(
+      //   'ModulesPanel: _renderModules - this.loadPriority is empty or invalid AT THE START of _renderModules.'
+      // );
       this.moduleListContainer.textContent =
-        'No modules found or priority order missing. Check console for errors.'; // Updated message
+        'No modules found or priority order missing. Check console for errors.';
       return;
     }
 
     // Render modules in the current load priority order
     this.loadPriority.forEach((moduleId, index) => {
+      // console.log(
+      //   `ModulesPanel: _renderModules - Processing moduleId: ${moduleId}, index: ${index}`
+      // );
       const state = this.moduleStates[moduleId];
-      if (!state || !state.definition) return;
+      if (!state || !state.definition) {
+        // console.warn(
+        //   `ModulesPanel: _renderModules - Skipped module ${moduleId} due to missing state or definition. State:`,
+        //   state,
+        //   'Keys in state:', Object.keys(state || {})
+        // );
+        return;
+      }
       const module = state.definition;
       const isEnabled = state.enabled;
       const isCoreModule =
@@ -254,6 +275,16 @@ export class ModulesPanel {
       entryDiv.appendChild(infoDiv);
       entryDiv.appendChild(controlsDiv);
 
+      // if (entryDiv instanceof HTMLElement) {
+      //   console.log(
+      //     `ModulesPanel: _renderModules - Appending valid entryDiv for ${moduleId} to moduleListContainer.`
+      //   );
+      // } else {
+      //   console.error(
+      //     `ModulesPanel: _renderModules - entryDiv for ${moduleId} is NOT a valid HTMLElement before append!`,
+      //     entryDiv
+      //   );
+      // }
       // Append the entry to the list container
       this.moduleListContainer.appendChild(entryDiv);
     });
@@ -329,17 +360,17 @@ export class ModulesPanel {
   }
 
   // Example handler for external state changes
-  _handleModuleStateChange({ moduleId, isEnabled }) {
+  _handleModuleStateChange({ moduleId, enabled }) {
     console.log(
-      `ModulesPanel received external state change for ${moduleId}: ${isEnabled}`
+      `ModulesPanel received external state change for ${moduleId}: ${enabled}`
     );
     // Update local state if the module exists
     if (this.moduleStates[moduleId]) {
-      this.moduleStates[moduleId].enabled = isEnabled;
+      this.moduleStates[moduleId].enabled = enabled;
     }
     // Update the visual state of the checkbox regardless
     // (Handles cases where state might have been out of sync)
-    this._updateCheckboxVisualState(moduleId, isEnabled);
+    this._updateCheckboxVisualState(moduleId, enabled);
   }
 
   // Example handler for panel closing events
@@ -423,10 +454,10 @@ export class ModulesPanel {
 
   // MODIFIED: Renamed from _handleInitComplete to _handleAppReady
   _handleAppReady(eventData) {
-    console.log(
-      'ModulesPanel: Received app:readyForUiDataLoad. Requesting module data.'
-    );
-    // this._requestModuleData(); // OLD way
+    // console.log('ModulesPanel: _handleAppReady invoked.');
+    // console.log(
+    //   'ModulesPanel: Received app:readyForUiDataLoad. Requesting module data.'
+    // );
 
     // NEW way: Get moduleManager from event payload
     if (eventData && typeof eventData.getModuleManager === 'function') {

@@ -945,21 +945,34 @@ async function main() {
   moduleManagerApi.enableModule = (moduleId) => {
     const state = runtimeModuleStates.get(moduleId);
     if (state) state.enabled = true;
-    // TODO: Re-initialize or re-render module? Or does it listen for an event?
     console.log(`[ModuleManagerAPI] Attempted to enable ${moduleId}`);
-    eventBus.publish('module:stateChanged', { moduleId, newState: state });
+    eventBus.publish('module:stateChanged', { moduleId, enabled: true });
   };
   moduleManagerApi.disableModule = (moduleId) => {
     const state = runtimeModuleStates.get(moduleId);
     if (state) state.enabled = false;
-    // TODO: Module needs to clean itself up or stop rendering.
     console.log(`[ModuleManagerAPI] Attempted to disable ${moduleId}`);
-    eventBus.publish('module:stateChanged', { moduleId, newState: state });
+    eventBus.publish('module:stateChanged', { moduleId, enabled: false });
   };
   moduleManagerApi.getModuleState = (moduleId) =>
     runtimeModuleStates.get(moduleId);
-  moduleManagerApi.getAllModuleStates = () =>
-    Object.fromEntries(runtimeModuleStates);
+  moduleManagerApi.getAllModuleStates = () => {
+    const states = {};
+    for (const [moduleId, state] of runtimeModuleStates.entries()) {
+      const moduleInstance = importedModules.get(moduleId);
+      states[moduleId] = {
+        ...state, // { initialized, enabled }
+        definition: moduleInstance?.moduleInfo || {
+          name: moduleId,
+          description:
+            'Definition N/A - Module not fully loaded or moduleInfo missing.',
+        },
+        // path: moduleInstance?.path || 'N/A', // Path might not be readily available here
+        // isExternal: moduleInstance?.isExternal || false // isExternal might not be readily available here
+      };
+    }
+    return states;
+  };
   moduleManagerApi.getLoadPriority = () =>
     G_combinedModeData.moduleConfig?.loadPriority || [];
   moduleManagerApi.getModuleManagerApi = () => moduleManagerApi; // Provide itself

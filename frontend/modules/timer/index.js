@@ -17,6 +17,7 @@ let timerUIInstance = null;
 let dispatcher = null; // Stored from initializationApi
 let moduleEventBus = null; // Stored from initializationApi
 let hostStatusSubscription = null; // To store the unsubscribe handle
+let initialPlacementSubscription = null; // Added for app:readyForUiDataLoad
 
 /**
  * Registration function for the Timer module.
@@ -70,6 +71,10 @@ export function register(registrationApi) {
   registrationApi.registerEventBusSubscriberIntent(
     moduleInfo.name,
     'uiHostRegistry:hostStatusChanged'
+  );
+  registrationApi.registerEventBusSubscriberIntent(
+    moduleInfo.name,
+    'app:readyForUiDataLoad'
   );
 
   console.log(`[${moduleInfo.name} Module] Registration complete.`);
@@ -177,13 +182,29 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
         }
       );
 
-      // Initial attempt to place the UI once everything is set up
-      // This relies on hosts registering during their own init phase.
-      // A more robust solution might involve an 'app:allModulesInitialized' event,
-      // or ensuring init.js calls this after all modules init.
-      // For now, if hosts are initialized before or concurrently, this should work.
-      // A small delay could be a temporary workaround if race conditions occur often.
-      setTimeout(updateTimerUIHost, 0); // Use setTimeout to allow other initializations to complete.
+      // Initial attempt to place the UI after all modules are likely ready and registered hosts.
+      initialPlacementSubscription = moduleEventBus.subscribe(
+        'app:readyForUiDataLoad',
+        () => {
+          console.log(
+            `[${moduleInfo.name} Module] Received app:readyForUiDataLoad. Scheduling initial UI host update.`
+          );
+          // Defer the initial host update to allow other modules (like panel hosts) to complete their setup.
+          setTimeout(() => {
+            console.log(
+              `[${moduleInfo.name} Module] Executing deferred initial UI host update.`
+            );
+            updateTimerUIHost();
+            if (
+              initialPlacementSubscription &&
+              typeof initialPlacementSubscription.unsubscribe === 'function'
+            ) {
+              initialPlacementSubscription.unsubscribe();
+            }
+            initialPlacementSubscription = null;
+          }, 0); // Zero delay defers to next event loop tick
+        }
+      );
     } else {
       console.error(
         `[${moduleInfo.name} Module] timerUIInstance or its initialize method is problematic.`
@@ -208,6 +229,13 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
     ) {
       hostStatusSubscription.unsubscribe();
       hostStatusSubscription = null;
+    }
+    if (
+      initialPlacementSubscription &&
+      typeof initialPlacementSubscription.unsubscribe === 'function'
+    ) {
+      initialPlacementSubscription.unsubscribe();
+      initialPlacementSubscription = null;
     }
     if (
       timerUIInstance &&

@@ -10,11 +10,11 @@ export const moduleInfo = {
 let moduleDispatcher = null;
 
 export function getDispatcher() {
-  if (!moduleDispatcher) {
-    console.warn(
-      '[Locations Module] Dispatcher accessed before initialization.'
-    );
-  }
+  // if (!moduleDispatcher) {
+  //   console.warn(
+  //     '[Locations Module] Dispatcher accessed before initialization.'
+  //   );
+  // }
   return moduleDispatcher;
 }
 

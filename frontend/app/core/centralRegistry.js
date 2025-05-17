@@ -230,56 +230,83 @@ class CentralRegistry {
     const existingIndex = hostsForType.findIndex(
       (h) => h.moduleId === hostModuleId
     );
+
+    let oldPriority = undefined;
+    let oldIsActive = false; // Default for new host, will be preserved if host existed
+    let wasAlreadyRegistered = false;
+
     if (existingIndex !== -1) {
-      // Prevent duplicate registrations from the same module for the same UI type
-      console.warn(
-        `[CentralRegistry] Host ${hostModuleId} for UI type ${uiComponentType} already registered. Updating placeholder/priority.`
-      );
-      hostsForType[existingIndex] = {
-        moduleId: hostModuleId,
-        placeholder: placeholderElement,
-        priority: hostPriority,
-        isActive: hostsForType[existingIndex].isActive,
-        uiComponentType,
-      };
-    } else {
-      hostsForType.push({
-        moduleId: hostModuleId,
-        placeholder: placeholderElement,
-        priority: hostPriority,
-        isActive: false, // Hosts default to inactive until explicitly set
-        uiComponentType,
-      });
+      oldPriority = hostsForType[existingIndex].priority;
+      oldIsActive = hostsForType[existingIndex].isActive;
+      wasAlreadyRegistered = true;
     }
-    console.log(
-      `[CentralRegistry] Host ${hostModuleId} (priority ${hostPriority}) registered for UI component type: ${uiComponentType}.`
-    );
+
+    const newHostData = {
+      moduleId: hostModuleId,
+      placeholder: placeholderElement,
+      priority: hostPriority,
+      isActive: oldIsActive, // Preserve current active status on update
+      uiComponentType,
+    };
+
+    if (wasAlreadyRegistered) {
+      hostsForType[existingIndex] = newHostData;
+      console.log(
+        `[CentralRegistry] Host ${hostModuleId} for UI type ${uiComponentType} re-registered/updated. New priority: ${hostPriority}. Placeholder:`,
+        placeholderElement
+      );
+    } else {
+      hostsForType.push(newHostData);
+      console.log(
+        `[CentralRegistry] Host ${hostModuleId} (priority ${hostPriority}) newly registered for UI type: ${uiComponentType}. Placeholder:`,
+        placeholderElement
+      );
+    }
+
+    // Fire event if it's a new registration or if the priority/placeholder changed for an existing one.
+    // Placeholder comparison is tricky with DOM elements, so we rely on priority change or new registration.
+    // The isActive status in the event should reflect the host's current state.
+    if (!wasAlreadyRegistered || oldPriority !== newHostData.priority) {
+      eventBus.publish('uiHostRegistry:hostStatusChanged', {
+        uiComponentType: uiComponentType,
+        moduleId: hostModuleId,
+        status: 'registration_update', // More generic status
+        isActive: newHostData.isActive,
+        priority: newHostData.priority,
+      });
+      // console.log(`[CentralRegistry] Fired uiHostRegistry:hostStatusChanged for ${hostModuleId} (type ${uiComponentType}) due to registration/priority update. New Prio: ${newHostData.priority}, Active: ${newHostData.isActive}`);
+    }
   }
 
   setUIHostActive(uiComponentType, hostModuleId, isActive) {
-    const hosts = this.uiHostProviders.get(uiComponentType);
-    if (hosts) {
-      const host = hosts.find((h) => h.moduleId === hostModuleId);
-      if (host) {
-        if (host.isActive !== isActive) {
-          host.isActive = isActive;
-          console.log(
-            `[CentralRegistry] Host ${hostModuleId} for ${uiComponentType} set to active: ${isActive}.`
-          );
-          eventBus.publish('uiHostRegistry:hostStatusChanged', {
-            uiComponentType: uiComponentType,
-            hostModuleId: hostModuleId,
-            isActive: isActive,
-          });
-        }
-      } else {
-        console.warn(
-          `[CentralRegistry] Host ${hostModuleId} not found for UI type ${uiComponentType} when setting active status.`
+    const hostsForType = this.uiHostProviders.get(uiComponentType);
+    if (!hostsForType) {
+      console.log(
+        `[CentralRegistry] No hosts registered for UI type ${uiComponentType}. Cannot set active status for ${hostModuleId}.`
+      );
+      return;
+    }
+    const host = hostsForType.find((h) => h.moduleId === hostModuleId);
+    if (host) {
+      if (host.isActive !== isActive) {
+        host.isActive = isActive;
+        console.log(
+          `[CentralRegistry] Host ${hostModuleId} for ${uiComponentType} set to active: ${isActive}.`
         );
+        eventBus.publish('uiHostRegistry:hostStatusChanged', {
+          uiComponentType: uiComponentType,
+          moduleId: hostModuleId,
+          status: isActive ? 'activated' : 'deactivated',
+          isActive: isActive,
+          priority: host.priority,
+        });
+      } else {
+        // Optionally log if no change, or just be silent
+        // console.log(`[CentralRegistry] Host ${hostModuleId} for ${uiComponentType} active status already ${isActive}. No change necessary.`);
       }
     } else {
       console.warn(
-        `[CentralRegistry] No hosts found for UI type ${uiComponentType} when setting active status for ${hostModuleId}.`
+        `[CentralRegistry] Host ${hostModuleId} not found for UI type ${uiComponentType}. Cannot set active status.`
       );
     }
   }

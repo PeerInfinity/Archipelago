@@ -32,7 +32,7 @@ export class LocationUI {
     this.colorblindSettings = {}; // Cache colorblind settings
     this.isInitialized = false; // Add flag
     this.originalLocationOrder = []; // ADDED: To store original keys
-    this.dispatcher = getDispatcher(); // Get dispatcher instance
+    // this.dispatcher = getDispatcher(); // Removed from constructor
 
     this.container.element.appendChild(this.rootElement);
 
@@ -47,6 +47,7 @@ export class LocationUI {
         '[LocationUI] Received app:readyForUiDataLoad. Initializing base panel structure and event listeners.'
       );
       this.initialize(); // This sets up stateManager event listeners like snapshotUpdated
+      this.dispatcher = getDispatcher(); // Added: Get dispatcher here
 
       // DO NOT proactively fetch data or render here.
       // Static data (like original orders) will be fetched on 'stateManager:rulesLoaded'.
@@ -444,15 +445,24 @@ export class LocationUI {
 
   async handleLocationClick(locationData) {
     if (!locationData || !locationData.name) {
-      console.warn(
-        '[LocationUI] handleLocationClick called with invalid locationData:',
-        locationData
-      );
+      console.warn('[LocationUI] Invalid locationData in handleLocationClick');
       return;
     }
 
+    if (!this.dispatcher) {
+      console.error(
+        '[LocationUI] Dispatcher not available in handleLocationClick. Cannot send location check request.'
+      );
+      // Optionally, try to re-acquire it, though if initialize() hasn't run, it might still be null.
+      // this.dispatcher = getDispatcher();
+      // if (!this.dispatcher) return;
+      return;
+    }
+
+    const locationName = locationData.name;
+
     console.log(
-      `[LocationUI] Clicked on location: ${locationData.name}, Region: ${locationData.region}`
+      `[LocationUI] Clicked on location: ${locationName}, Region: ${locationData.region}`
     );
 
     // Check if we have a valid snapshot for rule evaluation (optional, based on previous logic)
@@ -467,7 +477,7 @@ export class LocationUI {
     // Removed loop mode active check and direct call to stateManager or eventBus for checkLocationRequest
 
     const payload = {
-      locationName: locationData.name,
+      locationName: locationName,
       regionName: locationData.region, // Ensure regionName is correctly passed
       originator: 'LocationCardClick',
       originalDOMEvent: true, // Assuming this is a direct user click
