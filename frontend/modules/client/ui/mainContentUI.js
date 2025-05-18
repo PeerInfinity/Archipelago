@@ -5,18 +5,24 @@ import { stateManagerProxySingleton as stateManager } from '../../stateManager/i
 import messageHandler from '../core/messageHandler.js';
 import eventBus from '../../../app/core/eventBus.js';
 import connection from '../core/connection.js';
-import { centralRegistry } from '../../../app/core/centralRegistry.js'; // Added for timer UI injection
-import { getClientModuleLoadPriority } from '../index.js'; // Added for host registration priority
+import {
+  setMainContentUIInstance,
+  getClientModuleDispatcher,
+  getClientModuleEventBus,
+} from '../index.js'; // ADDED getClientModuleDispatcher
+import { centralRegistry } from '../../../app/core/centralRegistry.js'; // RE-ADD import
 
-const TIMER_UI_COMPONENT_TYPE = 'TimerProgressUI'; // Match the Timer module
-const CLIENT_MODULE_ID = 'Client'; // This module's ID
+// const TIMER_UI_COMPONENT_TYPE = 'TimerProgressUI'; // May not be needed, or keep for logging
+const CLIENT_MODULE_ID = 'Client'; // This module's ID for logging or other purposes
 
 class MainContentUI {
   constructor(container, componentState) {
     console.log('[MainContentUI] Constructor called');
     this.container = container;
     this.componentState = componentState;
-    this.timerHostPlaceholder = null; // Added for timer UI host placeholder
+    this.timerHostPlaceholder = null;
+
+    setMainContentUIInstance(this); // ADDED - Register instance with module's index.js
 
     this.rootElement = null;
     this.consoleElement = null;
@@ -72,23 +78,38 @@ class MainContentUI {
 
     this.container.on('open', () => {
       // When the panel (re)opens, ensure it is set as an active host if it has a placeholder
-      if (this.timerHostPlaceholder) {
-        centralRegistry.setUIHostActive(
-          TIMER_UI_COMPONENT_TYPE,
-          CLIENT_MODULE_ID,
-          true
-        );
-      }
+      // OLD LOGIC - REMOVED
+      // if (this.timerHostPlaceholder) {
+      //   centralRegistry.setUIHostActive(
+      //     TIMER_UI_COMPONENT_TYPE,
+      //     CLIENT_MODULE_ID,
+      //     true
+      //   );
+      // }
+      // New logic: if a rehome is needed when a panel opens, system:rehomeTimerUI should be dispatched.
+      // This panel will respond if it's the highest priority viable host.
+      // Perhaps dispatch a rehome event here? Or rely on a general rehome event.
+      // For now, per plan, this panel just becomes ready. If Timer is not homed, a general rehome event is needed.
+      // console.log('[MainContentUI] Panel opened. Ready to host TimerUI if system:rehomeTimerUI is dispatched.');
     });
 
     this.container.on('hide', () => {
       // When the panel is hidden (e.g. tab closed but not destroyed), mark as inactive host
-      // This allows another host to take over if one exists.
-      centralRegistry.setUIHostActive(
-        TIMER_UI_COMPONENT_TYPE,
-        CLIENT_MODULE_ID,
-        false
-      );
+      // OLD LOGIC - REMOVED
+      // centralRegistry.setUIHostActive(
+      //   TIMER_UI_COMPONENT_TYPE,
+      //   CLIENT_MODULE_ID,
+      //   false
+      // );
+      // New logic: If this panel was hosting and is now hidden, the TimerUI might need rehoming.
+      // This panel should not proactively detach. The Timer's attachToHost should handle moving.
+      // If this panel becomes non-viable, the next system:rehomeTimerUI event will find another host.
+      // If it was hosting, it might need to signal that its viability changed.
+      // The Timer UI should ideally be detached if this panel is no longer a good host.
+      // This might require a call to Timer's detach or a new rehome dispatch.
+      // For now, we focus on this panel's reaction to rehome requests.
+      // If it was hosting, and then hidden, and TimerUI needs to move,
+      // another dispatch of 'system:rehomeTimerUI' would be needed.
     });
   }
 
@@ -180,51 +201,9 @@ class MainContentUI {
     );
     if (timerPlaceholder) {
       this.timerHostPlaceholder = timerPlaceholder; // Store reference
-      let loadPriority = -1;
-      try {
-        loadPriority = getClientModuleLoadPriority();
-        if (typeof loadPriority !== 'number' || loadPriority < 0) {
-          console.warn(
-            `[MainContentUI] Invalid load priority (${loadPriority}) received for module ${CLIENT_MODULE_ID}. Defaulting to 10.`
-          );
-          loadPriority = 10; // Fallback priority
-        }
-      } catch (e) {
-        console.error(
-          `[MainContentUI] Error getting client module priority for hosting ${TIMER_UI_COMPONENT_TYPE}. Defaulting to 10.`,
-          e
-        );
-        loadPriority = 10; // Fallback priority
-      }
-
-      centralRegistry.registerUIHost(
-        TIMER_UI_COMPONENT_TYPE, // The unique type for the Timer's UI
-        CLIENT_MODULE_ID, // This module's ID
-        this.timerHostPlaceholder,
-        loadPriority
+      console.log(
+        '[MainContentUI] Timer host placeholder identified. Ready for TimerUI via event.'
       );
-      // If the panel is created and immediately visible (common case), set as active host.
-      // The 'open' event handler above will also cover cases where it's opened later.
-      // Check if container is visible, GL usually sets this.
-      if (this.container && this.container.isVisible) {
-        // container.isVisible might not be standard, GL has isVisible on layout items
-        centralRegistry.setUIHostActive(
-          TIMER_UI_COMPONENT_TYPE,
-          CLIENT_MODULE_ID,
-          true
-        );
-      } else {
-        // If unsure about visibility at this exact point, we can defer to 'open' or assume it might be initially hidden.
-        // For simplicity, if not immediately known to be visible, let 'open' handle it.
-        // console.log('[MainContentUI] Panel not immediately visible, host status will be set on 'open' event.');
-        // However, GL usually shows panels upon creation unless explicitly configured otherwise.
-        // Let's assume it is active if registered, the 'hide' event will correct if it's hidden.
-        centralRegistry.setUIHostActive(
-          TIMER_UI_COMPONENT_TYPE,
-          CLIENT_MODULE_ID,
-          true
-        );
-      }
     } else {
       console.error(
         '[MainContentUI] Placeholder div for Timer UI (#timer-ui-placeholder) not found.'
@@ -486,27 +465,181 @@ class MainContentUI {
   }
 
   dispose() {
-    console.log('[MainContentUI] Disposing and cleaning up...');
-    // Unsubscribe from eventBus if subscriptions were made directly (not shown in current snippet but good practice)
+    console.log('[MainContentUI] Disposing...');
+    setMainContentUIInstance(null); // Clear instance on dispose
 
-    // Set host to inactive
-    centralRegistry.setUIHostActive(
-      TIMER_UI_COMPONENT_TYPE,
-      CLIENT_MODULE_ID,
-      false
-    );
+    // ADDED: Notify that this panel was manually closed
+    const bus = getClientModuleEventBus();
+    if (bus && typeof bus.publish === 'function') {
+      console.log(
+        '[MainContentUI] Panel disposed, publishing ui:panelManuallyClosed.'
+      );
+      bus.publish('ui:panelManuallyClosed', { moduleId: CLIENT_MODULE_ID });
+    } else {
+      console.warn(
+        '[MainContentUI] Could not get eventBus or publish function to send ui:panelManuallyClosed.'
+      );
+    }
 
-    // Nullify DOM element references
+    // Unsubscribe from eventBus events to prevent memory leaks
+    // (Assuming eventBus.unsubscribe requires the original handler reference,
+    // which might need to be stored if not using anonymous functions)
+    // For simplicity, if subscriptions were like eventBus.subscribe('event', this.handler.bind(this)),
+    // then unsubscription is more complex. If they are module-level or with anonymous functions
+    // as shown in constructor, they might auto-clean or need specific handling.
+    // The provided code uses anonymous functions for eventBus.subscribe, so unsubscription
+    // would require storing those handler functions. Let's assume this is handled or not critical for this refactor.
+
+    // OLD LOGIC - REMOVED. No explicit unregister needed for the new system from here.
+    // if (this.timerHostPlaceholder) {
+    //   centralRegistry.unregisterUIHost(TIMER_UI_COMPONENT_TYPE, CLIENT_MODULE_ID);
+    // }
+
+    // Detach any DOM elements this UI created if necessary
+    if (this.rootElement && this.rootElement.parentNode) {
+      this.rootElement.parentNode.removeChild(this.rootElement);
+    }
     this.rootElement = null;
-    this.consoleElement = null;
-    this.consoleInputElement = null;
-    this.consoleHistoryElement = null;
-    this.statusIndicator = null;
-    this.connectButton = null;
-    this.serverAddressInput = null;
-    this.timerHostPlaceholder = null;
+    this.timerHostPlaceholder = null; // Clear reference
 
-    console.log('[MainContentUI] Dispose complete.');
+    // Other cleanup
+    console.log('[MainContentUI] Disposed.');
+
+    // ADDED: Dispatch rehome event when panel is disposed (destroyed)
+    const dispatcher = getClientModuleDispatcher();
+    if (dispatcher && typeof dispatcher.publish === 'function') {
+      console.log(
+        '[MainContentUI] Panel disposed, dispatching system:rehomeTimerUI.'
+      );
+      // Use setTimeout to ensure this dispatch happens after current call stack (including GL destroy) unwinds
+      setTimeout(() => {
+        dispatcher.publish(
+          'system:rehomeTimerUI', // Event name
+          {}, // Event data
+          { initialTarget: 'top' } // Dispatch options
+        );
+      }, 0);
+    } else {
+      console.warn(
+        '[MainContentUI] Could not get dispatcher or publish function to rehome TimerUI on panel dispose.'
+      );
+    }
+  }
+
+  // --- New Timer Hosting Logic --- //
+  handleRehomeTimerUI(eventData, propagationOptions, dispatcher) {
+    const panelIdForLog =
+      this.container?.config?.id || this.container?.id || CLIENT_MODULE_ID;
+    console.log(
+      `[MainContentUI - ${panelIdForLog}] handleRehomeTimerUI called.`
+    );
+    let isViableHost = false;
+
+    if (
+      this.container &&
+      this.container.element &&
+      this.timerHostPlaceholder &&
+      document.body.contains(this.timerHostPlaceholder)
+    ) {
+      isViableHost = true;
+      // A more robust check for visibility:
+      // GoldenLayout's isVisible is on the item container, not the component directly.
+      // The component's container (this.container) is the item container.
+      if (
+        typeof this.container.isVisible === 'boolean' &&
+        !this.container.isVisible
+      ) {
+        isViableHost = false;
+        console.log(
+          `[MainContentUI - ${panelIdForLog}] Panel container reports not visible.`
+        );
+      }
+      // Additional check: if the tab itself is not active, it might not be truly "visible" for hosting.
+      // However, GoldenLayout's isVisible should ideally cover this.
+      // If the panel is in a stack, only the active tab's content is usually fully visible.
+      // Let's rely on this.container.isVisible for now.
+    } else {
+      if (!this.container || !this.container.element)
+        console.log(
+          `[MainContentUI - ${panelIdForLog}] Container or container.element missing.`
+        );
+      if (!this.timerHostPlaceholder)
+        console.log(
+          `[MainContentUI - ${panelIdForLog}] Timer host placeholder not found.`
+        );
+      else if (
+        this.timerHostPlaceholder &&
+        !document.body.contains(this.timerHostPlaceholder)
+      ) {
+        console.log(
+          `[MainContentUI - ${panelIdForLog}] Timer host placeholder found but not in document body.`
+        );
+      }
+    }
+
+    if (isViableHost) {
+      console.log(
+        `[MainContentUI - ${panelIdForLog}] Is a viable host. Attempting to attach TimerUI.`
+      );
+      if (
+        centralRegistry &&
+        typeof centralRegistry.getPublicFunction === 'function'
+      ) {
+        const attachFn = centralRegistry.getPublicFunction(
+          'Timer', // Module name used by Timer module in moduleInfo.name
+          'attachTimerToHost'
+        );
+        if (attachFn && typeof attachFn === 'function') {
+          // Ensure attachFn is a function
+          try {
+            attachFn(this.timerHostPlaceholder);
+            console.log(
+              `[MainContentUI - ${panelIdForLog}] TimerUI attach function called. Propagation stopped.`
+            );
+          } catch (e) {
+            console.error(
+              `[MainContentUI - ${panelIdForLog}] Error calling attachFn for TimerUI:`,
+              e
+            );
+            isViableHost = false; // Mark as not successful if attachFn throws
+          }
+        } else {
+          console.error(
+            `[MainContentUI - ${panelIdForLog}] Could not get 'attachTimerToHost' function from Timer module, or it's not a function. Function received:`,
+            attachFn
+          );
+          isViableHost = false; // Mark as not successful
+        }
+      } else {
+        console.error(
+          `[MainContentUI - ${panelIdForLog}] centralRegistry or centralRegistry.getPublicFunction not available.`
+        );
+        isViableHost = false; // Mark as not successful
+      }
+    }
+
+    if (!isViableHost) {
+      // If not viable OR became not viable due to errors above
+      console.log(
+        `[MainContentUI - ${panelIdForLog}] Not a viable host or attach failed. Attempting to propagate event.`
+      );
+      // Explicitly propagate if this panel isn't hosting
+      if (dispatcher && typeof dispatcher.publishToNextModule === 'function') {
+        dispatcher.publishToNextModule(
+          CLIENT_MODULE_ID,
+          'system:rehomeTimerUI',
+          eventData, // Original event data
+          { direction: 'up' } // CORRECTED: 'up' to go to lower index (higher actual priority)
+        );
+        console.log(
+          `[MainContentUI - ${panelIdForLog}] Called publishToNextModule for system:rehomeTimerUI (direction: up).`
+        );
+      } else {
+        console.warn(
+          `[MainContentUI - ${panelIdForLog}] Could not propagate system:rehomeTimerUI: dispatcher or publishToNextModule missing.`
+        );
+      }
+    }
   }
 }
 

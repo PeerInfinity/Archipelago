@@ -51,16 +51,16 @@ class EventDispatcher {
    * @param {string} eventName - The name of the event to publish.
    * @param {any} data - The data payload associated with the event.
    * @param {object} [options={}] - Optional parameters.
-   * @param {'top'|'bottom'} [options.direction='bottom'] - Order to check handlers.
+   * @param {'top'|'bottom'} [options.initialTarget='bottom'] - Order to check handlers.
    */
   publish(eventName, data, options = {}) {
-    const { direction = 'bottom' } = options;
+    const { initialTarget = 'bottom' } = options;
 
     const allHandlers = this.getHandlers(); // Get current handlers
     const potentialHandlers = allHandlers.get(eventName) || [];
 
     console.log(
-      `[EventDispatcher.publish] Event: ${eventName}, Direction: ${direction}, All Handlers Map Size: ${allHandlers.size}, Potential Handlers for Event:`,
+      `[EventDispatcher.publish] Event: ${eventName}, initialTarget: ${initialTarget}, All Handlers Map Size: ${allHandlers.size}, Potential Handlers for Event:`,
       JSON.parse(
         JSON.stringify(
           potentialHandlers.map((h) => ({
@@ -90,8 +90,9 @@ class EventDispatcher {
         if (priorityA === -1) return 1; // Put unknowns last
         if (priorityB === -1) return -1;
 
-        // Descending order for bottom (default), Ascending for top
-        return direction === 'bottom'
+        // Ascending order if initialTarget is bottom (default), Descending if initialTarget is top
+        // Todo - check if this is correct, or if it should be reversed
+        return initialTarget === 'bottom'
           ? priorityA - priorityB
           : priorityB - priorityA;
       });
@@ -104,7 +105,7 @@ class EventDispatcher {
     const handlerEntry = eligibleHandlers[0];
 
     console.log(
-      `[Dispatcher] Dispatching ${eventName} to module: ${handlerEntry.moduleId} (Direction: ${direction})`
+      `[Dispatcher] Dispatching ${eventName} to module: ${handlerEntry.moduleId} (initialTarget: ${initialTarget})`
     );
     try {
       // Execute the handler

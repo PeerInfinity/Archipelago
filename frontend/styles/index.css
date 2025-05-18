@@ -1079,19 +1079,20 @@ label {
 /* Style for the file input label to look like a button */
 .file-input-button-label {
   display: inline-block;
-  padding: 0.25rem 0.5rem; /* Match other button padding */
-  background-color: #000080; /* Match button background */
-  color: #cecece; /* Match button text color */
-  border: 1px solid #666; /* Match button border */
-  border-radius: 4px; /* Optional: match button border-radius */
+  padding: 6px 12px; /* Match .button padding */
+  background-color: #4a5568; /* Match .button background */
+  color: white; /* Match .button color */
+  border: none; /* Match .button border */
+  border-radius: 4px; /* Match .button border-radius */
   cursor: pointer;
-  font-size: 0.8rem; /* Match button font size */
+  font-size: 0.9em; /* Match .button font-size */
   text-align: center;
   line-height: normal; /* Ensure text is vertically centered like a button */
+  transition: background-color 0.2s ease; /* Match .button transition */
 }
 
 .file-input-button-label:hover {
-  background-color: #0000a0; /* Match button hover background */
+  background-color: #2d3748; /* Match .button hover background */
 }
 
 /* Hide the actual file input, as the label triggers it */

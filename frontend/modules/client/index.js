@@ -65,7 +65,8 @@ let coreMessageHandler = messageHandler;
 let coreLocationManager = LocationManager;
 // let coreTimerState = timerState; // Removed
 let moduleDispatcher = null; // Renamed from 'dispatcher' for clarity and consistency
-let clientModuleLoadPriority = -1; // Added to store load priority
+// let clientModuleLoadPriority = -1; // Added to store load priority // REMOVED
+let mainContentUIInstance = null; // Added to hold the UI instance
 
 // --- Dispatcher Handler for Disconnect (Connect is now handled directly by connection.js) --- //
 function handleDisconnectRequest(data) {
@@ -84,6 +85,47 @@ export function register(registrationApi) {
   console.log('[Client Module] Registering...');
 
   registrationApi.registerPanelComponent('clientPanel', MainContentUI); // Ensure componentType matches GoldenLayout config
+
+  // Register dispatcher receiver for system:rehomeTimerUI
+  registrationApi.registerDispatcherReceiver(
+    moduleInfo.name,
+    'system:rehomeTimerUI',
+    (eventData, propagationOptions) => {
+      if (
+        mainContentUIInstance &&
+        typeof mainContentUIInstance.handleRehomeTimerUI === 'function'
+      ) {
+        mainContentUIInstance.handleRehomeTimerUI(
+          eventData,
+          propagationOptions,
+          moduleDispatcher
+        );
+      } else {
+        console.warn(
+          `[Client Module] MainContentUI instance not available or handleRehomeTimerUI method missing for event system:rehomeTimerUI. Attempting to propagate.`
+        );
+        // Explicitly propagate if this module's UI cannot handle the event
+        if (
+          moduleDispatcher &&
+          typeof moduleDispatcher.publishToNextModule === 'function'
+        ) {
+          moduleDispatcher.publishToNextModule(
+            moduleInfo.name, // This module's ID
+            'system:rehomeTimerUI',
+            eventData,
+            { direction: 'up' } // CORRECTED: 'up' to go to lower index (higher actual priority)
+          );
+          console.log(
+            `[Client Module] Called publishToNextModule for system:rehomeTimerUI (direction: up) because instance was unavailable.`
+          );
+        } else {
+          console.error(
+            `[Client Module] Could not propagate system:rehomeTimerUI: moduleDispatcher or publishToNextModule missing.`
+          );
+        }
+      }
+    }
+  );
 
   // Only register dispatcher listener for disconnect
   registrationApi.registerDispatcherReceiver(
@@ -119,7 +161,7 @@ export function register(registrationApi) {
 // --- Initialization --- //
 export async function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(`[Client Module] Initializing with priority ${priorityIndex}...`);
-  clientModuleLoadPriority = priorityIndex; // Store it
+  // clientModuleLoadPriority = priorityIndex; // Store it // REMOVED
 
   moduleEventBus = initializationApi.getEventBus();
   moduleDispatcher = initializationApi.getDispatcher(); // Store dispatcher
@@ -163,7 +205,8 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
     coreMessageHandler = null;
     // coreTimerState = null; // Removed
     moduleDispatcher = null;
-    clientModuleLoadPriority = -1;
+    // clientModuleLoadPriority = -1; // REMOVED
+    mainContentUIInstance = null; // Reset instance on cleanup
   };
 }
 
@@ -172,10 +215,21 @@ export function getClientModuleDispatcher() {
   return moduleDispatcher;
 }
 
-// Export load priority for MainContentUI
-export function getClientModuleLoadPriority() {
-  return clientModuleLoadPriority;
+// ADDED: Export event bus for use by other files in this module
+export function getClientModuleEventBus() {
+  return moduleEventBus;
 }
+
+// Export setter for MainContentUI instance
+export function setMainContentUIInstance(instance) {
+  mainContentUIInstance = instance;
+  console.log('[Client Module] MainContentUI instance set.');
+}
+
+// Export load priority for MainContentUI
+// export function getClientModuleLoadPriority() { // REMOVED
+//   return clientModuleLoadPriority; // REMOVED
+// } // REMOVED
 
 // --- Dispatcher Handlers --- //
 // REMOVED DUPLICATE DEFINITIONS - These are now defined before the register function.

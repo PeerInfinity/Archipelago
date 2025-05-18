@@ -489,7 +489,7 @@ export class LocationUI {
       // Use the re-fetched instance
       currentDispatcher.publish('user:locationCheck', payload, {
         // Use currentDispatcher
-        direction: 'bottom',
+        initialTarget: 'bottom',
       });
       console.log('[LocationUI] Dispatched user:locationCheck', payload);
     } else {

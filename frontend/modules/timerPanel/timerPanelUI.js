@@ -1,106 +1,97 @@
 // frontend/modules/timerPanel/timerPanelUI.js
-import { centralRegistry } from '../../app/core/centralRegistry.js';
-import eventBus from '../../app/core/eventBus.js';
+// import { centralRegistry } from '../../app/core/centralRegistry.js'; // REMOVED - No longer used for timer hosting
+import eventBus from '../../app/core/eventBus.js'; // Keep for 'module:stateChanged' if still used for other purposes
+import { centralRegistry } from '../../app/core/centralRegistry.js'; // RE-ADD import
 // Import helper from its own index.js to get module context
 import {
-  getTimerPanelModuleLoadPriority,
-  getTimerPanelModuleId, // Fallback if componentType is not provided
-  getHostedUIComponentType,
+  // getTimerPanelModuleLoadPriority, // REMOVED
+  getTimerPanelModuleId,
+  // getHostedUIComponentType, // REMOVED
+  setTimerPanelUIInstance, // ADDED
+  getModuleDispatcher, // ADDED
+  getModuleEventBus, // ADDED
 } from './index.js';
 
-const TIMER_UI_COMPONENT_TYPE = 'TimerProgressUI';
+// const TIMER_UI_COMPONENT_TYPE = 'TimerProgressUI'; // REMOVED - No longer needed for this class
 
 export class TimerPanelUI {
   constructor(container, componentState, componentType) {
-    // componentType is passed by PanelManager's factory
-    this.moduleId = componentType || getTimerPanelModuleId(); // Use componentType passed by PanelManager
+    this.moduleId = componentType || getTimerPanelModuleId();
     console.log(`[TimerPanelUI for ${this.moduleId}] Constructor called.`);
-    this.container = container; // GoldenLayout container object
+    setTimerPanelUIInstance(this); // ADDED - Register instance with module's index.js
+    this.container = container;
     this.componentState = componentState;
 
     this.rootElement = document.createElement('div');
-    // this.moduleId = moduleId; // Store for context if needed, e.g., for debug messages
-    this.rootElement.className = 'timer-panel-ui-container panel-container'; // Ensure consistent class
+    this.rootElement.className = 'timer-panel-ui-container panel-container';
     this.rootElement.style.width = '100%';
     this.rootElement.style.height = '100%';
     this.rootElement.style.overflow = 'auto';
-    this.rootElement.style.padding = '5px'; // Basic padding
+    this.rootElement.style.padding = '5px';
     this.rootElement.style.boxSizing = 'border-box';
-    // REMOVE DEBUG STYLING
-    // this.rootElement.style.border = '2px solid blue';
-    // this.rootElement.textContent = `TimerPanelUI Root (Module ID: ${this.moduleId || 'N/A'})`;
-    this.rootElement.innerHTML = ''; // Clear any debug text content
+    this.rootElement.innerHTML = '';
 
     this.timerHostPlaceholder = document.createElement('div');
     this.timerHostPlaceholder.id = `timer-ui-host-in-${
       this.moduleId
     }-${Date.now()}`;
     this.timerHostPlaceholder.style.width = '100%';
-    this.timerHostPlaceholder.style.height = 'calc(100% - 30px)'; // Adjust height to see text above
-    // REMOVE DEBUG STYLING FOR PLACEHOLDER
-    // this.timerHostPlaceholder.style.border = '1px dashed green;';
-    // this.timerHostPlaceholder.innerHTML = `<p style="color:green; font-weight:bold;">TimerHostPlaceholder for ${this.moduleId}</p>`;
-    this.timerHostPlaceholder.innerHTML = ''; // Clear debug text
+    // this.timerHostPlaceholder.style.height = 'calc(100% - 30px)'; // Example, adjust as needed
+    this.timerHostPlaceholder.style.height = '100%';
+    this.timerHostPlaceholder.innerHTML = '';
     this.rootElement.appendChild(this.timerHostPlaceholder);
 
-    // --- Do NOT append this.rootElement to this.container.element here. ---
-    // --- The WrapperComponent in PanelManager is responsible for that. ---
-
-    this.hostedComponentType = getHostedUIComponentType(); // From its own index.js
-    this.isHostActive = false;
+    // this.hostedComponentType = getHostedUIComponentType(); // REMOVED
+    // this.isHostActive = false; // REMOVED
     this.moduleStateChangeHandler =
       this._handleSelfModuleStateChange.bind(this);
 
-    // GL container lifecycle events
     this.container.on('open', this._handlePanelOpen.bind(this));
     this.container.on('show', this._handlePanelShow.bind(this));
     this.container.on('hide', this._handlePanelHide.bind(this));
     this.container.on('destroy', this._handlePanelDestroy.bind(this));
 
+    // This subscription might still be relevant if the panel needs to react to its own module being disabled/enabled
+    // for reasons other than timer hosting. If not, it can be removed.
+    // For now, keep it, but its logic in _handleSelfModuleStateChange will change.
     eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler);
-    centralRegistry.registerEventBusSubscriberIntent(
-      this.moduleId,
-      'module:stateChanged'
-    );
+    // centralRegistry.registerEventBusSubscriberIntent(this.moduleId, 'module:stateChanged'); // This was likely for the old system; remove if not broadly used
 
     console.log(
-      `[TimerPanelUI for ${this.moduleId}] Panel UI instance created. Root element ready but not yet appended by wrapper.`
+      `[TimerPanelUI for ${this.moduleId}] Panel UI instance created. Placeholder ready.`
     );
   }
 
   getRootElement() {
-    console.log(
-      `[TimerPanelUI for ${this.moduleId}] getRootElement() called, returning:`,
-      this.rootElement
-    );
     return this.rootElement;
   }
 
   onMount(glContainer, componentState) {
-    // glContainer is the same as this.container
     console.log(
-      `[TimerPanelUI for ${this.moduleId}] onMount CALLED. Panel's rootElement should now be in the DOM via wrapper.`
+      `[TimerPanelUI for ${this.moduleId}] onMount CALLED. Panel ready.`
     );
-    // Initial host registration
-    // Consider if panel is immediately visible or not.
-    if (this.container && this.container.isVisible) {
-      this._registerAsHost(true);
-    } else {
-      this._registerAsHost(false); // Will be activated by _handlePanelShow if tab becomes active
-    }
+    // OLD LOGIC REMOVED
+    // if (this.container && this.container.isVisible) {
+    //   this._registerAsHost(true);
+    // } else {
+    //   this._registerAsHost(false);
+    // }
+    // New logic: The panel is now ready. If a rehome is needed, system:rehomeTimerUI event will handle it.
   }
 
   onUnmount() {
     console.log(`[TimerPanelUI for ${this.moduleId}] onUnmount CALLED.`);
-    this._cleanupHostRegistration();
+    setTimerPanelUIInstance(null); // Clear instance on unmount/destroy
+    // OLD LOGIC REMOVED
+    // this._cleanupHostRegistration();
+
     if (this.moduleStateChangeHandler) {
       eventBus.unsubscribe(
         'module:stateChanged',
         this.moduleStateChangeHandler
       );
-      this.moduleStateChangeHandler = null; // Prevent multiple unsubscribes
+      this.moduleStateChangeHandler = null;
     }
-    // Minimal DOM cleanup here as GL manages container.element
     if (
       this.timerHostPlaceholder &&
       this.timerHostPlaceholder.parentNode === this.rootElement
@@ -108,116 +99,218 @@ export class TimerPanelUI {
       this.rootElement.removeChild(this.timerHostPlaceholder);
     }
     this.timerHostPlaceholder = null;
-    // this.rootElement is managed by the WrapperComponent lifecycle through GL.
   }
 
   _handlePanelOpen() {
     console.log(
-      `[TimerPanelUI for ${this.moduleId}] GoldenLayout 'open' event. Panel is being shown or created.`
+      `[TimerPanelUI for ${this.moduleId}] GoldenLayout 'open' event.`
     );
-    // onMount handles initial registration. If 'open' implies visibility, ensure active.
-    if (this.container && this.container.isVisible) {
-      this._registerAsHost(true);
-    }
+    // OLD LOGIC REMOVED
+    // if (this.container && this.container.isVisible) {
+    //   this._registerAsHost(true);
+    // }
+    // New: Panel is open and potentially visible. It will respond to rehome events.
   }
 
   _handlePanelShow() {
     console.log(
       `[TimerPanelUI for ${this.moduleId}] GoldenLayout 'show' event. Panel tab selected.`
     );
-    this._registerAsHost(true); // Ensure active status
+    // OLD LOGIC REMOVED
+    // this._registerAsHost(true);
+    // New: Panel is shown. It will respond to rehome events.
+    // If it becoming visible *should* trigger a rehome, then an event needs to be dispatched.
+    // For now, it just becomes a potential candidate.
   }
 
   _handlePanelHide() {
     console.log(
       `[TimerPanelUI for ${this.moduleId}] GoldenLayout 'hide' event. Panel tab deselected.`
     );
-    centralRegistry.setUIHostActive(
-      this.hostedComponentType,
-      this.moduleId,
-      false
-    );
+    // OLD LOGIC REMOVED
+    // centralRegistry.setUIHostActive(this.hostedComponentType, this.moduleId, false);
+    // New: If this panel was hosting, and is now hidden, TimerUI might need rehoming.
+    // This could be a trigger to dispatch 'system:rehomeTimerUI'.
+    // For now, this panel just notes it's hidden. The next 'system:rehomeTimerUI' will skip it if not visible.
+    // If it *was* hosting the timer, and it's hidden, a `system:rehomeTimerUI` should be dispatched
+    // by something (e.g. init.js listening to a generic panel hide event, or this module itself).
+    // The user plan stated: "The destruction of a host panel will naturally lead to the Timer UI being detached.
+    // The next system:rehomeTimerUI dispatch ... will find a new home."
+    // Hiding is not destruction, but makes it non-viable.
+    // For now, let's stick to this panel only reacting to rehome events.
   }
 
   _handlePanelDestroy() {
     console.log(
       `[TimerPanelUI for ${this.moduleId}] GoldenLayout 'destroy' event. Calling onUnmount.`
     );
-    this.onUnmount();
-  }
+    this.onUnmount(); // onUnmount now includes setTimerPanelUIInstance(null)
 
-  _cleanupHostRegistration() {
-    console.log(
-      `[TimerPanelUI for ${this.moduleId}] Cleaning up host registration.`
-    );
-    centralRegistry.setUIHostActive(
-      this.hostedComponentType,
-      this.moduleId,
-      false
-    );
-    centralRegistry.unregisterUIHost(this.hostedComponentType, this.moduleId);
-  }
-
-  _registerAsHost(isActive) {
-    if (!this.rootElement || !this.timerHostPlaceholder) {
-      // Check rootElement too, as placeholder is its child
-      console.warn(
-        `[TimerPanelUI for ${this.moduleId}] UI elements not ready. Cannot register as host.`
+    // ADDED: Notify that this panel was manually closed, so ModuleManager can update state
+    const bus = getModuleEventBus();
+    if (bus && typeof bus.publish === 'function') {
+      console.log(
+        `[TimerPanelUI for ${this.moduleId}] Panel destroyed, publishing ui:panelManuallyClosed.`
       );
-      return;
+      bus.publish('ui:panelManuallyClosed', { moduleId: this.moduleId });
+    } else {
+      console.warn(
+        `[TimerPanelUI for ${this.moduleId}] Could not get eventBus or publish function to send ui:panelManuallyClosed.`
+      );
     }
 
-    const loadPriority = getTimerPanelModuleLoadPriority();
-
-    centralRegistry.registerUIHost(
-      this.hostedComponentType,
-      this.moduleId,
-      this.timerHostPlaceholder,
-      loadPriority
-    );
-    this.isHostActive = isActive;
-    console.log(
-      `[TimerPanelUI for ${this.moduleId}] Host registration attempt. Module: ${
-        this.moduleId
-      }, Type: ${this.hostedComponentType}, Placeholder: ${
-        this.timerHostPlaceholder ? 'exists' : 'null'
-      }, Priority: ${loadPriority}, Requested Active: ${isActive}`
-    );
-    centralRegistry.setUIHostActive(
-      this.hostedComponentType,
-      this.moduleId,
-      isActive
-    );
+    // Dispatch rehome event for TimerUI
+    const dispatcher = getModuleDispatcher();
+    if (dispatcher && typeof dispatcher.publish === 'function') {
+      console.log(
+        `[TimerPanelUI for ${this.moduleId}] Panel destroyed, dispatching system:rehomeTimerUI.`
+      );
+      // Use setTimeout to ensure this dispatch happens after current call stack (including GL destroy) unwinds
+      setTimeout(() => {
+        dispatcher.publish(
+          'system:rehomeTimerUI', // Event name
+          {}, // Event data
+          { initialTarget: 'top' } // Dispatch options
+        );
+      }, 0);
+    } else {
+      console.warn(
+        `[TimerPanelUI for ${this.moduleId}] Could not get dispatcher or publish function to rehome TimerUI on panel destroy.`
+      );
+    }
   }
+
+  // _cleanupHostRegistration() // ENTIRELY REMOVED
+  // _registerAsHost(isActive) // ENTIRELY REMOVED
 
   _handleSelfModuleStateChange({ moduleId, enabled }) {
     if (moduleId === this.moduleId) {
       console.log(
         `[TimerPanelUI for ${this.moduleId}] Received self module:stateChanged. Module: ${moduleId}, Enabled: ${enabled}`
       );
-      if (enabled) {
-        console.log(
-          `[TimerPanelUI for ${this.moduleId}] Module re-enabled. Panel lifecycle events (open/show after recreation) will handle host registration.`
-        );
-        if (this.container && this.container.isVisible) {
-          this._registerAsHost(true);
-        }
-      } else {
-        console.log(
-          `[TimerPanelUI for ${this.moduleId}] Module disabled. Setting host to inactive via _registerAsHost(false).`
-        );
-        this._registerAsHost(false);
-      }
+      // OLD LOGIC REMOVED
+      // if (enabled) {
+      //   if (this.container && this.container.isVisible) { this._registerAsHost(true); }
+      // } else {
+      //   this._registerAsHost(false);
+      // }
+      // New logic: If module is disabled, it's unlikely to be a viable host.
+      // If it was hosting, this change in state should probably trigger a rehome event.
+      // For now, this panel simply acknowledges its state change.
+      // If it was hosting TimerUI and this module is disabled, it might need to dispatch system:rehomeTimerUI
+      // if (this.timerHostPlaceholder && this.timerHostPlaceholder.contains(timerInstance.domElement) && !enabled) {
+      //    this.dispatcher.publish('system:rehomeTimerUI', {}, { initialTarget: 'top' });
+      // }
+      // This requires having access to dispatcher and knowing if it's currently hosting.
+      // For simplicity of this step, let's assume an external mechanism triggers rehome if needed.
     }
   }
 
-  // Optional: If this panel needed its own internal initialization beyond DOM creation.
-  // initialize() {
-  //   console.log(`[TimerPanelUI for ${this.moduleId}] Initialize method called (if needed).`);
-  // }
+  // --- New Timer Hosting Logic --- //
+  handleRehomeTimerUI(eventData, propagationOptions, dispatcher) {
+    // Added dispatcher parameter
+    const panelIdForLog =
+      this.container?.config?.id || this.container?.id || this.moduleId;
+    console.log(
+      `[TimerPanelUI - ${panelIdForLog}] handleRehomeTimerUI called.`
+    );
+    let isViableHost = false;
 
-  // Optional: If this panel needed specific destruction logic.
-  // destroy() {
-  //   console.log(`[TimerPanelUI for ${this.moduleId}] Destroy method called (if needed).`);
-  // }
+    if (
+      this.container &&
+      this.container.element &&
+      this.timerHostPlaceholder &&
+      document.body.contains(this.timerHostPlaceholder)
+    ) {
+      isViableHost = true;
+      if (
+        typeof this.container.isVisible === 'boolean' &&
+        !this.container.isVisible
+      ) {
+        isViableHost = false;
+        console.log(
+          `[TimerPanelUI - ${panelIdForLog}] Panel container reports not visible.`
+        );
+      }
+    } else {
+      if (!this.container || !this.container.element)
+        console.log(
+          `[TimerPanelUI - ${panelIdForLog}] Container or container.element missing.`
+        );
+      if (!this.timerHostPlaceholder)
+        console.log(
+          `[TimerPanelUI - ${panelIdForLog}] Timer host placeholder not found.`
+        );
+      else if (
+        this.timerHostPlaceholder &&
+        !document.body.contains(this.timerHostPlaceholder)
+      ) {
+        console.log(
+          `[TimerPanelUI - ${panelIdForLog}] Timer host placeholder found but not in document body.`
+        );
+      }
+    }
+
+    if (isViableHost) {
+      console.log(
+        `[TimerPanelUI - ${panelIdForLog}] Is a viable host. Attempting to attach TimerUI.`
+      );
+      if (
+        centralRegistry &&
+        typeof centralRegistry.getPublicFunction === 'function'
+      ) {
+        const attachFn = centralRegistry.getPublicFunction(
+          'Timer',
+          'attachTimerToHost'
+        );
+        if (attachFn && typeof attachFn === 'function') {
+          try {
+            attachFn(this.timerHostPlaceholder);
+            console.log(
+              `[TimerPanelUI - ${panelIdForLog}] TimerUI attach function called. Propagation stopped.`
+            );
+          } catch (e) {
+            console.error(
+              `[TimerPanelUI - ${panelIdForLog}] Error calling attachFn for TimerUI:`,
+              e
+            );
+            isViableHost = false;
+          }
+        } else {
+          console.error(
+            `[TimerPanelUI - ${panelIdForLog}] Could not get 'attachTimerToHost' function from Timer module, or it's not a function. Function received:`,
+            attachFn
+          );
+          isViableHost = false;
+        }
+      } else {
+        console.error(
+          `[TimerPanelUI - ${panelIdForLog}] centralRegistry or centralRegistry.getPublicFunction not available.`
+        );
+        isViableHost = false;
+      }
+    }
+
+    if (!isViableHost) {
+      console.log(
+        `[TimerPanelUI - ${panelIdForLog}] Not a viable host or attach failed. Attempting to propagate event.`
+      );
+      // Explicitly propagate if this panel isn't hosting
+      if (dispatcher && typeof dispatcher.publishToNextModule === 'function') {
+        dispatcher.publishToNextModule(
+          this.moduleId,
+          'system:rehomeTimerUI',
+          eventData, // Original event data
+          { direction: 'up' } // CORRECTED: 'up' to go to lower index (higher actual priority)
+        );
+        console.log(
+          `[TimerPanelUI - ${panelIdForLog}] Called publishToNextModule for system:rehomeTimerUI (direction: up).`
+        );
+      } else {
+        console.warn(
+          `[TimerPanelUI - ${panelIdForLog}] Could not propagate system:rehomeTimerUI: dispatcher or publishToNextModule missing.`
+        );
+      }
+    }
+  }
 }

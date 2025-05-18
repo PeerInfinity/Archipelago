@@ -130,7 +130,7 @@ export class JsonUI {
 
         <div class="json-section button-group">
           <button id="json-btn-save-file" class="button">Save Combined to File</button>
-          <label class="button">
+          <label class="file-input-button-label">
             Load Combined from File
             <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
           </label>

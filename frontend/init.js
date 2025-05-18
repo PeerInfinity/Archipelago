@@ -231,9 +231,12 @@ function createRegistrationApi(moduleId, moduleInstance) {
     registerSettingsSchema: (schemaSnippet) => {
       centralRegistry.registerSettingsSchema(moduleId, schemaSnippet);
     },
-    registerPublicFunction: (functionName, functionRef) => {
+    registerPublicFunction: (idProvidedByModule, functionName, functionRef) => {
+      // idProvidedByModule is what the module passes as its identifier for the function (e.g., moduleInfo.name like "Timer")
+      // functionName is the actual name of the function (e.g., "attachTimerToHost")
+      // functionRef is the function callback itself
       centralRegistry.registerPublicFunction(
-        moduleId,
+        idProvidedByModule, // Use the identifier provided by the module for the function map key
         functionName,
         functionRef
       );
@@ -1168,6 +1171,20 @@ async function main() {
     }
 
     eventBus.publish('module:stateChanged', { moduleId, enabled: true });
+
+    // ADDED: Dispatch rehome event after enabling a module and its panel is potentially ready
+    if (dispatcher) {
+      console.log(
+        `[ModuleManagerAPI] Module ${moduleId} enabled, dispatching system:rehomeTimerUI.`
+      );
+      setTimeout(() => {
+        dispatcher.publish(
+          'system:rehomeTimerUI',
+          {},
+          { initialTarget: 'top' }
+        );
+      }, 0);
+    }
   };
   moduleManagerApi.disableModule = async (moduleId) => {
     console.log(`[ModuleManagerAPI] Attempted to disable ${moduleId}`);
@@ -1181,6 +1198,7 @@ async function main() {
 
       // Get componentType from centralRegistry
       const componentType = centralRegistry.getComponentTypeForModule(moduleId);
+      let panelActionTaken = false; // Flag to track if panel was affected
       if (componentType) {
         console.log(
           `[ModuleManagerAPI] Closing panel for disabled module ${moduleId} (Component Type: ${componentType})`
@@ -1230,6 +1248,7 @@ async function main() {
           typeof panelManagerInstance.destroyPanelByComponentType === 'function'
         ) {
           panelManagerInstance.destroyPanelByComponentType(componentType);
+          panelActionTaken = true; // Panel destruction was attempted
         } else {
           console.error(
             '[ModuleManagerAPI] CRITICAL: Cannot call destroyPanelByComponentType - panelManagerInstance (imported) or the method is invalid.'
@@ -1239,6 +1258,23 @@ async function main() {
         console.warn(
           `[ModuleManagerAPI] Module ${moduleId} has no registered panel component type. Cannot close panel.`
         );
+      }
+
+      // ADDED: Dispatch rehome event if module was disabled (especially if its panel was closed)
+      // Dispatch regardless of panelActionTaken for now, as disabling a non-UI module could theoretically affect hosting viability
+      // in a more complex system, though not directly in our current TimerUI case.
+      // Keeping it simple: if a module is disabled, re-evaluate timer hosting.
+      if (dispatcher) {
+        console.log(
+          `[ModuleManagerAPI] Module ${moduleId} disabled (panel action taken: ${panelActionTaken}), dispatching system:rehomeTimerUI.`
+        );
+        setTimeout(() => {
+          dispatcher.publish(
+            'system:rehomeTimerUI',
+            {},
+            { initialTarget: 'top' }
+          );
+        }, 0);
       }
 
       // TODO: Call module's uninitialize if it exists?
@@ -1283,8 +1319,37 @@ async function main() {
 
   console.log('[Init] ModuleManagerAPI populated.');
 
-  // Publish event indicating modes.json has been processed and G_modesConfig is available
-  // This is timed so modules subscribing to it in their constructors will be ready.
+  // ADDED: Listen for panels being closed manually to disable their modules
+  eventBus.subscribe('ui:panelManuallyClosed', ({ moduleId }) => {
+    if (!moduleId) return;
+
+    const moduleState = runtimeModuleStates.get(moduleId);
+    // Only disable if it's currently considered enabled by the module manager
+    if (moduleState && moduleState.enabled !== false) {
+      // Check if it's not already marked as disabled
+      console.log(
+        `[Init - ui:panelManuallyClosed] Received event for moduleId: ${moduleId}. ` +
+          `Panel closed by user. Updating module state to disabled.`
+      );
+      moduleState.enabled = false;
+      eventBus.publish('module:stateChanged', { moduleId, enabled: false });
+      // The panel is already destroyed by GoldenLayout.
+      // The rehome dispatch is handled by the panel's own destroy/dispose handler.
+      // No need to call moduleManagerApi.disableModule() here, as that would try to destroy the panel again.
+    } else if (moduleState && moduleState.enabled === false) {
+      console.log(
+        `[Init - ui:panelManuallyClosed] Module ${moduleId} was already marked as disabled. No state change needed.`
+      );
+    } else {
+      // Catches moduleState being null or undefined
+      console.warn(
+        `[Init - ui:panelManuallyClosed] Runtime state for module ${moduleId} not found. Cannot update state.`
+      );
+    }
+  });
+
+  // Publish an event indicating that the modes.json has been loaded and processed
+  // This allows modules that depend on mode configurations (e.g., for UI elements)
   if (G_modesConfig) {
     console.log('[Init] Publishing app:modesJsonLoaded event.');
     eventBus.publish('app:modesJsonLoaded', { modesConfig: G_modesConfig });
@@ -1304,6 +1369,25 @@ async function main() {
   eventBus.publish('app:readyForUiDataLoad', {
     getModuleManager: () => moduleManagerApi,
   });
+
+  // ADDED: Dispatch initial timer rehoming event
+  // This is done with a timeout to allow app:readyForUiDataLoad handlers (e.g., UI panel creation)
+  // to complete their immediate synchronous setup before the rehoming logic runs.
+  setTimeout(() => {
+    if (dispatcher) {
+      // Ensure dispatcher is initialized (should be by now)
+      console.log('[Init.js] Dispatching initial system:rehomeTimerUI event.');
+      dispatcher.publish(
+        'system:rehomeTimerUI', // Event name
+        {}, // Event data (empty for now, can be extended if needed)
+        { initialTarget: 'top' } // Dispatch options: start from highest priority module
+      );
+    } else {
+      console.error(
+        '[Init.js] Cannot dispatch system:rehomeTimerUI, dispatcher not available.'
+      );
+    }
+  }, 0); // Zero timeout defers to the next event loop tick
 
   // Make core instances globally available for debugging (optional)
   window.G_currentActiveMode = G_currentActiveMode;

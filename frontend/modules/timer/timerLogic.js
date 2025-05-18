@@ -237,7 +237,7 @@ export class TimerLogic {
           originator: 'TimerModuleAuto', // Differentiate from QuickCheck
           originalDOMEvent: false,
         },
-        { direction: 'bottom' }
+        { initialTarget: 'bottom' }
       );
       return true;
     } else {
@@ -317,7 +317,7 @@ export class TimerLogic {
           originator: 'TimerModuleQuickCheck',
           originalDOMEvent: false, // This was triggered by a button, but not a direct location click
         },
-        { direction: 'bottom' }
+        { initialTarget: 'bottom' }
       );
       this.eventBus.publish('ui:notification', {
         message: `Quick Check: Sent ${quickCheckTarget.name}.`,
