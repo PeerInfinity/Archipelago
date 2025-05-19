@@ -14,6 +14,8 @@ export class TestUI {
     this.testListContainer = document.createElement('div');
     this.testListContainer.className = 'test-list-container';
 
+    this.autoStartCheckbox = null; // Placeholder for the checkbox element
+
     this.unsubscribeHandles = [];
 
     this._buildInitialUI();
@@ -61,6 +63,21 @@ export class TestUI {
     runAllButton.className = 'button run-all-tests-button';
     controlsContainer.appendChild(runAllButton);
 
+    // Auto-start checkbox
+    const autoStartLabel = document.createElement('label');
+    autoStartLabel.style.display = 'block';
+    autoStartLabel.style.marginTop = '10px';
+    this.autoStartCheckbox = document.createElement('input');
+    this.autoStartCheckbox.type = 'checkbox';
+    this.autoStartCheckbox.id = 'auto-start-tests-checkbox';
+    this.autoStartCheckbox.style.marginRight = '5px';
+    this.autoStartCheckbox.checked = testLogic.shouldAutoStartTests(); // Set initial state
+    autoStartLabel.appendChild(this.autoStartCheckbox);
+    autoStartLabel.appendChild(
+      document.createTextNode('Auto-start tests on application load')
+    );
+    controlsContainer.appendChild(autoStartLabel);
+
     this.overallStatusElement = document.createElement('div');
     this.overallStatusElement.className = 'overall-test-status';
     this.overallStatusElement.style.marginTop = '5px';
@@ -85,6 +102,13 @@ export class TestUI {
           this.overallStatusElement.style.color = 'lightcoral';
         }
       });
+
+    // Listener for the auto-start checkbox
+    if (this.autoStartCheckbox) {
+      this.autoStartCheckbox.addEventListener('change', (event) => {
+        testLogic.setAutoStartTests(event.target.checked);
+      });
+    }
 
     this.testListContainer.addEventListener('click', (event) => {
       const target = event.target;
@@ -125,6 +149,8 @@ export class TestUI {
         this.displayOverallSummary(data.summary),
       'test:logMessage': (data) =>
         this.logTestMessage(data.testId, data.message, data.type),
+      'test:autoStartConfigChanged': (data) =>
+        this.updateAutoStartCheckbox(data.autoStartEnabled),
     };
 
     for (const [eventName, handler] of Object.entries(handlers)) {
@@ -310,6 +336,12 @@ export class TestUI {
       this.overallStatusElement.textContent = `All tests finished. Passed: ${summary.passedCount}, Failed: ${summary.failedCount}, Total: ${summary.totalRun}.`;
       this.overallStatusElement.style.color =
         summary.failedCount > 0 ? 'lightcoral' : 'lightgreen';
+    }
+  }
+
+  updateAutoStartCheckbox(isEnabled) {
+    if (this.autoStartCheckbox) {
+      this.autoStartCheckbox.checked = isEnabled;
     }
   }
 

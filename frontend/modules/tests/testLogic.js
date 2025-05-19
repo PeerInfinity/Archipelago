@@ -706,8 +706,14 @@ export const testLogic = {
   },
 
   applyLoadedState(data) {
+    let autoStartChanged = false;
+    let oldAutoStartValue = testLogicState.autoStartTestsOnLoad;
+
     if (data && typeof data.autoStartTestsOnLoad === 'boolean') {
-      testLogicState.autoStartTestsOnLoad = data.autoStartTestsOnLoad;
+      if (testLogicState.autoStartTestsOnLoad !== data.autoStartTestsOnLoad) {
+        testLogicState.autoStartTestsOnLoad = data.autoStartTestsOnLoad;
+        autoStartChanged = true;
+      }
     }
     if (data && Array.isArray(data.tests)) {
       const newTestsMap = new Map(data.tests.map((t) => [t.id, t]));
@@ -754,11 +760,27 @@ export const testLogic = {
     }
     if (eventBusInstance) {
       eventBusInstance.publish('test:listUpdated', { tests: this.getTests() });
+      if (autoStartChanged) {
+        eventBusInstance.publish('test:autoStartConfigChanged', {
+          autoStartEnabled: testLogicState.autoStartTestsOnLoad,
+        });
+      }
     }
   },
 
   shouldAutoStartTests() {
     return testLogicState.autoStartTestsOnLoad;
+  },
+
+  setAutoStartTests(shouldAutoStart) {
+    if (typeof shouldAutoStart === 'boolean') {
+      testLogicState.autoStartTestsOnLoad = shouldAutoStart;
+      if (eventBusInstance) {
+        eventBusInstance.publish('test:autoStartConfigChanged', {
+          autoStartEnabled: shouldAutoStart,
+        });
+      }
+    }
   },
 
   toggleTestEnabled(testId, isEnabled) {

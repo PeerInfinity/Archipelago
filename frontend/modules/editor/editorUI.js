@@ -17,13 +17,30 @@ class EditorUI {
 
     this.textAreaElement = null; // Will hold the <textarea>
     this.isInitialized = false; // Track initialization state
-    this.unsubscribeHandle = null; // Store unsubscribe function
+    this.unsubscribeHandles = {}; // Store multiple unsubscribe functions
+
     this._handleTextAreaInput = this._handleTextAreaInput.bind(this); // Bind listener method
 
-    // Initial content - Storing as text now
-    this.content = {
-      text: '{\n  "greeting": "Hello World",\n  "value": 123\n}',
+    // Content sources
+    this.contentSources = {
+      rules: {
+        text: '{\n  "greeting": "Hello World from rules",\n  "value": 123\n}',
+        loaded: false,
+        name: 'Active Rules JSON',
+      },
+      localStorageMode: {
+        text: '{\n  "message": "No LocalStorage data loaded yet."\n}',
+        loaded: false,
+        name: 'Loaded Mode Data (LocalStorage)',
+      },
     };
+    this.currentSourceKey = 'rules'; // Default source
+    this.editorDropdown = null;
+
+    // Initial content - Storing as text now
+    // this.content = { // REMOVED - managed by contentSources now
+    //   text: '{\n  "greeting": "Hello World",\n  "value": 123\n}',
+    // };
 
     this.container.element.appendChild(this.rootElement);
 
@@ -49,101 +66,271 @@ class EditorUI {
   // Called when the panel is first opened or shown
   initialize() {
     if (!this.isInitialized) {
-      console.log('Initializing EditorUI (Textarea)...');
-      this.initializeEditor();
-      this.subscribeToEvents(); // Subscribe to events on first init
+      console.log(
+        'Initializing EditorUI (Textarea)...attempting to populate from global data.'
+      );
+      this.initializeEditor(); // Creates dropdown and textarea
+
+      // Attempt to populate from global G_combinedModeData if available
+      if (window.G_combinedModeData) {
+        console.log('[EditorUI] Found window.G_combinedModeData during init.');
+        // Populate LocalStorage Mode view
+        if (window.G_combinedModeData) {
+          // Check again for safety, though outer check exists
+          try {
+            this.contentSources.localStorageMode.text = JSON.stringify(
+              window.G_combinedModeData,
+              null,
+              2
+            );
+            this.contentSources.localStorageMode.loaded = true;
+            console.log(
+              '[EditorUI] Populated localStorageMode from window.G_combinedModeData.'
+            );
+          } catch (e) {
+            console.error(
+              '[EditorUI] Error stringifying G_combinedModeData for localStorageMode view:',
+              e
+            );
+            this.contentSources.localStorageMode.text =
+              'Error: Could not display LocalStorage mode data.';
+          }
+        }
+
+        // Populate Active Rules JSON view
+        if (window.G_combinedModeData.rulesConfig) {
+          try {
+            this.contentSources.rules.text = JSON.stringify(
+              window.G_combinedModeData.rulesConfig,
+              null,
+              2
+            );
+            this.contentSources.rules.loaded = true;
+            console.log(
+              '[EditorUI] Populated rules from window.G_combinedModeData.rulesConfig.'
+            );
+          } catch (e) {
+            console.error(
+              '[EditorUI] Error stringifying G_combinedModeData.rulesConfig for rules view:',
+              e
+            );
+            this.contentSources.rules.text =
+              'Error: Could not display rules JSON.';
+          }
+        } else {
+          console.warn(
+            '[EditorUI] window.G_combinedModeData.rulesConfig not found during init.'
+          );
+        }
+
+        this._displayCurrentSourceContent(); // Refresh editor view
+      } else {
+        console.warn(
+          '[EditorUI] window.G_combinedModeData NOT found during init. Content will rely on events.'
+        );
+      }
+
+      this.subscribeToEvents(); // Subscribe to events for future updates
       this.isInitialized = true;
     } else {
       console.log('EditorUI (Textarea) already initialized.');
-      // Potentially refresh or reload content if needed when re-opened
-      // Ensure the textarea has the current content if the panel was hidden/reshown
       if (this.textAreaElement) {
-        this.setContent(this.content);
+        // If re-opened, ensure current source content is displayed
+        this._displayCurrentSourceContent();
       }
     }
   }
 
   // Subscribe to relevant EventBus events
   subscribeToEvents() {
-    if (this.unsubscribeHandle) {
+    if (this.unsubscribeHandles['rulesData']) {
       console.warn(
-        'EditorUI already subscribed to events. Unsubscribing previous first.'
+        'EditorUI already subscribed to rulesData. Unsubscribing previous first.'
       );
-      this.unsubscribeHandle();
-      this.unsubscribeHandle = null; // Ensure it's reset
+      this.unsubscribeHandles['rulesData']();
     }
 
     console.log("EditorUI subscribing to 'stateManager:rawJsonDataLoaded'");
-    this.unsubscribeHandle = eventBus.subscribe(
-      'stateManager:rawJsonDataLoaded', // <-- Subscribe to correct event
+    this.unsubscribeHandles['rulesData'] = eventBus.subscribe(
+      'stateManager:rawJsonDataLoaded',
       (eventData) => {
         if (!eventData || !eventData.rawJsonData) {
-          // <-- Check for rawJsonData
           console.warn(
             "EditorUI received invalid payload for 'stateManager:rawJsonDataLoaded'",
             eventData
           );
-          return;
+          this.contentSources.rules.text =
+            'Error: Invalid data received for rules.';
+          this.contentSources.rules.loaded = true;
+        } else {
+          console.log(
+            `EditorUI received raw rules data from: ${
+              eventData.source || 'unknown'
+            }`
+          );
+          try {
+            this.contentSources.rules.text = JSON.stringify(
+              eventData.rawJsonData,
+              null,
+              2
+            );
+          } catch (e) {
+            console.error('Error stringifying rules JSON:', e);
+            this.contentSources.rules.text =
+              'Error: Could not display rules JSON.';
+          }
+          this.contentSources.rules.loaded = true;
         }
-        console.log(
-          `EditorUI received raw rules data from: ${
-            eventData.source || 'unknown'
-          }`
-        );
-        // Pass the raw JSON object directly to loadJsonData
-        this.loadJsonData(eventData.rawJsonData);
+        if (this.currentSourceKey === 'rules') {
+          this._displayCurrentSourceContent();
+        }
+      }
+    );
+
+    if (this.unsubscribeHandles['localStorageData']) {
+      console.warn(
+        'EditorUI already subscribed to localStorageData. Unsubscribing previous first.'
+      );
+      this.unsubscribeHandles['localStorageData']();
+    }
+    // Placeholder for subscription to full mode data from LocalStorage
+    // Your main app init should publish this event after loading from LocalStorage
+    console.log("EditorUI subscribing to 'app:fullModeDataLoadedFromStorage'");
+    this.unsubscribeHandles['localStorageData'] = eventBus.subscribe(
+      'app:fullModeDataLoadedFromStorage', // Event name to be defined and used by app init
+      (eventPayload) => {
+        if (eventPayload && eventPayload.modeData) {
+          console.log(
+            '[EditorUI] Received full mode data from LocalStorage:',
+            eventPayload.modeData
+          );
+          try {
+            this.contentSources.localStorageMode.text = JSON.stringify(
+              eventPayload.modeData,
+              null,
+              2
+            );
+          } catch (e) {
+            console.error('Error stringifying localStorage mode JSON:', e);
+            this.contentSources.localStorageMode.text =
+              'Error: Could not display LocalStorage mode data.';
+          }
+          this.contentSources.localStorageMode.loaded = true;
+        } else {
+          console.warn(
+            '[EditorUI] Invalid or empty payload for app:fullModeDataLoadedFromStorage'
+          );
+          this.contentSources.localStorageMode.text =
+            'Error: Invalid data received for LocalStorage mode.';
+          this.contentSources.localStorageMode.loaded = true;
+        }
+        if (this.currentSourceKey === 'localStorageMode') {
+          this._displayCurrentSourceContent();
+        }
       }
     );
   }
 
   // Unsubscribe from EventBus events
   unsubscribeFromEvents() {
-    if (this.unsubscribeHandle) {
-      console.log('EditorUI unsubscribing from events.');
-      this.unsubscribeHandle();
-      this.unsubscribeHandle = null;
+    for (const key in this.unsubscribeHandles) {
+      if (typeof this.unsubscribeHandles[key] === 'function') {
+        this.unsubscribeHandles[key]();
+      }
     }
+    this.unsubscribeHandles = {};
+    console.log('EditorUI unsubscribed from all events.');
   }
 
   // Bound method to handle textarea input events
   _handleTextAreaInput(event) {
-    this.content = { text: event.target.value };
+    // Update the text for the current source
+    if (this.contentSources[this.currentSourceKey]) {
+      this.contentSources[this.currentSourceKey].text = event.target.value;
+    }
     // Optional: Dispatch an event if other modules need to know about changes immediately
-    // eventBus.publish('editor:contentChanged', { text: this.content.text });
+    // eventBus.publish(`editor:contentChanged:${this.currentSourceKey}`, { text: event.target.value });
   }
 
   initializeEditor() {
     if (this.textAreaElement) {
-      console.log('Textarea already exists. Destroying previous instance.');
-      this.destroyEditor(); // Clean up existing editor if any
+      console.log(
+        'Editor already initialized. Destroying previous instance components.'
+      );
+      this.destroyEditor(); // Clean up existing editor chrome and textarea
     }
-    console.log('Creating <textarea> element...');
+    console.log('Creating editor chrome and <textarea> element...');
+
+    // Create controls container
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'editor-controls';
+    controlsDiv.style.padding = '5px';
+    controlsDiv.style.backgroundColor = '#222'; // Darker background for controls
+
+    // Create dropdown
+    this.editorDropdown = document.createElement('select');
+    for (const key in this.contentSources) {
+      const option = document.createElement('option');
+      option.value = key;
+      option.textContent = this.contentSources[key].name;
+      this.editorDropdown.appendChild(option);
+    }
+    this.editorDropdown.value = this.currentSourceKey; // Set initial selection
+    this.editorDropdown.addEventListener(
+      'change',
+      this._handleSourceChange.bind(this)
+    );
+    controlsDiv.appendChild(this.editorDropdown);
+
+    this.rootElement.appendChild(controlsDiv); // Add controls to the top
+
     try {
       this.textAreaElement = document.createElement('textarea');
-      this.textAreaElement.value = this.content.text || '';
+      // Initial content will be set by _displayCurrentSourceContent
       this.textAreaElement.style.width = '100%';
-      this.textAreaElement.style.height = '100%';
-      this.textAreaElement.style.border = 'none'; // Optional: basic styling
+      this.textAreaElement.style.height = 'calc(100% - 40px)'; // Adjust height for controls
+      this.textAreaElement.style.border = 'none';
       this.textAreaElement.style.resize = 'none';
-      this.textAreaElement.style.flexGrow = '1'; // Make textarea fill flex container
-      // --- ADDED: Dark theme colors ---
-      this.textAreaElement.style.backgroundColor = '#000000'; // Black background
-      this.textAreaElement.style.color = '#FFFFFF'; // White text
-      // --- END ADDED ---
-      // Add specific class for textarea styling if needed
+      // this.textAreaElement.style.flexGrow = '1'; // No longer direct child of flex, parent is column
+      this.textAreaElement.style.backgroundColor = '#000000';
+      this.textAreaElement.style.color = '#FFFFFF';
       this.textAreaElement.classList.add('editor-textarea');
-
-      // Add event listener for input changes
       this.textAreaElement.addEventListener('input', this._handleTextAreaInput);
-
-      // Append to the root element
       this.rootElement.appendChild(this.textAreaElement);
 
-      console.log('<textarea> element created and attached successfully.');
+      this._displayCurrentSourceContent(); // Display content for the default source
+
+      console.log('Editor components created and attached successfully.');
     } catch (error) {
       console.error('Failed to initialize Textarea:', error);
       this.rootElement.textContent = 'Error loading Textarea.';
       this.textAreaElement = null;
+    }
+  }
+
+  _handleSourceChange() {
+    const newSourceKey = this.editorDropdown.value;
+    if (this.contentSources[newSourceKey]) {
+      this.currentSourceKey = newSourceKey;
+      console.log(`[EditorUI] Switched to source: ${this.currentSourceKey}`);
+      this._displayCurrentSourceContent();
+    } else {
+      console.warn(
+        `[EditorUI] Attempted to switch to unknown source key: ${newSourceKey}`
+      );
+    }
+  }
+
+  _displayCurrentSourceContent() {
+    if (!this.textAreaElement) {
+      console.warn('[EditorUI] Textarea not available for displaying content.');
+      return;
+    }
+    if (this.contentSources[this.currentSourceKey]) {
+      this.textAreaElement.value =
+        this.contentSources[this.currentSourceKey].text;
+    } else {
+      this.textAreaElement.value = 'Error: Selected content source not found.';
     }
   }
 
@@ -157,17 +344,28 @@ class EditorUI {
   destroyEditor() {
     if (this.textAreaElement) {
       console.log('Destroying <textarea> instance.');
-      // Remove event listener
       this.textAreaElement.removeEventListener(
         'input',
         this._handleTextAreaInput
       );
-
-      // Remove element from DOM
       if (this.textAreaElement.parentNode === this.rootElement) {
         this.rootElement.removeChild(this.textAreaElement);
       }
       this.textAreaElement = null;
+    }
+    if (this.editorDropdown) {
+      if (this.editorDropdown.parentNode) {
+        this.editorDropdown.parentNode.removeEventListener(
+          'change',
+          this._handleSourceChange.bind(this)
+        ); //This might not be correct way to remove
+        this.editorDropdown.parentNode.removeChild(this.editorDropdown);
+      }
+      const controlsDiv = this.rootElement.querySelector('.editor-controls');
+      if (controlsDiv && controlsDiv.parentNode === this.rootElement) {
+        this.rootElement.removeChild(controlsDiv);
+      }
+      this.editorDropdown = null;
     }
   }
 
@@ -187,80 +385,86 @@ class EditorUI {
   }
 
   // Method to load JSON data into the editor (textarea)
+  // This method is now specifically for the 'rules' source, called by its event listener
   loadJsonData(jsonData) {
+    // This method is effectively replaced by the event handler for 'stateManager:rawJsonDataLoaded'
+    // which directly updates this.contentSources.rules.text and calls _displayCurrentSourceContent.
+    // Keeping it for now in case of direct calls, but should be deprecated.
+    console.warn(
+      '[EditorUI] loadJsonData is being called. Consider direct update via event if appropriate.'
+    );
     if (jsonData === null || typeof jsonData === 'undefined') {
-      console.warn(
-        '[EditorUI] loadJsonData called with null or undefined data.'
-      );
-      // Optionally set empty content or keep existing
-      this.setContent({ text: '' });
-      return;
+      this.contentSources.rules.text = '';
+      this.contentSources.rules.loaded = true;
+    } else {
+      try {
+        this.contentSources.rules.text = JSON.stringify(jsonData, null, 2);
+      } catch (error) {
+        this.contentSources.rules.text = String(jsonData); // Fallback
+      }
+      this.contentSources.rules.loaded = true;
     }
-    console.log('[EditorUI] Loading JSON data into textarea...');
-    try {
-      const textData = JSON.stringify(jsonData, null, 2); // Pretty print
-      this.setContent({ text: textData });
-    } catch (error) {
-      console.error(
-        'Error stringifying JSON data for textarea:',
-        error,
-        jsonData
-      );
-      // Fallback: Display raw data as string if stringify fails
-      this.setContent({ text: String(jsonData) });
+
+    if (this.currentSourceKey === 'rules') {
+      this._displayCurrentSourceContent();
     }
   }
 
   // --- Methods to interact with the editor (textarea) ---
   setContent(newContent) {
-    // Expect newContent in { text: "..." } or { json: ... } format
+    // This method is now less direct. It should ideally specify which source to set,
+    // or default to the current one. For now, let's assume it's for the current source.
     let textToSet = '';
     if (newContent && typeof newContent.text === 'string') {
       textToSet = newContent.text;
     } else if (newContent && typeof newContent.json !== 'undefined') {
-      console.log(
-        '[EditorUI] Received JSON content, stringifying for textarea...'
-      );
       try {
         textToSet = JSON.stringify(newContent.json, null, 2);
       } catch (error) {
-        console.error(
-          '[EditorUI] Error stringifying JSON in setContent:',
-          error
-        );
         textToSet = '[Error displaying JSON]';
       }
     } else if (newContent) {
-      // Handle direct string or other types by converting
       textToSet = String(newContent);
-    } else {
-      console.warn(
-        '[EditorUI] setContent called with invalid/empty content:',
-        newContent
-      );
-      // Keep textToSet as '' (empty string)
     }
 
-    this.content = { text: textToSet }; // Update internal state
-
-    if (this.textAreaElement) {
-      console.log('Setting textarea content.');
-      this.textAreaElement.value = this.content.text;
+    if (this.contentSources[this.currentSourceKey]) {
+      this.contentSources[this.currentSourceKey].text = textToSet;
+      if (this.textAreaElement && this.isInitialized) {
+        // Check isInitialized
+        this._displayCurrentSourceContent();
+      }
     } else {
-      console.log(
-        'Textarea not initialized yet. Content will be set on initialization.'
+      console.warn(
+        '[EditorUI] setContent called, but currentSourceKey is invalid or contentSources not ready.'
       );
+      // Fallback to updating the old this.content if necessary for backward compatibility
+      // this.content = { text: textToSet };
+      // if (this.textAreaElement) this.textAreaElement.value = textToSet;
     }
   }
 
   getContent() {
     if (this.textAreaElement) {
-      // Always update internal state just before returning, in case user typed
-      this.content = { text: this.textAreaElement.value };
-      return this.content; // Return content in the { text: "..." } format
+      // Update the current source's text from the textarea before returning
+      if (this.contentSources[this.currentSourceKey]) {
+        this.contentSources[this.currentSourceKey].text =
+          this.textAreaElement.value;
+        return {
+          text: this.contentSources[this.currentSourceKey].text,
+          source: this.currentSourceKey,
+        };
+      }
+      // Fallback if currentSourceKey is somehow invalid
+      return { text: this.textAreaElement.value, source: 'unknown' };
     }
-    // Return stored content if textarea isn't ready
-    return this.content;
+    // Return stored content if textarea isn't ready, from the current source
+    if (this.contentSources[this.currentSourceKey]) {
+      return {
+        text: this.contentSources[this.currentSourceKey].text,
+        source: this.currentSourceKey,
+      };
+    }
+    return { text: '', source: 'unavailable' }; // Default if nothing is available
   }
 }
 

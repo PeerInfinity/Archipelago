@@ -434,63 +434,73 @@ export class JsonUI {
 
         const modeName =
           loadedData.modeName || this.modeNameInput.value.trim() || 'default';
-        const rulesConfig = loadedData.rulesConfig;
-        const moduleConfig = loadedData.moduleConfig;
+        // const rulesConfig = loadedData.rulesConfig; // No longer strictly needed here
+        // const moduleConfig = loadedData.moduleConfig; // No longer strictly needed here
 
-        if (!rulesConfig || !moduleConfig) {
-          alert(
-            'Loaded file is missing required rulesConfig or moduleConfig. Cannot apply.'
-          );
-          console.error(
-            '[JsonUI] Loaded file missing rulesConfig or moduleConfig.',
-            loadedData
-          );
-          return;
-        }
+        // Removed strict check for rulesConfig and moduleConfig
+        // if (!rulesConfig || !moduleConfig) {
+        //   alert(
+        //     'Loaded file is missing required rulesConfig or moduleConfig. Cannot apply.'
+        //   );
+        //   console.error(
+        //     '[JsonUI] Loaded file missing rulesConfig or moduleConfig.',
+        //     loadedData
+        //   );
+        //   return;
+        // }
 
         if (this.modeNameInput && modeName) {
           this.modeNameInput.value = modeName;
           this.updateCurrentModeDisplay(modeName); // Also update the <span>
         }
 
+        // Construct dataToStore by including only what's in loadedData, plus meta fields
         const dataToStore = {
           modeName: modeName,
           savedTimestamp: new Date().toISOString(),
-          rulesConfig: rulesConfig,
-          moduleConfig: moduleConfig,
-          // layoutConfig and userSettings are intentionally omitted as per user request for now
         };
-
-        const G_LOCAL_STORAGE_MODE_PREFIX = 'archipelagoToolSuite_modeData_'; // Match init.js
-
-        try {
-          localStorage.setItem(
-            `${G_LOCAL_STORAGE_MODE_PREFIX}${modeName}`,
-            JSON.stringify(dataToStore)
-          );
-          localStorage.setItem('archipelagoToolSuite_lastActiveMode', modeName);
-          console.log(
-            `[JsonUI] Successfully stored mode '${modeName}' data from file to LocalStorage:`,
-            dataToStore
-          );
-
-          // --- Apply non-reloadable data ---
-          this._applyNonReloadData(loadedData);
-
-          // Show alert (might need adjustment based on requiresReload checks)
-          alert(
-            `Data for mode '${modeName}' loaded from file. Some changes applied live. RELOAD the page if prompted or if layout/module changes were included.`
-          );
-          this._populateKnownModesList(); // Refresh after loading and saving from file
-        } catch (storageError) {
-          console.error(
-            '[JsonUI] Error saving loaded data to LocalStorage:',
-            storageError
-          );
-          alert(
-            'Error saving loaded data to LocalStorage. Storage might be full or disabled. See console for details.'
-          );
+        // Iterate over loadedData and add its properties to dataToStore, excluding meta fields already set
+        for (const key in loadedData) {
+          if (
+            loadedData.hasOwnProperty(key) &&
+            key !== 'modeName' &&
+            key !== 'savedTimestamp'
+          ) {
+            dataToStore[key] = loadedData[key];
+          }
         }
+
+        // const G_LOCAL_STORAGE_MODE_PREFIX = 'archipelagoToolSuite_modeData_'; // Match init.js
+
+        // REMOVED AUTOMATIC SAVING TO LOCALSTORAGE ON FILE LOAD
+        // try {
+        //   localStorage.setItem(
+        //     `${G_LOCAL_STORAGE_MODE_PREFIX}${modeName}`,
+        //     JSON.stringify(dataToStore)
+        //   );
+        //   localStorage.setItem('archipelagoToolSuite_lastActiveMode', modeName);
+        //   console.log(
+        //     `[JsonUI] Successfully stored mode '${modeName}' data from file to LocalStorage:`,
+        //     dataToStore
+        //   );
+
+        // --- Apply non-reloadable data ---
+        this._applyNonReloadData(loadedData); // Apply data directly from loadedData
+
+        // Show alert (might need adjustment based on requiresReload checks)
+        alert(
+          `Data for mode '${modeName}' loaded from file and applied where possible. Reload if prompted or if layout/module changes were included. This data has NOT been saved to LocalStorage yet.`
+        );
+        // this._populateKnownModesList(); // Refresh after loading and saving from file - No longer saving, so no need to refresh this way.
+        // } catch (storageError) {
+        //   console.error(
+        //     '[JsonUI] Error saving loaded data to LocalStorage:',
+        //     storageError
+        //   );
+        //   alert(
+        //     'Error saving loaded data to LocalStorage. Storage might be full or disabled. See console for details.'
+        //   );
+        // }
       } catch (error) {
         console.error('[JsonUI] Error parsing JSON from file:', error);
         alert(

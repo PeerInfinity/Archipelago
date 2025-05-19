@@ -778,6 +778,50 @@ async function main() {
   }
   console.log('[Init] Module import and registration phase complete.');
 
+  // --- Apply G_combinedModeData to registered modules and publish for editor ---
+  // This is done AFTER module registration so all handlers are in centralRegistry.
+  if (G_combinedModeData) {
+    const jsonDataHandlers = centralRegistry.getAllJsonDataHandlers();
+    console.log(
+      `[Init - Main] Found ${jsonDataHandlers.size} JSON data handlers in centralRegistry for data application.`
+    );
+    for (const [dataKey, handler] of jsonDataHandlers) {
+      if (G_combinedModeData.hasOwnProperty(dataKey)) {
+        if (typeof handler.applyLoadedDataFunction === 'function') {
+          console.log(
+            `[Init - Main] Applying data for key: ${dataKey} to its module.`
+          );
+          try {
+            handler.applyLoadedDataFunction(G_combinedModeData[dataKey]);
+          } catch (e) {
+            console.error(
+              `[Init - Main] Error applying data for ${dataKey}:`,
+              e
+            );
+          }
+        } else {
+          console.warn(
+            `[Init - Main] Handler for ${dataKey} (module: ${handler.moduleId}) is missing or has invalid applyLoadedDataFunction.`
+          );
+        }
+      } else {
+        // Optional: console.log(`[Init - Main] G_combinedModeData does not have key: ${dataKey}, skipping application for this handler.`);
+      }
+    }
+
+    eventBus.publish('app:fullModeDataLoadedFromStorage', {
+      modeData: G_combinedModeData,
+    });
+    console.log(
+      '[Init - Main] Published app:fullModeDataLoadedFromStorage with G_combinedModeData.'
+    );
+  } else {
+    console.warn(
+      '[Init - Main] G_combinedModeData was not available for data application and event publish.'
+    );
+  }
+  // --- End Data Application and Event Publish ---
+
   // --- Initialize Golden Layout ---
   const layoutContainer = document.getElementById('goldenlayout-container');
   if (!layoutContainer) {
@@ -1363,6 +1407,11 @@ async function main() {
     });
   }
 
+  // Make G_combinedModeData globally available BEFORE app:readyForUiDataLoad
+  // so UI components can access it directly during their initialization if needed.
+  window.G_combinedModeData = G_combinedModeData;
+  console.log('[Init] window.G_combinedModeData has been set.');
+
   // Signal that core systems are up, modules are initialized,
   // and UI components can now safely fetch initial data (like from StateManager)
   console.log('[Init] Publishing app:readyForUiDataLoad event...');
@@ -1389,14 +1438,12 @@ async function main() {
     }
   }, 0); // Zero timeout defers to the next event loop tick
 
-  // Make core instances globally available for debugging (optional)
+  // Make other core instances globally available for debugging (optional)
   window.G_currentActiveMode = G_currentActiveMode;
   window.G_modesConfig = G_modesConfig;
-  window.G_combinedModeData = G_combinedModeData;
   window.settingsManager = settingsManager;
   window.eventBus = eventBus;
   window.panelManager = panelManagerInstance;
-  window.centralRegistry = centralRegistry;
   window.goldenLayoutInstance = goldenLayoutInstance;
   window.moduleManagerApi = moduleManagerApi;
 
