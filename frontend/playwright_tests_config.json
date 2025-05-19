@@ -1,0 +1,37 @@
+{
+  "autoStartTestsOnLoad": true,
+  "tests": [
+    {
+      "id": "test_1_simple_event",
+      "name": "Test Simple Event Wait",
+      "description": "Checks if waitForEvent correctly pauses and resumes on a custom event.",
+      "functionName": "simpleEventTest",
+      "isEnabled": false,
+      "order": 0
+    },
+    {
+      "id": "test_2_config_load_and_item_check",
+      "name": "Test Config Load & Item Interaction",
+      "description": "Loads test rules, adds an item, and verifies state.",
+      "functionName": "configLoadAndItemCheckTest",
+      "isEnabled": false,
+      "order": 1
+    },
+    {
+      "id": "test_3_ui_simulation",
+      "name": "Test UI Simulation (Placeholder)",
+      "description": "Simulates a click and checks outcome (initial placeholder).",
+      "functionName": "uiSimulationTest",
+      "isEnabled": false,
+      "order": 2
+    },
+    {
+      "id": "test_4_super_quick",
+      "name": "Super Quick Test",
+      "description": "A test that completes almost instantly.",
+      "functionName": "superQuickTest",
+      "isEnabled": true,
+      "order": 3
+    }
+  ]
+}

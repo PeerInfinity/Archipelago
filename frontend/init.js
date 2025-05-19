@@ -449,208 +449,124 @@ async function loadCombinedModeData() {
     `[Init] Loading combined data for mode: "${G_currentActiveMode}". Skip localStorage: ${G_skipLocalStorageLoad}`
   );
 
-  let baseCombinedData = { modeName: G_currentActiveMode };
+  let baseCombinedData = {};
 
-  // --- Step 1: Load Base from LocalStorage (if applicable) ---
   if (!G_skipLocalStorageLoad) {
     try {
-      const storedModeDataString = localStorage.getItem(
-        G_LOCAL_STORAGE_MODE_PREFIX + G_currentActiveMode
+      const storedData = localStorage.getItem(
+        `${G_LOCAL_STORAGE_MODE_PREFIX}${G_currentActiveMode}`
       );
-      if (storedModeDataString) {
-        const parsedData = JSON.parse(storedModeDataString);
-        if (
-          parsedData &&
-          typeof parsedData === 'object' &&
-          parsedData.modeName === G_currentActiveMode
-        ) {
-          baseCombinedData = parsedData; // Use this as the base
-          console.log(
-            `[Init] Successfully set baseCombinedData for mode "${G_currentActiveMode}" from localStorage.`
-          );
-        } else if (parsedData && parsedData.modeName !== G_currentActiveMode) {
-          console.warn(
-            `[Init] Mode name in localStorage data ("${parsedData.modeName}") does not match current active mode ("${G_currentActiveMode}"). Will load all configs from files.`
-          );
-          baseCombinedData = { modeName: G_currentActiveMode }; // Reset to ensure file loading for all parts
-        } else {
-          console.warn(
-            `[Init] Data for mode "${G_currentActiveMode}" in localStorage was invalid. Will load all configs from files.`
-          );
-          baseCombinedData = { modeName: G_currentActiveMode }; // Reset
-        }
+      if (storedData) {
+        baseCombinedData = JSON.parse(storedData);
+        console.log(
+          `[Init] Successfully set baseCombinedData for mode "${G_currentActiveMode}" from localStorage.`
+        );
       } else {
         console.log(
           `[Init] No data for mode "${G_currentActiveMode}" in localStorage. Will load all configs from files.`
         );
       }
-    } catch (e) {
+    } catch (error) {
       console.error(
-        `[Init] Error reading/parsing localStorage for "${G_currentActiveMode}". Will load all configs from files.`,
-        e
+        `[Init] Error reading or parsing mode data from localStorage for "${G_currentActiveMode}":`,
+        error
       );
-      baseCombinedData = { modeName: G_currentActiveMode }; // Reset
+      baseCombinedData = {}; // Reset on error
     }
-  }
-
-  // --- Step 2: Define Core Keys and Handlers ---
-  const coreConfigKeys = [
-    'moduleConfig',
-    'rulesConfig',
-    'layoutConfig',
-    'userSettings',
-  ];
-  const hardcodedFilePaths = {
-    moduleConfig: './modules.json',
-    rulesConfig: './default_rules.json',
-    layoutConfig: './layout_presets.json',
-    userSettings: './settings.json',
-  };
-  // Get registered module data handlers
-  const registeredHandlers = centralRegistry.getAllJsonDataHandlers();
-  const allDataKeys = [...coreConfigKeys, ...registeredHandlers.keys()];
-
-  // --- Step 3: Layered Loading for Each Data Key ---
-  const getConfigPath = (mode, key) => G_modesConfig[mode]?.[key]?.path;
-  let loadedAnyFile = false;
-  let usedDefaultPathsForAllFileLoads = true; // Assume true initially if we load any file
-
-  for (const dataKey of allDataKeys) {
-    // Check validity: layoutConfig needs special check, others just need to exist.
-    const isLayout = dataKey === 'layoutConfig';
-    const isValidInBase = isLayout
-      ? isValidLayoutObject(baseCombinedData[dataKey])
-      : baseCombinedData[dataKey] !== undefined;
-
-    if (isValidInBase) {
-      console.log(
-        `[Init] Using ${dataKey} for "${G_currentActiveMode}" from initially loaded/parsed baseCombinedData.`
-      );
-      // If we use any data from localStorage, not all file loads could have been default paths
-      if (baseCombinedData.savedTimestamp) {
-        // Check if base came from localStorage
-        usedDefaultPathsForAllFileLoads = false;
-      }
-      continue; // Already have a good value
-    }
-
-    // --- Attempt to load from files ---
-    loadedAnyFile = true;
+  } else {
     console.log(
-      `[Init] ${dataKey} for "${G_currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
+      '[Init] Skipping localStorage load for mode data as per G_skipLocalStorageLoad.'
     );
-
-    let valueToSet = undefined; // Use undefined to clearly signal not loaded
-    let path;
-    let loadedFromSpecificModeFile = false;
-
-    // Layer 1: Try current mode from modes.json
-    path = getConfigPath(G_currentActiveMode, dataKey);
-    if (path) {
-      valueToSet = await fetchJson(
-        path,
-        `Error loading ${dataKey} for mode ${G_currentActiveMode} from ${path}`
-      );
-      if (valueToSet !== undefined) {
-        console.log(
-          `[Init] Loaded ${dataKey} for "${G_currentActiveMode}" from file: ${path}.`
-        );
-        loadedFromSpecificModeFile = true;
-        usedDefaultPathsForAllFileLoads = false; // Loaded from specific mode file
-      }
-    }
-
-    // Layer 2: Try 'default' mode from modes.json if not found for current mode
-    if (valueToSet === undefined && G_currentActiveMode !== 'default') {
-      path = getConfigPath('default', dataKey);
-      if (path) {
-        valueToSet = await fetchJson(
-          path,
-          `Error loading ${dataKey} for default mode from ${path}`
-        );
-        if (valueToSet !== undefined) {
-          console.log(
-            `[Init] Loaded ${dataKey} using 'default' mode's file path: ${path}.`
-          );
-          // usedDefaultPathsForAllFileLoads remains true if this is the first file load path hit
-        }
-      }
-    }
-
-    // Layer 3: Try hardcoded file path if still not found (only for core keys)
-    if (valueToSet === undefined && coreConfigKeys.includes(dataKey)) {
-      path = hardcodedFilePaths[dataKey];
-      if (path) {
-        valueToSet = await fetchJson(
-          path,
-          `Error loading ${dataKey} from hardcoded default path ${path}`
-        );
-        if (valueToSet !== undefined) {
-          console.log(
-            `[Init] Loaded ${dataKey} using hardcoded file path: ${path}.`
-          );
-          // usedDefaultPathsForAllFileLoads remains true if this is the first file load path hit
-        }
-      }
-    }
-
-    // Final assignment and critical error logging
-    if (valueToSet !== undefined) {
-      baseCombinedData[dataKey] = valueToSet;
-    } else {
-      // Only critical for core keys? Module data might be optional.
-      const isCritical = coreConfigKeys.includes(dataKey);
-      const logLevel = isCritical ? 'error' : 'warn'; // Use warn for non-core data
-      console[logLevel](
-        `[Init] ${
-          isCritical ? 'CRITICAL: ' : ''
-        }Failed to load ${dataKey} for "${G_currentActiveMode}" after all fallbacks.`
-      );
-      // Provide default only for layoutConfig if critical, otherwise null/undefined
-      baseCombinedData[dataKey] =
-        isLayout && isCritical ? getDefaultLayoutConfig() : null;
-    }
   }
 
-  // --- Step 4: Final Adjustments and Assignment ---
-  // Adjust G_currentActiveMode if G_currentActiveMode is not 'default', was not found in modes.json,
-  // and we loaded at least one file, and all files loaded came from default paths (not specific mode paths).
-  if (
-    G_currentActiveMode !== 'default' &&
-    !G_modesConfig[G_currentActiveMode] &&
-    loadedAnyFile &&
-    usedDefaultPathsForAllFileLoads
-  ) {
+  // Ensure modeName is correctly set in baseCombinedData, prioritizing the current active mode
+  baseCombinedData.modeName = G_currentActiveMode;
+
+  // --- New logic to iterate over all config keys defined in modes.json for the current mode ---
+  const currentModeFileConfigs = G_modesConfig?.[G_currentActiveMode];
+  if (currentModeFileConfigs) {
+    for (const configKey in currentModeFileConfigs) {
+      if (
+        Object.prototype.hasOwnProperty.call(currentModeFileConfigs, configKey)
+      ) {
+        const configEntry = currentModeFileConfigs[configKey];
+        // Ensure it's an object with a 'path' and is 'enabled' (or enabled is not specified, defaulting to true)
+        if (
+          configEntry &&
+          typeof configEntry === 'object' &&
+          configEntry.path &&
+          (typeof configEntry.enabled === 'undefined' || configEntry.enabled)
+        ) {
+          // Only load from file if not present in baseCombinedData (from localStorage) or if localStorage load was skipped
+          if (
+            G_skipLocalStorageLoad ||
+            !baseCombinedData.hasOwnProperty(configKey) ||
+            !baseCombinedData[configKey] // Also load if key exists but value is null/undefined/falsey from LS
+          ) {
+            console.log(
+              `[Init] ${configKey} for "${G_currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
+            );
+            const fetchedData = await fetchJson(
+              configEntry.path,
+              `Error loading ${configKey} from file`
+            );
+            if (fetchedData) {
+              baseCombinedData[configKey] = fetchedData;
+              console.log(
+                `[Init] Loaded ${configKey} for "${G_currentActiveMode}" from file: ${configEntry.path}.`
+              );
+            } else {
+              console.warn(
+                `[Init] Failed to load ${configKey} from ${configEntry.path}. It will be missing unless defaults are applied later.`
+              );
+              // Ensure the key exists with null if fetch failed, to prevent re-attempts if not desired
+              if (!baseCombinedData.hasOwnProperty(configKey)) {
+                baseCombinedData[configKey] = null;
+              }
+            }
+          } else {
+            console.log(
+              `[Init] Using ${configKey} for "${G_currentActiveMode}" from localStorage.`
+            );
+          }
+        }
+      }
+    }
+  } else {
     console.warn(
-      `[Init] Mode "${G_currentActiveMode}" was not in modes.json and all file configurations were sourced from default paths. Switching active mode to "default".`
+      `[Init] No file configurations found in modes.json for mode "${G_currentActiveMode}".`
     );
-    G_currentActiveMode = 'default';
-    baseCombinedData.modeName = 'default'; // Ensure modeName in the object is also updated
+  }
+  // --- End new logic ---
+
+  // Special handling for layoutConfig (as it's used by GoldenLayout setup later)
+  // This ensures layoutPresets is populated even if layoutConfig comes from localStorage
+  if (baseCombinedData.layoutConfig) {
+    if (isValidLayoutObject(baseCombinedData.layoutConfig)) {
+      layoutPresets = baseCombinedData.layoutConfig; // If it's a collection of presets
+      console.log(
+        '[Init] layoutPresets populated from combined data (either localStorage or file).'
+      );
+    } else {
+      console.warn(
+        '[Init] layoutConfig in combined data is not a valid layout object or preset collection.'
+      );
+      // If it's not a valid collection, but might be a single layout, try to make it a default preset
+      layoutPresets = { default: baseCombinedData.layoutConfig };
+    }
+  } else {
+    console.warn(
+      '[Init] No layoutConfig found in combined data. GoldenLayout might use hardcoded defaults.'
+    );
+    layoutPresets = { default: getDefaultLayoutConfig() }; // Fallback
   }
 
   G_combinedModeData = baseCombinedData;
   console.log(
     '[Init] Final G_combinedModeData after potential merging:',
-    JSON.parse(JSON.stringify(G_combinedModeData)) // Log a deep copy for safety
+    JSON.parse(JSON.stringify(G_combinedModeData)) // Log a deep copy to avoid circular issues in console
   );
-
-  // Critical config check
-  if (
-    G_combinedModeData.layoutConfig &&
-    typeof G_combinedModeData.layoutConfig === 'object' &&
-    !isValidLayoutObject(G_combinedModeData.layoutConfig)
-  ) {
-    console.error(
-      '[Init] CRITICAL: layoutConfig is not a valid layout object or preset collection. Cannot load essential configs.'
-    );
-    G_combinedModeData.moduleConfig = null;
-    G_combinedModeData.rulesConfig = null;
-    G_combinedModeData.layoutConfig = null;
-    G_combinedModeData.userSettings = null;
-    return;
-  }
 }
-// --- End Mode Management Functions ---
 
 // --- Main Initialization Logic ---
 async function main() {

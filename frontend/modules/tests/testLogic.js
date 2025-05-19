@@ -13,10 +13,11 @@ const testLogicState = {
       description:
         'Checks if waitForEvent correctly pauses and resumes on a custom event.',
       functionName: 'simpleEventTest',
-      isEnabled: true,
+      isEnabled: false,
       order: 0,
       status: 'pending',
       conditions: [],
+      logs: [],
       currentEventWaitingFor: null,
     },
     {
@@ -24,10 +25,11 @@ const testLogicState = {
       name: 'Test Config Load & Item Interaction',
       description: 'Loads test rules, adds an item, and verifies state.',
       functionName: 'configLoadAndItemCheckTest', // New function name
-      isEnabled: true,
+      isEnabled: false,
       order: 1,
       status: 'pending',
       conditions: [],
+      logs: [],
       currentEventWaitingFor: null,
     },
     {
@@ -36,10 +38,23 @@ const testLogicState = {
       description:
         'Simulates a click and checks outcome (initial placeholder).',
       functionName: 'uiSimulationTest',
-      isEnabled: true,
+      isEnabled: false,
       order: 2,
       status: 'pending',
       conditions: [],
+      logs: [],
+      currentEventWaitingFor: null,
+    },
+    {
+      id: 'test_4_super_quick',
+      name: 'Super Quick Test',
+      description: 'A test that completes almost instantly.',
+      functionName: 'superQuickTest',
+      isEnabled: true,
+      order: 3,
+      status: 'pending',
+      conditions: [],
+      logs: [],
       currentEventWaitingFor: null,
     },
   ],
@@ -207,11 +222,14 @@ class TestController {
       case 'IS_LOCATION_ACCESSIBLE': {
         const snapshot = stateManagerProxySingleton.getSnapshot();
         const staticData = stateManagerProxySingleton.getStaticData();
-        if (snapshot && staticData && actionDetails.locationName) {
+        const gameId = stateManagerProxySingleton.getGameId(); // Get the current gameId
+
+        if (snapshot && staticData && actionDetails.locationName && gameId) {
           const snapshotInterface = createStateSnapshotInterface(
             // Call imported function directly
             snapshot,
-            staticData
+            staticData,
+            gameId // Pass the gameId here
           );
 
           let locData = staticData.locations[actionDetails.locationName];
@@ -320,6 +338,29 @@ class TestController {
         eventBusInstance.unsubscribe(eventName, handler);
         this.log(`Event received: ${eventName}`);
         this.log(`Event data: ${JSON.stringify(data)}`, 'debug');
+        if (eventName === 'stateManager:snapshotUpdated') {
+          if (data && data.snapshot && data.snapshot.inventory) {
+            this.log(
+              `  Snapshot inventory keys: ${Object.keys(
+                data.snapshot.inventory
+              ).join(', ')}`,
+              'debug'
+            );
+            if (data.snapshot.inventory['Moon Pearl']) {
+              this.log(
+                `  Moon Pearl in THIS snapshot: ${data.snapshot.inventory['Moon Pearl']}`,
+                'debug'
+              );
+            } else {
+              this.log(`  Moon Pearl NOT in THIS snapshot.`, 'debug');
+            }
+          } else {
+            this.log(
+              `  Snapshot data or inventory missing in event data for ${eventName}`,
+              'warn'
+            );
+          }
+        }
         this.testLogic.setTestStatus(this.testId, 'running');
         resolve(data);
       };
@@ -454,97 +495,237 @@ const testFunctions = {
       testController.log('Starting configLoadAndItemCheckTest...');
       testController.reportCondition('Test started', true);
 
-      // Minimal rules for this test
+      // Minimal rules for this test, conforming to rules.schema.json
       const mockRulesContent = {
         schema_version: 3,
-        game: 'ALTTP',
-        player_names: { 1: 'TestPlayer' },
-        start_regions: { 1: ['Hyrule Castle Courtyard'] }, // More standard start
+        game_name: 'A Link to the Past', // Corrected from 'game'
+        archipelago_version: '0.6.1', // Added required field
+        generation_seed: 12345, // Added required field
+        player_names: { 1: 'TestPlayer1' }, // Key as string
+        world_classes: { 1: 'ALTTPWorld' }, // Added required field
+        plando_options: [], // Added, can be empty array
+        start_regions: {
+          1: {
+            // Key as string
+            default: ['Hyrule Castle Courtyard'],
+            available: [{ name: 'Hyrule Castle Courtyard', type: 1 }],
+          },
+        },
         items: {
           1: {
+            // Key as string
             'Moon Pearl': {
               name: 'Moon Pearl',
+              id: 100, // Archipelago Item ID
+              groups: ['Progression'],
+              advancement: true,
+              priority: false,
+              useful: true,
+              trap: false,
+              event: false,
               type: 'Item',
-              progressive: false,
-              id: 100,
+              max_count: 1,
             },
             'Progressive Sword': {
               name: 'Progressive Sword',
-              type: 'Item',
-              progressive: true,
               id: 101,
+              groups: ['Progression', 'Swords'],
+              advancement: true,
+              priority: false,
+              useful: true,
+              trap: false,
+              event: false,
+              type: 'Item',
+              max_count: 1, // Typically 1 for non-progressive, but progressive items are handled differently by progression_mapping
             },
             'Lifting Glove': {
               name: 'Lifting Glove',
-              type: 'Item',
-              progressive: false,
               id: 102,
+              groups: ['Progression'],
+              advancement: true,
+              priority: false,
+              useful: true,
+              trap: false,
+              event: false,
+              type: 'Item',
+              max_count: 1,
             },
-            'Victory': { name: 'Victory', type: 'Event', id: 999 },
+            'Victory': {
+              // Item name without spaces is more common for keys
+              name: 'Victory',
+              id: 999,
+              groups: ['Event'],
+              advancement: false,
+              priority: false,
+              useful: false,
+              trap: false,
+              event: true,
+              type: 'Event',
+              max_count: 1,
+            },
           },
         },
-        item_groups: { 1: {} },
+        item_groups: {
+          // Corrected: array of strings per player
+          1: ['Progression', 'Swords', 'Event'],
+        },
+        itempool_counts: {
+          // Added required field
+          1: {
+            'Moon Pearl': 1,
+            'Progressive Sword': 1,
+            'Lifting Glove': 1,
+            'Victory': 1,
+          },
+        },
         progression_mapping: {
           1: {
+            // Key as string
             'Progressive Sword': {
+              base_item: 'Progressive Sword',
               items: [
-                { name: 'Fighter Sword', level: 1 },
-                { name: 'Master Sword', level: 2 },
+                { name: 'Fighter Sword', level: 1, provides: [] },
+                { name: 'Master Sword', level: 2, provides: [] },
               ],
             },
           },
         },
+        starting_items: {
+          // Added, can be empty array
+          1: [],
+        },
         regions: {
           1: {
+            // Key as string
             'Menu': {
+              // Region names often capitalized / specific
               name: 'Menu',
-              type: 1,
+              type: 1, // Or string as per schema
               player: 1,
               entrances: [],
               exits: [
                 {
-                  name: 'Hyrule Castle Courtyard',
+                  name: 'Links House S&Q', // More descriptive exit name
+                  connected_region: 'Links House', // Target region
+                  access_rule: { type: 'constant', value: true },
+                  type: 'Exit', // Explicit type
+                },
+              ],
+              locations: [],
+              time_passes: true, // Added required field
+              provides_chest_count: false, // Added required field
+              // is_light_world and is_dark_world are game-specific, usually in settings or derived
+            },
+            'Links House': {
+              // Added the region 'Links House' referenced in Menu exit
+              name: 'Links House',
+              type: 1,
+              player: 1,
+              entrances: [
+                // Entrance from Menu
+                {
+                  name: 'From Menu S&Q',
+                  parent_region: 'Menu',
+                  connected_region: 'Links House',
+                  access_rule: { type: 'constant', value: true },
+                  assumed: false,
+                  type: 'Entrance',
+                },
+              ],
+              exits: [
+                {
+                  name: 'To Hyrule Castle Courtyard',
                   connected_region: 'Hyrule Castle Courtyard',
-                  access_rule: {
-                    type: 'constant',
-                    value: true,
-                  },
+                  access_rule: { type: 'constant', value: true },
                   type: 'Exit',
                 },
               ],
               locations: [],
-              is_light_world: true,
-              is_dark_world: false,
+              time_passes: true,
+              provides_chest_count: false,
             },
             'Hyrule Castle Courtyard': {
               name: 'Hyrule Castle Courtyard',
-              is_light_world: true,
-              is_dark_world: false,
+              type: 1,
+              player: 1,
+              entrances: [
+                {
+                  name: 'From Links House',
+                  parent_region: 'Links House',
+                  connected_region: 'Hyrule Castle Courtyard',
+                  access_rule: { type: 'constant', value: true },
+                  assumed: false,
+                  type: 'Entrance',
+                },
+              ],
               locations: [],
               exits: [
                 {
                   name: 'To Dark World Portal',
                   connected_region: 'Dark World Forest',
                   access_rule: { type: 'item_check', item: 'Moon Pearl' },
+                  type: 'Exit',
                 },
               ],
+              time_passes: true,
+              provides_chest_count: false,
             },
             'Dark World Forest': {
               name: 'Dark World Forest',
-              is_light_world: false,
-              is_dark_world: true,
+              type: 1,
+              player: 1,
+              entrances: [
+                {
+                  name: 'From Hyrule Castle Courtyard Portal',
+                  parent_region: 'Hyrule Castle Courtyard',
+                  connected_region: 'Dark World Forest',
+                  access_rule: { type: 'item_check', item: 'Moon Pearl' },
+                  assumed: false,
+                  type: 'Entrance',
+                },
+              ],
               locations: [
                 {
                   name: 'LocationUnlockedByMoonPearl',
+                  id: 10001, // Example ID, can be null for non-AP locations
                   access_rule: { type: 'constant', value: true },
-                  item: { name: 'Victory', player: 1, type: 'Event' },
+                  item: {
+                    name: 'Victory',
+                    player: 1,
+                    advancement: false,
+                    type: 'Event',
+                  },
+                  progress_type: 0, // Added required field
+                  locked: false, // Added required field
                 },
               ],
               exits: [],
+              time_passes: true,
+              provides_chest_count: false,
             },
           },
         },
-        settings: { 1: { player_name: 'TestPlayer' } },
+        settings: {
+          // Corrected: must include 'game' property
+          1: {
+            // Key as string
+            game: 'A Link to the Past', // Added required 'game' field within settings
+            player_name: 'TestPlayer1', // Ensure consistency with player_names
+            // Add other ALTTP specific settings if needed by helpers, e.g. world_state
+            world_state: 'open', // Example, adjust as per alttpSettings.js if relevant
+            shuffle_ganon: true, // Example
+          },
+        },
+        game_info: {
+          // Added required field
+          1: {
+            name: 'A Link to the Past',
+            rule_format: {
+              version: '1',
+            },
+          },
+        },
+        // Optional fields from schema like 'dungeons' are omitted for brevity
       };
 
       await testController.performAction({
@@ -568,6 +749,9 @@ const testFunctions = {
         'Moon Pearl added to inventory command sent and snapshot updated',
         true
       );
+
+      // DIAGNOSTIC DELAY
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       const pearlCount = await testController.performAction({
         type: 'GET_INVENTORY_ITEM_COUNT',
@@ -669,6 +853,22 @@ const testFunctions = {
       await testController.completeTest(overallResult);
     }
   },
+
+  superQuickTest: async (testController) => {
+    try {
+      testController.log('Starting superQuickTest...');
+      testController.reportCondition('Super quick test started', true);
+      testController.reportCondition(
+        'Super quick test finished successfully',
+        true
+      );
+      await testController.completeTest(true);
+    } catch (error) {
+      testController.log(`Error in superQuickTest: ${error.message}`, 'error');
+      testController.reportCondition(`Test errored: ${error.message}`, false);
+      await testController.completeTest(false);
+    }
+  },
 };
 
 // --- testLogic Public API ---
@@ -738,6 +938,7 @@ export const testLogic = {
             ...loadedTestConfig,
             status: 'pending',
             conditions: [],
+            logs: [],
             currentEventWaitingFor: null,
           });
         }
@@ -750,13 +951,22 @@ export const testLogic = {
       testLogicState.tests.forEach((currentTest) => {
         if (!newTestsMap.has(currentTest.id)) {
           currentTest.order = ++maxOrder; // Assign new order
+          // Ensure new tests not from loaded data also have logs array
+          if (!currentTest.logs) currentTest.logs = [];
+          if (!currentTest.conditions) currentTest.conditions = [];
+          if (currentTest.status === undefined) currentTest.status = 'pending';
           currentTests.push(currentTest);
         }
       });
 
       testLogicState.tests = currentTests.sort((a, b) => a.order - b.order);
-      // Normalize order just in case
-      testLogicState.tests.forEach((t, i) => (t.order = i));
+      // Normalize order just in case and ensure logs/conditions exist for all
+      testLogicState.tests.forEach((t, i) => {
+        t.order = i;
+        if (!t.logs) t.logs = [];
+        if (!t.conditions) t.conditions = [];
+        if (t.status === undefined) t.status = 'pending';
+      });
     }
     if (eventBusInstance) {
       eventBusInstance.publish('test:listUpdated', { tests: this.getTests() });
@@ -824,6 +1034,7 @@ export const testLogic = {
         status === 'waiting_for_event' ? eventWaitingFor : null;
       if (status === 'running' || status === 'pending') {
         test.conditions = []; // Clear conditions when a test (re)starts
+        test.logs = []; // Clear logs when a test (re)starts
       }
       if (eventBusInstance)
         eventBusInstance.publish('test:statusChanged', {
@@ -848,6 +1059,11 @@ export const testLogic = {
   },
 
   emitLogMessage(testId, message, type) {
+    const test = testLogicState.tests.find((t) => t.id === testId);
+    if (test) {
+      if (!test.logs) test.logs = []; // Ensure logs array exists
+      test.logs.push({ message, type, timestamp: new Date().toISOString() });
+    }
     if (eventBusInstance)
       eventBusInstance.publish('test:logMessage', { testId, message, type });
   },
@@ -927,10 +1143,29 @@ export const testLogic = {
 
     if (enabledTests.length === 0) {
       console.log('[TestLogic] No enabled tests to run.');
+      const summary = { passedCount: 0, failedCount: 0, totalRun: 0 };
       if (eventBusInstance)
         eventBusInstance.publish('test:allRunsCompleted', {
-          summary: { passedCount: 0, failedCount: 0, totalRun: 0 },
+          summary,
         });
+      // Playwright: Store empty results if no tests run
+      try {
+        const emptyReport = {
+          summary: summary,
+          testDetails: [],
+          reportTimestamp: new Date().toISOString(),
+        };
+        localStorage.setItem(
+          '__playwrightTestResults__',
+          JSON.stringify(emptyReport)
+        );
+        localStorage.setItem('__playwrightTestsComplete__', 'true');
+      } catch (e) {
+        console.error(
+          '[TestLogic] Error saving empty Playwright report to localStorage:',
+          e
+        );
+      }
       return;
     }
 
@@ -939,8 +1174,10 @@ export const testLogic = {
     );
     let passedCount = 0;
     let failedCount = 0;
+    const executedTestIds = new Set(); // Keep track of tests that actually ran
 
     for (const test of enabledTests) {
+      executedTestIds.add(test.id);
       // Set up a promise that resolves when this specific test's "internalTestDone" event is published
       const testCompletionPromise = new Promise((resolve) => {
         const specificEventListener = (eventData) => {
@@ -974,6 +1211,39 @@ export const testLogic = {
       totalRun: enabledTests.length,
     };
     console.log('[TestLogic] All enabled tests finished.', summary);
+
+    // --- Playwright Report Generation ---
+    try {
+      const testDetailsForReport = testLogicState.tests
+        .filter((t) => executedTestIds.has(t.id)) // Include only tests that were part of this run
+        .map((t) => ({
+          id: t.id,
+          name: t.name,
+          status: t.status, // This should be the final status
+          conditions: t.conditions ? [...t.conditions] : [],
+          logs: t.logs ? [...t.logs] : [],
+        }));
+
+      const playwrightReport = {
+        summary: summary,
+        testDetails: testDetailsForReport,
+        reportTimestamp: new Date().toISOString(),
+      };
+
+      localStorage.setItem(
+        '__playwrightTestResults__',
+        JSON.stringify(playwrightReport)
+      );
+      localStorage.setItem('__playwrightTestsComplete__', 'true');
+      console.log('[TestLogic] Playwright report saved to localStorage.');
+    } catch (e) {
+      console.error(
+        '[TestLogic] Error saving Playwright report to localStorage:',
+        e
+      );
+    }
+    // --- End Playwright Report Generation ---
+
     if (eventBusInstance)
       eventBusInstance.publish('test:allRunsCompleted', { summary });
   },

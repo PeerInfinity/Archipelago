@@ -1080,7 +1080,7 @@ export function createStateSnapshotInterface(snapshot, staticData) {
   // First, define the core methods of the snapshot interface that helpers will need.
   // This rawInterface is what ALTTPSnapshotHelpers constructor will receive.
   const rawInterfaceForHelpers = {
-    _isSnapshotInterface: true, // Crucial marker for helper constructor
+    _isSnapshotInterface: true, // Ensures evaluateRule recognizes this context when called BY helpers
     snapshot: snapshot,
     staticData: staticData,
     resolveName: (name) => {
@@ -1299,6 +1299,10 @@ export function createStateSnapshotInterface(snapshot, staticData) {
   // Now construct the final snapshotInterfaceInstance that UI will use,
   // which includes an executeHelper method that uses the snapshotHelpersInstance.
   const finalSnapshotInterface = {
+    _isSnapshotInterface: true,
+    // Core data access
+    inventory: snapshot.inventory || {},
+    events: snapshot.events || {},
     // Renamed for clarity
     ...rawInterfaceForHelpers, // Spread the core methods (now including isLocationAccessible)
 

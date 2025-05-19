@@ -1,0 +1,79 @@
+const { defineConfig } = require('@playwright/test');
+
+module.exports = defineConfig({
+  // Directory where your test files are located
+  testDir: './tests/e2e',
+
+  // Timeout for each test (in milliseconds)
+  // Increased from default 30s to 60s to give a bit more leeway,
+  // especially if the app or tests are slow to initialize in CI environments.
+  timeout: 60000,
+
+  // Expectations timeout (how long to wait for expect() conditions to be met)
+  expect: {
+    timeout: 10000,
+  },
+
+  // Whether to run tests in parallel. Default is true.
+  // Set to false if your tests have interdependencies or modify shared state in a way that parallel execution would break.
+  fullyParallel: true,
+
+  // Fail the build on CI if you accidentally left test.only in the source code.
+  forbidOnly: !!process.env.CI,
+
+  // Retry on CI only.
+  retries: process.env.CI ? 2 : 0,
+
+  // Number of worker threads to run tests with. Defaults to half of CPU cores.
+  // workers: process.env.CI ? 1 : undefined, // Can be adjusted
+
+  // Reporter to use. See https://playwright.dev/docs/test-reporters
+  // We'll use the JSON reporter and output to a file.
+  reporter: [
+    ['list'], // Standard list reporter for console output
+    ['json', { outputFile: 'playwright-report.json' }], // JSON reporter
+  ],
+
+  use: {
+    // Base URL to use in actions like `await page.goto('/')`
+    // baseURL: 'http://localhost:8000', // If you set this, your APP_URL in app.spec.js could be relative
+
+    // Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer
+    trace: 'on-first-retry',
+
+    // Viewport size for the browser
+    // viewport: { width: 1280, height: 720 },
+
+    // headless: false, // Uncomment to run tests with a visible browser for debugging
+    // launchOptions: {
+    //   slowMo: 250, // Slows down Playwright operations by 250ms for easier debugging
+    // },
+  },
+
+  /* Configure projects for major browsers - useful if you want to test across multiple browsers */
+  // projects: [
+  //   {
+  //     name: 'chromium',
+  //     use: { ...require('@playwright/test').devices['Desktop Chrome'] },
+  //   },
+  //   {
+  //     name: 'firefox',
+  //     use: { ...require('@playwright/test').devices['Desktop Firefox'] },
+  //   },
+  //   {
+  //     name: 'webkit',
+  //     use: { ...require('@playwright/test').devices['Desktop Safari'] },
+  //   },
+  // ],
+
+  /* Folder for test artifacts such as screenshots, videos, traces, etc. */
+  // outputDir: 'test-results/',
+
+  /* Run your local dev server before starting the tests */
+  // webServer: {
+  //   command: 'npm run start', // Or your python server command
+  //   url: 'http://localhost:8000', // Your app's URL
+  //   reuseExistingServer: !process.env.CI,
+  //   timeout: 120 * 1000, // Timeout for web server to start
+  // },
+});
