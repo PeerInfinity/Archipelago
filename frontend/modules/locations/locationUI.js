@@ -32,6 +32,7 @@ export class LocationUI {
     this.colorblindSettings = {}; // Cache colorblind settings
     this.isInitialized = false; // Add flag
     this.originalLocationOrder = []; // ADDED: To store original keys
+    this.pendingLocations = new Set(); // ADDED: To track pending locations
     // this.dispatcher = getDispatcher(); // Removed from constructor
 
     this.container.element.appendChild(this.rootElement);
@@ -291,6 +292,10 @@ export class LocationUI {
           Show Checked
         </label>
         <label>
+          <input type="checkbox" id="show-pending" checked />
+          Show Pending
+        </label>
+        <label>
           <input type="checkbox" id="show-reachable" checked />
           Show Reachable
         </label>
@@ -368,6 +373,7 @@ export class LocationUI {
     [
       'sort-select',
       'show-checked',
+      'show-pending',
       'show-reachable',
       'show-unreachable',
       'show-explored',
@@ -448,6 +454,10 @@ export class LocationUI {
       console.warn('[LocationUI] Invalid locationData in handleLocationClick');
       return;
     }
+
+    // ADDED: Add to pending set and update UI
+    this.pendingLocations.add(locationData.name);
+    this.updateLocationDisplay(); // Trigger UI update to show pending state immediately
 
     if (!this.dispatcher) {
       console.error(
@@ -600,6 +610,7 @@ export class LocationUI {
       this.rootElement.querySelector('#show-unreachable').checked;
     const showExplored =
       this.rootElement.querySelector('#show-explored').checked;
+    const showPending = this.rootElement.querySelector('#show-pending').checked; // ADDED: Get showPending state
     const sortMethod = this.rootElement.querySelector('#sort-select').value;
     const searchTerm = this.rootElement
       .querySelector('#location-search')
@@ -610,6 +621,12 @@ export class LocationUI {
       (loc) => {
         const name = loc.name;
         const isChecked = !!snapshot?.flags?.includes(name);
+
+        // If location is checked by stateManager, it's no longer pending from UI perspective
+        if (isChecked && this.pendingLocations.has(name)) {
+          this.pendingLocations.delete(name);
+        }
+        const isPending = this.pendingLocations.has(name); // Check if pending AFTER potential removal
 
         // Determine detailed status for filtering
         const parentRegionName = loc.parent_region || loc.region; // Use parent_region, fallback to region
@@ -629,8 +646,11 @@ export class LocationUI {
         const doesLocationRuleEffectivelyPass = locationRuleEvalResult === true;
 
         let detailedStatus = 'fully_unreachable';
+
         if (isChecked) {
           detailedStatus = 'checked';
+        } else if (isPending) {
+          detailedStatus = 'pending';
         } else if (
           isParentRegionEffectivelyReachable &&
           doesLocationRuleEffectivelyPass
@@ -659,6 +679,7 @@ export class LocationUI {
           // Add more names if needed
           console.log(`[LocationUI Filter DEBUG] Loc: '${name}'`, {
             isChecked,
+            isPending, // ADDED for debug
             parentRegionName,
             parentRegionReachabilityStatus,
             isParentRegionEffectivelyReachable,
@@ -667,6 +688,7 @@ export class LocationUI {
             doesLocationRuleEffectivelyPass,
             detailedStatus,
             showChecked,
+            showPending, // ADDED for debug
             showReachable,
             showUnreachable,
           });
@@ -677,6 +699,9 @@ export class LocationUI {
         // Visibility Filtering Logic (Using detailedStatus)
         if (detailedStatus === 'checked') {
           if (!showChecked) return false;
+        } else if (detailedStatus === 'pending') {
+          // ADDED: Handle pending state visibility
+          if (!showPending) return false;
         } else if (detailedStatus === 'fully_reachable') {
           if (!showReachable) return false;
         } else if (detailedStatus === 'location_rule_passes_region_fails') {
@@ -687,7 +712,9 @@ export class LocationUI {
           if (!showUnreachable) return false;
         } else {
           // Default for any unknown detailedStatus if necessary
+          // This case should be less likely with the explicit detailedStatus settings
           if (parentRegionReachabilityStatus === undefined && !showUnreachable)
+            // Example condition if needed
             return false;
         }
 
@@ -708,17 +735,19 @@ export class LocationUI {
     // Sort locations
     const accessibilitySortOrder = {
       checked: 0,
-      fully_reachable: 1,
-      region_accessible_location_rule_fails: 2,
-      location_rule_passes_region_fails: 3,
-      fully_unreachable: 4,
-      unknown: 5, // Should ideally not happen with new logic
+      pending: 1,
+      fully_reachable: 2,
+      region_accessible_location_rule_fails: 3,
+      location_rule_passes_region_fails: 4,
+      fully_unreachable: 5,
+      unknown: 6, // Should ideally not happen with new logic
     };
 
     filteredLocations.sort((a, b) => {
       if (sortMethod === 'accessibility') {
         // Recalculate detailedStatus for item a
         const isCheckedA = !!snapshot?.flags?.includes(a.name);
+        const isPendingA = this.pendingLocations.has(a.name) && !isCheckedA;
         const parentRegionNameA = a.parent_region || a.region;
         const parentRegionReachabilityStatusA =
           snapshot?.reachability?.[parentRegionNameA];
@@ -734,6 +763,8 @@ export class LocationUI {
         let detailedStatusA = 'fully_unreachable';
         if (isCheckedA) {
           detailedStatusA = 'checked';
+        } else if (isPendingA) {
+          detailedStatusA = 'pending';
         } else if (
           isParentRegionEffectivelyReachableA &&
           doesLocationRuleEffectivelyPassA
@@ -753,6 +784,7 @@ export class LocationUI {
 
         // Recalculate detailedStatus for item b
         const isCheckedB = !!snapshot?.flags?.includes(b.name);
+        const isPendingB = this.pendingLocations.has(b.name) && !isCheckedB;
         const parentRegionNameB = b.parent_region || b.region;
         const parentRegionReachabilityStatusB =
           snapshot?.reachability?.[parentRegionNameB];
@@ -768,6 +800,8 @@ export class LocationUI {
         let detailedStatusB = 'fully_unreachable';
         if (isCheckedB) {
           detailedStatusB = 'checked';
+        } else if (isPendingB) {
+          detailedStatusB = 'pending';
         } else if (
           isParentRegionEffectivelyReachableB &&
           doesLocationRuleEffectivelyPassB
@@ -798,6 +832,7 @@ export class LocationUI {
       } else if (sortMethod === 'accessibility_original') {
         // Determine detailedStatus for item a (similar to 'accessibility' sort)
         const isCheckedA = !!snapshot?.flags?.includes(a.name);
+        const isPendingA = this.pendingLocations.has(a.name) && !isCheckedA;
         const parentRegionNameA = a.parent_region || a.region;
         const parentRegionReachabilityStatusA =
           snapshot?.reachability?.[parentRegionNameA];
@@ -812,6 +847,7 @@ export class LocationUI {
           locationRuleEvalResultA === true;
         let detailedStatusA = 'fully_unreachable';
         if (isCheckedA) detailedStatusA = 'checked';
+        else if (isPendingA) detailedStatusA = 'pending';
         else if (
           isParentRegionEffectivelyReachableA &&
           doesLocationRuleEffectivelyPassA
@@ -830,6 +866,7 @@ export class LocationUI {
 
         // Determine detailedStatus for item b (similar to 'accessibility' sort)
         const isCheckedB = !!snapshot?.flags?.includes(b.name);
+        const isPendingB = this.pendingLocations.has(b.name) && !isCheckedB;
         const parentRegionNameB = b.parent_region || b.region;
         const parentRegionReachabilityStatusB =
           snapshot?.reachability?.[parentRegionNameB];
@@ -844,6 +881,7 @@ export class LocationUI {
           locationRuleEvalResultB === true;
         let detailedStatusB = 'fully_unreachable';
         if (isCheckedB) detailedStatusB = 'checked';
+        else if (isPendingB) detailedStatusB = 'pending';
         else if (
           isParentRegionEffectivelyReachableB &&
           doesLocationRuleEffectivelyPassB
@@ -922,16 +960,15 @@ export class LocationUI {
     } else {
       const fragment = document.createDocumentFragment();
       filteredLocations.forEach((location) => {
-        const isExplored = discoveryStateSingleton.isLocationDiscovered(
-          location.name
-        );
+        const name = location.name;
+        const isChecked = !!snapshot?.flags?.includes(name);
+        const isPending = this.pendingLocations.has(name) && !isChecked;
+        const isExplored = discoveryStateSingleton.isLocationDiscovered(name);
 
         const locationCard = document.createElement('div');
         locationCard.className = 'location-card'; // Base class
-        const name = location.name;
-        const isChecked = !!snapshot?.flags?.includes(name);
 
-        // Determine detailed status for rendering
+        // Determine detailed status, statusText, and stateClass for rendering THIS card
         const parentRegionName = location.parent_region || location.region;
         const parentRegionReachabilityStatus =
           snapshot?.reachability?.[parentRegionName];
@@ -952,36 +989,33 @@ export class LocationUI {
           detailedStatus = 'checked';
           statusText = 'Checked';
           stateClass = 'checked';
+        } else if (isPending) {
+          detailedStatus = 'pending';
+          statusText = 'Pending';
+          stateClass = 'pending';
         } else if (
           isParentRegionEffectivelyReachable &&
           doesLocationRuleEffectivelyPass
         ) {
           detailedStatus = 'fully_reachable';
           statusText = 'Available';
-          stateClass = 'fully-reachable'; // Use new class
+          stateClass = 'fully-reachable';
         } else if (
           !isParentRegionEffectivelyReachable &&
           doesLocationRuleEffectivelyPass
         ) {
           detailedStatus = 'location_rule_passes_region_fails';
           statusText = 'Rule Met, Region Inaccessible';
-          stateClass = 'location-only-reachable'; // Use new class
+          stateClass = 'location-only-reachable';
         } else if (
           isParentRegionEffectivelyReachable &&
           !doesLocationRuleEffectivelyPass
         ) {
           detailedStatus = 'region_accessible_location_rule_fails';
           statusText = 'Region Accessible, Rule Fails';
-          stateClass = 'region-only-reachable'; // Use new class
-        } else {
-          // Fully Unreachable
-          detailedStatus = 'fully_unreachable';
-          statusText = 'Locked';
-          stateClass = 'fully-unreachable'; // Use new class
+          stateClass = 'region-only-reachable';
         }
 
-        // Apply primary state class
-        // Remove old classes before adding the new one to avoid conflicts
         locationCard.classList.remove(
           'checked',
           'reachable',
@@ -990,7 +1024,8 @@ export class LocationUI {
           'fully-reachable',
           'location-only-reachable',
           'region-only-reachable',
-          'fully-unreachable'
+          'fully-unreachable',
+          'pending'
         );
         locationCard.classList.add(stateClass);
 
@@ -999,8 +1034,6 @@ export class LocationUI {
           loopStateSingleton.isLoopModeActive && !!isExplored
         );
 
-        // Apply colorblind class correctly
-        // Determine if colorblind mode should be applied to this card
         const csObject = this.colorblindSettings;
         let shouldUseColorblindOnCard = false;
         if (typeof csObject === 'boolean') {

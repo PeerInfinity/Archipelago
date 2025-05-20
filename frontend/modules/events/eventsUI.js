@@ -155,10 +155,6 @@ class EventsUI {
     this.container.on('destroy', () => {
       this.destroy();
     });
-
-    const style = document.createElement('style');
-    style.textContent = CSS;
-    this.container.element.prepend(style);
   }
 
   handleAppReady(eventData) {
@@ -213,26 +209,39 @@ class EventsUI {
   _createUI() {
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('events-inspector');
-    // this.rootElement.style.overflowY = 'auto'; // Allow scrolling
 
-    this.rootElement.innerHTML = `
-      <details open class="main-details-section">
-        <summary><h2>Event Bus</h2></summary>
-        <div class="event-bus-section">Loading...</div>
-      </details>
-      <hr>
-      <details open class="main-details-section">
-        <summary><h2>Event Dispatcher</h2></summary>
-        <div class="dispatcher-section">Loading...</div>
-      </details>
+    // 1. Append style tag
+    const style = document.createElement('style');
+    style.textContent = CSS;
+    this.rootElement.appendChild(style);
+
+    // 2. Create and append structural elements instead of using innerHTML on rootElement
+    const eventBusDetails = document.createElement('details');
+    eventBusDetails.open = true;
+    eventBusDetails.className = 'main-details-section';
+    eventBusDetails.innerHTML = `
+      <summary><h2>Event Bus</h2></summary>
+      <div class="event-bus-section">Loading...</div>
     `;
+    this.rootElement.appendChild(eventBusDetails);
 
-    this.eventBusSection = this.rootElement.querySelector('.event-bus-section');
-    this.dispatcherSection = this.rootElement.querySelector(
+    const hrElement = document.createElement('hr');
+    this.rootElement.appendChild(hrElement);
+
+    const dispatcherDetails = document.createElement('details');
+    dispatcherDetails.open = true;
+    dispatcherDetails.className = 'main-details-section';
+    dispatcherDetails.innerHTML = `
+      <summary><h2>Event Dispatcher</h2></summary>
+      <div class="dispatcher-section">Loading...</div>
+    `;
+    this.rootElement.appendChild(dispatcherDetails);
+
+    // 3. Query for the sections within the appended elements
+    this.eventBusSection = eventBusDetails.querySelector('.event-bus-section');
+    this.dispatcherSection = dispatcherDetails.querySelector(
       '.dispatcher-section'
     );
-
-    this.container.element.appendChild(this.rootElement);
   }
 
   async _loadAndRenderData(registry, moduleManager) {

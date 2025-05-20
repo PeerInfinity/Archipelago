@@ -425,6 +425,18 @@ select:hover {
   background-color: #3a0808; /* Red for Fully Unreachable */
 }
 
+/* --- ADDED: Pending Location Card Status --- */
+.location-card.pending {
+  background-color: #082a4d; /* Dark Blue for Pending */
+}
+
+.location-card.pending.colorblind-active::before {
+  content: '⌛'; /* Hourglass symbol */
+  font-weight: bold;
+  margin-right: 4px;
+  color: #6cadff; /* A light blue for the symbol, adjust as needed */
+}
+
 .location-card.unknown {
   background-color: #333333; /* Default gray for unknown state */
 }

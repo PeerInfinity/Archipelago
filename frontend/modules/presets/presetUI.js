@@ -133,6 +133,8 @@ export class PresetUI {
     let html = `
       <div class="preset-header">
         <h3>Select a Game Preset</h3>
+        <input type="file" id="json-file-input" accept=".json" style="display: none;" />
+        <button id="load-json-button" class="button" style="margin-left: 10px;">Load JSON File</button>
       </div>
       <div class="presets-container">
     `;
@@ -351,6 +353,43 @@ export class PresetUI {
     // Set the HTML content
     container.innerHTML = html;
 
+    // Add event listener for the new Load JSON File button
+    const loadJsonButton = container.querySelector('#load-json-button');
+    const jsonFileInput = container.querySelector('#json-file-input');
+
+    if (loadJsonButton && jsonFileInput) {
+      loadJsonButton.addEventListener('click', () => {
+        jsonFileInput.click(); // Trigger file input when button is clicked
+      });
+
+      jsonFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const jsonData = JSON.parse(e.target.result);
+              this.displayLoadedJsonFileDetails(jsonData, file.name);
+            } catch (err) {
+              console.error('Error parsing JSON file:', err);
+              eventBus.publish('ui:notification', {
+                type: 'error',
+                message: `Error parsing ${file.name}: ${err.message}`,
+              });
+            }
+          };
+          reader.onerror = (err) => {
+            console.error('Error reading file:', err);
+            eventBus.publish('ui:notification', {
+              type: 'error',
+              message: `Error reading ${file.name}.`,
+            });
+          };
+          reader.readAsText(file);
+        }
+      });
+    }
+
     // Add event listeners to the preset buttons (both standard and player)
     const buttons = container.querySelectorAll(
       '.preset-button, .preset-player-button'
@@ -378,6 +417,115 @@ export class PresetUI {
         }
       });
     });
+  }
+
+  displayLoadedJsonFileDetails(jsonData, fileName) {
+    console.log(
+      `Displaying details for manually loaded JSON file: ${fileName}`,
+      jsonData
+    );
+    const container = this.presetsListContainer;
+    if (!container) return;
+
+    // For now, this is a placeholder. We will implement the details view in the next step.
+    // It should be similar to loadPreset but adapt for a local file.
+    let html = `
+      <button class="back-button" id="back-to-presets">← Back to Games</button>
+      <div class="preset-info">
+        <h3>Loaded: ${this.escapeHtml(fileName)}</h3>
+        <p>This file was loaded manually from your computer.</p>
+        <div id="preset-status"></div>
+        <pre style="max-height: 300px; overflow: auto; background: #111; padding: 10px; border-radius: 4px;">${this.escapeHtml(
+          JSON.stringify(jsonData, null, 2)
+        )}</pre>
+      </div>
+    `;
+    container.innerHTML = html;
+
+    const backButton = container.querySelector('#back-to-presets');
+    if (backButton) {
+      backButton.addEventListener('click', () => {
+        this.renderGamesList();
+      });
+    }
+
+    // TODO: Determine playerId and call loadRulesFile (or similar logic)
+    // For now, let's assume player 1 for simplicity if it's a rules file.
+    if (
+      fileName.endsWith('_rules.json') ||
+      confirm(
+        'Is this a rules.json file for a game? Defaulting to Player 1 if so.'
+      )
+    ) {
+      // This is a rough way to check, ideally jsonData structure would be validated.
+      const playerId = '1'; // Default or determine from JSON if possible (e.g., if not multiworld)
+      // We need a way to call the core logic of loadRulesFile without assuming a preset structure.
+      // This might involve refactoring parts of loadRulesFile or creating a new shared method.
+      console.log(
+        `Attempting to process ${fileName} as rules file for Player ${playerId}`
+      );
+      // Directly call the processing logic, adapting from loadRulesFile
+      this.processManuallyLoadedRules(jsonData, fileName, playerId);
+    }
+  }
+
+  async processManuallyLoadedRules(rulesData, fileName, playerId = '1') {
+    console.log(
+      `Processing manually loaded rules: ${fileName} for player ${playerId}`
+    );
+    try {
+      if (this.componentState) {
+        this.componentState.currentRules = rulesData;
+        this.componentState.currentGameId = rulesData.game || 'unknown_game'; // Try to get game from JSON
+        this.componentState.currentPlayerId = playerId;
+      } else {
+        console.warn(
+          '[PresetUI] processManuallyLoadedRules: this.componentState is undefined.'
+        );
+      }
+
+      console.log(
+        `Manually loaded rules processed for ${
+          rulesData.game || 'unknown_game'
+        }, player ${playerId}. Publishing files:jsonLoaded.`
+      );
+      eventBus.publish('files:jsonLoaded', {
+        fileName: fileName,
+        jsonData: rulesData,
+        selectedPlayerId: playerId,
+      });
+
+      eventBus.publish('ui:notification', {
+        type: 'success',
+        message: `Loaded ${fileName} for Player ${playerId}`,
+      });
+
+      const statusElement = document.getElementById('preset-status');
+      if (statusElement) {
+        statusElement.innerHTML = `
+          <div class="success-message">
+            <p>✓ ${this.escapeHtml(
+              fileName
+            )} loaded and processed successfully!</p>
+            <p>Game systems should update shortly based on this data.</p>
+          </div>
+        `;
+      }
+
+      eventBus.publish('rules:loaded', {});
+    } catch (error) {
+      console.error('Error processing manually loaded rules file:', error);
+      const statusElement = document.getElementById('preset-status');
+      if (statusElement) {
+        statusElement.innerHTML = `
+          <div class="error-message">
+            <p>Error processing ${this.escapeHtml(fileName)}: ${
+          error.message
+        }</p>
+          </div>
+        `;
+      }
+    }
   }
 
   loadPreset(gameId, folderId, playerId = null) {

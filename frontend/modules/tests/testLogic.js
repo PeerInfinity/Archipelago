@@ -538,15 +538,27 @@ const testFunctions = {
             },
             'Progressive Sword': {
               name: 'Progressive Sword',
-              id: 101,
-              groups: ['Progression', 'Swords'],
+              id: 94,
+              groups: ['Everything', 'Progression Items', 'Swords'],
               advancement: true,
               priority: false,
-              useful: true,
+              useful: false,
               trap: false,
               event: false,
-              type: 'Item',
-              max_count: 1, // Typically 1 for non-progressive, but progressive items are handled differently by progression_mapping
+              type: 'Sword',
+              max_count: 4,
+            },
+            'Fighter Sword': {
+              name: 'Fighter Sword',
+              id: 73,
+              groups: ['Everything', 'Progression Items', 'Swords'],
+              advancement: true,
+              priority: false,
+              useful: false,
+              trap: false,
+              event: false,
+              type: 'Sword',
+              max_count: 1,
             },
             'Lifting Glove': {
               name: 'Lifting Glove',
@@ -590,13 +602,26 @@ const testFunctions = {
         },
         progression_mapping: {
           1: {
-            // Key as string
             'Progressive Sword': {
-              base_item: 'Progressive Sword',
               items: [
-                { name: 'Fighter Sword', level: 1, provides: [] },
-                { name: 'Master Sword', level: 2, provides: [] },
+                {
+                  name: 'Fighter Sword',
+                  level: 1,
+                },
+                {
+                  name: 'Master Sword',
+                  level: 2,
+                },
+                {
+                  name: 'Tempered Sword',
+                  level: 3,
+                },
+                {
+                  name: 'Golden Sword',
+                  level: 4,
+                },
               ],
+              base_item: 'Progressive Sword',
             },
           },
         },
