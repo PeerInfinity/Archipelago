@@ -22,6 +22,7 @@ export class StateManagerProxy {
     APPLY_RUNTIME_STATE: 'applyRuntimeState', // New command
     BEGIN_BATCH_UPDATE: 'beginBatchUpdate', // Added command
     COMMIT_BATCH_UPDATE: 'commitBatchUpdate', // Added command
+    PING_WORKER: 'ping', // Added command for pinging worker
   };
 
   constructor(eventBus) {
@@ -32,6 +33,7 @@ export class StateManagerProxy {
     this.worker = null;
     this.eventBus = eventBus;
     this.uiCache = null; // Initialize cache to null, indicating not yet loaded
+    this.staticDataCache = {}; // Initialize staticDataCache to an empty object
     this.nextQueryId = 1;
     this.pendingQueries = new Map(); // Map<queryId, { resolve, reject, timeoutId? }>
     this.initialLoadPromise = null;
@@ -40,6 +42,7 @@ export class StateManagerProxy {
     this.isReadyPublished = false; // Flag to prevent multiple ready events
     this.isPotentialStaleSnapshot = false; // <<< ADDED: Staleness flag
     this.debugMode = false; // Initialize debugMode
+    this.gameIdFromWorker = null; // ADDED: To store gameId from worker confirmation
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -47,6 +50,34 @@ export class StateManagerProxy {
       '[StateManagerProxy Constructor] this._sendCommand type:',
       typeof this._sendCommand
     );
+  }
+
+  getGameId() {
+    if (this.uiCache && this.uiCache.game) {
+      return this.uiCache.game;
+    }
+    // Fallback if .game isn't on snapshot, but .gameId is (less likely for current worker)
+    if (this.uiCache && this.uiCache.gameId) {
+      return this.uiCache.gameId;
+    }
+    // Use gameId received directly from worker during rules load confirmation
+    if (this.gameIdFromWorker) {
+      return this.gameIdFromWorker;
+    }
+    // Fallback to staticDataCache (very unlikely to have it)
+    if (this.staticDataCache && this.staticDataCache.gameId) {
+      console.warn(
+        '[StateManagerProxy getGameId] Using gameId from staticDataCache as a last resort.'
+      );
+      return this.staticDataCache.gameId;
+    }
+    console.warn(
+      '[StateManagerProxy getGameId] Game ID not found. Sources checked: uiCache.game, uiCache.gameId, this.gameIdFromWorker, staticDataCache.gameId. uiCache available:',
+      !!this.uiCache,
+      'gameIdFromWorker:',
+      this.gameIdFromWorker
+    );
+    return null;
   }
 
   _setupInitialLoadPromise() {
@@ -120,6 +151,9 @@ export class StateManagerProxy {
     switch (message.type) {
       case 'queryResponse':
         this._handleQueryResponse(message);
+        break;
+      case 'pingResponse': // New case for pingResponse
+        this._handlePingResponse(message);
         break;
       case 'workerInitializedConfirmation': // ADDED: Handle worker initialization confirmation
         console.log(
@@ -215,6 +249,9 @@ export class StateManagerProxy {
           );
         }
 
+        // Store gameId from the confirmation message
+        this.gameIdFromWorker = message.gameId;
+
         // Resolve the initial load promise ONLY IF IT'S THE VERY FIRST LOAD
         if (this.initialLoadResolver) {
           this.initialLoadResolver(true); // Resolves the promise from ensureReady()
@@ -228,7 +265,7 @@ export class StateManagerProxy {
         );
         this.eventBus.publish('stateManager:rulesLoaded', {
           snapshot: this.uiCache, // Provide the latest snapshot
-          gameId: message.gameId, // Forward gameId from worker confirmation
+          gameId: this.gameIdFromWorker, // Forward gameId from worker confirmation (using stored one)
           playerId: message.playerId, // Forward playerId
           source: 'workerConfirmation', // Indicate source
         });
@@ -357,6 +394,34 @@ export class StateManagerProxy {
       console.warn(
         `[stateManagerProxy] Received response for unknown queryId: ${queryId}`
       );
+    }
+  }
+
+  _handlePingResponse(message) {
+    if (message.queryId) {
+      const pending = this.pendingQueries.get(message.queryId);
+      if (pending) {
+        if (pending.timeoutId) clearTimeout(pending.timeoutId);
+        pending.resolve(message.payload); // Resolve with the echoed payload
+        this.pendingQueries.delete(message.queryId);
+        this._logDebug(
+          '[StateManagerProxy] Ping response processed for queryId:',
+          message.queryId
+        );
+      } else {
+        console.warn(
+          '[StateManagerProxy] Received pingResponse for unknown queryId:',
+          message.queryId
+        );
+      }
+    } else {
+      // Handle non-query pings if any (currently not used by pingWorker)
+      this._logDebug(
+        '[StateManagerProxy] Received non-query pingResponse:',
+        message.payload
+      );
+      // Potentially publish an event if generic pongs are useful
+      // this.eventBus.publish('stateManager:pongReceived', { payload: message.payload });
     }
   }
 
@@ -1063,6 +1128,32 @@ export class StateManagerProxy {
     }
   }
   // --- END ADDED ---
+
+  async pingWorker(dataToEcho, timeoutMs = 2000) {
+    const queryId = this.nextQueryId++;
+    this._logDebug(
+      `[StateManagerProxy] Pinging worker with queryId ${queryId}, payload:`,
+      dataToEcho
+    );
+
+    const promise = new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        this.pendingQueries.delete(queryId);
+        reject(
+          new Error(`Timeout waiting for ping response (queryId: ${queryId})`)
+        );
+      }, timeoutMs);
+      this.pendingQueries.set(queryId, { resolve, reject, timeoutId });
+    });
+
+    this.sendCommandToWorker({
+      command: StateManagerProxy.COMMANDS.PING_WORKER,
+      queryId: queryId, // Include queryId so worker can echo it back
+      payload: dataToEcho,
+    });
+
+    return promise;
+  }
 }
 
 // --- ADDED: Function to create the main-thread snapshot interface ---
@@ -1139,6 +1230,9 @@ export function createStateSnapshotInterface(snapshot, staticData) {
       return undefined;
     },
     isLocationAccessible: function (locationOrName) {
+      console.log(
+        'ENTERING isLocationAccessible IN stateManagerProxy.js - NEW LOG'
+      ); // VERY PROMINENT LOG
       // Use function keyword for 'this' if needed, or ensure 'this' refers to rawInterfaceForHelpers correctly
       // Essential checks for data presence
       if (!this.staticData || !this.staticData.locations) {
@@ -1216,6 +1310,12 @@ export function createStateSnapshotInterface(snapshot, staticData) {
       }
 
       // Evaluate the location's access_rule using 'this' (the interface) as context.
+      console.log(
+        '[SnapshotInterface isLocationAccessible] About to call evaluateRule. this._isSnapshotInterface:',
+        this ? this._isSnapshotInterface : 'this is falsy',
+        'Access Rule:',
+        JSON.parse(JSON.stringify(locData.access_rule))
+      );
       const locationRuleResult = evaluateRule(
         locData.access_rule,
         this // 'this' is rawInterfaceForHelpers (which becomes snapshotInterfaceInstance)
@@ -1324,11 +1424,9 @@ export function createStateSnapshotInterface(snapshot, staticData) {
     },
 
     // Add the evaluateRule method to the interface
-    evaluateRule: (rule, contextName = null) => {
-      // 'this' inside this method will be finalSnapshotInterface
-      // The imported evaluateRule expects (rule, evaluationContext)
-      // where evaluationContext is an object with methods like hasItem, executeHelper, etc.
-      return evaluateRule(rule, this, contextName); // Pass 'this' (the interface itself) as the context
+    evaluateRule: function (rule, contextName = null) {
+      // 'this' will now correctly refer to the finalSnapshotInterface object
+      return evaluateRule(rule, this, contextName);
     },
 
     resolveRuleObject: (ruleObjectPath) => {

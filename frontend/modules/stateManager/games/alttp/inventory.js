@@ -22,8 +22,40 @@ export class ALTTPInventory {
   }
 
   addItem(itemName) {
-    const currentCount = this.items.get(itemName) || 0;
-    this.items.set(itemName, currentCount + 1);
+    // Check if the item being added is a base progressive item
+    if (this.isProgressiveBaseItem(itemName)) {
+      // If it is, just increment the count of the base progressive item itself.
+      // The `has()` and `count()` methods will use this count along with
+      // `progressionMapping` to determine what actual items are possessed.
+      const currentCount = this.items.get(itemName) || 0;
+      const itemDef = this.itemData ? this.itemData[itemName] : null;
+      const maxCount = itemDef ? itemDef.max_count : Infinity;
+
+      if (currentCount < maxCount) {
+        this.items.set(itemName, currentCount + 1);
+      } else {
+        // Optionally log or handle max count reached for progressive item
+        console.warn(
+          `[ALTTPInventory] Max count for progressive item ${itemName} reached.`
+        );
+      }
+    } else {
+      // If it's not a progressive base item, handle it as a normal item.
+      // This also handles adding specific tiers of progressive items if they were directly given.
+      const currentCount = this.items.get(itemName) || 0;
+      const itemDef = this.itemData ? this.itemData[itemName] : null;
+      const maxCount = itemDef ? itemDef.max_count : Infinity;
+      // For non-progressive items, or specific progressive tiers, check their individual max_count.
+      // This part of logic might need refinement if specific tiers (e.g. "Fighter Sword") given directly
+      // should not exceed 1, while the base "Progressive Sword" can go up to 4.
+      // For now, assume direct adds also respect their own max_count.
+      if (currentCount < maxCount) {
+        this.items.set(itemName, currentCount + 1);
+      } else {
+        // Optionally log or handle max count reached for normal item
+        // console.warn(`[ALTTPInventory] Max count for item ${itemName} reached.`);
+      }
+    }
   }
 
   removeItem(itemName) {
@@ -131,8 +163,38 @@ export class ALTTPInventory {
   }
 
   count(itemName) {
-    const directCount = this.items.get(itemName) || 0;
-    return directCount;
+    // If the item itself is a base progressive item, return its direct count.
+    if (this.isProgressiveBaseItem(itemName)) {
+      return this.items.get(itemName) || 0;
+    }
+
+    // Check if itemName is a specific tier of any progressive item we hold.
+    if (this.progressionMapping) {
+      for (const [baseItem, progression] of Object.entries(
+        this.progressionMapping
+      )) {
+        const baseItemCount = this.items.get(baseItem) || 0;
+        if (baseItemCount > 0) {
+          // Only proceed if we have the base progressive item
+          for (const upgrade of progression.items) {
+            // Check if the requested itemName matches an upgrade's name or is provided by an upgrade
+            if (
+              upgrade.name === itemName ||
+              upgrade.provides?.includes(itemName)
+            ) {
+              // If we have enough of the base item to have reached this upgrade level
+              if (baseItemCount >= upgrade.level) {
+                return 1; // Each specific tier of a progressive item is counted as 1 if possessed
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // If not a progressive base item itself, and not a currently possessed tier of a progressive item,
+    // return its direct count (e.g., for normal items or if a tier was somehow added directly).
+    return this.items.get(itemName) || 0;
   }
 
   countGroup(groupName) {

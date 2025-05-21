@@ -247,6 +247,18 @@ self.onmessage = async function (e) {
         });
         break;
 
+      case 'ping': // New case for ping command
+        if (!workerInitialized || !stateManagerInstance) {
+          throw new Error('Worker not initialized. Cannot process ping.');
+        }
+        // Construct the object that StateManager.ping expects
+        stateManagerInstance.ping({
+          queryId: message.queryId, // Pass the queryId from the incoming message
+          payload: message.payload, // Pass the actual dataToEcho (e.g., 'uiSimSyncAfterClick')
+        });
+        // The ping method itself will post the 'pingResponse' message
+        break;
+
       case 'addItemToInventory':
         if (!stateManagerInstance) {
           console.error(

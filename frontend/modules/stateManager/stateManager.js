@@ -91,6 +91,30 @@ export class StateManager {
   }
 
   /**
+   * Responds to a ping request from the main thread.
+   * @param {*} payload - The payload to echo back.
+   */
+  ping(data) {
+    // Renamed arg to 'data' for clarity
+    if (this.postMessageCallback) {
+      // data is expected to be an object like { queryId: anId, payload: actualDataToEcho }
+      this._logDebug(
+        '[StateManager] Received ping, sending pong with data:',
+        data
+      );
+      this.postMessageCallback({
+        type: 'pingResponse',
+        queryId: data.queryId, // queryId at the top level
+        payload: data.payload, // The actual echoed payload at the top level
+      });
+    } else {
+      console.warn(
+        '[StateManager] Ping received but no postMessageCallback set.'
+      );
+    }
+  }
+
+  /**
    * Applies initial settings to the StateManager instance.
    * @param {object} settingsObject - The settings object to apply.
    */
@@ -271,32 +295,75 @@ export class StateManager {
    * Adds an item and notifies all registered callbacks
    */
   addItemToInventory(itemName) {
-    if (!this.itemData || !this.itemData[itemName]) {
-      console.warn(
-        `[StateManager Class] Attempted to add unknown item: ${itemName}`
-      );
-      return false;
-    }
-    if (this._batchMode) {
-      const currentCount =
-        this._batchedUpdates.get(itemName) || this.inventory.count(itemName);
-      this._batchedUpdates.set(itemName, currentCount + 1);
-    } else {
+    // Simple passthrough, inventory class handles progressive logic if any
+    if (this.inventory && typeof this.inventory.addItem === 'function') {
       this.inventory.addItem(itemName);
-      this._logDebug(`[StateManager Class] Added item: ${itemName}`);
-      this.invalidateCache();
-      this._sendSnapshotUpdate();
+      this._logDebug(
+        `[StateManager] addItemToInventory: Called inventory.addItem("${itemName}")`
+      );
+      this.invalidateCache(); // Adding an item can change reachability
+      this._sendSnapshotUpdate(); // Send a new snapshot
+    } else {
+      this._logDebug(
+        `[StateManager] addItemToInventory: Inventory or addItem method not available for "${itemName}"`,
+        null,
+        'warn'
+      );
     }
-    return true;
   }
 
   /**
-   * Helper method to process progressive item effects
-   * This runs regardless of batch mode to ensure progressive items are handled correctly
+   * Adds an item to the player's inventory by its name.
    */
-  _processProgressiveItem(itemName) {
-    // No action needed here by default - this is just a hook for processing
-    // Progressive items are automatically handled by the inventory.has() method
+  addItemToInventoryByName(itemName, count = 1, fromServer = false) {
+    if (!itemName) {
+      this._logDebug(
+        '[StateManager addItemToInventoryByName] Attempted to add null or undefined item.',
+        null,
+        'warn'
+      );
+      return;
+    }
+
+    this._logDebug(
+      `[StateManager addItemToInventoryByName] Attempting to add: ${itemName}, Count: ${count}, FromServer: ${fromServer}`
+    );
+
+    // The inventory's addItem method now handles progressive logic directly.
+    // We just call it `count` times.
+    if (this.inventory && typeof this.inventory.addItem === 'function') {
+      for (let i = 0; i < count; i++) {
+        this.inventory.addItem(itemName);
+      }
+      this._logDebug(
+        `[StateManager addItemToInventoryByName] Called inventory.addItem("${itemName}") ${count} times.`
+      );
+
+      // Publish events and update state
+      this._publishEvent('stateManager:inventoryItemAdded', {
+        itemName,
+        count,
+        currentInventory: this.inventory.items, // Or a copy
+      });
+      this.invalidateCache(); // Adding items can change reachability
+      this._sendSnapshotUpdate(); // Send a new snapshot
+    } else {
+      this._logDebug(
+        `[StateManager addItemToInventoryByName] Inventory or addItem method not available for item "${itemName}" (Count: ${count}).`,
+        null,
+        'warn'
+      );
+    }
+
+    // If the item is an event item and settings indicate auto-checking event locations
+    const itemDetails = this.itemData[itemName];
+    if (
+      itemDetails &&
+      itemDetails.event &&
+      this.settings?.gameSpecific?.auto_check_event_locations
+    ) {
+      this.checkEventLocation(itemName); // Check the corresponding event location
+    }
   }
 
   getItemCount(itemName) {
@@ -1313,16 +1380,16 @@ export class StateManager {
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
 
         // +++ DETAILED LOGGING FOR RULE EVALUATION +++
-        if (exit.name === 'GameStart' || fromRegion === 'Menu') {
-          console.log(
-            `  - Exit Access Rule:`,
-            exit.access_rule
-              ? JSON.parse(JSON.stringify(exit.access_rule))
-              : 'None (implicitly true)'
-          );
-          console.log(`  - Rule Evaluation Result: ${ruleEvaluationResult}`);
-          console.log(`  - CanTraverse: ${canTraverse}`);
-        }
+        //if (exit.name === 'GameStart' || fromRegion === 'Menu') {
+        //  console.log(
+        //    `  - Exit Access Rule:`,
+        //    exit.access_rule
+        //      ? JSON.parse(JSON.stringify(exit.access_rule))
+        //      : 'None (implicitly true)'
+        //  );
+        //  console.log(`  - Rule Evaluation Result: ${ruleEvaluationResult}`);
+        //  console.log(`  - CanTraverse: ${canTraverse}`);
+        //}
         // +++ END DETAILED LOGGING +++
 
         if (canTraverse) {
@@ -2496,16 +2563,21 @@ export class StateManager {
 
     // 1. Inventory
     const inventorySnapshot = {};
-    if (this.inventory && this.inventory.items instanceof Map) {
-      for (const [item, count] of this.inventory.items.entries()) {
-        inventorySnapshot[item] = count !== undefined ? count : 0;
+    if (this.inventory && this.itemData) {
+      // Need itemData to iterate all possible items
+      for (const itemName in this.itemData) {
+        if (Object.hasOwn(this.itemData, itemName)) {
+          // Use the inventory's count() method which understands progressive items
+          const itemCount = this.inventory.count(itemName);
+          if (itemCount > 0) {
+            // Only include items with a count > 0 in the snapshot
+            inventorySnapshot[itemName] = itemCount;
+          }
+        }
       }
     } else {
       console.warn(
-        `[StateManager getSnapshot] Inventory or inventory.items is not a Map. Type: ${typeof this
-          .inventory?.items}, Constructor: ${
-          this.inventory?.items?.constructor?.name
-        }`
+        `[StateManager getSnapshot] Inventory or itemData is not available. Snapshot inventory may be empty.`
       );
     }
 

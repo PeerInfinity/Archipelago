@@ -135,7 +135,7 @@ export class JsonUI {
             <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
           </label>
           <button id="json-btn-save-localstorage" class="button">Save to LocalStorage</button>
-          <button id="json-btn-reset-defaults" class="button button-danger">Reset All Defaults</button>
+          <button id="json-btn-reset-defaults" class="button button-danger">Reset Default Mode</button>
         </div>
 
         <div class="json-section">
@@ -572,7 +572,7 @@ export class JsonUI {
 
   _handleResetDefaults() {
     const confirmReset = confirm(
-      'Are you sure you want to reset all defaults? This will clear the last active mode and any saved settings for the "default" mode from LocalStorage. The application will reload using hardcoded defaults.'
+      'Are you sure you want to reset the default mode settings? This will clear the last active mode, any saved settings for the "default" mode from LocalStorage, and then reload the application to its base state (removing any mode specified in the current URL).'
     );
 
     if (confirmReset) {
@@ -582,12 +582,9 @@ export class JsonUI {
         console.log(
           '[JsonUI] Defaults reset: Cleared last active mode and "default" mode data from LocalStorage.'
         );
-        alert(
-          'Defaults have been reset. Please RELOAD the page to apply hardcoded default configurations.'
-        );
-        // Optionally, update UI to reflect this reset if not reloading immediately
-        this.updateCurrentModeDisplay('default');
-        // Consider also clearing known modes list or refreshing it
+        // Reload the page to the base URL, removing any query parameters like ?mode=
+        window.location.href =
+          window.location.origin + window.location.pathname;
       } catch (error) {
         console.error(
           '[JsonUI] Error resetting defaults in LocalStorage:',

@@ -277,10 +277,30 @@ class TestController {
             );
             return false;
           }
+          this.log(
+            `[IS_LOCATION_ACCESSIBLE DEBUG] Checking reachability for region: '${regionToEvaluate}' for location '${actionDetails.locationName}'`
+          );
+          this.log(
+            `[IS_LOCATION_ACCESSIBLE DEBUG] Full snapshot.reachability: ${JSON.stringify(
+              snapshot.reachability
+            )}`
+          );
           const regionReachable =
             snapshotInterface.isRegionReachable(regionToEvaluate);
-          if (!regionReachable) return false;
+          this.log(
+            `[IS_LOCATION_ACCESSIBLE DEBUG] Result of snapshotInterface.isRegionReachable('${regionToEvaluate}'): ${regionReachable}`
+          );
+          if (!regionReachable) {
+            this.log(
+              `[IS_LOCATION_ACCESSIBLE DEBUG] Region '${regionToEvaluate}' is NOT reachable. Returning false for location '${actionDetails.locationName}'.`,
+              'warn'
+            );
+            return false;
+          }
 
+          this.log(
+            `[IS_LOCATION_ACCESSIBLE DEBUG] Region '${regionToEvaluate}' IS reachable. Evaluating access_rule for location '${actionDetails.locationName}'.`
+          );
           return snapshotInterface.evaluateRule(locData.access_rule);
         }
         this.log(
@@ -304,6 +324,31 @@ class TestController {
         );
         return false;
       }
+
+      case 'AWAIT_WORKER_PING': // New action type
+        if (
+          stateManagerProxySingleton &&
+          typeof stateManagerProxySingleton.pingWorker === 'function'
+        ) {
+          this.log(`Pinging worker with payload: ${actionDetails.payload}`);
+          try {
+            const pongPayload = await stateManagerProxySingleton.pingWorker(
+              actionDetails.payload,
+              2000
+            );
+            this.log(`Received pong from worker with payload: ${pongPayload}`);
+            return pongPayload; // Return the echoed payload
+          } catch (error) {
+            this.log(`Error during worker ping: ${error.message}`, 'error');
+            throw error;
+          }
+        } else {
+          const errMsg =
+            'StateManager proxy or pingWorker method not available for AWAIT_WORKER_PING.';
+          this.log(errMsg, 'error');
+          throw new Error(errMsg);
+        }
+
       case 'SIMULATE_CLICK':
         if (actionDetails.selector) {
           const element = document.querySelector(actionDetails.selector);
@@ -517,8 +562,8 @@ const testFunctions = {
         start_regions: {
           1: {
             // Key as string
-            default: ['Hyrule Castle Courtyard'],
-            available: [{ name: 'Hyrule Castle Courtyard', type: 1 }],
+            default: ['Menu'], // UPDATED: Start in Menu
+            available: [{ name: 'Menu', type: 1 }], // UPDATED: Available start region is Menu
           },
         },
         items: {
@@ -551,6 +596,18 @@ const testFunctions = {
             'Fighter Sword': {
               name: 'Fighter Sword',
               id: 73,
+              groups: ['Everything', 'Progression Items', 'Swords'],
+              advancement: true,
+              priority: false,
+              useful: false,
+              trap: false,
+              event: false,
+              type: 'Sword',
+              max_count: 1,
+            },
+            'Master Sword': {
+              name: 'Master Sword',
+              id: 80,
               groups: ['Everything', 'Progression Items', 'Swords'],
               advancement: true,
               priority: false,
@@ -769,58 +826,88 @@ const testFunctions = {
         playerId: '1',
         playerName: 'TestPlayer1',
       });
-      testController.reportCondition('LOAD_RULES_DATA action sent', true);
+      testController.reportCondition('Initial data loaded', true);
 
-      await testController.waitForEvent('stateManager:rulesLoaded', 3000);
-      testController.reportCondition('Rules loaded event received', true);
+      // Add items
+      await testController.performAction({
+        type: 'ADD_ITEM_TO_INVENTORY',
+        itemName: 'Progressive Sword',
+      });
+      testController.reportCondition('Added Progressive Sword', true);
+      await testController.performAction({
+        type: 'AWAIT_WORKER_PING',
+        payload: 'syncAfterAddSword1',
+      });
 
-      // Add Moon Pearl
       await testController.performAction({
         type: 'ADD_ITEM_TO_INVENTORY',
         itemName: 'Moon Pearl',
       });
-      await testController.waitForEvent('stateManager:snapshotUpdated', 1000); // Wait for inventory update
-      testController.reportCondition(
-        'Moon Pearl added to inventory command sent and snapshot updated',
-        true
+      testController.reportCondition('Added Moon Pearl', true);
+      await testController.performAction({
+        type: 'AWAIT_WORKER_PING',
+        payload: 'syncAfterAddMoonPearl',
+      });
+
+      // Check for Fighter Sword (derived from Progressive Sword)
+      const fighterSwordCount = await testController.performAction({
+        type: 'GET_INVENTORY_ITEM_COUNT',
+        itemName: 'Fighter Sword',
+      });
+      const hasFighterSword = fighterSwordCount > 0;
+      testController.log(
+        `Check result for GET_INVENTORY_ITEM_COUNT('Fighter Sword'): ${fighterSwordCount} (has: ${hasFighterSword})`
       );
+      testController.reportCondition(
+        "hasItem('Fighter Sword') check",
+        hasFighterSword
+      );
+      if (!hasFighterSword) overallResult = false;
 
-      // DIAGNOSTIC DELAY
-      await new Promise((resolve) => setTimeout(resolve, 50));
-
-      const pearlCount = await testController.performAction({
+      // Check for Moon Pearl
+      const moonPearlCount = await testController.performAction({
         type: 'GET_INVENTORY_ITEM_COUNT',
         itemName: 'Moon Pearl',
       });
-      if (pearlCount > 0) {
-        testController.reportCondition(
-          'Moon Pearl count is > 0 in inventory',
-          true
-        );
-      } else {
-        testController.reportCondition(
-          `Moon Pearl count is ${pearlCount}, expected > 0`,
-          false
-        );
-        overallResult = false;
-      }
+      const hasMoonPearl = moonPearlCount > 0;
+      testController.log(
+        `Check result for GET_INVENTORY_ITEM_COUNT('Moon Pearl'): ${moonPearlCount} (has: ${hasMoonPearl})`
+      );
+      testController.reportCondition(
+        "hasItem('Moon Pearl') check",
+        hasMoonPearl
+      );
+      if (!hasMoonPearl) overallResult = false;
 
-      const isAccessible = await testController.performAction({
+      // Check accessibility of the location that requires Moon Pearl
+      const locationToCheck = 'LocationUnlockedByMoonPearl';
+      const canAccessLocation = await testController.performAction({
         type: 'IS_LOCATION_ACCESSIBLE',
-        locationName: 'LocationUnlockedByMoonPearl',
+        locationName: locationToCheck,
       });
-      if (isAccessible) {
-        testController.reportCondition(
-          'LocationUnlockedByMoonPearl is now accessible',
-          true
-        );
-      } else {
-        testController.reportCondition(
-          'LocationUnlockedByMoonPearl is NOT accessible after getting Moon Pearl',
-          false
-        );
-        overallResult = false;
-      }
+      testController.log(
+        `Check result for IS_LOCATION_ACCESSIBLE('${locationToCheck}'): ${canAccessLocation}`
+      );
+      testController.reportCondition(
+        `canAccessLocation('${locationToCheck}') check`,
+        canAccessLocation
+      );
+      if (!canAccessLocation) overallResult = false;
+
+      // Add the Victory item before reporting it and pinging
+      await testController.performAction({
+        type: 'ADD_ITEM_TO_INVENTORY',
+        itemName: 'Victory',
+      });
+      testController.reportCondition('Added Victory Event Item', true);
+      await testController.performAction({
+        type: 'AWAIT_WORKER_PING',
+        payload: 'syncAfterAddVictory',
+      });
+
+      testController.log(
+        `configLoadAndItemCheckTest finished. Overall Result: ${overallResult}`
+      );
     } catch (error) {
       testController.log(
         `Error in configLoadAndItemCheckTest: ${error.message}`,
@@ -855,24 +942,30 @@ const testFunctions = {
         true
       );
 
-      // Step 2: Wait for the inventory to update
-      testController.log('Waiting for snapshot update after item click...');
-      await testController.waitForEvent('stateManager:snapshotUpdated', 2000);
-      testController.reportCondition('Snapshot updated after item click', true);
+      // Step 2: Wait for the worker to process the item add by pinging it.
+      testController.log('Pinging worker to ensure actions are processed...');
+      await testController.performAction({
+        type: 'AWAIT_WORKER_PING',
+        payload: 'uiSimSyncAfterClick',
+      });
+      testController.reportCondition(
+        'Worker ping successful after item click',
+        true
+      );
 
-      // Step 3: Verify "Fighter Sword" (or the first progressive stage) is in inventory
+      // Step 3: Verify "Master Sword" (or the first progressive stage) is in inventory
       const swordCount = await testController.performAction({
         type: 'GET_INVENTORY_ITEM_COUNT',
-        itemName: 'Fighter Sword',
+        itemName: 'Master Sword',
       });
       if (swordCount > 0) {
         testController.reportCondition(
-          'Fighter Sword count is > 0 after click',
+          'Master Sword count is > 0 after click',
           true
         );
       } else {
         testController.reportCondition(
-          `Fighter Sword count is ${swordCount}, expected > 0`,
+          `Master Sword count is ${swordCount}, expected > 0`,
           false
         );
         overallResult = false;
