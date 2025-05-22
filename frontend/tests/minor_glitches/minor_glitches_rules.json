@@ -1,18 +1,20 @@
 {
   "schema_version": 3,
+  "game_name": "A Link to the Past",
   "archipelago_version": "0.6.1",
   "generation_seed": 1,
   "player_names": {},
-  "plando_options": [],
   "world_classes": {
     "1": "ALTTPWorld"
   },
+  "plando_options": [],
   "regions": {
     "1": {
       "Menu": {
         "name": "Menu",
         "type": 1,
         "player": 1,
+        "entrances": [],
         "exits": [
           {
             "name": "Links House S&Q",
@@ -61,6 +63,144 @@
         "name": "Light World",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Links House Exit",
+            "parent_region": "Links House",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Chris Houlihan Room Exit",
+            "parent_region": "Chris Houlihan Room",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Kings Grave Inner Rocks",
+            "parent_region": "Kings Grave Area",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Stairs Drop",
+            "parent_region": "Desert Palace Lone Stairs",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Death Mountain Entrance Drop",
+            "parent_region": "Death Mountain Entrance",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Death Mountain Return Ledge Drop",
+            "parent_region": "Death Mountain Return Ledge",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Kakariko Well Exit",
+            "parent_region": "Kakariko Well (bottom)",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bat Cave Exit",
+            "parent_region": "Bat Cave (left)",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Elder House Exit (East)",
+            "parent_region": "Elder House",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Elder House Exit (West)",
+            "parent_region": "Elder House",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "North Fairy Cave Exit",
+            "parent_region": "North Fairy Cave",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Lost Woods Hideout Exit",
+            "parent_region": "Lost Woods Hideout (bottom)",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Lumberjack Tree Exit",
+            "parent_region": "Lumberjack Tree (bottom)",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Two Brothers House Exit (East)",
+            "parent_region": "Two Brothers House",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Sanctuary Exit",
+            "parent_region": "Sanctuary",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man Cave Exit (West)",
+            "parent_region": "Old Man Cave",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Eastern Palace Exit",
+            "parent_region": "Eastern Palace",
+            "connected_region": "Light World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Blinds Hideout",
@@ -895,6 +1035,24 @@
         "name": "Death Mountain Entrance",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Death Mountain Entrance Rock",
+            "parent_region": "Light World",
+            "connected_region": "Death Mountain Entrance",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bumper Cave Entrance Mirror Spot",
+            "parent_region": "Bumper Cave Entrance",
+            "connected_region": "Death Mountain Entrance",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Old Man Cave (West)",
@@ -926,6 +1084,24 @@
         "name": "Lake Hylia Central Island",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lake Hylia Central Island Pier",
+            "parent_region": "Light World",
+            "connected_region": "Lake Hylia Central Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Lake Hylia Central Island Mirror Spot",
+            "parent_region": "Dark Lake Hylia Central Island",
+            "connected_region": "Lake Hylia Central Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Capacity Upgrade",
@@ -958,6 +1134,16 @@
         "name": "Blinds Hideout",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Blinds Hideout",
+            "parent_region": "Light World",
+            "connected_region": "Blinds Hideout",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1032,6 +1218,24 @@
         "name": "Hyrule Castle Secret Entrance",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hyrule Castle Secret Entrance Drop",
+            "parent_region": "Light World",
+            "connected_region": "Hyrule Castle Secret Entrance",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Secret Entrance Stairs",
+            "parent_region": "Hyrule Castle Courtyard",
+            "connected_region": "Hyrule Castle Secret Entrance",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Hyrule Castle Secret Entrance Exit",
@@ -1079,6 +1283,16 @@
         "name": "Zoras River",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Zoras River",
+            "parent_region": "Light World",
+            "connected_region": "Zoras River",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1119,6 +1333,16 @@
         "name": "Waterfall of Wishing",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Waterfall of Wishing",
+            "parent_region": "Light World",
+            "connected_region": "Waterfall of Wishing",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1156,6 +1380,24 @@
         "name": "Kings Grave Area",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Kings Grave Outer Rocks",
+            "parent_region": "Light World",
+            "connected_region": "Kings Grave Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Kings Grave Mirror Spot",
+            "parent_region": "West Dark World",
+            "connected_region": "Kings Grave Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Kings Grave",
@@ -1191,6 +1433,16 @@
         "name": "Kings Grave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Kings Grave",
+            "parent_region": "Kings Grave Area",
+            "connected_region": "Kings Grave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1216,6 +1468,24 @@
         "name": "North Fairy Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "North Fairy Cave Drop",
+            "parent_region": "Light World",
+            "connected_region": "North Fairy Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "North Fairy Cave",
+            "parent_region": "Light World",
+            "connected_region": "North Fairy Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "North Fairy Cave Exit",
@@ -1238,6 +1508,16 @@
         "name": "Dam",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dam",
+            "parent_region": "Light World",
+            "connected_region": "Dam",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1281,6 +1561,24 @@
         "name": "Links House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Links House",
+            "parent_region": "Light World",
+            "connected_region": "Links House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Links House S&Q",
+            "parent_region": "Menu",
+            "connected_region": "Links House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Links House Exit",
@@ -1316,6 +1614,7 @@
         "name": "Chris Houlihan Room",
         "type": 3,
         "player": 1,
+        "entrances": [],
         "exits": [
           {
             "name": "Chris Houlihan Room Exit",
@@ -1338,6 +1637,16 @@
         "name": "Tavern",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Tavern North",
+            "parent_region": "Light World",
+            "connected_region": "Tavern",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1363,6 +1672,24 @@
         "name": "Elder House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Elder House (East)",
+            "parent_region": "Light World",
+            "connected_region": "Elder House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Elder House (West)",
+            "parent_region": "Light World",
+            "connected_region": "Elder House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Elder House Exit (East)",
@@ -1394,6 +1721,16 @@
         "name": "Snitch Lady (East)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Snitch Lady (East)",
+            "parent_region": "Light World",
+            "connected_region": "Snitch Lady (East)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1406,6 +1743,16 @@
         "name": "Snitch Lady (West)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Snitch Lady (West)",
+            "parent_region": "Light World",
+            "connected_region": "Snitch Lady (West)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1418,6 +1765,16 @@
         "name": "Bush Covered House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bush Covered House",
+            "parent_region": "Light World",
+            "connected_region": "Bush Covered House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1430,6 +1787,16 @@
         "name": "Tavern (Front)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Tavern (Front)",
+            "parent_region": "Light World",
+            "connected_region": "Tavern (Front)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1442,6 +1809,16 @@
         "name": "Light World Bomb Hut",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Light World Bomb Hut",
+            "parent_region": "Light World",
+            "connected_region": "Light World Bomb Hut",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1454,6 +1831,16 @@
         "name": "Kakariko Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Kakariko Shop",
+            "parent_region": "Light World",
+            "connected_region": "Kakariko Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1495,6 +1882,16 @@
         "name": "Fortune Teller (Light)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fortune Teller (Light)",
+            "parent_region": "Light World",
+            "connected_region": "Fortune Teller (Light)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1507,6 +1904,16 @@
         "name": "Lake Hylia Fortune Teller",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lake Hylia Fortune Teller",
+            "parent_region": "Light World",
+            "connected_region": "Lake Hylia Fortune Teller",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1519,6 +1926,16 @@
         "name": "Lumberjack House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lumberjack House",
+            "parent_region": "Light World",
+            "connected_region": "Lumberjack House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1531,6 +1948,16 @@
         "name": "Bonk Fairy (Light)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bonk Fairy (Light)",
+            "parent_region": "Light World",
+            "connected_region": "Bonk Fairy (Light)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1543,6 +1970,16 @@
         "name": "Bonk Fairy (Dark)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bonk Fairy (Dark)",
+            "parent_region": "South Dark World",
+            "connected_region": "Bonk Fairy (Dark)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1555,6 +1992,16 @@
         "name": "Lake Hylia Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lake Hylia Fairy",
+            "parent_region": "Light World",
+            "connected_region": "Lake Hylia Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1567,6 +2014,16 @@
         "name": "Swamp Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Light Hype Fairy",
+            "parent_region": "Light World",
+            "connected_region": "Swamp Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1579,6 +2036,16 @@
         "name": "Desert Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Fairy",
+            "parent_region": "Light World",
+            "connected_region": "Desert Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1591,6 +2058,16 @@
         "name": "Dark Lake Hylia Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Fairy",
+            "parent_region": "East Dark World",
+            "connected_region": "Dark Lake Hylia Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1603,6 +2080,16 @@
         "name": "Dark Lake Hylia Ledge Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Ledge Fairy",
+            "parent_region": "Dark Lake Hylia Ledge",
+            "connected_region": "Dark Lake Hylia Ledge Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1615,6 +2102,16 @@
         "name": "Dark Desert Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Desert Fairy",
+            "parent_region": "Dark Desert",
+            "connected_region": "Dark Desert Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1627,6 +2124,16 @@
         "name": "Dark Death Mountain Healer Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Death Mountain Fairy",
+            "parent_region": "Dark Death Mountain (West Bottom)",
+            "connected_region": "Dark Death Mountain Healer Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -1639,6 +2146,16 @@
         "name": "Chicken House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Chicken House",
+            "parent_region": "Light World",
+            "connected_region": "Chicken House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1665,6 +2182,16 @@
         "name": "Aginahs Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Aginahs Cave",
+            "parent_region": "Light World",
+            "connected_region": "Aginahs Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1691,6 +2218,16 @@
         "name": "Sahasrahlas Hut",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Sahasrahlas Hut",
+            "parent_region": "Light World",
+            "connected_region": "Sahasrahlas Hut",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1758,6 +2295,16 @@
         "name": "Kakariko Well (top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Kakariko Well Drop",
+            "parent_region": "Light World",
+            "connected_region": "Kakariko Well (top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Kakariko Well (top to bottom)",
@@ -1842,6 +2389,24 @@
         "name": "Kakariko Well (bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Kakariko Well (top to bottom)",
+            "parent_region": "Kakariko Well (top)",
+            "connected_region": "Kakariko Well (bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Kakariko Well Cave",
+            "parent_region": "Light World",
+            "connected_region": "Kakariko Well (bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Kakariko Well Exit",
@@ -1864,6 +2429,16 @@
         "name": "Blacksmiths Hut",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Blacksmiths Hut",
+            "parent_region": "Light World",
+            "connected_region": "Blacksmiths Hut",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -1932,6 +2507,24 @@
         "name": "Bat Cave Drop Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bat Cave Drop Ledge",
+            "parent_region": "Light World",
+            "connected_region": "Bat Cave Drop Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bat Cave Drop Ledge Mirror Spot",
+            "parent_region": "Hammer Peg Area",
+            "connected_region": "Bat Cave Drop Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bat Cave Drop",
@@ -1954,6 +2547,16 @@
         "name": "Bat Cave (right)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bat Cave Drop",
+            "parent_region": "Bat Cave Drop Ledge",
+            "connected_region": "Bat Cave (right)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bat Cave Door",
@@ -1992,6 +2595,24 @@
         "name": "Bat Cave (left)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bat Cave Door",
+            "parent_region": "Bat Cave (right)",
+            "connected_region": "Bat Cave (left)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bat Cave Cave",
+            "parent_region": "Light World",
+            "connected_region": "Bat Cave (left)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bat Cave Exit",
@@ -2014,6 +2635,16 @@
         "name": "Sick Kids House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Sick Kids House",
+            "parent_region": "Light World",
+            "connected_region": "Sick Kids House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2042,6 +2673,16 @@
         "name": "Hobo Bridge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hobo Bridge",
+            "parent_region": "Light World",
+            "connected_region": "Hobo Bridge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2067,6 +2708,16 @@
         "name": "Lost Woods Hideout (top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lost Woods Hideout Drop",
+            "parent_region": "Light World",
+            "connected_region": "Lost Woods Hideout (top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Lost Woods Hideout (top to bottom)",
@@ -2102,6 +2753,24 @@
         "name": "Lost Woods Hideout (bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lost Woods Hideout (top to bottom)",
+            "parent_region": "Lost Woods Hideout (top)",
+            "connected_region": "Lost Woods Hideout (bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Lost Woods Hideout Stump",
+            "parent_region": "Light World",
+            "connected_region": "Lost Woods Hideout (bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Lost Woods Hideout Exit",
@@ -2124,6 +2793,16 @@
         "name": "Lumberjack Tree (top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lumberjack Tree Tree",
+            "parent_region": "Light World",
+            "connected_region": "Lumberjack Tree (top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Lumberjack Tree (top to bottom)",
@@ -2159,6 +2838,24 @@
         "name": "Lumberjack Tree (bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lumberjack Tree (top to bottom)",
+            "parent_region": "Lumberjack Tree (top)",
+            "connected_region": "Lumberjack Tree (bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Lumberjack Tree Cave",
+            "parent_region": "Light World",
+            "connected_region": "Lumberjack Tree (bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Lumberjack Tree Exit",
@@ -2181,6 +2878,16 @@
         "name": "Cave 45 Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Cave 45 Mirror Spot",
+            "parent_region": "South Dark World",
+            "connected_region": "Cave 45 Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Cave 45",
@@ -2203,6 +2910,16 @@
         "name": "Cave 45",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Cave 45",
+            "parent_region": "Cave 45 Ledge",
+            "connected_region": "Cave 45",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2228,6 +2945,16 @@
         "name": "Graveyard Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Graveyard Ledge Mirror Spot",
+            "parent_region": "West Dark World",
+            "connected_region": "Graveyard Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Graveyard Cave",
@@ -2250,6 +2977,16 @@
         "name": "Graveyard Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Graveyard Cave",
+            "parent_region": "Graveyard Ledge",
+            "connected_region": "Graveyard Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2276,6 +3013,16 @@
         "name": "Checkerboard Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Checkerboard Cave",
+            "parent_region": "Desert Ledge (Northeast)",
+            "connected_region": "Checkerboard Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2301,6 +3048,16 @@
         "name": "Long Fairy Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Long Fairy Cave",
+            "parent_region": "Light World",
+            "connected_region": "Long Fairy Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2313,6 +3070,16 @@
         "name": "Mini Moldorm Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mini Moldorm Cave",
+            "parent_region": "Light World",
+            "connected_region": "Mini Moldorm Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2416,6 +3183,16 @@
         "name": "Ice Rod Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Rod Cave",
+            "parent_region": "Light World",
+            "connected_region": "Ice Rod Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2441,6 +3218,16 @@
         "name": "Good Bee Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Good Bee Cave",
+            "parent_region": "Light World",
+            "connected_region": "Good Bee Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2453,6 +3240,16 @@
         "name": "20 Rupee Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "20 Rupee Cave",
+            "parent_region": "Light World",
+            "connected_region": "20 Rupee Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2465,6 +3262,16 @@
         "name": "Cave Shop (Lake Hylia)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Cave Shop (Lake Hylia)",
+            "parent_region": "Light World",
+            "connected_region": "Cave Shop (Lake Hylia)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2506,6 +3313,16 @@
         "name": "Cave Shop (Dark Death Mountain)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Cave Shop (Dark Death Mountain)",
+            "parent_region": "Dark Death Mountain (East Bottom)",
+            "connected_region": "Cave Shop (Dark Death Mountain)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2547,6 +3364,16 @@
         "name": "Bonk Rock Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bonk Rock Cave",
+            "parent_region": "Light World",
+            "connected_region": "Bonk Rock Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2572,6 +3399,16 @@
         "name": "Library",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Library",
+            "parent_region": "Light World",
+            "connected_region": "Library",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2600,6 +3437,16 @@
         "name": "Kakariko Gamble Game",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Kakariko Gamble Game",
+            "parent_region": "Light World",
+            "connected_region": "Kakariko Gamble Game",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2612,6 +3459,16 @@
         "name": "Potion Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Potion Shop",
+            "parent_region": "Light World",
+            "connected_region": "Potion Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2669,6 +3526,16 @@
         "name": "Lake Hylia Island",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lake Hylia Island Mirror Spot",
+            "parent_region": "Dark Lake Hylia",
+            "connected_region": "Lake Hylia Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2694,6 +3561,16 @@
         "name": "Capacity Upgrade",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Capacity Upgrade",
+            "parent_region": "Lake Hylia Central Island",
+            "connected_region": "Capacity Upgrade",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -2790,6 +3667,24 @@
         "name": "Two Brothers House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Two Brothers House (East)",
+            "parent_region": "Light World",
+            "connected_region": "Two Brothers House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Two Brothers House (West)",
+            "parent_region": "Maze Race Ledge",
+            "connected_region": "Two Brothers House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Two Brothers House Exit (East)",
@@ -2823,6 +3718,24 @@
         "name": "Maze Race Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Maze Race Mirror Spot",
+            "parent_region": "South Dark World",
+            "connected_region": "Maze Race Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Two Brothers House Exit (West)",
+            "parent_region": "Two Brothers House",
+            "connected_region": "Maze Race Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Two Brothers House (West)",
@@ -2858,6 +3771,16 @@
         "name": "50 Rupee Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "50 Rupee Cave",
+            "parent_region": "Light World",
+            "connected_region": "50 Rupee Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -2870,6 +3793,32 @@
         "name": "Desert Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Ledge Return Rocks",
+            "parent_region": "Desert Palace Entrance (North) Spot",
+            "connected_region": "Desert Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Ledge Mirror Spot",
+            "parent_region": "Dark Desert",
+            "connected_region": "Desert Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Exit (West)",
+            "parent_region": "Desert Palace Main (Outer)",
+            "connected_region": "Desert Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Entrance (North) Rocks",
@@ -2915,6 +3864,16 @@
         "name": "Desert Ledge (Northeast)",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Ledge (Northeast) Mirror Spot",
+            "parent_region": "Dark Desert",
+            "connected_region": "Desert Ledge (Northeast)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Checkerboard Cave",
@@ -2938,6 +3897,32 @@
         "name": "Desert Palace Stairs",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace Stairs",
+            "parent_region": "Light World",
+            "connected_region": "Desert Palace Stairs",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Stairs Mirror Spot",
+            "parent_region": "Dark Desert",
+            "connected_region": "Desert Palace Stairs",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Exit (South)",
+            "parent_region": "Desert Palace Main (Inner)",
+            "connected_region": "Desert Palace Stairs",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Entrance (South)",
@@ -2960,6 +3945,16 @@
         "name": "Desert Palace Lone Stairs",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace Exit (East)",
+            "parent_region": "Desert Palace Main (Outer)",
+            "connected_region": "Desert Palace Lone Stairs",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Stairs Drop",
@@ -2991,6 +3986,32 @@
         "name": "Desert Palace Entrance (North) Spot",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace Entrance (North) Rocks",
+            "parent_region": "Desert Ledge",
+            "connected_region": "Desert Palace Entrance (North) Spot",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Entrance (North) Mirror Spot",
+            "parent_region": "Dark Desert",
+            "connected_region": "Desert Palace Entrance (North) Spot",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Exit (North)",
+            "parent_region": "Desert Palace North",
+            "connected_region": "Desert Palace Entrance (North) Spot",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Entrance (North)",
@@ -3023,6 +4044,32 @@
         "name": "Desert Palace Main (Outer)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace Pots (Inner)",
+            "parent_region": "Desert Palace Main (Inner)",
+            "connected_region": "Desert Palace Main (Outer)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Entrance (West)",
+            "parent_region": "Desert Ledge",
+            "connected_region": "Desert Palace Main (Outer)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Entrance (East)",
+            "parent_region": "Desert Palace Lone Stairs",
+            "connected_region": "Desert Palace Main (Outer)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Pots (Outer)",
@@ -3123,6 +4170,24 @@
         "name": "Desert Palace Main (Inner)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace Pots (Outer)",
+            "parent_region": "Desert Palace Main (Outer)",
+            "connected_region": "Desert Palace Main (Inner)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Desert Palace Entrance (South)",
+            "parent_region": "Desert Palace Stairs",
+            "connected_region": "Desert Palace Main (Inner)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Exit (South)",
@@ -3155,6 +4220,16 @@
         "name": "Desert Palace East",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace East Wing",
+            "parent_region": "Desert Palace Main (Outer)",
+            "connected_region": "Desert Palace East",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -3199,6 +4274,16 @@
         "name": "Desert Palace North",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Desert Palace Entrance (North)",
+            "parent_region": "Desert Palace Entrance (North) Spot",
+            "connected_region": "Desert Palace North",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Desert Palace Exit (North)",
@@ -3491,6 +4576,16 @@
         "name": "Eastern Palace",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Eastern Palace",
+            "parent_region": "Light World",
+            "connected_region": "Eastern Palace",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Eastern Palace Exit",
@@ -3867,6 +4962,16 @@
         "name": "Master Sword Meadow",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Master Sword Meadow",
+            "parent_region": "Light World",
+            "connected_region": "Master Sword Meadow",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -3914,6 +5019,16 @@
         "name": "Lost Woods Gamble",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lost Woods Gamble",
+            "parent_region": "Light World",
+            "connected_region": "Lost Woods Gamble",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -3926,6 +5041,40 @@
         "name": "Hyrule Castle Courtyard",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hyrule Castle Ledge Courtyard Drop",
+            "parent_region": "Hyrule Castle Ledge",
+            "connected_region": "Hyrule Castle Courtyard",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Main Gate",
+            "parent_region": "Light World",
+            "connected_region": "Hyrule Castle Courtyard",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Secret Entrance Exit",
+            "parent_region": "Hyrule Castle Secret Entrance",
+            "connected_region": "Hyrule Castle Courtyard",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Exit (South)",
+            "parent_region": "Hyrule Castle",
+            "connected_region": "Hyrule Castle Courtyard",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Hyrule Castle Secret Entrance Stairs",
@@ -3957,6 +5106,40 @@
         "name": "Hyrule Castle Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hyrule Castle Ledge Mirror Spot",
+            "parent_region": "East Dark World",
+            "connected_region": "Hyrule Castle Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Exit (West)",
+            "parent_region": "Hyrule Castle",
+            "connected_region": "Hyrule Castle Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Exit (East)",
+            "parent_region": "Hyrule Castle",
+            "connected_region": "Hyrule Castle Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Agahnims Tower Exit",
+            "parent_region": "Agahnims Tower",
+            "connected_region": "Hyrule Castle Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Hyrule Castle Entrance (East)",
@@ -4026,6 +5209,32 @@
         "name": "Hyrule Castle",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hyrule Castle Entrance (South)",
+            "parent_region": "Hyrule Castle Courtyard",
+            "connected_region": "Hyrule Castle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Entrance (West)",
+            "parent_region": "Hyrule Castle Ledge",
+            "connected_region": "Hyrule Castle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hyrule Castle Entrance (East)",
+            "parent_region": "Hyrule Castle Ledge",
+            "connected_region": "Hyrule Castle",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Hyrule Castle Exit (East)",
@@ -4076,9 +5285,56 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "basement_key_rule",
-                  "args": []
+                  "type": "conditional",
+                  "test": {
+                    "type": "compare",
+                    "left": {
+                      "type": "helper",
+                      "name": "location_item_name",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Sewers - Key Rat Key Drop"
+                        }
+                      ]
+                    },
+                    "op": "==",
+                    "right": {
+                      "type": "list",
+                      "value": [
+                        {
+                          "type": "constant",
+                          "value": "Small Key (Hyrule Castle)"
+                        },
+                        {
+                          "type": "name",
+                          "name": "player"
+                        }
+                      ]
+                    }
+                  },
+                  "if_true": {
+                    "type": "count_check",
+                    "item": {
+                      "type": "constant",
+                      "value": "Small Key (Hyrule Castle)"
+                    },
+                    "count": {
+                      "type": "constant",
+                      "value": 2
+                    }
+                  },
+                  "if_false": {
+                    "type": "count_check",
+                    "item": {
+                      "type": "constant",
+                      "value": "Small Key (Hyrule Castle)"
+                    },
+                    "count": {
+                      "type": "constant",
+                      "value": 3
+                    }
+                  }
                 },
                 {
                   "type": "helper",
@@ -4153,9 +5409,56 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "basement_key_rule",
-                  "args": []
+                  "type": "conditional",
+                  "test": {
+                    "type": "compare",
+                    "left": {
+                      "type": "helper",
+                      "name": "location_item_name",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Sewers - Key Rat Key Drop"
+                        }
+                      ]
+                    },
+                    "op": "==",
+                    "right": {
+                      "type": "list",
+                      "value": [
+                        {
+                          "type": "constant",
+                          "value": "Small Key (Hyrule Castle)"
+                        },
+                        {
+                          "type": "name",
+                          "name": "player"
+                        }
+                      ]
+                    }
+                  },
+                  "if_true": {
+                    "type": "count_check",
+                    "item": {
+                      "type": "constant",
+                      "value": "Small Key (Hyrule Castle)"
+                    },
+                    "count": {
+                      "type": "constant",
+                      "value": 2
+                    }
+                  },
+                  "if_false": {
+                    "type": "count_check",
+                    "item": {
+                      "type": "constant",
+                      "value": "Small Key (Hyrule Castle)"
+                    },
+                    "count": {
+                      "type": "constant",
+                      "value": 3
+                    }
+                  }
                 },
                 {
                   "type": "helper",
@@ -4219,6 +5522,16 @@
         "name": "Sewer Drop",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Sanctuary Grave",
+            "parent_region": "Light World",
+            "connected_region": "Sewer Drop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Sewer Drop",
@@ -4242,6 +5555,24 @@
         "name": "Sewers (Dark)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Throne Room",
+            "parent_region": "Hyrule Castle",
+            "connected_region": "Sewers (Dark)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Sewers Back Door",
+            "parent_region": "Sewers",
+            "connected_region": "Sewers (Dark)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Sewers Door",
@@ -4382,6 +5713,24 @@
         "name": "Sewers",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Sewers Door",
+            "parent_region": "Sewers (Dark)",
+            "connected_region": "Sewers",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Sewer Drop",
+            "parent_region": "Sewer Drop",
+            "connected_region": "Sewers",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Sanctuary Push Door",
@@ -4443,6 +5792,16 @@
         "name": "Sewers Secret Room",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Sewers Secret Room",
+            "parent_region": "Sewers",
+            "connected_region": "Sewers Secret Room",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4492,6 +5851,32 @@
         "name": "Sanctuary",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Sanctuary S&Q",
+            "parent_region": "Menu",
+            "connected_region": "Sanctuary",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Sanctuary Push Door",
+            "parent_region": "Sewers",
+            "connected_region": "Sanctuary",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Sanctuary",
+            "parent_region": "Light World",
+            "connected_region": "Sanctuary",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Sanctuary Exit",
@@ -4528,6 +5913,16 @@
         "name": "Agahnims Tower",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Agahnims Tower",
+            "parent_region": "Hyrule Castle Ledge",
+            "connected_region": "Agahnims Tower",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Agahnim 1",
@@ -4745,6 +6140,16 @@
         "name": "Agahnim 1",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Agahnim 1",
+            "parent_region": "Agahnims Tower",
+            "connected_region": "Agahnim 1",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -4791,6 +6196,24 @@
         "name": "Old Man Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Old Man Cave (West)",
+            "parent_region": "Death Mountain Entrance",
+            "connected_region": "Old Man Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man Cave (East)",
+            "parent_region": "Death Mountain",
+            "connected_region": "Old Man Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Old Man Cave Exit (East)",
@@ -4841,6 +6264,32 @@
         "name": "Old Man House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Old Man S&Q",
+            "parent_region": "Menu",
+            "connected_region": "Old Man House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man House Back to Front",
+            "parent_region": "Old Man House Back",
+            "connected_region": "Old Man House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man House (Bottom)",
+            "parent_region": "Death Mountain",
+            "connected_region": "Old Man House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Old Man House Exit (Bottom)",
@@ -4875,6 +6324,24 @@
         "name": "Old Man House Back",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Old Man House Front to Back",
+            "parent_region": "Old Man House",
+            "connected_region": "Old Man House Back",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man House (Top)",
+            "parent_region": "Death Mountain",
+            "connected_region": "Old Man House Back",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Old Man House Exit (Top)",
@@ -4909,6 +6376,88 @@
         "name": "Death Mountain",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Flute Spot 1",
+            "parent_region": "Light World",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Broken Bridge (East)",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Death Mountain Drop",
+            "parent_region": "Death Mountain (Top)",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man Cave Exit (East)",
+            "parent_region": "Old Man Cave",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man House Exit (Bottom)",
+            "parent_region": "Old Man House",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Old Man House Exit (Top)",
+            "parent_region": "Old Man House Back",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Death Mountain Return Cave Exit (East)",
+            "parent_region": "Death Mountain Return Cave",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spectacle Rock Cave Exit",
+            "parent_region": "Spectacle Rock Cave (Bottom)",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spectacle Rock Cave Exit (Top)",
+            "parent_region": "Spectacle Rock Cave (Top)",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spectacle Rock Cave Exit (Peak)",
+            "parent_region": "Spectacle Rock Cave (Peak)",
+            "connected_region": "Death Mountain",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Old Man Cave (East)",
@@ -5006,6 +6555,24 @@
         "name": "Death Mountain Return Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Death Mountain Return Cave (East)",
+            "parent_region": "Death Mountain",
+            "connected_region": "Death Mountain Return Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Death Mountain Return Cave (West)",
+            "parent_region": "Death Mountain Return Ledge",
+            "connected_region": "Death Mountain Return Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Death Mountain Return Cave Exit (West)",
@@ -5043,6 +6610,24 @@
         "name": "Death Mountain Return Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bumper Cave Ledge Mirror Spot",
+            "parent_region": "Bumper Cave Ledge",
+            "connected_region": "Death Mountain Return Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Death Mountain Return Cave Exit (West)",
+            "parent_region": "Death Mountain Return Cave",
+            "connected_region": "Death Mountain Return Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Death Mountain Return Ledge Drop",
@@ -5074,6 +6659,16 @@
         "name": "Spectacle Rock Cave (Top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spectacle Rock Cave",
+            "parent_region": "Death Mountain",
+            "connected_region": "Spectacle Rock Cave (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spectacle Rock Cave Drop",
@@ -5118,6 +6713,32 @@
         "name": "Spectacle Rock Cave (Bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spectacle Rock Cave Drop",
+            "parent_region": "Spectacle Rock Cave (Top)",
+            "connected_region": "Spectacle Rock Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spectacle Rock Cave Peak Drop",
+            "parent_region": "Spectacle Rock Cave (Peak)",
+            "connected_region": "Spectacle Rock Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spectacle Rock Cave (Bottom)",
+            "parent_region": "Death Mountain",
+            "connected_region": "Spectacle Rock Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spectacle Rock Cave Exit",
@@ -5140,6 +6761,16 @@
         "name": "Spectacle Rock Cave (Peak)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spectacle Rock Cave Peak",
+            "parent_region": "Death Mountain",
+            "connected_region": "Spectacle Rock Cave (Peak)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spectacle Rock Cave Peak Drop",
@@ -5171,6 +6802,64 @@
         "name": "East Death Mountain (Bottom)",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Broken Bridge (West)",
+            "parent_region": "Death Mountain",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Death Mountain Drop",
+            "parent_region": "East Death Mountain (Top)",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spiral Cave Ledge Drop",
+            "parent_region": "Spiral Cave Ledge",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Drop",
+            "parent_region": "Fairy Ascension Plateau",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave Exit (Bottom)",
+            "parent_region": "Paradox Cave Front",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave Exit (Middle)",
+            "parent_region": "Paradox Cave",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spiral Cave Exit",
+            "parent_region": "Spiral Cave (Bottom)",
+            "connected_region": "East Death Mountain (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Broken Bridge (East)",
@@ -5252,6 +6941,16 @@
         "name": "Hookshot Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hookshot Fairy",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Hookshot Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -5264,6 +6963,24 @@
         "name": "Paradox Cave Front",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Paradox Cave Push Block",
+            "parent_region": "Paradox Cave Chest Area",
+            "connected_region": "Paradox Cave Front",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave (Bottom)",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Paradox Cave Front",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Paradox Cave Push Block Reverse",
@@ -5305,6 +7022,24 @@
         "name": "Paradox Cave Chest Area",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Paradox Cave Push Block Reverse",
+            "parent_region": "Paradox Cave Front",
+            "connected_region": "Paradox Cave Chest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave Drop",
+            "parent_region": "Paradox Cave",
+            "connected_region": "Paradox Cave Chest Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Paradox Cave Push Block",
@@ -5598,6 +7333,32 @@
         "name": "Paradox Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Paradox Cave Bomb Jump",
+            "parent_region": "Paradox Cave Chest Area",
+            "connected_region": "Paradox Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave (Middle)",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Paradox Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave (Top)",
+            "parent_region": "East Death Mountain (Top)",
+            "connected_region": "Paradox Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Paradox Cave Exit (Middle)",
@@ -5638,6 +7399,16 @@
         "name": "Light World Death Mountain Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Light World Death Mountain Shop",
+            "parent_region": "Paradox Cave Front",
+            "connected_region": "Light World Death Mountain Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -5679,6 +7450,32 @@
         "name": "East Death Mountain (Top)",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "East Death Mountain (Top)",
+            "parent_region": "Death Mountain (Top)",
+            "connected_region": "East Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Death Mountain (Top) Mirror Spot",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "East Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Paradox Cave Exit (Top)",
+            "parent_region": "Paradox Cave",
+            "connected_region": "East Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Paradox Cave (Top)",
@@ -5762,6 +7559,32 @@
         "name": "Spiral Cave Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spiral Cave Ledge Access",
+            "parent_region": "East Death Mountain (Top)",
+            "connected_region": "Spiral Cave Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spiral Cave Mirror Spot",
+            "parent_region": "Dark Death Mountain Ledge",
+            "connected_region": "Spiral Cave Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spiral Cave Exit (Top)",
+            "parent_region": "Spiral Cave (Top)",
+            "connected_region": "Spiral Cave Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spiral Cave",
@@ -5793,6 +7616,16 @@
         "name": "Spiral Cave (Top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spiral Cave",
+            "parent_region": "Spiral Cave Ledge",
+            "connected_region": "Spiral Cave (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spiral Cave (top to bottom)",
@@ -5837,6 +7670,24 @@
         "name": "Spiral Cave (Bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spiral Cave (top to bottom)",
+            "parent_region": "Spiral Cave (Top)",
+            "connected_region": "Spiral Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spiral Cave (Bottom)",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Spiral Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spiral Cave Exit",
@@ -5859,6 +7710,40 @@
         "name": "Fairy Ascension Plateau",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fairy Ascension Rocks",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Fairy Ascension Plateau",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Mirror Spot",
+            "parent_region": "Dark Death Mountain (East Bottom)",
+            "connected_region": "Fairy Ascension Plateau",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Ledge Drop",
+            "parent_region": "Fairy Ascension Ledge",
+            "connected_region": "Fairy Ascension Plateau",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Cave Exit (Bottom)",
+            "parent_region": "Fairy Ascension Cave (Bottom)",
+            "connected_region": "Fairy Ascension Plateau",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Fairy Ascension Drop",
@@ -5890,6 +7775,24 @@
         "name": "Fairy Ascension Cave (Bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fairy Ascension Cave Pots",
+            "parent_region": "Fairy Ascension Cave (Drop)",
+            "connected_region": "Fairy Ascension Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Cave (Bottom)",
+            "parent_region": "Fairy Ascension Plateau",
+            "connected_region": "Fairy Ascension Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Fairy Ascension Cave Climb",
@@ -5921,6 +7824,16 @@
         "name": "Fairy Ascension Cave (Drop)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fairy Ascension Cave Drop",
+            "parent_region": "Fairy Ascension Cave (Top)",
+            "connected_region": "Fairy Ascension Cave (Drop)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Fairy Ascension Cave Pots",
@@ -5943,6 +7856,24 @@
         "name": "Fairy Ascension Cave (Top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fairy Ascension Cave Climb",
+            "parent_region": "Fairy Ascension Cave (Bottom)",
+            "connected_region": "Fairy Ascension Cave (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Cave (Top)",
+            "parent_region": "Fairy Ascension Ledge",
+            "connected_region": "Fairy Ascension Cave (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Fairy Ascension Cave Exit (Top)",
@@ -5974,6 +7905,32 @@
         "name": "Fairy Ascension Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fairy Ascension Ledge",
+            "parent_region": "East Death Mountain (Top)",
+            "connected_region": "Fairy Ascension Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Isolated Ledge Mirror Spot",
+            "parent_region": "Dark Death Mountain Isolated Ledge",
+            "connected_region": "Fairy Ascension Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Fairy Ascension Cave Exit (Top)",
+            "parent_region": "Fairy Ascension Cave (Top)",
+            "connected_region": "Fairy Ascension Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Fairy Ascension Ledge Drop",
@@ -6005,6 +7962,32 @@
         "name": "Death Mountain (Top)",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Death Mountain (Top)",
+            "parent_region": "East Death Mountain (Top)",
+            "connected_region": "Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Spectacle Rock Drop",
+            "parent_region": "Spectacle Rock",
+            "connected_region": "Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Tower of Hera Exit",
+            "parent_region": "Tower of Hera (Bottom)",
+            "connected_region": "Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "East Death Mountain (Top)",
@@ -6062,6 +8045,16 @@
         "name": "Spectacle Rock",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spectacle Rock Mirror Spot",
+            "parent_region": "Dark Death Mountain (West Bottom)",
+            "connected_region": "Spectacle Rock",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spectacle Rock Drop",
@@ -6097,6 +8090,16 @@
         "name": "Tower of Hera (Bottom)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Tower of Hera",
+            "parent_region": "Death Mountain (Top)",
+            "connected_region": "Tower of Hera (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Tower of Hera Small Key Door",
@@ -6272,6 +8275,16 @@
         "name": "Tower of Hera (Basement)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Tower of Hera Small Key Door",
+            "parent_region": "Tower of Hera (Bottom)",
+            "connected_region": "Tower of Hera (Basement)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6299,6 +8312,16 @@
         "name": "Tower of Hera (Top)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Tower of Hera Big Key Door",
+            "parent_region": "Tower of Hera (Bottom)",
+            "connected_region": "Tower of Hera (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -6404,6 +8427,72 @@
         "name": "East Dark World",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Top of Pyramid",
+            "parent_region": "Light World",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Dark World Pier",
+            "parent_region": "Dark Lake Hylia",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Dark World Bridge",
+            "parent_region": "South Dark World",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Dark World River Pier",
+            "parent_region": "West Dark World",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Dark World Broken Bridge Pass",
+            "parent_region": "Northeast Dark World",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Hyrule Teleporter",
+            "parent_region": "Light World",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Pyramid Drop",
+            "parent_region": "Pyramid Ledge",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Palace of Darkness Exit",
+            "parent_region": "Palace of Darkness (Entrance)",
+            "connected_region": "East Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Pyramid Fairy",
@@ -6715,6 +8804,16 @@
         "name": "Catfish",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Catfish Entrance Rock",
+            "parent_region": "Northeast Dark World",
+            "connected_region": "Catfish",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Catfish Exit Rock",
@@ -6754,6 +8853,24 @@
         "name": "Northeast Dark World",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Catfish Exit Rock",
+            "parent_region": "Catfish",
+            "connected_region": "Northeast Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Northeast Dark World Broken Bridge Pass",
+            "parent_region": "East Dark World",
+            "connected_region": "Northeast Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "West Dark World Gap",
@@ -6856,6 +8973,16 @@
         "name": "Palace of Darkness Hint",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Hint",
+            "parent_region": "East Dark World",
+            "connected_region": "Palace of Darkness Hint",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -6868,6 +8995,16 @@
         "name": "East Dark World Hint",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "East Dark World Hint",
+            "parent_region": "East Dark World",
+            "connected_region": "East Dark World Hint",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -6880,6 +9017,40 @@
         "name": "South Dark World",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "South Dark World Bridge",
+            "parent_region": "East Dark World",
+            "connected_region": "South Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Village of Outcasts Drop",
+            "parent_region": "West Dark World",
+            "connected_region": "South Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "South Hyrule Teleporter",
+            "parent_region": "Light World",
+            "connected_region": "South Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Swamp Palace Exit",
+            "parent_region": "Swamp Palace (Entrance)",
+            "connected_region": "South Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Dark Lake Hylia Drop (South)",
@@ -7187,6 +9358,16 @@
         "name": "Bombos Tablet Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bombos Tablet Mirror Spot",
+            "parent_region": "South Dark World",
+            "connected_region": "Bombos Tablet Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -7213,6 +9394,16 @@
         "name": "Big Bomb Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Big Bomb Shop",
+            "parent_region": "South Dark World",
+            "connected_region": "Big Bomb Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -7225,6 +9416,16 @@
         "name": "Archery Game",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Archery Game",
+            "parent_region": "South Dark World",
+            "connected_region": "Archery Game",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -7237,6 +9438,40 @@
         "name": "Dark Lake Hylia",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Drop (East)",
+            "parent_region": "East Dark World",
+            "connected_region": "Dark Lake Hylia",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dark Lake Hylia Drop (South)",
+            "parent_region": "South Dark World",
+            "connected_region": "Dark Lake Hylia",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dark Lake Hylia Teleporter",
+            "parent_region": "Northeast Dark World",
+            "connected_region": "Dark Lake Hylia",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dark Lake Hylia Ledge Drop",
+            "parent_region": "Dark Lake Hylia Ledge",
+            "connected_region": "Dark Lake Hylia",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Lake Hylia Island Mirror Spot",
@@ -7299,6 +9534,24 @@
         "name": "Dark Lake Hylia Central Island",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Lake Hylia Central Island Teleporter",
+            "parent_region": "Lake Hylia Central Island",
+            "connected_region": "Dark Lake Hylia Central Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Ice Palace Exit",
+            "parent_region": "Ice Palace (Entrance)",
+            "connected_region": "Dark Lake Hylia Central Island",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ice Palace",
@@ -7333,6 +9586,16 @@
         "name": "Dark Lake Hylia Ledge",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Ledge",
+            "parent_region": "Dark Lake Hylia",
+            "connected_region": "Dark Lake Hylia Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Dark Lake Hylia Ledge Drop",
@@ -7411,6 +9674,16 @@
         "name": "Dark Lake Hylia Ledge Hint",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Ledge Hint",
+            "parent_region": "Dark Lake Hylia Ledge",
+            "connected_region": "Dark Lake Hylia Ledge Hint",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -7423,6 +9696,16 @@
         "name": "Dark Lake Hylia Ledge Spike Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Ledge Spike Cave",
+            "parent_region": "Dark Lake Hylia Ledge",
+            "connected_region": "Dark Lake Hylia Ledge Spike Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -7435,6 +9718,16 @@
         "name": "Hype Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hype Cave",
+            "parent_region": "South Dark World",
+            "connected_region": "Hype Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -7512,6 +9805,80 @@
         "name": "West Dark World",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Village of Outcasts Heavy Rock",
+            "parent_region": "South Dark World",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Peg Area Rocks",
+            "parent_region": "Hammer Peg Area",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Grassy Lawn Pegs",
+            "parent_region": "Dark Grassy Lawn",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "West Dark World Gap",
+            "parent_region": "Northeast Dark World",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bumper Cave Entrance Drop",
+            "parent_region": "Bumper Cave Entrance",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bumper Cave Ledge Drop",
+            "parent_region": "Bumper Cave Ledge",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Kakariko Teleporter",
+            "parent_region": "Light World",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bumper Cave Exit (Bottom)",
+            "parent_region": "Bumper Cave",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Thieves Town Exit",
+            "parent_region": "Thieves Town (Entrance)",
+            "connected_region": "West Dark World",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Village of Outcasts Drop",
@@ -7887,6 +10254,16 @@
         "name": "Dark Grassy Lawn",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Village of Outcasts Pegs",
+            "parent_region": "West Dark World",
+            "connected_region": "Dark Grassy Lawn",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Grassy Lawn Pegs",
@@ -7933,6 +10310,16 @@
         "name": "Hammer Peg Area",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Village of Outcasts Eastern Rocks",
+            "parent_region": "West Dark World",
+            "connected_region": "Hammer Peg Area",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bat Cave Drop Ledge Mirror Spot",
@@ -8026,6 +10413,16 @@
         "name": "Bumper Cave Entrance",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bumper Cave Entrance Rock",
+            "parent_region": "West Dark World",
+            "connected_region": "Bumper Cave Entrance",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bumper Cave (Bottom)",
@@ -8069,6 +10466,16 @@
         "name": "Fortune Teller (Dark)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Fortune Teller (Dark)",
+            "parent_region": "West Dark World",
+            "connected_region": "Fortune Teller (Dark)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8081,6 +10488,16 @@
         "name": "Village of Outcasts Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Village of Outcasts Shop",
+            "parent_region": "Dark Grassy Lawn",
+            "connected_region": "Village of Outcasts Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8122,6 +10539,16 @@
         "name": "Dark Lake Hylia Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Lake Hylia Shop",
+            "parent_region": "South Dark World",
+            "connected_region": "Dark Lake Hylia Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8163,6 +10590,16 @@
         "name": "Dark World Lumberjack Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark World Lumberjack Shop",
+            "parent_region": "West Dark World",
+            "connected_region": "Dark World Lumberjack Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8204,6 +10641,16 @@
         "name": "Dark World Potion Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark World Potion Shop",
+            "parent_region": "Northeast Dark World",
+            "connected_region": "Dark World Potion Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8245,6 +10692,16 @@
         "name": "Dark World Hammer Peg Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark World Hammer Peg Cave",
+            "parent_region": "Hammer Peg Area",
+            "connected_region": "Dark World Hammer Peg Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8270,6 +10727,16 @@
         "name": "Pyramid Fairy",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Pyramid Fairy",
+            "parent_region": "East Dark World",
+            "connected_region": "Pyramid Fairy",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8349,6 +10816,16 @@
         "name": "Brewery",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Brewery",
+            "parent_region": "West Dark World",
+            "connected_region": "Brewery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8374,6 +10851,16 @@
         "name": "C-Shaped House",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "C-Shaped House",
+            "parent_region": "West Dark World",
+            "connected_region": "C-Shaped House",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8420,6 +10907,16 @@
         "name": "Chest Game",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Chest Game",
+            "parent_region": "West Dark World",
+            "connected_region": "Chest Game",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8466,6 +10963,16 @@
         "name": "Red Shield Shop",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Red Shield Shop",
+            "parent_region": "West Dark World",
+            "connected_region": "Red Shield Shop",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8507,6 +11014,16 @@
         "name": "Dark Sanctuary Hint",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Sanctuary Hint",
+            "parent_region": "West Dark World",
+            "connected_region": "Dark Sanctuary Hint",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8519,6 +11036,24 @@
         "name": "Bumper Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bumper Cave (Bottom)",
+            "parent_region": "Bumper Cave Entrance",
+            "connected_region": "Bumper Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bumper Cave (Top)",
+            "parent_region": "Bumper Cave Ledge",
+            "connected_region": "Bumper Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bumper Cave Exit (Bottom)",
@@ -8592,6 +11127,16 @@
         "name": "Bumper Cave Ledge",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Bumper Cave Exit (Top)",
+            "parent_region": "Bumper Cave",
+            "connected_region": "Bumper Cave Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Bumper Cave Ledge Drop",
@@ -8648,6 +11193,32 @@
         "name": "Skull Woods Forest",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods Forest",
+            "parent_region": "West Dark World",
+            "connected_region": "Skull Woods Forest",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section Exit",
+            "parent_region": "Skull Woods First Section",
+            "connected_region": "Skull Woods Forest",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods Second Section Exit (East)",
+            "parent_region": "Skull Woods Second Section",
+            "connected_region": "Skull Woods Forest",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods First Section Hole (East)",
@@ -8709,6 +11280,24 @@
         "name": "Skull Woods Forest (West)",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods Second Section Exit (West)",
+            "parent_region": "Skull Woods Second Section",
+            "connected_region": "Skull Woods Forest (West)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods Final Section Exit",
+            "parent_region": "Skull Woods Final Section (Entrance)",
+            "connected_region": "Skull Woods Forest (West)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods Second Section Hole",
@@ -8767,6 +11356,24 @@
         "name": "Dark Desert",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Desert Teleporter",
+            "parent_region": "Light World",
+            "connected_region": "Dark Desert",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Misery Mire Exit",
+            "parent_region": "Misery Mire (Entrance)",
+            "connected_region": "Dark Desert",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Misery Mire",
@@ -8882,6 +11489,16 @@
         "name": "Mire Shed",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mire Shed",
+            "parent_region": "Dark Desert",
+            "connected_region": "Mire Shed",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -8961,6 +11578,16 @@
         "name": "Dark Desert Hint",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Desert Hint",
+            "parent_region": "Dark Desert",
+            "connected_region": "Dark Desert Hint",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -8973,6 +11600,24 @@
         "name": "Dark Death Mountain (West Bottom)",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Death Mountain Teleporter",
+            "parent_region": "Death Mountain",
+            "connected_region": "Dark Death Mountain (West Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dark Death Mountain Drop (West)",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "Dark Death Mountain (West Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Spike Cave",
@@ -9016,6 +11661,56 @@
         "name": "Dark Death Mountain (Top)",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Drop",
+            "parent_region": "Turtle Rock (Top)",
+            "connected_region": "Dark Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Floating Island Drop",
+            "parent_region": "Death Mountain Floating Island (Dark World)",
+            "connected_region": "Dark Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Superbunny Cave Exit (Top)",
+            "parent_region": "Superbunny Cave (Top)",
+            "connected_region": "Dark Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hookshot Cave Exit (South)",
+            "parent_region": "Hookshot Cave",
+            "connected_region": "Dark Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Exit (Front)",
+            "parent_region": "Turtle Rock (Entrance)",
+            "connected_region": "Dark Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Ganons Tower Exit",
+            "parent_region": "Ganons Tower (Entrance)",
+            "connected_region": "Dark Death Mountain (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Dark Death Mountain Drop (East)",
@@ -9185,6 +11880,24 @@
         "name": "Dark Death Mountain Ledge",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Ledge Exit (West)",
+            "parent_region": "Turtle Rock (Second Section Bomb Wall)",
+            "connected_region": "Dark Death Mountain Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Ledge Exit (East)",
+            "parent_region": "Turtle Rock (Big Chest)",
+            "connected_region": "Dark Death Mountain Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Dark Death Mountain Ledge (East)",
@@ -9240,6 +11953,16 @@
         "name": "Dark Death Mountain Isolated Ledge",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Isolated Ledge Exit",
+            "parent_region": "Turtle Rock (Eye Bridge Bomb Wall)",
+            "connected_region": "Dark Death Mountain Isolated Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Isolated Ledge Mirror Spot",
@@ -9274,6 +11997,32 @@
         "name": "Dark Death Mountain (East Bottom)",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Death Mountain Drop (East)",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "Dark Death Mountain (East Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "East Death Mountain Teleporter",
+            "parent_region": "East Death Mountain (Bottom)",
+            "connected_region": "Dark Death Mountain (East Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Superbunny Cave Exit (Bottom)",
+            "parent_region": "Superbunny Cave (Bottom)",
+            "connected_region": "Dark Death Mountain (East Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Superbunny Cave (Bottom)",
@@ -9329,6 +12078,24 @@
         "name": "Superbunny Cave (Top)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Superbunny Cave Climb",
+            "parent_region": "Superbunny Cave (Bottom)",
+            "connected_region": "Superbunny Cave (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Superbunny Cave (Top)",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "Superbunny Cave (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Superbunny Cave Exit (Top)",
@@ -9678,6 +12445,16 @@
         "name": "Superbunny Cave (Bottom)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Superbunny Cave (Bottom)",
+            "parent_region": "Dark Death Mountain (East Bottom)",
+            "connected_region": "Superbunny Cave (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Superbunny Cave Climb",
@@ -9709,6 +12486,16 @@
         "name": "Spike Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Spike Cave",
+            "parent_region": "Dark Death Mountain (West Bottom)",
+            "connected_region": "Spike Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -9856,6 +12643,24 @@
         "name": "Hookshot Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hookshot Cave Bomb Wall (North)",
+            "parent_region": "Hookshot Cave (Upper)",
+            "connected_region": "Hookshot Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hookshot Cave",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "Hookshot Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Hookshot Cave Exit (South)",
@@ -10024,6 +12829,24 @@
         "name": "Hookshot Cave (Upper)",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hookshot Cave Bomb Wall (South)",
+            "parent_region": "Hookshot Cave",
+            "connected_region": "Hookshot Cave (Upper)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Hookshot Cave Back Entrance",
+            "parent_region": "Death Mountain Floating Island (Dark World)",
+            "connected_region": "Hookshot Cave (Upper)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Hookshot Cave Exit (North)",
@@ -10056,6 +12879,16 @@
         "name": "Death Mountain Floating Island (Dark World)",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Hookshot Cave Exit (North)",
+            "parent_region": "Hookshot Cave (Upper)",
+            "connected_region": "Death Mountain Floating Island (Dark World)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Floating Island Drop",
@@ -10099,6 +12932,16 @@
         "name": "Death Mountain Floating Island (Light World)",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Floating Island Mirror Spot",
+            "parent_region": "Death Mountain Floating Island (Dark World)",
+            "connected_region": "Death Mountain Floating Island (Light World)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -10124,6 +12967,16 @@
         "name": "Turtle Rock (Top)",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Teleporter",
+            "parent_region": "East Death Mountain (Top)",
+            "connected_region": "Turtle Rock (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Drop",
@@ -10146,6 +12999,16 @@
         "name": "Mimic Cave Ledge",
         "type": 1,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mimic Cave Mirror Spot",
+            "parent_region": "Dark Death Mountain Ledge",
+            "connected_region": "Mimic Cave Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Mimic Cave",
@@ -10168,6 +13031,16 @@
         "name": "Mimic Cave",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Mimic Cave",
+            "parent_region": "Mimic Cave Ledge",
+            "connected_region": "Mimic Cave",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -10274,6 +13147,16 @@
         "name": "Swamp Palace (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Swamp Palace",
+            "parent_region": "South Dark World",
+            "connected_region": "Swamp Palace (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Swamp Palace Moat",
@@ -10333,6 +13216,16 @@
         "name": "Swamp Palace (First Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Swamp Palace Moat",
+            "parent_region": "Swamp Palace (Entrance)",
+            "connected_region": "Swamp Palace (First Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Swamp Palace Small Key Door",
@@ -10375,6 +13268,16 @@
         "name": "Swamp Palace (Starting Area)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Swamp Palace Small Key Door",
+            "parent_region": "Swamp Palace (First Room)",
+            "connected_region": "Swamp Palace (Starting Area)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Swamp Palace (Center)",
@@ -10462,6 +13365,16 @@
         "name": "Swamp Palace (Center)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Swamp Palace (Center)",
+            "parent_region": "Swamp Palace (Starting Area)",
+            "connected_region": "Swamp Palace (Center)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Swamp Palace (North)",
@@ -10632,6 +13545,16 @@
         "name": "Swamp Palace (West)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Swamp Palace (West)",
+            "parent_region": "Swamp Palace (Center)",
+            "connected_region": "Swamp Palace (West)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -10670,6 +13593,16 @@
         "name": "Swamp Palace (North)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Swamp Palace (North)",
+            "parent_region": "Swamp Palace (Center)",
+            "connected_region": "Swamp Palace (North)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -10828,6 +13761,16 @@
         "name": "Thieves Town (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Thieves Town",
+            "parent_region": "West Dark World",
+            "connected_region": "Thieves Town (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Thieves Town Big Key Door",
@@ -10912,6 +13855,16 @@
         "name": "Thieves Town (Deep)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Thieves Town Big Key Door",
+            "parent_region": "Thieves Town (Entrance)",
+            "connected_region": "Thieves Town (Deep)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Blind Fight",
@@ -11099,6 +14052,16 @@
         "name": "Blind Fight",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Blind Fight",
+            "parent_region": "Thieves Town (Deep)",
+            "connected_region": "Blind Fight",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -11177,6 +14140,40 @@
         "name": "Skull Woods First Section",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods First Section (Right) North Door",
+            "parent_region": "Skull Woods First Section (Right)",
+            "connected_region": "Skull Woods First Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section (Left) Door to Exit",
+            "parent_region": "Skull Woods First Section (Left)",
+            "connected_region": "Skull Woods First Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section (Top) One-Way Path",
+            "parent_region": "Skull Woods First Section (Top)",
+            "connected_region": "Skull Woods First Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section Door",
+            "parent_region": "Skull Woods Forest",
+            "connected_region": "Skull Woods First Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods First Section Exit",
@@ -11254,6 +14251,32 @@
         "name": "Skull Woods First Section (Right)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods First Section South Door",
+            "parent_region": "Skull Woods First Section",
+            "connected_region": "Skull Woods First Section (Right)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section (Left) Door to Right",
+            "parent_region": "Skull Woods First Section (Left)",
+            "connected_region": "Skull Woods First Section (Right)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section Hole (East)",
+            "parent_region": "Skull Woods Forest",
+            "connected_region": "Skull Woods First Section (Right)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods First Section (Right) North Door",
@@ -11306,6 +14329,24 @@
         "name": "Skull Woods First Section (Left)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods First Section West Door",
+            "parent_region": "Skull Woods First Section",
+            "connected_region": "Skull Woods First Section (Left)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section Hole (West)",
+            "parent_region": "Skull Woods Forest",
+            "connected_region": "Skull Woods First Section (Left)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods First Section (Left) Door to Exit",
@@ -11379,6 +14420,24 @@
         "name": "Skull Woods First Section (Top)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods First Section Bomb Jump",
+            "parent_region": "Skull Woods First Section",
+            "connected_region": "Skull Woods First Section (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods First Section Hole (North)",
+            "parent_region": "Skull Woods Forest",
+            "connected_region": "Skull Woods First Section (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods First Section (Top) One-Way Path",
@@ -11464,6 +14523,16 @@
         "name": "Skull Woods Second Section (Drop)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods Second Section Hole",
+            "parent_region": "Skull Woods Forest (West)",
+            "connected_region": "Skull Woods Second Section (Drop)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods Second Section (Drop)",
@@ -11487,6 +14556,32 @@
         "name": "Skull Woods Second Section",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods Second Section (Drop)",
+            "parent_region": "Skull Woods Second Section (Drop)",
+            "connected_region": "Skull Woods Second Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods Second Section Door (East)",
+            "parent_region": "Skull Woods Forest",
+            "connected_region": "Skull Woods Second Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Skull Woods Second Section Door (West)",
+            "parent_region": "Skull Woods Forest (West)",
+            "connected_region": "Skull Woods Second Section",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods Second Section Exit (East)",
@@ -11544,6 +14639,16 @@
         "name": "Skull Woods Final Section (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods Final Section",
+            "parent_region": "Skull Woods Forest (West)",
+            "connected_region": "Skull Woods Final Section (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Skull Woods Torch Room",
@@ -11613,6 +14718,16 @@
         "name": "Skull Woods Final Section (Mothula)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Skull Woods Torch Room",
+            "parent_region": "Skull Woods Final Section (Entrance)",
+            "connected_region": "Skull Woods Final Section (Mothula)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -11735,6 +14850,16 @@
         "name": "Ice Palace (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Palace",
+            "parent_region": "Dark Lake Hylia Central Island",
+            "connected_region": "Ice Palace (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ice Palace (Second Section)",
@@ -11830,6 +14955,16 @@
         "name": "Ice Palace (Second Section)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Palace (Second Section)",
+            "parent_region": "Ice Palace (Entrance)",
+            "connected_region": "Ice Palace (Second Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ice Palace (Main)",
@@ -11873,6 +15008,16 @@
         "name": "Ice Palace (Main)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Palace (Main)",
+            "parent_region": "Ice Palace (Second Section)",
+            "connected_region": "Ice Palace (Main)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ice Palace (East)",
@@ -12155,6 +15300,16 @@
         "name": "Ice Palace (East)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Palace (East)",
+            "parent_region": "Ice Palace (Main)",
+            "connected_region": "Ice Palace (East)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ice Palace (East Top)",
@@ -12204,6 +15359,16 @@
         "name": "Ice Palace (East Top)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Palace (East Top)",
+            "parent_region": "Ice Palace (East)",
+            "connected_region": "Ice Palace (East Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -12254,6 +15419,16 @@
         "name": "Ice Palace (Kholdstare)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Palace (Kholdstare)",
+            "parent_region": "Ice Palace (Main)",
+            "connected_region": "Ice Palace (Kholdstare)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -12332,6 +15507,16 @@
         "name": "Misery Mire (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Misery Mire",
+            "parent_region": "Dark Desert",
+            "connected_region": "Misery Mire (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Misery Mire Entrance Gap",
@@ -12427,6 +15612,16 @@
         "name": "Misery Mire (Main)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Misery Mire Entrance Gap",
+            "parent_region": "Misery Mire (Entrance)",
+            "connected_region": "Misery Mire (Main)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Misery Mire (West)",
@@ -12730,6 +15925,16 @@
         "name": "Misery Mire (West)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Misery Mire (West)",
+            "parent_region": "Misery Mire (Main)",
+            "connected_region": "Misery Mire (West)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -12770,6 +15975,16 @@
         "name": "Misery Mire (Final Area)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Misery Mire Big Key Door",
+            "parent_region": "Misery Mire (Main)",
+            "connected_region": "Misery Mire (Final Area)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Misery Mire (Vitreous)",
@@ -12818,6 +16033,16 @@
         "name": "Misery Mire (Vitreous)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Misery Mire (Vitreous)",
+            "parent_region": "Misery Mire (Final Area)",
+            "connected_region": "Misery Mire (Vitreous)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -12896,6 +16121,24 @@
         "name": "Turtle Rock (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Entrance Gap Reverse",
+            "parent_region": "Turtle Rock (First Section)",
+            "connected_region": "Turtle Rock (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "Turtle Rock (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Entrance Gap",
@@ -12970,6 +16213,24 @@
         "name": "Turtle Rock (First Section)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Entrance Gap",
+            "parent_region": "Turtle Rock (Entrance)",
+            "connected_region": "Turtle Rock (First Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock (Pokey Room) (South)",
+            "parent_region": "Turtle Rock (Pokey Room)",
+            "connected_region": "Turtle Rock (First Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Entrance to Pokey Room",
@@ -13082,6 +16343,24 @@
         "name": "Turtle Rock (Pokey Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Entrance to Pokey Room",
+            "parent_region": "Turtle Rock (First Section)",
+            "connected_region": "Turtle Rock (Pokey Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock (Chain Chomp Room) (South)",
+            "parent_region": "Turtle Rock (Chain Chomp Room)",
+            "connected_region": "Turtle Rock (Pokey Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock (Pokey Room) (North)",
@@ -13175,6 +16454,24 @@
         "name": "Turtle Rock (Chain Chomp Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock (Pokey Room) (North)",
+            "parent_region": "Turtle Rock (Pokey Room)",
+            "connected_region": "Turtle Rock (Chain Chomp Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Chain Chomp Staircase",
+            "parent_region": "Turtle Rock (Second Section)",
+            "connected_region": "Turtle Rock (Chain Chomp Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock (Chain Chomp Room) (North)",
@@ -13340,6 +16637,48 @@
         "name": "Turtle Rock (Second Section)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock (Chain Chomp Room) (North)",
+            "parent_region": "Turtle Rock (Chain Chomp Room)",
+            "connected_region": "Turtle Rock (Second Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock (Big Chest) (North)",
+            "parent_region": "Turtle Rock (Big Chest)",
+            "connected_region": "Turtle Rock (Second Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Big Key Door Reverse",
+            "parent_region": "Turtle Rock (Crystaroller Room)",
+            "connected_region": "Turtle Rock (Second Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Second Section from Bomb Wall",
+            "parent_region": "Turtle Rock (Second Section Bomb Wall)",
+            "connected_region": "Turtle Rock (Second Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Dark Death Mountain Ledge (West)",
+            "parent_region": "Dark Death Mountain Ledge",
+            "connected_region": "Turtle Rock (Second Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Chain Chomp Staircase",
@@ -13482,6 +16821,16 @@
         "name": "Turtle Rock (Second Section Bomb Wall)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Second Section Bomb Wall",
+            "parent_region": "Turtle Rock (Second Section)",
+            "connected_region": "Turtle Rock (Second Section Bomb Wall)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Ledge Exit (West)",
@@ -13514,6 +16863,16 @@
         "name": "Turtle Rock (Big Chest)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Dark Death Mountain Ledge (East)",
+            "parent_region": "Dark Death Mountain Ledge",
+            "connected_region": "Turtle Rock (Big Chest)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock (Big Chest) (North)",
@@ -13610,6 +16969,24 @@
         "name": "Turtle Rock (Crystaroller Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Big Key Door",
+            "parent_region": "Turtle Rock (Second Section)",
+            "connected_region": "Turtle Rock (Crystaroller Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock (Dark Room) (North)",
+            "parent_region": "Turtle Rock (Dark Room)",
+            "connected_region": "Turtle Rock (Crystaroller Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Dark Room Staircase",
@@ -13662,6 +17039,24 @@
         "name": "Turtle Rock (Dark Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Dark Room Staircase",
+            "parent_region": "Turtle Rock (Crystaroller Room)",
+            "connected_region": "Turtle Rock (Dark Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Dark Room (South)",
+            "parent_region": "Turtle Rock (Eye Bridge)",
+            "connected_region": "Turtle Rock (Dark Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock (Dark Room) (North)",
@@ -13724,6 +17119,16 @@
         "name": "Turtle Rock (Eye Bridge Bomb Wall)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock Eye Bridge Bomb Wall",
+            "parent_region": "Turtle Rock (Eye Bridge)",
+            "connected_region": "Turtle Rock (Eye Bridge Bomb Wall)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Isolated Ledge Exit",
@@ -13756,6 +17161,32 @@
         "name": "Turtle Rock (Eye Bridge)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock (Dark Room) (South)",
+            "parent_region": "Turtle Rock (Dark Room)",
+            "connected_region": "Turtle Rock (Eye Bridge)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Eye Bridge from Bomb Wall",
+            "parent_region": "Turtle Rock (Eye Bridge Bomb Wall)",
+            "connected_region": "Turtle Rock (Eye Bridge)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Turtle Rock Isolated Ledge Entrance",
+            "parent_region": "Dark Death Mountain Isolated Ledge",
+            "connected_region": "Turtle Rock (Eye Bridge)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Turtle Rock Dark Room (South)",
@@ -13979,6 +17410,16 @@
         "name": "Turtle Rock (Trinexx)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Turtle Rock (Trinexx)",
+            "parent_region": "Turtle Rock (Eye Bridge)",
+            "connected_region": "Turtle Rock (Trinexx)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -14057,6 +17498,16 @@
         "name": "Palace of Darkness (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness",
+            "parent_region": "East Dark World",
+            "connected_region": "Palace of Darkness (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Palace of Darkness Bridge Room",
@@ -14129,6 +17580,24 @@
         "name": "Palace of Darkness (Center)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Bridge Room",
+            "parent_region": "Palace of Darkness (Entrance)",
+            "connected_region": "Palace of Darkness (Center)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Palace of Darkness Hammer Peg Drop",
+            "parent_region": "Palace of Darkness (Bonk Section)",
+            "connected_region": "Palace of Darkness (Center)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Palace of Darkness Big Key Chest Staircase",
@@ -14315,6 +17784,16 @@
         "name": "Palace of Darkness (Big Key Chest)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Big Key Chest Staircase",
+            "parent_region": "Palace of Darkness (Center)",
+            "connected_region": "Palace of Darkness (Big Key Chest)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -14341,6 +17820,16 @@
         "name": "Palace of Darkness (Bonk Section)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Bonk Wall",
+            "parent_region": "Palace of Darkness (Entrance)",
+            "connected_region": "Palace of Darkness (Bonk Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Palace of Darkness Hammer Peg Drop",
@@ -14393,6 +17882,16 @@
         "name": "Palace of Darkness (North)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness (North)",
+            "parent_region": "Palace of Darkness (Center)",
+            "connected_region": "Palace of Darkness (North)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Palace of Darkness Spike Statue Room Door",
@@ -14547,6 +18046,16 @@
         "name": "Palace of Darkness (Maze)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Maze Door",
+            "parent_region": "Palace of Darkness (North)",
+            "connected_region": "Palace of Darkness (Maze)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -14610,6 +18119,16 @@
         "name": "Palace of Darkness (Harmless Hellway)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Spike Statue Room Door",
+            "parent_region": "Palace of Darkness (North)",
+            "connected_region": "Palace of Darkness (Harmless Hellway)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -14636,6 +18155,16 @@
         "name": "Palace of Darkness (Final Section)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Palace of Darkness Big Key Door",
+            "parent_region": "Palace of Darkness (Center)",
+            "connected_region": "Palace of Darkness (Final Section)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -14714,6 +18243,16 @@
         "name": "Ganons Tower (Entrance)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower",
+            "parent_region": "Dark Death Mountain (Top)",
+            "connected_region": "Ganons Tower (Entrance)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower (Tile Room)",
@@ -14859,6 +18398,16 @@
         "name": "Ganons Tower (Tile Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Tile Room)",
+            "parent_region": "Ganons Tower (Entrance)",
+            "connected_region": "Ganons Tower (Tile Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower (Tile Room) Key Door",
@@ -14978,6 +18527,16 @@
         "name": "Ganons Tower (Compass Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Tile Room) Key Door",
+            "parent_region": "Ganons Tower (Tile Room)",
+            "connected_region": "Ganons Tower (Compass Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower (Bottom) (East)",
@@ -15633,6 +19192,16 @@
         "name": "Ganons Tower (Hookshot Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Hookshot Room)",
+            "parent_region": "Ganons Tower (Entrance)",
+            "connected_region": "Ganons Tower (Hookshot Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower (Map Room)",
@@ -15817,6 +19386,16 @@
         "name": "Ganons Tower (Map Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Map Room)",
+            "parent_region": "Ganons Tower (Hookshot Room)",
+            "connected_region": "Ganons Tower (Map Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -15843,6 +19422,16 @@
         "name": "Ganons Tower (Firesnake Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Double Switch Room)",
+            "parent_region": "Ganons Tower (Hookshot Room)",
+            "connected_region": "Ganons Tower (Firesnake Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower (Firesnake Room)",
@@ -16070,6 +19659,16 @@
         "name": "Ganons Tower (Teleport Room)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Firesnake Room)",
+            "parent_region": "Ganons Tower (Firesnake Room)",
+            "connected_region": "Ganons Tower (Teleport Room)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower (Bottom) (West)",
@@ -16466,6 +20065,24 @@
         "name": "Ganons Tower (Bottom)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower (Bottom) (East)",
+            "parent_region": "Ganons Tower (Compass Room)",
+            "connected_region": "Ganons Tower (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Ganons Tower (Bottom) (West)",
+            "parent_region": "Ganons Tower (Teleport Room)",
+            "connected_region": "Ganons Tower (Bottom)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -16705,6 +20322,16 @@
         "name": "Ganons Tower (Top)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower Big Key Door",
+            "parent_region": "Ganons Tower (Entrance)",
+            "connected_region": "Ganons Tower (Top)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower Torch Rooms",
@@ -16792,6 +20419,16 @@
         "name": "Ganons Tower (Before Moldorm)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower Torch Rooms",
+            "parent_region": "Ganons Tower (Top)",
+            "connected_region": "Ganons Tower (Before Moldorm)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower Moldorm Door",
@@ -16904,6 +20541,16 @@
         "name": "Ganons Tower (Moldorm)",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower Moldorm Door",
+            "parent_region": "Ganons Tower (Before Moldorm)",
+            "connected_region": "Ganons Tower (Moldorm)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganons Tower Moldorm Gap",
@@ -16983,6 +20630,16 @@
         "name": "Agahnim 2",
         "type": 4,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganons Tower Moldorm Gap",
+            "parent_region": "Ganons Tower (Moldorm)",
+            "connected_region": "Agahnim 2",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [],
         "locations": [
           {
@@ -17041,6 +20698,16 @@
         "name": "Pyramid",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Pyramid Hole",
+            "parent_region": "East Dark World",
+            "connected_region": "Pyramid",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Ganon Drop",
@@ -17150,6 +20817,24 @@
         "name": "Bottom of Pyramid",
         "type": 3,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Ganon Drop",
+            "parent_region": "Pyramid",
+            "connected_region": "Bottom of Pyramid",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
+            "name": "Pyramid Entrance",
+            "parent_region": "Pyramid Ledge",
+            "connected_region": "Bottom of Pyramid",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Pyramid Exit",
@@ -17172,6 +20857,16 @@
         "name": "Pyramid Ledge",
         "type": 2,
         "player": 1,
+        "entrances": [
+          {
+            "name": "Pyramid Exit",
+            "parent_region": "Bottom of Pyramid",
+            "connected_region": "Pyramid Ledge",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Pyramid Entrance",
@@ -17203,6 +20898,7 @@
         "name": "Desert Northern Cliffs",
         "type": 1,
         "player": 1,
+        "entrances": [],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -17215,6 +20911,7 @@
         "name": "Dark Death Mountain Bunny Descent Area",
         "type": 2,
         "player": 1,
+        "entrances": [],
         "exits": [],
         "locations": [],
         "time_passes": true,
@@ -17223,6 +20920,458 @@
         "is_light_world": false,
         "is_dark_world": true
       }
+    }
+  },
+  "dungeons": {
+    "1": {
+      "Desert Palace": {
+        "name": "Desert Palace",
+        "regions": [
+          "Desert Palace North",
+          "Desert Palace Main (Inner)",
+          "Desert Palace Main (Outer)",
+          "Desert Palace East"
+        ],
+        "boss": {
+          "name": "Lanmolas",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Eastern Palace": {
+        "name": "Eastern Palace",
+        "regions": [
+          "Eastern Palace"
+        ],
+        "boss": {
+          "name": "Armos Knights",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Hyrule Castle": {
+        "name": "Hyrule Castle",
+        "regions": [
+          "Hyrule Castle",
+          "Sewers",
+          "Sewer Drop",
+          "Sewers (Dark)",
+          "Sanctuary"
+        ],
+        "boss": null,
+        "medallion_check": null
+      },
+      "Agahnims Tower": {
+        "name": "Agahnims Tower",
+        "regions": [
+          "Agahnims Tower",
+          "Agahnim 1"
+        ],
+        "boss": {
+          "name": "Agahnim",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Tower of Hera": {
+        "name": "Tower of Hera",
+        "regions": [
+          "Tower of Hera (Bottom)",
+          "Tower of Hera (Basement)",
+          "Tower of Hera (Top)"
+        ],
+        "boss": {
+          "name": "Moldorm",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Swamp Palace": {
+        "name": "Swamp Palace",
+        "regions": [
+          "Swamp Palace (Entrance)",
+          "Swamp Palace (First Room)",
+          "Swamp Palace (Starting Area)",
+          "Swamp Palace (West)",
+          "Swamp Palace (Center)",
+          "Swamp Palace (North)"
+        ],
+        "boss": {
+          "name": "Arrghus",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Thieves Town": {
+        "name": "Thieves Town",
+        "regions": [
+          "Thieves Town (Entrance)",
+          "Thieves Town (Deep)",
+          "Blind Fight"
+        ],
+        "boss": {
+          "name": "Blind",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Skull Woods": {
+        "name": "Skull Woods",
+        "regions": [
+          "Skull Woods Final Section (Entrance)",
+          "Skull Woods First Section",
+          "Skull Woods Second Section",
+          "Skull Woods Second Section (Drop)",
+          "Skull Woods Final Section (Mothula)",
+          "Skull Woods First Section (Right)",
+          "Skull Woods First Section (Left)",
+          "Skull Woods First Section (Top)"
+        ],
+        "boss": {
+          "name": "Mothula",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Ice Palace": {
+        "name": "Ice Palace",
+        "regions": [
+          "Ice Palace (Entrance)",
+          "Ice Palace (Second Section)",
+          "Ice Palace (Main)",
+          "Ice Palace (East)",
+          "Ice Palace (East Top)",
+          "Ice Palace (Kholdstare)"
+        ],
+        "boss": {
+          "name": "Kholdstare",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Misery Mire": {
+        "name": "Misery Mire",
+        "regions": [
+          "Misery Mire (Entrance)",
+          "Misery Mire (Main)",
+          "Misery Mire (West)",
+          "Misery Mire (Final Area)",
+          "Misery Mire (Vitreous)"
+        ],
+        "boss": {
+          "name": "Vitreous",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Turtle Rock": {
+        "name": "Turtle Rock",
+        "regions": [
+          "Turtle Rock (Entrance)",
+          "Turtle Rock (First Section)",
+          "Turtle Rock (Chain Chomp Room)",
+          "Turtle Rock (Pokey Room)",
+          "Turtle Rock (Second Section)",
+          "Turtle Rock (Big Chest)",
+          "Turtle Rock (Crystaroller Room)",
+          "Turtle Rock (Dark Room)",
+          "Turtle Rock (Eye Bridge)",
+          "Turtle Rock (Trinexx)"
+        ],
+        "boss": {
+          "name": "Trinexx",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Palace of Darkness": {
+        "name": "Palace of Darkness",
+        "regions": [
+          "Palace of Darkness (Entrance)",
+          "Palace of Darkness (Center)",
+          "Palace of Darkness (Big Key Chest)",
+          "Palace of Darkness (Bonk Section)",
+          "Palace of Darkness (North)",
+          "Palace of Darkness (Maze)",
+          "Palace of Darkness (Harmless Hellway)",
+          "Palace of Darkness (Final Section)"
+        ],
+        "boss": {
+          "name": "Helmasaur King",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      },
+      "Ganons Tower": {
+        "name": "Ganons Tower",
+        "regions": [
+          "Ganons Tower (Entrance)",
+          "Ganons Tower (Tile Room)",
+          "Ganons Tower (Compass Room)",
+          "Ganons Tower (Hookshot Room)",
+          "Ganons Tower (Map Room)",
+          "Ganons Tower (Firesnake Room)",
+          "Ganons Tower (Teleport Room)",
+          "Ganons Tower (Bottom)",
+          "Ganons Tower (Top)",
+          "Ganons Tower (Before Moldorm)",
+          "Ganons Tower (Moldorm)",
+          "Agahnim 2"
+        ],
+        "boss": {
+          "name": "Agahnim2",
+          "defeat_rule": {
+            "type": "function_call",
+            "function": {
+              "type": "attribute",
+              "object": {
+                "type": "name",
+                "name": "self"
+              },
+              "attr": "defeat_rule"
+            },
+            "args": [
+              {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "self"
+                },
+                "attr": "player"
+              }
+            ]
+          }
+        },
+        "medallion_check": null
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
     }
   },
   "items": {
@@ -19795,113 +23944,6 @@
       "Upgrades"
     ]
   },
-  "progression_mapping": {
-    "1": {
-      "Progressive Sword": {
-        "items": [
-          {
-            "name": "Fighter Sword",
-            "level": 1
-          },
-          {
-            "name": "Master Sword",
-            "level": 2
-          },
-          {
-            "name": "Tempered Sword",
-            "level": 3
-          },
-          {
-            "name": "Golden Sword",
-            "level": 4
-          }
-        ],
-        "base_item": "Progressive Sword"
-      },
-      "Progressive Glove": {
-        "items": [
-          {
-            "name": "Power Glove",
-            "level": 1
-          },
-          {
-            "name": "Titans Mitts",
-            "level": 2
-          }
-        ],
-        "base_item": "Progressive Glove"
-      },
-      "Progressive Shield": {
-        "items": [
-          {
-            "name": "Blue Shield",
-            "level": 1
-          },
-          {
-            "name": "Red Shield",
-            "level": 2
-          },
-          {
-            "name": "Mirror Shield",
-            "level": 3
-          }
-        ],
-        "base_item": "Progressive Shield"
-      },
-      "Progressive Bow": {
-        "items": [
-          {
-            "name": "Bow",
-            "level": 1
-          },
-          {
-            "name": "Silver Bow",
-            "level": 2
-          }
-        ],
-        "base_item": "Progressive Bow"
-      }
-    }
-  },
-  "settings": {
-    "1": {
-      "game": "A Link to the Past",
-      "dark_room_logic": "lamp",
-      "retro_bow": false,
-      "swordless": false,
-      "enemy_shuffle": false,
-      "enemy_health": "easy",
-      "enemy_damage": "default",
-      "bombless_start": true,
-      "glitches_required": "overworld_glitches",
-      "pot_shuffle": "off",
-      "dungeon_counters": "on",
-      "glitch_boots": "on",
-      "accessibility": "locations",
-      "mode": "open",
-      "shuffle_capacity_upgrades": "progressive",
-      "treasure_hunt_required": 0,
-      "difficulty_requirements": {
-        "progressive_bottle_limit": 4,
-        "boss_heart_container_limit": 10,
-        "heart_piece_limit": 24
-      },
-      "required_medallions": [
-        "Ether",
-        "Quake"
-      ],
-      "misery_mire_medallion": "Ether",
-      "turtle_rock_medallion": "Quake"
-    }
-  },
-  "start_regions": {
-    "1": {
-      "default": [
-        "Menu"
-      ],
-      "available": []
-    }
-  },
   "itempool_counts": {
     "1": {
       "Activated Flute": 1,
@@ -20023,455 +24065,113 @@
       "__max_progressive_bottle": 4
     }
   },
+  "progression_mapping": {
+    "1": {
+      "Progressive Sword": {
+        "items": [
+          {
+            "name": "Fighter Sword",
+            "level": 1
+          },
+          {
+            "name": "Master Sword",
+            "level": 2
+          },
+          {
+            "name": "Tempered Sword",
+            "level": 3
+          },
+          {
+            "name": "Golden Sword",
+            "level": 4
+          }
+        ],
+        "base_item": "Progressive Sword"
+      },
+      "Progressive Glove": {
+        "items": [
+          {
+            "name": "Power Glove",
+            "level": 1
+          },
+          {
+            "name": "Titans Mitts",
+            "level": 2
+          }
+        ],
+        "base_item": "Progressive Glove"
+      },
+      "Progressive Shield": {
+        "items": [
+          {
+            "name": "Blue Shield",
+            "level": 1
+          },
+          {
+            "name": "Red Shield",
+            "level": 2
+          },
+          {
+            "name": "Mirror Shield",
+            "level": 3
+          }
+        ],
+        "base_item": "Progressive Shield"
+      },
+      "Progressive Bow": {
+        "items": [
+          {
+            "name": "Bow",
+            "level": 1
+          },
+          {
+            "name": "Silver Bow",
+            "level": 2
+          }
+        ],
+        "base_item": "Progressive Bow"
+      }
+    }
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "A Link to the Past",
+      "dark_room_logic": "lamp",
+      "retro_bow": false,
+      "swordless": false,
+      "enemy_shuffle": false,
+      "enemy_health": "easy",
+      "enemy_damage": "default",
+      "bombless_start": true,
+      "glitches_required": "overworld_glitches",
+      "pot_shuffle": "off",
+      "dungeon_counters": "on",
+      "glitch_boots": "on",
+      "accessibility": "locations",
+      "mode": "open",
+      "shuffle_capacity_upgrades": "progressive",
+      "treasure_hunt_required": 0,
+      "difficulty_requirements": {
+        "progressive_bottle_limit": 4,
+        "boss_heart_container_limit": 10,
+        "heart_piece_limit": 24
+      },
+      "required_medallions": [
+        "Ether",
+        "Quake"
+      ],
+      "misery_mire_medallion": "Ether",
+      "turtle_rock_medallion": "Quake"
+    }
+  },
   "game_info": {
     "1": {
       "name": "A Link to the Past",
       "rule_format": {
         "version": "1.0"
-      }
-    }
-  },
-  "dungeons": {
-    "1": {
-      "Desert Palace": {
-        "name": "Desert Palace",
-        "regions": [
-          "Desert Palace North",
-          "Desert Palace Main (Inner)",
-          "Desert Palace Main (Outer)",
-          "Desert Palace East"
-        ],
-        "boss": {
-          "name": "Lanmolas",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Eastern Palace": {
-        "name": "Eastern Palace",
-        "regions": [
-          "Eastern Palace"
-        ],
-        "boss": {
-          "name": "Armos Knights",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Hyrule Castle": {
-        "name": "Hyrule Castle",
-        "regions": [
-          "Hyrule Castle",
-          "Sewers",
-          "Sewer Drop",
-          "Sewers (Dark)",
-          "Sanctuary"
-        ],
-        "boss": null,
-        "medallion_check": null
-      },
-      "Agahnims Tower": {
-        "name": "Agahnims Tower",
-        "regions": [
-          "Agahnims Tower",
-          "Agahnim 1"
-        ],
-        "boss": {
-          "name": "Agahnim",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Tower of Hera": {
-        "name": "Tower of Hera",
-        "regions": [
-          "Tower of Hera (Bottom)",
-          "Tower of Hera (Basement)",
-          "Tower of Hera (Top)"
-        ],
-        "boss": {
-          "name": "Moldorm",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Swamp Palace": {
-        "name": "Swamp Palace",
-        "regions": [
-          "Swamp Palace (Entrance)",
-          "Swamp Palace (First Room)",
-          "Swamp Palace (Starting Area)",
-          "Swamp Palace (West)",
-          "Swamp Palace (Center)",
-          "Swamp Palace (North)"
-        ],
-        "boss": {
-          "name": "Arrghus",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Thieves Town": {
-        "name": "Thieves Town",
-        "regions": [
-          "Thieves Town (Entrance)",
-          "Thieves Town (Deep)",
-          "Blind Fight"
-        ],
-        "boss": {
-          "name": "Blind",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Skull Woods": {
-        "name": "Skull Woods",
-        "regions": [
-          "Skull Woods Final Section (Entrance)",
-          "Skull Woods First Section",
-          "Skull Woods Second Section",
-          "Skull Woods Second Section (Drop)",
-          "Skull Woods Final Section (Mothula)",
-          "Skull Woods First Section (Right)",
-          "Skull Woods First Section (Left)",
-          "Skull Woods First Section (Top)"
-        ],
-        "boss": {
-          "name": "Mothula",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Ice Palace": {
-        "name": "Ice Palace",
-        "regions": [
-          "Ice Palace (Entrance)",
-          "Ice Palace (Second Section)",
-          "Ice Palace (Main)",
-          "Ice Palace (East)",
-          "Ice Palace (East Top)",
-          "Ice Palace (Kholdstare)"
-        ],
-        "boss": {
-          "name": "Kholdstare",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Misery Mire": {
-        "name": "Misery Mire",
-        "regions": [
-          "Misery Mire (Entrance)",
-          "Misery Mire (Main)",
-          "Misery Mire (West)",
-          "Misery Mire (Final Area)",
-          "Misery Mire (Vitreous)"
-        ],
-        "boss": {
-          "name": "Vitreous",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Turtle Rock": {
-        "name": "Turtle Rock",
-        "regions": [
-          "Turtle Rock (Entrance)",
-          "Turtle Rock (First Section)",
-          "Turtle Rock (Chain Chomp Room)",
-          "Turtle Rock (Pokey Room)",
-          "Turtle Rock (Second Section)",
-          "Turtle Rock (Big Chest)",
-          "Turtle Rock (Crystaroller Room)",
-          "Turtle Rock (Dark Room)",
-          "Turtle Rock (Eye Bridge)",
-          "Turtle Rock (Trinexx)"
-        ],
-        "boss": {
-          "name": "Trinexx",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Palace of Darkness": {
-        "name": "Palace of Darkness",
-        "regions": [
-          "Palace of Darkness (Entrance)",
-          "Palace of Darkness (Center)",
-          "Palace of Darkness (Big Key Chest)",
-          "Palace of Darkness (Bonk Section)",
-          "Palace of Darkness (North)",
-          "Palace of Darkness (Maze)",
-          "Palace of Darkness (Harmless Hellway)",
-          "Palace of Darkness (Final Section)"
-        ],
-        "boss": {
-          "name": "Helmasaur King",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
-      },
-      "Ganons Tower": {
-        "name": "Ganons Tower",
-        "regions": [
-          "Ganons Tower (Entrance)",
-          "Ganons Tower (Tile Room)",
-          "Ganons Tower (Compass Room)",
-          "Ganons Tower (Hookshot Room)",
-          "Ganons Tower (Map Room)",
-          "Ganons Tower (Firesnake Room)",
-          "Ganons Tower (Teleport Room)",
-          "Ganons Tower (Bottom)",
-          "Ganons Tower (Top)",
-          "Ganons Tower (Before Moldorm)",
-          "Ganons Tower (Moldorm)",
-          "Agahnim 2"
-        ],
-        "boss": {
-          "name": "Agahnim2",
-          "defeat_rule": {
-            "type": "function_call",
-            "function": {
-              "type": "attribute",
-              "object": {
-                "type": "name",
-                "name": "self"
-              },
-              "attr": "defeat_rule"
-            },
-            "args": [
-              {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "self"
-                },
-                "attr": "player"
-              }
-            ]
-          }
-        },
-        "medallion_check": null
       }
     }
   }

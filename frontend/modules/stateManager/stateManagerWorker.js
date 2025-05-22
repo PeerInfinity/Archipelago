@@ -194,8 +194,7 @@ self.onmessage = async function (e) {
         const rulesData = message.payload.rulesData;
         const playerId = String(message.payload.playerInfo.playerId);
 
-        stateManagerInstance.loadFromJSON(rulesData, playerId);
-        // computeReachableRegions is called internally by loadFromJSON
+        await stateManagerInstance.loadFromJSON(rulesData, playerId);
         const initialSnapshot = stateManagerInstance.getSnapshot();
 
         // MODIFIED: Construct static data object directly from instance properties
@@ -466,6 +465,84 @@ self.onmessage = async function (e) {
         }
         break;
 
+      // Add new command handler here
+      case 'SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT':
+        if (!stateManagerInstance) {
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            error: 'StateManager instance not available in worker.',
+          });
+          break;
+        }
+        try {
+          // It's crucial that initializeInventoryForTest does NOT compute/send its own snapshot here
+          stateManagerInstance.initializeInventoryForTest(
+            message.payload.requiredItems,
+            message.payload.excludedItems
+          );
+          stateManagerInstance.computeReachableRegions(); // Ensure reachability is updated for this inventory
+          const snapshot = stateManagerInstance.getSnapshot();
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            result: snapshot,
+          });
+        } catch (e) {
+          console.error(
+            '[StateManagerWorker] Error during SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT:',
+            e
+          );
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            error: e.message,
+          });
+        }
+        break;
+
+      case StateManagerProxy.COMMANDS.EVALUATE_ACCESSIBILITY_FOR_TEST:
+        if (!workerInitialized || !stateManagerInstance) {
+          throw new Error('Worker not initialized. Cannot evaluate test.');
+        }
+        if (!message.payload || !message.payload.locationName) {
+          throw new Error(
+            'Invalid payload for EVALUATE_ACCESSIBILITY_FOR_TEST command.'
+          );
+        }
+        if (!message.queryId) {
+          throw new Error(
+            'Missing queryId for EVALUATE_ACCESSIBILITY_FOR_TEST command.'
+          );
+        }
+
+        try {
+          const { locationName, requiredItems, excludedItems } =
+            message.payload;
+          const isAccessible =
+            stateManagerInstance.evaluateAccessibilityForTest(
+              locationName,
+              requiredItems,
+              excludedItems
+            );
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            result: { result: isAccessible },
+          });
+        } catch (evalError) {
+          console.error(
+            '[StateManagerWorker] Error during EVALUATE_ACCESSIBILITY_FOR_TEST:',
+            evalError
+          );
+          self.postMessage({
+            type: 'queryResponse',
+            queryId: message.queryId,
+            error: `Error evaluating test: ${evalError.message}`,
+          });
+        }
+        break;
+
       default:
         console.warn(
           '[stateManagerWorker onmessage] Received unhandled command:',
@@ -491,7 +568,7 @@ self.onmessage = async function (e) {
       command: message.command,
       errorMessage: error.message,
       errorStack: error.stack,
-      queryId: message.queryId, // Include queryId if present, so proxy can reject promise
+      queryId: message.queryId,
     });
   }
 };

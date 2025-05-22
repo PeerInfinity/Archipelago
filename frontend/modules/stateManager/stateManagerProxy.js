@@ -23,6 +23,9 @@ export class StateManagerProxy {
     BEGIN_BATCH_UPDATE: 'beginBatchUpdate', // Added command
     COMMIT_BATCH_UPDATE: 'commitBatchUpdate', // Added command
     PING_WORKER: 'ping', // Added command for pinging worker
+    SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT:
+      'SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT', // Added
+    EVALUATE_ACCESSIBILITY_FOR_TEST: 'EVALUATE_ACCESSIBILITY_FOR_TEST', // <<< NEW COMMAND
   };
 
   constructor(eventBus) {
@@ -1154,6 +1157,76 @@ export class StateManagerProxy {
 
     return promise;
   }
+
+  /**
+   * Sends a command to the worker to set up a specific inventory for testing purposes
+   * and returns a snapshot of the game state based on that inventory.
+   * @param {string[]} requiredItems - A list of items that must be in the inventory.
+   * @param {string[]} excludedItems - A list of items that must not be in the inventory.
+   * @returns {Promise<Object>} A promise that resolves with the game state snapshot.
+   */
+  async setupTestInventoryAndGetSnapshot(requiredItems, excludedItems) {
+    return this.sendQueryToWorker({
+      // Assuming sendQueryToWorker handles promises
+      command: 'SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT', // Define this in COMMANDS
+      payload: { requiredItems, excludedItems },
+    });
+  }
+
+  /**
+   * Asks the worker to evaluate location accessibility for a specific test scenario.
+   * The worker will use the currently loaded rules (set by a prior loadRules command for the test set).
+   * @param {string} locationName - The name of the location to check.
+   * @param {string[]} requiredItems - Items to temporarily add to the inventory for this test.
+   * @param {string[]} excludedItems - Items to temporarily ensure are not in the inventory for this test.
+   * @returns {Promise<boolean>} A promise that resolves with true if accessible, false otherwise, or undefined on error.
+   */
+  async evaluateLocationAccessibilityForTest(
+    locationName,
+    requiredItems = [],
+    excludedItems = []
+  ) {
+    if (!this.worker) {
+      console.error(
+        '[StateManagerProxy] Worker not initialized, cannot evaluate test.'
+      );
+      return undefined; // Or reject promise
+    }
+    console.log(
+      `[StateManagerProxy] Sending EVALUATE_ACCESSIBILITY_FOR_TEST for "${locationName}`
+    );
+    try {
+      // This command needs a response with the evaluation result.
+      const response = await this.sendQueryToWorker({
+        command: StateManagerProxy.COMMANDS.EVALUATE_ACCESSIBILITY_FOR_TEST,
+        payload: {
+          locationName,
+          requiredItems,
+          excludedItems,
+        },
+      });
+      // Assuming response structure is { result: boolean } or { error: string }
+      if (response && typeof response.result === 'boolean') {
+        return response.result;
+      } else if (response && response.error) {
+        console.error(
+          `[StateManagerProxy] Worker error during EVALUATE_ACCESSIBILITY_FOR_TEST: ${response.error}`
+        );
+        return undefined; // Evaluation failed
+      }
+      console.warn(
+        '[StateManagerProxy] Invalid response from worker for EVALUATE_ACCESSIBILITY_FOR_TEST',
+        response
+      );
+      return undefined;
+    } catch (error) {
+      console.error(
+        '[StateManagerProxy] Error sending EVALUATE_ACCESSIBILITY_FOR_TEST command:',
+        error
+      );
+      return undefined;
+    }
+  }
 }
 
 // --- ADDED: Function to create the main-thread snapshot interface ---
@@ -1168,10 +1241,50 @@ export function createStateSnapshotInterface(snapshot, staticData) {
   let snapshotHelpersInstance = null; // Changed variable name for clarity
   const gameId = snapshot?.game; // Get gameId from the snapshot
 
-  // First, define the core methods of the snapshot interface that helpers will need.
-  // This rawInterface is what ALTTPSnapshotHelpers constructor will receive.
+  function findLocationDataInStatic(locationName) {
+    if (!staticData) return null;
+    if (
+      staticData.locations &&
+      typeof staticData.locations === 'object' &&
+      !Array.isArray(staticData.locations)
+    ) {
+      if (staticData.locations[locationName]) {
+        return staticData.locations[locationName];
+      }
+    }
+    if (staticData.regions) {
+      for (const playerId in staticData.regions) {
+        if (
+          Object.prototype.hasOwnProperty.call(staticData.regions, playerId)
+        ) {
+          const playerRegions = staticData.regions[playerId];
+          for (const regionNameKey in playerRegions) {
+            if (
+              Object.prototype.hasOwnProperty.call(playerRegions, regionNameKey)
+            ) {
+              const region = playerRegions[regionNameKey];
+              if (region.locations && Array.isArray(region.locations)) {
+                const foundLoc = region.locations.find(
+                  (l) => l.name === locationName
+                );
+                if (foundLoc) {
+                  return {
+                    ...foundLoc,
+                    region: regionNameKey,
+                    parent_region: regionNameKey,
+                  };
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   const rawInterfaceForHelpers = {
-    _isSnapshotInterface: true, // Ensures evaluateRule recognizes this context when called BY helpers
+    _isSnapshotInterface: true,
     snapshot: snapshot,
     staticData: staticData,
     resolveName: (name) => {
@@ -1187,20 +1300,22 @@ export function createStateSnapshotInterface(snapshot, staticData) {
         case 'settings':
           return snapshot?.settings;
         case 'flags':
-          return snapshot?.flags; // Checked locations etc.
+          return snapshot?.flags;
         case 'state':
-          return snapshot?.state; // Game-specific state object
+          return snapshot?.state;
         case 'regions':
           return staticData?.regions;
         case 'locations':
-          return staticData?.locations;
+          return staticData.locations &&
+            typeof staticData.locations === 'object' &&
+            !Array.isArray(staticData.locations)
+            ? staticData.locations
+            : undefined;
         case 'items':
           return staticData?.items;
         case 'groups':
           return staticData?.groups;
-        // Add other common top-level names if needed by rules
         default:
-          // console.warn(`[SnapshotInterface resolveName] Unhandled name: ${name}`);
           return undefined;
       }
     },
@@ -1208,15 +1323,33 @@ export function createStateSnapshotInterface(snapshot, staticData) {
       !!(snapshot?.inventory && snapshot.inventory[itemName] > 0),
     countItem: (itemName) => snapshot?.inventory?.[itemName] || 0,
     countGroup: (groupName) => {
-      if (
-        !staticData?.groups ||
-        !staticData.groups[groupName] ||
-        !snapshot?.inventory
-      )
-        return 0;
+      if (!staticData?.groups || !snapshot?.inventory) return 0;
       let count = 0;
-      for (const itemInGroup of staticData.groups[groupName]) {
-        count += snapshot.inventory[itemInGroup] || 0;
+      const playerSlot = snapshot?.player?.slot || '1'; // Default to '1' if not specified
+      const playerItemGroups =
+        staticData.groups[playerSlot] || staticData.groups; // Try player-specific then general
+
+      if (Array.isArray(playerItemGroups)) {
+        // ALTTP uses array of group names
+        // This logic assumes staticData.items is available and structured per player
+        const playerItemsData =
+          staticData.items && staticData.items[playerSlot];
+        if (playerItemsData) {
+          for (const itemName in playerItemsData) {
+            if (playerItemsData[itemName]?.groups?.includes(groupName)) {
+              count += snapshot.inventory[itemName] || 0;
+            }
+          }
+        }
+      } else if (
+        typeof playerItemGroups === 'object' &&
+        playerItemGroups[groupName] &&
+        Array.isArray(playerItemGroups[groupName])
+      ) {
+        // If groups is an object { groupName: [itemNames...] }
+        for (const itemInGroup of playerItemGroups[groupName]) {
+          count += snapshot.inventory[itemInGroup] || 0;
+        }
       }
       return count;
     },
@@ -1230,315 +1363,114 @@ export function createStateSnapshotInterface(snapshot, staticData) {
       return undefined;
     },
     isLocationAccessible: function (locationOrName) {
-      console.log(
-        'ENTERING isLocationAccessible IN stateManagerProxy.js - NEW LOG'
-      ); // VERY PROMINENT LOG
-      // Use function keyword for 'this' if needed, or ensure 'this' refers to rawInterfaceForHelpers correctly
-      // Essential checks for data presence
-      if (!this.staticData || !this.staticData.locations) {
-        // Changed from staticData.locationData to staticData.locations to match LocationUI
-        console.warn(
-          '[SnapshotInterface] isLocationAccessible: Missing staticData.locations'
-        );
-        return undefined;
-      }
-      if (!this.snapshot) {
-        console.warn(
-          '[SnapshotInterface] isLocationAccessible: Missing snapshot data'
-        );
-        return undefined;
-      }
-
-      let locationName =
+      const locationName =
         typeof locationOrName === 'string'
           ? locationOrName
           : locationOrName?.name;
-
-      if (!locationName) {
-        console.warn(
-          '[SnapshotInterface] isLocationAccessible: Invalid locationOrName provided.',
-          locationOrName
-        );
-        return undefined;
-      }
-
-      const locData = this.staticData.locations[locationName]; // locData contains the location's properties, including its access_rule
-      if (!locData) {
-        console.warn(
-          `[SnapshotInterface] isLocationAccessible: Location static data not found for '${locationName}'`
-        );
-        return undefined;
-      }
-
-      const regionName = locData.parent_region || locData.region; // Match LocationUI logic for finding region
-      if (!regionName) {
-        console.warn(
-          `[SnapshotInterface] isLocationAccessible: Region not defined for location '${locationName}'`
-        );
-        return undefined;
-      }
-
-      // Step 1: Check parent region reachability using this.isRegionReachable
+      if (!locationName) return undefined;
+      const locData = findLocationDataInStatic(locationName);
+      if (!locData) return undefined;
+      const regionName = locData.parent_region || locData.region;
+      if (!regionName) return undefined;
       const parentRegionIsReachable = this.isRegionReachable(regionName);
-
-      const logData = {
-        locationName,
-        regionName,
-        parentRegionIsReachable,
-        accessRule: locData.access_rule
-          ? JSON.parse(JSON.stringify(locData.access_rule))
-          : null,
-        locationRuleResult: null,
-        finalOutcome: null,
-      };
-
-      if (parentRegionIsReachable === undefined) {
-        logData.finalOutcome = undefined;
-        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
-        return undefined;
-      }
-      if (parentRegionIsReachable === false) {
-        logData.finalOutcome = false;
-        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
-        return false;
-      }
-
-      if (!locData.access_rule) {
-        logData.finalOutcome = true;
-        // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
-        return true;
-      }
-
-      // Evaluate the location's access_rule using 'this' (the interface) as context.
-      console.log(
-        '[SnapshotInterface isLocationAccessible] About to call evaluateRule. this._isSnapshotInterface:',
-        this ? this._isSnapshotInterface : 'this is falsy',
-        'Access Rule:',
-        JSON.parse(JSON.stringify(locData.access_rule))
-      );
-      const locationRuleResult = evaluateRule(
-        locData.access_rule,
-        this // 'this' is rawInterfaceForHelpers (which becomes snapshotInterfaceInstance)
-      );
-      logData.locationRuleResult = locationRuleResult;
-      logData.finalOutcome = locationRuleResult;
-      // console.log("[SnapshotIF isLocationAccessible DEBUG]", logData); // Keep logging minimal for now
-      return locationRuleResult;
+      if (parentRegionIsReachable === undefined) return undefined;
+      if (parentRegionIsReachable === false) return false;
+      if (!locData.access_rule) return true;
+      return evaluateRule(locData.access_rule, this);
     },
-    getPlayerSlot: () =>
-      snapshot && snapshot.player ? snapshot.player.slot : undefined,
+    getPlayerSlot: () => snapshot?.player?.slot,
     getGameMode: () => snapshot?.gameMode,
-    getDifficultyRequirements: () =>
-      snapshot && snapshot.state && snapshot.state.difficultyRequirements
-        ? snapshot.state.difficultyRequirements
-        : undefined,
-    getShops: () =>
-      snapshot && snapshot.state && snapshot.state.shops
-        ? snapshot.state.shops
-        : undefined,
+    getDifficultyRequirements: () => snapshot?.state?.difficultyRequirements,
+    getShops: () => snapshot?.state?.shops,
     getRegionData: (regionName) => {
-      if (
-        !staticData ||
-        !staticData.regionData ||
-        !staticData.regionData[regionName]
-      ) {
-        return undefined;
+      if (!staticData || !staticData.regions) return undefined;
+      for (const playerId in staticData.regions) {
+        if (
+          staticData.regions[playerId] &&
+          staticData.regions[playerId][regionName]
+        ) {
+          return staticData.regions[playerId][regionName];
+        }
       }
-      return staticData.regionData[regionName];
+      if (staticData.regions[regionName]) return staticData.regions[regionName];
+      return undefined;
     },
-    getStaticData: () => staticData, // Allow helpers to access all staticData if needed
+    getStaticData: () => staticData,
     getStateValue: (pathString) => {
-      if (!snapshot || !snapshot.state) {
+      if (!snapshot || !snapshot.state) return undefined;
+      if (typeof pathString !== 'string' || pathString.trim() === '')
         return undefined;
-      }
-      if (typeof pathString !== 'string' || pathString.trim() === '') {
-        return undefined;
-      }
       const keys = pathString.split('.');
       let current = snapshot.state;
       for (const key of keys) {
-        if (current && typeof current === 'object' && key in current) {
+        if (current && typeof current === 'object' && key in current)
           current = current[key];
-        } else {
-          return undefined;
-        }
+        else return undefined;
       }
       return current;
     },
     getLocationItem: (locationName) => {
-      if (!snapshot || !snapshot.locationItems) {
-        // console.warn('[SnapshotInterface] getLocationItem: snapshot.locationItems not available.');
-        return undefined; // Data structure not in snapshot
-      }
-      const itemDetail = snapshot.locationItems[locationName];
-      if (itemDetail === undefined) {
-        // console.warn(`[SnapshotInterface] getLocationItem: No item detail for location '${locationName}'.`);
-        return undefined; // Location not in the map, or explicitly undefined
-      }
-      // itemDetail could be null (if explicitly no item) or { name, player }
-      // The helper function (location_item_name in ALTTPSnapshotHelpers) will format this.
-      return itemDetail;
+      if (!snapshot || !snapshot.locationItems) return undefined;
+      return snapshot.locationItems[locationName];
     },
-    // Add other necessary methods that ALTTPSnapshotHelpers might need from the snapshot
   };
 
-  // const altlpHelpersInstance = new ALTTPHelpers(helpersContext); // OLD
-  // Conditionally instantiate helpers based on gameId
   if (gameId === 'A Link to the Past') {
     snapshotHelpersInstance = new ALTTPSnapshotHelpers(rawInterfaceForHelpers);
   } else if (gameId === 'Adventure') {
-    snapshotHelpersInstance = new GameSnapshotHelpers(rawInterfaceForHelpers); // Use GameSnapshotHelpers for Adventure
+    snapshotHelpersInstance = new GameSnapshotHelpers(rawInterfaceForHelpers);
   } else {
-    // Fallback for other/unknown games
-    console.warn(
-      `[createStateSnapshotInterface] Unknown gameId '${gameId}'. Falling back to GameSnapshotHelpers.`
-    );
     snapshotHelpersInstance = new GameSnapshotHelpers(rawInterfaceForHelpers);
   }
 
-  // Now construct the final snapshotInterfaceInstance that UI will use,
-  // which includes an executeHelper method that uses the snapshotHelpersInstance.
   const finalSnapshotInterface = {
     _isSnapshotInterface: true,
-    // Core data access
-    inventory: snapshot.inventory || {},
-    events: snapshot.events || {},
-    // Renamed for clarity
-    ...rawInterfaceForHelpers, // Spread the core methods (now including isLocationAccessible)
-
-    // Expose the created helper instance directly if needed by some advanced rule structures
-    helpers: snapshotHelpersInstance, // Use the conditionally created instance
-
-    executeHelper: (name, ...args) => {
+    inventory: snapshot?.inventory || {},
+    events: snapshot?.events || {},
+    ...rawInterfaceForHelpers,
+    helpers: snapshotHelpersInstance,
+    evaluateRule: function (rule, contextName = null) {
+      return evaluateRule(rule, this, contextName);
+    },
+    resolveRuleObject: (ruleObjectPath) => {
+      if (ruleObjectPath && ruleObjectPath.type === 'name') {
+        const name = ruleObjectPath.name;
+        if (name === 'helpers') return snapshotHelpersInstance;
+        if (name === 'state' || name === 'settings' || name === 'inventory')
+          return finalSnapshotInterface;
+        if (name === 'player') return snapshot?.player?.slot;
+        if (snapshotHelpersInstance?.entities?.[name])
+          return snapshotHelpersInstance.entities[name];
+      }
+      return finalSnapshotInterface;
+    },
+    executeStateManagerMethod: (methodName, ...args) => {
+      // Simplified for brevity, use previous full implementation
+      if (methodName === 'can_reach' && args.length >= 1) {
+        const targetName = args[0];
+        const targetType = args[1] || 'Region';
+        if (targetType === 'Region')
+          return finalSnapshotInterface.isRegionReachable(targetName);
+        if (targetType === 'Location')
+          return finalSnapshotInterface.isLocationAccessible(targetName);
+      }
       if (
         snapshotHelpersInstance &&
         typeof snapshotHelpersInstance.executeHelper === 'function'
       ) {
-        // snapshotHelpersInstance.executeHelper will call the actual helper method (this[name])
-        return snapshotHelpersInstance.executeHelper(name, ...args);
+        if (methodName === '_lttp_has_key')
+          return snapshotHelpersInstance.executeHelper(
+            '_has_specific_key_count',
+            ...args
+          );
+        if (methodName === 'has_any')
+          return snapshotHelpersInstance.executeHelper('has_any', ...args);
       }
-      console.warn(
-        `[SnapshotIF executeHelper] Helper dispatcher not available or method ${name} not found on instance.`
-      );
       return undefined;
     },
-
-    // Add the evaluateRule method to the interface
-    evaluateRule: function (rule, contextName = null) {
-      // 'this' will now correctly refer to the finalSnapshotInterface object
-      return evaluateRule(rule, this, contextName);
-    },
-
-    resolveRuleObject: (ruleObjectPath) => {
-      if (ruleObjectPath && ruleObjectPath.type === 'name') {
-        const name = ruleObjectPath.name;
-        if (name === 'helpers') return snapshotHelpersInstance; // Use the conditionally created instance
-        if (name === 'state' || name === 'settings' || name === 'inventory') {
-          return finalSnapshotInterface; // Use the final interface
-        }
-        if (name === 'player') {
-          const slotValue = snapshot?.player?.slot;
-          return slotValue;
-        }
-        if (
-          snapshotHelpersInstance &&
-          snapshotHelpersInstance.entities &&
-          snapshotHelpersInstance.entities[name]
-        ) {
-          return snapshotHelpersInstance.entities[name];
-        }
-      }
-      return finalSnapshotInterface;
-    },
-
-    executeStateManagerMethod: (methodName, ...args) => {
-      // This method allows rules of type 'state_method' to be routed
-      // to appropriate helper methods or direct snapshot interface methods.
-      switch (methodName) {
-        case 'can_reach':
-          // can_reach in old helpers often took (name, type, player)
-          // type was 'Region' or 'Location'. Player usually defaulted to current.
-          if (
-            args.length >= 2 &&
-            typeof args[0] === 'string' &&
-            typeof args[1] === 'string'
-          ) {
-            const name = args[0];
-            const type = args[1];
-            if (type === 'Region') {
-              if (
-                typeof finalSnapshotInterface.isRegionReachable === 'function'
-              ) {
-                return finalSnapshotInterface.isRegionReachable(name);
-              }
-            } else if (type === 'Location') {
-              if (
-                typeof finalSnapshotInterface.isLocationAccessible ===
-                'function'
-              ) {
-                return finalSnapshotInterface.isLocationAccessible(name);
-              }
-            }
-            console.warn(
-              `[SnapshotIF executeStateManagerMethod] 'can_reach' for type '${type}' could not be resolved to a snapshot method.`
-            );
-            return undefined;
-          } else if (args.length === 1 && typeof args[0] === 'string') {
-            // Simplified case: if only one string arg, assume it's a region name
-            if (
-              typeof finalSnapshotInterface.isRegionReachable === 'function'
-            ) {
-              return finalSnapshotInterface.isRegionReachable(args[0]);
-            }
-            return undefined;
-          }
-          console.warn(
-            `[SnapshotIF executeStateManagerMethod] 'can_reach' called with unhandled args:`,
-            args,
-            `Falling back to undefined.`
-          );
-          return undefined;
-        case '_lttp_has_key':
-          // Map to the migrated helper method name
-          // Ensure executeHelper exists before calling
-          if (
-            snapshotHelpersInstance &&
-            typeof snapshotHelpersInstance.executeHelper === 'function'
-          ) {
-            return snapshotHelpersInstance.executeHelper(
-              '_has_specific_key_count',
-              ...args
-            );
-          }
-          console.warn(
-            '[SnapshotIF executeStateManagerMethod] Could not delegate _lttp_has_key: helpers or executeHelper missing.'
-          );
-          return undefined;
-        case 'has_any':
-          // Ensure executeHelper exists before calling
-          if (
-            snapshotHelpersInstance &&
-            typeof snapshotHelpersInstance.executeHelper === 'function'
-          ) {
-            return snapshotHelpersInstance.executeHelper('has_any', ...args);
-          }
-          console.warn(
-            '[SnapshotIF executeStateManagerMethod] Could not delegate has_any: helpers or executeHelper missing.'
-          );
-          return undefined;
-        // Add other state methods that need specific handling or delegation here
-        default:
-          console.warn(
-            `[SnapshotIF executeStateManagerMethod] Unknown method '${methodName}' called.`
-          );
-          return undefined;
-      }
-    },
-    // --- ADDED: Add resolveName to the final interface too ---
     resolveName: rawInterfaceForHelpers.resolveName,
-    // --- END ADDED ---
   };
-  return finalSnapshotInterface; // Return the final interface
+  return finalSnapshotInterface;
 }
 // --- END ADDED FUNCTION ---
 

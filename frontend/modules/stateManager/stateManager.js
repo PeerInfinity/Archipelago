@@ -1,5 +1,5 @@
-import { ALTTPInventory } from './games/alttp/inventory.js';
-import { ALTTPState } from './games/alttp/state.js';
+import { ALTTPInventory } from './games/alttp/alttpInventory.js';
+import { ALTTPState } from './games/alttp/alttpState.js';
 import { ALTTPWorkerHelpers } from './games/alttp/alttpWorkerHelpers.js';
 import { GameInventory } from './helpers/gameInventory.js'; // Ensure GameInventory is imported
 import { GameState } from './helpers/index.js'; // Added import for GameState
@@ -422,6 +422,67 @@ export class StateManager {
     this.playerSlot = parseInt(selectedPlayerId, 10);
     console.log(`StateManager playerSlot set to: ${this.playerSlot}`);
 
+    // Determine gameId - THIS IS THE MODIFIED SECTION
+    let determinedGameId = jsonData.game_name || 'UnknownGame'; // Start with game_name
+    this._logDebug(
+      `[StateManager loadFromJSON] Initial game_name from JSON: "${determinedGameId}"`
+    );
+
+    if (
+      determinedGameId === 'Archipelago' ||
+      determinedGameId === 'UnknownGame' ||
+      !jsonData.game_name
+    ) {
+      const playerWorldClass = jsonData.world_classes?.[selectedPlayerId];
+      this._logDebug(
+        `[StateManager loadFromJSON] game_name is generic or missing. Player world_class: "${playerWorldClass}"`
+      );
+      if (playerWorldClass) {
+        if (
+          playerWorldClass === 'ALTTPWorld' ||
+          playerWorldClass.includes('A Link to the Past')
+        ) {
+          // Make it more resilient
+          determinedGameId = 'A Link to the Past';
+        } else if (
+          playerWorldClass === 'SMZ3World' ||
+          playerWorldClass.includes(
+            'Super Metroid and A Link to the Past Combo Randomizer'
+          )
+        ) {
+          determinedGameId = 'SMZ3'; // Example, adjust as needed
+        }
+        // Add other game mappings here based on their World class names
+        // else if (playerWorldClass === 'TimespinnerWorld') {
+        //     determinedGameId = 'Timespinner';
+        // }
+        else {
+          // Fallback if world_class is present but not specifically mapped
+          console.warn(
+            `[StateManager loadFromJSON] Unmapped world_class "${playerWorldClass}". Using it directly as gameId if it's not a generic name.`
+          );
+          // Avoid setting determinedGameId to something like "World" if that's not descriptive
+          if (playerWorldClass && playerWorldClass !== 'World') {
+            determinedGameId = playerWorldClass;
+          } else {
+            determinedGameId = 'UnknownGame'; // Keep as unknown if world_class is also too generic or unmapped
+          }
+        }
+        this._logDebug(
+          `[StateManager loadFromJSON] Inferred gameId as "${determinedGameId}" from world_classes.`
+        );
+      } else {
+        this._logDebug(
+          `[StateManager loadFromJSON] No world_class found for player ${selectedPlayerId} to infer gameId.`
+        );
+        // If game_name was also missing/generic, determinedGameId remains 'UnknownGame'
+      }
+    }
+    this.gameId = determinedGameId; // Set the instance's gameId
+    this._logDebug(
+      `[StateManager loadFromJSON] Final determined this.gameId: "${this.gameId}"`
+    );
+
     // Load item data for the selected player
     this.itemData = jsonData.items?.[selectedPlayerId] || {};
     this.itemNameToId = {};
@@ -464,40 +525,70 @@ export class StateManager {
     }
 
     // Load other direct properties
-    this.gameId = jsonData.game_name || 'UnknownGame'; // Extract gameId early
-    // this.settings = jsonData.settings?.[selectedPlayerId] || {}; // Settings will be loaded into the game-specific state
-    this.startRegions = jsonData.start_regions?.[selectedPlayerId] || []; // Keep this for now, though game-specific state might override
-    this.mode = jsonData.mode?.[selectedPlayerId] || null; // Default to null if not present
+    // this.gameId is now set by the new logic involving determinedGameId, so the old direct assignment is removed.
+    this.startRegions = jsonData.start_regions?.[selectedPlayerId] || [];
+    this.mode = jsonData.mode?.[selectedPlayerId] || null;
     this.itempoolCounts = jsonData.itempool_counts?.[selectedPlayerId] || {};
     this.progressionMapping =
       jsonData.progression_mapping?.[selectedPlayerId] || {};
     this._logDebug(
-      'Loaded gameId, startRegions, mode, itempoolCounts, and progressionMapping.'
+      'Loaded startRegions, mode, itempoolCounts, and progressionMapping.'
     );
 
     // --- Instantiate Game-Specific State ---
-    const gameSettings = jsonData.settings?.[selectedPlayerId] || {};
-    const determinedGameName = gameSettings.game || this.gameId; // Prefer setting, fallback to game_name
+    const gameSettingsFromFile = jsonData.settings?.[selectedPlayerId] || {};
+    // Use this.gameId (now more reliably set) if gameSettingsFromFile.game is missing
+    const gameNameForStateAndHelpers = gameSettingsFromFile.game || this.gameId;
 
-    if (determinedGameName === 'Adventure') {
-      this.state = new GameState(determinedGameName); // Use GameState for Adventure
+    this._logDebug(
+      `[StateManager loadFromJSON] Instantiating state/helpers for game: "${gameNameForStateAndHelpers}" (derived from settings.game or this.gameId)`
+    );
+
+    if (gameNameForStateAndHelpers === 'Adventure') {
+      this.state = new GameState(gameNameForStateAndHelpers);
       console.log(
         '[StateManager loadFromJSON] GameState instantiated for Adventure.'
       );
-    } else if (determinedGameName === 'A Link to the Past') {
-      this.state = new ALTTPState(); // ALTTPState handles its own game name initialization
+    } else if (gameNameForStateAndHelpers === 'A Link to the Past') {
+      this.state = new ALTTPState();
       console.log(
         '[StateManager loadFromJSON] ALTTPState instantiated for A Link to the Past.'
       );
     } else {
-      // Fallback for other unknown games, using GameState
-      this.state = new GameState(determinedGameName);
+      this.state = new GameState(gameNameForStateAndHelpers);
       console.warn(
-        `[StateManager loadFromJSON] Unknown game '${determinedGameName}'. Using base GameState.`
+        `[StateManager loadFromJSON] Unknown game '${gameNameForStateAndHelpers}'. Using base GameState.`
       );
     }
-    this.state.loadSettings(gameSettings); // Load settings into the game-specific state instance
-    this.settings = this.state.settings; // Sync StateManager's settings with the game-specific state's settings
+    // Pass the settings FROM THE FILE to the state object.
+    // The state object's loadSettings should handle merging/applying these.
+    this.state.loadSettings(gameSettingsFromFile);
+    // After state.loadSettings, this.state.settings should be populated.
+    // Sync the StateManager's main settings reference to this.
+    this.settings = this.state.settings;
+
+    // CRITICAL: Ensure this.settings.game is aligned with the gameNameForStateAndHelpers
+    // This ensures helpers are chosen based on the game we just instantiated state for.
+    if (this.settings && typeof this.settings === 'object') {
+      // Ensure settings is an object
+      if (
+        !this.settings.game ||
+        this.settings.game !== gameNameForStateAndHelpers
+      ) {
+        this._logDebug(
+          `[StateManager loadFromJSON] Aligning this.settings.game to "${gameNameForStateAndHelpers}". Previous was: "${this.settings.game}"`
+        );
+        this.settings.game = gameNameForStateAndHelpers;
+      }
+    } else {
+      console.error(
+        '[StateManager loadFromJSON] this.settings is not an object after state.loadSettings. Re-initializing as empty object.'
+      );
+      this.settings = { game: gameNameForStateAndHelpers }; // Fallback
+    }
+    this._logDebug(
+      `[StateManager loadFromJSON] Effective this.settings.game for helper instantiation: "${this.settings.game}"`
+    );
 
     // --- ADDED DIAGNOSTIC ---
     if (this.settings === undefined) {
@@ -1725,7 +1816,7 @@ export class StateManager {
     // Update regions and UI
     this.invalidateCache();
     this.computeReachableRegions();
-    this.notifyUI('inventoryChanged');
+    // this.notifyUI('inventoryChanged'); // Commented out: Snapshot is requested by the worker command handler
   }
 
   /**
@@ -2921,5 +3012,149 @@ export class StateManager {
         '[StateManager initializeInventory CRITICAL] this.inventory is null/undefined before processing items!'
       );
     }
+  }
+
+  /**
+   * Evaluates location accessibility for a given test scenario.
+   * Temporarily sets inventory, evaluates, then restores original inventory.
+   * This method assumes the rules (staticData) have already been loaded for the current test set.
+   * @param {string} locationName - The name of the location to check.
+   * @param {string[]} requiredItems - Items to add for this test.
+   * @param {string[]} excludedItems - Items to ensure are not present for this test.
+   * @returns {boolean} - True if accessible, false otherwise.
+   */
+  evaluateAccessibilityForTest(
+    locationName,
+    requiredItems = [],
+    excludedItems = []
+  ) {
+    this._logDebug(
+      `[StateManager evaluateAccessibilityForTest] For: ${locationName}`,
+      { requiredItems, excludedItems }
+    );
+
+    if (!this.inventory || !this.locations || !this.itemData) {
+      console.error(
+        '[StateManager evaluateAccessibilityForTest] Core data (inventory, locations, itemData) not initialized.'
+      );
+      return false;
+    }
+
+    // 1. Save current inventory state
+    const originalInventoryItems = new Map(this.inventory.items);
+    const originalCheckedLocations = new Set(this.checkedLocations); // Save checked locations if they influence tests
+
+    let accessibilityResult = false;
+    try {
+      // 2. Clear current inventory and checked locations for the test scope
+      this.inventory.items.clear();
+      this.checkedLocations.clear(); // Tests usually start with no locations checked unless specified
+
+      // 3. Set up the temporary inventory for the test
+      // This logic is similar to initializeInventoryForTest but more focused on the items map
+      const itemsForTest = {}; // Build a simple { itemName: count } map
+
+      // Add items from itempool (respecting exclusions)
+      if (this.itempoolCounts) {
+        for (const item in this.itempoolCounts) {
+          if (excludedItems.includes(item)) continue;
+          if (
+            this.itemData[item]?.event ||
+            this.itemData[item]?.type === 'Event'
+          )
+            continue; // Skip event items from pool for test setup
+
+          // For progressive items in the pool, add the base progressive item name
+          let baseItemName = item;
+          // A simple check: if itemData for 'item' does not have max_count, it might be a tier.
+          // A more robust way is to check if 'item' is a value in any progressionMapping.
+          // For now, we assume itempoolCounts uses base progressive names.
+          // If `item` is 'Fighter Sword' and 'Progressive Sword' maps to it, we should add 'Progressive Sword'.
+          // This part is tricky and depends on how itempoolCounts and progressionMapping are structured.
+          // Assuming itempoolCounts uses base progressive item names for simplicity here.
+
+          itemsForTest[baseItemName] =
+            (itemsForTest[baseItemName] || 0) + this.itempoolCounts[item];
+        }
+      } else {
+        // Fallback: If no itempool, use all non-event, non-excluded items from itemData (typically 1 of each for testing)
+        for (const itemName in this.itemData) {
+          if (excludedItems.includes(itemName)) continue;
+          if (
+            this.itemData[itemName]?.event ||
+            this.itemData[itemName]?.type === 'Event'
+          )
+            continue;
+          itemsForTest[itemName] = (itemsForTest[itemName] || 0) + 1;
+        }
+      }
+
+      // Add required items, ensuring they override any pool/default setup
+      requiredItems.forEach((item) => {
+        // For progressive items, requiredItems should list the base progressive name.
+        itemsForTest[item] = (itemsForTest[item] || 0) + 1; // Or set to specific count if needed
+      });
+
+      // Apply this test-specific inventory to this.inventory.items
+      for (const itemName in itemsForTest) {
+        const count = itemsForTest[itemName];
+        for (let i = 0; i < count; i++) {
+          this.inventory.addItem(itemName); // addItem handles progressive logic
+        }
+      }
+
+      this._logDebug(
+        '[StateManager evaluateAccessibilityForTest] Temporary inventory set:',
+        this.inventory.items
+      );
+
+      // 4. Invalidate cache and recompute reachability based on temporary inventory
+      this.invalidateCache();
+      this.computeReachableRegions();
+      this._logDebug(
+        '[StateManager evaluateAccessibilityForTest] Reachability recomputed for test inventory.'
+      );
+
+      // 5. Find the location object (worker has its own this.locations)
+      const locationObject = this.locations.find(
+        (loc) => loc.name === locationName
+      );
+      if (!locationObject) {
+        console.warn(
+          `[StateManager evaluateAccessibilityForTest] Location object not found: ${locationName}`
+        );
+        return false; // Location itself doesn't exist in current rules
+      }
+
+      // 6. Evaluate accessibility using the worker's internal methods
+      accessibilityResult = this.isLocationAccessible(locationObject); // This uses the worker's engine and processed rules
+      this._logDebug(
+        `[StateManager evaluateAccessibilityForTest] Evaluation for "${locationName}" result: ${accessibilityResult}`
+      );
+    } catch (error) {
+      console.error(
+        `[StateManager evaluateAccessibilityForTest] Error during evaluation for "${locationName}":`,
+        error
+      );
+      accessibilityResult = false;
+    } finally {
+      // 7. Restore original inventory and checked locations
+      this.inventory.items = originalInventoryItems;
+      this.checkedLocations = originalCheckedLocations;
+      this._logDebug(
+        '[StateManager evaluateAccessibilityForTest] Original inventory and checked locations restored.'
+      );
+
+      // 8. Invalidate cache and recompute reachability for the original state
+      this.invalidateCache();
+      this.computeReachableRegions(); // This will recompute based on the restored inventory
+      this._logDebug(
+        '[StateManager evaluateAccessibilityForTest] Reachability recomputed for original state.'
+      );
+      // A snapshot update might be sent here if other parts of the system listen, but for a test, it's usually not the focus.
+      // The worker does not proactively send snapshots unless a command like getSnapshot is called or an item is added/checked *permanently*.
+    }
+
+    return accessibilityResult;
   }
 }

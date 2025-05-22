@@ -1,46 +1,48 @@
-import commonUI from '../commonUI/index.js';
+// frontend/modules/testCases/testCaseUI.js
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import eventBus from '../../app/core/eventBus.js'; // ADDED: Static import
-// import { TestCase } from '../../tests/TestCase.js'; // Removed unused import
+import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import eventBus from '../../app/core/eventBus.js';
+import * as commonUI from '../commonUI/index.js'; // Changed path for renderLogicTree
 
 export class TestCaseUI {
   constructor(container, componentState) {
-    // MODIFIED: GL constructor
-    this.container = container; // ADDED
-    this.componentState = componentState; // ADDED
+    this.container = container;
+    this.componentState = componentState;
 
-    this.testCases = null;
-    this.testRules = null;
-    this.currentTest = null;
-    this.availableTestSets = null;
-    this.currentTestSet = null;
-    this.currentFolder = null;
+    this.availableTestSets = null; // Loaded from test_files.json
+    this.currentTestSet = null; // Name of the currently selected test set file (e.g., "TestLightWorld")
+    this.currentFolder = null; // Name of the folder for the current test set (e.g., "vanilla")
+    this.testCases = null; // Loaded from _tests.json for the currentTestSet
+    this.currentTestRules = null; // Loaded from _rules.json for the currentFolder
+
     this.initialized = false;
-    this.testCasesListContainer = null;
-    this.viewChangeSubscription = null;
-    this.eventBus = eventBus; // MODIFIED: Use statically imported eventBus
-    this.rootElement = null; // Added
+    this.testCasesListContainer = null; // Will hold the list of test cases
+    this.viewChangeSubscription = null; // For ui:fileViewChanged
+    this.eventBus = eventBus; // Using the imported singleton
+    this.rootElement = null; // Root DOM element for this panel
+    this.rulesLoadedForSet = false; // Flag: true if currentTestRules are loaded in StateManager
 
-    // Create and append root element immediately
-    this.getRootElement(); // This creates this.rootElement and this.testCasesListContainer
+    // Create root element and initial structure
+    this.getRootElement(); // This also sets this.testCasesListContainer
     if (this.rootElement) {
       this.container.element.appendChild(this.rootElement);
     } else {
       console.error('[TestCaseUI] Root element not created in constructor!');
     }
 
-    // Defer the rest of initialization
+    // Defer full data loading and event subscriptions
     const readyHandler = (eventPayload) => {
       console.log(
-        '[TestCaseUI] Received app:readyForUiDataLoad. Initializing test cases.'
+        '[TestCaseUI] Received app:readyForUiDataLoad. Initializing test cases UI.'
       );
-      this.initialize();
+      this.initialize(); // This will fetch test_files.json and subscribe to events
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
     eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
 
+    // GoldenLayout destroy listener
     this.container.on('destroy', () => {
-      // ADDED: Ensure cleanup
       this.dispose();
     });
   }
@@ -49,83 +51,62 @@ export class TestCaseUI {
     if (!this.rootElement) {
       this.rootElement = document.createElement('div');
       this.rootElement.id = 'test-cases-panel';
-      this.rootElement.classList.add('panel-container');
+      this.rootElement.classList.add('panel-container'); // General panel styling
       this.rootElement.style.height = '100%';
       this.rootElement.style.overflowY = 'auto';
-      // Add the inner container
-      this.rootElement.innerHTML =
-        '<div id="test-cases-list">Loading test sets...</div>';
-      this.testCasesListContainer =
-        this.rootElement.querySelector('#test-cases-list');
+      this.rootElement.style.display = 'flex';
+      this.rootElement.style.flexDirection = 'column';
+
+      // Initial content will be the test set selector or loading message
+      const listContainer = document.createElement('div');
+      listContainer.id = 'test-cases-list'; // This will be updated by renderTestSetSelector or renderTestCasesList
+      listContainer.style.flexGrow = '1';
+      listContainer.style.overflowY = 'auto';
+      listContainer.innerHTML = '<p>Loading test case options...</p>';
+
+      this.rootElement.appendChild(listContainer);
+      this.testCasesListContainer = listContainer;
     }
     return this.rootElement;
   }
 
-  async initialize(/* container removed */) {
-    // Ensure root element and inner container are created
-    // this.getRootElement(); // Already called in constructor
-
-    if (!this.testCasesListContainer) {
-      console.error(
-        'TestCaseUI: Could not find #test-cases-list container during initialization.'
-      );
-      this.initialized = false;
-      return false;
+  async initialize() {
+    if (this.initialized) {
+      console.log('[TestCaseUI] Already initialized.');
+      return true;
     }
+    console.log('[TestCaseUI] Initializing...');
 
-    // Initialized is now set after async fetch completes
-    this.initialized = false;
-
-    // --- EventBus Subscription (using statically imported eventBus) ---
-    if (this.eventBus) {
-      // Unsubscribe first if already subscribed (e.g., re-initialization)
-      if (this.viewChangeSubscription) {
-        this.viewChangeSubscription(); // This should be a function returned by eventBus.subscribe
-      }
-      // Subscribe to view changes using the stored instance
+    // Subscribe to view changes
+    if (this.eventBus && !this.viewChangeSubscription) {
       this.viewChangeSubscription = this.eventBus.subscribe(
         'ui:fileViewChanged',
         (data) => {
           if (data.newView !== 'test-cases') {
+            // Ensure this matches the ID used in FilesUI
             console.log('[TestCaseUI] View changed away, clearing test data.');
-            this.clearTestData();
+            this.clearDisplayAndState();
           }
         }
       );
-    } else {
-      console.error('[TestCaseUI] eventBus not available for subscription.');
     }
-    // --- End Event Subscription ---
 
     try {
-      // Load the test_files.json asynchronously
-      fetch('./tests/test_files.json')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          this.availableTestSets = data;
-          this.renderTestSetSelector();
-          this.initialized = true; // Set initialized after successful load
-          console.log('[TestCaseUI] Initialized successfully.');
-        })
-        .catch((error) => {
-          console.error('Error loading test sets data:', error);
-          if (this.testCasesListContainer) {
-            this.testCasesListContainer.innerHTML = `<div class="error">Error loading test sets: ${error.message}</div>`;
-          }
-          this.initialized = false;
-        });
-
-      return true; // Indicate setup started
+      const response = await fetch('./tests/test_files.json');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      this.availableTestSets = await response.json();
+      this.renderTestSetSelector(); // Display the list of available test sets
+      this.initialized = true;
+      console.log(
+        '[TestCaseUI] Initialization complete. Test set selector rendered.'
+      );
+      return true;
     } catch (error) {
-      // Catch potential errors during setup (less likely now)
-      console.error('Error setting up test sets loading:', error);
+      console.error('Error loading test_files.json:', error);
       if (this.testCasesListContainer) {
-        this.testCasesListContainer.innerHTML = `<div class="error">Error initializing test sets: ${error.message}</div>`;
+        this.testCasesListContainer.innerHTML = `<div class="error-message">Error loading test sets: ${error.message}</div>`;
       }
       this.initialized = false;
       return false;
@@ -133,507 +114,169 @@ export class TestCaseUI {
   }
 
   renderTestSetSelector() {
-    const container = this.testCasesListContainer;
-    if (!container) {
-      console.error(
-        'Test cases list container not found for renderTestSetSelector'
+    if (!this.testCasesListContainer) return;
+    this.testCasesListContainer.innerHTML = ''; // Clear previous content
+
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'test-header'; // Use general .test-header for styling
+    headerDiv.innerHTML = '<h3>Select a Test Set</h3>';
+    this.testCasesListContainer.appendChild(headerDiv);
+
+    const setsContainer = document.createElement('div');
+    setsContainer.className = 'test-sets-container'; // For styling the list of sets
+
+    if (
+      !this.availableTestSets ||
+      Object.keys(this.availableTestSets).length === 0
+    ) {
+      setsContainer.innerHTML = '<p>No test sets found in test_files.json.</p>';
+    } else {
+      Object.entries(this.availableTestSets).forEach(
+        ([folderName, testSetsInFolder]) => {
+          const folderDiv = document.createElement('div');
+          folderDiv.className = 'test-folder';
+          folderDiv.innerHTML = `<h4 class="folder-name">${this.escapeHtml(
+            folderName.replace(/([A-Z0-9])/g, ' $1').trim()
+          )}</h4>`;
+
+          const folderSetsDiv = document.createElement('div');
+          folderSetsDiv.className = 'folder-test-sets';
+
+          Object.entries(testSetsInFolder).forEach(
+            ([testSetName, isEnabled]) => {
+              if (isEnabled) {
+                const displayName = testSetName
+                  .replace(/^test/, '')
+                  .replace(/([A-Z])/g, ' $1')
+                  .trim();
+                const button = document.createElement('button');
+                button.className = 'test-set-button button'; // Added .button for general styling
+                button.dataset.folder = folderName;
+                button.dataset.testset = testSetName;
+                button.textContent = this.escapeHtml(displayName);
+                button.title = `Load test set: ${displayName}`;
+                button.addEventListener('click', () =>
+                  this.selectTestSet(folderName, testSetName)
+                );
+                folderSetsDiv.appendChild(button);
+              }
+            }
+          );
+          folderDiv.appendChild(folderSetsDiv);
+          setsContainer.appendChild(folderDiv);
+        }
       );
-      return;
     }
-
-    if (!this.availableTestSets) {
-      container.innerHTML = '<p>Loading test set list...</p>';
-      console.warn(
-        'renderTestSetSelector called before availableTestSets was loaded.'
-      );
-      return;
-    }
-
-    // Create a header
-    let html = `
-      <div class="test-header">
-        <h3>Select a Test Set</h3>
-      </div>
-      <div class="test-sets-container">
-    `;
-
-    // Process each folder of test sets
-    Object.entries(this.availableTestSets).forEach(([folderName, testSets]) => {
-      // Create a section for each folder
-      html += `
-        <div class="test-folder">
-          <h4 class="folder-name">${this.escapeHtml(
-            folderName.replace(/([A-Z])/g, ' $1').trim()
-          )}</h4>
-          <div class="folder-test-sets">
-      `;
-
-      // Add all test sets in this folder
-      Object.entries(testSets).forEach(([testSetName, isEnabled]) => {
-        if (isEnabled) {
-          const displayName = testSetName
-            .replace(/^test/, '')
-            .replace(/([A-Z])/g, ' $1')
-            .trim();
-
-          html += `
-            <button class="test-set-button" 
-                    data-folder="${this.escapeHtml(folderName)}" 
-                    data-testset="${this.escapeHtml(testSetName)}">
-              ${this.escapeHtml(displayName)}
-            </button>
-          `;
-        }
-      });
-
-      // Close the folder section
-      html += `
-          </div>
-        </div>
-      `;
-    });
-
-    // Close the container
-    html += '</div>';
-
-    // Add styles for the test set selector
-    html += `
-      <style>
-        .test-sets-container {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-          margin-top: 16px;
-        }
-        .test-folder {
-          background-color: rgba(0, 0, 0, 0.1);
-          border-radius: 8px;
-          padding: 16px;
-          margin-bottom: 16px;
-        }
-        .folder-name {
-          margin-top: 0;
-          margin-bottom: 16px;
-          color: #ddd;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-          padding-bottom: 8px;
-          text-transform: capitalize;
-        }
-        .folder-test-sets {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          gap: 12px;
-        }
-        .test-set-button {
-          background-color: rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 6px;
-          color: white;
-          cursor: pointer;
-          padding: 10px;
-          text-align: left;
-          transition: background-color 0.2s;
-        }
-        .test-set-button:hover {
-          background-color: rgba(0, 0, 0, 0.5);
-        }
-      </style>
-    `;
-
-    // Set the HTML content
-    container.innerHTML = html;
-
-    // Add event listeners to the test set buttons
-    const buttons = container.querySelectorAll('.test-set-button');
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const folder = button.getAttribute('data-folder');
-        const testSet = button.getAttribute('data-testset');
-        console.log(`Loading test set ${testSet} from folder ${folder}`);
-        this.currentFolder = folder;
-        this.loadTestSet(testSet);
-      });
-    });
+    this.testCasesListContainer.appendChild(setsContainer);
   }
 
-  loadTestSet(testSetName) {
+  async selectTestSet(folderName, testSetName) {
+    this.currentFolder = folderName;
+    this.currentTestSet = testSetName;
+    this.rulesLoadedForSet = false; // Mark as not loaded until confirmed by worker
+    this.logToPanel(
+      `Selecting test set: "${testSetName}" from folder "${folderName}". Loading associated rules...`
+    );
+
+    if (this.testCasesListContainer)
+      this.testCasesListContainer.innerHTML = '<p>Loading test set data...</p>';
+
     try {
-      const container = this.testCasesListContainer;
-      if (container) {
-        container.innerHTML = '<p>Loading test set...</p>';
-      }
-
-      // Use synchronous XMLHttpRequest to load the test files
-      const loadJSON = (url) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, false); // false makes it synchronous
-        xhr.send();
-        if (xhr.status === 200) {
-          return JSON.parse(xhr.responseText);
-        } else {
-          throw new Error(`Failed to load ${url}: ${xhr.status}`);
-        }
-      };
-
-      // Construct folder path if we have a current folder
       const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
-
-      // Load the test rules based on the folder name, not the test set name
-      this.testRules = loadJSON(
+      const rulesResponse = await fetch(
         `./tests/${folderPath}${this.currentFolder}_rules.json`
       );
+      if (!rulesResponse.ok)
+        throw new Error(`Failed to load rules for ${this.currentFolder}`);
+      this.currentTestRules = await rulesResponse.json(); // Store raw rules for modal display
 
-      // Load the test cases based on the test set name (unchanged)
-      this.testCases = loadJSON(
+      const testsResponse = await fetch(
         `./tests/${folderPath}${testSetName}_tests.json`
       );
-      this.currentTestSet = testSetName;
+      if (!testsResponse.ok)
+        throw new Error(`Failed to load tests for ${testSetName}`);
+      this.testCases = await testsResponse.json();
 
-      // Render the list of test cases
-      this.renderTestCasesList();
-      this.updateDataSourceIndicator();
-
-      // Automatically trigger the "Reload Test Data" button after rendering
-      setTimeout(() => {
-        const loadDataButton = container?.querySelector('#load-test-data');
-        if (loadDataButton) {
-          loadDataButton.click();
-        }
-      }, 100);
-
-      // Update state manager
-      stateManager.loadFromJSON(this.testRules, '1'); // Always use Player 1 for tests
-
-      // Publish notification using the dynamically imported eventBus
-      if (this.eventBus) {
-        this.eventBus.publish('ui:notification', {
-          type: 'info',
-          message: `Test rules reloaded from ${this.currentTestSet}`,
-        });
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Failed to load test set:', error);
-      const container = this.testCasesListContainer;
-      if (container) {
-        container.innerHTML = `
-          <div class="error">
-            <h3>Error Loading Test Set</h3>
-            <p>${error.message}</p>
-            <button id="back-to-test-sets" class="button">Back to Test Sets</button>
-          </div>
-        `;
-
-        // Add event listener for the back button
-        const backButton = container.querySelector('#back-to-test-sets');
-        if (backButton) {
-          backButton.onclick = () => this.renderTestSetSelector();
-        }
-      }
-      return false;
-    }
-  }
-
-  clearTestData() {
-    this.testCases = null;
-    this.testRules = null;
-    this.currentTestSet = null;
-    this.currentFolder = null;
-    this.testStateInitialized = false;
-
-    // Return to the test set selector
-    this.renderTestSetSelector();
-
-    // If the test data was loaded in the game UI, clear it
-    if (this.isUsingTestData()) {
-      this.gameUI.clearExistingData();
-      this.gameUI.initializeUI(this.gameUI.defaultRules, '1');
-    }
-
-    // Publish completion using the dynamically imported eventBus
-    if (this.eventBus) {
-      this.eventBus.publish('ui:notification', {
-        type: 'success',
-        message: `All ${this.testCases?.length || 0} tests completed. Passed: ${
-          this.passed || 0
-        }, Failed: ${this.failed || 0}`,
-      });
-    }
-  }
-
-  loadTestCase(testData, statusElement) {
-    try {
-      statusElement.textContent = 'Loading test...';
-      const [location, expectedResult, requiredItems = [], excludedItems = []] =
-        testData;
-
-      // Make sure we're using test data
-      if (!this.testRules) {
-        statusElement.innerHTML = `<div class="test-error">Error: No test rules loaded</div>`;
-        return false;
-      }
-
-      // Debug log the test rules data
-      console.log('Test rules data structure:', {
-        hasItemPoolCounts: Boolean(this.testRules.itempool_counts),
-        itemPoolCountsKeys: this.testRules.itempool_counts
-          ? Object.keys(this.testRules.itempool_counts)
-          : [],
-      });
-
-      // Ensure testRules has all required properties
-      if (!this.testRules.regions || !this.testRules.regions['1']) {
-        console.error('Invalid rules data - missing regions:', this.testRules);
-        statusElement.innerHTML = `<div class="test-error">Error: Invalid rules data structure</div>`;
-        return false;
-      }
-
-      // First initialize inventory with the test rules data
-      console.log('Loading rules data into state manager');
-      stateManager.loadFromJSON(this.testRules, '1');
-
-      // Verify state manager was properly initialized
-      if (
-        !stateManager.regions ||
-        Object.keys(stateManager.regions).length === 0
-      ) {
-        console.error('State manager not properly initialized with regions');
-        statusElement.innerHTML = `<div class="test-error">Error: State manager initialization failed</div>`;
-        return false;
-      }
-
-      // Then set up the test case inventory state
-      console.log('Setting up test inventory with:', {
-        requiredItems,
-        excludedItems,
-      });
-      try {
-        stateManager.initializeInventoryForTest(requiredItems, excludedItems);
-      } catch (inventoryError) {
-        console.error('Error initializing inventory:', inventoryError);
-        statusElement.innerHTML = `<div class="test-error">Error: ${inventoryError.message}</div>`;
-        return false;
-      }
-
-      // Force UI sync and cache invalidation - with additional error handling
-      try {
-        console.log('Invalidating cache and computing reachable regions');
-        stateManager.invalidateCache();
-        stateManager.computeReachableRegions();
-      } catch (reachabilityError) {
-        console.error('Error computing reachability:', reachabilityError);
-        statusElement.innerHTML = `<div class="test-error">Error: ${reachabilityError.message}</div>`;
-        return false;
-      }
-
-      // Find the location data in the rules and include its region
-      let locationData = null;
-      for (const [regionName, region] of Object.entries(
-        this.testRules.regions['1']
-      )) {
-        const loc = region.locations.find((l) => l.name === location);
-        if (loc) {
-          locationData = {
-            ...loc,
-            region: regionName,
-            player: region.player,
-          };
-          break;
-        }
-      }
-
-      if (!locationData) {
-        statusElement.innerHTML = `<div class="test-error">Error: Location "${location}" not found</div>`;
-        return false;
-      }
-
-      // Check if location is accessible
-      const locationAccessible =
-        stateManager.isLocationAccessible(locationData);
-      const passed = locationAccessible === expectedResult;
-
-      // SAVE THE CURRENT INVENTORY STATE BEFORE PARTIAL TESTING
-      const saveInventoryState = () => {
-        // Create a deep copy of the current inventory state
-        const savedItems = new Map();
-        stateManager.inventory.items.forEach((count, item) => {
-          savedItems.set(item, count);
-        });
-        return savedItems;
-      };
-
-      // Save the inventory state after initial test
-      const savedInventory = saveInventoryState();
-
-      // If accessible and required items specified, also validate that all items are truly required
-      let validationFailed = null;
-      if (
-        passed &&
-        expectedResult &&
-        requiredItems.length > 0 &&
-        !excludedItems.length
-      ) {
-        for (const missingItem of requiredItems) {
-          // Create inventory without this item
-          stateManager.initializeInventoryForTest(
-            requiredItems.filter((item) => item !== missingItem),
-            excludedItems
-          );
-
-          // Check if still accessible
-          if (stateManager.isLocationAccessible(locationData)) {
-            validationFailed = missingItem;
-            break;
-          }
-        }
-      }
-
-      // RESTORE THE SAVED INVENTORY STATE
-      const restoreInventoryState = (savedItems) => {
-        // Clear the current inventory first
-        stateManager.inventory.items.forEach((_, item) => {
-          stateManager.inventory.items.set(item, 0);
-        });
-
-        // Restore the saved counts
-        savedItems.forEach((count, item) => {
-          stateManager.inventory.items.set(item, count);
-        });
-
-        // Force UI sync and cache invalidation
-        stateManager.invalidateCache();
-        stateManager.computeReachableRegions();
-      };
-
-      // Restore inventory state after all tests
-      restoreInventoryState(savedInventory);
-
-      // Force InventoryUI update AFTER restoring state
-      this.gameUI.inventoryUI?.syncWithState();
-
-      // Show appropriate result
-      if (validationFailed) {
-        statusElement.innerHTML = `<div class="test-failure">❌ FAIL: Accessible without ${validationFailed}</div>`;
-        return false;
-      } else {
-        statusElement.innerHTML = `<div class="${
-          passed ? 'test-success' : 'test-failure'
-        }">${passed ? '✓ PASS' : '❌ FAIL'}</div>`;
-        return passed;
-      }
-    } catch (error) {
-      console.error('Error loading test case:', error);
-      statusElement.innerHTML = `<div class="test-error">Error: ${error.message}</div>`;
-      return false;
-    }
-  }
-
-  isUsingTestData() {
-    return this.testRules && this.testRules === this.gameUI.currentRules;
-  }
-
-  updateDataSourceIndicator() {
-    const dataSourceElement =
-      this.testCasesListContainer?.querySelector('#data-source');
-    if (!dataSourceElement) return;
-
-    const isUsingTestData = this.isUsingTestData();
-    const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
-
-    // Update text and styling based on data source
-    dataSourceElement.textContent = isUsingTestData
-      ? `tests/${folderPath}${this.currentFolder}_rules.json`
-      : 'default_rules.json';
-
-    dataSourceElement.className = isUsingTestData
-      ? 'data-source-correct'
-      : 'data-source-wrong';
-  }
-
-  runAllTests() {
-    if (!this.testCases || !this.testCasesListContainer) {
-      console.error('No test cases loaded or container not found');
-      return;
-    }
-
-    console.log(`Running all ${Object.keys(this.testCases).length} tests...`);
-    const runAllButton =
-      this.testCasesListContainer.querySelector('#run-all-tests');
-    if (runAllButton) runAllButton.disabled = true;
-
-    let passed = 0;
-    let failed = 0;
-
-    try {
-      // Run each test with minimal delay to allow UI updates
-      for (const [index, testCase] of this.testCases.location_tests.entries()) {
-        const statusElement = this.testCasesListContainer.querySelector(
-          `#test-status-${index}`
-        );
-        if (statusElement) {
-          const result = this.loadTestCase(testCase, statusElement);
-          result ? passed++ : failed++;
-        }
-      }
-    } finally {
-      // Update results summary
-      const total = passed + failed;
-      const resultsElement = this.testCasesListContainer.querySelector(
-        '#test-results-summary'
+      this.logToPanel(
+        `Rules and test cases for "${testSetName}" fetched. Applying rules to StateManager worker...`
       );
-      if (resultsElement) {
-        resultsElement.innerHTML = `
-          <div class="test-summary ${
-            failed === 0 ? 'all-passed' : 'has-failures'
-          }">
-            Tests completed: ${total} total, 
-            <span class="passed">${passed} passed</span>, 
-            <span class="failed">${failed} failed</span>
-          </div>
-        `;
-      }
-      // Re-enable the button when done
-      if (runAllButton) {
-        runAllButton.disabled = false;
-        runAllButton.textContent = 'Run All Tests';
-      }
-    }
 
-    // Add debug button
-    this.addDebugButton();
-
-    // Publish completion using the dynamically imported eventBus
-    if (this.eventBus) {
-      this.eventBus.publish('ui:notification', {
-        type: 'success',
-        message: `All ${this.testCases.length} tests completed. Passed: ${passed}, Failed: ${failed}`,
+      // COMMAND 1: Send these specific rules to the worker
+      await stateManager.loadRules(this.currentTestRules, {
+        playerId: '1', // Or derive from rules if necessary
+        playerName: 'TestPlayer1',
       });
+
+      // Wait for worker to confirm rules are loaded and processed
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          unsub(); // Clean up listener
+          reject(
+            new Error(
+              'Timeout waiting for StateManager worker to confirm rules loaded.'
+            )
+          );
+        }, 5000); // 5-second timeout
+
+        const unsub = eventBus.subscribe(
+          'stateManager:rulesLoaded',
+          (eventPayload) => {
+            // Check if the loaded rules correspond to what we just sent (e.g., by gameId or a unique seed if available)
+            // For now, assume any rulesLoaded event after our command means our rules are active.
+            clearTimeout(timeout);
+            this.logToPanel(
+              `StateManager worker confirmed rules loaded for test set "${testSetName}". Static data in worker updated.`
+            );
+            this.rulesLoadedForSet = true; // Crucial flag
+            unsub();
+            resolve();
+          }
+        );
+      });
+
+      this.renderTestCasesList();
+      this.updateDataSourceIndicator(); // Update to show test-specific rules are active
+
+      this.eventBus.publish('ui:notification', {
+        type: 'info',
+        message: `Test set "${testSetName}" loaded. Rules are now active for testing.`,
+      });
+    } catch (error) {
+      this.logToPanel(
+        `Error loading test set "${testSetName}": ${error.message}`,
+        'error'
+      );
+      console.error(`Failed to load test set "${testSetName}":`, error);
+      this.renderTestSetSelector();
     }
   }
 
   renderTestCasesList() {
-    const container = this.testCasesListContainer;
-    if (!container) {
-      console.error(
-        'Test cases list container not found for renderTestCasesList'
-      );
+    if (
+      !this.testCasesListContainer ||
+      !this.testCases ||
+      !this.testCases.location_tests
+    ) {
+      if (this.testCasesListContainer)
+        this.testCasesListContainer.innerHTML =
+          '<p>No test cases to display or error loading tests.</p>';
       return;
     }
+    this.testCasesListContainer.innerHTML = ''; // Clear previous content
 
-    // Format folder and test set names for display
+    // Header for the current test set
     const folderDisplay = this.currentFolder
-      ? this.escapeHtml(this.currentFolder.replace(/([A-Z])/g, ' $1').trim())
+      ? this.escapeHtml(this.currentFolder.replace(/([A-Z0-9])/g, ' $1').trim())
       : '';
+    const testSetDisplay = this.currentTestSet
+      ? this.escapeHtml(
+          this.currentTestSet
+            .replace(/^test/, '')
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+        )
+      : 'Unknown Test Set';
 
-    const testSetDisplay = this.escapeHtml(
-      this.currentTestSet
-        .replace(/^test/, '')
-        .replace(/([A-Z])/g, ' $1')
-        .trim()
-    );
-
-    // --- Header and Controls --- (Keep as HTML string for simplicity)
     let headerHtml = `
       <div class="test-header">
         <div class="test-header-row">
@@ -648,19 +291,18 @@ export class TestCaseUI {
           <button id="back-to-test-sets" class="button">Back to Test Sets</button>
         </div>
         <div class="test-controls">
-          <button id="load-test-data" class="button">Reload Test Data</button>
-          <button id="run-all-tests" class="button">Run All Tests</button>
+          <!-- Removed "Reload Test Data" button, rule loading is now part of selectTestSet -->
+          <button id="run-all-tests" class="button">Run All Tests for "${testSetDisplay}"</button>
         </div>
-        <div id="data-source-info" class="data-source-info">
-          Current data source: <span id="data-source" class="data-source-wrong">default_rules.json</span>
-        </div>
+        <div id="data-source-info" class="data-source-info">Current data source: <span id="data-source"></span></div>
         <div id="test-results-summary"></div>
       </div>
     `;
+    this.testCasesListContainer.insertAdjacentHTML('beforeend', headerHtml);
 
-    // --- Table Creation (Programmatic) ---
     const table = document.createElement('table');
-    table.className = 'results-table';
+    table.className = 'results-table'; // From existing styles
+    // ... (thead creation as before) ...
     const thead = table.createTHead();
     const headerRow = thead.insertRow();
     [
@@ -673,454 +315,436 @@ export class TestCaseUI {
     ].forEach((text) => {
       const th = document.createElement('th');
       th.textContent = text;
-      if (text === 'Result') {
-        th.style.minWidth = '100px';
-      }
+      if (text === 'Result') th.style.minWidth = '150px'; // Ensure enough space for messages
       headerRow.appendChild(th);
     });
+    table.appendChild(thead);
 
-    const tbody = table.createTBody();
-    if (!this.testCases?.location_tests) {
-      // Handle error - maybe add a row indicating no tests loaded
-      const errorRow = tbody.insertRow();
-      const cell = errorRow.insertCell();
-      cell.colSpan = 6;
-      cell.textContent = 'Error: Test cases not loaded';
-    } else {
-      this.testCases.location_tests.forEach((testCase, index) => {
-        const [
-          location,
-          expectedResult,
-          requiredItems = [],
-          excludedItems = [],
-        ] = testCase;
-        const statusId = `test-status-${index}`;
-        const row = tbody.insertRow();
-        row.className = 'test-case-row';
+    const tbody = document.createElement('tbody');
+    this.testCases.location_tests.forEach((testCaseData, index) => {
+      const [
+        locationName,
+        expectedResult,
+        requiredItems = [],
+        excludedItems = [],
+      ] = testCaseData;
+      const row = tbody.insertRow();
+      row.className = 'test-case-row';
 
-        // Location Cell (Using commonUI.createLocationLink)
-        const locationCell = row.insertCell();
-        let locationRegion = '';
-        if (this.testRules) {
-          // Simplified region finding logic
-          locationRegion =
-            Object.keys(this.testRules.regions['1']).find((regionName) =>
-              this.testRules.regions['1'][regionName].locations.some(
-                (loc) => loc.name === location
-              )
-            ) || '';
-        }
-        if (locationRegion) {
-          // Explicitly disable colorblind mode for test case links
-          const locLink = commonUI.createLocationLink(
-            location,
-            locationRegion,
-            false
-          );
-          locationCell.appendChild(locLink);
-        } else {
-          locationCell.textContent = this.escapeHtml(location);
-        }
+      const locationCell = row.insertCell();
+      // Create a simple span for location, linking can be complex without region context here
+      locationCell.textContent = this.escapeHtml(locationName);
 
-        // Other Cells (Keep simple text for now)
-        row.insertCell().textContent = expectedResult ? 'Yes' : 'No';
-        row.insertCell().innerHTML = requiredItems.length
-          ? this.formatItemsList(requiredItems)
-          : 'None';
-        row.insertCell().innerHTML = excludedItems.length
-          ? this.formatItemsList(excludedItems)
-          : 'None';
+      row.insertCell().textContent = expectedResult ? 'Yes' : 'No';
+      row.insertCell().innerHTML = requiredItems.length
+        ? this.formatItemsList(requiredItems)
+        : 'None';
+      row.insertCell().innerHTML = excludedItems.length
+        ? this.formatItemsList(excludedItems)
+        : 'None';
 
-        // Actions Cell
-        const actionCell = row.insertCell();
-        const runButton = document.createElement('button');
-        runButton.className = 'button run-test';
-        runButton.dataset.testIndex = index;
-        runButton.textContent = 'Run Test';
-        actionCell.appendChild(runButton);
-
-        // Result Cell
-        const resultCell = row.insertCell();
-        const statusDiv = document.createElement('div');
-        statusDiv.className = 'test-status';
-        statusDiv.id = statusId;
-        resultCell.appendChild(statusDiv);
+      const actionCell = row.insertCell();
+      const runButton = document.createElement('button');
+      runButton.className = 'button run-test';
+      runButton.textContent = 'Run';
+      runButton.addEventListener('click', async () => {
+        const statusDiv = row.querySelector(`#test-status-${index}`);
+        if (statusDiv) await this.loadTestCase(testCaseData, statusDiv);
       });
-    }
+      actionCell.appendChild(runButton);
 
-    // --- Append Table and Download Links --- (Keep as HTML strings)
+      const resultCell = row.insertCell();
+      const statusDiv = document.createElement('div');
+      statusDiv.className = 'test-status';
+      statusDiv.id = `test-status-${index}`;
+      statusDiv.textContent = 'Pending'; // Initial status
+      resultCell.appendChild(statusDiv);
+    });
+    table.appendChild(tbody);
+    this.testCasesListContainer.appendChild(table);
+
+    // Add Download Links
     const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
     const linksHtml = `
-      <div class="test-links">
-        <a href="./tests/${folderPath}${this.currentFolder}_rules.json" 
-           download 
-           target="_blank" 
-           class="download-link">
-          Download Rules
-        </a>
-        <a href="./tests/${folderPath}${this.currentTestSet}_tests.json" 
-           download 
-           target="_blank" 
-           class="download-link">
-          Download Tests
-        </a>
-      </div>
-    `;
+      <div class="test-links" style="margin-top: 1rem;">
+        <a href="./tests/${folderPath}${this.currentFolder}_rules.json" download target="_blank" class="download-link button">Download Rules Used</a>
+        <a href="./tests/${folderPath}${this.currentTestSet}_tests.json" download target="_blank" class="download-link button">Download This Test Case File</a>
+      </div>`;
+    this.testCasesListContainer.insertAdjacentHTML('beforeend', linksHtml);
 
-    // --- Styles --- (Keep as HTML string)
-    const stylesHtml = `
-      <style>
-        .test-header {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          margin-bottom: 1rem;
-        }
-        .test-header-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .test-header h3 {
-          margin: 0;
-        }
-        .test-controls {
-          display: flex;
-          gap: 1rem;
-        }
-        .data-source-info {
-          font-size: 0.9em;
-          color: #666;
-          margin-top: 0.5rem;
-        }
-        .results-table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-top: 20px;
-        }
-        .results-table th, .results-table td {
-          border: 1px solid #444;
-          padding: 8px;
-          text-align: left;
-        }
-        .results-table th {
-          background-color: #333;
-          color: #cecece;
-        }
-        .test-case-row:nth-child(even) {
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-        .test-case-row:hover {
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-        .test-status {
-          white-space: nowrap;
-          font-size: 0.9em;
-        }
-        .test-success, .test-failure, .test-error {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          padding: 4px 8px;
-          border-radius: 4px;
-        }
-        .test-success {
-          color: #4caf50;
-        }
-        .test-failure {
-          color: #f44336;
-        }
-        .test-error {
-          color: #ff9800;
-        }
-        .data-source-wrong {
-          color: #f44336;
-        }
-        .data-source-correct {
-          color: #4caf50;
-        }
-        .test-summary {
-          margin-top: 0.5rem;
-          padding: 8px;
-          border-radius: 4px;
-          background: rgba(0, 0, 0, 0.1);
-        }
-        .test-summary.all-passed {
-          background: rgba(76, 175, 80, 0.1);
-        }
-        .test-summary.has-failures {
-          background: rgba(244, 67, 54, 0.1);
-        }
-        .test-summary .passed {
-          color: #4caf50;
-        }
-        .test-summary .failed {
-          color: #f44336;
-        }
-        .highlight-location {
-          animation: highlight-animation 2s;
-        }
-        .folder-label {
-          color: rgba(255, 255, 255, 0.7);
-          font-weight: normal;
-          text-transform: capitalize;
-        }
-        .test-header-row h3 {
-          margin: 0;
-          display: flex;
-          align-items: baseline;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-        .test-case {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 8px 0;
-        }
-        .test-case:last-child {
-          border-bottom: none;
-        }
-        .test-case-header {
-          cursor: pointer;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 8px;
-          background-color: rgba(0, 0, 0, 0.1);
-          border-radius: 4px;
-        }
-        .test-case.expanded .test-case-header {
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-        .test-details {
-          padding: 12px;
-          background-color: rgba(0, 0, 0, 0.05);
-          border-bottom-left-radius: 4px;
-          border-bottom-right-radius: 4px;
-          display: none;
-          overflow: hidden;
-        }
-        .test-case.expanded .test-details {
-          display: block;
-        }
-        .items-list {
-          margin: 4px 0;
-          padding-left: 24px;
-        }
-        .items-list li {
-          margin-bottom: 2px;
-        }
-        .passed {
-          color: #4CAF50;
-        }
-        .failed {
-          color: #F44336;
-        }
-      </style>
-    `;
+    // Attach event listeners for new buttons
+    this.testCasesListContainer
+      .querySelector('#back-to-test-sets')
+      .addEventListener('click', () => {
+        this.clearDisplayAndState(); // Clear current test set specific data
+        this.renderTestSetSelector(); // Go back to selection screen
+      });
+    this.testCasesListContainer
+      .querySelector('#run-all-tests')
+      .addEventListener('click', () => this.runAllTests());
 
-    container.innerHTML = ''; // Clear completely first
-    container.innerHTML = headerHtml; // Add back the header HTML
-    container.appendChild(table); // Append the programmatically created table
-    container.insertAdjacentHTML('beforeend', linksHtml); // Add download links
-    container.insertAdjacentHTML('beforeend', stylesHtml); // Add styles
+    this.updateDataSourceIndicator(); // Update based on currently loaded rules
+  }
 
-    // Attach event listener for the back button
-    const backButton = container.querySelector('#back-to-test-sets');
-    if (backButton) {
-      backButton.addEventListener('click', () => this.clearTestData());
+  async loadTestCase(testData, statusElement) {
+    if (!this.rulesLoadedForSet) {
+      // Check the flag
+      statusElement.innerHTML = `<div class="test-error">Error: Rules for the current test set ("${this.currentTestSet}") are not yet active in the worker. Please re-select the test set or wait.</div>`;
+      this.logToPanel(
+        'Attempted to run test case, but rules for the current set are not confirmed loaded in StateManager.',
+        'error'
+      );
+      return false;
     }
 
-    // Attach event listeners for run test buttons
-    container.querySelectorAll('.run-test').forEach((button) => {
-      const index = parseInt(button.dataset.testIndex, 10);
-      const testCase = this.testCases.location_tests[index];
-      const statusElement = container.querySelector(`#test-status-${index}`);
-      if (testCase && statusElement) {
-        button.onclick = () => {
-          // Run the test
-          const result = this.loadTestCase(testCase, statusElement);
+    statusElement.textContent = 'Sending test to worker...';
+    this.logToPanel(`Starting test: ${JSON.stringify(testData)}`);
+    const [
+      locationName,
+      expectedResult,
+      requiredItems = [],
+      excludedItems = [],
+    ] = testData;
 
-          // Update summary for a single test
-          const resultsElement = container.querySelector(
-            '#test-results-summary'
-          );
-          if (resultsElement) {
-            resultsElement.innerHTML = `
-              <div class="test-summary ${
-                result ? 'all-passed' : 'has-failures'
-              }">
-                Test completed: 
-                <span class="${result ? 'passed' : 'failed'}">${
-              result ? 'PASSED' : 'FAILED'
-            }</span>
-                (Location: ${testCase[0]})
-              </div>
-            `;
-          }
+    let passed = false;
+    let actualResultFromWorker;
 
-          // Add the debug button after running an individual test
-          this.addDebugButton();
+    try {
+      // COMMAND 2: Ask the worker to evaluate accessibility with the test-specific inventory
+      actualResultFromWorker =
+        await stateManager.evaluateLocationAccessibilityForTest(
+          locationName,
+          requiredItems,
+          excludedItems
+        );
 
-          return result;
-        };
+      if (typeof actualResultFromWorker !== 'boolean') {
+        throw new Error(
+          `Worker returned non-boolean result for accessibility: ${actualResultFromWorker}`
+        );
       }
-    });
 
-    // Re-attach Run All Tests button listener
-    const runAllButton = container.querySelector('#run-all-tests');
-    if (runAllButton) {
-      runAllButton.addEventListener('click', () => this.runAllTests());
-    }
+      this.logToPanel(
+        `Worker evaluation for "${locationName}": ${actualResultFromWorker}. Expected: ${expectedResult}`
+      );
+      passed = actualResultFromWorker === expectedResult;
 
-    // Re-attach test data loader listener
-    const loadDataButton = container.querySelector('#load-test-data');
-    if (loadDataButton) {
-      loadDataButton.addEventListener('click', () => {
-        const statusElement = container.querySelector('#test-results-summary');
-        statusElement.textContent = 'Loading test data...';
+      let finalMessage = `${
+        passed ? '✓ PASS' : '❌ FAIL'
+      } (Expected: ${expectedResult}, Actual from Worker: ${actualResultFromWorker})`;
+      statusElement.innerHTML = `<div class="${
+        passed ? 'test-success' : 'test-failure'
+      }">${finalMessage}</div>`;
+      this.logToPanel(`Test for ${locationName}: ${finalMessage}`);
 
-        try {
-          // Use synchronous XMLHttpRequest instead of fetch
-          const xhr = new XMLHttpRequest();
-
-          // Construct folder path if we have a current folder
-          const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
-
-          // Load the test rules based on the folder name, not the test set name
-          xhr.open(
-            'GET',
-            `./tests/${folderPath}${this.currentFolder}_rules.json`,
-            false
+      // Optional: Validation loop (can also use worker evaluation)
+      let validationPassed = true;
+      if (
+        passed &&
+        expectedResult === true &&
+        requiredItems.length > 0 &&
+        excludedItems.length === 0
+      ) {
+        this.logToPanel(
+          `Validating required items for ${locationName} using worker evaluation...`
+        );
+        statusElement.innerHTML += '<div>Validating required items...</div>';
+        for (const itemToRemove of requiredItems) {
+          const itemsForValidation = requiredItems.filter(
+            (item) => item !== itemToRemove
           );
-          xhr.send();
-
-          if (xhr.status !== 200) {
-            throw new Error(`HTTP error! status: ${xhr.status}`);
-          }
-
-          const jsonData = JSON.parse(xhr.responseText);
-
-          // Use gameUI's initialization code
-          this.gameUI.clearExistingData();
-          this.gameUI.initializeUI(jsonData, '1');
-          this.gameUI.currentRules = jsonData;
-
-          // Update test cases with synchronous request
-          const testXhr = new XMLHttpRequest();
-          testXhr.open(
-            'GET',
-            `./tests/${folderPath}${this.currentTestSet}_tests.json`,
-            false
-          );
-          testXhr.send();
-
-          if (testXhr.status === 200) {
-            this.testCases = JSON.parse(testXhr.responseText);
+          const validationResultFromWorker =
+            await stateManager.evaluateLocationAccessibilityForTest(
+              locationName,
+              itemsForValidation, // Exclude one required item
+              excludedItems
+            );
+          if (validationResultFromWorker) {
+            // Should be false if item is truly required
+            const validationFailedMessage = `FAIL: Worker reported still accessible without required item '${itemToRemove}'.`;
+            statusElement.innerHTML += `<div class="test-failure">${validationFailedMessage}</div>`;
+            this.logToPanel(validationFailedMessage, 'error');
+            validationPassed = false;
+            break;
           } else {
-            throw new Error(`Failed to load test cases: ${testXhr.status}`);
-          }
-
-          this.testRules = jsonData;
-
-          // Update UI and data source indicator
-          this.updateDataSourceIndicator();
-        } catch (error) {
-          console.error('Error loading test data:', error);
-          const dataSource = container.querySelector('#data-source');
-          if (dataSource) {
-            dataSource.innerHTML = `Error loading ${this.currentTestSet} test data: ${error.message}`;
-            dataSource.className = 'data-source-wrong';
-          }
-          const statusElement = container.querySelector(
-            '#test-results-summary'
-          );
-          if (statusElement) {
-            statusElement.innerHTML = `<div class="test-error">Error loading test data: ${error.message}</div>`;
+            this.logToPanel(
+              `Validation (Worker): Confirmed '${itemToRemove}' is required.`
+            );
           }
         }
-      });
+        if (validationPassed) {
+          statusElement.innerHTML += `<div class="test-success">All required items validated by worker.</div>`;
+          this.logToPanel(
+            `Required items validation passed (Worker) for ${locationName}.`
+          );
+        }
+      }
+      passed = passed && validationPassed; // Update overall pass status
+    } catch (error) {
+      console.error(
+        `Error running test case for "${locationName}" (worker evaluation):`,
+        error
+      );
+      const errorMessage = `Error during worker evaluation: ${error.message}`;
+      statusElement.innerHTML = `<div class="test-error">${this.escapeHtml(
+        errorMessage
+      )}</div>`;
+      this.logToPanel(
+        `Error for ${locationName} (worker): ${errorMessage}`,
+        'error'
+      );
+      passed = false;
+    }
+    return passed;
+  }
+
+  updateDataSourceIndicator() {
+    const dataSourceElement = this.rootElement.querySelector('#data-source');
+    if (!dataSourceElement) return;
+
+    if (this.currentTestSet && this.rulesLoadedForSet && this.currentFolder) {
+      const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+      dataSourceElement.textContent = `Active Rules: tests/${folderPath}${this.currentFolder}_rules.json (for Test Set: ${this.currentTestSet})`;
+      dataSourceElement.className = 'data-source-correct'; // Green
+    } else if (this.currentTestSet && !this.rulesLoadedForSet) {
+      dataSourceElement.textContent = `Rules for "${this.currentTestSet}" are NOT YET ACTIVE. Click "Load Test Set" again or re-select.`;
+      dataSourceElement.className = 'data-source-wrong'; // Red
+    } else {
+      dataSourceElement.textContent =
+        'Active Rules: default_rules.json (or as per current mode)';
+      dataSourceElement.className = 'data-source-wrong'; // Red
+    }
+  }
+
+  async runAllTests() {
+    // ... (same as your existing runAllTests, ensuring it uses the refactored loadTestCase) ...
+    // Key check:
+    if (!this.rulesLoadedForSet) {
+      this.logToPanel(
+        'Cannot run all tests: Rules for the current test set are not loaded. Please select a test set.',
+        'error'
+      );
+      const runAllButton =
+        this.testCasesListContainer.querySelector('#run-all-tests');
+      if (runAllButton) runAllButton.disabled = false; // Re-enable button
+      return;
+    }
+    // ... rest of the logic
+    if (
+      !this.testCases ||
+      !this.testCasesListContainer ||
+      !this.testCases.location_tests
+    ) {
+      this.logToPanel('No test cases loaded to run.', 'warn');
+      return;
     }
 
-    // Add event listeners for region and location links
-    setTimeout(() => {
-      /* // Manual listener removed - commonUI.createLocationLink handles this
-      container.querySelectorAll('.location-link').forEach((link) => {
-        e.stopPropagation(); // Prevent test case click
-        const locationName = link.dataset.location;
-        const regionName = link.dataset.region;
-        if (locationName && regionName && this.gameUI.regionUI) {
-          this.gameUI.regionUI.navigateToLocation(locationName, regionName);
+    this.logToPanel(
+      `Running all ${this.testCases.location_tests.length} tests for "${this.currentTestSet}"...`,
+      'system'
+    );
+    const runAllButton =
+      this.testCasesListContainer.querySelector('#run-all-tests');
+    if (runAllButton) {
+      runAllButton.disabled = true;
+      runAllButton.textContent = 'Running...';
+    }
+
+    let passedCount = 0;
+    let failedCount = 0;
+
+    try {
+      for (const [
+        index,
+        testCaseData,
+      ] of this.testCases.location_tests.entries()) {
+        const statusElement = this.testCasesListContainer.querySelector(
+          `#test-status-${index}`
+        );
+        if (statusElement) {
+          const result = await this.loadTestCase(testCaseData, statusElement);
+          result ? passedCount++ : failedCount++;
+          await new Promise((resolve) => setTimeout(resolve, 10)); // Small delay for UI updates
         }
-      });
-      */
-    }, 0);
+      }
+    } finally {
+      const total = passedCount + failedCount;
+      const resultsElement = this.testCasesListContainer.querySelector(
+        '#test-results-summary'
+      );
+      if (resultsElement) {
+        resultsElement.innerHTML = `<div class="test-summary ${
+          failedCount === 0 ? 'all-passed' : 'has-failures'
+        }">
+            Tests completed: ${total} total,
+            <span class="passed">${passedCount} passed</span>,
+            <span class="failed">${failedCount} failed</span>
+        </div>`;
+      }
+      if (runAllButton) {
+        runAllButton.disabled = false;
+        runAllButton.textContent = `Run All Tests for "${
+          this.currentTestSet
+            ? this.escapeHtml(
+                this.currentTestSet
+                  .replace(/^test/, '')
+                  .replace(/([A-Z])/g, ' $1')
+                  .trim()
+              )
+            : ''
+        }"`;
+      }
+      this.logToPanel(
+        `All tests for "${this.currentTestSet}" finished. Passed: ${passedCount}, Failed: ${failedCount}`,
+        failedCount === 0 ? 'success' : 'error'
+      );
+    }
   }
 
   formatItemsList(items) {
     if (!items || items.length === 0) return 'None';
-
-    return items
-      .map((item) => {
-        // Check if we know about this item - if so, make it clickable
-        if (this.gameUI.inventoryUI?.itemData?.[item]) {
-          return `<span class="item-link" data-item="${this.escapeHtml(
-            item
-          )}">${this.escapeHtml(item)}</span>`;
-        }
-        return this.escapeHtml(item);
-      })
-      .join(', ');
+    return items.map((item) => this.escapeHtml(item)).join(', ');
   }
 
   escapeHtml(unsafe) {
     if (unsafe === null || unsafe === undefined) return '';
     return unsafe
       .toString()
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+      .replace(/&/g, '&')
+      .replace(/</g, '<')
+      .replace(/>/g, '>')
+      .replace(/"/g, '"')
+      .replace(/'/g, "'");
   }
 
-  /**
-   * Adds a debug button to the test results summary panel
-   * This allows users to debug critical regions with a click
-   */
-  addDebugButton() {
-    const container = this.testCasesListContainer?.querySelector(
-      '#test-results-summary'
-    );
-    if (!container) return;
+  logToPanel(message, type = 'info') {
+    // This is a simplified logger. A more robust implementation might append to a specific log area.
+    console.log(`[TestCaseUI Panel Log - ${type}]: ${message}`);
+    // Optionally publish to a more general notification system if desired for certain types
+    if (type === 'error' || type === 'success') {
+      this.eventBus.publish('ui:notification', { type, message });
+    }
+  }
 
-    const debugButton = document.createElement('button');
-    debugButton.textContent = 'Debug Critical Regions';
-    debugButton.className = 'button';
-    debugButton.style.marginTop = '10px';
-    debugButton.style.backgroundColor = '#9c27b0';
-    debugButton.style.color = '#fff';
-
-    debugButton.addEventListener('click', () => {
-      stateManager.debugCriticalRegions();
-    });
-
-    container.appendChild(debugButton);
-    console.log('Debug button added to test UI');
+  clearDisplayAndState() {
+    this.currentTestSet = null;
+    this.currentFolder = null;
+    this.testCases = null;
+    this.currentTestRules = null;
+    this.rulesLoadedForSet = false;
+    if (this.testCasesListContainer) {
+      this.testCasesListContainer.innerHTML =
+        '<p>Select a test set to begin.</p>';
+    }
+    this.updateDataSourceIndicator(); // Clear indicator
   }
 
   dispose() {
     if (this.viewChangeSubscription) {
-      this.viewChangeSubscription(); // Call the unsubscribe function
+      this.viewChangeSubscription();
       this.viewChangeSubscription = null;
-    }
-    if (this.eventBus) {
-      this.eventBus.unsubscribe('ui:fileViewChanged');
-      this.eventBus = null;
     }
     console.log('[TestCaseUI] Disposed and unsubscribed from events.');
   }
+
+  async showLocationDetails(locationStaticData) {
+    // Expects location object from this.currentTestRules
+    console.log(
+      '[TestCaseUI] showLocationDetails called for:',
+      locationStaticData.name
+    );
+    if (!locationStaticData || !locationStaticData.name) {
+      console.warn('[TestCaseUI] showLocationDetails: Invalid location data.');
+      return;
+    }
+    // ... (rest of modal setup as before)
+    const modalElement = this.rootElement.querySelector('#location-modal');
+    const modalTitle = this.rootElement.querySelector('#modal-location-name');
+    const modalDetails = this.rootElement.querySelector(
+      '#modal-location-details'
+    );
+    const modalRuleTree = this.rootElement.querySelector('#modal-rule-tree');
+
+    if (!modalElement || !modalTitle || !modalDetails || !modalRuleTree) {
+      console.error('[TestCaseUI] Modal elements not found.');
+      return;
+    }
+
+    // For displaying the rule, we need a snapshot. The most relevant snapshot
+    // would be one set up for the *current test case shown in the UI*, if available.
+    // This is tricky as `showLocationDetails` might be called independently.
+    // As a fallback or for general display, we can use the *current global snapshot* from the proxy.
+    // Or, if we want to show how a rule *would* evaluate given the *current test's inventory*:
+    // For simplicity and since this is for *display*, let's use the current global snapshot from the proxy
+    // This will show how the rule evaluates *right now* in the main application state,
+    // NOT necessarily how it evaluated during the specific test run (which used a temporary test inventory).
+
+    const currentGlobalSnapshot = await stateManager.getSnapshot(); // Get the main app's current snapshot (make sure it's async if proxy returns promise)
+
+    if (!this.currentTestRules || !currentGlobalSnapshot) {
+      modalTitle.textContent = 'Error';
+      modalDetails.innerHTML =
+        '<p>Test rules or current game snapshot not available for details display.</p>';
+      modalRuleTree.innerHTML = '';
+      if (modalElement) modalElement.classList.remove('hidden');
+      return;
+    }
+
+    // The staticData for this interface is this.currentTestRules
+    const displaySnapshotInterface = createStateSnapshotInterface(
+      currentGlobalSnapshot,
+      this.currentTestRules
+    );
+
+    if (!displaySnapshotInterface) {
+      modalTitle.textContent = 'Error';
+      modalDetails.innerHTML =
+        '<p>Failed to create snapshot interface for rule display.</p>';
+      modalRuleTree.innerHTML = '';
+      if (modalElement) modalElement.classList.remove('hidden');
+      return;
+    }
+
+    let accessResultText = 'Rule not defined or evaluation failed (display).';
+    modalRuleTree.innerHTML = '';
+
+    if (locationStaticData.access_rule) {
+      try {
+        // Evaluate for display using the displaySnapshotInterface
+        const isAccessibleForDisplay = evaluateRule(
+          locationStaticData.access_rule,
+          displaySnapshotInterface
+        );
+        accessResultText = `Rule Display Evaluation (current app state): ${
+          isAccessibleForDisplay === undefined
+            ? 'UNKNOWN'
+            : isAccessibleForDisplay
+            ? 'TRUE'
+            : 'FALSE'
+        }`;
+
+        const treeElement = commonUI.renderLogicTree(
+          locationStaticData.access_rule,
+          false,
+          displaySnapshotInterface
+        );
+        modalRuleTree.appendChild(treeElement);
+      } catch (error) {
+        accessResultText = `Error evaluating rule for display: ${error.message}`;
+        modalRuleTree.textContent = 'Error rendering rule tree for display.';
+      }
+    } else {
+      accessResultText = 'No access rule defined.';
+      modalRuleTree.textContent = 'No rule defined for this location.';
+    }
+
+    modalTitle.textContent = `Details for ${locationStaticData.name}`;
+    modalDetails.innerHTML = `<p><strong>Region:</strong> ${
+      locationStaticData.region || locationStaticData.parent_region || 'N/A'
+    }</p>
+                              <p><strong>Current Display Evaluation:</strong> ${accessResultText}</p>`;
+    if (modalElement) modalElement.classList.remove('hidden');
+  }
 }
 
-// Add default export to fix the import in filesUI.js
 export default TestCaseUI;

@@ -941,6 +941,20 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
     # Export rules data with explicit region connections
     cleaned_data = _get_cleaned_rules_data(multiworld)
 
+    # Determine Game Name for the test data (similar to export_game_rules)
+    combined_game_name = "Unknown"
+    if multiworld.game:
+        unique_games = set(g for g in multiworld.game.values() if g)
+        if len(unique_games) > 1:
+            combined_game_name = "Multiworld"
+        elif len(unique_games) == 1:
+            combined_game_name = list(unique_games)[0]
+        # If unique_games is empty but multiworld.game exists, it remains "Unknown"
+    
+    # Add game_name to the cleaned_data
+    if cleaned_data: # Ensure cleaned_data is not empty/None
+        cleaned_data['game_name'] = combined_game_name
+
     # Create a subdirectory for the parent_directory if it doesn't exist
     parent_dir_path = os.path.join(output_dir, parent_directory)
     os.makedirs(parent_dir_path, exist_ok=True)
@@ -959,12 +973,46 @@ def export_test_data(multiworld, access_pool, output_dir, filename_base="test_ou
         global_excluded_fields=EXCLUDED_FIELDS
     )
 
+    # --- Define key order for test data output ---
+    test_data_key_order = [
+        'schema_version',
+        'game_name',
+        'archipelago_version',
+        'generation_seed',
+        'player_names',
+        'world_classes',
+        'plando_options',
+        'regions',
+        'dungeons',
+        'start_regions',
+        'items',
+        'item_groups',
+        'itempool_counts',
+        'progression_mapping',
+        'starting_items',
+        'settings',
+        'game_info'
+    ]
+
+    ordered_filtered_data = collections.OrderedDict()
+    if filtered_data: # Ensure filtered_data is not empty/None
+        for key in test_data_key_order:
+            if key in filtered_data:
+                ordered_filtered_data[key] = filtered_data[key]
+        # Add any remaining keys not in the defined order (e.g., if new top-level keys are added)
+        for key, value in filtered_data.items():
+            if key not in ordered_filtered_data:
+                ordered_filtered_data[key] = value
+    else:
+        ordered_filtered_data = {}
+
+
     # Write the filtered data to file
     success = False
     try:
         logger.info("Writing filtered rules data to file for testing")
         with open(rules_path, 'w', encoding='utf-8') as f:
-            json.dump(filtered_data, f, indent=2)
+            json.dump(ordered_filtered_data, f, indent=2) # Use ordered_filtered_data
         logger.info(f"Successfully wrote filtered rules to {rules_path}")
         success = True
         

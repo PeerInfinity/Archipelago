@@ -1,4 +1,4 @@
-import { ALTTPState } from './state.js';
+import { ALTTPState } from './alttpState.js';
 
 // frontend/app/games/alttp/inventory.js
 
