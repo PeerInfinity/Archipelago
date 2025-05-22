@@ -26,6 +26,7 @@ export class StateManagerProxy {
     SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT:
       'SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT', // Added
     EVALUATE_ACCESSIBILITY_FOR_TEST: 'EVALUATE_ACCESSIBILITY_FOR_TEST', // <<< NEW COMMAND
+    APPLY_TEST_INVENTORY_AND_EVALUATE: 'APPLY_TEST_INVENTORY_AND_EVALUATE', // New command for full state update
   };
 
   constructor(eventBus) {
@@ -1227,6 +1228,73 @@ export class StateManagerProxy {
       return undefined;
     }
   }
+
+  async applyTestInventoryAndEvaluate(
+    locationName,
+    requiredItems = [],
+    excludedItems = []
+  ) {
+    if (!this.worker) {
+      console.error(
+        '[StateManagerProxy] Worker not initialized. Cannot apply test inventory and evaluate.'
+      );
+      return Promise.reject(
+        new Error('StateManager worker is not initialized.')
+      );
+    }
+
+    console.log(
+      `[StateManagerProxy] applyTestInventoryAndEvaluate called for ${locationName}`
+    );
+
+    try {
+      const response = await this.sendQueryToWorker({
+        command: StateManagerProxy.COMMANDS.APPLY_TEST_INVENTORY_AND_EVALUATE,
+        payload: {
+          locationName,
+          requiredItems,
+          excludedItems,
+        },
+      });
+
+      // Assuming the worker responds with a payload structured as:
+      // { newSnapshot, newInventory, locationAccessibilityResult, originalLocationName }
+      if (response && response.newSnapshot && response.newInventory) {
+        this.uiCache = response.newSnapshot;
+        // TODO: Consider if we need a specific this.currentInventory or if uiCache.inventory is sufficient.
+
+        console.log(
+          `[StateManagerProxy] applyTestInventoryAndEvaluate: Snapshot and inventory updated for ${response.originalLocationName}. Publishing events.`
+        );
+
+        this.eventBus.publish('stateManager:snapshotUpdated', {
+          snapshot: response.newSnapshot,
+        });
+        this.eventBus.publish('stateManager:inventoryChanged', {
+          inventory: response.newInventory,
+          // itemsAdded: requiredItems, // This might be complex if worker derives the diff
+          // itemsRemoved: excludedItems, // For simplicity, let UI re-render from new inventory
+        });
+
+        // The actual result of the test for the specific location
+        return response.locationAccessibilityResult;
+      } else {
+        console.error(
+          '[StateManagerProxy] Invalid response from worker for APPLY_TEST_INVENTORY_AND_EVALUATE:',
+          response
+        );
+        throw new Error(
+          'Invalid response from worker for test inventory application.'
+        );
+      }
+    } catch (error) {
+      console.error(
+        `[StateManagerProxy] Error in applyTestInventoryAndEvaluate for ${locationName}:`,
+        error
+      );
+      throw error; // Re-throw to be caught by the caller in TestCaseUI
+    }
+  }
 }
 
 // --- ADDED: Function to create the main-thread snapshot interface ---
@@ -1429,6 +1497,17 @@ export function createStateSnapshotInterface(snapshot, staticData) {
     events: snapshot?.events || {},
     ...rawInterfaceForHelpers,
     helpers: snapshotHelpersInstance,
+    executeHelper: (helperName, ...args) => {
+      if (
+        snapshotHelpersInstance &&
+        typeof snapshotHelpersInstance[helperName] === 'function'
+      ) {
+        return snapshotHelpersInstance[helperName](...args);
+      }
+      // Optional: Log a warning if the helper is not found, or if snapshotHelpersInstance is missing.
+      // console.warn(\`[SnapshotInterface] Helper function "\${helperName}\" not found on snapshotHelpersInstance.\`);
+      return undefined; // Default behavior for missing helpers
+    },
     evaluateRule: function (rule, contextName = null) {
       return evaluateRule(rule, this, contextName);
     },

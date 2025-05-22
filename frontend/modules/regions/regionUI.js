@@ -39,6 +39,7 @@ export class RegionUI {
     this.showAll = false;
     this.isInitialized = false; // Add flag
     this.colorblindSettings = {}; // Add colorblind settings cache
+    this.navigationTarget = null; // Add navigation target state
 
     // Create the path analyzer
     this.pathAnalyzer = new PathAnalyzerUI(this);
@@ -258,6 +259,23 @@ export class RegionUI {
     });
     // --- END ADDED ---
 
+    // Subscribe to region navigation requests
+    const handleNavigateToRegion = (eventPayload) => {
+      if (eventPayload && eventPayload.regionName) {
+        console.log(
+          `[RegionUI] Received ui:navigateToRegion for ${eventPayload.regionName}. Calling this.navigateToRegion.`
+        );
+        this.navigateToRegion(eventPayload.regionName);
+      } else {
+        console.warn(
+          '[RegionUI] Received ui:navigateToRegion without regionName.',
+          eventPayload
+        );
+      }
+    };
+    subscribe('ui:navigateToRegion', handleNavigateToRegion);
+    console.log('[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToRegion'); // DEBUG LOG
+
     console.log('[RegionUI] Event subscriptions complete.');
   }
 
@@ -473,8 +491,20 @@ export class RegionUI {
 
   toggleRegionByUID(uid) {
     const block = this.visitedRegions.find((r) => r.uid === uid);
-    if (!block) return;
-    block.expanded = !block.expanded;
+    if (block) {
+      block.expanded = !block.expanded;
+    } else if (typeof uid === 'string' && uid.startsWith('all_')) {
+      // Handle regions that are only visible in "Show All" mode and might not be in visitedRegions yet
+      // If toggling such a region, we add it to visitedRegions to track its expanded state.
+      const regionName = uid.substring(4); // Extract region name from uid like "all_RegionName"
+      // We assume if it's not in block, it was previously collapsed (or not yet interacted with)
+      // So, toggling means expanding it and adding to track its state.
+      this.visitedRegions.push({
+        name: regionName,
+        expanded: true, // Toggling from an untracked/collapsed state means expand it
+        uid: uid,
+      });
+    }
     this.renderAllRegions();
   }
 
@@ -742,6 +772,7 @@ export class RegionUI {
         isVisited: false,
         uid: `all_${name}`,
         expanded:
+          name === this.navigationTarget || // Expand if it's the navigation target
           this.visitedRegions.find((r) => r.uid === `all_${name}`)?.expanded ||
           false,
         isReachable:
@@ -754,7 +785,7 @@ export class RegionUI {
         name: vr.name,
         isVisited: true,
         uid: vr.uid,
-        expanded: vr.expanded,
+        expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
         isReachable:
           snapshot.reachability?.[vr.name] === true ||
           snapshot.reachability?.[vr.name] === 'reachable' ||
@@ -771,7 +802,7 @@ export class RegionUI {
             name: vr.name,
             isVisited: true,
             uid: vr.uid,
-            expanded: vr.expanded,
+            expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
             isReachable:
               snapshot.reachability?.[vr.name] === true ||
               snapshot.reachability?.[vr.name] === 'reachable' ||
@@ -914,76 +945,91 @@ export class RegionUI {
    * @param {string} regionName - The name of the region to navigate to.
    */
   navigateToRegion(regionName) {
+    this.navigationTarget = regionName; // Set navigation target
+
     if (!this.regionsContainer) {
+      console.warn('[RegionUI] navigateToRegion: regionsContainer not found.');
+      this.navigationTarget = null;
       return;
     }
 
-    // Ensure the correct view is rendered based on current state
-    // (showAll state is handled by renderAllRegions)
-    this.renderAllRegions(); // Re-render if needed to ensure the element exists
+    let forceRender = false;
+    const showAllCheckbox = this.rootElement.querySelector('#show-all-regions');
 
-    // Find the region block using its data attribute within the panel
-    // Note: We query within this.regionsContainer specifically
-    let regionBlock = this.regionsContainer.querySelector(
-      `.region-block[data-region="${regionName}"]`
-    );
-
-    // If block not found, maybe it's because "Show All" is off?
-    if (!regionBlock && !this.showAll) {
-      const showAllCheckbox =
-        this.rootElement.querySelector('#show-all-regions');
-      if (showAllCheckbox) {
+    if (showAllCheckbox && !this.showAll) {
+      const isRegionInVisitedPath = this.visitedRegions.some(
+        (r) => r.name === regionName
+      );
+      if (!isRegionInVisitedPath) {
+        console.log(
+          `[RegionUI] navigateToRegion: Target "${regionName}" not in visited path. Activating 'Show All Regions'.`
+        );
         showAllCheckbox.checked = true;
         this.showAll = true;
-        this.renderAllRegions(); // Re-render with all regions visible
-        // Try finding the block again
-        regionBlock = this.regionsContainer.querySelector(
-          `.region-block[data-region="${regionName}"]`
-        );
-        if (regionBlock) {
-          return;
+        forceRender = true; // Indicate that showAll state changed
+      }
+    }
+
+    // If Show All is now active (or was already active), ensure the target region is marked for expansion
+    // by adding/updating its entry in visitedRegions for consistent expansion handling.
+    if (this.showAll) {
+      const allUid = `all_${regionName}`;
+      const existingEntry = this.visitedRegions.find((r) => r.uid === allUid);
+      if (existingEntry) {
+        if (!existingEntry.expanded) {
+          existingEntry.expanded = true;
+          forceRender = true; // State changed, need to re-render
         }
       } else {
-        return;
+        this.visitedRegions.push({
+          name: regionName,
+          expanded: true,
+          uid: allUid,
+        });
+        forceRender = true; // New entry, need to re-render
       }
     }
 
-    if (regionBlock) {
-      const uidString = regionBlock.dataset.uid;
-
-      // Use uidString to check if it's a 'visited' region (numeric UID) or 'all' region
-      const isVisitedRegion = uidString && !isNaN(parseInt(uidString, 10));
-      const isExpanded = regionBlock.classList.contains('expanded');
-
-      // Only try to expand visited regions by UID, 'all' regions are handled by showAll
-      if (!isExpanded && isVisitedRegion) {
-        const uid = parseInt(uidString, 10);
-        const regionData = this.visitedRegions.find((r) => r.uid === uid);
-        if (regionData) {
-          regionData.expanded = true;
-          this.renderAllRegions(); // Re-render to reflect expansion
-          // Re-query the element after re-render
-          const newRegionBlock = this.regionsContainer.querySelector(
-            `.region-block[data-region="${regionName}"][data-uid="${uid}"]`
-          );
-          if (newRegionBlock) {
-            regionBlock = newRegionBlock; // Update reference if found
-          }
-        }
-      }
-
-      // Scroll the region block into view
-      regionBlock.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest', // Use 'nearest' to minimize scrolling
-      });
-
-      // Add a temporary highlight class
-      regionBlock.classList.add('highlight-region');
-      setTimeout(() => {
-        regionBlock.classList.remove('highlight-region');
-      }, 1500); // Highlight for 1.5 seconds
+    // Render with navigationTarget set. This should ensure the target region is rendered and expanded.
+    // Only call renderAllRegions if forceRender is true, or if navigationTarget was the primary trigger and no state change occurred.
+    // The setTimeout for scrolling will occur regardless, relying on the DOM being correct.
+    if (
+      forceRender ||
+      !this.regionsContainer.querySelector(
+        `.region-block[data-region="${regionName}"].expanded`
+      )
+    ) {
+      this.renderAllRegions();
     }
+
+    // Defer scrolling to allow DOM updates from renderAllRegions to complete.
+    setTimeout(() => {
+      const regionBlock = this.regionsContainer.querySelector(
+        // Query for the data-region attribute which should be stable.
+        `.region-block[data-region="${regionName}"]`
+      );
+
+      if (regionBlock) {
+        console.log(
+          `[RegionUI] navigateToRegion: Scrolling to "${regionName}". Block found.`
+        );
+        regionBlock.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+
+        regionBlock.classList.add('highlight-region');
+        setTimeout(() => {
+          regionBlock.classList.remove('highlight-region');
+          this.navigationTarget = null; // Clear navigation target after highlight
+        }, 1500);
+      } else {
+        console.warn(
+          `[RegionUI] navigateToRegion: Region block for "${regionName}" NOT FOUND after render and defer. Cannot scroll.`
+        );
+        this.navigationTarget = null; // Clear navigationTarget if block not found
+      }
+    }, 0); // Small delay to allow DOM reflow
   }
 
   /**

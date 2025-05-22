@@ -3157,4 +3157,20 @@ export class StateManager {
 
     return accessibilityResult;
   }
+
+  /**
+   * Returns the item pool counts for the current game/rules.
+   * @returns {object|null} The itempool_counts object or null if not loaded.
+   */
+  getItemPoolCounts() {
+    return this.itempoolCounts || null;
+  }
+
+  /**
+   * Returns all item definitions.
+   * @returns {object|null} The itemData object or null if not loaded.
+   */
+  getAllItemData() {
+    return this.itemData || null;
+  }
 }

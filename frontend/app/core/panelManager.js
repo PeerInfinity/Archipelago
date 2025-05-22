@@ -60,6 +60,16 @@ class PanelManager {
       //   '[PanelManager.initialize DEBUG] panelMap and panelMapById cleared.'
       // );
 
+      // Subscribe to ui:activatePanel event
+      eventBus.subscribe('ui:activatePanel', (payload) => {
+        if (payload && payload.panelId) {
+          console.log(
+            `[PanelManager] Received ui:activatePanel for ${payload.panelId}.`
+          );
+          this.activatePanel(payload.panelId);
+        }
+      });
+
       // Attempt to populate panelMap from existing items
       if (
         this.goldenLayout &&
@@ -574,41 +584,121 @@ class PanelManager {
     console.log(
       `[PanelManager] Attempting to activate panel: ${componentType}`
     );
-    if (!this.layout || !this.layout.root) {
-      console.error(
-        '[PanelManager] Cannot activate panel, layout or root not available.'
+    if (
+      !this.goldenLayout ||
+      !this.goldenLayout.isInitialised ||
+      !this.goldenLayout.root
+    ) {
+      console.warn(
+        `[PanelManager] Cannot activate panel. GoldenLayout available: ${!!this
+          .goldenLayout}, Initialised: ${
+          this.goldenLayout ? this.goldenLayout.isInitialised : 'N/A'
+        }, Root available: ${
+          this.goldenLayout && this.goldenLayout.root
+            ? !!this.goldenLayout.root
+            : 'N/A'
+        }. Panel: ${componentType}`
       );
       return;
     }
 
-    let componentItem = null;
+    let targetItem = null;
     let stack = null;
+    let foundComponent = false;
 
-    // Iterate through the known panel mappings
-    for (const [container, mapping] of this.panelMap.entries()) {
-      if (container.componentType === componentType) {
-        // Found the container for the desired component type
-        componentItem = container.parent; // ComponentItem is the parent of the Container
-        stack = componentItem?.parent; // Stack is the parent of the ComponentItem
-        console.log(
-          `[PanelManager] Found container for ${componentType}. ComponentItem:`,
-          componentItem,
-          'Stack:',
-          stack
-        );
-        break; // Stop after finding the first match
+    // --- BEGIN CORRECTED LOGIC & DEBUG LOGS ---
+    console.log(
+      '[PanelManager Debug] Trying this.goldenLayout.getAllContentItems()...'
+    );
+    const allItems = this.goldenLayout.getAllContentItems
+      ? this.goldenLayout.getAllContentItems()
+      : [];
+    console.log(
+      `[PanelManager Debug] Found ${allItems.length} items via getAllContentItems.`
+    );
+    if (allItems.length === 0 && this.goldenLayout.rootItem) {
+      console.log(
+        '[PanelManager Debug] getAllContentItems returned 0, trying recursive search from rootItem as fallback.'
+      );
+      // Basic recursive search as a fallback - can be expanded
+      function collectComponents(item, collected = []) {
+        if (!item) return collected;
+        if (item.isComponent) {
+          collected.push(item.container); // Usually the container has componentType
+        }
+        if (item.contentItems && item.contentItems.length > 0) {
+          item.contentItems.forEach((child) =>
+            collectComponents(child, collected)
+          );
+        }
+        return collected;
       }
+      const componentsFromRootItem = collectComponents(
+        this.goldenLayout.rootItem
+      );
+      console.log(
+        `[PanelManager Debug] Found ${componentsFromRootItem.length} components via recursive search from rootItem.`
+      );
+      // This logic path would need to be integrated into the loop below if used
+    }
+    // --- END CORRECTED LOGIC & DEBUG LOGS ---
+
+    // We will iterate over allItems if populated, otherwise this loop won't run correctly without further changes
+    // The main test is whether getAllContentItems works.
+    const componentsToSearch = allItems.filter(
+      (item) => item.isComponent && item.container
+    );
+
+    if (componentsToSearch.length > 0) {
+      // Ensure we have components to search
+      console.log(
+        `[PanelManager] Filtered to ${componentsToSearch.length} actual component items for search.`
+      );
+      for (const componentItem of componentsToSearch) {
+        // componentItem is already the item, not container
+        const container = componentItem.container; // The container associated with the component item
+        if (!container) {
+          console.warn(
+            '[PanelManager] ComponentItem found without a container:',
+            componentItem
+          );
+          continue;
+        }
+        console.log(
+          `[PanelManager] Checking component: Type: "${container.componentType}", ID: "${container.id}", Title: "${container.title}"`
+        );
+        if (container.componentType === componentType) {
+          targetItem = componentItem; // This is the ComponentItem (the tab itself)
+          stack = targetItem.parent; // Stack should be the parent of the ComponentItem
+          foundComponent = true;
+          console.log(
+            `[PanelManager] MATCH FOUND for "${componentType}". ComponentItem ID: ${targetItem.id}. Stack:`,
+            stack
+          );
+          break;
+        }
+      }
+      if (!foundComponent) {
+        console.warn(
+          `[PanelManager] Component type "${componentType}" NOT FOUND in layout after checking all components from getAllContentItems.`
+        );
+      }
+    } else {
+      console.warn(
+        '[PanelManager] No components found via getAllContentItems or searchRoot.getItemsByFilter. Cannot activate panel.'
+      );
+      return;
     }
 
     if (
       stack &&
       stack.isStack &&
-      componentItem &&
+      targetItem &&
       typeof stack.setActiveComponentItem === 'function'
     ) {
-      if (stack.getActiveComponentItem() !== componentItem) {
+      if (stack.getActiveComponentItem() !== targetItem) {
         console.log(`[PanelManager] Activating panel tab for ${componentType}`);
-        stack.setActiveComponentItem(componentItem);
+        stack.setActiveComponentItem(targetItem);
       } else {
         console.log(
           `[PanelManager] Panel tab for ${componentType} is already active.`
@@ -618,8 +708,23 @@ class PanelManager {
       console.warn(
         `[PanelManager] Could not activate panel for ${componentType}. Stack or ComponentItem not found, or stack invalid.`
       );
-      // Maybe the panel isn't open? Try creating it as a fallback?
-      // this.createPanelForComponent(componentType, componentType); // Optional: Add fallback creation
+      // Enhanced debug logging for this specific failure case
+      console.log(
+        `[PanelManager Debug for ${componentType}] Found Component: ${foundComponent}`
+      );
+      console.log(
+        `[PanelManager Debug for ${componentType}] TargetItem:`,
+        targetItem
+      );
+      console.log(`[PanelManager Debug for ${componentType}] Stack:`, stack);
+      if (stack) {
+        console.log(
+          `[PanelManager Debug for ${componentType}] Stack.isStack: ${stack.isStack}`
+        );
+        console.log(
+          `[PanelManager Debug for ${componentType}] typeof Stack.setActiveComponentItem: ${typeof stack.setActiveComponentItem}`
+        );
+      }
     }
   }
   // --- END NEW METHOD --- //

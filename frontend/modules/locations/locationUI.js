@@ -402,6 +402,23 @@ export class LocationUI {
     // Use event delegation for location clicks on the grid
     this.locationsGrid.addEventListener('click', (event) => {
       console.log('[LocationUI] locationsGrid click event:', event.target); // ADDED for debugging
+
+      // Check if the click target or its parent (up to the card) is a region link
+      let currentTarget = event.target;
+      while (
+        currentTarget &&
+        currentTarget !== this.locationsGrid &&
+        !currentTarget.classList.contains('location-card')
+      ) {
+        if (currentTarget.classList.contains('region-link')) {
+          console.log(
+            '[LocationUI] Click originated from a region-link, ignoring for location card action.'
+          );
+          return; // Ignore clicks on region links
+        }
+        currentTarget = currentTarget.parentElement;
+      }
+
       // Find the closest ancestor element that represents a location
       const locationElement = event.target.closest('.location-card'); // CORRECTED class name
       if (locationElement) {
@@ -1042,15 +1059,10 @@ export class LocationUI {
           // Handle "true" / "false" strings from settings
           shouldUseColorblindOnCard = csObject.toLowerCase() === 'true';
         } else if (typeof csObject === 'object' && csObject !== null) {
-          // Handles cases where csObject might be {} (e.g., if original setting was false, null, or undefined),
-          // in which case Object.keys().length will be 0, correctly resulting in false.
           shouldUseColorblindOnCard = Object.keys(csObject).length > 0;
         }
 
-        applyColorblindClass(
-          locationCard,
-          shouldUseColorblindOnCard // Pass the derived boolean, removing the incorrect stateClass and third arg
-        );
+        applyColorblindClass(locationCard, shouldUseColorblindOnCard);
 
         try {
           locationCard.dataset.location = encodeURIComponent(
@@ -1060,48 +1072,59 @@ export class LocationUI {
           console.error('Error stringifying location data:', location, e);
         }
 
-        let cardHTML = `<span class="location-name">${name}</span>`;
+        // Clear existing content of locationCard before appending new elements
+        locationCard.innerHTML = '';
+
+        // Location Name (as a span)
+        const locationNameSpan = document.createElement('span');
+        locationNameSpan.className = 'location-name';
+        locationNameSpan.textContent = name;
+        locationCard.appendChild(locationNameSpan);
+
+        // Region Info & Link
+        const regionNameForLink = location.parent_region || location.region;
+        const regionInfoDiv = document.createElement('div');
+        regionInfoDiv.className = 'text-sm location-card-region-link';
+        if (regionNameForLink) {
+          const regionLink = commonUI.createRegionLink(
+            regionNameForLink,
+            this.colorblindSettings,
+            snapshot
+          );
+          regionInfoDiv.appendChild(document.createTextNode('Region: '));
+          regionInfoDiv.appendChild(regionLink); // Append the DOM element
+        } else {
+          regionInfoDiv.textContent = 'Region: N/A';
+        }
+        locationCard.appendChild(regionInfoDiv);
 
         // Player Info
         if (location.player) {
-          cardHTML += `<div class="text-sm">Player ${location.player}</div>`;
-        }
-
-        // Region Info & Link
-        if (location.parent_region) {
-          // We need to determine parent_region's accessibility.
-          // This isn't directly in the location's reachability snapshot.
-          // For simplicity, we'll rely on the location's overall reachability for now
-          // or assume parent_region accessibility is part of the location's accessibility.
-          // A more accurate way would be to check snapshot.reachability for the region itself,
-          // but that data isn't structured per region in the current snapshot.
-          const regionIsAccessible =
-            parentRegionReachabilityStatus === 'reachable'; // Approximation
-          const regionLink = commonUI.createRegionLink(
-            location.parent_region,
-            this.colorblindSettings,
-            snapshot // Pass the snapshot object
-          );
-          // regionLink.style.color = regionIsAccessible ? 'inherit' : 'red'; // Styling handled by commonUI or CSS
-
-          cardHTML += `<div class="text-sm">Region: ${regionLink.outerHTML} 
-            (${regionIsAccessible ? 'Accessible' : 'Inaccessible'})</div>`;
+          const playerInfoDiv = document.createElement('div');
+          playerInfoDiv.className = 'text-sm';
+          playerInfoDiv.textContent = `Player ${location.player}`;
+          locationCard.appendChild(playerInfoDiv);
         }
 
         // Location Logic Tree
         if (location.access_rule) {
+          const ruleDiv = document.createElement('div');
+          ruleDiv.className = 'text-sm';
           const logicTreeElement = commonUI.renderLogicTree(
             location.access_rule,
             this.colorblindSettings,
             snapshotInterface
           );
-          cardHTML += `<div class="text-sm">Rule: ${logicTreeElement.outerHTML}</div>`;
+          ruleDiv.appendChild(document.createTextNode('Rule: '));
+          ruleDiv.appendChild(logicTreeElement); // Append the DOM element
+          locationCard.appendChild(ruleDiv);
         }
 
         // Detailed Status Text
-        cardHTML += `<div class="text-sm">Status: ${statusText}</div>`;
-
-        locationCard.innerHTML = cardHTML;
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'text-sm';
+        statusDiv.textContent = `Status: ${statusText}`;
+        locationCard.appendChild(statusDiv);
 
         if (loopStateSingleton.isLoopModeActive && !!isExplored) {
           const exploredIndicator = document.createElement('span');

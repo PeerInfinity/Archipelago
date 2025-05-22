@@ -742,12 +742,20 @@ class CommonUI {
 
     // Add click handler
     link.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent triggering parent listeners
-      // Publish an event with the region name
       console.log(
-        `[commonUI] Publishing ui:navigateToRegion for ${regionName}`
-      );
+        `[commonUI] Click listener ON REGION LINK for "${regionName}" in commonUI.js has FIRED.`
+      ); // NEW TOP-LEVEL DEBUG LOG
+      e.stopPropagation(); // Prevent event from bubbling to parent elements
+
+      // Publish panel activation first
+      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' });
+      console.log(`[commonUI] Published ui:activatePanel for regionsPanel.`);
+
+      // Then publish navigation
       eventBus.publish('ui:navigateToRegion', { regionName: regionName });
+      console.log(
+        `[commonUI] Published ui:navigateToRegion for ${regionName}.`
+      ); // Changed from "SUCCESSFULLY PUBLISHED" for clarity
     });
 
     return link;

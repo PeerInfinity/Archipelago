@@ -17,7 +17,7 @@ export class GameWorkerHelpers {
     return this.manager.inventory?.count(itemName) || 0;
   }
 
-  _countGroup(groupName) {
+  _countItemGroup(groupName) {
     return this.manager.inventory?.countGroup(groupName) || 0;
   }
 
@@ -66,6 +66,24 @@ export class GameWorkerHelpers {
 
   _getRegionData(regionName) {
     return this.manager.getRegionData(regionName);
+  }
+
+  _getStateValue(path, defaultValue = undefined) {
+    if (!this.manager || !this.manager.state) {
+      // console.warn('[_getStateValue] StateManager or StateManager.state not available.');
+      return defaultValue;
+    }
+    const parts = path.split('.');
+    let current = this.manager.state;
+    for (const part of parts) {
+      if (current && typeof current === 'object' && part in current) {
+        current = current[part];
+      } else {
+        // console.warn(`[_getStateValue] Path "${path}" not found at part "${part}".`);
+        return defaultValue;
+      }
+    }
+    return current;
   }
 
   // --- Utility Helpers ---

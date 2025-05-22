@@ -491,6 +491,22 @@ export class ExitUI {
     // Event delegation for exit clicks on the grid (similar to LocationUI)
     // This will be for showing details on Ctrl+Click, regular click is handled by handleExitClick
     this.exitsGrid.addEventListener('click', (event) => {
+      // Check if the click target or its parent (up to the card) is a region link
+      let currentTarget = event.target;
+      while (
+        currentTarget &&
+        currentTarget !== this.exitsGrid &&
+        !currentTarget.classList.contains('exit-card')
+      ) {
+        if (currentTarget.classList.contains('region-link')) {
+          console.log(
+            '[ExitUI] Click originated from a region-link, ignoring for exit card action.'
+          );
+          return; // Ignore clicks on region links
+        }
+        currentTarget = currentTarget.parentElement;
+      }
+
       const exitCardElement = event.target.closest('.exit-card');
       if (exitCardElement) {
         const exitString = exitCardElement.dataset.exit;
@@ -983,9 +999,19 @@ export class ExitUI {
           );
         }
 
-        let cardHTML = `<span class="exit-name">${exit.name}</span>`;
+        // Clear existing card content before appending new elements
+        card.innerHTML = '';
+
+        const exitNameSpan = document.createElement('span');
+        exitNameSpan.className = 'exit-name';
+        exitNameSpan.textContent = exit.name;
+        card.appendChild(exitNameSpan);
+
         if (exit.player) {
-          cardHTML += `<div class="text-sm">Player ${exit.player}</div>`;
+          const playerDiv = document.createElement('div');
+          playerDiv.className = 'text-sm';
+          playerDiv.textContent = `Player ${exit.player}`;
+          card.appendChild(playerDiv);
         }
 
         // Origin Region
@@ -994,9 +1020,16 @@ export class ExitUI {
           useColorblind,
           snapshot
         );
-        cardHTML += `<div class="text-sm">From: ${
-          originRegionLink.outerHTML
-        } (${parentRegionReachable ? 'Accessible' : 'Inaccessible'})</div>`;
+        const originDiv = document.createElement('div');
+        originDiv.className = 'text-sm';
+        originDiv.textContent = `From: `;
+        originDiv.appendChild(originRegionLink);
+        originDiv.appendChild(
+          document.createTextNode(
+            ` (${parentRegionReachable ? 'Accessible' : 'Inaccessible'})`
+          )
+        );
+        card.appendChild(originDiv);
 
         // Destination Region
         const destRegionLink = commonUI.createRegionLink(
@@ -1004,24 +1037,36 @@ export class ExitUI {
           useColorblind,
           snapshot
         );
-        cardHTML += `<div class="text-sm">To: ${destRegionLink.outerHTML} (${
-          connectedRegionReachable ? 'Accessible' : 'Inaccessible'
-        })</div>`;
+        const destDiv = document.createElement('div');
+        destDiv.className = 'text-sm';
+        destDiv.textContent = `To: `;
+        destDiv.appendChild(destRegionLink);
+        destDiv.appendChild(
+          document.createTextNode(
+            ` (${connectedRegionReachable ? 'Accessible' : 'Inaccessible'})`
+          )
+        );
+        card.appendChild(destDiv);
 
         // Access Rule
         if (exit.access_rule) {
+          const ruleDiv = document.createElement('div');
+          ruleDiv.className = 'text-sm';
+          ruleDiv.textContent = 'Rule: ';
           const logicTreeElement = renderLogicTree(
             exit.access_rule,
             useColorblind,
             snapshotInterface
           );
-          cardHTML += `<div class="text-sm">Rule: ${logicTreeElement.outerHTML}</div>`;
+          ruleDiv.appendChild(logicTreeElement);
+          card.appendChild(ruleDiv);
         }
 
         // Status Text
-        cardHTML += `<div class="text-sm">Status: ${statusText}</div>`;
-
-        card.innerHTML = cardHTML;
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'text-sm';
+        statusDiv.textContent = `Status: ${statusText}`;
+        card.appendChild(statusDiv);
 
         if (isExplored) {
           const exploredIndicator = document.createElement('span');

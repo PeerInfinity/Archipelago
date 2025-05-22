@@ -332,8 +332,39 @@ export class TestCaseUI {
       row.className = 'test-case-row';
 
       const locationCell = row.insertCell();
-      // Create a simple span for location, linking can be complex without region context here
-      locationCell.textContent = this.escapeHtml(locationName);
+      locationCell.innerHTML = ''; // Clear previous content
+
+      // Fetch the processed static data from the StateManager proxy
+      const processedStaticData = stateManager.getStaticData();
+      const locationDataFromProcessed =
+        processedStaticData?.locations?.[locationName];
+
+      // Attempt to get region, looking for 'region' first, then 'parent_region' as a fallback.
+      const regionNameForLink =
+        locationDataFromProcessed?.region ||
+        locationDataFromProcessed?.parent_region;
+
+      if (regionNameForLink) {
+        const snapshot = stateManager.getLatestStateSnapshot(); // Snapshot is still useful for createRegionLink
+        const regionLinkElement = commonUI.createRegionLink(
+          regionNameForLink,
+          false, // useColorblind - assuming false for TestCaseUI
+          snapshot
+        );
+        // Set the link's visible text to the location name
+        regionLinkElement.textContent = this.escapeHtml(locationName);
+        regionLinkElement.title = `Navigate to region: ${this.escapeHtml(
+          regionNameForLink
+        )}`; // Add a helpful title
+        locationCell.appendChild(regionLinkElement);
+      } else {
+        // Fallback: display location name as text if region couldn't be determined
+        locationCell.textContent = this.escapeHtml(locationName);
+        console.warn(
+          `[TestCaseUI] Region could not be determined for location "${locationName}" using processed static data. Location Data:`,
+          locationDataFromProcessed
+        );
+      }
 
       row.insertCell().textContent = expectedResult ? 'Yes' : 'No';
       row.insertCell().innerHTML = requiredItems.length
@@ -411,12 +442,11 @@ export class TestCaseUI {
 
     try {
       // COMMAND 2: Ask the worker to evaluate accessibility with the test-specific inventory
-      actualResultFromWorker =
-        await stateManager.evaluateLocationAccessibilityForTest(
-          locationName,
-          requiredItems,
-          excludedItems
-        );
+      actualResultFromWorker = await stateManager.applyTestInventoryAndEvaluate(
+        locationName,
+        requiredItems,
+        excludedItems
+      );
 
       if (typeof actualResultFromWorker !== 'boolean') {
         throw new Error(
