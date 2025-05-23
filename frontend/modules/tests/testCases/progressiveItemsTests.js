@@ -1,5 +1,7 @@
 // frontend/modules/tests/testCases/progressiveItemsTests.js
 
+import { registerTest } from '../testRegistry.js';
+
 export async function progressiveSwordTest(testController) {
   let overallResult = true;
   try {
@@ -174,3 +176,15 @@ export async function progressiveSwordTest(testController) {
     await testController.completeTest(overallResult);
   }
 }
+
+// Self-register tests
+registerTest({
+  id: 'test_progressive_sword',
+  name: 'Progressive Sword Test',
+  description:
+    'Tests progressive item mechanics by adding Progressive Sword items and verifying that the correct sword levels are granted (Fighter Sword → Master Sword → etc.).',
+  testFunction: progressiveSwordTest,
+  category: 'Progressive Items',
+  enabled: false,
+  order: 0,
+});

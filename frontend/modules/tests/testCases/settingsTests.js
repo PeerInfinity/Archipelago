@@ -1,5 +1,7 @@
 // frontend/modules/tests/testCases/settingsTests.js
 
+import { registerTest } from '../testRegistry.js';
+
 export async function themeSettingTest(testController) {
   let overallResult = true;
   try {
@@ -84,3 +86,15 @@ export async function themeSettingTest(testController) {
     await testController.completeTest(overallResult);
   }
 }
+
+// Self-register tests
+registerTest({
+  id: 'test_theme_setting',
+  name: 'Theme Setting Test',
+  description:
+    'Tests updating theme settings and verifying the settings:changed event and persistence.',
+  testFunction: themeSettingTest,
+  category: 'Settings',
+  enabled: false,
+  order: 0,
+});

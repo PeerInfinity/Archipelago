@@ -1,5 +1,7 @@
 // frontend/modules/tests/testCases/stateManagementTests.js
 
+import { registerTest } from '../testRegistry.js';
+
 export async function configLoadAndItemCheckTest(testController) {
   let overallResult = true;
   try {
@@ -322,3 +324,15 @@ export async function configLoadAndItemCheckTest(testController) {
     await testController.completeTest(overallResult);
   }
 }
+
+// Self-register tests
+registerTest({
+  id: 'test_config_load_and_item_check',
+  name: 'Config Load and Item Check Test',
+  description:
+    'Tests loading rules configuration, adding items to inventory, and checking location accessibility based on item requirements.',
+  testFunction: configLoadAndItemCheckTest,
+  category: 'State Management',
+  enabled: false,
+  order: 0,
+});

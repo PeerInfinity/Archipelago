@@ -1,5 +1,7 @@
 // frontend/modules/tests/testCases/uiInteractionTests.js
 
+import { registerTest } from '../testRegistry.js';
+
 export async function uiSimulationTest(testController) {
   let overallResult = true;
   try {
@@ -59,3 +61,15 @@ export async function uiSimulationTest(testController) {
     await testController.completeTest(overallResult);
   }
 }
+
+// Self-register tests
+registerTest({
+  id: 'test_ui_simulation',
+  name: 'UI Simulation Test',
+  description:
+    'Tests UI interactions like clicking inventory buttons and verifying the resulting state changes.',
+  testFunction: uiSimulationTest,
+  category: 'UI Interaction',
+  enabled: false,
+  order: 0,
+});

@@ -26,12 +26,14 @@ export class TestUI {
 
     // Initial render might be better in onMount or triggered by an event
     // For now, let constructor still call it, assuming rootElement is populated.
-    this.renderTestList();
+    this.renderTestList().catch(console.error);
 
     // Container event listeners
     if (this.container && typeof this.container.on === 'function') {
       this.container.on('destroy', () => this.destroy());
-      this.container.on('open', () => this.renderTestList()); // Re-render when panel is opened/shown
+      this.container.on('open', () =>
+        this.renderTestList().catch(console.error)
+      ); // Re-render when panel is opened/shown
     }
   }
 
@@ -137,11 +139,21 @@ export class TestUI {
 
   _subscribeToLogicEvents() {
     const handlers = {
-      'test:listUpdated': (data) => this.renderTestList(data.tests),
+      'test:listUpdated': (data) =>
+        this.renderTestList(data.tests).catch(console.error),
       'test:statusChanged': (data) =>
         this.updateTestStatus(data.testId, data.status, data.eventWaitingFor),
       'test:conditionReported': (data) =>
-        this.updateTestCondition(data.testId, data.condition),
+        this.updateTestCondition(data.testId, {
+          description: data.description,
+          status: data.status,
+        }),
+      'test:completed': (data) => {
+        console.log(
+          `[TestUI] Received test:completed event for ${data.testId}: ${data.overallStatus}`
+        );
+        this.updateTestStatus(data.testId, data.overallStatus);
+      },
       'test:executionStarted': (data) => {
         /* Optionally handle test start indication */
       },
@@ -159,8 +171,8 @@ export class TestUI {
     }
   }
 
-  renderTestList(testsToRender = null) {
-    const tests = testsToRender || testLogic.getTests();
+  async renderTestList(testsToRender = null) {
+    const tests = testsToRender || (await testLogic.getTests());
     this.testListContainer.innerHTML = '';
 
     if (!tests || tests.length === 0) {

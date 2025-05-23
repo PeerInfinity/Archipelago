@@ -1,5 +1,7 @@
 // frontend/modules/tests/testCases/clientMessageTests.js
 
+import { registerTest } from '../testRegistry.js';
+
 export async function simulateReceivedItemsTest(testController) {
   let overallResult = true;
   try {
@@ -164,3 +166,15 @@ export async function simulateReceivedItemsTest(testController) {
     await testController.completeTest(overallResult);
   }
 }
+
+// Self-register tests
+registerTest({
+  id: 'test_simulate_received_items',
+  name: 'Simulate Received Items Test',
+  description:
+    'Tests simulating ReceivedItems messages from the Archipelago server and verifying that items are added to inventory and locations are marked as checked.',
+  testFunction: simulateReceivedItemsTest,
+  category: 'Client Messages',
+  enabled: false,
+  order: 0,
+});
