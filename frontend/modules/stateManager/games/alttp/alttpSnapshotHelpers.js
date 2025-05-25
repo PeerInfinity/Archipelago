@@ -66,39 +66,45 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
   }
 
   can_use_bombs() {
+    const bombless = this._hasFlag('bombless_start');
+    if (bombless === undefined) return undefined;
+
     const shuffleUpgrades = this._getSetting('shuffle_capacity_upgrades');
     if (shuffleUpgrades === undefined) return undefined;
 
-    if (shuffleUpgrades) {
-      const hasBomb70 = this._hasItem('Bomb Upgrade (70)');
-      if (hasBomb70 === true) return true;
-      if (hasBomb70 === undefined) return undefined;
+    // Start with base bomb count
+    let bombs = bombless ? 0 : 10;
 
-      let bombs = 10;
-      const bomb5Count = this._countItem('Bomb Upgrade (+5)');
-      if (bomb5Count === undefined) return undefined;
-      bombs += bomb5Count * 5;
+    // Add bomb upgrades
+    const upgrade5Count = this._countItem('Bomb Upgrade (+5)');
+    const upgrade10Count = this._countItem('Bomb Upgrade (+10)');
+    const upgrade50Count = this._countItem('Bomb Upgrade (50)');
 
-      const bomb10Count = this._countItem('Bomb Upgrade (+10)');
-      if (bomb10Count === undefined) return undefined;
-      bombs += bomb10Count * 10;
-
-      // const extraUpgrades = Math.max(0, bomb5Count - 6); // Assuming bomb5Count is now a number
-      // bombs += extraUpgrades * 10;
-      return Math.min(50, bombs) > 0;
-    } else {
-      const bombless = this._hasFlag('bombless_start');
-      if (bombless === undefined) return undefined;
-      if (bombless === true) return false;
-
-      const canBuySingleBomb = this.can_buy('Single Bomb');
-      const hasCapacityUpgrade = this._hasItem('Capacity Upgrade Shop');
-
-      if (canBuySingleBomb === true || hasCapacityUpgrade === true) return true;
-      if (canBuySingleBomb === undefined || hasCapacityUpgrade === undefined)
-        return undefined;
-      return false; // Both are definitively false
+    if (
+      upgrade5Count === undefined ||
+      upgrade10Count === undefined ||
+      upgrade50Count === undefined
+    ) {
+      return undefined;
     }
+
+    bombs += upgrade5Count * 5;
+    bombs += upgrade10Count * 10;
+    bombs += upgrade50Count * 50;
+
+    // Bomb Upgrade (+5) beyond the 6th gives +10 (Python logic)
+    bombs += Math.max(0, (upgrade5Count - 6) * 10);
+
+    // If capacity upgrades are NOT shuffled and we have Capacity Upgrade Shop, add 40
+    if (!shuffleUpgrades) {
+      const hasCapacityShop = this._hasItem('Capacity Upgrade Shop');
+      if (hasCapacityShop === undefined) return undefined;
+      if (hasCapacityShop) {
+        bombs += 40;
+      }
+    }
+
+    return bombs >= 1; // Need at least 1 bomb to use bombs
   }
 
   can_bomb_clip(region) {
@@ -500,12 +506,22 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
   }
 
   can_retrieve_tablet() {
-    const hasSwordResult = this.has_sword();
-    const hasBook = this._hasItem('Book of Mudora');
+    const isSwordless = this._hasFlag('swordless');
+    if (isSwordless === undefined) return undefined;
 
-    if (hasSwordResult === false || hasBook === false) return false;
-    if (hasSwordResult === undefined || hasBook === undefined) return undefined;
-    return true;
+    const hasBook = this._hasItem('Book of Mudora');
+    if (hasBook === false) return false;
+    if (hasBook === undefined) return undefined;
+
+    if (isSwordless) {
+      const hasHammer = this._hasItem('Hammer');
+      if (hasHammer === undefined) return undefined;
+      return hasHammer;
+    }
+
+    const hasBeamSword = this.has_beam_sword();
+    if (hasBeamSword === undefined) return undefined;
+    return hasBeamSword;
   }
 
   has_beam_sword() {

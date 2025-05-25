@@ -75,24 +75,27 @@ export class ALTTPWorkerHelpers extends GameWorkerHelpers {
   }
 
   can_use_bombs() {
-    if (this._getSetting('shuffle_capacity_upgrades')) {
-      if (this._hasItem('Bomb Upgrade (70)')) return true;
-      let bombs = 10; // Default starting capacity if not shuffling or no specific start items
-      // Consider if starting bombs should be read from settings or initial inventory
-      bombs += this._countItem('Bomb Upgrade (+5)') * 5;
-      bombs += this._countItem('Bomb Upgrade (+10)') * 10;
-      // ALTTP specific logic for extra upgrades if it exists, otherwise remove or generalize
-      // const extraUpgrades = Math.max(0, this._countItem('Bomb Upgrade (+5)') - 6);
-      // bombs += extraUpgrades * 10;
-      return Math.min(50, bombs) > 0; // Max 50 bombs in ALTTP usually
-    } else {
-      const bombless = this._hasFlag('bombless_start');
-      if (bombless) return false;
-      // Relies on this.can_buy, ensure it's correctly implemented for worker context
-      return (
-        this.can_buy('Single Bomb') || this._hasItem('Capacity Upgrade Shop')
-      );
+    const bombless = this._hasFlag('bombless_start');
+    const shuffleUpgrades = this._getSetting('shuffle_capacity_upgrades');
+
+    // Start with base bomb count
+    let bombs = bombless ? 0 : 10;
+
+    // Add bomb upgrades
+    bombs += this._countItem('Bomb Upgrade (+5)') * 5;
+    bombs += this._countItem('Bomb Upgrade (+10)') * 10;
+    bombs += this._countItem('Bomb Upgrade (50)') * 50;
+
+    // Bomb Upgrade (+5) beyond the 6th gives +10 (Python logic)
+    const upgrade5Count = this._countItem('Bomb Upgrade (+5)');
+    bombs += Math.max(0, (upgrade5Count - 6) * 10);
+
+    // If capacity upgrades are NOT shuffled and we have Capacity Upgrade Shop, add 40
+    if (!shuffleUpgrades && this._hasItem('Capacity Upgrade Shop')) {
+      bombs += 40;
     }
+
+    return bombs >= 1; // Need at least 1 bomb to use bombs
   }
 
   can_bomb_clip(region) {
@@ -337,11 +340,11 @@ export class ALTTPWorkerHelpers extends GameWorkerHelpers {
   }
 
   can_retrieve_tablet() {
-    return this.has_sword() && this._hasItem('Book of Mudora'); // Master Sword (or better) usually implied for tablets
-    // TODO: Check if specific sword level (e.g. Master Sword) is strictly needed or just any sword.
-    // The old `ruleEngine` logic for `tablet` type directly checked `helpers.has_sword()` and `Book of Mudora`,
-    // implying any sword is fine. Python often specified `Master Sword` for `read_tablet`.
-    // For now, matching the JS rule engine interpretation (any sword).
+    const isSwordless = this._hasFlag('swordless');
+    if (isSwordless) {
+      return this._hasItem('Book of Mudora') && this._hasItem('Hammer');
+    }
+    return this._hasItem('Book of Mudora') && this.has_beam_sword();
   }
 
   has_beam_sword() {

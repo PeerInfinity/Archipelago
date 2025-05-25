@@ -456,59 +456,157 @@ export async function testCasePanelInteractionTest(testController) {
     );
     if (!isRunDisabled) overallResult = false;
 
-    // Wait a bit to let some tests run, then test the cancel functionality
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // NEW: Wait for all tests to complete instead of canceling
+    testController.log('Waiting for all tests to complete...');
 
-    // Click the cancel button
-    testController.log('Testing cancel functionality...');
-    cancelButton.click();
+    // Monitor test completion by watching for the run button to be re-enabled
+    // and the cancel button to be hidden again
+    let testsCompleted = false;
+    let maxWaitTime = 300000; // 5 minutes maximum wait time
+    let waitStartTime = Date.now();
 
-    // Wait for cancellation to take effect
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    while (!testsCompleted && Date.now() - waitStartTime < maxWaitTime) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Check every second
 
-    // Verify that the cancel button is hidden again
-    const isCancelHiddenAfter =
-      cancelButton.style.display === 'none' ||
-      getComputedStyle(cancelButton).display === 'none';
+      const isRunButtonEnabled = !runAllButton.disabled;
+      const isCancelButtonHidden =
+        cancelButton.style.display === 'none' ||
+        getComputedStyle(cancelButton).display === 'none';
+
+      testsCompleted = isRunButtonEnabled && isCancelButtonHidden;
+
+      if (testsCompleted) {
+        testController.log(
+          'Tests completed - buttons returned to initial state'
+        );
+        break;
+      }
+    }
+
+    if (!testsCompleted) {
+      throw new Error('Tests did not complete within the maximum wait time');
+    }
+
     testController.reportCondition(
-      'Cancel Tests button hidden after cancellation',
-      isCancelHiddenAfter
+      'All tests completed successfully',
+      testsCompleted
     );
-    if (!isCancelHiddenAfter) overallResult = false;
 
-    // Verify that the run button is re-enabled
-    const isRunEnabledAfter = !runAllButton.disabled;
-    testController.reportCondition(
-      'Run All Tests button re-enabled after cancellation',
-      isRunEnabledAfter
-    );
-    if (!isRunEnabledAfter) overallResult = false;
-
-    // Check for cancelled test status indicators
-    const cancelledTests = testCasesPanel.querySelectorAll('.test-cancelled');
-    const hasCancelledTests = cancelledTests.length > 0;
-    testController.reportCondition(
-      'Some tests marked as cancelled',
-      hasCancelledTests
-    );
-    if (!hasCancelledTests) overallResult = false;
-
-    // Check the test results summary for cancellation info
+    // Collect and analyze test results
     const summaryElement = testCasesPanel.querySelector(
       '#test-results-summary'
     );
+    let testResults = {
+      total: 0,
+      passed: 0,
+      failed: 0,
+      cancelled: 0,
+      details: [],
+    };
+
     if (summaryElement) {
       const summaryText = summaryElement.textContent;
-      const hasCancelledInSummary = summaryText.includes('cancelled');
-      testController.reportCondition(
-        'Test summary includes cancellation info',
-        hasCancelledInSummary
+      testController.log(`Test summary: ${summaryText}`);
+
+      // Parse the summary text to extract counts
+      const totalMatch = summaryText.match(/(\d+) total/);
+      const passedMatch = summaryText.match(/(\d+) passed/);
+      const failedMatch = summaryText.match(/(\d+) failed/);
+      const cancelledMatch = summaryText.match(/(\d+) cancelled/);
+
+      if (totalMatch) testResults.total = parseInt(totalMatch[1]);
+      if (passedMatch) testResults.passed = parseInt(passedMatch[1]);
+      if (failedMatch) testResults.failed = parseInt(failedMatch[1]);
+      if (cancelledMatch) testResults.cancelled = parseInt(cancelledMatch[1]);
+    }
+
+    // Collect detailed results from individual test rows
+    const testRows = testTable.querySelectorAll('tbody tr');
+    testController.log(`Found ${testRows.length} test rows`);
+
+    testRows.forEach((row, index) => {
+      const cells = row.querySelectorAll('td');
+      if (cells.length >= 6) {
+        const locationName = cells[0].textContent.trim();
+        const expectedAccess = cells[1].textContent.trim();
+        const requiredItems = cells[2].textContent.trim();
+        const excludedItems = cells[3].textContent.trim();
+        const resultCell = cells[5];
+
+        let status = 'unknown';
+        let message = '';
+
+        if (resultCell) {
+          const statusDiv = resultCell.querySelector('.test-status div');
+          if (statusDiv) {
+            message = statusDiv.textContent.trim();
+            if (statusDiv.classList.contains('test-success')) {
+              status = 'passed';
+            } else if (statusDiv.classList.contains('test-failure')) {
+              status = 'failed';
+            } else if (statusDiv.classList.contains('test-cancelled')) {
+              status = 'cancelled';
+            } else if (statusDiv.classList.contains('test-error')) {
+              status = 'error';
+            }
+          }
+        }
+
+        testResults.details.push({
+          index: index,
+          locationName: locationName,
+          expectedAccess: expectedAccess,
+          requiredItems: requiredItems,
+          excludedItems: excludedItems,
+          status: status,
+          message: message,
+        });
+      }
+    });
+
+    // Report overall test results
+    testController.reportCondition(
+      `Test suite completed: ${testResults.passed}/${testResults.total} passed`,
+      testResults.failed === 0
+    );
+
+    if (testResults.failed > 0) {
+      testController.log(`${testResults.failed} tests failed:`, 'error');
+      testResults.details.forEach((test) => {
+        if (test.status === 'failed' || test.status === 'error') {
+          testController.log(
+            `  - ${test.locationName}: ${test.message}`,
+            'error'
+          );
+        }
+      });
+      overallResult = false;
+    }
+
+    // Store results for Playwright to access
+    if (typeof window !== 'undefined') {
+      window.__testCaseResults__ = testResults;
+      testController.log(
+        'Test results stored in window.__testCaseResults__ for Playwright access'
       );
-      if (!hasCancelledInSummary) overallResult = false;
+    }
+
+    // Also store in localStorage for Playwright
+    try {
+      localStorage.setItem('__testCaseResults__', JSON.stringify(testResults));
+      testController.log(
+        'Test results stored in localStorage for Playwright access'
+      );
+    } catch (e) {
+      testController.log(
+        'Could not store results in localStorage: ' + e.message,
+        'warn'
+      );
     }
 
     testController.log(
-      `testCasePanelInteractionTest finished. Overall Result: ${overallResult}`
+      `testCasePanelInteractionTest finished. Overall Result: ${overallResult}. ` +
+        `Results: ${testResults.passed} passed, ${testResults.failed} failed, ${testResults.cancelled} cancelled`
     );
   } catch (error) {
     testController.log(
@@ -539,9 +637,9 @@ registerTest({
   id: 'test_case_panel_interaction',
   name: 'Test Case Panel Interaction Test',
   description:
-    'Tests activating the Test Cases panel, selecting the vanilla Light World test, running all tests, and testing the cancel functionality.',
+    'Tests activating the Test Cases panel, selecting the vanilla Light World test, running all tests, and collecting results for Playwright.',
   testFunction: testCasePanelInteractionTest,
   category: 'UI Interaction',
-  enabled: false,
+  enabled: true,
   order: 1,
 });

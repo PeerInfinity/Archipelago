@@ -571,12 +571,11 @@ self.onmessage = async function (e) {
             excludedItems = [],
           } = message.payload;
 
+          // Start batch mode to prevent multiple cache invalidations and snapshot updates
+          stateManagerInstance.beginBatchUpdate(true);
+
           // 1. Clear current inventory and state for the test
-          // stateManagerInstance.clearState(); // clearState also clears checked locations, which might be too much.
-          // Let's use clearInventory and ensure other relevant test-specific state is reset if necessary.
           stateManagerInstance.clearInventory();
-          // If stateManagerInstance has methods to reset specific settings that affect tests (like difficulty):
-          // stateManagerInstance.resetTestSpecificSettings(); // Placeholder for such a method
 
           // 2. Populate base inventory, considering excludedItems
           const itemPool = stateManagerInstance.getItemPoolCounts(); // Assumes getter for itempool_counts
@@ -591,19 +590,32 @@ self.onmessage = async function (e) {
             JSON.stringify(excludedItems)
           );
 
-          // Only populate a base inventory if excludedItems are specified.
-          // If excludedItems is empty, the inventory (after clearing) will only receive requiredItems later.
-          if (excludedItems.length > 0) {
+          // Populate base inventory only if there are excluded items or required items
+          // If both requiredItems and excludedItems are empty, start with empty inventory
+          const shouldPopulateBaseInventory =
+            excludedItems.length > 0 || requiredItems.length > 0;
+
+          if (shouldPopulateBaseInventory) {
+            // Create a combined exclusion list that includes both explicit exclusions and required items
+            // This prevents double-adding items that are both in the item pool and in the required items list
+            const combinedExclusions = [...excludedItems];
+            requiredItems.forEach((item) => {
+              const itemName = typeof item === 'string' ? item : item.name;
+              if (itemName && !combinedExclusions.includes(itemName)) {
+                combinedExclusions.push(itemName);
+              }
+            });
+
             if (itemPool && Object.keys(itemPool).length > 0) {
               console.log(
-                '[SMW APPLY_TEST] ExcludedItems is NOT empty. Using itempool_counts for base inventory (respecting exclusions).'
+                '[SMW APPLY_TEST] Using itempool_counts for base inventory (respecting exclusions and required items).'
               );
               Object.entries(itemPool).forEach(([itemName, count]) => {
                 if (itemName.startsWith('__')) return; // Skip special config values like __max_progressive_bottle
-                if (excludedItems.includes(itemName)) return;
+                if (combinedExclusions.includes(itemName)) return; // Skip excluded items AND required items
                 if (
                   itemName.includes('Bottle') &&
-                  excludedItems.includes('AnyBottle')
+                  combinedExclusions.includes('AnyBottle')
                 )
                   return;
 
@@ -612,34 +624,34 @@ self.onmessage = async function (e) {
                   return; // Skip event items
 
                 for (let i = 0; i < count; i++) {
-                  stateManagerInstance.addItemToInventory(itemName, 1, true); // true to indicate batch add
+                  stateManagerInstance.addItemToInventory(itemName); // Now respects batch mode
                 }
               });
             } else if (allItemData) {
               console.log(
-                '[SMW APPLY_TEST] ExcludedItems is NOT empty, but no itempool_counts. Using all non-event items for base inventory (respecting exclusions).'
+                '[SMW APPLY_TEST] No itempool_counts available. Using all non-event items for base inventory (respecting exclusions and required items).'
               );
               Object.keys(allItemData).forEach((itemName) => {
-                if (excludedItems.includes(itemName)) return;
+                if (combinedExclusions.includes(itemName)) return; // Skip excluded items AND required items
                 if (
                   itemName.includes('Bottle') &&
-                  excludedItems.includes('AnyBottle')
+                  combinedExclusions.includes('AnyBottle')
                 )
                   return;
 
                 const itemDef = allItemData[itemName];
                 if (itemDef && (itemDef.event || itemDef.type === 'Event'))
                   return; // Skip event items
-                stateManagerInstance.addItemToInventory(itemName, 1, true); // true to indicate batch add
+                stateManagerInstance.addItemToInventory(itemName); // Now respects batch mode
               });
             } else {
               console.warn(
-                '[SMW APPLY_TEST] Excluded items specified, but no itemPool or allItemData to derive base inventory.'
+                '[SMW APPLY_TEST] No itemPool or allItemData available to derive base inventory.'
               );
             }
           } else {
             console.log(
-              '[SMW APPLY_TEST] ExcludedItems IS empty. Skipping base inventory population from itemPool/allItemData.'
+              '[SMW APPLY_TEST] Both requiredItems and excludedItems are empty. Starting with empty inventory.'
             );
           }
 
@@ -678,35 +690,15 @@ self.onmessage = async function (e) {
               const quantity =
                 typeof item === 'string' ? 1 : item.quantity || 1;
               if (itemName) {
-                // The addItemToInventory in the worker should handle batching internally if the last param is true
-                stateManagerInstance.addItemToInventory(
-                  itemName,
-                  quantity,
-                  true
-                ); // true for batch
+                for (let i = 0; i < quantity; i++) {
+                  stateManagerInstance.addItemToInventory(itemName); // Now respects batch mode
+                }
               }
             });
           }
 
-          // Force commit of any batched inventory changes within addItemToInventory
-          // This is important if addItemToInventory uses internal batching.
-          // If StateManager's addItemToInventory handles events/snapshots itself when not batching,
-          // we might need to ensure it does so here or call a method that finalizes.
-          // For now, assuming `addItemToInventory` with batch=true queues, and a separate call is needed.
-          // However, the current `addItemToInventory` in `stateManager.js` doesn't seem to take a batch param.
-          // It calls beginBatchUpdate/commitBatchUpdate itself.
-          // So, the `true` param above might not be doing what's intended if the method signature differs.
-          // Let's assume `stateManagerInstance.addItemToInventory` handles its own snapshot updates for now.
-          // The crucial part is that `clearInventory` happened, then base items (minus excluded) were added,
-          // then required items were added.
-
-          // 5. Trigger full recalculation
-          // This is now usually handled within commitBatchUpdate or by individual item additions if not batching.
-          // If addItemToInventory calls are not batching and update state, this explicit call might be redundant
-          // or even cause double computation. However, if they *are* batching internally, a final commit/compute is vital.
-          // Given the old logic: this.commitBatchUpdate(); which calls computeReachableRegions.
-          // Let's ensure a final computation.
-          stateManagerInstance.computeReachableRegions(); // Explicitly recompute after all inventory ops.
+          // 5. Commit batch update - this will trigger cache invalidation, region computation, and snapshot update
+          stateManagerInstance.commitBatchUpdate();
 
           // 6. Get the new full snapshot
           const newSnapshot = stateManagerInstance.getSnapshot();
@@ -720,28 +712,26 @@ self.onmessage = async function (e) {
             locationAccessibilityResult =
               newSnapshot.locations[locationName].accessible;
           } else {
-            // It's also possible that evaluateRule needs to be called explicitly here with the new state context
-            // if the snapshot itself doesn't directly contain a simple boolean for the target location.
-            // This depends on how `stateManagerInstance.evaluateAccessibilityForTest` worked previously or how
-            // accessibility is determined in the new full snapshot.
-            // As a robust fallback, if not directly on snapshot, try to evaluate it now:
+            // Find the location object and evaluate accessibility directly
             try {
-              locationAccessibilityResult =
-                stateManagerInstance.isLocationAccessible(locationName);
+              const locationObject = stateManagerInstance.locations.find(
+                (loc) => loc.name === locationName
+              );
+              if (locationObject) {
+                locationAccessibilityResult =
+                  stateManagerInstance.isLocationAccessible(locationObject);
+              } else {
+                console.warn(
+                  `[stateManagerWorker] Location object not found: ${locationName}`
+                );
+                locationAccessibilityResult = false;
+              }
             } catch (locEvalError) {
               console.error(
                 `[SMW] Error explicitly evaluating ${locationName} after inventory set:`,
                 locEvalError
               );
-              locationAccessibilityResult = undefined; // Indicate an error in evaluation
-            }
-            if (
-              locationAccessibilityResult === undefined &&
-              !(newSnapshot.locations && newSnapshot.locations[locationName])
-            ) {
-              console.warn(
-                `[stateManagerWorker] Location ${locationName} not found in new snapshot and explicit eval failed or was not possible.`
-              );
+              locationAccessibilityResult = false; // Default to false on error
             }
           }
 
@@ -765,6 +755,19 @@ self.onmessage = async function (e) {
             '[StateManagerWorker] Error during APPLY_TEST_INVENTORY_AND_EVALUATE logic:',
             testEvalError
           );
+
+          // Ensure batch mode is properly cleaned up if an error occurs
+          if (stateManagerInstance && stateManagerInstance._batchMode) {
+            try {
+              stateManagerInstance.commitBatchUpdate();
+            } catch (batchError) {
+              console.error(
+                '[StateManagerWorker] Error cleaning up batch mode after test error:',
+                batchError
+              );
+            }
+          }
+
           self.postMessage({
             type: 'queryResponse',
             queryId: message.queryId,

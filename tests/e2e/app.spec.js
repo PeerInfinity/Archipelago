@@ -65,6 +65,46 @@ test.describe('Application End-to-End Tests', () => {
     );
     expect(superQuickTestResult).toBeDefined();
     expect(superQuickTestResult.status).toBe('passed');
+
+    // Check for test case results from testCasePanelInteractionTest
+    const testCaseResultsString = await page.evaluate(() =>
+      localStorage.getItem('__testCaseResults__')
+    );
+
+    if (testCaseResultsString) {
+      console.log('PW DEBUG: Test case results found in localStorage.');
+      const testCaseResults = JSON.parse(testCaseResultsString);
+
+      console.log(
+        'PW DEBUG: Test Case Results Summary:',
+        `Total: ${testCaseResults.total}, ` +
+          `Passed: ${testCaseResults.passed}, ` +
+          `Failed: ${testCaseResults.failed}, ` +
+          `Cancelled: ${testCaseResults.cancelled}`
+      );
+
+      // Log failed tests for debugging
+      if (testCaseResults.failed > 0) {
+        console.log('PW DEBUG: Failed test cases:');
+        testCaseResults.details.forEach((test) => {
+          if (test.status === 'failed' || test.status === 'error') {
+            console.log(`  - ${test.locationName}: ${test.message}`);
+          }
+        });
+      }
+
+      // Report test case results (but don't fail the Playwright test if some test cases fail)
+      // This allows us to see the results even if there are failing test cases
+      console.log(
+        `PW DEBUG: Test case validation completed. ${testCaseResults.passed}/${testCaseResults.total} test cases passed.`
+      );
+
+      // Optionally, you can uncomment the line below to make Playwright fail if any test cases fail:
+      // expect(testCaseResults.failed).toBe(0);
+    } else {
+      console.log('PW DEBUG: No test case results found in localStorage.');
+    }
+
     console.log('PW DEBUG: All Playwright assertions passed.');
   });
 });

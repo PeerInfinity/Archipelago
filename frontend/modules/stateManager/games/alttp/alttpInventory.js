@@ -34,9 +34,10 @@ export class ALTTPInventory {
       if (currentCount < maxCount) {
         this.items.set(itemName, currentCount + 1);
       } else {
-        // Optionally log or handle max count reached for progressive item
-        console.warn(
-          `[ALTTPInventory] Max count for progressive item ${itemName} reached.`
+        // This is expected behavior during test setup when populating base inventory
+        // Only log as debug info, not a warning
+        console.debug(
+          `[ALTTPInventory] Max count (${maxCount}) for progressive item ${itemName} reached. Current count: ${currentCount}`
         );
       }
     } else {

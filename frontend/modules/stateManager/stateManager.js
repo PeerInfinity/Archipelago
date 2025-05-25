@@ -224,9 +224,18 @@ export class StateManager {
     this.itemData = itemData;
     this.groupData = groupData;
     this._logDebug('[StateManager Class] Inventory cleared.');
-    this.invalidateCache();
-    this.computeReachableRegions(); // Recompute first
-    // this._publishEvent('inventoryChanged'); // Snapshot update implies this
+
+    // Only invalidate cache and recompute if NOT in batch mode
+    if (!this._batchMode) {
+      this.invalidateCache();
+      this.computeReachableRegions(); // Recompute first
+      // this._publishEvent('inventoryChanged'); // Snapshot update implies this
+    } else {
+      this._logDebug(
+        '[StateManager Class] clearInventory: In batch mode, deferring cache invalidation and recomputation.'
+      );
+      this.invalidateCache(); // Still need to invalidate cache for batch commit to know to recompute
+    }
   }
 
   clearState(options = { recomputeAndSendUpdate: true }) {
@@ -301,8 +310,16 @@ export class StateManager {
       this._logDebug(
         `[StateManager] addItemToInventory: Called inventory.addItem("${itemName}")`
       );
-      this.invalidateCache(); // Adding an item can change reachability
-      this._sendSnapshotUpdate(); // Send a new snapshot
+
+      // Only invalidate cache and send updates if NOT in batch mode
+      if (!this._batchMode) {
+        this.invalidateCache(); // Adding an item can change reachability
+        this._sendSnapshotUpdate(); // Send a new snapshot
+      } else {
+        this._logDebug(
+          `[StateManager] addItemToInventory: In batch mode, deferring cache invalidation and snapshot update for "${itemName}"`
+        );
+      }
     } else {
       this._logDebug(
         `[StateManager] addItemToInventory: Inventory or addItem method not available for "${itemName}"`,

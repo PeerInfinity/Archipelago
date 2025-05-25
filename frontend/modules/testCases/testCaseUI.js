@@ -489,11 +489,13 @@ export class TestCaseUI {
           const itemsForValidation = requiredItems.filter(
             (item) => item !== itemToRemove
           );
+          const excludedItemsForValidation = [...excludedItems, itemToRemove];
+
           const validationResultFromWorker =
             await stateManager.evaluateLocationAccessibilityForTest(
               locationName,
               itemsForValidation, // Exclude one required item
-              excludedItems
+              excludedItemsForValidation // Include the removed item in excluded list
             );
           if (validationResultFromWorker) {
             // Should be false if item is truly required
@@ -598,6 +600,28 @@ export class TestCaseUI {
     let passedCount = 0;
     let failedCount = 0;
     let cancelledCount = 0;
+    const totalTests = this.testCases.location_tests.length;
+
+    // Helper function to update the results summary
+    const updateResultsSummary = () => {
+      const resultsElement = this.testCasesListContainer.querySelector(
+        '#test-results-summary'
+      );
+      if (resultsElement) {
+        const completedCount = passedCount + failedCount + cancelledCount;
+        let summaryText = `Tests completed: ${completedCount}/${totalTests}, <span class="passed">${passedCount} passed</span>, <span class="failed">${failedCount} failed</span>`;
+        if (cancelledCount > 0) {
+          summaryText += `, <span class="cancelled">${cancelledCount} cancelled</span>`;
+        }
+        resultsElement.innerHTML = `<div class="test-summary ${
+          failedCount === 0 &&
+          cancelledCount === 0 &&
+          completedCount === totalTests
+            ? 'all-passed'
+            : 'has-failures'
+        }">${summaryText}</div>`;
+      }
+    };
 
     try {
       for (const [
@@ -617,6 +641,7 @@ export class TestCaseUI {
               cancelledCount++;
             }
           }
+          updateResultsSummary(); // Update after cancelling remaining tests
           break;
         }
 
@@ -626,6 +651,7 @@ export class TestCaseUI {
         if (statusElement) {
           const result = await this.loadTestCase(testCaseData, statusElement);
           result ? passedCount++ : failedCount++;
+          updateResultsSummary(); // Update after each test completes
           await new Promise((resolve) => setTimeout(resolve, 10)); // Small delay for UI updates
         }
       }
@@ -633,21 +659,8 @@ export class TestCaseUI {
       this.isRunningAllTests = false;
       this.shouldCancelTests = false;
 
-      const total = passedCount + failedCount + cancelledCount;
-      const resultsElement = this.testCasesListContainer.querySelector(
-        '#test-results-summary'
-      );
-      if (resultsElement) {
-        let summaryText = `Tests completed: ${total} total, <span class="passed">${passedCount} passed</span>, <span class="failed">${failedCount} failed</span>`;
-        if (cancelledCount > 0) {
-          summaryText += `, <span class="cancelled">${cancelledCount} cancelled</span>`;
-        }
-        resultsElement.innerHTML = `<div class="test-summary ${
-          failedCount === 0 && cancelledCount === 0
-            ? 'all-passed'
-            : 'has-failures'
-        }">${summaryText}</div>`;
-      }
+      // Final update to ensure summary is complete
+      updateResultsSummary();
 
       if (runAllButton) {
         runAllButton.disabled = false;

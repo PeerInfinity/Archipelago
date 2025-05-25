@@ -452,7 +452,11 @@ export const evaluateRule = (rule, context, depth = 0) => {
 
       case 'count_check': {
         const itemName = evaluateRule(rule.item, context, depth + 1);
-        const requiredCount = evaluateRule(rule.count, context, depth + 1);
+        // Default count to 1 if not specified
+        const requiredCount =
+          rule.count !== undefined
+            ? evaluateRule(rule.count, context, depth + 1)
+            : 1;
 
         if (itemName === undefined || requiredCount === undefined) {
           result = undefined;
@@ -474,7 +478,11 @@ export const evaluateRule = (rule, context, depth = 0) => {
 
       case 'group_check': {
         const groupName = evaluateRule(rule.group, context, depth + 1);
-        const requiredCount = evaluateRule(rule.count, context, depth + 1);
+        // Default count to 1 if not specified
+        const requiredCount =
+          rule.count !== undefined
+            ? evaluateRule(rule.count, context, depth + 1)
+            : 1;
 
         if (groupName === undefined || requiredCount === undefined) {
           result = undefined;
