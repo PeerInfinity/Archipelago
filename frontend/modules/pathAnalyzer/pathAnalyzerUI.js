@@ -166,8 +166,19 @@ export class PathAnalyzerUI {
   ) {
     pathsContainer.innerHTML = '';
 
-    // PHASE 1: Check actual reachability using stateManager
+    // PHASE 1: Get current snapshot and static data
     const snapshot = stateManager.getLatestStateSnapshot();
+    const staticData = stateManager.getStaticData();
+
+    if (!snapshot || !staticData) {
+      pathsContainer.innerHTML =
+        '<div class="error-message">Error: Cannot perform path analysis - missing snapshot or static data.</div>';
+      analyzePathsBtn.textContent = 'Analyze Paths';
+      analyzePathsBtn.disabled = false;
+      return;
+    }
+
+    // Check actual reachability using stateManager
     let isRegionActuallyReachable = false;
     if (snapshot && snapshot.reachability) {
       const status = snapshot.reachability[regionName];
@@ -191,8 +202,26 @@ export class PathAnalyzerUI {
     const pathsDiv = document.createElement('div');
     pathsDiv.classList.add('path-regions-container');
 
-    // PHASE 2: Perform traditional path analysis using the logic component
-    const allPaths = this.logic.findPathsToRegion(regionName, maxPaths);
+    // Create snapshot interface for rule evaluation
+    const snapshotInterface = createStateSnapshotInterface(
+      snapshot,
+      staticData
+    );
+    if (!snapshotInterface) {
+      pathsContainer.innerHTML =
+        '<div class="error-message">Error: Cannot create snapshot interface for path analysis.</div>';
+      analyzePathsBtn.textContent = 'Analyze Paths';
+      analyzePathsBtn.disabled = false;
+      return;
+    }
+
+    // PHASE 2: Perform traditional path analysis using the logic component with proper parameters
+    const allPaths = this.logic.findPathsToRegion(
+      regionName,
+      maxPaths,
+      snapshot,
+      staticData
+    );
 
     // Track path statistics
     let accessiblePathCount = 0;
@@ -211,7 +240,12 @@ export class PathAnalyzerUI {
     if (allPaths.length > 0) {
       // Process and analyze paths
       allPaths.forEach((path, pathIndex) => {
-        const transitions = this.logic.findAllTransitions(path);
+        const transitions = this.logic.findAllTransitions(
+          path,
+          snapshot,
+          staticData,
+          snapshotInterface
+        );
         let pathHasIssues = false;
 
         // CRITICAL FIX: Check if this path is fully viable by ensuring every transition has at least one accessible exit
@@ -230,7 +264,14 @@ export class PathAnalyzerUI {
         }
 
         // Generate path element and add to container
-        const pathEl = this._processPath(path, pathsDiv, allNodes, pathIndex);
+        const pathEl = this._processPath(
+          path,
+          pathsDiv,
+          allNodes,
+          pathIndex,
+          snapshot,
+          staticData
+        );
 
         // If this is a viable path, mark it specially
         if (!pathHasIssues) {
@@ -292,8 +333,12 @@ export class PathAnalyzerUI {
     // If stateManager says region is reachable but we couldn't find viable paths,
     // display a canonical path derived from stateManager's internal data
     if (isRegionActuallyReachable && accessiblePathCount === 0) {
-      // Find a canonical path using logic component
-      const canonicalPathData = this.logic.findCanonicalPath(regionName);
+      // Find a canonical path using logic component with proper parameters
+      const canonicalPathData = this.logic.findCanonicalPath(
+        regionName,
+        snapshot,
+        staticData
+      );
 
       if (canonicalPathData && canonicalPathData.regions.length > 0) {
         // Create container for canonical path
@@ -392,160 +437,106 @@ export class PathAnalyzerUI {
           canonicalPathContainer.appendChild(connectionsList);
         }
 
-        // Insert the canonical path at the top of the paths container
+        // Insert canonical path before the paths container
         pathsContainer.insertBefore(canonicalPathContainer, pathsDiv);
       }
     }
 
-    // Add paths visualization
+    // Add the paths container
     pathsContainer.appendChild(pathsDiv);
 
-    // Show empty message if no paths found
-    if (allPaths.length === 0) {
-      const noPathsMessage = document.createElement('div');
-      noPathsMessage.classList.add('empty-message');
-      noPathsMessage.innerHTML = `
-        <p>No paths were found to this region. This could be due to:</p>
-        <ul>
-          <li>The region requires items or abilities we don't have</li>
-          <li>The region has a non-standard access mechanism</li>
-          <li>There's a bug in the path-finding algorithm</li>
-        </ul>
-      `;
-      pathsDiv.appendChild(noPathsMessage);
+    // Display compiled requirements analysis
+    this.displayCompiledList(allNodes, requirementsDiv);
 
-      // Try to provide more details about why no paths were found
-      const currentSnapshot = stateManager.getLatestStateSnapshot(); // Re-fetch snapshot
-      const currentStaticData = stateManager.getStaticData(); // Re-fetch static data
-
-      if (!currentSnapshot || !currentStaticData) {
-        console.error(
-          '[PathAnalyzerUI] Missing snapshot or static data when analyzing direct connections for empty path.'
-        );
-        pathsDiv.innerHTML +=
-          '<p>Error: State data unavailable for detailed analysis.</p>';
-      } else {
-        // Create the interface using the data fetched *within this block*
-        const currentSnapshotInterface = createStateSnapshotInterface(
-          currentSnapshot,
-          currentStaticData
-        );
-        if (!currentSnapshotInterface) {
-          console.error(
-            '[PathAnalyzerUI] Failed to create snapshot interface for direct connection analysis.'
-          );
-          pathsDiv.innerHTML +=
-            '<p>Error: Context unavailable for detailed analysis.</p>';
-        } else {
-          // Call with the newly created, validated data
-          this._analyzeDirectConnections(
-            regionName,
-            pathsDiv,
-            currentStaticData, // Pass the fetched staticData
-            currentSnapshotInterface // Pass the newly created interface
-          );
-        }
-      }
-    }
-
-    // Display paths count
-    if (allPaths.length > 0) {
-      pathsCountSpan.textContent = `(${allPaths.length} paths)`;
+    // Update path count display
+    if (pathsCountSpan) {
+      pathsCountSpan.textContent = `(${allPaths.length} path${
+        allPaths.length !== 1 ? 's' : ''
+      } found, ${accessiblePathCount} viable)`;
       pathsCountSpan.style.display = 'inline';
     }
 
-    // Populate the requirements analysis section
-    this.displayCompiledList(allNodes, requirementsDiv);
+    // Update button state
+    analyzePathsBtn.textContent = 'Hide Paths';
+    analyzePathsBtn.disabled = false;
 
-    // Only do this if we found at least one path
-    if (allPaths.length > 0) {
-      // Create show/hide all buttons
-      const expandCollapseDiv = document.createElement('div');
-      expandCollapseDiv.style.display = 'flex';
-      expandCollapseDiv.style.justifyContent = 'flex-end';
-      expandCollapseDiv.style.marginBottom = '10px';
-      expandCollapseDiv.style.gap = '5px';
-
-      const showAllBtn = document.createElement('button');
-      showAllBtn.className = 'show-exit-rules-btn';
-      showAllBtn.textContent = 'Show All Rules';
-      showAllBtn.addEventListener('click', () => {
-        document
-          .querySelectorAll('.path-exit-rule-container')
-          .forEach((container) => {
-            container.style.display = 'block';
-          });
-      });
-
-      const hideAllBtn = document.createElement('button');
-      hideAllBtn.className = 'show-exit-rules-btn';
-      hideAllBtn.textContent = 'Hide All Rules';
-      hideAllBtn.addEventListener('click', () => {
-        document
-          .querySelectorAll('.path-exit-rule-container')
-          .forEach((container) => {
-            container.style.display = 'none';
-          });
-      });
-
-      expandCollapseDiv.appendChild(showAllBtn);
-      expandCollapseDiv.appendChild(hideAllBtn);
-      pathsContainer.insertBefore(expandCollapseDiv, pathsDiv);
-    }
-
-    // Wait until the first paint to display sorted buttons to avoid layout thrashing
-    requestAnimationFrame(() => {
-      // Restore the button
-      analyzePathsBtn.textContent = 'Clear Analysis';
-      analyzePathsBtn.disabled = false;
+    // Store analysis results for Playwright integration
+    this._storeAnalysisResults(regionName, {
+      totalPaths: allPaths.length,
+      viablePaths: accessiblePathCount,
+      isReachable: isRegionActuallyReachable,
+      hasDiscrepancy: isRegionActuallyReachable && accessiblePathCount === 0,
+      allNodes: allNodes,
     });
   }
 
   /**
-   * Process a single path and create a visual representation
-   * @param {Array} path - The path to process
-   * @param {HTMLElement} pathsDiv - The container to add the path to
+   * Process a single path and create its UI representation
+   * @param {Array<string>} path - Array of region names in the path
+   * @param {HTMLElement} pathsDiv - Container to add the path element to
    * @param {Object} allNodes - Object to collect node categorizations
    * @param {number} pathIndex - Index of the path
+   * @param {Object} snapshot - The current state snapshot
+   * @param {Object} staticData - The current static data
    * @returns {HTMLElement} - The processed path element
    */
-  _processPath(path, pathsDiv, allNodes, pathIndex = 0) {
+  _processPath(path, pathsDiv, allNodes, pathIndex = 0, snapshot, staticData) {
     // Create path element
     const pathEl = document.createElement('div');
-    pathEl.classList.add('region-path');
-    pathEl.dataset.originalIndex = pathIndex.toString();
-    pathEl.style.marginBottom = '10px';
+    pathEl.classList.add('path-container');
+    pathEl.style.marginBottom = '20px';
+    pathEl.style.border = '1px solid #ccc';
+    pathEl.style.borderRadius = '4px';
+    pathEl.style.padding = '10px';
 
-    // Create the path visualization with collapsible header
+    // Create path header with toggle functionality
     const pathHeader = document.createElement('div');
     pathHeader.classList.add('path-header');
+    pathHeader.style.cursor = 'pointer';
     pathHeader.style.display = 'flex';
     pathHeader.style.alignItems = 'center';
-    pathHeader.style.cursor = 'pointer';
-    pathHeader.style.padding = '5px';
-    pathHeader.style.borderRadius = '4px';
-    pathHeader.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+    pathHeader.style.gap = '10px';
 
     // Add toggle indicator
     const toggleIndicator = document.createElement('span');
-    toggleIndicator.classList.add('path-toggle-indicator');
-    toggleIndicator.textContent = '▼'; // Down arrow for expanded
-    toggleIndicator.style.marginRight = '8px';
-    toggleIndicator.style.fontSize = '10px';
-    toggleIndicator.style.transition = 'transform 0.2s';
+    toggleIndicator.textContent = '▼'; // Down arrow when expanded
+    toggleIndicator.style.fontSize = '12px';
+    toggleIndicator.style.color = '#666';
     pathHeader.appendChild(toggleIndicator);
 
-    // Create the path visualization
-    const pathText = document.createElement('div');
-    pathText.classList.add('path-regions');
-    pathText.style.flex = '1';
+    // Add path number
+    const pathNumber = document.createElement('span');
+    pathNumber.textContent = `Path ${pathIndex + 1}:`;
+    pathNumber.style.fontWeight = 'bold';
+    pathNumber.style.color = '#333';
+    pathHeader.appendChild(pathNumber);
+
+    // Create path text container
+    const pathText = document.createElement('span');
+    pathText.classList.add('path-text');
+
+    // Create snapshot interface for rule evaluation
+    const snapshotInterface = createStateSnapshotInterface(
+      snapshot,
+      staticData
+    );
+    if (!snapshotInterface) {
+      console.error(
+        '[PathAnalyzerUI] Failed to create snapshot interface for path processing'
+      );
+      return pathEl;
+    }
 
     // Analyze the transitions in this path using the logic component
-    const transitions = this.logic.findAllTransitions(path);
+    const transitions = this.logic.findAllTransitions(
+      path,
+      snapshot,
+      staticData,
+      snapshotInterface
+    );
 
     // Call debug function for problematic transitions
-    this.logic.debugTransition(transitions, 'Light World', 'East Dark World');
-    this.logic.debugTransition(transitions, 'East Dark World', 'Pyramid Fairy');
+    this.logic.debugTransition(transitions, path[0], path[path.length - 1]);
 
     // Create container for exit rules (this will be toggled)
     const exitRulesContainer = document.createElement('div');
@@ -558,8 +549,12 @@ export class PathAnalyzerUI {
 
     // Display the path regions
     path.forEach((region, index) => {
-      // Check region's general accessibility
-      const regionAccessible = stateManager.isRegionReachable(region);
+      // Check region's general accessibility from snapshot
+      const regionAccessible =
+        snapshot.reachability &&
+        (snapshot.reachability[region] === true ||
+          snapshot.reachability[region] === 'reachable' ||
+          snapshot.reachability[region] === 'checked');
 
       // Determine color based on accessibility and path integrity
       let regionColor;
@@ -579,7 +574,7 @@ export class PathAnalyzerUI {
           (t) => t.fromRegion === prevRegion && t.toRegion === region
         );
 
-        // FIX: Check if ANY exit is accessible for this transition
+        // Check if ANY exit is accessible for this transition
         if (transition && transition.transitionAccessible) {
           // This link in the chain works - region is accessible via this path: GREEN
           regionColor = '#4caf50';
@@ -601,7 +596,7 @@ export class PathAnalyzerUI {
       regionSpan.classList.add('region-link');
       regionSpan.dataset.region = region;
 
-      // Add colorblind symbol if needed - FIX: Use correct accessibility status
+      // Add colorblind symbol if needed
       const useColorblindPath = settingsManager.getSetting(
         'colorblindMode.pathAnalyzer',
         false
@@ -643,13 +638,13 @@ export class PathAnalyzerUI {
           (t) => t.fromRegion === region && t.toRegion === toRegion
         );
 
-        // FIX: Color the arrow based on transition accessibility
+        // Color the arrow based on transition accessibility
         const arrowColor =
           transition && transition.transitionAccessible ? '#4caf50' : '#ff9800';
 
         const arrow = document.createElement('span');
         arrow.textContent = ' → ';
-        arrow.style.color = arrowColor; // FIX: Apply correct color to arrow
+        arrow.style.color = arrowColor;
         pathText.appendChild(arrow);
       }
     });
@@ -681,7 +676,7 @@ export class PathAnalyzerUI {
         transitionHeader.style.marginBottom = '5px';
         transitionHeader.style.fontWeight = 'bold';
 
-        // FIX: Color the transition header based on whether ANY exit is accessible
+        // Color the transition header based on whether ANY exit is accessible
         const transitionColor = transition.transitionAccessible
           ? '#4caf50' // Green if ANY exit is accessible
           : '#f44336'; // Red if NO exits are accessible
@@ -690,10 +685,12 @@ export class PathAnalyzerUI {
 
         // Count how many exits are accessible
         const accessibleExitCount = transition.exits.filter(
-          (exit) => !exit.access_rule || evaluateRule(exit.access_rule)
+          (exit) =>
+            !exit.access_rule ||
+            evaluateRule(exit.access_rule, snapshotInterface)
         ).length;
 
-        // FIX: Update text to make it clearer, with "transition" in correct color
+        // Update text to make it clearer
         transitionHeader.innerHTML = `<span style="color: ${transitionColor};">Transition:</span> ${
           transition.fromRegion
         } → ${transition.toRegion} 
@@ -701,7 +698,7 @@ export class PathAnalyzerUI {
           transition.transitionAccessible ? 'Accessible' : 'Blocked'
         })</span>`;
 
-        // FIX: If multiple exits, add indicator with exits count in WHITE color
+        // If multiple exits, add indicator with exits count
         if (transition.exits.length > 1) {
           transitionHeader.innerHTML += ` <span style="color: #cecece; font-weight: normal;">
             [${accessibleExitCount}/${transition.exits.length} exits available]</span>`;
@@ -717,7 +714,8 @@ export class PathAnalyzerUI {
         // Add each exit rule
         transition.exits.forEach((exit, exitIndex) => {
           const exitAccessible =
-            !exit.access_rule || evaluateRule(exit.access_rule);
+            !exit.access_rule ||
+            evaluateRule(exit.access_rule, snapshotInterface);
 
           // Create exit rule container
           const exitRuleContainer = document.createElement('div');
@@ -754,43 +752,58 @@ export class PathAnalyzerUI {
 
           exitRuleContainer.appendChild(exitHeader);
 
-          // Show the exit rule if it exists
+          // Add rule visualization if there's a rule
           if (exit.access_rule) {
             const ruleContainer = document.createElement('div');
             ruleContainer.classList.add('path-exit-rule');
-            const useColorblind = this.colorblindMode; // Get the current colorblind state
+            ruleContainer.style.marginTop = '5px';
+
+            const useColorblind = settingsManager.getSetting(
+              'colorblindMode.pathAnalyzer',
+              false
+            );
+
             const ruleElement = commonUI.renderLogicTree(
               exit.access_rule,
               useColorblind,
               snapshotInterface
             );
             ruleContainer.appendChild(ruleElement);
+
             exitRuleContainer.appendChild(ruleContainer);
 
-            // Analyze nodes from this exit for our categories
-            const nodeResults = this.logic.extractCategorizedNodes(ruleElement);
-            Object.keys(allNodes).forEach((key) => {
-              allNodes[key].push(...nodeResults[key]);
-            });
+            // Analyze rule nodes for categorization
+            const ruleNodes = this.logic.analyzeRuleForNodes(
+              exit.access_rule,
+              snapshotInterface
+            );
+
+            // Add nodes to appropriate categories (ruleNodes is an object with categorized arrays)
+            if (ruleNodes && typeof ruleNodes === 'object') {
+              Object.keys(allNodes).forEach((category) => {
+                if (ruleNodes[category] && Array.isArray(ruleNodes[category])) {
+                  allNodes[category].push(...ruleNodes[category]);
+                }
+              });
+            }
+          } else {
+            // No rule means always accessible
+            const noRuleDiv = document.createElement('div');
+            noRuleDiv.textContent = 'No access rule (always accessible)';
+            noRuleDiv.style.fontStyle = 'italic';
+            noRuleDiv.style.color = '#4caf50';
+            exitRuleContainer.appendChild(noRuleDiv);
           }
 
-          // Add to exits container
           exitsContainer.appendChild(exitRuleContainer);
         });
 
-        // Add all exits to the main container
         exitRulesContainer.appendChild(exitsContainer);
       });
     }
 
     // Add exit rules container to path element
     pathEl.appendChild(exitRulesContainer);
-
-    // FIX: If the entire path is viable, mark it visually
-    if (pathChainIntact) {
-      pathEl.classList.add('viable-path');
-      pathEl.style.borderLeft = '3px solid #4caf50';
-    }
 
     return pathEl;
   }
@@ -1627,5 +1640,43 @@ export class PathAnalyzerUI {
         node.insertBefore(symbolSpan, node.firstChild); // Insert at beginning
       }
     });
+  }
+
+  /**
+   * Helper method to store analysis results for Playwright integration
+   * @param {string} regionName - The region analyzed
+   * @param {Object} results - The analysis results
+   */
+  _storeAnalysisResults(regionName, results) {
+    // Store results in localStorage for Playwright to access
+    const analysisResults = {
+      regionName: regionName,
+      timestamp: new Date().toISOString(),
+      ...results,
+    };
+
+    // Store individual result
+    localStorage.setItem(
+      `__pathAnalysis_${regionName}__`,
+      JSON.stringify(analysisResults)
+    );
+
+    // Also maintain a list of all analyzed regions
+    const existingResults = JSON.parse(
+      localStorage.getItem('__pathAnalysisResults__') || '[]'
+    );
+    const updatedResults = existingResults.filter(
+      (r) => r.regionName !== regionName
+    );
+    updatedResults.push(analysisResults);
+    localStorage.setItem(
+      '__pathAnalysisResults__',
+      JSON.stringify(updatedResults)
+    );
+
+    console.log(
+      `[PathAnalyzerUI] Stored analysis results for ${regionName}:`,
+      analysisResults
+    );
   }
 }

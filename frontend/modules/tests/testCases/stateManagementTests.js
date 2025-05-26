@@ -640,6 +640,6 @@ registerTest({
     'Tests activating the Test Cases panel, selecting the vanilla Light World test, running all tests, and collecting results for Playwright.',
   testFunction: testCasePanelInteractionTest,
   category: 'UI Interaction',
-  enabled: true,
+  enabled: false,
   order: 1,
 });

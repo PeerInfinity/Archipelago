@@ -17,6 +17,10 @@
     "Progressive Items": {
       "isEnabled": true,
       "order": 3
+    },
+    "Path Analysis": {
+      "isEnabled": true,
+      "order": 4
     }
   },
   "tests": [
@@ -55,6 +59,33 @@
       "isEnabled": false,
       "order": 1,
       "category": "Core"
+    },
+    {
+      "id": "test_case_panel_interaction",
+      "name": "Test Case Panel Interaction Test",
+      "description": "Tests the Test Cases panel functionality including running the full test suite.",
+      "functionName": "testCasePanelInteractionTest",
+      "isEnabled": true,
+      "order": 0,
+      "category": "UI Interaction"
+    },
+    {
+      "id": "test_path_analyzer_integration",
+      "name": "Path Analyzer Integration Test",
+      "description": "Tests the Path Analyzer functionality with the worker thread architecture.",
+      "functionName": "testPathAnalyzerIntegration",
+      "isEnabled": true,
+      "order": 0,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_failing_test",
+      "name": "Path Analyzer with Failing Test",
+      "description": "Tests the Path Analyzer with a test case that should fail to verify it correctly identifies accessibility issues.",
+      "functionName": "testPathAnalyzerWithFailingTest",
+      "isEnabled": true,
+      "order": 1,
+      "category": "Path Analysis"
     }
   ]
 }
