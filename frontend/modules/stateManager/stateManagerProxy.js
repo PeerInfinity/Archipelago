@@ -1051,45 +1051,45 @@ export class StateManagerProxy {
       const mainThreadLoggerConfig = window.logger.getConfig();
       workerLoggingConfig = {
         defaultLevel: mainThreadLoggerConfig.defaultLevel,
-        moduleLevels: {
+        categoryLevels: {
           // Worker-specific modules
           stateManagerWorker:
-            mainThreadLoggerConfig.moduleLevels?.stateManagerWorker ||
+            mainThreadLoggerConfig.categoryLevels?.stateManagerWorker ||
             mainThreadLoggerConfig.defaultLevel,
           StateManager:
-            mainThreadLoggerConfig.moduleLevels?.StateManager ||
+            mainThreadLoggerConfig.categoryLevels?.StateManager ||
             mainThreadLoggerConfig.defaultLevel,
           stateManager:
-            mainThreadLoggerConfig.moduleLevels?.stateManager ||
+            mainThreadLoggerConfig.categoryLevels?.stateManager ||
             mainThreadLoggerConfig.defaultLevel,
           ALTTPInventory:
-            mainThreadLoggerConfig.moduleLevels?.ALTTPInventory ||
+            mainThreadLoggerConfig.categoryLevels?.ALTTPInventory ||
             mainThreadLoggerConfig.defaultLevel,
           alttpInventory:
-            mainThreadLoggerConfig.moduleLevels?.alttpInventory ||
+            mainThreadLoggerConfig.categoryLevels?.alttpInventory ||
             mainThreadLoggerConfig.defaultLevel,
           ruleEngine:
-            mainThreadLoggerConfig.moduleLevels?.ruleEngine ||
+            mainThreadLoggerConfig.categoryLevels?.ruleEngine ||
             mainThreadLoggerConfig.defaultLevel,
           stateManagerHelpers:
-            mainThreadLoggerConfig.moduleLevels?.stateManagerHelpers ||
+            mainThreadLoggerConfig.categoryLevels?.stateManagerHelpers ||
             mainThreadLoggerConfig.defaultLevel,
           gameInventory:
-            mainThreadLoggerConfig.moduleLevels?.gameInventory ||
+            mainThreadLoggerConfig.categoryLevels?.gameInventory ||
             mainThreadLoggerConfig.defaultLevel,
           alttpHelpers:
-            mainThreadLoggerConfig.moduleLevels?.alttpHelpers ||
+            mainThreadLoggerConfig.categoryLevels?.alttpHelpers ||
             mainThreadLoggerConfig.defaultLevel,
           alttpSnapshotHelpers:
-            mainThreadLoggerConfig.moduleLevels?.alttpSnapshotHelpers ||
+            mainThreadLoggerConfig.categoryLevels?.alttpSnapshotHelpers ||
             mainThreadLoggerConfig.defaultLevel,
           alttpWorkerHelpers:
-            mainThreadLoggerConfig.moduleLevels?.alttpWorkerHelpers ||
+            mainThreadLoggerConfig.categoryLevels?.alttpWorkerHelpers ||
             mainThreadLoggerConfig.defaultLevel,
         },
         filters: mainThreadLoggerConfig.filters,
         showTimestamp: mainThreadLoggerConfig.showTimestamp,
-        showModuleName: mainThreadLoggerConfig.showModuleName,
+        showCategoryName: mainThreadLoggerConfig.showCategoryName,
         enabled: mainThreadLoggerConfig.enabled,
       };
     }

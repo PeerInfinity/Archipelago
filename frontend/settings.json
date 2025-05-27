@@ -8,7 +8,7 @@
   },
   "logging": {
     "defaultLevel": "WARN",
-    "moduleLevels": {
+    "categoryLevels": {
       "init": "WARN",
       "centralRegistry": "WARN",
       "eventBus": "WARN",
@@ -89,14 +89,17 @@
       "alttpInventory": "WARN",
       "alttpSnapshotHelpers": "WARN",
       "alttpWorkerHelpers": "WARN",
-      "ALTTPState": "WARN"
+      "ALTTPState": "WARN",
+      "StateManager": "WARN",
+      "INIT_STEP": "INFO",
+      "TASK_LIFECYCLE": "WARN"
     },
     "filters": {
       "includeKeywords": [],
       "excludeKeywords": []
     },
     "showTimestamp": true,
-    "showModuleName": true,
+    "showCategoryName": true,
     "enabled": true
   },
   "moduleSettings": {

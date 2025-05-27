@@ -59,7 +59,7 @@ const workerLogger = new LoggerService();
 // Configure with basic settings initially
 workerLogger.configure({
   defaultLevel: 'WARN',
-  moduleLevels: {
+  categoryLevels: {
     stateManagerWorker: 'WARN',
     StateManager: 'WARN',
     stateManager: 'WARN',
@@ -162,7 +162,7 @@ self.onmessage = async function (e) {
             `Worker logger configured. Default: ${
               workerLogger.config.defaultLevel
             }, StateManager: ${
-              workerLogger.config.moduleLevels?.StateManager || 'N/A'
+              workerLogger.config.categoryLevels?.StateManager || 'N/A'
             }`
           );
         }
@@ -227,7 +227,7 @@ self.onmessage = async function (e) {
             `Worker logging configuration updated. Default: ${
               workerLogger.config.defaultLevel
             }, StateManager: ${
-              workerLogger.config.moduleLevels?.StateManager || 'N/A'
+              workerLogger.config.categoryLevels?.StateManager || 'N/A'
             }`
           );
         }

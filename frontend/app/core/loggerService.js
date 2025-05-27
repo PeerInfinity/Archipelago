@@ -2,9 +2,9 @@
  * LoggerService - Centralized logging system with configurable levels and filtering
  *
  * Features:
- * - Module-specific log levels
- * - Global and per-module configuration
- * - Consistent formatting with timestamps and module names
+ * - Category-specific log levels (modules and conceptual categories)
+ * - Global and per-category configuration
+ * - Consistent formatting with timestamps and category names
  * - Dynamic level adjustment via console commands
  * - Keyword filtering for targeted debugging
  * - Performance optimization by filtering before formatting
@@ -13,13 +13,13 @@ class LoggerService {
   constructor() {
     this.config = {
       defaultLevel: 'WARN',
-      moduleLevels: {},
+      categoryLevels: {},
       filters: {
         includeKeywords: [],
         excludeKeywords: [],
       },
       showTimestamp: true,
-      showModuleName: true,
+      showCategoryName: true,
       enabled: true,
     };
 
@@ -57,29 +57,30 @@ class LoggerService {
     if (this.config.showConfigMessages) {
       console.log('[LoggerService] Configured with settings:', {
         defaultLevel: this.config.defaultLevel,
-        moduleCount: Object.keys(this.config.moduleLevels).length,
+        categoryCount: Object.keys(this.config.categoryLevels).length,
         enabled: this.config.enabled,
       });
     }
   }
 
   /**
-   * Check if a log message should be output based on level and module configuration
+   * Check if a log message should be output based on level and category configuration
    * @param {string} level - Log level (ERROR, WARN, INFO, DEBUG, VERBOSE)
-   * @param {string} moduleName - Name of the module logging the message
+   * @param {string} categoryName - Name of the category logging the message
    * @returns {boolean} Whether the message should be logged
    */
-  _shouldLog(level, moduleName = 'App') {
+  _shouldLog(level, categoryName = 'App') {
     if (!this.config.enabled) return false;
 
     const messageLevel =
       this.logLevels[level.toUpperCase()] || this.logLevels.INFO;
-    const moduleConfigLevelStr =
-      this.config.moduleLevels[moduleName] || this.config.defaultLevel;
-    const moduleThreshold =
-      this.logLevels[moduleConfigLevelStr.toUpperCase()] || this.logLevels.INFO;
+    const categoryConfigLevelStr =
+      this.config.categoryLevels[categoryName] || this.config.defaultLevel;
+    const categoryThreshold =
+      this.logLevels[categoryConfigLevelStr.toUpperCase()] ||
+      this.logLevels.INFO;
 
-    return messageLevel <= moduleThreshold;
+    return messageLevel <= categoryThreshold;
   }
 
   /**
@@ -110,13 +111,13 @@ class LoggerService {
   }
 
   /**
-   * Format a log message with timestamp, level, and module information
+   * Format a log message with timestamp, level, and category information
    * @param {string} level - Log level
-   * @param {string} moduleName - Module name
+   * @param {string} categoryName - Category name
    * @param {string} message - Log message
    * @returns {string} Formatted message
    */
-  _formatMessage(level, moduleName, message) {
+  _formatMessage(level, categoryName, message) {
     let parts = [];
 
     if (this.config.showTimestamp) {
@@ -127,8 +128,8 @@ class LoggerService {
 
     parts.push(`[${level.toUpperCase()}]`);
 
-    if (this.config.showModuleName && moduleName) {
-      parts.push(`[${moduleName}]`);
+    if (this.config.showCategoryName && categoryName) {
+      parts.push(`[${categoryName}]`);
     }
 
     parts.push(message);
@@ -154,46 +155,46 @@ class LoggerService {
   /**
    * Main logging method - handles level checking, filtering, formatting, and output
    * @param {string} level - Log level
-   * @param {string} moduleName - Module name
+   * @param {string} categoryName - Category name
    * @param {string} message - Log message
    * @param {...any} data - Additional data to log
    */
-  log(level, moduleName, message, ...data) {
+  log(level, categoryName, message, ...data) {
     // Early return if logging is disabled or level check fails
-    if (!this._shouldLog(level, moduleName)) return;
+    if (!this._shouldLog(level, categoryName)) return;
 
     // Apply keyword filters
     if (!this._passesFilters(message)) return;
 
-    const formattedMessage = this._formatMessage(level, moduleName, message);
+    const formattedMessage = this._formatMessage(level, categoryName, message);
     this._output(level, formattedMessage, data);
   }
 
   // Convenience methods for different log levels
-  error(moduleName, message, ...data) {
-    this.log('ERROR', moduleName, message, ...data);
+  error(categoryName, message, ...data) {
+    this.log('ERROR', categoryName, message, ...data);
   }
 
-  warn(moduleName, message, ...data) {
-    this.log('WARN', moduleName, message, ...data);
+  warn(categoryName, message, ...data) {
+    this.log('WARN', categoryName, message, ...data);
   }
 
-  info(moduleName, message, ...data) {
-    this.log('INFO', moduleName, message, ...data);
+  info(categoryName, message, ...data) {
+    this.log('INFO', categoryName, message, ...data);
   }
 
-  debug(moduleName, message, ...data) {
-    this.log('DEBUG', moduleName, message, ...data);
+  debug(categoryName, message, ...data) {
+    this.log('DEBUG', categoryName, message, ...data);
   }
 
-  verbose(moduleName, message, ...data) {
-    this.log('VERBOSE', moduleName, message, ...data);
+  verbose(categoryName, message, ...data) {
+    this.log('VERBOSE', categoryName, message, ...data);
   }
 
   // Dynamic configuration methods (callable via console commands)
 
   /**
-   * Set the default log level for all modules
+   * Set the default log level for all categories
    * @param {string} level - New default level
    */
   setDefaultLevel(level) {
@@ -215,22 +216,22 @@ class LoggerService {
   }
 
   /**
-   * Set the log level for a specific module
-   * @param {string} moduleName - Module name
-   * @param {string} level - New level for the module
+   * Set the log level for a specific category
+   * @param {string} categoryName - Category name
+   * @param {string} level - New level for the category
    */
-  setModuleLevel(moduleName, level) {
+  setCategoryLevel(categoryName, level) {
     const upperLevel = level.toUpperCase();
     if (this.logLevels[upperLevel] !== undefined) {
-      this.config.moduleLevels[moduleName] = upperLevel;
+      this.config.categoryLevels[categoryName] = upperLevel;
       this.info(
         'LoggerService',
-        `Log level for ${moduleName} set to: ${this.config.moduleLevels[moduleName]}`
+        `Log level for ${categoryName} set to: ${this.config.categoryLevels[categoryName]}`
       );
     } else {
       this.warn(
         'LoggerService',
-        `Invalid log level for ${moduleName}: ${level}. Valid levels: ${Object.keys(
+        `Invalid log level for ${categoryName}: ${level}. Valid levels: ${Object.keys(
           this.logLevels
         ).join(', ')}`
       );
@@ -238,18 +239,21 @@ class LoggerService {
   }
 
   /**
-   * Remove module-specific level (falls back to default)
-   * @param {string} moduleName - Module name
+   * Remove category-specific level (falls back to default)
+   * @param {string} categoryName - Category name
    */
-  clearModuleLevel(moduleName) {
-    if (this.config.moduleLevels[moduleName]) {
-      delete this.config.moduleLevels[moduleName];
+  clearCategoryLevel(categoryName) {
+    if (this.config.categoryLevels[categoryName]) {
+      delete this.config.categoryLevels[categoryName];
       this.info(
         'LoggerService',
-        `Cleared specific log level for ${moduleName}, now using default: ${this.config.defaultLevel}`
+        `Cleared specific log level for ${categoryName}, now using default: ${this.config.defaultLevel}`
       );
     } else {
-      this.warn('LoggerService', `No specific log level set for ${moduleName}`);
+      this.warn(
+        'LoggerService',
+        `No specific log level set for ${categoryName}`
+      );
     }
   }
 
@@ -319,8 +323,8 @@ class LoggerService {
     const status = {
       enabled: this.config.enabled,
       defaultLevel: this.config.defaultLevel,
-      moduleCount: Object.keys(this.config.moduleLevels).length,
-      moduleLevels: { ...this.config.moduleLevels },
+      categoryCount: Object.keys(this.config.categoryLevels).length,
+      categoryLevels: { ...this.config.categoryLevels },
       filters: { ...this.config.filters },
     };
 

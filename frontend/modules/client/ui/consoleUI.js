@@ -1,13 +1,13 @@
 // client/ui/consoleUI.js - Updated to use the console manager
 import Config from '../core/config.js';
 
-
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {
     window.logger[level]('consoleUI', message, ...data);
   } else {
-    const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+    const consoleMethod =
+      console[level === 'info' ? 'log' : level] || console.log;
     consoleMethod(`[consoleUI] ${message}`, ...data);
   }
 }
@@ -59,7 +59,8 @@ export class ConsoleUI {
         if (typeof handler === 'function') {
           handler(args, dependencies);
         } else {
-          log('error', 
+          log(
+            'error',
             `[ConsoleUI] Handler for command '${name}' is not a function!`
           );
         }
@@ -95,7 +96,7 @@ export class ConsoleUI {
     // Logger commands
     register(
       'log_level',
-      'Set log level: log_level [module] <level>',
+      'Set log level: log_level [category] <level>',
       this.handleLogLevelCommand
     );
     register(
@@ -289,12 +290,12 @@ export class ConsoleUI {
       const level = args[0];
       logger.setDefaultLevel(level);
     } else if (args.length === 2) {
-      // Set module level: log_level stateManager DEBUG
-      const [moduleName, level] = args;
-      logger.setModuleLevel(moduleName, level);
+      // Set category level: log_level stateManager DEBUG
+      const [categoryName, level] = args;
+      logger.setCategoryLevel(categoryName, level);
     } else {
       consoleManager.print(
-        'Usage: log_level <level> OR log_level <module> <level>',
+        'Usage: log_level <level> OR log_level <category> <level>',
         'error'
       );
       consoleManager.print(
@@ -316,12 +317,12 @@ export class ConsoleUI {
     consoleManager.print(`Enabled: ${status.enabled}`, 'info');
     consoleManager.print(`Default Level: ${status.defaultLevel}`, 'info');
     consoleManager.print(
-      `Module-specific levels (${status.moduleCount}):`,
+      `Category-specific levels (${status.categoryCount}):`,
       'info'
     );
 
-    for (const [module, level] of Object.entries(status.moduleLevels)) {
-      consoleManager.print(`  ${module}: ${level}`, 'info');
+    for (const [category, level] of Object.entries(status.categoryLevels)) {
+      consoleManager.print(`  ${category}: ${level}`, 'info');
     }
 
     if (status.filters.includeKeywords.length > 0) {

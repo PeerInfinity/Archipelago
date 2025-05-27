@@ -285,8 +285,17 @@ async function _initializeSingleModule(moduleId, index) {
         'init',
         `Initializing module: ${moduleId} (Priority ${index})`
       );
+      logger.info(
+        'TASK_LIFECYCLE',
+        `Starting initialization of module: ${moduleId}`
+      );
       await moduleInstance.initialize(moduleId, index, api);
       runtimeModuleStates.get(moduleId).initialized = true; // Mark as initialized
+      logger.info(
+        'TASK_LIFECYCLE',
+        `Completed initialization of module: ${moduleId}`
+      );
+      logger.debug('init', `Initialized module: ${moduleId}`);
     } catch (error) {
       logger.error(
         'init',
@@ -747,6 +756,7 @@ async function main() {
 
   // --- Dynamically Import and Register Modules ---
   logger.info('init', 'Starting module import and registration phase...');
+  logger.info('INIT_STEP', 'Module import and registration phase started');
   runtimeModuleStates.clear();
   importedModules.clear();
 
@@ -804,9 +814,9 @@ async function main() {
     }
   }
   logger.info('init', 'Module import and registration phase complete.');
+  logger.info('INIT_STEP', 'Module import and registration phase completed');
 
   // --- Apply G_combinedModeData to registered modules and publish for editor ---
-  // This is done AFTER module registration so all handlers are in centralRegistry.
   if (G_combinedModeData) {
     const jsonDataHandlers = centralRegistry.getAllJsonDataHandlers();
     logger.debug(
@@ -852,6 +862,7 @@ async function main() {
   // --- End Data Application and Event Publish ---
 
   // --- Initialize Golden Layout ---
+  logger.info('INIT_STEP', 'Golden Layout initialization started');
   const layoutContainer = document.getElementById('goldenlayout-container');
   if (!layoutContainer) {
     logger.error('init', 'Golden Layout container not found!');
@@ -1106,6 +1117,8 @@ async function main() {
     await loadLayoutConfiguration(goldenLayoutInstance, activeLayoutId, null); // Pass null for customConfig as it should come from G_combinedModeData
   }
 
+  logger.info('INIT_STEP', 'Golden Layout initialization completed');
+
   // --- Initialize Event Dispatcher ---
   logger.info('init', 'Initializing Event Dispatcher...');
   const getHandlersFunc = () => centralRegistry.getAllDispatcherHandlers();
@@ -1130,7 +1143,21 @@ async function main() {
   }
 
   // --- Initialize Modules (Call .initialize() on each) ---
-  logger.info('init', 'Starting module initialization phase...');
+  const enabledModules = modulesData.loadPriority
+    ? modulesData.loadPriority.filter(
+        (moduleId) => runtimeModuleStates.get(moduleId)?.enabled
+      )
+    : [];
+
+  logger.info(
+    'init',
+    `Starting initialization of ${enabledModules.length} modules...`
+  );
+  logger.info(
+    'INIT_STEP',
+    `Module initialization phase started (${enabledModules.length} modules)`
+  );
+
   if (modulesData.loadPriority && Array.isArray(modulesData.loadPriority)) {
     for (const moduleId of modulesData.loadPriority) {
       if (runtimeModuleStates.get(moduleId)?.enabled) {
@@ -1142,10 +1169,32 @@ async function main() {
       }
     }
   }
-  logger.info('init', 'Module initialization phase complete.');
+  logger.info(
+    'init',
+    `Completed initialization of ${enabledModules.length} modules.`
+  );
+  logger.info(
+    'INIT_STEP',
+    `Module initialization phase completed (${enabledModules.length} modules)`
+  );
 
   // --- Post-Initialize Modules (Call .postInitialize() on each) ---
-  logger.info('init', 'Starting module post-initialization phase...');
+  const modulesWithPostInit = enabledModules.filter((moduleId) => {
+    const moduleInstance = importedModules.get(moduleId);
+    return (
+      moduleInstance && typeof moduleInstance.postInitialize === 'function'
+    );
+  });
+
+  logger.info(
+    'init',
+    `Starting post-initialization of ${modulesWithPostInit.length} modules...`
+  );
+  logger.info(
+    'INIT_STEP',
+    `Module post-initialization phase started (${modulesWithPostInit.length} modules)`
+  );
+
   if (modulesData.loadPriority && Array.isArray(modulesData.loadPriority)) {
     for (const moduleId of modulesData.loadPriority) {
       if (runtimeModuleStates.get(moduleId)?.enabled) {
@@ -1154,7 +1203,14 @@ async function main() {
       }
     }
   }
-  logger.info('init', 'Module post-initialization phase complete.');
+  logger.info(
+    'init',
+    `Completed post-initialization of ${modulesWithPostInit.length} modules.`
+  );
+  logger.info(
+    'INIT_STEP',
+    `Module post-initialization phase completed (${modulesWithPostInit.length} modules)`
+  );
 
   // --- Finalize Module Manager API ---
   // Populate the moduleManagerApi with its methods now that modules are loaded and runtime states exist.
