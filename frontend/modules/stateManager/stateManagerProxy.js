@@ -1,4 +1,11 @@
-console.log('[stateManagerProxy] Module loaded');
+// Use logger if available, fallback to console.log
+// Check if we're in a worker context (no window object)
+const isWorkerContext = typeof window === 'undefined';
+if (!isWorkerContext && window.logger) {
+  window.logger.info('stateManagerProxy', 'Module loaded');
+} else {
+  console.log('[stateManagerProxy] Module loaded');
+}
 
 // TODO: Import eventBus
 
@@ -7,27 +14,10 @@ import { ALTTPSnapshotHelpers } from './games/alttp/alttpSnapshotHelpers.js'; //
 import { evaluateRule } from './ruleEngine.js'; // Make this an active import
 // import { evaluateRule } from './ruleEngine.js'; // Already imported
 import { GameSnapshotHelpers } from './helpers/gameSnapshotHelpers.js'; // Added import
+import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js'; // Import shared commands
 
 export class StateManagerProxy {
-  static COMMANDS = {
-    INITIALIZE: 'initialize',
-    LOAD_RULES: 'loadRules',
-    ADD_ITEM: 'addItemToInventory',
-    REMOVE_ITEM: 'removeItemFromInventory',
-    CHECK_LOCATION: 'checkLocation',
-    UNCHECK_LOCATION: 'uncheckLocation',
-    GET_SNAPSHOT: 'getSnapshot', // Request a full snapshot
-    CLEAR_CHECKED_LOCATIONS: 'clearCheckedLocations',
-    UPDATE_SETTING: 'updateSetting', // For game-specific settings like ALTTP flags
-    APPLY_RUNTIME_STATE: 'applyRuntimeState', // New command
-    BEGIN_BATCH_UPDATE: 'beginBatchUpdate', // Added command
-    COMMIT_BATCH_UPDATE: 'commitBatchUpdate', // Added command
-    PING_WORKER: 'ping', // Added command for pinging worker
-    SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT:
-      'SETUP_TEST_INVENTORY_AND_GET_SNAPSHOT', // Added
-    EVALUATE_ACCESSIBILITY_FOR_TEST: 'EVALUATE_ACCESSIBILITY_FOR_TEST', // <<< NEW COMMAND
-    APPLY_TEST_INVENTORY_AND_EVALUATE: 'APPLY_TEST_INVENTORY_AND_EVALUATE', // New command for full state update
-  };
+  static COMMANDS = STATE_MANAGER_COMMANDS;
 
   constructor(eventBus) {
     console.log('[stateManagerProxy] Initializing Proxy...');
@@ -842,11 +832,15 @@ export class StateManagerProxy {
         !!this.staticDataCache && Object.keys(this.staticDataCache).length > 0,
       isReadyPublished: this.isReadyPublished, // Renamed from this._isReadyPublished for consistency
     };
-    // Use console.log for this critical path
-    console.log(
-      '[StateManagerProxy _checkAndPublishReady] Status check:',
-      status
-    );
+    // Use logger for this critical path
+    if (!isWorkerContext && window.logger) {
+      window.logger.debug('stateManagerProxy', 'Status check:', status);
+    } else {
+      console.log(
+        '[StateManagerProxy _checkAndPublishReady] Status check:',
+        status
+      );
+    }
 
     if (
       status.uiCacheNotNull &&
@@ -854,8 +848,15 @@ export class StateManagerProxy {
       !status.isReadyPublished // Use the consistent local variable
     ) {
       this.isReadyPublished = true; // Set the instance member
-      // Use console.log for this critical path
-      console.log('[StateManagerProxy] Publishing stateManager:ready event.');
+      // Use logger for this critical path
+      if (!isWorkerContext && window.logger) {
+        window.logger.info(
+          'stateManagerProxy',
+          'Publishing stateManager:ready event'
+        );
+      } else {
+        console.log('[StateManagerProxy] Publishing stateManager:ready event.');
+      }
       this.eventBus.publish('stateManager:ready', {
         // Directly use event name string
         gameId: this.config ? this.config.gameId : null,

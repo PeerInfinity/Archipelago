@@ -1,4 +1,9 @@
-console.log('[stateManagerWorker] Worker starting...');
+// Use logger if available, fallback to console.log
+if (self.logger) {
+  self.logger.info('stateManagerWorker', 'Worker starting...');
+} else {
+  console.log('[stateManagerWorker] Worker starting...');
+}
 
 // ADDED: Top-level error handler for the worker
 self.onerror = function (message, source, lineno, colno, error) {
@@ -47,14 +52,22 @@ self.onerror = function (message, source, lineno, colno, error) {
 import { StateManager } from './stateManager.js';
 // Import the actual rule evaluation function
 import { evaluateRule } from './ruleEngine.js';
-// Import StateManagerProxy to access its COMMANDS enum
-import { StateManagerProxy } from './stateManagerProxy.js';
+// Import shared commands instead of StateManagerProxy to avoid window references
+import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
 // NOTE: ALTTPInventory, ALTTPState, ALTTPHelpers are imported
 // and instantiated *inside* StateManager.js constructor or used directly.
 
-console.log(
-  '[stateManagerWorker] Dependencies loaded (StateManager, evaluateRule).'
-);
+// Use logger if available, fallback to console.log
+if (self.logger) {
+  self.logger.info(
+    'stateManagerWorker',
+    'Dependencies loaded (StateManager, evaluateRule)'
+  );
+} else {
+  console.log(
+    '[stateManagerWorker] Dependencies loaded (StateManager, evaluateRule).'
+  );
+}
 
 let stateManagerInstance = null;
 let workerConfig = null;
@@ -134,7 +147,7 @@ self.onmessage = async function (e) {
         // For now, direct initialization is assumed.
         break;
 
-      case StateManagerProxy.COMMANDS.BEGIN_BATCH_UPDATE: // Using COMMANDS object
+      case STATE_MANAGER_COMMANDS.BEGIN_BATCH_UPDATE: // Using COMMANDS object
         if (!workerInitialized || !stateManagerInstance) {
           throw new Error('Worker not initialized. Cannot begin batch update.');
         }
@@ -150,7 +163,7 @@ self.onmessage = async function (e) {
         // No explicit response needed, batching is an internal state change for the worker.
         break;
 
-      case StateManagerProxy.COMMANDS.COMMIT_BATCH_UPDATE: // Using COMMANDS object
+      case STATE_MANAGER_COMMANDS.COMMIT_BATCH_UPDATE: // Using COMMANDS object
         if (!workerInitialized || !stateManagerInstance) {
           throw new Error(
             'Worker not initialized. Cannot commit batch update.'
@@ -501,7 +514,7 @@ self.onmessage = async function (e) {
         }
         break;
 
-      case StateManagerProxy.COMMANDS.EVALUATE_ACCESSIBILITY_FOR_TEST:
+      case STATE_MANAGER_COMMANDS.EVALUATE_ACCESSIBILITY_FOR_TEST:
         if (!workerInitialized || !stateManagerInstance) {
           throw new Error('Worker not initialized. Cannot evaluate test.');
         }
@@ -543,7 +556,7 @@ self.onmessage = async function (e) {
         }
         break;
 
-      case StateManagerProxy.COMMANDS.APPLY_TEST_INVENTORY_AND_EVALUATE:
+      case STATE_MANAGER_COMMANDS.APPLY_TEST_INVENTORY_AND_EVALUATE:
         console.log(
           '[stateManagerWorker onmessage] Processing APPLY_TEST_INVENTORY_AND_EVALUATE command...'
         );

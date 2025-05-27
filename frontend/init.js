@@ -4,6 +4,7 @@
 import panelManagerInstance from './app/core/panelManager.js';
 import eventBus from './app/core/eventBus.js';
 import settingsManager from './app/core/settingsManager.js';
+import logger from './app/core/loggerService.js';
 import { centralRegistry } from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
 import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
@@ -40,14 +41,14 @@ async function fetchJson(url, errorMessage) {
     }
     return await response.json();
   } catch (error) {
-    console.error(`${errorMessage}: ${url}`, error);
+    logger.error('init', `${errorMessage}: ${url}`, error);
     return null; // Return null to indicate failure
   }
 }
 
 function getDefaultLayoutConfig() {
   // Define a fallback default layout configuration
-  console.warn('Using hardcoded default layout configuration.');
+  logger.warn('init', 'Using hardcoded default layout configuration.');
   return {
     settings: {
       showPopoutIcon: false,
@@ -104,35 +105,37 @@ async function loadLayoutConfiguration(
   let chosenLayoutConfig = null;
 
   if (activeLayoutId === 'custom' && customConfig) {
-    console.log('[Init] Active layout is custom.');
+    logger.info('init', 'Active layout is custom.');
     chosenLayoutConfig = customConfig;
   } else if (
     typeof activeLayoutId === 'string' &&
     layoutPresets[activeLayoutId]
   ) {
-    console.log(`[Init] Active layout is preset: ${activeLayoutId}`);
+    logger.info('init', `Active layout is preset: ${activeLayoutId}`);
     chosenLayoutConfig = layoutPresets[activeLayoutId];
   } else {
-    console.log(
-      `[Init] Active layout '${activeLayoutId}' not found or invalid, trying custom config.`
+    logger.info(
+      'init',
+      `Active layout '${activeLayoutId}' not found or invalid, trying custom config.`
     );
     // Fallback to custom config if available, otherwise use hardcoded default
     chosenLayoutConfig = customConfig || getDefaultLayoutConfig();
     if (!customConfig) {
-      console.log('[Init] No custom layout found, using hardcoded default.');
+      logger.info('init', 'No custom layout found, using hardcoded default.');
     }
   }
 
   // If after all checks, we still don't have a config, use the hardcoded default
   if (!chosenLayoutConfig) {
-    console.warn(
-      '[Init] No valid layout configuration determined, falling back to hardcoded default.'
+    logger.warn(
+      'init',
+      'No valid layout configuration determined, falling back to hardcoded default.'
     );
     chosenLayoutConfig = getDefaultLayoutConfig();
   }
 
   // Load the chosen layout
-  console.log('[Init] Loading layout configuration into Golden Layout...');
+  logger.info('init', 'Loading layout configuration into Golden Layout...');
   // Assuming V2 loadLayout. Adjust if needed for V1 'load'.
   layoutInstance.loadLayout(chosenLayoutConfig);
 }
@@ -141,9 +144,9 @@ async function loadLayoutConfiguration(
 // --- Helper function to create the standard Initialization API ---
 function createInitializationApi(moduleId) {
   // Note: dispatcher and centralRegistry need to be available in the outer scope
-  console.log(`[API Factory] Creating API for module: ${moduleId}`);
-  // console.log('[API Factory] settingsManager:', settingsManager); // Reduce log noise
-  // console.log('[API Factory] dispatcher:', dispatcher); // Reduce log noise
+  logger.debug('init', `Creating API for module: ${moduleId}`);
+  // logger.debug('init', 'settingsManager:', settingsManager); // Reduce log noise
+  // logger.debug('init', 'dispatcher:', dispatcher); // Reduce log noise
 
   return {
     getModuleSettings: async () => settingsManager.getModuleSettings(moduleId),
@@ -152,22 +155,24 @@ function createInitializationApi(moduleId) {
       publishToNextModule: dispatcher.publishToNextModule.bind(dispatcher),
     }),
     getEventBus: () => eventBus,
+    getLogger: () => logger,
     getModuleFunction: (targetModuleId, functionName) => {
       return centralRegistry.getPublicFunction(targetModuleId, functionName);
     },
     getModuleManager: () => moduleManagerApi, // Provide the manager API itself
     getAllSettings: async () => {
-      // console.log(`[API Factory] ${moduleId} calling getAllSettings...`); // Reduce log noise
+      // logger.debug('init', `${moduleId} calling getAllSettings...`); // Reduce log noise
       try {
         const allSettings = await settingsManager.getSettings();
-        // console.log(
-        //   `[API Factory] ${moduleId} received allSettings:`,
+        // logger.debug('init',
+        //   `${moduleId} received allSettings:`,
         //   allSettings
         // );
         return allSettings;
       } catch (error) {
-        console.error(
-          `[API Factory] Error in getAllSettings called by ${moduleId}:`,
+        logger.error(
+          'init',
+          `Error in getAllSettings called by ${moduleId}:`,
           error
         );
         throw error; // Re-throw the error so the module still fails
@@ -253,14 +258,16 @@ async function _initializeSingleModule(moduleId, index) {
   if (moduleInstance && typeof moduleInstance.initialize === 'function') {
     const api = createInitializationApi(moduleId);
     try {
-      console.log(
-        `[Init Helper] Initializing module: ${moduleId} (Priority ${index})`
+      logger.info(
+        'init',
+        `Initializing module: ${moduleId} (Priority ${index})`
       );
       await moduleInstance.initialize(moduleId, index, api);
       runtimeModuleStates.get(moduleId).initialized = true; // Mark as initialized
     } catch (error) {
-      console.error(
-        `[Init Helper] Error during initialization of module: ${moduleId}`,
+      logger.error(
+        'init',
+        `Error during initialization of module: ${moduleId}`,
         error
       );
       // Potentially mark as failed?
@@ -278,7 +285,7 @@ async function _postInitializeSingleModule(moduleId) {
   if (moduleInstance && typeof moduleInstance.postInitialize === 'function') {
     const api = createInitializationApi(moduleId);
     try {
-      console.log(`[Init Helper] Post-initializing module: ${moduleId}`);
+      logger.info('init', `Post-initializing module: ${moduleId}`);
       // Special handling for stateManager postInitialize to pass mode-specific data
       if (moduleId === 'stateManager') {
         const resolvedSettings = await settingsManager.getSettings();
@@ -287,8 +294,9 @@ async function _postInitializeSingleModule(moduleId) {
           playerId: G_combinedModeData.userSettings.playerId || '1',
           settings: resolvedSettings,
         };
-        console.log(
-          '[Init Helper] Passing smInitialConfig to stateManager.postInitialize:',
+        logger.debug(
+          'init',
+          'Passing smInitialConfig to stateManager.postInitialize:',
           smInitialConfig
         );
         await moduleInstance.postInitialize(api, smInitialConfig);
@@ -296,8 +304,9 @@ async function _postInitializeSingleModule(moduleId) {
         await moduleInstance.postInitialize(api); // Other modules get just the api
       }
     } catch (error) {
-      console.error(
-        `[Init Helper] Error during post-initialization of module: ${moduleId}`,
+      logger.error(
+        'init',
+        `Error during post-initialization of module: ${moduleId}`,
         error
       );
       // Potentially mark as failed and disable?
@@ -308,25 +317,27 @@ async function _postInitializeSingleModule(moduleId) {
 
 // --- Mode Management Functions ---
 async function determineActiveMode() {
-  console.log('[Init] Determining active mode...');
+  logger.info('init', 'Determining active mode...');
   const urlParams = new URLSearchParams(window.location.search);
   const explicitMode = urlParams.get('mode'); // Get explicitMode first
 
   // Case 1: ?mode=reset (special reset keyword)
   if (explicitMode === 'reset') {
-    console.log(
-      '[Init] "?mode=reset" detected. Applying reset: loading "default" files, clearing last active mode and "default" mode data.'
+    logger.info(
+      'init',
+      '"?mode=reset" detected. Applying reset: loading "default" files, clearing last active mode and "default" mode data.'
     );
     G_currentActiveMode = 'default';
     G_skipLocalStorageLoad = true; // Ensure we load files, not from a potentially stored "reset" mode
     try {
       localStorage.removeItem(G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY);
       localStorage.removeItem(G_LOCAL_STORAGE_MODE_PREFIX + 'default'); // Clear default mode's saved data specifically
-      console.log(
-        '[Init] Cleared last active mode and "default" mode data from localStorage for mode=reset.'
+      logger.info(
+        'init',
+        'Cleared last active mode and "default" mode data from localStorage for mode=reset.'
       );
     } catch (e) {
-      console.error('[Init] Error clearing localStorage during mode=reset:', e);
+      logger.error('init', 'Error clearing localStorage during mode=reset:', e);
     }
     return; // Exit early: "default" is set for loading, "reset" is not saved as lastActiveMode
   }
@@ -336,8 +347,9 @@ async function determineActiveMode() {
   const resetFlag = urlParams.get('reset') === 'true';
   if (resetFlag) {
     const modeToLoadDefaultsFor = explicitMode || 'default';
-    console.log(
-      `[Init] "?reset=true" detected. Applying reset: loading "${modeToLoadDefaultsFor}" files, clearing last active mode and data for "${modeToLoadDefaultsFor}".`
+    logger.info(
+      'init',
+      `"?reset=true" detected. Applying reset: loading "${modeToLoadDefaultsFor}" files, clearing last active mode and data for "${modeToLoadDefaultsFor}".`
     );
     G_currentActiveMode = modeToLoadDefaultsFor;
     G_skipLocalStorageLoad = true;
@@ -347,12 +359,14 @@ async function determineActiveMode() {
       localStorage.removeItem(
         G_LOCAL_STORAGE_MODE_PREFIX + modeToLoadDefaultsFor
       );
-      console.log(
-        `[Init] Cleared last active mode and "${modeToLoadDefaultsFor}" mode data from localStorage for reset=true.`
+      logger.info(
+        'init',
+        `Cleared last active mode and "${modeToLoadDefaultsFor}" mode data from localStorage for reset=true.`
       );
     } catch (e) {
-      console.error(
-        `[Init] Error clearing localStorage for mode "${modeToLoadDefaultsFor}" during reset=true:`,
+      logger.error(
+        'init',
+        `Error clearing localStorage for mode "${modeToLoadDefaultsFor}" during reset=true:`,
         e
       );
     }
@@ -362,7 +376,7 @@ async function determineActiveMode() {
   // Case 3: Standard mode determination (no "mode=reset" and no "reset=true")
   // At this point, explicitMode is not "reset", and resetFlag is false.
   if (explicitMode) {
-    console.log(`[Init] Mode specified in URL: "${explicitMode}".`);
+    logger.info('init', `Mode specified in URL: "${explicitMode}".`);
     G_currentActiveMode = explicitMode;
   } else {
     try {
@@ -370,19 +384,22 @@ async function determineActiveMode() {
         G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY
       );
       if (lastActiveMode) {
-        console.log(
-          `[Init] Loaded last active mode from localStorage: "${lastActiveMode}".`
+        logger.info(
+          'init',
+          `Loaded last active mode from localStorage: "${lastActiveMode}".`
         );
         G_currentActiveMode = lastActiveMode;
       } else {
-        console.log(
-          '[Init] No last active mode in localStorage. Using default: "default".'
+        logger.info(
+          'init',
+          'No last active mode in localStorage. Using default: "default".'
         );
         G_currentActiveMode = 'default'; // Default if nothing else is found
       }
     } catch (e) {
-      console.error(
-        '[Init] Error reading last active mode from localStorage. Using default.',
+      logger.error(
+        'init',
+        'Error reading last active mode from localStorage. Using default.',
         e
       );
       G_currentActiveMode = 'default';
@@ -396,16 +413,17 @@ async function determineActiveMode() {
       G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY,
       G_currentActiveMode
     );
-    console.log(
-      `[Init] Saved current active mode to localStorage: "${G_currentActiveMode}".`
+    logger.info(
+      'init',
+      `Saved current active mode to localStorage: "${G_currentActiveMode}".`
     );
   } catch (e) {
-    console.error('[Init] Error saving last active mode to localStorage.', e);
+    logger.error('init', 'Error saving last active mode to localStorage.', e);
   }
 }
 
 async function loadModesConfiguration() {
-  console.log('[Init] Loading modes configuration (modes.json)...');
+  logger.info('init', 'Loading modes configuration (modes.json)...');
   try {
     const modesFileContent = await fetchJson(
       './modes.json',
@@ -413,10 +431,11 @@ async function loadModesConfiguration() {
     );
     if (modesFileContent) {
       G_modesConfig = modesFileContent;
-      console.log('[Init] Successfully loaded and parsed modes.json.');
+      logger.info('init', 'Successfully loaded and parsed modes.json.');
     } else {
-      console.error(
-        '[Init] modes.json could not be loaded or is empty. Proceeding with minimal default mode config.'
+      logger.error(
+        'init',
+        'modes.json could not be loaded or is empty. Proceeding with minimal default mode config.'
       );
       G_modesConfig = {
         default: {
@@ -428,8 +447,9 @@ async function loadModesConfiguration() {
       };
     }
   } catch (error) {
-    console.error(
-      '[Init] Critical error loading modes.json. Using hardcoded fallback.',
+    logger.error(
+      'init',
+      'Critical error loading modes.json. Using hardcoded fallback.',
       error
     );
     G_modesConfig = {
@@ -445,8 +465,9 @@ async function loadModesConfiguration() {
 }
 
 async function loadCombinedModeData() {
-  console.log(
-    `[Init] Loading combined data for mode: "${G_currentActiveMode}". Skip localStorage: ${G_skipLocalStorageLoad}`
+  logger.info(
+    'init',
+    `Loading combined data for mode: "${G_currentActiveMode}". Skip localStorage: ${G_skipLocalStorageLoad}`
   );
 
   let baseCombinedData = {};
@@ -470,24 +491,28 @@ async function loadCombinedModeData() {
             };
           }
         });
-        console.log(
-          `[Init] Successfully set baseCombinedData for mode "${G_currentActiveMode}" from localStorage.`
+        logger.info(
+          'init',
+          `Successfully set baseCombinedData for mode "${G_currentActiveMode}" from localStorage.`
         );
       } else {
-        console.log(
-          `[Init] No data for mode "${G_currentActiveMode}" in localStorage. Will load all configs from files.`
+        logger.info(
+          'init',
+          `No data for mode "${G_currentActiveMode}" in localStorage. Will load all configs from files.`
         );
       }
     } catch (error) {
-      console.error(
-        `[Init] Error reading or parsing mode data from localStorage for "${G_currentActiveMode}":`,
+      logger.error(
+        'init',
+        `Error reading or parsing mode data from localStorage for "${G_currentActiveMode}":`,
         error
       );
       baseCombinedData = {}; // Reset on error
     }
   } else {
-    console.log(
-      '[Init] Skipping localStorage load for mode data as per G_skipLocalStorageLoad.'
+    logger.info(
+      'init',
+      'Skipping localStorage load for mode data as per G_skipLocalStorageLoad.'
     );
   }
 
@@ -515,8 +540,9 @@ async function loadCombinedModeData() {
             !baseCombinedData.hasOwnProperty(configKey) ||
             !baseCombinedData[configKey] // Also load if key exists but value is null/undefined/falsey from LS
           ) {
-            console.log(
-              `[Init] ${configKey} for "${G_currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
+            logger.info(
+              'init',
+              `${configKey} for "${G_currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
             );
             const fetchedData = await fetchJson(
               configEntry.path,
@@ -530,12 +556,14 @@ async function loadCombinedModeData() {
                 timestamp: new Date().toISOString(),
                 details: `Loaded from file: ${configEntry.path}`,
               };
-              console.log(
-                `[Init] Loaded ${configKey} for "${G_currentActiveMode}" from file: ${configEntry.path}.`
+              logger.info(
+                'init',
+                `Loaded ${configKey} for "${G_currentActiveMode}" from file: ${configEntry.path}.`
               );
             } else {
-              console.warn(
-                `[Init] Failed to load ${configKey} from ${configEntry.path}. It will be missing unless defaults are applied later.`
+              logger.warn(
+                'init',
+                `Failed to load ${configKey} from ${configEntry.path}. It will be missing unless defaults are applied later.`
               );
               // Ensure the key exists with null if fetch failed, to prevent re-attempts if not desired
               if (!baseCombinedData.hasOwnProperty(configKey)) {
@@ -548,16 +576,18 @@ async function loadCombinedModeData() {
               }
             }
           } else {
-            console.log(
-              `[Init] Using ${configKey} for "${G_currentActiveMode}" from localStorage.`
+            logger.info(
+              'init',
+              `Using ${configKey} for "${G_currentActiveMode}" from localStorage.`
             );
           }
         }
       }
     }
   } else {
-    console.warn(
-      `[Init] No file configurations found in modes.json for mode "${G_currentActiveMode}".`
+    logger.warn(
+      'init',
+      `No file configurations found in modes.json for mode "${G_currentActiveMode}".`
     );
   }
 
@@ -566,19 +596,22 @@ async function loadCombinedModeData() {
   if (baseCombinedData.layoutConfig) {
     if (isValidLayoutObject(baseCombinedData.layoutConfig)) {
       layoutPresets = baseCombinedData.layoutConfig; // If it's a collection of presets
-      console.log(
-        '[Init] layoutPresets populated from combined data (either localStorage or file).'
+      logger.info(
+        'init',
+        'layoutPresets populated from combined data (either localStorage or file).'
       );
     } else {
-      console.warn(
-        '[Init] layoutConfig in combined data is not a valid layout object or preset collection.'
+      logger.warn(
+        'init',
+        'layoutConfig in combined data is not a valid layout object or preset collection.'
       );
       // If it's not a valid collection, but might be a single layout, try to make it a default preset
       layoutPresets = { default: baseCombinedData.layoutConfig };
     }
   } else {
-    console.warn(
-      '[Init] No layoutConfig found in combined data. GoldenLayout might use hardcoded defaults.'
+    logger.warn(
+      'init',
+      'No layoutConfig found in combined data. GoldenLayout might use hardcoded defaults.'
     );
     layoutPresets = { default: getDefaultLayoutConfig() }; // Fallback
     dataSources.layoutConfig = {
@@ -592,31 +625,34 @@ async function loadCombinedModeData() {
   baseCombinedData.dataSources = dataSources;
 
   G_combinedModeData = baseCombinedData;
-  console.log(
-    '[Init] Final G_combinedModeData after potential merging:',
+  logger.debug(
+    'init',
+    'Final G_combinedModeData after potential merging:',
     JSON.parse(JSON.stringify(G_combinedModeData)) // Log a deep copy to avoid circular issues in console
   );
 }
 
 // --- Main Initialization Logic ---
 async function main() {
-  console.log('[Init] Starting main initialization...');
+  logger.info('init', 'Starting main initialization...');
 
   // --- Make sure DOM is ready ---
   if (document.readyState === 'loading') {
-    console.log('[Init] Document is loading, deferring main execution.');
+    logger.info('init', 'Document is loading, deferring main execution.');
     document.addEventListener('DOMContentLoaded', main);
     return;
   }
-  console.log('[Init] DOM content fully loaded and parsed.');
+  logger.info('init', 'DOM content fully loaded and parsed.');
 
   // Determine active mode first
   await determineActiveMode();
-  console.log(
-    `[Init] Effective active mode for this session: "${G_currentActiveMode}"`
+  logger.info(
+    'init',
+    `Effective active mode for this session: "${G_currentActiveMode}"`
   );
-  console.log(
-    `[Init] Skip localStorage load for mode data: ${G_skipLocalStorageLoad}`
+  logger.debug(
+    'init',
+    `Skip localStorage load for mode data: ${G_skipLocalStorageLoad}`
   );
 
   // Load modes.json configuration
@@ -629,27 +665,40 @@ async function main() {
   if (G_combinedModeData.userSettings) {
     // Assuming settingsManager has a method like setInitialSettings or can be adapted.
     // This is a placeholder for actual integration with settingsManager's API.
-    console.log(
-      '[Init] G_combinedModeData.userSettings BEFORE calling setInitialSettings:',
+    logger.debug(
+      'init',
+      'G_combinedModeData.userSettings BEFORE calling setInitialSettings:',
       JSON.parse(JSON.stringify(G_combinedModeData.userSettings))
     );
     if (typeof settingsManager.setInitialSettings === 'function') {
       settingsManager.setInitialSettings(G_combinedModeData.userSettings);
-      console.log(
-        '[Init] Passed mode-specific settings to settingsManager via setInitialSettings.'
+      logger.info(
+        'init',
+        'Passed mode-specific settings to settingsManager via setInitialSettings.'
       );
     } else {
       // Fallback: Attempt to directly use the settings for initialization if ensureLoaded handles it.
       // This depends on settingsManager.ensureLoaded() being able to use pre-loaded settings.
       // We might need to modify settingsManager to accept G_combinedModeData.userSettings directly.
-      console.warn(
-        '[Init] settingsManager.setInitialSettings not found. Ensure settingsManager.ensureLoaded() can use pre-configured settings if G_combinedModeData.userSettings is to be effective immediately.'
+      logger.warn(
+        'init',
+        'settingsManager.setInitialSettings not found. Ensure settingsManager.ensureLoaded() can use pre-configured settings if G_combinedModeData.userSettings is to be effective immediately.'
       );
     }
   }
   // ensureLoaded might use the settings provided above, or load its defaults if none were provided/applicable.
   await settingsManager.ensureLoaded();
-  console.log('[Init] settingsManager initialization process completed.');
+  logger.info('init', 'settingsManager initialization process completed.');
+
+  // Configure logger with loaded settings
+  try {
+    const allSettings = await settingsManager.getSettings();
+    logger.configure(allSettings);
+    logger.info('init', 'Logger configured and ready');
+  } catch (error) {
+    logger.error('init', 'Error configuring logger:', error);
+    // Continue initialization even if logger configuration fails
+  }
 
   // Use module configuration from combined data
   const modulesData = G_combinedModeData.moduleConfig;
@@ -658,33 +707,36 @@ async function main() {
     !modulesData.moduleDefinitions ||
     !modulesData.loadPriority
   ) {
-    console.error(
-      '[Init] CRITICAL: Module configuration is missing, malformed, or incomplete. Expected moduleDefinitions (as an object of modules) and loadPriority. Halting.',
+    logger.error(
+      'init',
+      'CRITICAL: Module configuration is missing, malformed, or incomplete. Expected moduleDefinitions (as an object of modules) and loadPriority. Halting.',
       modulesData
     );
     return;
   }
-  console.log(
-    '[Init] Using module configuration from combined mode data.',
+  logger.debug(
+    'init',
+    'Using module configuration from combined mode data.',
     modulesData
   );
 
   // --- Dynamically Import and Register Modules ---
-  console.log('[Init] Starting module import and registration phase...');
+  logger.info('init', 'Starting module import and registration phase...');
   runtimeModuleStates.clear();
   importedModules.clear();
 
   for (const moduleId of modulesData.loadPriority) {
     const moduleDefinition = modulesData.moduleDefinitions[moduleId];
     if (moduleDefinition && moduleDefinition.enabled) {
-      console.log(
-        `[Init] Processing module: ${moduleId} from ${moduleDefinition.path}`
+      logger.debug(
+        'init',
+        `Processing module: ${moduleId} from ${moduleDefinition.path}`
       );
       runtimeModuleStates.set(moduleId, { initialized: false, enabled: true });
       try {
         const moduleInstance = await import(moduleDefinition.path);
         importedModules.set(moduleId, moduleInstance.default || moduleInstance);
-        console.log(`[Init] Dynamically imported module: ${moduleId}`);
+        logger.debug('init', `Dynamically imported module: ${moduleId}`);
 
         const actualModuleObject = moduleInstance.default || moduleInstance;
         if (
@@ -695,16 +747,18 @@ async function main() {
             moduleId,
             actualModuleObject
           );
-          console.log(`[Init] Registering module: ${moduleId}`);
+          logger.debug('init', `Registering module: ${moduleId}`);
           await actualModuleObject.register(registrationApi);
         } else {
-          console.log(
-            `[Init] Module ${moduleId} does not have a register function.`
+          logger.debug(
+            'init',
+            `Module ${moduleId} does not have a register function.`
           );
         }
       } catch (error) {
-        console.error(
-          `[Init] Error importing or registering module ${moduleId}:`,
+        logger.error(
+          'init',
+          `Error importing or registering module ${moduleId}:`,
           error
         );
         if (runtimeModuleStates.has(moduleId)) {
@@ -712,58 +766,62 @@ async function main() {
         }
       }
     } else if (moduleDefinition && !moduleDefinition.enabled) {
-      console.log(
-        `[Init] Module ${moduleId} is defined but not enabled. Skipping.`
+      logger.debug(
+        'init',
+        `Module ${moduleId} is defined but not enabled. Skipping.`
       );
       runtimeModuleStates.set(moduleId, { initialized: false, enabled: false });
     } else {
-      console.warn(
-        `[Init] Module ${moduleId} listed in loadPriority but not found in moduleDefinitions. Skipping.`
+      logger.warn(
+        'init',
+        `Module ${moduleId} listed in loadPriority but not found in moduleDefinitions. Skipping.`
       );
     }
   }
-  console.log('[Init] Module import and registration phase complete.');
+  logger.info('init', 'Module import and registration phase complete.');
 
   // --- Apply G_combinedModeData to registered modules and publish for editor ---
   // This is done AFTER module registration so all handlers are in centralRegistry.
   if (G_combinedModeData) {
     const jsonDataHandlers = centralRegistry.getAllJsonDataHandlers();
-    console.log(
-      `[Init - Main] Found ${jsonDataHandlers.size} JSON data handlers in centralRegistry for data application.`
+    logger.debug(
+      'init',
+      `Found ${jsonDataHandlers.size} JSON data handlers in centralRegistry for data application.`
     );
     for (const [dataKey, handler] of jsonDataHandlers) {
       if (G_combinedModeData.hasOwnProperty(dataKey)) {
         if (typeof handler.applyLoadedDataFunction === 'function') {
-          console.log(
-            `[Init - Main] Applying data for key: ${dataKey} to its module.`
+          logger.debug(
+            'init',
+            `Applying data for key: ${dataKey} to its module.`
           );
           try {
             handler.applyLoadedDataFunction(G_combinedModeData[dataKey]);
           } catch (e) {
-            console.error(
-              `[Init - Main] Error applying data for ${dataKey}:`,
-              e
-            );
+            logger.error('init', `Error applying data for ${dataKey}:`, e);
           }
         } else {
-          console.warn(
-            `[Init - Main] Handler for ${dataKey} (module: ${handler.moduleId}) is missing or has invalid applyLoadedDataFunction.`
+          logger.warn(
+            'init',
+            `Handler for ${dataKey} (module: ${handler.moduleId}) is missing or has invalid applyLoadedDataFunction.`
           );
         }
       } else {
-        // Optional: console.log(`[Init - Main] G_combinedModeData does not have key: ${dataKey}, skipping application for this handler.`);
+        // Optional: logger.debug('init', `G_combinedModeData does not have key: ${dataKey}, skipping application for this handler.`);
       }
     }
 
     eventBus.publish('app:fullModeDataLoadedFromStorage', {
       modeData: G_combinedModeData,
     });
-    console.log(
-      '[Init - Main] Published app:fullModeDataLoadedFromStorage with G_combinedModeData.'
+    logger.debug(
+      'init',
+      'Published app:fullModeDataLoadedFromStorage with G_combinedModeData.'
     );
   } else {
-    console.warn(
-      '[Init - Main] G_combinedModeData was not available for data application and event publish.'
+    logger.warn(
+      'init',
+      'G_combinedModeData was not available for data application and event publish.'
     );
   }
   // --- End Data Application and Event Publish ---
@@ -771,7 +829,7 @@ async function main() {
   // --- Initialize Golden Layout ---
   const layoutContainer = document.getElementById('goldenlayout-container');
   if (!layoutContainer) {
-    console.error('[Init] Golden Layout container not found!');
+    logger.error('init', 'Golden Layout container not found!');
     return;
   }
   const goldenLayoutInstance = new GoldenLayout(layoutContainer);
@@ -789,8 +847,9 @@ async function main() {
           (container, componentState) => {
             // We instantiate the class here, passing the Golden Layout container and any state.
             // Modules should ensure their registered componentClass is a constructor.
-            console.log(
-              `[Init GL Factory] Creating component ${componentType} for module ${factoryDetails.moduleId}`
+            logger.debug(
+              'init',
+              `Creating component ${componentType} for module ${factoryDetails.moduleId}`
             );
             try {
               // Assuming the constructor is like: new UIClass(container, componentState, componentType?)
@@ -805,8 +864,9 @@ async function main() {
                 !uiProvider ||
                 typeof uiProvider.getRootElement !== 'function'
               ) {
-                console.error(
-                  `[Init GL Factory for ${componentType}] UI provider is invalid or missing getRootElement method. Provider:`,
+                logger.error(
+                  'init',
+                  `UI provider for ${componentType} is invalid or missing getRootElement method. Provider:`,
                   uiProvider
                 );
                 throw new Error(
@@ -816,8 +876,9 @@ async function main() {
 
               const rootElement = uiProvider.getRootElement();
               if (!rootElement || !(rootElement instanceof HTMLElement)) {
-                console.error(
-                  `[Init GL Factory for ${componentType}] uiProvider.getRootElement() did not return a valid HTMLElement. Got:`,
+                logger.error(
+                  'init',
+                  `uiProvider.getRootElement() for ${componentType} did not return a valid HTMLElement. Got:`,
                   rootElement
                 );
                 throw new Error(
@@ -828,19 +889,22 @@ async function main() {
               // Clear the container's element and append the new root element
               container.element.innerHTML = ''; // Clear any previous content (like loading/error messages)
               container.element.append(rootElement);
-              console.log(
-                `[Init GL Factory for ${componentType}] Appended rootElement to container.element.`
+              logger.debug(
+                'init',
+                `Appended rootElement to container for ${componentType}.`
               );
 
               // Call onMount if it exists, now that the element is in the DOM via the container
               if (typeof uiProvider.onMount === 'function') {
-                console.log(
-                  `[Init GL Factory for ${componentType}] Calling uiProvider.onMount...`
+                logger.debug(
+                  'init',
+                  `Calling uiProvider.onMount for ${componentType}...`
                 );
                 uiProvider.onMount(container, componentState); // Pass GL container and state
               } else {
-                console.log(
-                  `[Init GL Factory for ${componentType}] uiProvider.onMount is not a function.`
+                logger.debug(
+                  'init',
+                  `uiProvider.onMount is not a function for ${componentType}.`
                 );
               }
 
@@ -859,12 +923,14 @@ async function main() {
             }
           }
         );
-        console.log(
-          `[Init] Registered component factory wrapper for: ${componentType} from module ${factoryDetails.moduleId}`
+        logger.debug(
+          'init',
+          `Registered component factory wrapper for: ${componentType} from module ${factoryDetails.moduleId}`
         );
       } else {
-        console.error(
-          `[Init] Component factory for ${componentType} from module ${factoryDetails.moduleId} is not a function!`
+        logger.error(
+          'init',
+          `Component factory for ${componentType} from module ${factoryDetails.moduleId} is not a function!`
         );
       }
     });
@@ -874,8 +940,9 @@ async function main() {
     G_combinedModeData.layoutConfig &&
     typeof G_combinedModeData.layoutConfig === 'object'
   ) {
-    console.log(
-      '[Init] Attempting to load layout directly from G_combinedModeData.layoutConfig.'
+    logger.info(
+      'init',
+      'Attempting to load layout directly from G_combinedModeData.layoutConfig.'
     );
     try {
       // If layoutConfig is a preset collection (like layout_presets.json), select the active one.
@@ -886,8 +953,9 @@ async function main() {
       );
       if (G_combinedModeData.layoutConfig[activeLayoutIdFromSettings]) {
         // Check if it's a preset collection and ID exists
-        console.log(
-          `[Init] Using layout preset '${activeLayoutIdFromSettings}' from layoutConfig.`
+        logger.info(
+          'init',
+          `Using layout preset '${activeLayoutIdFromSettings}' from layoutConfig.`
         );
         layoutToLoad =
           G_combinedModeData.layoutConfig[activeLayoutIdFromSettings];
@@ -895,7 +963,7 @@ async function main() {
         activeLayoutIdFromSettings === 'custom' &&
         G_combinedModeData.layoutConfig.custom
       ) {
-        console.log('[Init] Using custom layout from layoutConfig.');
+        logger.info('init', 'Using custom layout from layoutConfig.');
         layoutToLoad = G_combinedModeData.layoutConfig.custom;
       }
 
@@ -914,13 +982,14 @@ async function main() {
           // If this event DOES fire, PanelManager might be re-initialized if it wasn't fully ready before.
           // This could be okay if PanelManager.initialize() is idempotent.
           if (!panelManagerInstance.isInitialized) {
-            console.log(
-              '[Init] "started" event: PanelManager not yet initialized, calling initialize.'
+            logger.info(
+              'init',
+              '"started" event: PanelManager not yet initialized, calling initialize.'
             ); // Kept as info
             panelManagerInstance.initialize(goldenLayoutInstance, null);
           } else {
-            // console.log(
-            //   '[Init DEBUG] "started" event: PanelManager already initialized.'
+            // logger.debug('init',
+            //   '"started" event: PanelManager already initialized.'
             // );
           }
         });
@@ -930,13 +999,14 @@ async function main() {
           //   '[Init DEBUG] GoldenLayout "initialised" (alternative) EVENT HANDLER ENTERED (PanelManager init no longer solely relies on this)'
           // );
           if (!panelManagerInstance.isInitialized) {
-            console.log(
-              '[Init] "initialised" event: PanelManager not yet initialized, calling initialize.'
+            logger.info(
+              'init',
+              '"initialised" event: PanelManager not yet initialized, calling initialize.'
             ); // Kept as info
             panelManagerInstance.initialize(goldenLayoutInstance, null);
           } else {
-            // console.log(
-            //   '[Init DEBUG] "initialised" event: PanelManager already initialized.'
+            // logger.debug('init',
+            //   '"initialised" event: PanelManager already initialized.'
             // );
           }
         });
@@ -985,22 +1055,25 @@ async function main() {
         // }
         panelManagerInstance.initialize(goldenLayoutInstance, null); // gameUIInstance is null
       } catch (loadLayoutError) {
-        console.error(
-          '[Init] CRITICAL ERROR during goldenLayoutInstance.loadLayout call or immediate PanelManager init:', // Kept as error
+        logger.error(
+          'init',
+          'CRITICAL ERROR during goldenLayoutInstance.loadLayout call or immediate PanelManager init:', // Kept as error
           loadLayoutError,
           loadLayoutError.stack
         );
       }
     } catch (error) {
-      console.error(
-        '[Init] Error loading layout from G_combinedModeData.layoutConfig. Falling back to default.',
+      logger.error(
+        'init',
+        'Error loading layout from G_combinedModeData.layoutConfig. Falling back to default.',
         error
       );
       goldenLayoutInstance.loadLayout(getDefaultLayoutConfig()); // Fallback
     }
   } else {
-    console.warn(
-      '[Init] No valid layoutConfig found in G_combinedModeData. Attempting to use settings or default (old fallback path).'
+    logger.warn(
+      'init',
+      'No valid layoutConfig found in G_combinedModeData. Attempting to use settings or default (old fallback path).'
     );
     const activeLayoutId =
       (await settingsManager.getSetting('activeLayout')) || 'default';
@@ -1008,7 +1081,7 @@ async function main() {
   }
 
   // --- Initialize Event Dispatcher ---
-  console.log('[Init] Initializing Event Dispatcher...');
+  logger.info('init', 'Initializing Event Dispatcher...');
   const getHandlersFunc = () => centralRegistry.getAllDispatcherHandlers();
   const getLoadPriorityFunc = () => modulesData?.loadPriority || [];
   const isModuleEnabledFunc = (moduleId) => {
@@ -1021,16 +1094,17 @@ async function main() {
       getLoadPriorityFunc,
       isModuleEnabledFunc
     );
-    console.log('[Init] Event Dispatcher initialized successfully.');
+    logger.info('init', 'Event Dispatcher initialized successfully.');
   } catch (error) {
-    console.error(
-      '[Init] CRITICAL: Failed to initialize Event Dispatcher!',
+    logger.error(
+      'init',
+      'CRITICAL: Failed to initialize Event Dispatcher!',
       error
     );
   }
 
   // --- Initialize Modules (Call .initialize() on each) ---
-  console.log('[Init] Starting module initialization phase...');
+  logger.info('init', 'Starting module initialization phase...');
   if (modulesData.loadPriority && Array.isArray(modulesData.loadPriority)) {
     for (const moduleId of modulesData.loadPriority) {
       if (runtimeModuleStates.get(moduleId)?.enabled) {
@@ -1042,10 +1116,10 @@ async function main() {
       }
     }
   }
-  console.log('[Init] Module initialization phase complete.');
+  logger.info('init', 'Module initialization phase complete.');
 
   // --- Post-Initialize Modules (Call .postInitialize() on each) ---
-  console.log('[Init] Starting module post-initialization phase...');
+  logger.info('init', 'Starting module post-initialization phase...');
   if (modulesData.loadPriority && Array.isArray(modulesData.loadPriority)) {
     for (const moduleId of modulesData.loadPriority) {
       if (runtimeModuleStates.get(moduleId)?.enabled) {
@@ -1054,7 +1128,7 @@ async function main() {
       }
     }
   }
-  console.log('[Init] Module post-initialization phase complete.');
+  logger.info('init', 'Module post-initialization phase complete.');
 
   // --- Finalize Module Manager API ---
   // Populate the moduleManagerApi with its methods now that modules are loaded and runtime states exist.
@@ -1062,14 +1136,14 @@ async function main() {
   moduleManagerApi.enableModule = async (moduleId) => {
     const state = runtimeModuleStates.get(moduleId);
     if (state && state.enabled) {
-      console.log(`[ModuleManagerAPI] Module ${moduleId} is already enabled.`);
+      logger.info('init', `Module ${moduleId} is already enabled.`);
       // Optionally, ensure its panel is visible if it was just hidden
       const componentType = centralRegistry.getComponentTypeForModule(moduleId);
       if (componentType && panelManagerInstance) {
         // This part is tricky: GL might not have a simple "ensure visible if exists"
         // We might try to activate it, or if createPanelForComponent is idempotent, call it.
         // For now, if already enabled, we assume it might just need its panel focused.
-        // console.log(`[ModuleManagerAPI] Attempting to activate panel for already enabled module ${moduleId}`);
+        // logger.debug('init', `Attempting to activate panel for already enabled module ${moduleId}`);
         panelManagerInstance.activatePanel(componentType);
       }
       return;
@@ -1077,7 +1151,7 @@ async function main() {
 
     if (state) {
       state.enabled = true;
-      console.log(`[ModuleManagerAPI] Enabling module: ${moduleId}`);
+      logger.info('init', `Enabling module: ${moduleId}`);
 
       try {
         // 1. Re-initialize the module
@@ -1089,14 +1163,16 @@ async function main() {
           G_combinedModeData.moduleConfig?.loadPriority || [];
         let originalIndex = loadPriorityArray.indexOf(moduleId);
         if (originalIndex === -1) {
-          console.warn(
-            `[ModuleManagerAPI] Could not find original load priority index for ${moduleId}. Using -1.`
+          logger.warn(
+            'init',
+            `Could not find original load priority index for ${moduleId}. Using -1.`
           );
           originalIndex = -1; // Or some default.
         }
 
-        console.log(
-          `[ModuleManagerAPI] Calling _initializeSingleModule for ${moduleId} with index ${originalIndex}`
+        logger.debug(
+          'init',
+          `Calling _initializeSingleModule for ${moduleId} with index ${originalIndex}`
         );
         await _initializeSingleModule(moduleId, originalIndex);
 
@@ -1106,9 +1182,7 @@ async function main() {
           moduleInstance &&
           typeof moduleInstance.postInitialize === 'function'
         ) {
-          console.log(
-            `[ModuleManagerAPI] Calling postInitialize for ${moduleId}`
-          );
+          logger.debug('init', `Calling postInitialize for ${moduleId}`);
           await _postInitializeSingleModule(moduleId); // _postInitializeSingleModule uses createInitializationApi internally
         }
 
@@ -1120,8 +1194,9 @@ async function main() {
         const panelTitle = titleFromInfo || moduleId;
 
         if (componentType && panelManagerInstance) {
-          console.log(
-            `[ModuleManagerAPI] Re-adding panel for ${moduleId}. Type: ${componentType}, Title: ${panelTitle}`
+          logger.debug(
+            'init',
+            `Re-adding panel for ${moduleId}. Type: ${componentType}, Title: ${panelTitle}`
           );
           // createPanelForComponent will add it if not present, or potentially show/focus if it is.
           // The behavior depends on panelManager's implementation.
@@ -1129,24 +1204,28 @@ async function main() {
             componentType,
             panelTitle
           );
-          console.log(
-            `[ModuleManagerAPI] Panel for ${moduleId} should have been re-added/focused.`
+          logger.debug(
+            'init',
+            `Panel for ${moduleId} should have been re-added/focused.`
           );
         } else {
           if (!componentType) {
-            console.warn(
-              `[ModuleManagerAPI] Cannot re-add panel for ${moduleId}: No componentType found in centralRegistry.`
+            logger.warn(
+              'init',
+              `Cannot re-add panel for ${moduleId}: No componentType found in centralRegistry.`
             );
           }
           if (!panelManagerInstance) {
-            console.warn(
-              `[ModuleManagerAPI] Cannot re-add panel for ${moduleId}: panelManagerInstance (imported) not available.`
+            logger.warn(
+              'init',
+              `Cannot re-add panel for ${moduleId}: panelManagerInstance (imported) not available.`
             );
           }
         }
       } catch (error) {
-        console.error(
-          `[ModuleManagerAPI] Error during enabling or re-adding panel for ${moduleId}:`,
+        logger.error(
+          'init',
+          `Error during enabling or re-adding panel for ${moduleId}:`,
           error
         );
         state.enabled = false; // Revert enabled state on error
@@ -1155,8 +1234,9 @@ async function main() {
         // return; // Stop further processing for this module
       }
     } else {
-      console.error(
-        `[ModuleManagerAPI] enableModule: No runtime state found for module ${moduleId}. Cannot enable.`
+      logger.error(
+        'init',
+        `enableModule: No runtime state found for module ${moduleId}. Cannot enable.`
       );
     }
 
@@ -1164,8 +1244,9 @@ async function main() {
 
     // ADDED: Dispatch rehome event after enabling a module and its panel is potentially ready
     if (dispatcher) {
-      console.log(
-        `[ModuleManagerAPI] Module ${moduleId} enabled, dispatching system:rehomeTimerUI.`
+      logger.debug(
+        'init',
+        `Module ${moduleId} enabled, dispatching system:rehomeTimerUI.`
       );
       setTimeout(() => {
         dispatcher.publish(
@@ -1177,7 +1258,7 @@ async function main() {
     }
   };
   moduleManagerApi.disableModule = async (moduleId) => {
-    console.log(`[ModuleManagerAPI] Attempted to disable ${moduleId}`);
+    logger.info('init', `Attempted to disable ${moduleId}`);
     const moduleState = runtimeModuleStates.get(moduleId);
     if (moduleState) {
       moduleState.enabled = false;
@@ -1190,8 +1271,9 @@ async function main() {
       const componentType = centralRegistry.getComponentTypeForModule(moduleId);
       let panelActionTaken = false; // Flag to track if panel was affected
       if (componentType) {
-        console.log(
-          `[ModuleManagerAPI] Closing panel for disabled module ${moduleId} (Component Type: ${componentType})`
+        logger.debug(
+          'init',
+          `Closing panel for disabled module ${moduleId} (Component Type: ${componentType})`
         );
 
         // --- BEGIN DIAGNOSTIC LOGS (modified) ---
@@ -1240,13 +1322,15 @@ async function main() {
           panelManagerInstance.destroyPanelByComponentType(componentType);
           panelActionTaken = true; // Panel destruction was attempted
         } else {
-          console.error(
-            '[ModuleManagerAPI] CRITICAL: Cannot call destroyPanelByComponentType - panelManagerInstance (imported) or the method is invalid.'
+          logger.error(
+            'init',
+            'CRITICAL: Cannot call destroyPanelByComponentType - panelManagerInstance (imported) or the method is invalid.'
           );
         }
       } else {
-        console.warn(
-          `[ModuleManagerAPI] Module ${moduleId} has no registered panel component type. Cannot close panel.`
+        logger.warn(
+          'init',
+          `Module ${moduleId} has no registered panel component type. Cannot close panel.`
         );
       }
 
@@ -1255,8 +1339,9 @@ async function main() {
       // in a more complex system, though not directly in our current TimerUI case.
       // Keeping it simple: if a module is disabled, re-evaluate timer hosting.
       if (dispatcher) {
-        console.log(
-          `[ModuleManagerAPI] Module ${moduleId} disabled (panel action taken: ${panelActionTaken}), dispatching system:rehomeTimerUI.`
+        logger.debug(
+          'init',
+          `Module ${moduleId} disabled (panel action taken: ${panelActionTaken}), dispatching system:rehomeTimerUI.`
         );
         setTimeout(() => {
           dispatcher.publish(
@@ -1307,7 +1392,7 @@ async function main() {
     return G_combinedModeData.moduleConfig?.loadPriority || [];
   };
 
-  console.log('[Init] ModuleManagerAPI populated.');
+  logger.info('init', 'ModuleManagerAPI populated.');
 
   // ADDED: Listen for panels being closed manually to disable their modules
   eventBus.subscribe('ui:panelManuallyClosed', ({ moduleId }) => {
@@ -1317,8 +1402,9 @@ async function main() {
     // Only disable if it's currently considered enabled by the module manager
     if (moduleState && moduleState.enabled !== false) {
       // Check if it's not already marked as disabled
-      console.log(
-        `[Init - ui:panelManuallyClosed] Received event for moduleId: ${moduleId}. ` +
+      logger.debug(
+        'init',
+        `Received event for moduleId: ${moduleId}. ` +
           `Panel closed by user. Updating module state to disabled.`
       );
       moduleState.enabled = false;
@@ -1327,13 +1413,15 @@ async function main() {
       // The rehome dispatch is handled by the panel's own destroy/dispose handler.
       // No need to call moduleManagerApi.disableModule() here, as that would try to destroy the panel again.
     } else if (moduleState && moduleState.enabled === false) {
-      console.log(
-        `[Init - ui:panelManuallyClosed] Module ${moduleId} was already marked as disabled. No state change needed.`
+      logger.debug(
+        'init',
+        `Module ${moduleId} was already marked as disabled. No state change needed.`
       );
     } else {
       // Catches moduleState being null or undefined
-      console.warn(
-        `[Init - ui:panelManuallyClosed] Runtime state for module ${moduleId} not found. Cannot update state.`
+      logger.warn(
+        'init',
+        `Runtime state for module ${moduleId} not found. Cannot update state.`
       );
     }
   });
@@ -1341,11 +1429,12 @@ async function main() {
   // Publish an event indicating that the modes.json has been loaded and processed
   // This allows modules that depend on mode configurations (e.g., for UI elements)
   if (G_modesConfig) {
-    console.log('[Init] Publishing app:modesJsonLoaded event.');
+    logger.info('init', 'Publishing app:modesJsonLoaded event.');
     eventBus.publish('app:modesJsonLoaded', { modesConfig: G_modesConfig });
   } else {
-    console.warn(
-      '[Init] G_modesConfig not available when attempting to publish app:modesJsonLoaded. This might indicate an issue.'
+    logger.warn(
+      'init',
+      'G_modesConfig not available when attempting to publish app:modesJsonLoaded. This might indicate an issue.'
     );
     // Still publish, but with a potentially empty or default config if G_modesConfig was truly not set
     eventBus.publish('app:modesJsonLoaded', {
@@ -1356,11 +1445,11 @@ async function main() {
   // Make G_combinedModeData globally available BEFORE app:readyForUiDataLoad
   // so UI components can access it directly during their initialization if needed.
   window.G_combinedModeData = G_combinedModeData;
-  console.log('[Init] window.G_combinedModeData has been set.');
+  logger.debug('init', 'window.G_combinedModeData has been set.');
 
   // Signal that core systems are up, modules are initialized,
   // and UI components can now safely fetch initial data (like from StateManager)
-  console.log('[Init] Publishing app:readyForUiDataLoad event...');
+  logger.info('init', 'Publishing app:readyForUiDataLoad event...');
   eventBus.publish('app:readyForUiDataLoad', {
     getModuleManager: () => moduleManagerApi,
   });
@@ -1371,15 +1460,16 @@ async function main() {
   setTimeout(() => {
     if (dispatcher) {
       // Ensure dispatcher is initialized (should be by now)
-      console.log('[Init.js] Dispatching initial system:rehomeTimerUI event.');
+      logger.debug('init', 'Dispatching initial system:rehomeTimerUI event.');
       dispatcher.publish(
         'system:rehomeTimerUI', // Event name
         {}, // Event data (empty for now, can be extended if needed)
         { initialTarget: 'top' } // Dispatch options: start from highest priority module
       );
     } else {
-      console.error(
-        '[Init.js] Cannot dispatch system:rehomeTimerUI, dispatcher not available.'
+      logger.error(
+        'init',
+        'Cannot dispatch system:rehomeTimerUI, dispatcher not available.'
       );
     }
   }, 0); // Zero timeout defers to the next event loop tick
@@ -1393,12 +1483,13 @@ async function main() {
   window.goldenLayoutInstance = goldenLayoutInstance;
   window.moduleManagerApi = moduleManagerApi;
 
-  console.log('[Init] Modular application initialization complete.');
+  logger.info('init', 'Modular application initialization complete.');
 
   // After all modules are ready and UI might be listening,
   // publish the final active mode.
-  console.log(
-    `[Init] Publishing app:activeModeDetermined with mode: ${G_currentActiveMode}`
+  logger.info(
+    'init',
+    `Publishing app:activeModeDetermined with mode: ${G_currentActiveMode}`
   );
   eventBus.publish('app:activeModeDetermined', {
     activeMode: G_currentActiveMode,
@@ -1406,8 +1497,9 @@ async function main() {
 
   // Attach a global listener for files:jsonLoaded to update rules in StateManager
   eventBus.subscribe('files:jsonLoaded', async (eventData) => {
-    console.log(
-      '[Init] files:jsonLoaded event RECEIVED. Full eventData:',
+    logger.info(
+      'init',
+      'files:jsonLoaded event RECEIVED. Full eventData:',
       JSON.parse(JSON.stringify(eventData)) // Log a deep copy
     );
     if (
@@ -1415,8 +1507,9 @@ async function main() {
       eventData.jsonData &&
       eventData.selectedPlayerId !== undefined
     ) {
-      console.log(
-        `[Init] files:jsonLoaded: Valid data. jsonData keys: ${Object.keys(
+      logger.info(
+        'init',
+        `files:jsonLoaded: Valid data. jsonData keys: ${Object.keys(
           eventData.jsonData
         ).join(', ')}, PlayerID: ${
           eventData.selectedPlayerId
@@ -1424,8 +1517,9 @@ async function main() {
       );
       try {
         G_combinedModeData.rulesConfig = eventData.jsonData;
-        console.log(
-          '[Init] files:jsonLoaded: G_combinedModeData.rulesConfig updated.'
+        logger.info(
+          'init',
+          'files:jsonLoaded: G_combinedModeData.rulesConfig updated.'
         );
 
         const playerInfo = eventData.playerInfo || {
@@ -1436,11 +1530,12 @@ async function main() {
           playerId: String(eventData.selectedPlayerId),
           playerName: playerInfo.playerName,
         });
-        console.log(
-          '[Init] files:jsonLoaded: stateManagerProxySingleton.loadRules call COMPLETED.'
+        logger.info(
+          'init',
+          'files:jsonLoaded: stateManagerProxySingleton.loadRules call COMPLETED.'
         );
       } catch (error) {
-        console.error('[Init] Error handling files:jsonLoaded event:', error);
+        logger.error('init', 'Error handling files:jsonLoaded event:', error);
       }
     }
   });

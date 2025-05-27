@@ -80,6 +80,33 @@ export class ConsoleUI {
       'Set check delay (min max)',
       this.handleSetDelayCommand
     );
+
+    // Logger commands
+    register(
+      'log_level',
+      'Set log level: log_level [module] <level>',
+      this.handleLogLevelCommand
+    );
+    register(
+      'log_status',
+      'Show current logging configuration',
+      this.handleLogStatusCommand
+    );
+    register(
+      'log_filter',
+      'Add log filter: log_filter <include|exclude> <keyword>',
+      this.handleLogFilterCommand
+    );
+    register(
+      'log_clear_filters',
+      'Clear all log filters',
+      this.handleLogClearFiltersCommand
+    );
+    register(
+      'log_enable',
+      'Enable/disable logging: log_enable <true|false>',
+      this.handleLogEnableCommand
+    );
   }
 
   // --- Command Handlers (Accept dependencies object) ---
@@ -235,6 +262,139 @@ export class ConsoleUI {
       `Check delay set to ${minDelay}-${maxDelay} seconds.`,
       'system'
     );
+  }
+
+  // Logger command handlers
+  static handleLogLevelCommand(argsString, { consoleManager }) {
+    const logger = window.logger;
+    if (!logger) {
+      consoleManager.print('Logger service not available.', 'error');
+      return;
+    }
+
+    const args = argsString.trim().split(/\s+/);
+    if (args.length === 1) {
+      // Set default level: log_level DEBUG
+      const level = args[0];
+      logger.setDefaultLevel(level);
+    } else if (args.length === 2) {
+      // Set module level: log_level stateManager DEBUG
+      const [moduleName, level] = args;
+      logger.setModuleLevel(moduleName, level);
+    } else {
+      consoleManager.print(
+        'Usage: log_level <level> OR log_level <module> <level>',
+        'error'
+      );
+      consoleManager.print(
+        `Available levels: ${logger.getAvailableLevels().join(', ')}`,
+        'info'
+      );
+    }
+  }
+
+  static handleLogStatusCommand(argsString, { consoleManager }) {
+    const logger = window.logger;
+    if (!logger) {
+      consoleManager.print('Logger service not available.', 'error');
+      return;
+    }
+
+    const status = logger.showStatus();
+    consoleManager.print('=== Logger Status ===', 'info');
+    consoleManager.print(`Enabled: ${status.enabled}`, 'info');
+    consoleManager.print(`Default Level: ${status.defaultLevel}`, 'info');
+    consoleManager.print(
+      `Module-specific levels (${status.moduleCount}):`,
+      'info'
+    );
+
+    for (const [module, level] of Object.entries(status.moduleLevels)) {
+      consoleManager.print(`  ${module}: ${level}`, 'info');
+    }
+
+    if (status.filters.includeKeywords.length > 0) {
+      consoleManager.print(
+        `Include filters: ${status.filters.includeKeywords.join(', ')}`,
+        'info'
+      );
+    }
+
+    if (status.filters.excludeKeywords.length > 0) {
+      consoleManager.print(
+        `Exclude filters: ${status.filters.excludeKeywords.join(', ')}`,
+        'info'
+      );
+    }
+
+    consoleManager.print(
+      `Available levels: ${logger.getAvailableLevels().join(', ')}`,
+      'info'
+    );
+  }
+
+  static handleLogFilterCommand(argsString, { consoleManager }) {
+    const logger = window.logger;
+    if (!logger) {
+      consoleManager.print('Logger service not available.', 'error');
+      return;
+    }
+
+    const args = argsString.trim().split(/\s+/);
+    if (args.length !== 2) {
+      consoleManager.print(
+        'Usage: log_filter <include|exclude> <keyword>',
+        'error'
+      );
+      return;
+    }
+
+    const [filterType, keyword] = args;
+    if (filterType === 'include') {
+      logger.addIncludeKeyword(keyword);
+      consoleManager.print(`Added include filter: ${keyword}`, 'system');
+    } else if (filterType === 'exclude') {
+      logger.addExcludeKeyword(keyword);
+      consoleManager.print(`Added exclude filter: ${keyword}`, 'system');
+    } else {
+      consoleManager.print(
+        'Filter type must be "include" or "exclude"',
+        'error'
+      );
+    }
+  }
+
+  static handleLogClearFiltersCommand(argsString, { consoleManager }) {
+    const logger = window.logger;
+    if (!logger) {
+      consoleManager.print('Logger service not available.', 'error');
+      return;
+    }
+
+    logger.clearFilters();
+    consoleManager.print('All log filters cleared.', 'system');
+  }
+
+  static handleLogEnableCommand(argsString, { consoleManager }) {
+    const logger = window.logger;
+    if (!logger) {
+      consoleManager.print('Logger service not available.', 'error');
+      return;
+    }
+
+    const arg = argsString.trim().toLowerCase();
+    if (arg === 'true' || arg === '1' || arg === 'on') {
+      logger.setEnabled(true);
+      consoleManager.print('Logging enabled.', 'system');
+    } else if (arg === 'false' || arg === '0' || arg === 'off') {
+      logger.setEnabled(false);
+      consoleManager.print('Logging disabled.', 'system');
+    } else {
+      consoleManager.print(
+        'Usage: log_enable <true|false|on|off|1|0>',
+        'error'
+      );
+    }
   }
 
   // --- Internal command history logic (uses static properties) ---

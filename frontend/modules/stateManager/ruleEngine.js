@@ -74,7 +74,14 @@ function hasDefeatMethod(ruleObj, stateSnapshotInterface) {
 }
 
 function safeLog(message, level = 'debug') {
-  if (
+  // Check if we're in a worker context (no window object)
+  const isWorkerContext = typeof window === 'undefined';
+
+  // Use the new logger service if available
+  if (!isWorkerContext && window.logger) {
+    window.logger[level]('ruleEngine', message);
+  } else if (
+    !isWorkerContext &&
     window.consoleManager &&
     typeof window.consoleManager[level] === 'function'
   ) {

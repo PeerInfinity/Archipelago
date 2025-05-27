@@ -7,6 +7,34 @@
     "debugMode": false,
     "logLevel": "info"
   },
+  "logging": {
+    "defaultLevel": "WARN",
+    "moduleLevels": {
+      "init": "WARN",
+      "stateManager": "WARN",
+      "stateManagerProxy": "WARN",
+      "stateManagerWorker": "WARN",
+      "testCaseUI": "WARN",
+      "testLogic": "WARN",
+      "eventDispatcher": "WARN",
+      "panelManager": "WARN",
+      "Client": "WARN",
+      "ruleEngine": "WARN",
+      "locationUI": "WARN",
+      "regionUI": "WARN",
+      "inventoryUI": "WARN",
+      "exitUI": "WARN",
+      "loopUI": "WARN",
+      "consoleUI": "WARN"
+    },
+    "filters": {
+      "includeKeywords": [],
+      "excludeKeywords": []
+    },
+    "showTimestamp": true,
+    "showModuleName": true,
+    "enabled": true
+  },
   "moduleSettings": {
     "client": {
       "defaultServer": "ws://localhost:38281"
