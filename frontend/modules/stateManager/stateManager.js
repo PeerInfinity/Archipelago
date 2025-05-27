@@ -29,7 +29,10 @@ export class StateManager {
    * @param {function} [evaluateRuleFunction] - The rule evaluation function (from ruleEngine.js).
    *                                             Required when running in worker/isolated context.
    */
-  constructor(evaluateRuleFunction) {
+  constructor(evaluateRuleFunction, loggerInstance) {
+    // Store the injected logger instance
+    this.logger = loggerInstance || console;
+
     // Core state storage
     this.inventory = null; // Initialize as null
     this.state = null; // Initialize as null
@@ -102,7 +105,7 @@ export class StateManager {
     this.originalRegionOrder = [];
     this.originalExitOrder = [];
 
-    log('info', '[StateManager Class] Instance created.');
+    this.logger.info('StateManager', 'Instance created with injected logger.');
   }
 
   /**
@@ -136,7 +139,7 @@ export class StateManager {
    */
   applySettings(settingsObject) {
     this.settings = settingsObject;
-    log('info', '[StateManager Class] Settings applied:', this.settings);
+    this.logger.info('StateManager', 'Settings applied:', this.settings);
     // Potentially call other methods if settings need immediate effect
     // For example, this.state.loadSettings(this.settings) if that wasn't done elsewhere
     // or if settings affect helper instantiation or other core components.
@@ -148,7 +151,7 @@ export class StateManager {
    * @param {object} eventBusInstance - The application's event bus.
    */
   setEventBus(eventBusInstance) {
-    log('info', '[StateManager Class] Setting EventBus instance (legacy)...');
+    this.logger.info('StateManager', 'Setting EventBus instance (legacy)...');
     this.eventBus = eventBusInstance;
   }
 
@@ -157,13 +160,13 @@ export class StateManager {
    * @param {function} callback - The function to call (e.g., self.postMessage).
    */
   setCommunicationChannel(callback) {
-    log('info', '[StateManager Class] Setting communication channel...');
+    this.logger.info('StateManager', 'Setting communication channel...');
     if (typeof callback === 'function') {
       this.postMessageCallback = callback;
     } else {
-      log(
-        'error',
-        '[StateManager Class] Invalid communication channel provided.'
+      this.logger.error(
+        'StateManager',
+        'Invalid communication channel provided.'
       );
       this.postMessageCallback = null;
     }
@@ -183,17 +186,27 @@ export class StateManager {
     if (gameName === 'Adventure') {
       // TODO: Create AdventureInventory if it needs specific logic beyond ALTTPInventory.
       // For now, Adventure will use ALTTPInventory structure.
-      this.inventory = new ALTTPInventory(items, progressionMapping, itemData);
-      log(
-        'info',
-        '[StateManager initializeInventory] Instantiated ALTTPInventory for Adventure game.'
+      this.inventory = new ALTTPInventory(
+        items,
+        progressionMapping,
+        itemData,
+        this.logger
+      );
+      this.logger.info(
+        'StateManager',
+        'Instantiated ALTTPInventory for Adventure game.'
       );
     } else {
       // Default to A Link to the Past or other games using ALTTPInventory
-      this.inventory = new ALTTPInventory(items, progressionMapping, itemData);
-      log(
-        'info',
-        '[StateManager initializeInventory] Instantiated ALTTPInventory for game:',
+      this.inventory = new ALTTPInventory(
+        items,
+        progressionMapping,
+        itemData,
+        this.logger
+      );
+      this.logger.info(
+        'StateManager',
+        'Instantiated ALTTPInventory for game:',
         gameName
       );
     }
@@ -291,16 +304,16 @@ export class StateManager {
       const gameSettings = this.settings;
       const determinedGameName = gameSettings.game || this.gameId;
       if (determinedGameName === 'Adventure') {
-        this.state = new GameState(determinedGameName);
+        this.state = new GameState(determinedGameName, this.logger);
       } else if (determinedGameName === 'A Link to the Past') {
-        this.state = new ALTTPState();
+        this.state = new ALTTPState(this.logger);
       } else {
-        this.state = new GameState(determinedGameName);
+        this.state = new GameState(determinedGameName, this.logger);
       }
       if (this.state.loadSettings) this.state.loadSettings(gameSettings);
     } else {
       // Fallback if no settings to determine game type
-      this.state = new ALTTPState(); // Or a generic GameState
+      this.state = new ALTTPState(this.logger); // Or a generic GameState
     }
 
     this.clearCheckedLocations({ sendUpdate: false }); // Call quietly
@@ -587,19 +600,19 @@ export class StateManager {
     );
 
     if (gameNameForStateAndHelpers === 'Adventure') {
-      this.state = new GameState(gameNameForStateAndHelpers);
+      this.state = new GameState(gameNameForStateAndHelpers, this.logger);
       log(
         'info',
         '[StateManager loadFromJSON] GameState instantiated for Adventure.'
       );
     } else if (gameNameForStateAndHelpers === 'A Link to the Past') {
-      this.state = new ALTTPState();
+      this.state = new ALTTPState(this.logger);
       log(
         'info',
         '[StateManager loadFromJSON] ALTTPState instantiated for A Link to the Past.'
       );
     } else {
-      this.state = new GameState(gameNameForStateAndHelpers);
+      this.state = new GameState(gameNameForStateAndHelpers, this.logger);
       log(
         'warn',
         `[StateManager loadFromJSON] Unknown game '${gameNameForStateAndHelpers}'. Using base GameState.`
@@ -2865,11 +2878,11 @@ export class StateManager {
       const gameSettings = this.settings;
       const determinedGameName = gameSettings.game || this.gameId;
       if (determinedGameName === 'Adventure') {
-        this.state = new GameState(determinedGameName);
+        this.state = new GameState(determinedGameName, this.logger);
       } else if (determinedGameName === 'A Link to the Past') {
-        this.state = new ALTTPState();
+        this.state = new ALTTPState(this.logger);
       } else {
-        this.state = new GameState(determinedGameName);
+        this.state = new GameState(determinedGameName, this.logger);
       }
       if (this.state && typeof this.state.loadSettings === 'function')
         this.state.loadSettings(gameSettings);

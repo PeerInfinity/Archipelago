@@ -1045,6 +1045,55 @@ export class StateManagerProxy {
       // Add any other config that needs to be relayed from the main thread init to the worker
     };
 
+    // Prepare logging configuration for the worker
+    let workerLoggingConfig = null;
+    if (typeof window !== 'undefined' && window.logger) {
+      const mainThreadLoggerConfig = window.logger.getConfig();
+      workerLoggingConfig = {
+        defaultLevel: mainThreadLoggerConfig.defaultLevel,
+        moduleLevels: {
+          // Worker-specific modules
+          stateManagerWorker:
+            mainThreadLoggerConfig.moduleLevels?.stateManagerWorker ||
+            mainThreadLoggerConfig.defaultLevel,
+          StateManager:
+            mainThreadLoggerConfig.moduleLevels?.StateManager ||
+            mainThreadLoggerConfig.defaultLevel,
+          stateManager:
+            mainThreadLoggerConfig.moduleLevels?.stateManager ||
+            mainThreadLoggerConfig.defaultLevel,
+          ALTTPInventory:
+            mainThreadLoggerConfig.moduleLevels?.ALTTPInventory ||
+            mainThreadLoggerConfig.defaultLevel,
+          alttpInventory:
+            mainThreadLoggerConfig.moduleLevels?.alttpInventory ||
+            mainThreadLoggerConfig.defaultLevel,
+          ruleEngine:
+            mainThreadLoggerConfig.moduleLevels?.ruleEngine ||
+            mainThreadLoggerConfig.defaultLevel,
+          stateManagerHelpers:
+            mainThreadLoggerConfig.moduleLevels?.stateManagerHelpers ||
+            mainThreadLoggerConfig.defaultLevel,
+          gameInventory:
+            mainThreadLoggerConfig.moduleLevels?.gameInventory ||
+            mainThreadLoggerConfig.defaultLevel,
+          alttpHelpers:
+            mainThreadLoggerConfig.moduleLevels?.alttpHelpers ||
+            mainThreadLoggerConfig.defaultLevel,
+          alttpSnapshotHelpers:
+            mainThreadLoggerConfig.moduleLevels?.alttpSnapshotHelpers ||
+            mainThreadLoggerConfig.defaultLevel,
+          alttpWorkerHelpers:
+            mainThreadLoggerConfig.moduleLevels?.alttpWorkerHelpers ||
+            mainThreadLoggerConfig.defaultLevel,
+        },
+        filters: mainThreadLoggerConfig.filters,
+        showTimestamp: mainThreadLoggerConfig.showTimestamp,
+        showModuleName: mainThreadLoggerConfig.showModuleName,
+        enabled: mainThreadLoggerConfig.enabled,
+      };
+    }
+
     log(
       'info',
       '[StateManagerProxy] Preparing to send initialize command to worker. Config snapshot:',
@@ -1068,6 +1117,7 @@ export class StateManagerProxy {
         rulesUrl: this.initialConfig.rulesUrl, // Pass URL (will be null if rulesData is present)
         eventsConfig: this.initialConfig.eventsConfig,
         settings: this.initialConfig.settings,
+        loggingConfig: workerLoggingConfig, // Pass logging configuration to worker
         // workerPath: this.workerPath, // Not needed by worker itself for init
       },
     };
@@ -1176,6 +1226,23 @@ export class StateManagerProxy {
     );
   }
   // --- End new methods ---
+
+  /**
+   * Updates the worker's logging configuration
+   * @param {object} newLoggingConfig - New logging configuration to send to worker
+   */
+  updateWorkerLogConfig(newLoggingConfig) {
+    if (this.worker && newLoggingConfig) {
+      this.sendCommandToWorker({
+        command: 'updateLogConfig',
+        payload: newLoggingConfig,
+      });
+      log(
+        'info',
+        '[StateManagerProxy] Sent logging configuration update to worker'
+      );
+    }
+  }
 
   // Method to get game-specific helper functions instance
   // ... existing code ...

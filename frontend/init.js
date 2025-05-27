@@ -6,12 +6,7 @@ import logger from './app/core/loggerService.js';
 // Configure logger with basic settings early to reduce noise during module imports
 logger.configure({
   defaultLevel: 'WARN',
-  moduleLevels: {
-    init: 'WARN',
-    stateManagerProxy: 'WARN',
-    centralRegistry: 'WARN',
-    panelManager: 'WARN',
-  },
+  moduleLevels: {}, // No modules at INFO; all default to WARN
 });
 
 // Make logger globally available for modules that import during this phase

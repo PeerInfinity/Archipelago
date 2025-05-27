@@ -17,7 +17,15 @@ function log(level, message, ...data) {
 // frontend/app/games/alttp/inventory.js
 
 export class ALTTPInventory {
-  constructor(items = [], progressionMapping = {}, itemData = {}) {
+  constructor(
+    items = [],
+    progressionMapping = {},
+    itemData = {},
+    loggerInstance
+  ) {
+    // Store the injected logger instance
+    this.logger = loggerInstance || console;
+
     this.items = new Map();
     this.progressionMapping = progressionMapping;
     this.itemData = itemData;
@@ -50,8 +58,8 @@ export class ALTTPInventory {
       } else {
         // This is expected behavior during test setup when populating base inventory
         // Only log as debug info, not a warning
-        log(
-          'debug',
+        this.logger.debug(
+          'ALTTPInventory',
           `Max count (${maxCount}) for progressive item ${itemName} reached. Current count: ${currentCount}`
         );
       }

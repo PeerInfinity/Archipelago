@@ -2,7 +2,7 @@ import { GameState } from '../../helpers/index.js';
 
 export class ALTTPState extends GameState {
   constructor(logger = null) {
-    super(logger);
+    super('A Link to the Past', logger, 'ALTTPState');
     this.flags = new Set();
     this.events = new Set();
 
@@ -23,6 +23,15 @@ export class ALTTPState extends GameState {
 
     // Set default flags
     //this.setFlag('bombless_start'); // Default in current test setup
+  }
+
+  // Helper method for logging
+  log(message, ...data) {
+    if (this.logger && this.logger.info) {
+      this.logger.info(this.moduleName, message, ...data);
+    } else {
+      console.log(`[${this.moduleName}] ${message}`, ...data);
+    }
   }
 
   /**

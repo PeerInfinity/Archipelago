@@ -1,13 +1,10 @@
-// Use logger if available, fallback to console.log
-if (self.logger) {
-  self.logger.info('stateManagerWorker', 'Worker starting...');
-} else {
-  log('info', '[stateManagerWorker] Worker starting...');
-}
+// Initial startup message using console directly to avoid circular dependency
+// console.log('[stateManagerWorker] Worker starting...');
 
 // ADDED: Top-level error handler for the worker
 self.onerror = function (message, source, lineno, colno, error) {
-  log('error', '[stateManagerWorker] Uncaught Worker Error:', {
+  // Use console directly to avoid circular dependency with log function
+  console.error('[stateManagerWorker] Uncaught Worker Error:', {
     message,
     source,
     lineno,
@@ -27,8 +24,7 @@ self.onerror = function (message, source, lineno, colno, error) {
       },
     });
   } catch (e) {
-    log(
-      'error',
+    console.error(
       '[stateManagerWorker] FATAL: Could not even postMessage from self.onerror',
       e
     );
@@ -43,7 +39,7 @@ self.onerror = function (message, source, lineno, colno, error) {
 //     message: 'Worker script started and postMessage functional.',
 //   });
 // } catch (e) {
-//   log('error',
+//   console.error(
 //     '[stateManagerWorker] FATAL: Could not send initial debug ping:',
 //     e
 //   );
@@ -55,13 +51,34 @@ import { StateManager } from './stateManager.js';
 import { evaluateRule } from './ruleEngine.js';
 // Import shared commands instead of StateManagerProxy to avoid window references
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
+// Import LoggerService class for worker-local logging
+import { LoggerService } from '../../app/core/loggerService.js';
 
-// Helper function for logging with fallback
+// Create worker-local logger instance
+const workerLogger = new LoggerService();
+// Configure with basic settings initially
+workerLogger.configure({
+  defaultLevel: 'WARN',
+  moduleLevels: {
+    stateManagerWorker: 'WARN',
+    StateManager: 'WARN',
+    stateManager: 'WARN',
+    ALTTPState: 'WARN',
+  },
+  enabled: true,
+});
+
+// Helper function for logging with fallback - now uses workerLogger
 function log(level, message, ...data) {
-  if (typeof window !== 'undefined' && window.logger) {
-    window.logger[level]('stateManagerWorker', message, ...data);
+  // Check if workerLogger exists and is initialized
+  if (
+    typeof workerLogger !== 'undefined' &&
+    workerLogger &&
+    workerLogger.initialized
+  ) {
+    workerLogger[level]('stateManagerWorker', message, ...data);
   } else {
-    // In worker context, only log ERROR and WARN levels to keep console clean
+    // Fallback to console if workerLogger not ready
     if (level === 'error' || level === 'warn') {
       const consoleMethod =
         console[level === 'info' ? 'log' : level] || console.log;
@@ -73,18 +90,10 @@ function log(level, message, ...data) {
 // NOTE: ALTTPInventory, ALTTPState, ALTTPHelpers are imported
 // and instantiated *inside* StateManager.js constructor or used directly.
 
-// Use logger if available, fallback to console.log
-if (self.logger) {
-  self.logger.info(
-    'stateManagerWorker',
-    'Dependencies loaded (StateManager, evaluateRule)'
-  );
-} else {
-  log(
-    'info',
-    '[stateManagerWorker] Dependencies loaded (StateManager, evaluateRule).'
-  );
-}
+// Dependencies loaded message using console directly to avoid circular dependency
+// console.log(
+//   '[stateManagerWorker] Dependencies loaded (StateManager, evaluateRule).'
+// );
 
 let stateManagerInstance = null;
 let workerConfig = null;
@@ -144,7 +153,22 @@ self.onmessage = async function (e) {
         if (!workerConfig) {
           throw new Error('Initialization failed: workerConfig is missing.');
         }
-        stateManagerInstance = new StateManager(evaluateRule);
+
+        // Configure worker logger with settings from main thread
+        if (workerConfig.loggingConfig) {
+          workerLogger.configure(workerConfig.loggingConfig);
+          log(
+            'info',
+            `Worker logger configured. Default: ${
+              workerLogger.config.defaultLevel
+            }, StateManager: ${
+              workerLogger.config.moduleLevels?.StateManager || 'N/A'
+            }`
+          );
+        }
+
+        // Pass the configured logger to StateManager
+        stateManagerInstance = new StateManager(evaluateRule, workerLogger);
         setupCommunicationChannel(stateManagerInstance);
         // Pass initial settings if available in workerConfig
         if (workerConfig.settings) {
@@ -193,6 +217,20 @@ self.onmessage = async function (e) {
         }
         stateManagerInstance.commitBatchUpdate();
         // commitBatchUpdate internally sends a snapshot update if changes occurred.
+        break;
+
+      case 'updateLogConfig':
+        if (message.payload) {
+          workerLogger.configure(message.payload);
+          log(
+            'info',
+            `Worker logging configuration updated. Default: ${
+              workerLogger.config.defaultLevel
+            }, StateManager: ${
+              workerLogger.config.moduleLevels?.StateManager || 'N/A'
+            }`
+          );
+        }
         break;
 
       case 'applyRuntimeState':
@@ -887,7 +925,7 @@ self.onmessage = async function (e) {
 };
 // --- END: Restored and Simplified onmessage Handler ---
 
-log(
-  'info',
-  '[stateManagerWorker] Worker is ready to receive messages via new onmessage handler.'
-);
+// Worker ready message using console directly to avoid circular dependency
+// console.log(
+//   '[stateManagerWorker] Worker is ready to receive messages via new onmessage handler.'
+// );

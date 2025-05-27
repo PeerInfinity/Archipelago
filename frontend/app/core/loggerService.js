@@ -12,7 +12,7 @@
 class LoggerService {
   constructor() {
     this.config = {
-      defaultLevel: 'INFO',
+      defaultLevel: 'WARN',
       moduleLevels: {},
       filters: {
         includeKeywords: [],
@@ -49,11 +49,6 @@ class LoggerService {
 
     // Merge with existing config
     this.config = { ...this.config, ...loggingConfig };
-
-    // Handle legacy logLevel setting from generalSettings
-    if (config.generalSettings?.logLevel) {
-      this.config.defaultLevel = config.generalSettings.logLevel.toUpperCase();
-    }
 
     this.initialized = true;
 
@@ -337,9 +332,11 @@ class LoggerService {
 // Create and export singleton instance
 const logger = new LoggerService();
 
-// Make logger available globally for console access
+// Make logger available globally for console access (main thread only)
 if (typeof window !== 'undefined') {
   window.logger = logger;
 }
 
+// Export both the class and the singleton instance
+export { LoggerService };
 export default logger;

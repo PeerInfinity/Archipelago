@@ -17,67 +17,55 @@ function log(level, message, ...data) {
  * Provides shared functionality and structure for helper implementations
  */
 export class GameHelpers {
-  constructor() {
-    // Remove debug property references since we're using global logging or stateManager
+  constructor(loggerInstance, moduleName = 'GameHelpers') {
+    this.logger = loggerInstance || console;
+    this.moduleName = moduleName;
   }
 
-  log(message) {
-    // Simplified logging that doesn't rely on instance properties
-    log('info', message);
-  }
+  // Remove the old log method - use this.logger directly
 
   // Helper method to execute a helper function by name
   executeHelper(name, ...args) {
     if (typeof this[name] !== 'function') {
-      log('info', `Unknown helper function: ${name}`);
+      this.logger.warn(this.moduleName, `Unknown helper function: ${name}`);
       return false;
     }
     const result = this[name](...args);
-    //log('info', `Helper ${name}(${args.join(', ')}) returned ${result}`);
+    // this.logger.verbose(this.moduleName, `Helper ${name}(${args.join(', ')}) returned ${result}`);
     return result;
   }
 
   // Helper method to execute a state method by name
   executeStateMethod(method, ...args) {
     if (typeof this[method] !== 'function') {
-      log('info', `Unknown state method: ${method}`);
+      this.logger.warn(this.moduleName, `Unknown state method: ${method}`);
       return false;
     }
     const result = this[method](...args);
-    //log('info', `Helper ${method}(${args.join(', ')}) returned ${result}`);
+    // this.logger.verbose(this.moduleName, `State method ${method}(${args.join(', ')}) returned ${result}`);
     return result;
   }
 }
 
 // Base class for game-specific state tracking
 export class GameState {
-  constructor(gameName = 'UnknownGame', debugLog = null) {
+  constructor(
+    gameName = 'UnknownGame',
+    loggerInstance,
+    moduleName = 'GameState'
+  ) {
+    this.logger = loggerInstance || console;
+    this.moduleName = moduleName;
+
     this.flags = new Set();
     this.settings = {};
     this.game = gameName;
     this.startRegions = ['Menu'];
-    // Properly set up debug object if debugLog is provided
-    this.debug = debugLog
-      ? {
-          log: (msg) => {
-            if (typeof msg === 'object') {
-              debugLog.log(JSON.stringify(msg));
-            } else {
-              debugLog.log(msg);
-            }
-          },
-        }
-      : {
-          log: (msg) => {
-            if (console) {
-              if (typeof msg === 'object') {
-                log('info', JSON.stringify(msg));
-              } else {
-                log('info', msg);
-              }
-            }
-          },
-        };
+
+    this.logger.info(
+      this.moduleName,
+      `GameState for ${this.game} initialized using injected logger.`
+    );
   }
 
   loadSettings(settings) {
@@ -85,25 +73,22 @@ export class GameState {
     this.game = this.settings.game || this.game;
   }
 
-  log(message) {
-    if (this.debug?.log) {
-      this.debug.log(message);
-    }
-  }
-
   setFlag(flag) {
     this.flags.add(flag);
-    this.log(`Set flag: ${flag}`);
+    this.logger.debug(this.moduleName, `Set flag: ${flag}`);
   }
 
   hasFlag(flag) {
     const hasFlag = this.flags.has(flag);
-    this.log(`Checking flag ${flag}: ${hasFlag}`);
+    this.logger.debug(this.moduleName, `Checking flag ${flag}: ${hasFlag}`);
     return hasFlag;
   }
 
   getState() {
-    this.log(`[GameState base] getState() called. Game: ${this.game}`);
+    this.logger.debug(
+      this.moduleName,
+      `[GameState base] getState() called. Game: ${this.game}`
+    );
     return {
       flags: Array.from(this.flags),
       settings: this.settings,
