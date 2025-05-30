@@ -25,7 +25,7 @@ function log(level, message, ...data) {
 const TEST_CASE_FILES = [
   './testCases/coreTests.js',
   './testCases/stateManagementTests.js',
-  './testCases/uiInteractionTests.js',
+  './testCases/pathAnalyzerTests.js',
 ];
 
 let discoveryComplete = false;

@@ -4,7 +4,7 @@
   "categories": {
     "Core": {
       "isEnabled": true,
-      "order": 0
+      "order": 4
     },
     "State Management": {
       "isEnabled": true,
@@ -14,24 +14,24 @@
       "isEnabled": true,
       "order": 2
     },
+    "Path Analysis": {
+      "isEnabled": true,
+      "order": 0
+    },
     "Progressive Items": {
       "isEnabled": true,
       "order": 3
-    },
-    "Path Analysis": {
-      "isEnabled": true,
-      "order": 4
     }
   },
   "tests": [
     {
-      "id": "test_1_simple_event",
-      "name": "Test Simple Event Wait",
-      "description": "Checks if waitForEvent correctly pauses and resumes on a custom event.",
-      "functionName": "simpleEventTest",
-      "isEnabled": false,
+      "id": "debug_path_analyzer",
+      "name": "Debug Path Analyzer",
+      "description": "Simple debug test to isolate Path Analyzer issues.",
+      "functionName": "debugPathAnalyzerTest",
+      "isEnabled": true,
       "order": 0,
-      "category": "Core"
+      "category": "Path Analysis"
     },
     {
       "id": "test_config_load_and_item_check",
@@ -43,10 +43,10 @@
       "category": "State Management"
     },
     {
-      "id": "test_ui_simulation",
-      "name": "UI Simulation Test",
-      "description": "Tests UI interactions like clicking inventory buttons and verifying the resulting state changes.",
-      "functionName": "uiSimulationTest",
+      "id": "test_case_panel_interaction",
+      "name": "Test Case Panel Interaction Test",
+      "description": "Tests activating the Test Cases panel, selecting the vanilla Light World test, running all tests, and collecting results for Playwright.",
+      "functionName": "testCasePanelInteractionTest",
       "isEnabled": false,
       "order": 0,
       "category": "UI Interaction"
@@ -56,35 +56,44 @@
       "name": "Super Quick Test",
       "description": "A test that completes almost instantly.",
       "functionName": "superQuickTest",
-      "isEnabled": false,
-      "order": 1,
-      "category": "Core"
-    },
-    {
-      "id": "test_case_panel_interaction",
-      "name": "Test Case Panel Interaction Test",
-      "description": "Tests the Test Cases panel functionality including running the full test suite.",
-      "functionName": "testCasePanelInteractionTest",
-      "isEnabled": false,
+      "isEnabled": true,
       "order": 0,
-      "category": "UI Interaction"
+      "category": "Core"
     },
     {
       "id": "test_path_analyzer_integration",
       "name": "Path Analyzer Integration Test",
       "description": "Tests the Path Analyzer functionality with the worker thread architecture.",
       "functionName": "testPathAnalyzerIntegration",
-      "isEnabled": false,
-      "order": 0,
+      "isEnabled": true,
+      "order": 1,
       "category": "Path Analysis"
+    },
+    {
+      "id": "test_1_simple_event",
+      "name": "Test Simple Event Wait",
+      "description": "Checks if waitForEvent correctly pauses and resumes on a custom event.",
+      "functionName": "simpleEventTest",
+      "isEnabled": false,
+      "order": 1,
+      "category": "Core"
     },
     {
       "id": "test_path_analyzer_failing_test",
       "name": "Path Analyzer with Failing Test",
       "description": "Tests the Path Analyzer with a test case that should fail to verify it correctly identifies accessibility issues.",
       "functionName": "testPathAnalyzerWithFailingTest",
-      "isEnabled": false,
-      "order": 1,
+      "isEnabled": true,
+      "order": 2,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "simple_path_analyzer",
+      "name": "Simple Path Analyzer",
+      "description": "Very simple test to isolate Path Analyzer issues without state manager.",
+      "functionName": "simplePathAnalyzerTest",
+      "isEnabled": true,
+      "order": 3,
       "category": "Path Analysis"
     }
   ]

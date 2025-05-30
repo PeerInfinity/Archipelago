@@ -168,27 +168,63 @@ export function toggleTestEnabled(testId, isEnabled) {
 
 export function updateTestOrder(testId, direction) {
   const tests = testLogicState.tests;
-  const index = tests.findIndex((t) => t.id === testId);
-  if (index === -1) return false;
+  const testIndex = tests.findIndex((t) => t.id === testId);
+  if (testIndex === -1) return false;
 
-  if (direction === 'up' && index > 0) {
-    // Swap order property
-    [tests[index].order, tests[index - 1].order] = [
-      tests[index - 1].order,
-      tests[index].order,
-    ];
-  } else if (direction === 'down' && index < tests.length - 1) {
-    // Swap order property
-    [tests[index].order, tests[index + 1].order] = [
-      tests[index + 1].order,
-      tests[index].order,
-    ];
+  const currentTest = tests[testIndex];
+
+  // Get all tests in the same category, sorted by order
+  const testsInCategory = tests
+    .filter((t) => t.category === currentTest.category)
+    .sort((a, b) => a.order - b.order);
+
+  const categoryIndex = testsInCategory.findIndex((t) => t.id === testId);
+  if (categoryIndex === -1) return false;
+
+  let targetIndex = -1;
+  if (direction === 'up' && categoryIndex > 0) {
+    targetIndex = categoryIndex - 1;
+  } else if (
+    direction === 'down' &&
+    categoryIndex < testsInCategory.length - 1
+  ) {
+    targetIndex = categoryIndex + 1;
   } else {
-    return false; // No change
+    return false; // No change possible
   }
-  // Re-sort by order and re-normalize to ensure contiguous order values
-  tests.sort((a, b) => a.order - b.order);
-  tests.forEach((t, i) => (t.order = i));
+
+  // Swap order properties between the two tests in the same category
+  const currentTestObj = testsInCategory[categoryIndex];
+  const targetTestObj = testsInCategory[targetIndex];
+
+  [currentTestObj.order, targetTestObj.order] = [
+    targetTestObj.order,
+    currentTestObj.order,
+  ];
+
+  // Re-sort the entire test list and re-normalize orders
+  tests.sort((a, b) => {
+    // Sort by category order first, then by test order within category
+    const catA = testLogicState.categories[a.category] || { order: 999 };
+    const catB = testLogicState.categories[b.category] || { order: 999 };
+
+    if (catA.order !== catB.order) {
+      return catA.order - catB.order;
+    }
+
+    return a.order - b.order;
+  });
+
+  // Re-normalize order within categories to ensure contiguous values
+  let currentOrder = 0;
+  getCategories().forEach((catName) => {
+    tests
+      .filter((t) => t.category === catName)
+      .forEach((test) => {
+        test.order = currentOrder++;
+      });
+  });
+
   return true;
 }
 
