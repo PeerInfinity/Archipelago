@@ -4,115 +4,15 @@
 // Functions here are simple accessors or direct mutators of this state.
 
 export const testLogicState = {
-  tests: [
-    {
-      id: 'test_1_simple_event',
-      name: 'Test Simple Event Wait',
-      description:
-        'Checks if waitForEvent correctly pauses and resumes on a custom event.',
-      functionName: 'simpleEventTest',
-      isEnabled: false,
-      order: 0,
-      category: 'Core',
-      status: 'pending', // 'pending', 'running', 'waiting_for_event', 'passed', 'failed'
-      conditions: [], // { description: string, status: 'passed'|'failed' }
-      logs: [], // { message: string, type: 'info'|'error'|'warn'|'debug', timestamp: string }
-      currentEventWaitingFor: null,
-    },
-    {
-      id: 'test_2_config_load_and_item_check',
-      name: 'Test Config Load & Item Interaction',
-      description: 'Loads test rules, adds an item, and verifies state.',
-      functionName: 'configLoadAndItemCheckTest',
-      isEnabled: false,
-      order: 1,
-      category: 'State Management',
-      status: 'pending',
-      conditions: [],
-      logs: [],
-      currentEventWaitingFor: null,
-    },
-    {
-      id: 'test_3_ui_simulation',
-      name: 'Test UI Simulation (Placeholder)',
-      description:
-        'Simulates a click and checks outcome (initial placeholder).',
-      functionName: 'uiSimulationTest',
-      isEnabled: false,
-      order: 2,
-      category: 'UI',
-      status: 'pending',
-      conditions: [],
-      logs: [],
-      currentEventWaitingFor: null,
-    },
-    {
-      id: 'test_4_super_quick',
-      name: 'Super Quick Test',
-      description: 'A test that completes almost instantly.',
-      functionName: 'superQuickTest',
-      isEnabled: true,
-      order: 3,
-      category: 'Core',
-      status: 'pending',
-      conditions: [],
-      logs: [],
-      currentEventWaitingFor: null,
-    },
-    {
-      id: 'test_5_progressive_sword',
-      name: 'Test Progressive Sword',
-      description: 'Verifies correct item granting for Progressive Sword.',
-      functionName: 'progressiveSwordTest',
-      isEnabled: true,
-      order: 4,
-      category: 'State Management',
-      status: 'pending',
-      conditions: [],
-      logs: [],
-      currentEventWaitingFor: null,
-    },
-    {
-      id: 'test_6_theme_setting',
-      name: 'Test Theme Setting Change',
-      description: 'Checks if updating and getting theme setting works.',
-      functionName: 'themeSettingTest',
-      isEnabled: true,
-      order: 5,
-      category: 'Settings',
-      status: 'pending',
-      conditions: [],
-      logs: [],
-      currentEventWaitingFor: null,
-    },
-    {
-      id: 'test_7_simulate_received_items',
-      name: 'Test Simulate ReceivedItems Message',
-      description:
-        'Simulates a server "ReceivedItems" message and checks inventory/location state.',
-      functionName: 'simulateReceivedItemsTest',
-      isEnabled: true,
-      order: 6,
-      category: 'Client',
-      status: 'pending',
-      conditions: [],
-      logs: [],
-      currentEventWaitingFor: null,
-    },
-  ],
+  tests: [], // Initialize as empty; will be populated by testDiscovery and testLogic
   autoStartTestsOnLoad: false,
   defaultEnabledState: false, // Default for newly discovered tests or categories
   currentRunningTestId: null,
   categories: {
-    // Initial categories; can be dynamically added to by tests
-    'Core': { isEnabled: true, order: 0 },
-    'State Management': { isEnabled: true, order: 1 },
-    'UI': { isEnabled: true, order: 2 },
-    'Items': { isEnabled: true, order: 3 },
-    'Settings': { isEnabled: true, order: 4 },
-    'Client': { isEnabled: true, order: 5 },
-    'Uncategorized': { isEnabled: true, order: 99 },
+    // Initialize with a base or empty; will be populated by testRegistry and testLogic
+    Uncategorized: { isEnabled: true, order: 999 },
   },
+  fromDiscovery: false, // Flag to indicate if state was initialized from discovery
 };
 
 export function getTests() {

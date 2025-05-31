@@ -498,4 +498,26 @@ export class TestController {
     // The status update and event emission will be handled by the callback
     this.callbacks.completeTest(this.testId, overallPassStatus);
   }
+
+  // New method: pollForCondition
+  async pollForCondition(checkFn, timeoutMs, intervalMs, description) {
+    // Note: testRunId is implicitly this.testId for logging via this.log
+    const logPrefix = this.testId ? `[${this.testId}] ` : ''; // Use testId from constructor
+    this.log(
+      `${logPrefix}Polling for: "${description}" (timeout: ${timeoutMs}ms, interval: ${intervalMs}ms)...`
+    );
+    const startTime = Date.now();
+    while (Date.now() - startTime < timeoutMs) {
+      if (checkFn()) {
+        this.log(`${logPrefix}Condition met for: "${description}".`);
+        return true;
+      }
+      await new Promise((resolve) => setTimeout(resolve, intervalMs));
+    }
+    this.log(
+      `${logPrefix}Condition NOT met for "${description}" within ${timeoutMs}ms.`,
+      'warn'
+    );
+    return false;
+  }
 }
