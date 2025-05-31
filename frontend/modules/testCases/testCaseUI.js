@@ -414,11 +414,25 @@ export class TestCaseUI {
       }
 
       row.insertCell().textContent = expectedResult ? 'Yes' : 'No';
-      row.insertCell().innerHTML = requiredItems.length
-        ? this.formatItemsList(requiredItems)
-        : 'None';
+
+      const requiredItemsCell = row.insertCell();
+      const statusDiv = document.createElement('div'); // This div will be passed to formatItemsList and then placed in the Result cell
+      statusDiv.className = 'test-status';
+      statusDiv.id = `test-status-${index}`;
+      statusDiv.textContent = 'Pending'; // Initial status
+
+      if (requiredItems.length > 0) {
+        // For required items, we expect a DocumentFragment to append
+        requiredItemsCell.appendChild(
+          this.formatItemsList(requiredItems, testCaseData, statusDiv)
+        );
+      } else {
+        requiredItemsCell.textContent = 'None';
+      }
+
+      // For excluded items, we expect a string for innerHTML
       row.insertCell().innerHTML = excludedItems.length
-        ? this.formatItemsList(excludedItems)
+        ? this.formatItemsList(excludedItems) // No testCaseData, no statusElement
         : 'None';
 
       const actionCell = row.insertCell();
@@ -432,17 +446,13 @@ export class TestCaseUI {
       runButton.dataset.testType = 'individual';
       runButton.title = `Run test for ${locationName}`;
       runButton.addEventListener('click', async () => {
-        const statusDiv = row.querySelector(`#test-status-${index}`);
+        // const statusDiv = row.querySelector(`#test-status-${index}`); // Already have statusDiv
         if (statusDiv) await this.loadTestCase(testCaseData, statusDiv);
       });
       actionCell.appendChild(runButton);
 
       const resultCell = row.insertCell();
-      const statusDiv = document.createElement('div');
-      statusDiv.className = 'test-status';
-      statusDiv.id = `test-status-${index}`;
-      statusDiv.textContent = 'Pending'; // Initial status
-      resultCell.appendChild(statusDiv);
+      resultCell.appendChild(statusDiv); // Add the statusDiv (which might be updated by item clicks)
     });
     table.appendChild(tbody);
     testCasesTableContainer.appendChild(table);
@@ -528,31 +538,36 @@ export class TestCaseUI {
           const itemsForValidation = requiredItems.filter(
             (item) => item !== itemToRemove
           );
-          const excludedItemsForValidation = [...excludedItems, itemToRemove];
+          const excludedItemsForValidation = [...excludedItems, itemToRemove]; // Items to explicitly exclude for this check
 
+          // Ensure the application state reflects the removal of the item for this validation step
           const validationResultFromWorker =
-            await stateManager.evaluateLocationAccessibilityForTest(
+            await stateManager.applyTestInventoryAndEvaluate(
+              // Changed from evaluateLocationAccessibilityForTest
               locationName,
-              itemsForValidation, // Exclude one required item
-              excludedItemsForValidation // Include the removed item in excluded list
+              itemsForValidation, // This becomes the new current inventory
+              excludedItemsForValidation // Explicitly excluded items for this specific check
             );
+
+          // If the location is STILL ACCESSIBLE, it means itemToRemove was NOT truly required.
           if (validationResultFromWorker) {
-            // Should be false if item is truly required
-            const validationFailedMessage = `FAIL: Worker reported still accessible without required item '${itemToRemove}'.`;
+            const validationFailedMessage = `FAIL: Worker reported still accessible without required item '${itemToRemove}'. State updated.`;
             statusElement.innerHTML += `<div class="test-failure">${validationFailedMessage}</div>`;
             this.logToPanel(validationFailedMessage, 'error');
-            validationPassed = false;
-            break;
+            validationPassed = false; // The overall test case might still be "passed" initially, but validation fails.
+            break; // Stop further validation if one item fails
           } else {
             this.logToPanel(
-              `Validation (Worker): Confirmed '${itemToRemove}' is required.`
+              `Validation (Worker): Confirmed '${itemToRemove}' is required. State updated.`
             );
+            // UI will update to show the item removed and location inaccessible.
+            // For the next iteration, applyTestInventoryAndEvaluate will again set the inventory.
           }
         }
         if (validationPassed) {
-          statusElement.innerHTML += `<div class="test-success">All required items validated by worker.</div>`;
+          statusElement.innerHTML += `<div class="test-success">All required items validated by worker. State reflects last validation.</div>`;
           this.logToPanel(
-            `Required items validation passed (Worker) for ${locationName}.`
+            `Required items validation passed (Worker) for ${locationName}. State reflects last validation step.`
           );
         }
       }
@@ -746,9 +761,134 @@ export class TestCaseUI {
     }
   }
 
-  formatItemsList(items) {
-    if (!items || items.length === 0) return 'None';
-    return items.map((item) => this.escapeHtml(item)).join(', ');
+  formatItemsList(items, testCaseData = null, statusElement = null) {
+    if (!items || items.length === 0) {
+      return 'None'; // Return string for 'None'
+    }
+
+    // If NOT creating clickable links (e.g., for excludedItems or if testCaseData/statusElement are missing)
+    if (!(testCaseData && statusElement)) {
+      return items.map((item) => this.escapeHtml(item)).join(', '); // Return joined string
+    }
+
+    // If creating clickable links (for requiredItems)
+    const fragment = document.createDocumentFragment();
+    items.forEach((item, index) => {
+      const itemLink = document.createElement('a');
+      itemLink.href = '#';
+      itemLink.textContent = this.escapeHtml(item);
+      itemLink.className = 'test-item-link'; // Add a class for styling
+      itemLink.dataset.itemToRemove = item;
+      itemLink.dataset.locationName = testCaseData[0];
+      // Store arrays as JSON strings
+      itemLink.dataset.requiredItems = JSON.stringify(testCaseData[2] || []);
+      itemLink.dataset.excludedItems = JSON.stringify(testCaseData[3] || []);
+
+      itemLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.handleItemSubTestClick(
+          event,
+          statusElement /*, testCaseData is implicitly available via event.target.dataset */
+        );
+      });
+      fragment.appendChild(itemLink);
+
+      if (index < items.length - 1) {
+        fragment.appendChild(document.createTextNode(', '));
+      }
+    });
+    return fragment; // Return fragment for clickable links
+  }
+
+  async handleItemSubTestClick(event, statusElement) {
+    const link = event.target;
+    const itemToRemove = link.dataset.itemToRemove;
+    const locationName = link.dataset.locationName;
+    // Retrieve original test case data from the link's dataset
+    const originalRequiredItems = JSON.parse(link.dataset.requiredItems);
+    const originalExcludedItems = JSON.parse(link.dataset.excludedItems);
+
+    log(
+      'info',
+      `[TestCaseUI] Sub-test click for item: "${itemToRemove}" on location: "${locationName}"`
+    );
+
+    let mainTestResultHTML = '';
+    const firstChild = statusElement.firstChild;
+    if (
+      firstChild &&
+      firstChild.nodeType === Node.ELEMENT_NODE &&
+      (firstChild.classList.contains('test-success') ||
+        firstChild.classList.contains('test-failure') ||
+        firstChild.classList.contains('test-error'))
+    ) {
+      if (!firstChild.innerHTML.toLowerCase().includes('sub-test for')) {
+        mainTestResultHTML = firstChild.outerHTML;
+      }
+    }
+    statusElement.innerHTML =
+      mainTestResultHTML +
+      `<div>Running sub-test for item: ${this.escapeHtml(
+        itemToRemove
+      )}... (Inventory will update)</div>`;
+
+    const itemsForSubTest = originalRequiredItems.filter(
+      (i) => i !== itemToRemove
+    );
+    const excludedForSubTest = [...originalExcludedItems, itemToRemove]; // For clarity, though applyTestInventoryAndEvaluate mainly uses the first list
+
+    try {
+      // Use applyTestInventoryAndEvaluate to change the main state and trigger UI updates
+      const isAccessible = await stateManager.applyTestInventoryAndEvaluate(
+        locationName,
+        itemsForSubTest, // This will become the new inventory
+        excludedForSubTest // This is used by the command for its internal logic if needed
+      );
+
+      // For this sub-test, we expect isAccessible to be false (item was required).
+      const subPassed = isAccessible === false;
+      const resultMessage = `Sub-test for ${this.escapeHtml(itemToRemove)}: ${
+        subPassed ? '✓ PASS' : '❌ FAIL'
+      } (Expected inaccessible, Got: ${
+        isAccessible ? 'Accessible' : 'Inaccessible'
+      }). Inventory updated.`;
+
+      const subResultDiv = document.createElement('div');
+      subResultDiv.className = subPassed ? 'test-success' : 'test-failure';
+      subResultDiv.innerHTML = resultMessage;
+
+      const runningMessageDiv = Array.from(statusElement.childNodes).find(
+        (node) =>
+          node.nodeType === Node.ELEMENT_NODE &&
+          node.textContent.startsWith('Running sub-test for item:')
+      );
+      if (runningMessageDiv) {
+        statusElement.removeChild(runningMessageDiv);
+      }
+      statusElement.appendChild(subResultDiv);
+      log('info', `[TestCaseUI] ${resultMessage}`);
+    } catch (error) {
+      log(
+        'error',
+        `[TestCaseUI] Error during item sub-test for "${itemToRemove}":`,
+        error
+      );
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'test-error';
+      errorDiv.textContent = `Error sub-test for ${this.escapeHtml(
+        itemToRemove
+      )}: ${error.message}. Inventory may be in an intermediate state.`;
+
+      const runningMessageDiv = Array.from(statusElement.childNodes).find(
+        (node) =>
+          node.nodeType === Node.ELEMENT_NODE &&
+          node.textContent.startsWith('Running sub-test for item:')
+      );
+      if (runningMessageDiv) {
+        statusElement.removeChild(runningMessageDiv);
+      }
+      statusElement.appendChild(errorDiv);
+    }
   }
 
   escapeHtml(unsafe) {
