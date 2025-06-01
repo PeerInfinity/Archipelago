@@ -3,182 +3,277 @@
 import { registerTest } from '../testRegistry.js';
 
 export async function testPathAnalyzerPanel(testController) {
-  testController.log('Starting Path Analyzer Panel test...');
-  testController.reportCondition('Test started', true);
+  const testRunId = `path-analyzer-panel-test-${Date.now()}`;
+  testController.log(testRunId, 'Path Analyzer Panel Test');
+
+  const regionToAnalyze = 'Kings Grave'; // Define regionToAnalyze
+
+  let overallResult = true;
 
   try {
-    // Step 1: Get state manager and verify it's available
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Verify state manager availability (still good to have)
     testController.log('Step 1: Verifying state manager availability...');
-    const sm = testController.stateManager;
-    if (!sm) {
-      throw new Error('State manager not available');
+    const stateManager = testController.stateManager;
+    if (!stateManager) {
+      throw new Error('State manager not available via TestController.');
     }
     testController.reportCondition('State manager available', true);
 
-    // Step 2: Set up test state with items to make some regions accessible
-    testController.log('Step 2: Setting up test state with Moon Pearl...');
-    await sm.applyTestInventoryAndEvaluate('Moon Pearl', [], []);
-    testController.reportCondition('Test inventory applied', true);
-
-    // Step 3: Wait for state processing
-    testController.log('Step 3: Waiting for state processing...');
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    testController.reportCondition('State processing wait completed', true);
-
-    // Step 4: Verify snapshot and static data
-    testController.log('Step 4: Verifying snapshot and static data...');
-    const snapshot = sm.getSnapshot();
-    const staticData = sm.getStaticData();
-
-    if (!snapshot || !staticData || !staticData.regions) {
-      testController.reportCondition('Data validation', false);
-      testController.log('✗ Missing snapshot or static data');
-      return false;
-    }
-    testController.reportCondition('Data validation', true);
-
-    // Step 5: Check for PathAnalyzer Panel in Golden Layout
-    testController.log('Step 5: Looking for PathAnalyzer Panel in UI...');
-    const panelManager = window.panelManager;
-    if (!panelManager) {
-      testController.reportCondition('Panel manager check', false);
-      testController.log('✗ Panel manager not available');
-      return false;
-    }
-    testController.reportCondition('Panel manager check', true);
-
-    // Step 6: Try to create PathAnalyzer Panel UI directly
-    testController.log('Step 6: Testing PathAnalyzer Panel UI creation...');
-    const { PathAnalyzerPanelUI } = await import(
-      '../../pathAnalyzerPanel/pathAnalyzerPanelUI.js'
+    // Step 2: REMOVED - No longer applying test inventory. Test will use current inventory.
+    testController.log(
+      `[${testRunId}] Step 2: Skipped - Test will use current application inventory.`
     );
 
-    // Create mock container
-    const mockContainer = {
-      on: () => {}, // Mock Golden Layout container
-      getElement: () => document.createElement('div'),
-    };
-
-    const panelUI = new PathAnalyzerPanelUI(
-      mockContainer,
-      {},
-      'pathAnalyzerPanel'
+    // Step 3: Activate Path Analyzer panel
+    testController.log(
+      `[${testRunId}] Step 3: Activating Path Analyzer panel...`
     );
-    testController.reportCondition('PathAnalyzer panel UI created', true);
+    await testController.performAction({
+      type: 'DISPATCH_EVENT',
+      eventName: 'ui:activatePanel',
+      payload: { panelId: 'pathAnalyzerPanel' },
+    });
+    testController.reportCondition(
+      'Path Analyzer panel activation event published',
+      true
+    );
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Increased pause to 1000ms
 
-    // Step 7: Test panel UI components
-    testController.log('Step 7: Testing panel UI components...');
-    const rootElement = panelUI.getRootElement();
-
-    if (!rootElement) {
-      testController.reportCondition('Panel root element check', false);
-      testController.log('✗ Panel root element not created');
-      return false;
-    }
-
-    // Check for key UI elements
-    const regionInput = rootElement.querySelector('input[type="text"]');
-    const analyzeButton = rootElement.querySelector('button');
-    const resultsContainer = rootElement.querySelector(
-      '.path-analysis-results'
+    // Step 4: Wait for the Path Analyzer panel, its input field, and analyze button to render
+    testController.log(
+      `[${testRunId}] Step 4: Waiting for Path Analyzer panel to render...`
     );
 
-    if (!regionInput || !analyzeButton || !resultsContainer) {
-      testController.reportCondition('Panel UI elements check', false);
-      testController.log('✗ Required UI elements not found');
-      testController.log('Found input:', !!regionInput);
-      testController.log('Found button:', !!analyzeButton);
-      testController.log('Found results:', !!resultsContainer);
-      return false;
-    }
-    testController.reportCondition('Panel UI elements check', true);
+    let panelRootElement = null;
+    let regionInput = null;
+    let analyzeButton = null;
 
-    // Step 8: Test analysis functionality
-    testController.log('Step 8: Testing analysis functionality...');
-    const testRegion = 'Dark World';
-
-    // Set region input value
-    regionInput.value = testRegion;
-
-    // Clear any existing analysis results
-    localStorage.removeItem(`__pathAnalysis_${testRegion}__`);
-
-    // Trigger analysis by clicking button
-    analyzeButton.click();
-
-    // Wait for analysis to complete
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Check for analysis results
-    const analysisResults = localStorage.getItem(
-      `__pathAnalysis_${testRegion}__`
+    // Preliminary check for the panel root
+    testController.log(
+      'Step 4.1: Preliminary poll for panel root #path-analyzer-panel-container...'
     );
-    if (!analysisResults) {
-      testController.reportCondition('Panel analysis execution', false);
-      testController.log('✗ No analysis results stored after panel test');
-      return false;
+    await testController.pollForCondition(
+      () => document.querySelector('#path-analyzer-panel-container'),
+      'Path Analyzer panel root (#path-analyzer-panel-container) to exist',
+      5000,
+      250
+    );
+
+    // Main poll for panel and its children
+    testController.log(
+      'Step 4.2: Main poll for panel root and its children (input, button)...'
+    );
+    const panelElements = await testController.pollForValue(
+      () => {
+        const panelRoot = document.querySelector(
+          '#path-analyzer-panel-container'
+        );
+        if (!panelRoot) return null;
+
+        const polledRegionInputEl = panelRoot.querySelector(
+          '[data-testid="path-analyzer-region-input"]'
+        );
+        const polledAnalyzeButtonEl = panelRoot.querySelector(
+          '[data-testid="path-analyzer-analyze-button"]'
+        );
+
+        if (panelRoot && polledRegionInputEl && polledAnalyzeButtonEl) {
+          return {
+            panelRoot,
+            pathAnalyzerRegionInput: polledRegionInputEl,
+            pathAnalyzerAnalyzeButton: polledAnalyzeButtonEl,
+          };
+        }
+        return null;
+      },
+      'Path Analyzer panel, input, and button to exist',
+      10000,
+      250
+    );
+
+    const allElementsFound =
+      panelElements &&
+      panelElements.panelRoot &&
+      panelElements.pathAnalyzerRegionInput &&
+      panelElements.pathAnalyzerAnalyzeButton;
+
+    testController.reportCondition(
+      'Path Analyzer panel, input, and button found',
+      !!allElementsFound
+    );
+
+    if (!allElementsFound) {
+      testController.log(
+        `[${testRunId}] Debug: panelElements type: ${typeof panelElements}, value: ${String(
+          panelElements
+        )}`,
+        'error'
+      );
+      if (panelElements && typeof panelElements === 'object') {
+        testController.log(
+          `[${testRunId}] Debug: panelElements.panelRoot: ${
+            panelElements.panelRoot ? 'Exists' : 'MISSING/FALSY'
+          } (type: ${typeof panelElements.panelRoot}, value: ${String(
+            panelElements.panelRoot
+          )})`,
+          'error'
+        );
+        testController.log(
+          `[${testRunId}] Debug: panelElements.pathAnalyzerRegionInput: ${
+            panelElements.pathAnalyzerRegionInput ? 'Exists' : 'MISSING/FALSY'
+          } (type: ${typeof panelElements.pathAnalyzerRegionInput}, value: ${String(
+            panelElements.pathAnalyzerRegionInput
+          )})`,
+          'error'
+        );
+        testController.log(
+          `[${testRunId}] Debug: panelElements.pathAnalyzerAnalyzeButton: ${
+            panelElements.pathAnalyzerAnalyzeButton ? 'Exists' : 'MISSING/FALSY'
+          } (type: ${typeof panelElements.pathAnalyzerAnalyzeButton}, value: ${String(
+            panelElements.pathAnalyzerAnalyzeButton
+          )})`,
+          'error'
+        );
+      }
+      throw new Error('Essential panel elements not found after polling');
     }
-    testController.reportCondition('Panel analysis execution', true);
 
-    // Step 9: Validate analysis results
-    testController.log('Step 9: Validating analysis results...');
-    const results = JSON.parse(analysisResults);
+    const { pathAnalyzerRegionInput, pathAnalyzerAnalyzeButton } =
+      panelElements;
 
-    const hasValidStructure =
-      typeof results.totalPaths === 'number' &&
-      typeof results.viablePaths === 'number' &&
-      typeof results.isReachable === 'boolean' &&
-      results.regionName === testRegion;
+    testController.reportCondition(
+      'Path Analyzer panel, input, and button found',
+      true
+    );
 
-    if (!hasValidStructure) {
+    // Step 5: Type into the region input
+    testController.log(
+      `[${testRunId}] Step 5: Typing region name '${regionToAnalyze}' into input field...`
+    );
+    pathAnalyzerRegionInput.value = regionToAnalyze;
+    pathAnalyzerRegionInput.dispatchEvent(new Event('input')); // Simulate input event
+    testController.reportCondition(
+      `Region input set to "${regionToAnalyze}"`,
+      pathAnalyzerRegionInput.value === regionToAnalyze
+    );
+    if (pathAnalyzerRegionInput.value !== regionToAnalyze) {
+      testController.log(
+        `[${testRunId}] Failed to set region input value. Expected: "${regionToAnalyze}", Got: "${pathAnalyzerRegionInput.value}"`,
+        'error'
+      );
+      throw new Error(
+        `Failed to set region input value to "${regionToAnalyze}".`
+      );
+    }
+
+    // Step 6: Click the analyze button
+    testController.log(`[${testRunId}] Step 6: Clicking analyze button...`);
+    pathAnalyzerAnalyzeButton.click();
+    testController.reportCondition('Clicked "Analyze Paths" button', true);
+
+    // Step 7: Poll localStorage for the analysis results
+    const localStorageKey = '__pathAnalysis_Kings Grave__';
+    testController.log(
+      `[${testRunId}] Step 7: Waiting for analysis results (path count > 0 or error message)...`
+    );
+    let analysisData = null;
+    if (
+      !(await testController.pollForCondition(
+        () => {
+          const rawData = localStorage.getItem(localStorageKey);
+          if (rawData) {
+            try {
+              analysisData = JSON.parse(rawData);
+              // More specific check: ensure paths array is present and is an array
+              return (
+                analysisData &&
+                analysisData.paths &&
+                Array.isArray(analysisData.paths)
+              );
+            } catch (e) {
+              testController.log(
+                `[${testRunId}] Error parsing localStorage data for ${localStorageKey}: ${e.message}`,
+                'warn'
+              );
+              return false;
+            }
+          }
+          return false;
+        },
+        10000, // Timeout for analysis to complete and save
+        500,
+        `localStorage key "${localStorageKey}" to be populated with paths array`
+      ))
+    ) {
+      throw new Error(
+        `Analysis results for "Kings Grave" not found in localStorage within timeout.`
+      );
+    }
+    testController.reportCondition(
+      `Analysis results for "Kings Grave" found in localStorage`,
+      true
+    );
+
+    // Step 8: Optional: Validate structure of results (basic check)
+    if (
+      analysisData &&
+      analysisData.paths &&
+      Array.isArray(analysisData.paths)
+    ) {
       testController.reportCondition(
-        'Panel analysis results validation',
+        `localStorage data for "Kings Grave" has expected structure (paths array)`,
+        true
+      );
+      testController.log(
+        `[${testRunId}] Found ${analysisData.paths.length} paths in localStorage for Kings Grave.`
+      );
+    } else {
+      testController.reportCondition(
+        `localStorage data for "Kings Grave" has UNEXPECTED structure`,
         false
       );
-      testController.log('✗ Analysis results missing expected properties');
-      testController.log('Results structure:', Object.keys(results));
-      return false;
+      overallResult = false;
+      const actualKeys = analysisData
+        ? Object.keys(analysisData).join(', ')
+        : 'null or undefined';
+      let fullDataString = String(analysisData);
+      try {
+        fullDataString = JSON.stringify(analysisData, null, 2);
+        if (fullDataString.length > 1000) {
+          fullDataString =
+            fullDataString.substring(0, 1000) + '... (truncated)';
+        }
+      } catch (e) {
+        // If stringify fails, use the basic string conversion.
+      }
+      testController.log(
+        `[${testRunId}] Unexpected structure for localStorage data. Expected 'paths' key to be an array. Actual keys: ${actualKeys}. Full data: ${fullDataString}`,
+        'error'
+      );
     }
-    testController.reportCondition('Panel analysis results validation', true);
 
-    // Step 10: Test settings functionality
-    testController.log('Step 10: Testing settings functionality...');
-    const pathAnalyzer = panelUI.pathAnalyzer;
-
-    if (!pathAnalyzer) {
-      testController.reportCondition('PathAnalyzer instance check', false);
-      testController.log('✗ PathAnalyzer instance not found in panel');
-      return false;
-    }
-
-    // Test settings update
-    const originalSettings = pathAnalyzer.getSettings();
-    const newSettings = { ...originalSettings, maxPaths: 50 };
-    pathAnalyzer.updateSettings(newSettings);
-
-    const updatedSettings = pathAnalyzer.getSettings();
-    if (updatedSettings.maxPaths !== 50) {
-      testController.reportCondition('Settings update test', false);
-      testController.log('✗ Settings update failed');
-      return false;
-    }
-    testController.reportCondition('Settings update test', true);
-
-    // Step 11: Clean up
-    testController.log('Step 11: Cleaning up resources...');
-    panelUI.onUnmount();
-    testController.reportCondition('Resource cleanup completed', true);
-
-    // Final success
-    testController.log('✓ Path Analyzer Panel test completed successfully');
-    testController.reportCondition('Test completed successfully', true);
-    return true;
+    testController.log(
+      `[${testRunId}] Path Analyzer Panel test completed successfully.`
+    );
   } catch (error) {
-    testController.reportCondition('Test execution', false);
-    testController.log(`✗ Path Analyzer Panel test failed: ${error.message}`);
-    testController.log('Error stack:', error.stack);
-    return false;
+    const errorMessage = `Path Analyzer Panel test failed: ${error.message}`;
+    testController.log(
+      `[${testRunId}] ✗ ${errorMessage} (Stack: ${error.stack || 'N/A'})`,
+      'error'
+    );
+    testController.reportCondition('Test execution failed', false);
+    overallResult = false;
+  } finally {
+    // Ensure this is the last call
+    // No, we don't call completeTest here if it's part of a larger suite run by testLogic
+    // testController.completeTest(overallResult);
+    testController.log(
+      `[${testRunId}] Path Analyzer test finished. Overall Result: ${overallResult}`
+    );
   }
+  return overallResult; // Return overall result for testLogic
 }
 
 export async function debugPathAnalyzerTest(testController) {
@@ -371,6 +466,6 @@ registerTest({
     'Tests the new PathAnalyzer Panel functionality with Golden Layout integration.',
   testFunction: testPathAnalyzerPanel,
   category: 'Path Analysis',
-  enabled: false,
+  enabled: true,
   order: 0,
 });

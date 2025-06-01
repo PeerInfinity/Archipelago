@@ -1,5 +1,13 @@
 import { registerTest } from '../testRegistry.js';
 
+// Constants for test configuration
+const PANEL_ID_TEST_CASES = 'testCasesPanel';
+const TEST_SET_LIGHT_WORLD = 'Light World';
+const MAX_WAIT_TIME_GENERAL_TEST_COMPLETION = 300000; // 5 minutes
+const TARGET_TEST_INDEX_FOR_SINGLE_RUN_DEMO = 10; // Original target: King's Tomb (now index 11), this was for another test
+const TARGET_TEST_INDEX_KINGS_TOMB_SUB_TEST = 11; // King's Tomb
+const TARGET_ITEM_NAME_BEAT_AGAHNIM_1 = 'Beat Agahnim 1';
+
 export async function testCasePanelInteractionTest(testController) {
   let overallResult = true;
   try {
@@ -18,7 +26,7 @@ export async function testCasePanelInteractionTest(testController) {
     }
 
     // Activate the Test Cases panel using the same pattern as region links
-    eventBus.publish('ui:activatePanel', { panelId: 'testCasesPanel' });
+    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID_TEST_CASES });
     testController.reportCondition(
       'Test Cases panel activation event published',
       true
@@ -39,20 +47,20 @@ export async function testCasePanelInteractionTest(testController) {
 
     const testSetHeader = testCasesPanel.querySelector('.test-header h3');
     const isLightWorldActive =
-      testSetHeader && testSetHeader.textContent.includes('Light World');
+      testSetHeader && testSetHeader.textContent.includes(TEST_SET_LIGHT_WORLD);
     const runAllButtonPresent = testCasesPanel.querySelector('#run-all-tests');
 
     if (isLightWorldActive && runAllButtonPresent) {
       testController.log(
-        '"Light World" test set is already active. Skipping button click.'
+        `"${TEST_SET_LIGHT_WORLD}" test set is already active. Skipping button click.`
       );
       testController.reportCondition(
-        '"Light World" test set already active',
+        `"${TEST_SET_LIGHT_WORLD}" test set already active`,
         true
       );
     } else {
       testController.log(
-        '"Light World" not active or header not found. Looking for button...'
+        `"${TEST_SET_LIGHT_WORLD}" not active or header not found. Looking for button...`
       );
       const vanillaButtons = testCasesPanel.querySelectorAll(
         'button[data-folder="vanilla"]'
@@ -62,7 +70,7 @@ export async function testCasePanelInteractionTest(testController) {
       for (const button of vanillaButtons) {
         if (
           button.dataset.testset &&
-          button.dataset.testset.toLowerCase().includes('lightworld')
+          button.dataset.testset.toLowerCase().includes('lightworld') // TEST_SET_LIGHT_WORLD.toLowerCase().replace(' ', '') might be safer
         ) {
           lightWorldButton = button;
           break;
@@ -73,7 +81,11 @@ export async function testCasePanelInteractionTest(testController) {
         // Try alternative selectors if specific data attributes aren't there
         const allButtons = testCasesPanel.querySelectorAll('button');
         for (const button of allButtons) {
-          if (button.textContent.toLowerCase().includes('light world')) {
+          if (
+            button.textContent
+              .toLowerCase()
+              .includes(TEST_SET_LIGHT_WORLD.toLowerCase())
+          ) {
             lightWorldButton = button;
             break;
           }
@@ -85,7 +97,7 @@ export async function testCasePanelInteractionTest(testController) {
         const backButton = testCasesPanel.querySelector('#back-to-test-sets');
         if (backButton) {
           testController.log(
-            "Clicking 'Back to Test Sets' to find 'Light World' button."
+            `Clicking 'Back to Test Sets' to find '${TEST_SET_LIGHT_WORLD}' button.`
           );
           backButton.click();
           await new Promise((resolve) => setTimeout(resolve, 500)); // wait for UI to update
@@ -96,7 +108,7 @@ export async function testCasePanelInteractionTest(testController) {
           for (const button of newVanillaButtons) {
             if (
               button.dataset.testset &&
-              button.dataset.testset.toLowerCase().includes('lightworld')
+              button.dataset.testset.toLowerCase().includes('lightworld') // TEST_SET_LIGHT_WORLD.toLowerCase().replace(' ', '')
             ) {
               lightWorldButton = button;
               break;
@@ -105,7 +117,11 @@ export async function testCasePanelInteractionTest(testController) {
           if (!lightWorldButton) {
             const newAllButtons = testCasesPanel.querySelectorAll('button');
             for (const button of newAllButtons) {
-              if (button.textContent.toLowerCase().includes('light world')) {
+              if (
+                button.textContent
+                  .toLowerCase()
+                  .includes(TEST_SET_LIGHT_WORLD.toLowerCase())
+              ) {
                 lightWorldButton = button;
                 break;
               }
@@ -116,12 +132,15 @@ export async function testCasePanelInteractionTest(testController) {
 
       if (!lightWorldButton) {
         throw new Error(
-          'Light World test button not found in vanilla category, even after trying Back button.'
+          `'${TEST_SET_LIGHT_WORLD}' test button not found in vanilla category, even after trying Back button.`
         );
       }
 
-      testController.reportCondition('Light World test button found', true);
-      testController.log('Clicking Light World test button...');
+      testController.reportCondition(
+        `'${TEST_SET_LIGHT_WORLD}' test button found`,
+        true
+      );
+      testController.log(`Clicking '${TEST_SET_LIGHT_WORLD}' test button...`);
       lightWorldButton.click();
     }
 
@@ -131,7 +150,9 @@ export async function testCasePanelInteractionTest(testController) {
     // Verify that test cases are now displayed
     const testTable = testCasesPanel.querySelector('.results-table');
     if (!testTable) {
-      throw new Error('Test cases table not found after clicking Light World');
+      throw new Error(
+        `Test cases table not found after clicking ${TEST_SET_LIGHT_WORLD}`
+      );
     }
     testController.reportCondition('Test cases table loaded', true);
 
@@ -188,7 +209,7 @@ export async function testCasePanelInteractionTest(testController) {
     // Monitor test completion by watching for the run button to be re-enabled
     // and the cancel button to be hidden again
     let testsCompleted = false;
-    let maxWaitTime = 300000; // 5 minutes maximum wait time
+    let maxWaitTime = MAX_WAIT_TIME_GENERAL_TEST_COMPLETION; // 5 minutes maximum wait time
     let waitStartTime = Date.now();
 
     while (!testsCompleted && Date.now() - waitStartTime < maxWaitTime) {
@@ -376,7 +397,7 @@ export async function singleTestCaseDebugTest(testController) {
     await testController.performAction({
       type: 'DISPATCH_EVENT',
       eventName: 'ui:activatePanel',
-      payload: { panelId: 'testCasesPanel' },
+      payload: { panelId: PANEL_ID_TEST_CASES },
     });
     await new Promise((resolve) => setTimeout(resolve, 1000));
     testController.log(
@@ -403,26 +424,26 @@ export async function singleTestCaseDebugTest(testController) {
 
     // 2. Click the "Light World" test set button, if not already selected
     testController.log(
-      `[${testRunId}] Checking if "Light World" test set is already active...`
+      `[${testRunId}] Checking if "${TEST_SET_LIGHT_WORLD}" test set is already active...`
     );
     const testSetHeader =
       testCasesPanelElement.querySelector('.test-header h3');
     const isLightWorldActive =
-      testSetHeader && testSetHeader.textContent.includes('Light World');
+      testSetHeader && testSetHeader.textContent.includes(TEST_SET_LIGHT_WORLD);
     const runAllButtonPresent =
       testCasesPanelElement.querySelector('#run-all-tests');
 
     if (isLightWorldActive && runAllButtonPresent) {
       testController.log(
-        `[${testRunId}] "Light World" test set is already active. Skipping button click.`
+        `[${testRunId}] "${TEST_SET_LIGHT_WORLD}" test set is already active. Skipping button click.`
       );
       testController.reportCondition(
-        '"Light World" test set already active',
+        `"${TEST_SET_LIGHT_WORLD}" test set already active`,
         true
       );
     } else {
       testController.log(
-        `[${testRunId}] "Light World" not active or header not found. Looking for "Light World" test set button...`
+        `[${testRunId}] "${TEST_SET_LIGHT_WORLD}" not active or header not found. Looking for "${TEST_SET_LIGHT_WORLD}" test set button...`
       );
       let lightWorldButton = null;
       if (
@@ -433,7 +454,11 @@ export async function singleTestCaseDebugTest(testController) {
               'button.test-set-button'
             );
             for (const button of buttons) {
-              if (button.textContent.toLowerCase().includes('light world')) {
+              if (
+                button.textContent
+                  .toLowerCase()
+                  .includes(TEST_SET_LIGHT_WORLD.toLowerCase())
+              ) {
                 lightWorldButton = button;
                 return true;
               }
@@ -442,7 +467,7 @@ export async function singleTestCaseDebugTest(testController) {
           },
           5000,
           250,
-          '"Light World" test set button'
+          `"${TEST_SET_LIGHT_WORLD}" test set button`
         ))
       ) {
         // If still not found, maybe it's because the back button needs a click first
@@ -450,7 +475,7 @@ export async function singleTestCaseDebugTest(testController) {
           testCasesPanelElement.querySelector('#back-to-test-sets');
         if (backButton) {
           testController.log(
-            `[${testRunId}] Clicking 'Back to Test Sets' to find 'Light World' button.`
+            `[${testRunId}] Clicking 'Back to Test Sets' to find '${TEST_SET_LIGHT_WORLD}' button.`
           );
           backButton.click();
           await new Promise((resolve) => setTimeout(resolve, 500)); // wait for UI to update
@@ -463,7 +488,9 @@ export async function singleTestCaseDebugTest(testController) {
                 );
                 for (const button of buttons) {
                   if (
-                    button.textContent.toLowerCase().includes('light world')
+                    button.textContent
+                      .toLowerCase()
+                      .includes(TEST_SET_LIGHT_WORLD.toLowerCase())
                   ) {
                     lightWorldButton = button;
                     return true;
@@ -473,22 +500,27 @@ export async function singleTestCaseDebugTest(testController) {
               },
               5000,
               250,
-              '"Light World" test set button after back click'
+              `"${TEST_SET_LIGHT_WORLD}" test set button after back click`
             ))
           ) {
             throw new Error(
-              'Light World test set button not found even after clicking Back.'
+              `'${TEST_SET_LIGHT_WORLD}' test set button not found even after clicking Back.`
             );
           }
         } else {
           throw new Error(
-            'Light World test set button not found and no Back button available.'
+            `'${TEST_SET_LIGHT_WORLD}' test set button not found and no Back button available.`
           );
         }
       }
       lightWorldButton.click();
-      testController.log(`[${testRunId}] Clicked "Light World" button.`);
-      testController.reportCondition('Clicked "Light World" test set', true);
+      testController.log(
+        `[${testRunId}] Clicked "${TEST_SET_LIGHT_WORLD}" button.`
+      );
+      testController.reportCondition(
+        `Clicked "${TEST_SET_LIGHT_WORLD}" test set`,
+        true
+      );
     }
 
     // 3. Wait for the test cases table to be rendered
@@ -515,7 +547,7 @@ export async function singleTestCaseDebugTest(testController) {
     testController.reportCondition('Test cases table rendered', true);
 
     // 4. Target and click the "Run" button for King's Tomb (index 10)
-    const targetTestIndex = 10;
+    const targetTestIndex = TARGET_TEST_INDEX_FOR_SINGLE_RUN_DEMO;
     testController.log(
       `[${testRunId}] Looking for "Run" button for test index ${targetTestIndex} using direct DOM query...`
     );
@@ -679,7 +711,7 @@ export async function singleItemSubTestDebug(testController) {
     await testController.performAction({
       type: 'DISPATCH_EVENT',
       eventName: 'ui:activatePanel',
-      payload: { panelId: 'testCasesPanel' },
+      payload: { panelId: PANEL_ID_TEST_CASES },
     });
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for panel to init
 
@@ -701,26 +733,26 @@ export async function singleItemSubTestDebug(testController) {
 
     // 2. Click the "Light World" test set button, if not already selected
     testController.log(
-      `[${testRunId}] Checking if "Light World" test set is already active...`
+      `[${testRunId}] Checking if "${TEST_SET_LIGHT_WORLD}" test set is already active...`
     );
     const testSetHeader =
       testCasesPanelElement.querySelector('.test-header h3');
     const isLightWorldActive =
-      testSetHeader && testSetHeader.textContent.includes('Light World');
+      testSetHeader && testSetHeader.textContent.includes(TEST_SET_LIGHT_WORLD);
     const runAllButtonPresent =
       testCasesPanelElement.querySelector('#run-all-tests');
 
     if (isLightWorldActive && runAllButtonPresent) {
       testController.log(
-        `[${testRunId}] "Light World" test set is already active. Skipping button click.`
+        `[${testRunId}] "${TEST_SET_LIGHT_WORLD}" test set is already active. Skipping button click.`
       );
       testController.reportCondition(
-        '"Light World" test set already active',
+        `"${TEST_SET_LIGHT_WORLD}" test set already active`,
         true
       );
     } else {
       testController.log(
-        `[${testRunId}] "Light World" not active or header not found. Looking for "Light World" test set button...`
+        `[${testRunId}] "${TEST_SET_LIGHT_WORLD}" not active or header not found. Looking for "${TEST_SET_LIGHT_WORLD}" test set button...`
       );
       let lightWorldButton = null;
       if (
@@ -731,7 +763,11 @@ export async function singleItemSubTestDebug(testController) {
               'button.test-set-button'
             );
             for (const button of buttons) {
-              if (button.textContent.toLowerCase().includes('light world')) {
+              if (
+                button.textContent
+                  .toLowerCase()
+                  .includes(TEST_SET_LIGHT_WORLD.toLowerCase())
+              ) {
                 lightWorldButton = button;
                 return true;
               }
@@ -740,7 +776,7 @@ export async function singleItemSubTestDebug(testController) {
           },
           5000,
           250,
-          '"Light World" test set button'
+          `"${TEST_SET_LIGHT_WORLD}" test set button`
         ))
       ) {
         // If still not found, maybe it's because the back button needs a click first
@@ -748,7 +784,7 @@ export async function singleItemSubTestDebug(testController) {
           testCasesPanelElement.querySelector('#back-to-test-sets');
         if (backButton) {
           testController.log(
-            `[${testRunId}] Clicking 'Back to Test Sets' to find 'Light World' button.`
+            `[${testRunId}] Clicking 'Back to Test Sets' to find '${TEST_SET_LIGHT_WORLD}' button.`
           );
           backButton.click();
           await new Promise((resolve) => setTimeout(resolve, 500)); // wait for UI to update
@@ -761,7 +797,9 @@ export async function singleItemSubTestDebug(testController) {
                 );
                 for (const button of buttons) {
                   if (
-                    button.textContent.toLowerCase().includes('light world')
+                    button.textContent
+                      .toLowerCase()
+                      .includes(TEST_SET_LIGHT_WORLD.toLowerCase())
                   ) {
                     lightWorldButton = button;
                     return true;
@@ -771,22 +809,27 @@ export async function singleItemSubTestDebug(testController) {
               },
               5000,
               250,
-              '"Light World" test set button after back click'
+              `"${TEST_SET_LIGHT_WORLD}" test set button after back click`
             ))
           ) {
             throw new Error(
-              'Light World test set button not found even after clicking Back.'
+              `'${TEST_SET_LIGHT_WORLD}' test set button not found even after clicking Back.`
             );
           }
         } else {
           throw new Error(
-            'Light World test set button not found and no Back button available.'
+            `'${TEST_SET_LIGHT_WORLD}' test set button not found and no Back button available.`
           );
         }
       }
       lightWorldButton.click();
-      testController.log(`[${testRunId}] Clicked "Light World" button.`);
-      testController.reportCondition('Clicked "Light World" test set', true);
+      testController.log(
+        `[${testRunId}] Clicked "${TEST_SET_LIGHT_WORLD}" button.`
+      );
+      testController.reportCondition(
+        `Clicked "${TEST_SET_LIGHT_WORLD}" test set`,
+        true
+      );
     }
 
     // 3. Wait for the test cases table to be rendered
@@ -808,8 +851,8 @@ export async function singleItemSubTestDebug(testController) {
     testController.reportCondition('Test cases table rendered', true);
 
     // 4. Target the "King's Tomb" row (index 11, was 10) and its "Beat Agahnim 1" item link
-    const targetTestIndex = 11; // King's Tomb (Corrected from 10)
-    const targetItemName = 'Beat Agahnim 1';
+    const targetTestIndex = TARGET_TEST_INDEX_KINGS_TOMB_SUB_TEST; // King's Tomb (Corrected from 10)
+    const targetItemName = TARGET_ITEM_NAME_BEAT_AGAHNIM_1;
     testController.log(
       `[${testRunId}] Looking for item link "${targetItemName}" in test index ${targetTestIndex}...`
     );

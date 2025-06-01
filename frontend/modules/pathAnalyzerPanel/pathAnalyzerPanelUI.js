@@ -33,6 +33,7 @@ export class PathAnalyzerPanelUI {
     this.rootElement = document.createElement('div');
     this.rootElement.className =
       'path-analyzer-panel-ui-container panel-container';
+    this.rootElement.id = 'path-analyzer-panel-container';
     this.rootElement.style.cssText = `
       width: 100%;
       height: 100%;
@@ -90,12 +91,14 @@ export class PathAnalyzerPanelUI {
     this.regionInput = document.createElement('input');
     this.regionInput.type = 'text';
     this.regionInput.placeholder = 'e.g., "Lost Woods"';
+    this.regionInput.dataset.testid = 'path-analyzer-region-input';
     this.regionInput.style.cssText =
       'padding: 5px 10px; border: 1px solid #555; border-radius: 4px; flex: 1; max-width: 200px; background: #333; color: #e0e0e0;';
 
     this.analyzeButton = document.createElement('button');
     this.analyzeButton.textContent = 'Analyze Paths';
     this.analyzeButton.className = 'button';
+    this.analyzeButton.dataset.testid = 'path-analyzer-analyze-button';
     this.analyzeButton.style.cssText =
       'padding: 5px 15px; background-color: #4caf50; color: white; border: 1px solid #4caf50; border-radius: 4px; cursor: pointer;';
 

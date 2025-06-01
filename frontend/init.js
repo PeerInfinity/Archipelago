@@ -869,6 +869,7 @@ async function main() {
     return;
   }
   const goldenLayoutInstance = new GoldenLayout(layoutContainer);
+  goldenLayoutInstance.resizeWithContainerAutomatically = true;
 
   // After all modules have registered their panel components with centralRegistry:
   centralRegistry

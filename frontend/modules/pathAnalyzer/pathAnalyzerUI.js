@@ -750,11 +750,22 @@ export class PathAnalyzerUI {
       }
     }
 
-    // Add the paths container
-    pathsContainer.appendChild(pathsDiv);
-
-    // Display compiled requirements analysis
+    // Finally, display the compiled node lists
     this.displayCompiledList(allNodes, requirementsDiv);
+
+    // Store results for Playwright/debugging after all UI updates
+    const summaryResults = {
+      paths: allPaths, // Add the actual paths
+      totalPaths: allPaths.length,
+      viablePaths: accessiblePathCount,
+      isReachable: isRegionActuallyReachable,
+      hasDiscrepancy: isRegionActuallyReachable && accessiblePathCount === 0,
+      allNodes: allNodes, // Keep the aggregated nodes
+    };
+    this._storeAnalysisResults(regionName, summaryResults);
+
+    // Append the main paths container
+    pathsContainer.appendChild(pathsDiv);
 
     // Update path count display
     if (pathsCountSpan) {
@@ -767,15 +778,6 @@ export class PathAnalyzerUI {
     // Update button state
     analyzePathsBtn.textContent = 'Hide Paths';
     analyzePathsBtn.disabled = false;
-
-    // Store analysis results for Playwright integration
-    this._storeAnalysisResults(regionName, {
-      totalPaths: allPaths.length,
-      viablePaths: accessiblePathCount,
-      isReachable: isRegionActuallyReachable,
-      hasDiscrepancy: isRegionActuallyReachable && accessiblePathCount === 0,
-      allNodes: allNodes,
-    });
   }
 
   /**
@@ -1968,7 +1970,15 @@ export class PathAnalyzerUI {
     const analysisResults = {
       regionName: regionName,
       timestamp: new Date().toISOString(),
-      ...results,
+      // Ensure all expected keys from summaryResults are present
+      paths: results.paths || [], // Default to empty array if not present
+      totalPaths: results.totalPaths !== undefined ? results.totalPaths : 0,
+      viablePaths: results.viablePaths !== undefined ? results.viablePaths : 0,
+      isReachable:
+        results.isReachable !== undefined ? results.isReachable : false,
+      hasDiscrepancy:
+        results.hasDiscrepancy !== undefined ? results.hasDiscrepancy : false,
+      allNodes: results.allNodes || {}, // Default to empty object
     };
 
     // Store individual result

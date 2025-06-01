@@ -500,24 +500,78 @@ export class TestController {
   }
 
   // New method: pollForCondition
-  async pollForCondition(checkFn, timeoutMs, intervalMs, description) {
-    // Note: testRunId is implicitly this.testId for logging via this.log
-    const logPrefix = this.testId ? `[${this.testId}] ` : ''; // Use testId from constructor
+  async pollForCondition(checkFn, description, timeoutMs, intervalMs) {
+    const logPrefix = this.testId ? `[${this.testId}] ` : '';
     this.log(
-      `${logPrefix}Polling for: "${description}" (timeout: ${timeoutMs}ms, interval: ${intervalMs}ms)...`
+      `${logPrefix}Polling for condition: \"${description}\" (timeout: ${timeoutMs}ms, interval: ${intervalMs}ms)...`
     );
     const startTime = Date.now();
-    while (Date.now() - startTime < timeoutMs) {
-      if (checkFn()) {
-        this.log(`${logPrefix}Condition met for: "${description}".`);
-        return true;
-      }
-      await new Promise((resolve) => setTimeout(resolve, intervalMs));
-    }
+
+    return new Promise((resolve) => {
+      const intervalId = setInterval(async () => {
+        let conditionMet = false;
+        try {
+          conditionMet = await checkFn();
+        } catch (e) {
+          this.log(
+            `${logPrefix}Error in checkFn for condition "${description}": ${e}`,
+            'error'
+          );
+          // Continue polling until timeout
+        }
+
+        if (conditionMet) {
+          clearInterval(intervalId);
+          this.log(`${logPrefix}Condition met for: \"${description}\".`);
+          resolve(true);
+        } else if (Date.now() - startTime > timeoutMs) {
+          clearInterval(intervalId);
+          this.log(
+            `${logPrefix}Timeout polling for condition: \"${description}\".`,
+            'warn'
+          );
+          resolve(false);
+        }
+      }, intervalMs);
+    });
+  }
+
+  async pollForValue(checkFn, description, timeoutMs, intervalMs) {
+    const logPrefix = this.testId ? `[${this.testId}] ` : '';
     this.log(
-      `${logPrefix}Condition NOT met for "${description}" within ${timeoutMs}ms.`,
-      'warn'
+      `${logPrefix}Polling for value: \"${description}\" (timeout: ${timeoutMs}ms, interval: ${intervalMs}ms)...`
     );
-    return false;
+    const startTime = Date.now();
+
+    return new Promise((resolve) => {
+      const intervalId = setInterval(async () => {
+        let result = null;
+        let errorOccurred = false;
+        try {
+          result = await checkFn();
+        } catch (e) {
+          this.log(
+            `${logPrefix}Error in checkFn for value "${description}": ${e}`,
+            'error'
+          );
+          errorOccurred = true;
+        }
+
+        // Resolve if a truthy result is found (and no error occurred)
+        if (!errorOccurred && result) {
+          clearInterval(intervalId);
+          this.log(`${logPrefix}Value found for: \"${description}\".`);
+          resolve(result);
+        } else if (Date.now() - startTime > timeoutMs) {
+          clearInterval(intervalId);
+          this.log(
+            `${logPrefix}Timeout polling for value: \"${description}\".`,
+            'warn'
+          );
+          resolve(null); // Resolve with null on timeout or if result remains null/falsy
+        }
+        // If errorOccurred or result is falsy, continue polling until timeout
+      }, intervalMs);
+    });
   }
 }
