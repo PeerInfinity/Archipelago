@@ -18,6 +18,12 @@ import NetUtils
 import Options
 import Utils
 
+# --- New Imports for Spoiler Logging (and existing TestDataLogger) ---
+import json
+import os
+import datetime
+# --- End New Imports ---
+
 if TYPE_CHECKING:
     from entrance_rando import ERPlacementState
     from worlds import AutoWorld
@@ -1468,126 +1474,234 @@ class Spoiler:
             self.entrances[(entrance, direction, player)] = \
                 {"player": player, "entrance": entrance, "exit": exit_, "direction": direction}
 
+    def _log_sphere_details(self, file_handler, sphere_index: int,
+                              current_sphere_locations: Set[Location],
+                              current_collection_state: CollectionState) -> None:
+        if not file_handler:
+            # Log to internal logger if file couldn't be opened
+            logging.warning("Spoiler log file not open. Cannot log sphere details.")
+            return
+
+        try:
+            player_specific_data = {}
+            for player_id in self.multiworld.player_ids:
+                prog_items = {item_name: count for item_name, count in current_collection_state.prog_items.get(player_id, {}).items()}
+                
+                # non_prog_items logic remains difficult to source reliably from CollectionState
+                # It primarily tracks prog_items. Logging empty for now.
+                non_prog_items = {}
+
+                inventory_details = {
+                    "prog_items": prog_items,
+                    "non_prog_items": non_prog_items 
+                }
+
+                accessible_locations = []
+                if self.multiworld:
+                    accessible_locations = sorted([
+                        loc.name for loc in self.multiworld.get_locations(player_id)
+                        if loc.can_reach(current_collection_state)
+                    ])
+
+                accessible_regions = []
+                if self.multiworld:
+                    accessible_regions = sorted([
+                        reg.name for reg in self.multiworld.get_regions(player_id)
+                        if reg.can_reach(current_collection_state)
+                    ])
+                
+                player_specific_data[player_id] = {
+                    "inventory_details": inventory_details,
+                    "accessible_locations": accessible_locations,
+                    "accessible_regions": accessible_regions
+                }
+            
+            sphere_location_names = sorted([loc.name for loc in current_sphere_locations])
+
+            log_entry = {
+                "sphere_index": sphere_index,
+                "sphere_locations": sphere_location_names,
+                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                "player_data": player_specific_data, # Changed from direct inventory/accessibility
+            }
+            
+            file_handler.write(json.dumps(log_entry) + "\n")
+            file_handler.flush()
+
+        except Exception as e:
+            logging.error(f"Error during spoiler sphere logging for sphere {sphere_index}: {e}")
+
+
     def create_playthrough(self, create_paths: bool = True) -> None:
         """Destructive to the multiworld while it is run, damage gets repaired afterwards."""
         from itertools import chain
-        # get locations containing progress items
         multiworld = self.multiworld
         prog_locations = {location for location in multiworld.get_filled_locations() if location.item.advancement}
         state_cache: List[Optional[CollectionState]] = [None]
-        collection_spheres: List[Set[Location]] = []
+        # collection_spheres will be redefined later for the final pass
+        initial_collection_spheres: List[Set[Location]] = [] 
         state = CollectionState(multiworld)
         sphere_candidates = set(prog_locations)
-        logging.debug('Building up collection spheres.')
+        
+        logging.debug('Building up initial collection spheres for pruning.')
         while sphere_candidates:
-
-            # build up spheres of collection radius.
-            # Everything in each sphere is independent from each other in dependencies and only depends on lower spheres
-
             sphere = {location for location in sphere_candidates if state.can_reach(location)}
-
             for location in sphere:
                 state.collect(location.item, True, location)
-
             sphere_candidates -= sphere
-            collection_spheres.append(sphere)
+            initial_collection_spheres.append(sphere) # Use a different name for this initial list
             state_cache.append(state.copy())
-
-            logging.debug('Calculated sphere %i, containing %i of %i progress items.', len(collection_spheres),
-                          len(sphere),
-                          len(prog_locations))
+            logging.debug('Calculated initial sphere %i, containing %i of %i progress items.', 
+                          len(initial_collection_spheres), len(sphere), len(prog_locations))
             if not sphere:
-                logging.debug('The following items could not be reached: %s', ['%s (Player %d) at %s (Player %d)' % (
-                    location.item.name, location.item.player, location.name, location.player) for location in
-                                                                               sphere_candidates])
+                # ... (existing error handling for unreachables) ...
                 if any([multiworld.worlds[location.item.player].options.accessibility != 'minimal' for location in sphere_candidates]):
-                    raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). '
-                                       f'Something went terribly wrong here.')
+                    raise RuntimeError(f'Not all progression items reachable ({sphere_candidates}). Something went wrong.')
                 else:
                     self.unreachables = sphere_candidates
                     break
-
-        # in the second phase, we cull each sphere such that the game is still beatable,
-        # reducing each range of influence to the bare minimum required inside it
+        
+        # Pruning phase (as before)
         restore_later: Dict[Location, Item] = {}
-        for num, sphere in reversed(tuple(enumerate(collection_spheres))):
+        for num, sphere in reversed(tuple(enumerate(initial_collection_spheres))): # Iterate over the initial list
             to_delete: Set[Location] = set()
             for location in sphere:
-                # we remove the item at location and check if game is still beatable
-                logging.debug('Checking if %s (Player %d) is required to beat the game.', location.item.name,
-                              location.item.player)
                 old_item = location.item
                 location.item = None
-                if multiworld.can_beat_game(state_cache[num]):
+                if multiworld.can_beat_game(state_cache[num]): # Use state_cache for check
                     to_delete.add(location)
                     restore_later[location] = old_item
                 else:
-                    # still required, got to keep it around
                     location.item = old_item
-
-            # cull entries in spheres for spoiler walkthrough at end
             sphere -= to_delete
+            initial_collection_spheres[num] = sphere # Update the sphere in the initial list
 
-        # second phase, sphere 0
+        # Precollected items phase (as before)
         removed_precollected: List[Item] = []
+        for player_id in multiworld.player_ids: # Iterate by player ID
+            if player_id in multiworld.precollected_items:
+                player_precollected = multiworld.precollected_items[player_id]
+                for item in player_precollected[:]: # Iterate over a copy
+                    if not item.advancement:
+                        continue
+                    player_precollected.remove(item)
+                    multiworld.state.remove(item) # Assuming multiworld.state reflects precollected items globally
+                    if not multiworld.can_beat_game():
+                        multiworld.push_precollected(item) # This adds back to multiworld.precollected_items[item.player]
+                    else:
+                        removed_precollected.append(item)
+        
+        # --- SPOILER LOGGING SETUP ---
+        spoiler_log_file_handler = None
+        log_file_path = "" # Initialize to prevent NameError in finally if open fails
+        try:
+            output_dir_base = getattr(multiworld, 'output_path', 'output') # AP main output path
+            game_specific_dir = multiworld.game[1] if 1 in multiworld.game else "unknown_game"
+            
+            # Construct a path similar to test logs: output_dir_base / game_name / seed_name_spheres_log.jsonl
+            # However, spoiler files are usually in output_dir_base directly.
+            # Let's try putting it in the same main output directory as the text spoiler.
+            
+            final_output_dir = output_dir_base
+            if not os.path.exists(final_output_dir):
+                os.makedirs(final_output_dir, exist_ok=True)
 
-        for precollected_items in multiworld.precollected_items.values():
-            # The list of items is mutated by removing one item at a time to determine if each item is required to beat
-            # the game, and re-adding that item if it was required, so a copy needs to be made before iterating.
-            for item in precollected_items.copy():
-                if not item.advancement:
-                    continue
-                logging.debug('Checking if %s (Player %d) is required to beat the game.', item.name, item.player)
-                precollected_items.remove(item)
-                multiworld.state.remove(item)
-                if not multiworld.can_beat_game():
-                    # Add the item back into `precollected_items` and collect it into `multiworld.state`.
-                    multiworld.push_precollected(item)
-                else:
-                    removed_precollected.append(item)
+            log_filename = f"{multiworld.seed_name}_spheres_log.jsonl"
+            log_file_path = os.path.join(final_output_dir, log_filename)
+            
+            logging.info(f"Attempting to open spoiler log file for sphere data at: {log_file_path}")
+            spoiler_log_file_handler = open(log_file_path, "w") # Use "w" to overwrite if exists for a new seed
+            logging.info(f"Spoiler sphere log will be written to: {log_file_path}")
+        except Exception as e:
+            logging.error(f"Failed to open spoiler log file {log_file_path}: {e}")
+        # --- END SPOILER LOGGING SETUP ---
 
-        # we are now down to just the required progress items in collection_spheres. Unfortunately
-        # the previous pruning stage could potentially have made certain items dependant on others
-        # in the same or later sphere (because the location had 2 ways to access but the item originally
-        # used to access it was deemed not required.) So we need to do one final sphere collection pass
-        # to build up the correct spheres
+        try:
+            # Final sphere calculation pass (this uses initial_collection_spheres which was pruned)
+            required_locations = {loc for sphere_set in initial_collection_spheres for loc in sphere_set}
+            
+            current_playthrough_state = CollectionState(multiworld) # Fresh state for final playthrough
+            
+            # Log initial state (sphere 0: precollected items that remained after pruning)
+            # The state for this log should reflect only the *final* set of precollected items.
+            if spoiler_log_file_handler:
+                # To accurately get the state of *only* final precollected items:
+                precollected_only_state = CollectionState(multiworld)
+                for p_id in multiworld.player_ids:
+                    for item in multiworld.precollected_items.get(p_id, []):
+                        if item.advancement: # Log only advancement precollected items as per playthrough[0]
+                             precollected_only_state.collect(item, True)
+                precollected_only_state.sweep_for_advancements() # Ensure reachability is based on these items
 
-        required_locations = {item for sphere in collection_spheres for item in sphere}
-        state = CollectionState(multiworld)
-        collection_spheres = []
-        while required_locations:
-            sphere = set(filter(state.can_reach, required_locations))
+                # The "sphere_locations" for sphere 0 are the precollected items themselves.
+                # We need their names, not Location objects.
+                precollected_item_names_for_log = set()
+                for p_id in multiworld.player_ids:
+                    for item in multiworld.precollected_items.get(p_id, []):
+                         if item.advancement:
+                            precollected_item_names_for_log.add(self.multiworld.get_name_string_for_object(item))
+                
+                # Create pseudo-Location objects for precollected items if needed by _log_sphere_details
+                # For now, passing empty set for locations, actual items are in inventory.
+                # Or, adjust _log_sphere_details to take item names for sphere 0.
+                # Let's pass an empty set for locations and rely on inventory for sphere 0.
+                self._log_sphere_details(spoiler_log_file_handler, 0, set(), precollected_only_state)
 
-            for location in sphere:
-                state.collect(location.item, True, location)
+            # This is the list that will store the final spheres for the text spoiler output
+            final_collection_spheres: List[Set[Location]] = []
 
-            collection_spheres.append(sphere)
+            while required_locations:
+                # Reachable locations from the current_playthrough_state
+                # Filter from required_locations to ensure we only consider what's left.
+                sphere = {loc for loc in required_locations if current_playthrough_state.can_reach(loc)}
 
-            logging.debug('Calculated final sphere %i, containing %i of %i progress items.', len(collection_spheres),
-                          len(sphere), len(required_locations))
+                for location in sphere:
+                    current_playthrough_state.collect(location.item, True, location)
+                
+                final_collection_spheres.append(sphere) # This list is used for self.playthrough
 
-            required_locations -= sphere
-            if not sphere:
-                raise RuntimeError(f'Not all required items reachable. Unreachable locations: {required_locations}')
+                # --- CALL TO NEW LOGGING METHOD ---
+                if spoiler_log_file_handler:
+                    self._log_sphere_details(spoiler_log_file_handler,
+                                             len(final_collection_spheres), # Sphere index (1-based)
+                                             sphere,
+                                             current_playthrough_state.copy())
+                # --- END CALL ---
 
-        # we can finally output our playthrough
-        self.playthrough = {"0": sorted([self.multiworld.get_name_string_for_object(item) for item in
-                                         chain.from_iterable(multiworld.precollected_items.values())
-                                         if item.advancement])}
+                logging.debug('Calculated final sphere %i, containing %i of %i progress items.', 
+                              len(final_collection_spheres), len(sphere), len(required_locations))
 
-        for i, sphere in enumerate(collection_spheres):
-            self.playthrough[str(i + 1)] = {
-                str(location): str(location.item) for location in sorted(sphere)}
-        if create_paths:
-            self.create_paths(state, collection_spheres)
+                required_locations -= sphere
+                if not sphere and required_locations: # Added check for required_locations to prevent false error
+                    logging.error(f'Not all required items reachable. Unreachable locations: {required_locations}')
+                    # Consider if this should raise RuntimeError as before, or just log if some items are optional for beatable
+                    # Original code raised RuntimeError here.
+                    raise RuntimeError(f'Not all required items reachable. Unreachable locations: {required_locations}')
+            
+            # Populate self.playthrough for the text spoiler using final_collection_spheres
+            self.playthrough = {"0": sorted([self.multiworld.get_name_string_for_object(item) for player_items in
+                                             multiworld.precollected_items.values() for item in player_items if item.advancement])}
+            for i, sphere_content in enumerate(final_collection_spheres):
+                self.playthrough[str(i + 1)] = {
+                    str(location): str(location.item) for location in sorted(list(sphere_content))} # Ensure sphere_content is sorted
 
-        # repair the multiworld again
+            if create_paths:
+                self.create_paths(current_playthrough_state, final_collection_spheres)
+
+        finally:
+            if spoiler_log_file_handler:
+                try:
+                    spoiler_log_file_handler.close()
+                    logging.info(f"Closed spoiler log file: {log_file_path}")
+                except Exception as e:
+                    logging.error(f"Error closing spoiler log file {log_file_path}: {e}")
+
+        # Repair the multiworld (as before)
         for location, item in restore_later.items():
             location.item = item
-
-        for item in removed_precollected:
+        for item in removed_precollected: # Add back items removed from precollected list if they were not required
             multiworld.push_precollected(item)
-
+    
     def create_paths(self, state: CollectionState, collection_spheres: List[Set[Location]]) -> None:
         from itertools import zip_longest
         multiworld = self.multiworld

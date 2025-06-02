@@ -5,6 +5,8 @@ import unittest
 import json
 import os
 from argparse import Namespace
+import logging
+import difflib
 
 from Generate import get_seed_name
 from test.general import gen_steps
@@ -15,6 +17,126 @@ from BaseClasses import Location, MultiWorld, CollectionState, ItemClassificatio
 from worlds.alttp.Items import item_factory
 
 from exporter import export_test_data
+
+# AP Imports (sorted)
+from worlds.AutoWorld import WebWorld, World
+
+if typing.TYPE_CHECKING:
+    from worlds.generic.World import GenericWorld
+
+# --- New Imports for TestDataLogger ---
+import datetime
+
+# Get a logger for the TestDataLogger itself, to avoid print()
+test_data_logger_internal_logger = logging.getLogger("TestDataLoggerInternal")
+
+class TestDataLogger:
+    def __init__(self, log_file_path: str):
+        self.log_file_path = log_file_path
+        self.file_handler = None
+        try:
+            # Ensure the directory exists
+            log_dir = os.path.dirname(self.log_file_path)
+            if log_dir: # Check if log_dir is not an empty string (e.g. if log_file_path is just a filename)
+                os.makedirs(log_dir, exist_ok=True)
+            
+            self.file_handler = open(self.log_file_path, "a")  # Append mode
+            test_data_logger_internal_logger.info(f"Opened log file for appending: {self.log_file_path}")
+        except Exception as e:
+            test_data_logger_internal_logger.error(f"Failed to open log file {self.log_file_path}: {e}")
+            # self.file_handler will remain None, log_state will do nothing
+
+    def log_state(self, test_suite_name: str, test_case_index: int, test_case_location_name: str,
+                  phase_description: str, multiworld: MultiWorld, player: int):
+        if not self.file_handler:
+            test_data_logger_internal_logger.warning(
+                f"Log file not open. Cannot log state for {test_suite_name} - {test_case_location_name}"
+            )
+            return
+
+        try:
+            # Capture inventory details based on CollectionState structure
+            player_prog_items = {item_name: count for item_name, count in multiworld.state.prog_items[player].items()}
+            
+            # Attempt to get non-progression items, but handle gracefully if 'items' attribute is missing or problematic
+            player_non_prog_items_counts = {}
+            if hasattr(multiworld.state, 'items') and player in multiworld.state.items:
+                try:
+                    player_non_prog_items_list = multiworld.state.items[player]
+                    for item_obj in player_non_prog_items_list:
+                        player_non_prog_items_counts[item_obj.name] = player_non_prog_items_counts.get(item_obj.name, 0) + 1
+                except Exception as e_items:
+                    test_data_logger_internal_logger.warning(f"Could not process non-progression items for player {player}: {e_items}")
+            else:
+                test_data_logger_internal_logger.warning(f"'items' attribute or player key missing in multiworld.state for non-progression items.")
+
+            current_inventory_details = {
+                "prog_items_player": player_prog_items,
+                "non_prog_items_player": player_non_prog_items_counts, # Changed field name
+            }
+
+            # Get accessible locations and regions, convert to sorted list of names
+            # Use the 'multiworld' parameter and its state for these checks.
+            accessible_locations = sorted([
+                loc.name for loc in multiworld.get_locations(player)
+                if loc.can_reach(multiworld.state)
+            ])
+
+            accessible_regions = sorted([
+                reg.name for reg in multiworld.get_regions(player)
+                if reg.can_reach(multiworld.state) # Assuming regions also have can_reach or similar
+                                                  # If not, this needs adjustment based on how region reachability
+                                                  # is determined from a state (e.g. state.update_reachable_regions first)
+            ])
+
+            log_entry_data = {
+                "test_suite_name": test_suite_name,
+                "test_case_index": test_case_index,
+                "test_case_location_name": str(test_case_location_name),  # Ensure it's a string
+                "phase_description": phase_description,
+                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                "inventory_details": current_inventory_details,
+                "accessible_locations": accessible_locations,
+                "accessible_regions": accessible_regions,
+            }
+
+            # test_data_logger_internal_logger.debug(f"Problematic log_entry_data: {log_entry_data}")
+
+            # Make the log entry data JSON serializable
+            # Convert sets to sorted lists for consistent output and serializability
+            for key, value in log_entry_data.items(): # Ensure using log_entry_data
+                if isinstance(value, set):
+                    try:
+                        # Attempt to sort if elements are comparable (e.g., strings, numbers)
+                        log_entry_data[key] = sorted(list(value))
+                    except TypeError:
+                        # If elements are not comparable (e.g., complex objects), just convert to list
+                        log_entry_data[key] = list(value)
+                elif isinstance(value, dict): # Check sub-dictionaries
+                    for sub_key, sub_value in value.items():
+                        if isinstance(sub_value, set):
+                            try:
+                                log_entry_data[key][sub_key] = sorted(list(sub_value))
+                            except TypeError:
+                                log_entry_data[key][sub_key] = list(sub_value)
+            
+            self.file_handler.write(json.dumps(log_entry_data))
+            self.file_handler.write("\n") # Corrected to ensure single newline
+            self.file_handler.flush() # Ensure data is written immediately
+        except Exception as e:
+            test_data_logger_internal_logger.error(f"Error during log_state for {test_suite_name} - {test_case_location_name}: {e}")
+            # Optionally, log the problematic log_entry_data structure if it's helpful for debugging
+
+    def close(self):
+        if self.file_handler:
+            try:
+                self.file_handler.close()
+                test_data_logger_internal_logger.info(f"Closed log file: {self.log_file_path}")
+                self.file_handler = None
+            except Exception as e:
+                test_data_logger_internal_logger.error(f"Error closing log file {self.log_file_path}: {e}")
+
+# --- End TestDataLogger Class ---
 
 class TestBase(unittest.TestCase):
     multiworld: MultiWorld
@@ -46,31 +168,128 @@ class TestBase(unittest.TestCase):
         pathpairs = zip_longest(pathsiter, pathsiter)
         return list(pathpairs)
 
-    def run_location_tests(self, access_pool):
-        output_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'tests')
-        export_test_data(self.multiworld, access_pool, output_dir)
+    def run_location_tests(self, access_pool: typing.Optional[typing.List[typing.Tuple[str, bool, typing.List[str], typing.Optional[typing.List[str]],
+                                                                 typing.Optional[typing.Callable], typing.Optional[typing.List[str]]]]] = None,
+                           test_options: typing.Optional[str] = None):
+        """Helper function to run tests for a list of locations."""
+        if access_pool is None:
+            # Fallback to a default if no specific access_rules are on TestBase itself
+            # This might indicate an issue if TestBase is expected to have its own access_rules
+            # For now, we assume it might be empty or overridden by subclasses
+            access_pool = getattr(self, 'access_rules', []) 
 
-        for i, (location, access, *item_pool) in enumerate(access_pool):
-            items = item_pool[0]
-            all_except = item_pool[1] if len(item_pool) > 1 else None
-            state = self._get_items(item_pool, all_except)
-            path = self.get_path(state, self.multiworld.get_location(location, 1).parent_region)
-            with self.subTest(msg="Reach Location", location=location, access=access, items=items,
-                              all_except=all_except, path=path, entry=i):
+        logger_instance: typing.Optional[TestDataLogger] = None
+        try:
+            # Try to get game name from multiworld if self.game is not set
+            game_name_for_path = getattr(self, 'game', None)
+            if not game_name_for_path and hasattr(self, 'multiworld') and self.multiworld and 1 in self.multiworld.game:
+                game_name_for_path = self.multiworld.game[1]
+            if not game_name_for_path:
+                game_name_for_path = 'unknown_game'
+                test_data_logger_internal_logger.warning(
+                    "Could not determine game name from self.game or self.multiworld.game[1], using 'unknown_game'."
+                )
 
-                self.assertEqual(self.multiworld.get_location(location, 1).can_reach(state), access,
-                                 f"failed {self.multiworld.get_location(location, 1)} with: {item_pool}")
+            if not hasattr(self, 'output_path') or not self.output_path:
+                class_name_for_path = self.__class__.__name__
+                fallback_output_path = os.path.join("worlds", game_name_for_path, "output", class_name_for_path)
+                test_data_logger_internal_logger.warning(
+                    f"self.output_path not found or empty, using fallback: {fallback_output_path}"
+                )
+                output_path_for_logs = fallback_output_path
+            else:
+                output_path_for_logs = self.output_path
 
-            # check for partial solution
-            if not all_except and access:  # we are not supposed to be able to reach location with partial inventory
-                for missing_item in item_pool[0]:
-                    with self.subTest(msg="Location reachable without required item", location=location,
-                                      items=item_pool[0], missing_item=missing_item, entry=i):
-                        state = self._get_items_partial(item_pool, missing_item)
+            method_name_for_log = test_options if isinstance(test_options, str) and test_options else \
+                                  getattr(self, '_testMethodName', self.__class__.__name__)
+            
+            log_filename_base = method_name_for_log + "_tests"
+            log_file_path = os.path.join(output_path_for_logs, log_filename_base + "_log.jsonl")
+            
+            logger_instance = TestDataLogger(log_file_path)
+            current_test_suite_name = self.__class__.__name__
+        except Exception as e:
+            test_data_logger_internal_logger.error(f"Failed to initialize TestDataLogger: {e}")
+            
+        try:
+            for i, test_tuple in enumerate(access_pool):
+                location_name_str, expected_access, item_list_names, *rest = test_tuple
+                forbidden_item_list_names = rest[0] if len(rest) > 0 else None
+                exec_func = rest[1] if len(rest) > 1 else None # exec_func is usually for CICO
 
-                        self.assertEqual(self.multiworld.get_location(location, 1).can_reach(state), False,
-                                         f"failed {self.multiworld.get_location(location, 1)}: succeeded with "
-                                         f"{missing_item} removed from: {item_pool}")
+                # Construct item_pool for _get_items which expects [[item_names], excluded_item_names_or_None]
+                # For the main test, all_except is None initially if forbidden_item_list_names is not used directly here.
+                # _get_items handles item_factory itself. We just need to provide names.
+                current_item_pool_for_get_items = [item_list_names, forbidden_item_list_names]
+
+                # Log initial state (conceptually before any items for this test case)
+                # Create a completely empty state for this initial log to be accurate.
+                empty_state_for_log = CollectionState(self.multiworld)
+                if logger_instance:
+                    # Temporarily assign empty_state_for_log to multiworld.state for the logger
+                    original_state = self.multiworld.state
+                    self.multiworld.state = empty_state_for_log
+                    logger_instance.log_state(current_test_suite_name, i, location_name_str,
+                                              "Initial state for test case (before _get_items)", self.multiworld, 1)
+                    self.multiworld.state = original_state # Restore
+
+                # Get the state with the specified items collected
+                # _get_items uses item_factory and populates a new CollectionState
+                current_state = self._get_items(current_item_pool_for_get_items, forbidden_item_list_names)
+                
+                # Log state after collecting initial batch of items
+                if logger_instance:
+                    # Temporarily assign current_state to multiworld.state for the logger
+                    original_state = self.multiworld.state
+                    self.multiworld.state = current_state
+                    logger_instance.log_state(current_test_suite_name, i, location_name_str,
+                                              "After _get_items (main item list)", self.multiworld, 1)
+                    self.multiworld.state = original_state # Restore
+                
+                location_obj = self.multiworld.get_location(location_name_str, 1)
+                actual_access = location_obj.can_reach(current_state)
+                self.assertEqual(actual_access, expected_access,
+                                 f"{location_name_str} expected {expected_access} with {item_list_names}, got {actual_access}. ({test_options})")
+
+                # Handle CICO (exec_func) - this part is tricky without self.collect/remove
+                # We simulate by creating new states with _get_items_partial or similar logic
+                if exec_func and expected_access: # Typically CICO is for locations expected to be accessible
+                    if not item_list_names: # Skip CICO if item_list_names is empty
+                        continue
+
+                    for item_to_remove_name in item_list_names:
+                        # Create state with this one item removed
+                        # _get_items_partial expects item_pool and the single missing item name
+                        state_without_item = self._get_items_partial(current_item_pool_for_get_items, item_to_remove_name)
+                        
+                        if logger_instance:
+                            original_state = self.multiworld.state
+                            self.multiworld.state = state_without_item # Set state for logger
+                            logger_instance.log_state(current_test_suite_name, i, location_name_str,
+                                                      f"Exec_func: After removing '{item_to_remove_name}' (simulated)",
+                                                      self.multiworld, 1)
+                            self.multiworld.state = original_state # Restore
+
+                        # Location should now be False if the item was truly required
+                        self.assertFalse(location_obj.can_reach(state_without_item),
+                                         f"CICO Remove Fail: {location_name_str} expected False after removing {item_to_remove_name} from {item_list_names}, but was True. ({test_options})")
+                        
+                        # State after re-adding the item is effectively `current_state` (the one with all items_list_names)
+                        # So, we log against `current_state` for the "after collecting" phase of CICO.
+                        if logger_instance:
+                            original_state = self.multiworld.state
+                            self.multiworld.state = current_state # Back to full item list state for this log
+                            logger_instance.log_state(current_test_suite_name, i, location_name_str,
+                                                      f"Exec_func: After collecting '{item_to_remove_name}' (simulated, back to full list)",
+                                                      self.multiworld, 1)
+                            self.multiworld.state = original_state # Restore
+                        
+                        # And it should be accessible again with all items.
+                        self.assertTrue(location_obj.can_reach(current_state),
+                                         f"CICO Re-collect Fail: {location_name_str} expected True after re-collecting {item_to_remove_name} (back to full list {item_list_names}), but was False. ({test_options})")
+        finally:
+            if logger_instance:
+                logger_instance.close()
 
     def run_entrance_tests(self, access_pool):
         for i, (entrance, access, *item_pool) in enumerate(access_pool):
