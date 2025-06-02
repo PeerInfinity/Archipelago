@@ -66,7 +66,7 @@ test.describe('Application End-to-End Tests', () => {
     expect(superQuickTestResult).toBeDefined();
     expect(superQuickTestResult.status).toBe('passed');
 
-    // Check for test case results from testCasePanelInteractionTest
+    // Check for test case results from testCasePanelRunAll
     const testCaseResultsString = await page.evaluate(() =>
       localStorage.getItem('__testCaseResults__')
     );

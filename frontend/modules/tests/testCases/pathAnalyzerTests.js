@@ -461,9 +461,8 @@ registerTest({
 
 registerTest({
   id: 'test_path_analyzer_panel',
-  name: 'Path Analyzer Panel Test',
-  description:
-    'Tests the new PathAnalyzer Panel functionality with Golden Layout integration.',
+  name: 'Path Analyzer - Panel Test',
+  description: 'Opens the Path Analyzer panel and selects a region to analyze.',
   testFunction: testPathAnalyzerPanel,
   category: 'Path Analysis',
   enabled: false,

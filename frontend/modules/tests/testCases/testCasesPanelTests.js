@@ -8,10 +8,10 @@ const TARGET_TEST_INDEX_FOR_SINGLE_RUN_DEMO = 18; // Chicken House (true, ["Bomb
 const TARGET_TEST_INDEX_KINGS_TOMB_SUB_TEST = 11; // King's Tomb
 const TARGET_ITEM_NAME_BEAT_AGAHNIM_1 = 'Beat Agahnim 1';
 
-export async function testCasePanelInteractionTest(testController) {
+export async function testCasePanelRunAll(testController) {
   let overallResult = true;
   try {
-    testController.log('Starting testCasePanelInteractionTest...');
+    testController.log('Starting testCasePanelRunAll...');
     testController.reportCondition('Test started', true);
 
     // First, we need to ensure the Test Cases panel is available and activated
@@ -365,12 +365,12 @@ export async function testCasePanelInteractionTest(testController) {
     }
 
     testController.log(
-      `testCasePanelInteractionTest finished. Overall Result: ${overallResult}. ` +
+      `testCasePanelRunAll finished. Overall Result: ${overallResult}. ` +
         `Results: ${testResults.passed} passed, ${testResults.failed} failed, ${testResults.cancelled} cancelled`
     );
   } catch (error) {
     testController.log(
-      `Error in testCasePanelInteractionTest: ${error.message} (Stack: ${
+      `Error in testCasePanelRunAll: ${error.message} (Stack: ${
         error.stack || 'N/A'
       })`,
       'error'
@@ -382,11 +382,11 @@ export async function testCasePanelInteractionTest(testController) {
   }
 }
 
-export async function singleTestCaseDebugTest(testController) {
+export async function testCasePanelRunOneTest(testController) {
   const testRunId = `test-run-${Date.now()}-${Math.random()
     .toString(36)
     .substring(2, 7)}`;
-  testController.log(`[${testRunId}] Starting singleTestCaseDebugTest...`);
+  testController.log(`[${testRunId}] Starting testCasePanelRunOneTest...`);
   let overallResult = true;
 
   try {
@@ -682,7 +682,7 @@ export async function singleTestCaseDebugTest(testController) {
       }
     }
   } catch (error) {
-    const errorMessage = `ERROR in singleTestCaseDebugTest: ${
+    const errorMessage = `ERROR in testCasePanelRunOneTest: ${
       error.message
     } (Stack: ${error.stack || 'N/A'})`;
     testController.log(`[${testRunId}] ${errorMessage}`, 'error');
@@ -690,17 +690,17 @@ export async function singleTestCaseDebugTest(testController) {
     overallResult = false;
   } finally {
     testController.log(
-      `[${testRunId}] singleTestCaseDebugTest finished. Overall result: ${overallResult}`
+      `[${testRunId}] testCasePanelRunOneTest finished. Overall result: ${overallResult}`
     );
   }
   return overallResult;
 }
 
-export async function singleItemSubTestDebug(testController) {
+export async function testCasePanelRunItemSubTest(testController) {
   const testRunId = `subtest-debug-${Date.now()}-${Math.random()
     .toString(36)
     .substring(2, 7)}`;
-  testController.log(`[${testRunId}] Starting singleItemSubTestDebug...`);
+  testController.log(`[${testRunId}] Starting testCasePanelRunItemSubTest...`);
   let overallResult = true;
 
   try {
@@ -956,7 +956,7 @@ export async function singleItemSubTestDebug(testController) {
       overallResult = false;
     }
   } catch (error) {
-    const errorMessage = `ERROR in singleItemSubTestDebug: ${
+    const errorMessage = `ERROR in testCasePanelRunItemSubTest: ${
       error.message
     } (Stack: ${error.stack || 'N/A'})`;
     testController.log(`[${testRunId}] ${errorMessage}`, 'error');
@@ -964,42 +964,39 @@ export async function singleItemSubTestDebug(testController) {
     overallResult = false;
   } finally {
     testController.log(
-      `[${testRunId}] singleItemSubTestDebug finished. Overall result: ${overallResult}`
+      `[${testRunId}] testCasePanelRunItemSubTest finished. Overall result: ${overallResult}`
     );
   }
   return overallResult;
 }
 
-// Register the new test
 registerTest({
-  id: 'test_case_panel_interaction',
-  name: 'Test Case Panel Interaction Test',
+  id: 'test_case_run_all',
+  name: 'Test Case Panel - Run All',
   description:
     'Tests activating the Test Cases panel, selecting the vanilla Light World test, running all tests, and collecting results for Playwright.',
-  testFunction: testCasePanelInteractionTest,
+  testFunction: testCasePanelRunAll,
   category: 'Test Cases Panel',
-  enabled: false, // Disabled to focus on single test
+  enabled: false,
   order: 1,
 });
 
-// Self-register tests
 registerTest({
-  id: 'test_single_case_debug',
-  name: 'Test Case Button Targeting Demo - Chicken House',
-  description:
-    'Tests the Chicken House test case (index 18) that requires "Bomb Upgrade (+5)" and should be accessible. This is the specific test case mentioned in the debugging session.',
-  testFunction: singleTestCaseDebugTest,
+  id: 'test_case_run_one',
+  name: 'Test Case Panel - Single Test',
+  description: 'Runs a single test in the Test Cases panel.',
+  testFunction: testCasePanelRunOneTest,
   category: 'Test Cases Panel',
-  enabled: true, // Enable this test to focus on the specific issue
+  enabled: false,
   order: 2,
 });
 
 registerTest({
-  id: 'test_single_item_sub_test_debug',
-  name: "Single Item Sub-Test Debug (King's Tomb - Beat Agahnim 1)",
+  id: 'test_case_run_sub_test',
+  name: 'Test Case Panel - Single Item Sub-test',
   description:
-    'Tests clicking a specific item link to trigger its sub-test and verifies the outcome.',
-  testFunction: singleItemSubTestDebug,
+    'Tests clicking a specific item link to trigger its sub-test in the Test Cases panel.',
+  testFunction: testCasePanelRunItemSubTest,
   category: 'Test Cases Panel',
   enabled: false,
   order: 3,

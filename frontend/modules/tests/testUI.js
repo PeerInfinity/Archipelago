@@ -348,26 +348,18 @@ export class TestUI {
         li.className = 'test-item';
         li.dataset.testId = test.id;
 
-        const header = document.createElement('div');
-        header.className = 'test-item-header';
-
-        const nameDescDiv = document.createElement('div');
-        nameDescDiv.className = 'test-item-name-desc';
-        const nameEl = document.createElement('strong');
-        nameEl.textContent = test.name;
-        nameDescDiv.appendChild(nameEl);
-
-        if (test.description) {
-          const descEl = document.createElement('p');
-          descEl.textContent = test.description;
-          nameDescDiv.appendChild(descEl);
-        }
-        header.appendChild(nameDescDiv);
-
+        // Create controlsDiv first
         const controlsDiv = document.createElement('div');
         controlsDiv.className = 'test-item-controls';
+        // Apply some styling to make it a clear top row
+        controlsDiv.style.display = 'flex';
+        controlsDiv.style.justifyContent = 'space-between'; // Changed from flex-start
+        controlsDiv.style.marginBottom = '8px'; // Space below the button row
+        controlsDiv.style.alignItems = 'center'; // Vertically align items in the controls row
 
         const enableLabel = document.createElement('label');
+        enableLabel.style.display = 'flex'; // Align checkbox and text
+        enableLabel.style.alignItems = 'center';
         const enableCheckbox = document.createElement('input');
         enableCheckbox.type = 'checkbox';
         enableCheckbox.className = 'test-enable-checkbox';
@@ -375,46 +367,59 @@ export class TestUI {
         enableCheckbox.title = 'Enable/Disable Test';
         enableCheckbox.addEventListener('change', (event) => {
           testLogic.toggleTestEnabled(test.id, event.target.checked);
-          // REMOVED: Immediate DOM update of category checkbox.
-          // The 'test:listUpdated' event from toggleTestEnabled will trigger a re-render,
-          // which will correctly set the category checkbox's state using the new logic.
-          // const allTestCheckboxes = categorySection.querySelectorAll(
-          //   '.test-enable-checkbox'
-          // );
-          // const allEnabled = Array.from(allTestCheckboxes).every(
-          //   (checkbox) => checkbox.checked
-          // );
-          // const anyEnabled = Array.from(allTestCheckboxes).some(
-          //   (checkbox) => checkbox.checked
-          // );
-          // categoryCheckbox.checked = allEnabled;
-          // categoryCheckbox.indeterminate = !allEnabled && anyEnabled;
         });
         enableLabel.appendChild(enableCheckbox);
         enableLabel.appendChild(document.createTextNode('Enabled'));
         controlsDiv.appendChild(enableLabel);
+
+        // Create a new div to group the action buttons on the right
+        const actionButtonsGroup = document.createElement('div');
+        actionButtonsGroup.style.display = 'flex';
+        actionButtonsGroup.style.gap = '5px'; // Space between action buttons
 
         const upButton = document.createElement('button');
         upButton.textContent = '↑';
         upButton.className = 'button button-small move-test-up-button';
         upButton.title = 'Move Up';
         upButton.disabled = index === 0;
-        controlsDiv.appendChild(upButton);
+        actionButtonsGroup.appendChild(upButton); // Add to group
 
         const downButton = document.createElement('button');
         downButton.textContent = '↓';
         downButton.className = 'button button-small move-test-down-button';
         downButton.title = 'Move Down';
         downButton.disabled = index === testsByCategory[category].length - 1;
-        controlsDiv.appendChild(downButton);
+        actionButtonsGroup.appendChild(downButton); // Add to group
 
         const runButton = document.createElement('button');
         runButton.textContent = 'Run';
         runButton.className = 'button button-small run-single-test-button';
-        controlsDiv.appendChild(runButton);
+        actionButtonsGroup.appendChild(runButton); // Add to group
 
-        header.appendChild(controlsDiv);
-        li.appendChild(header);
+        controlsDiv.appendChild(actionButtonsGroup); // Add the group to the main controlsDiv
+
+        // Append controls to the list item first
+        li.appendChild(controlsDiv);
+
+        // Then create and append name/description
+        const nameDescDiv = document.createElement('div');
+        nameDescDiv.className = 'test-item-name-desc';
+        // Ensure it takes full width and elements stack
+        nameDescDiv.style.marginBottom = '5px'; // Space below description
+
+        const nameEl = document.createElement('strong');
+        nameEl.textContent = test.name;
+        nameEl.style.display = 'block'; // Ensure it takes its own line
+        nameEl.style.marginBottom = '3px'; // Space between title and description
+        nameDescDiv.appendChild(nameEl);
+
+        if (test.description) {
+          const descEl = document.createElement('p');
+          descEl.textContent = test.description;
+          descEl.style.margin = '0'; // Remove default paragraph margins
+          nameDescDiv.appendChild(descEl);
+        }
+        li.appendChild(nameDescDiv);
 
         const statusEl = document.createElement('div');
         statusEl.className = 'test-status-display';

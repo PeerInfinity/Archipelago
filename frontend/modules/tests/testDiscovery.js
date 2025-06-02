@@ -27,6 +27,7 @@ const TEST_CASE_FILES = [
   './testCases/stateManagementTests.js',
   './testCases/pathAnalyzerTests.js',
   './testCases/testCasesPanelTests.js',
+  './testCases/testPlaythroughPanelTests.js',
 ];
 
 let discoveryComplete = false;
