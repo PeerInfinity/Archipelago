@@ -141,15 +141,18 @@ async function initialize(moduleId, priorityIndex, initializationApi) {
  * @param {object} initializationApi - API provided by the initialization script.
  */
 async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
-  log(
-    'info',
-    '[StateManager Module] Post-initializing... triggering initial proxy setup and rule load...'
+  const eventBus = initializationApi.getEventBus();
+  const dispatcher = initializationApi.getDispatcher();
+  const logger = initializationApi.getLogger();
+
+  logger.info(
+    moduleInfo.name,
+    'Post-initializing... triggering initial proxy setup and rule load...'
   );
-  const eventBus = initApi?.getEventBus(); // eventBus might still be needed for publishing
-  if (!initApi) {
-    // Removed eventBus from critical check if only used for publishing optional events
-    log(
-      'error',
+
+  if (!initializationApi) {
+    logger.error(
+      moduleInfo.name,
       '[StateManager Module] Initialization API not available in postInitialize. Cannot load rules.'
     );
     return;
@@ -164,23 +167,40 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
     let playerIdToUse = moduleSpecificConfig.playerId;
     let settingsToUse = moduleSpecificConfig.settings;
 
+    // Determine the source name for these rules
+    let sourceNameForTheseRules =
+      moduleSpecificConfig.id || moduleSpecificConfig.sourceName;
+
     if (!rulesConfigToUse) {
-      log(
-        'info',
-        '[StateManager Module] rulesConfig not in moduleSpecificConfig, fetching default_rules.json...'
+      logger.info(
+        moduleInfo.name,
+        '[StateManager Module] rulesConfig not in moduleSpecificConfig, fetching ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json...'
       );
-      const response = await fetch('./default_rules.json');
+      const response = await fetch(
+        './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json'
+      );
       if (!response.ok) {
         throw new Error(
-          `HTTP error fetching default_rules.json! status: ${response.status}`
+          `HTTP error fetching ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json! status: ${response.status}`
         );
       }
-      jsonData = await response.json();
+      jsonData = await response.json(); // jsonData is used later for a direct comparison
       rulesConfigToUse = jsonData;
-      log(
-        'info',
-        '[StateManager Module] Successfully fetched and parsed default_rules.json'
+      sourceNameForTheseRules =
+        './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json'; // If we fetch it, this is the definitive source
+      logger.info(
+        moduleInfo.name,
+        '[StateManager Module] Successfully fetched and parsed ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json'
       );
+    } else {
+      // rulesConfigToUse was provided directly by moduleSpecificConfig
+      if (!sourceNameForTheseRules) {
+        sourceNameForTheseRules = 'moduleSpecificConfigProvidedRules'; // More descriptive fallback
+        logger.warn(
+          moduleInfo.name,
+          `[StateManager Module] rulesConfig was provided directly, but no explicit sourceName or id. Defaulting source to '${sourceNameForTheseRules}'.`
+        );
+      }
     }
 
     const playerIds = Object.keys(rulesConfigToUse.player_names || {});
@@ -188,15 +208,15 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
 
     if (!playerIdToUse) {
       if (playerIds.length === 0) {
-        log(
-          'warn',
+        logger.warn(
+          moduleInfo.name,
           '[StateManager Module] No players found in rules data. Defaulting to player 1.'
         );
         playerIdToUse = '1';
       } else {
         playerIdToUse = playerIds[0];
-        log(
-          'info',
+        logger.info(
+          moduleInfo.name,
           `[StateManager Module] Auto-selected player ID from rules: ${playerIdToUse}`
         );
       }
@@ -205,15 +225,22 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
       playerId: playerIdToUse,
       playerName: playerNames[playerIdToUse] || `Player ${playerIdToUse}`,
     };
-    log('info', `[StateManager Module] Effective player info:`, playerInfo);
+    logger.info(
+      moduleInfo.name,
+      `[StateManager Module] Effective player info:`,
+      playerInfo
+    );
 
     if (rulesConfigToUse.game && !moduleSpecificConfig.gameId) {
       gameId = rulesConfigToUse.game;
-      log('info', `[StateManager Module] Game ID from rules: ${gameId}`);
+      logger.info(
+        moduleInfo.name,
+        `[StateManager Module] Game ID from rules: ${gameId}`
+      );
     }
 
-    log(
-      'info',
+    logger.info(
+      moduleInfo.name,
       '[StateManager Module] Initializing StateManagerProxy with derived config...'
     );
     const proxyInitConfig = {
@@ -226,50 +253,51 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
           : {}),
     };
     await stateManagerProxySingleton.initialize(proxyInitConfig);
-    log(
-      'info',
+    logger.info(
+      moduleInfo.name,
       '[StateManager Module] StateManagerProxy.initialize() call completed.'
     );
 
     // The worker will now process the raw rulesConfig and send back the processed static data.
     // The proxy will cache this data upon receiving 'rulesLoadedConfirmation' from the worker.
-    log(
-      'info',
+    logger.info(
+      moduleInfo.name,
       '[StateManager Module] Raw rulesConfig sent to worker via initialize(). Worker will process and return static data.'
     );
 
-    log(
-      'info',
+    logger.info(
+      moduleInfo.name,
       '[StateManager Module] Calling StateManagerProxy.loadRules()...'
     );
-    await stateManagerProxySingleton.loadRules(rulesConfigToUse, playerInfo);
-    log(
-      'info',
+    await stateManagerProxySingleton.loadRules(
+      rulesConfigToUse,
+      playerInfo,
+      sourceNameForTheseRules // Pass the accurately determined source name
+    );
+    logger.info(
+      moduleInfo.name,
       '[StateManager Module] StateManagerProxy.loadRules() call completed.'
     );
 
     if (eventBus) {
       eventBus.publish('stateManager:rawJsonDataLoaded', {
-        source:
-          rulesConfigToUse === jsonData
-            ? 'default_rules.json'
-            : 'moduleSpecificConfig',
+        source: sourceNameForTheseRules, // MODIFIED: Use the same accurately determined source
         rawJsonData: rulesConfigToUse,
         selectedPlayerInfo: playerInfo,
       });
-      log(
-        'info',
+      logger.info(
+        moduleInfo.name,
         '[StateManager Module] Published stateManager:rawJsonDataLoaded.'
       );
     } else {
-      log(
-        'warn',
+      logger.warn(
+        moduleInfo.name,
         '[StateManager Module] EventBus not available for rawJsonDataLoaded event.'
       );
     }
   } catch (error) {
-    log(
-      'error',
+    logger.error(
+      moduleInfo.name,
       `[StateManager Module] CRITICAL ERROR during initial proxy/rule setup: ${error.message}`,
       error
     );
@@ -279,8 +307,8 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
         isCritical: true,
       });
     } else {
-      log(
-        'error',
+      logger.error(
+        moduleInfo.name,
         '[StateManager Module] EventBus not available to publish critical error.'
       );
     }

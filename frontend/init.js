@@ -22,12 +22,26 @@ import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
-  if (typeof window !== 'undefined' && window.logger) {
-    window.logger[level]('init', message, ...data);
-  } else {
-    const consoleMethod =
-      console[level === 'info' ? 'log' : level] || console.log;
-    consoleMethod(`[init] ${message}`, ...data);
+  const prefix = `[Init - ${level.toUpperCase()}]`;
+  switch (level) {
+    case 'error':
+      console.error(prefix, message, ...data);
+      break;
+    case 'warn':
+      console.warn(prefix, message, ...data);
+      break;
+    case 'info':
+      console.info(prefix, message, ...data);
+      break;
+    case 'debug':
+      // For init.js, let's make debug also quite visible if needed, or map to log
+      console.debug(prefix, message, ...data); // Or console.log
+      break;
+    case 'verbose':
+      console.debug(prefix, message, ...data); // Or console.log for verbose as well
+      break;
+    default:
+      console.log(prefix, message, ...data);
   }
 }
 
@@ -316,22 +330,29 @@ async function _postInitializeSingleModule(moduleId) {
   const moduleInstance = importedModules.get(moduleId);
   if (moduleInstance && typeof moduleInstance.postInitialize === 'function') {
     const api = createInitializationApi(moduleId);
+    const moduleSpecificConfig =
+      window.G_combinedModeData.module_configs?.[moduleId] || {};
+
+    // Existing diagnostic log - ensure it captures the state accurately
+    if (moduleId === 'stateManager') {
+      log(
+        'debug',
+        '[Init _postInitializeSingleModule] moduleSpecificConfig FOR stateManager (derived from G_combinedModeData):',
+        JSON.parse(JSON.stringify(moduleSpecificConfig)) // Log a deep copy
+      );
+    }
+
     try {
       logger.info('init', `Post-initializing module: ${moduleId}`);
       // Special handling for stateManager postInitialize to pass mode-specific data
       if (moduleId === 'stateManager') {
-        const resolvedSettings = await settingsManager.getSettings();
-        const smInitialConfig = {
-          rulesConfig: G_combinedModeData.rulesConfig,
-          playerId: G_combinedModeData.userSettings.playerId || '1',
-          settings: resolvedSettings,
-        };
-        logger.debug(
-          'init',
-          'Passing smInitialConfig to stateManager.postInitialize:',
-          smInitialConfig
+        // *** ADD NEW DETAILED LOG BEFORE CALL ***
+        log(
+          'info',
+          '[Init _postInitializeSingleModule] EXACT moduleSpecificConfig BEING PASSED to stateManager.postInitialize:',
+          JSON.parse(JSON.stringify(moduleSpecificConfig)) // Log the exact object being passed
         );
-        await moduleInstance.postInitialize(api, smInitialConfig);
+        await moduleInstance.postInitialize(api, moduleSpecificConfig); // Pass the prepared moduleSpecificConfig
       } else if (moduleInstance.postInitialize) {
         await moduleInstance.postInitialize(api); // Other modules get just the api
       }
@@ -472,7 +493,10 @@ async function loadModesConfiguration() {
       G_modesConfig = {
         default: {
           moduleConfig: { path: './modules.json', enabled: true },
-          rulesConfig: { path: './default_rules.json', enabled: true },
+          rulesConfig: {
+            path: './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json',
+            enabled: true,
+          },
           layoutConfig: { path: './layout_presets.json', enabled: true },
           userSettings: { path: './settings.json', enabled: true },
         },
@@ -488,7 +512,10 @@ async function loadModesConfiguration() {
       // Fallback to a minimal default if fetchJson itself throws for modes.json
       default: {
         moduleConfig: { path: './modules.json', enabled: true },
-        rulesConfig: { path: './default_rules.json', enabled: true },
+        rulesConfig: {
+          path: './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json',
+          enabled: true,
+        },
         layoutConfig: { path: './layout_presets.json', enabled: true },
         userSettings: { path: './settings.json', enabled: true },
       },
@@ -497,13 +524,9 @@ async function loadModesConfiguration() {
 }
 
 async function loadCombinedModeData() {
-  logger.info(
-    'init',
-    `Loading combined data for mode: "${G_currentActiveMode}". Skip localStorage: ${G_skipLocalStorageLoad}`
-  );
-
+  log('info', '[Init] loadCombinedModeData started'); // ADDED FOR TRACING
   let baseCombinedData = {};
-  let dataSources = {}; // Track where each section came from
+  const dataSources = {}; // To track the origin of each config piece
 
   if (!G_skipLocalStorageLoad) {
     try {
@@ -582,12 +605,13 @@ async function loadCombinedModeData() {
             );
             if (fetchedData) {
               baseCombinedData[configKey] = fetchedData;
-              // Record that this data came from a file
+
               dataSources[configKey] = {
                 source: 'file',
                 timestamp: new Date().toISOString(),
                 details: `Loaded from file: ${configEntry.path}`,
               };
+
               logger.info(
                 'init',
                 `Loaded ${configKey} for "${G_currentActiveMode}" from file: ${configEntry.path}.`
@@ -652,6 +676,79 @@ async function loadCombinedModeData() {
       details: 'Using hardcoded default layout configuration',
     };
   }
+
+  // Prepare module_configs within baseCombinedData before it's finalized into G_combinedModeData
+  if (!baseCombinedData.module_configs) {
+    baseCombinedData.module_configs = {};
+  }
+
+  // ADDED LOGGING BEFORE MODIFICATION ATTEMPT
+  log(
+    'info',
+    '[Init] stateManager module_config BEFORE sourceName logic (exists?): ' +
+      (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
+      ', sourceName: ' +
+      (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
+  );
+  log(
+    'info',
+    '[Init] baseCombinedData.dataSources.rulesConfig.source (stale check): ' + // Clarified this log refers to potentially stale data
+      (baseCombinedData.dataSources?.rulesConfig?.source || 'undefined')
+  );
+  log(
+    'info',
+    '[Init] local dataSources.rulesConfig.source (live check): ' + // Log the relevant part of the local dataSources
+      (dataSources.rulesConfig?.source || 'undefined') +
+      ', details: ' +
+      (dataSources.rulesConfig?.details || 'undefined')
+  );
+
+  // Ensure StateManager gets the correct source name if its rulesConfig is being set by the mode
+  // and those rules are the default ones loaded from a file.
+  if (
+    dataSources.rulesConfig && // Check the local 'dataSources' variable, which is up-to-date
+    dataSources.rulesConfig.source === 'file' && // Make sure it was loaded from a file
+    dataSources.rulesConfig.details ===
+      'Loaded from file: ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json' // Check the path from details
+  ) {
+    // This means baseCombinedData.rulesConfig contains the content of ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json
+    if (!baseCombinedData.module_configs.stateManager) {
+      baseCombinedData.module_configs.stateManager = {
+        rulesConfig: baseCombinedData.rulesConfig, // Explicitly pass the top-level rules
+        sourceName:
+          './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json', // Correctly set the sourceName
+      };
+      log(
+        'info',
+        '[Init] Created stateManager module_config with ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content and sourceName because rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
+      );
+    } else if (
+      baseCombinedData.module_configs.stateManager.rulesConfig && // If stateManager already has rules defined in its module_config
+      !baseCombinedData.module_configs.stateManager.sourceName && // And no sourceName is set
+      !baseCombinedData.module_configs.stateManager.id // And no id is set (further indicating it's not from a specific preset for SM)
+    ) {
+      // This implies stateManager is configured to use *these specific rules* (which we know are ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content).
+      // So, its sourceName should be './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json'.
+      baseCombinedData.module_configs.stateManager.sourceName =
+        './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json';
+      log(
+        'info',
+        '[Init] Updated stateManager module_config (which already had rulesConfig content) with sourceName: ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json because the main rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
+      );
+    }
+    // If baseCombinedData.module_configs.stateManager exists but WITHOUT .rulesConfig,
+    // then stateManager/index.js will fetch ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json and assign its source name correctly.
+    // This case is implicitly handled as the condition above won't apply if module_configs.stateManager.rulesConfig is not set.
+  }
+
+  // ADDED LOGGING AFTER MODIFICATION ATTEMPT
+  log(
+    'info',
+    '[Init] stateManager module_config AFTER sourceName logic (exists?): ' +
+      (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
+      ', sourceName: ' +
+      (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
+  );
 
   // Add the dataSources to the combined data
   baseCombinedData.dataSources = dataSources;
@@ -1309,6 +1406,11 @@ async function main() {
     );
   }
 
+  // Make G_combinedModeData globally available for modules that might need it
+  // during their initialization or post-initialization phases, and before app:readyForUiDataLoad.
+  window.G_combinedModeData = G_combinedModeData;
+  logger.debug('init', 'window.G_combinedModeData has been set globally.');
+
   // --- Initialize Modules (Call .initialize() on each) ---
   const enabledModules = modulesData.loadPriority
     ? modulesData.loadPriority.filter(
@@ -1923,10 +2025,14 @@ async function main() {
         const { stateManagerProxySingleton } = await import(
           './modules/stateManager/index.js'
         );
-        await stateManagerProxySingleton.loadRules(eventData.jsonData, {
-          playerId: String(eventData.selectedPlayerId),
-          playerName: playerInfo.playerName,
-        });
+        await stateManagerProxySingleton.loadRules(
+          eventData.jsonData,
+          {
+            playerId: String(eventData.selectedPlayerId),
+            playerName: playerInfo.playerName,
+          },
+          eventData.source || eventData.filename || 'userLoadedFile'
+        ); // Pass source, fallback to filename or generic
         logger.info(
           'init',
           'files:jsonLoaded: stateManagerProxySingleton.loadRules call COMPLETED.'

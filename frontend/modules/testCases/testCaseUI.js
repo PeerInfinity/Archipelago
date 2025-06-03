@@ -604,7 +604,7 @@ export class TestCaseUI {
       dataSourceElement.className = 'data-source-wrong'; // Red
     } else {
       dataSourceElement.textContent =
-        'Active Rules: default_rules.json (or as per current mode)';
+        'Active Rules: ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json (or as per current mode)';
       dataSourceElement.className = 'data-source-wrong'; // Red
     }
   }

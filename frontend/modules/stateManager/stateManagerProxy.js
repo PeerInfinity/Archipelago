@@ -51,6 +51,7 @@ export class StateManagerProxy {
     this.isPotentialStaleSnapshot = false; // <<< ADDED: Staleness flag
     this.debugMode = false; // Initialize debugMode
     this.gameIdFromWorker = null; // ADDED: To store gameId from worker confirmation
+    this.currentRulesSource = null; // ADDED: To store the source name of the current rules
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -288,7 +289,7 @@ export class StateManagerProxy {
           snapshot: this.uiCache, // Provide the latest snapshot
           gameId: this.gameIdFromWorker, // Forward gameId from worker confirmation (using stored one)
           playerId: message.playerId, // Forward playerId
-          source: 'workerConfirmation', // Indicate source
+          source: this.currentRulesSource, // MODIFIED: Use the stored source
         });
 
         // Update static groups cache if provided by worker
@@ -529,44 +530,58 @@ export class StateManagerProxy {
    * Sends the initial rules and player info to the worker.
    * Returns a promise that resolves when the worker confirms loading is complete.
    */
-  async loadRules(rulesData, playerInfo) {
+  async loadRules(rulesData, playerInfo, sourceFileName = 'unknown') {
     if (!this.worker) {
-      const errorMsg =
-        '[StateManagerProxy] Worker not initialized when calling loadRules.';
-      log('error', errorMsg);
-      return Promise.reject(new Error(errorMsg)); // Reject if worker isn't up
+      log(
+        'error',
+        '[StateManagerProxy] Worker not available. Cannot load rules.'
+      );
+      return; // Or throw an error
     }
-    if (
-      !rulesData ||
-      !playerInfo ||
-      typeof playerInfo.playerId === 'undefined'
-    ) {
-      const errorMsg =
-        '[StateManagerProxy] Invalid arguments for loadRules. rulesData and playerInfo (with playerId) are required.';
-      log('error', errorMsg, {
-        rulesDataKeys: Object.keys(rulesData || {}),
-        playerInfo,
-      });
-      return Promise.reject(new Error(errorMsg));
+    if (!rulesData) {
+      log('error', '[StateManagerProxy] No rulesData provided to loadRules.');
+      return; // Or throw
+    }
+    if (!playerInfo || !playerInfo.playerId) {
+      log(
+        'error',
+        '[StateManagerProxy] Invalid playerInfo (missing playerId) for loadRules.'
+      );
+      return; // Or throw
     }
 
+    this.currentRulesSource = sourceFileName; // Store the source name
     log(
       'info',
-      '[StateManagerProxy loadRules] CALLED. Sending command to worker. PlayerInfo:',
-      JSON.parse(JSON.stringify(playerInfo)),
-      'Rules data keys:',
-      Object.keys(rulesData || {})
+      `[StateManagerProxy loadRules] Stored currentRulesSource: ${this.currentRulesSource}`
     );
 
-    this.sendCommandToWorker({
-      command: 'loadRules',
-      payload: { rulesData, playerInfo },
-    });
+    // Ensure the initial load promise is reset if we are loading new rules after the first time.
+    // This allows ensureReady to correctly wait for the new rules to be processed.
+    if (this.staticDataIsSet) {
+      // If static data was already set, this is a reload.
+      log(
+        'info',
+        '[StateManagerProxy loadRules] Rules are being reloaded. Resetting initialLoadPromise.'
+      );
+      this._setupInitialLoadPromise(); // Reset the promise for this new load sequence
+      this.staticDataIsSet = false; // Mark static data as not set until new confirmation
+      this.isReadyPublished = false; // Allow ready event to be published again
+    }
 
-    // No promise directly tied to *this specific* loadRules completion is returned here.
-    // The pattern is: command -> worker processes -> worker confirms -> proxy publishes event.
-    // Tests will `await testController.waitForEvent('stateManager:rulesLoaded')`.
-    return Promise.resolve(); // Return a resolved promise to indicate the command was sent.
+    log('info', '[StateManagerProxy] Sending loadRules command to worker...');
+    // Send the rules data and player info to the worker
+    await this._sendCommand(StateManagerProxy.COMMANDS.LOAD_RULES, {
+      rulesData,
+      playerInfo: {
+        // Ensure playerInfo is structured as expected by the worker
+        playerId: String(playerInfo.playerId), // Ensure playerId is a string
+        playerName:
+          playerInfo.playerName || `Player ${String(playerInfo.playerId)}`,
+      },
+    });
+    log('info', '[StateManagerProxy] loadRules command sent.');
+    // Note: The actual confirmation and caching happen in handleWorkerMessage when 'rulesLoadedConfirmation' is received.
   }
 
   /**
@@ -1436,6 +1451,11 @@ export class StateManagerProxy {
       );
       throw error; // Re-throw to be caught by the caller in TestCaseUI
     }
+  }
+
+  // ADDED: Getter for currentRulesSource
+  getRawJsonDataSource() {
+    return this.currentRulesSource;
   }
 }
 

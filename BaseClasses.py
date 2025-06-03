@@ -1477,6 +1477,15 @@ class Spoiler:
     def _log_sphere_details(self, file_handler, sphere_index: int,
                               current_sphere_locations: Set[Location],
                               current_collection_state: CollectionState) -> None:
+        """Logs details of the current sphere to the provided file handler."""
+        timestamp = datetime.utcnow().isoformat() + "Z"
+        log_entry = {
+            'type': 'state_update',  # ADDED: Event type for frontend processing
+            'sphere_index': sphere_index,
+            'sphere_locations': sorted([loc.name for loc in current_sphere_locations]), # Keep it sorted for consistency
+            'timestamp': timestamp,
+            'player_data': {}
+        }
         if not file_handler:
             # Log to internal logger if file couldn't be opened
             logging.warning("Spoiler log file not open. Cannot log sphere details.")
@@ -1521,7 +1530,7 @@ class Spoiler:
             log_entry = {
                 "sphere_index": sphere_index,
                 "sphere_locations": sphere_location_names,
-                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                "timestamp": timestamp,
                 "player_data": player_specific_data, # Changed from direct inventory/accessibility
             }
             
