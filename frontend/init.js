@@ -330,31 +330,85 @@ async function _postInitializeSingleModule(moduleId) {
   const moduleInstance = importedModules.get(moduleId);
   if (moduleInstance && typeof moduleInstance.postInitialize === 'function') {
     const api = createInitializationApi(moduleId);
-    const moduleSpecificConfig =
+    const genericModuleSpecificConfig =
       window.G_combinedModeData.module_configs?.[moduleId] || {};
+
+    let configForPostInitialize = genericModuleSpecificConfig; // Default for other modules
 
     // Existing diagnostic log - ensure it captures the state accurately
     if (moduleId === 'stateManager') {
       log(
         'debug',
-        '[Init _postInitializeSingleModule] moduleSpecificConfig FOR stateManager (derived from G_combinedModeData):',
-        JSON.parse(JSON.stringify(moduleSpecificConfig)) // Log a deep copy
+        '[Init _postInitializeSingleModule] Original genericModuleSpecificConfig FOR stateManager (from G_combinedModeData.module_configs.stateManager):',
+        JSON.parse(JSON.stringify(genericModuleSpecificConfig)) // Log a deep copy
       );
+
+      // Construct the specific configuration for StateManager
+      const smConfig = {};
+      if (window.G_combinedModeData && window.G_combinedModeData.rulesConfig) {
+        smConfig.rulesConfig = window.G_combinedModeData.rulesConfig;
+        if (
+          window.G_combinedModeData.dataSources &&
+          window.G_combinedModeData.dataSources.rulesConfig &&
+          window.G_combinedModeData.dataSources.rulesConfig.source === 'file' &&
+          typeof window.G_combinedModeData.dataSources.rulesConfig.details ===
+            'string'
+        ) {
+          const pathPrefix = 'Loaded from file: ';
+          if (
+            window.G_combinedModeData.dataSources.rulesConfig.details.startsWith(
+              pathPrefix
+            )
+          ) {
+            smConfig.sourceName =
+              window.G_combinedModeData.dataSources.rulesConfig.details.substring(
+                pathPrefix.length
+              );
+          } else {
+            log(
+              'warn',
+              '[Init _postInitializeSingleModule] Could not derive sourceName for StateManager from dataSources.rulesConfig.details:',
+              window.G_combinedModeData.dataSources.rulesConfig.details
+            );
+          }
+        } else {
+          log(
+            'warn',
+            '[Init _postInitializeSingleModule] dataSources.rulesConfig not found or not in expected format for StateManager sourceName.'
+          );
+        }
+      } else {
+        log(
+          'warn',
+          '[Init _postInitializeSingleModule] window.G_combinedModeData.rulesConfig not found for StateManager.'
+        );
+      }
+
+      // If smConfig was populated with rulesConfig, use it.
+      // This prioritizes the globally loaded rulesConfig over any potentially empty module_configs.stateManager.
+      if (smConfig.rulesConfig) {
+        configForPostInitialize = smConfig;
+      } else {
+        log(
+          'warn',
+          '[Init _postInitializeSingleModule] StateManager will receive potentially empty config as rulesConfig was not found in G_combinedModeData.'
+        );
+      }
     }
 
     try {
       logger.info('init', `Post-initializing module: ${moduleId}`);
       // Special handling for stateManager postInitialize to pass mode-specific data
       if (moduleId === 'stateManager') {
-        // *** ADD NEW DETAILED LOG BEFORE CALL ***
         log(
           'info',
-          '[Init _postInitializeSingleModule] EXACT moduleSpecificConfig BEING PASSED to stateManager.postInitialize:',
-          JSON.parse(JSON.stringify(moduleSpecificConfig)) // Log the exact object being passed
+          '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
+          JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
         );
-        await moduleInstance.postInitialize(api, moduleSpecificConfig); // Pass the prepared moduleSpecificConfig
+        // Pass the prepared configForPostInitialize
+        await moduleInstance.postInitialize(api, configForPostInitialize);
       } else if (moduleInstance.postInitialize) {
-        await moduleInstance.postInitialize(api); // Other modules get just the api
+        await moduleInstance.postInitialize(api, configForPostInitialize); // Pass configForPostInitialize to other modules too
       }
     } catch (error) {
       logger.error(

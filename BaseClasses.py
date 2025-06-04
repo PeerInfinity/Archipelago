@@ -1478,7 +1478,7 @@ class Spoiler:
                               current_sphere_locations: Set[Location],
                               current_collection_state: CollectionState) -> None:
         """Logs details of the current sphere to the provided file handler."""
-        timestamp = datetime.utcnow().isoformat() + "Z"
+        timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat() + "Z"
         log_entry = {
             'type': 'state_update',  # ADDED: Event type for frontend processing
             'sphere_index': sphere_index,
@@ -1528,6 +1528,7 @@ class Spoiler:
             sphere_location_names = sorted([loc.name for loc in current_sphere_locations])
 
             log_entry = {
+                "type": "state_update", # Ensure this is included
                 "sphere_index": sphere_index,
                 "sphere_locations": sphere_location_names,
                 "timestamp": timestamp,
@@ -1604,25 +1605,27 @@ class Spoiler:
         spoiler_log_file_handler = None
         log_file_path = "" # Initialize to prevent NameError in finally if open fails
         try:
-            output_dir_base = getattr(multiworld, 'output_path', 'output') # AP main output path
-            game_specific_dir = multiworld.game[1] if 1 in multiworld.game else "unknown_game"
-            
-            # Construct a path similar to test logs: output_dir_base / game_name / seed_name_spheres_log.jsonl
-            # However, spoiler files are usually in output_dir_base directly.
-            # Let's try putting it in the same main output directory as the text spoiler.
-            
-            final_output_dir = output_dir_base
-            if not os.path.exists(final_output_dir):
-                os.makedirs(final_output_dir, exist_ok=True)
+            # Use temp_dir from multiworld if available for spheres_log.jsonl, otherwise fallback to output_path
+            log_output_directory = getattr(self.multiworld, 'temp_dir_for_spheres_log', None)
 
-            log_filename = f"{multiworld.seed_name}_spheres_log.jsonl"
-            log_file_path = os.path.join(final_output_dir, log_filename)
+            if log_output_directory is None:
+                # Fallback to current behavior: use multiworld.output_path or 'output'
+                log_output_directory = getattr(self.multiworld, 'output_path', 'output')
+                # Ensure the fallback directory exists
+                if not os.path.exists(log_output_directory):
+                    os.makedirs(log_output_directory, exist_ok=True)
+            # If log_output_directory was set from 'temp_dir_for_spheres_log', we assume it exists (created by TemporaryDirectory).
+            
+            log_filename = f"AP_{self.multiworld.seed_name}_spheres_log.jsonl"
+            log_file_path = os.path.join(log_output_directory, log_filename)
             
             logging.info(f"Attempting to open spoiler log file for sphere data at: {log_file_path}")
-            spoiler_log_file_handler = open(log_file_path, "w") # Use "w" to overwrite if exists for a new seed
+            spoiler_log_file_handler = open(log_file_path, "w") 
             logging.info(f"Spoiler sphere log will be written to: {log_file_path}")
         except Exception as e:
+            # Log the error and ensure spoiler_log_file_handler is None if open fails
             logging.error(f"Failed to open spoiler log file {log_file_path}: {e}")
+            spoiler_log_file_handler = None 
         # --- END SPOILER LOGGING SETUP ---
 
         try:
@@ -1634,21 +1637,21 @@ class Spoiler:
             # Log initial state (sphere 0: precollected items that remained after pruning)
             # The state for this log should reflect only the *final* set of precollected items.
             if spoiler_log_file_handler:
-                # To accurately get the state of *only* final precollected items:
-                precollected_only_state = CollectionState(multiworld)
-                for p_id in multiworld.player_ids:
-                    for item in multiworld.precollected_items.get(p_id, []):
-                        if item.advancement: # Log only advancement precollected items as per playthrough[0]
-                             precollected_only_state.collect(item, True)
-                precollected_only_state.sweep_for_advancements() # Ensure reachability is based on these items
+                # precollected_only_state is based on the final state of multiworld.precollected_items.
+                # The CollectionState constructor already collects all items from multiworld.precollected_items.
+                precollected_only_state = CollectionState(multiworld) 
+                # The loop from line 1673 to 1675 that iterated over multiworld.precollected_items
+                # and called precollected_only_state.collect(item, True) has been removed as it was redundant.
+                
+                precollected_only_state.sweep_for_advancements() # RE-ADDED: Ensure reachability is based on these items
 
                 # The "sphere_locations" for sphere 0 are the precollected items themselves.
                 # We need their names, not Location objects.
                 precollected_item_names_for_log = set()
                 for p_id in multiworld.player_ids:
                     for item in multiworld.precollected_items.get(p_id, []):
-                         if item.advancement:
-                            precollected_item_names_for_log.add(self.multiworld.get_name_string_for_object(item))
+                        # item.advancement filter also removed here for consistency if this set is used
+                        precollected_item_names_for_log.add(self.multiworld.get_name_string_for_object(item))
                 
                 # Create pseudo-Location objects for precollected items if needed by _log_sphere_details
                 # For now, passing empty set for locations, actual items are in inventory.

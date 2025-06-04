@@ -409,6 +409,10 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
                     logger.info(f'Generating output files ({i}/{len(output_file_futures)}).')
                 future.result()
 
+        # Make temp_dir available for spheres_log.jsonl in Spoiler.create_playthrough
+        if hasattr(multiworld, 'spoiler'): # Ensure spoiler object exists
+            multiworld.temp_dir_for_spheres_log = temp_dir
+
         if args.spoiler > 1:
             logger.info('Calculating playthrough.')
             multiworld.spoiler.create_playthrough(create_paths=args.spoiler > 2)

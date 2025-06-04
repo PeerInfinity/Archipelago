@@ -71,6 +71,7 @@ export class TestSpoilerUI {
           );
           if (eventData && eventData.source) {
             const newRulesetName = eventData.source;
+            this.playerId = eventData.playerId; // Set the player ID here
 
             // If an auto-load was already tried for this exact ruleset via the cached check,
             // and this event is for the same ruleset, skip to avoid double processing.
@@ -190,6 +191,7 @@ export class TestSpoilerUI {
           display: flex;
           flex-direction: column;
           padding: 10px;
+          overflow: hidden; /* ADDED: To contain children and enable child scrolling */
         }
         #spoiler-controls-container {
             margin-bottom: 10px;
@@ -197,11 +199,12 @@ export class TestSpoilerUI {
         #spoiler-log-output {
           border: 1px solid #555; /* Darker border */
           padding: 8px;
-          min-height: 150px; 
+          min-height: 0; /* Helps flexbox correctly calculate overflow */
           overflow-y: auto;
           background-color: #333; /* Dark background for log */
           color: #ccc; /* Lighter text for log */
           flex-grow: 1; 
+          flex-basis: 0; /* ADDED: Works with flex-grow for better scrollable area sizing */
           margin-top: 10px;
           font-family: monospace;
         }
@@ -336,17 +339,62 @@ export class TestSpoilerUI {
     this.log('info', 'Test Spoiler UI Initialization complete.');
   }
 
-  async attemptAutoLoadSpoilerLog(rulesetName) {
+  async attemptAutoLoadSpoilerLog(rulesetPath) {
     if (!this.testSpoilersContainer) return;
 
     let logPath;
-    if (rulesetName) {
-      const baseName = this.extractFilenameBase(rulesetName);
-      logPath = `./${baseName}_spheres_log.jsonl`;
+    if (rulesetPath) {
+      // Example rulesetPath: "presets/alttp/MySeed123/MySeed123_rules.json"
+      // or from a direct file load: "MySeed123_rules.json" (less likely for auto-load)
+
+      const lastSlashIndex = rulesetPath.lastIndexOf('/');
+      const directoryPath =
+        lastSlashIndex === -1 ? '' : rulesetPath.substring(0, lastSlashIndex);
+      const rulesFilename =
+        lastSlashIndex === -1
+          ? rulesetPath
+          : rulesetPath.substring(lastSlashIndex + 1);
+
+      let baseNameForLog;
+      if (rulesFilename.endsWith('_rules.json')) {
+        baseNameForLog = rulesFilename.substring(
+          0,
+          rulesFilename.length - '_rules.json'.length
+        );
+      } else if (rulesFilename.endsWith('.json')) {
+        baseNameForLog = rulesFilename.substring(
+          0,
+          rulesFilename.length - '.json'.length
+        );
+        this.log(
+          'warn',
+          `Ruleset filename "${rulesFilename}" from path "${rulesetPath}" did not end with "_rules.json". Using "${baseNameForLog}" as base for log file (by removing .json).`
+        );
+      } else {
+        // If no .json extension, this is unexpected for a rules file path.
+        baseNameForLog = rulesFilename;
+        this.log(
+          'error',
+          `Ruleset filename "${rulesFilename}" from path "${rulesetPath}" did not have a .json extension. This might lead to an incorrect log path. Using "${baseNameForLog}" as base.`
+        );
+      }
+
+      if (directoryPath) {
+        // If rulesetPath was "presets/foo/bar_rules.json", logPath becomes "presets/foo/bar_spheres_log.jsonl"
+        logPath = `${directoryPath}/${baseNameForLog}_spheres_log.jsonl`;
+      } else {
+        // If rulesetPath was "bar_rules.json", logPath becomes "./bar_spheres_log.jsonl"
+        // The `./` ensures it's treated as a relative path for fetch, same as before for filename-only cases.
+        logPath = `./${baseNameForLog}_spheres_log.jsonl`;
+      }
+      this.log(
+        'info',
+        `Derived logPath: "${logPath}" from rulesetPath: "${rulesetPath}"`
+      );
     } else {
       this.log(
         'warn',
-        'Cannot attempt auto-load: rulesetName is undefined or invalid for logPath generation.'
+        'Cannot attempt auto-load: rulesetPath is undefined or invalid for logPath generation.'
       );
       this.testSpoilersContainer.innerHTML = '';
       this.ensureLogContainerReady();
@@ -847,30 +895,33 @@ export class TestSpoilerUI {
 
     switch (eventType) {
       case 'state_update': {
-        // ADDED: Case for TestDataLogger output
-        if (String(event.player_id) !== String(this.playerId)) {
+        // Check if player_data for the current player is available
+        if (!event.player_data || !event.player_data[this.playerId]) {
           this.log(
             'warn',
-            `State update event for player ${event.player_id} does not match current player ${this.playerId}. Skipping comparison.`
+            `State update event missing player_data for current player ${this.playerId}. Skipping comparison.`
           );
-          // Even if skipped for player mismatch, we consider the event processed for stepping purposes.
-          // However, for overall test success, this might be an issue if we expect data for this.playerId.
-          // For now, let's treat it as a soft skip.
-          allChecksPassed = true; // Or false, depending on strictness. Let's be lenient for now.
+          allChecksPassed = false; // Or true, depending on desired strictness. Let's be strict.
           break;
         }
 
-        const inventory_from_log = event.inventory || {};
-        const accessible_from_log = event.accessible_locations || [];
+        const playerDataForCurrentTest = event.player_data[this.playerId];
+
+        // Extract inventory and accessible locations from the player-specific data
+        const inventory_from_log =
+          playerDataForCurrentTest.inventory_details?.prog_items || {}; // Use prog_items
+        const accessible_from_log =
+          playerDataForCurrentTest.accessible_locations || [];
+
         const context = {
           type: 'state_update',
-          sphere_number: event.sphere_number || this.currentLogIndex + 1, // Fallback sphere number
-          player_id: event.player_id,
+          sphere_number: event.sphere_index || this.currentLogIndex + 1, // Use sphere_index from log
+          player_id: this.playerId, // Use the component's current player ID
         };
 
         this.log(
           'info',
-          `Comparing State Update for player ${event.player_id} (Sphere/Step ${context.sphere_number})`
+          `Comparing State Update for player ${context.player_id} (Sphere ${context.sphere_number})`
         );
         this.log('debug', 'Log Inventory:', inventory_from_log);
         this.log('debug', 'Log Accessible Locations:', accessible_from_log);
@@ -1132,7 +1183,10 @@ export class TestSpoilerUI {
     }
 
     const stateAccessibleSet = new Set(stateAccessibleUnchecked);
-    const logAccessibleSet = new Set(logAccessible.map((loc) => loc.name));
+    // Ensure logAccessible is an array. If not, default to an empty array.
+    const safeLogAccessible = Array.isArray(logAccessible) ? logAccessible : [];
+    // logAccessible should be an array of strings (location names)
+    const logAccessibleSet = new Set(safeLogAccessible);
 
     const missingFromState = [...logAccessibleSet].filter(
       (name) => !stateAccessibleSet.has(name)
