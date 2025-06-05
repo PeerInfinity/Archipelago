@@ -62,114 +62,26 @@ export class TestSpoilerUI {
         'info',
         '[TestSpoilerUI] Received app:readyForUiDataLoad. Initializing spoilers.'
       );
-      this.initialize();
+      this.initialize(); // This will call the modified initialize method
 
+      // REMOVE/COMMENT OUT: stateManager:rulesLoaded subscription that triggers auto-load
+      /*
       this.eventBus.subscribe('stateManager:rulesLoaded', async (eventData) => {
-        try {
-          log(
-            'info',
-            '[TestSpoilerUI] Received stateManager:rulesLoaded (Subscriber)',
-            eventData
-          );
-          if (eventData && eventData.source) {
-            const newRulesetName = eventData.source;
-            this.playerId = eventData.playerId; // Set the player ID here
-            this.log(
-              'info',
-              `[stateManager:rulesLoaded event] playerId set to: ${this.playerId}`
-            ); // Log playerId change
-
-            // If an auto-load was already tried for this exact ruleset via the cached check,
-            // and this event is for the same ruleset, skip to avoid double processing.
-            if (
-              this.initialAutoLoadAttempted &&
-              this.activeRulesetName === newRulesetName
-            ) {
-              log(
-                'info',
-                `[TestSpoilerUI] stateManager:rulesLoaded for ${newRulesetName}, but initial auto-load already attempted/completed. Skipping duplicate attempt from event.`
-              );
-              // Ensure UI is correct if the initial attempt finished and loaded data
-              if (this.spoilerLogData && this.testStateInitialized) {
-                this.renderResultsControls();
-              }
-              return;
-            }
-
-            this.activeRulesetName = newRulesetName;
-            log(
-              'info',
-              `[TestSpoilerUI] Valid source from rulesLoaded event: ${this.activeRulesetName}. Attempting auto-load.`
-            );
-            this.initialAutoLoadAttempted = true; // Mark that an attempt is being made based on this event
-            await this.attemptAutoLoadSpoilerLog(this.activeRulesetName);
-          } else {
-            log(
-              'warn',
-              '[TestSpoilerUI] stateManager:rulesLoaded event (Subscriber) did not contain a valid source or playerId.',
-              eventData
-            );
-            this.renderManualFileSelectionView(
-              'StateManager reported rules loaded, but source name or playerId is missing.'
-            );
-          }
-        } catch (e) {
-          log(
-            'error',
-            '[TestSpoilerUI] Error in stateManager:rulesLoaded subscriber:',
-            e
-          );
-          this.renderManualFileSelectionView(
-            'Error processing ruleset loaded event. Cannot auto-load log.'
-          );
-        }
+        // ... existing auto-load logic based on rulesLoaded ...
       });
+      */
 
-      // After subscribing, check if StateManager already has a rules source (e.g. default rules loaded before UI ready)
+      // REMOVE/COMMENT OUT: Logic that checks initialRulesSource and calls attemptAutoLoadSpoilerLog
+      /*
       const initialRulesSource = stateManager.getRawJsonDataSource();
-      const initialPlayerId = stateManager.currentPlayerId; // Directly get from proxy state
+      const initialPlayerId = stateManager.currentPlayerId; 
 
       if (initialRulesSource && initialPlayerId) {
-        log(
-          'info',
-          `[TestSpoilerUI] StateManager already has rules source and playerId (Cached Check on init): Source: ${initialRulesSource}, PlayerID: ${initialPlayerId}`
-        );
-        this.activeRulesetName = initialRulesSource;
-        this.playerId = initialPlayerId; // Set playerId from the proxy's current state
-        this.log(
-          'info',
-          `[TestSpoilerUI - Cached Check] playerId set to: ${this.playerId}`
-        );
-
-        this.initialAutoLoadAttempted = true; // Mark that this path was taken
-        // Use a microtask to ensure this runs after the current event loop tick, allowing UI to settle if needed.
-        Promise.resolve().then(async () => {
-          try {
-            log(
-              'info',
-              '[TestSpoilerUI] Attempting auto-load from cached source and playerId on init:',
-              this.activeRulesetName
-            );
-            await this.attemptAutoLoadSpoilerLog(this.activeRulesetName);
-          } catch (e) {
-            log(
-              'error',
-              '[TestSpoilerUI] Error in attemptAutoLoadSpoilerLog from cached source on init:',
-              e
-            );
-            this.renderManualFileSelectionView(
-              'Error attempting to auto-load from cached ruleset (init).'
-            );
-          }
-        });
+        // ... existing auto-load logic based on cached source ...
       } else {
-        log(
-          'info',
-          `[TestSpoilerUI] StateManager does not have rules source or playerId yet (Cached Check on init: Source: ${initialRulesSource}, PlayerID: ${initialPlayerId}). Waiting for event.`
-        );
-        // The message "Test Spoilers panel ready. Checking for active ruleset..." is set in initialize()
-        // and is appropriate if we need to wait for the event.
+        // ...
       }
+      */
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
@@ -272,28 +184,28 @@ export class TestSpoilerUI {
     this.testSpoilersContainer.innerHTML = '';
     this.ensureLogContainerReady(); // Create #spoiler-log-output and #spoiler-controls-container
 
+    // MODIFIED: Always render manual file selection view on initialization
+    this.renderManualFileSelectionView(
+      'Select a spoiler log file or load the suggested one if available.'
+    );
     this.log(
       'info',
-      'Test Spoilers panel ready. Checking for active ruleset to auto-load log...'
+      'Test Spoilers panel ready. Waiting for user to load a spoiler log.'
     );
 
-    // Check if ruleset info is already available (e.g., from constructor's readyHandler)
+    // REMOVE/COMMENT OUT: Direct call to attemptAutoLoadSpoilerLog
+    /*
     if (this.activeRulesetName) {
-      this.log(
-        'info',
-        `StateManager already has rules source (Cached Check on init): ${this.activeRulesetName}`
-      );
+      // ...
       await this.attemptAutoLoadSpoilerLog(this.activeRulesetName);
     } else {
-      this.renderManualFileSelectionView(); // Render file selection as fallback
-      this.log(
-        'info',
-        'Waiting for active ruleset information to attempt automatic spoiler log loading.'
-      );
+      this.renderManualFileSelectionView(); 
+      // ...
     }
+    */
 
-    // Subscribe to stateManager:rulesLoaded to get updates on the active ruleset
-    // This handles cases where rules are loaded *after* this panel initializes
+    // MODIFIED: The stateManager:rulesLoaded listener will now ONLY update the suggested file, not auto-load.
+    if (this.rulesLoadedUnsub) this.rulesLoadedUnsub(); // Unsubscribe if already subscribed
     this.rulesLoadedUnsub = this.eventBus.subscribe(
       'stateManager:rulesLoaded',
       async (eventData) => {
@@ -305,51 +217,70 @@ export class TestSpoilerUI {
         if (eventData && eventData.source) {
           const newRulesetName = eventData.source;
           this.activeRulesetName = newRulesetName; // Update active ruleset name
-          log('info', `Active ruleset updated to: ${newRulesetName}`);
+          this.playerId = eventData.playerId;
+          log(
+            'info',
+            `Active ruleset updated to: ${newRulesetName}, Player ID: ${this.playerId}`
+          );
 
-          // If initial auto-load (from cached source) was already done and matches this new source, skip.
-          if (
-            this.initialAutoLoadAttempted &&
-            newRulesetName === this.activeRulesetName &&
-            this.spoilerLogData
-          ) {
+          // Refresh the view to show the new suggested log, but DO NOT auto-load.
+          // Only refresh if no log is currently loaded, or perhaps always to update suggestion.
+          if (!this.spoilerLogData) {
+            // Only refresh if no log is active
+            this.renderManualFileSelectionView(
+              `Ruleset changed to ${newRulesetName}. Suggested log updated.`
+            );
+          } else {
+            // If a log is already loaded, just update the suggestion text in the existing view if possible,
+            // or inform the user that the ruleset changed but their current log is still active.
+            // For simplicity now, we'll just log. A more advanced UI could update a "suggested file" field.
             this.log(
               'info',
-              `stateManager:rulesLoaded for ${newRulesetName}, but initial auto-load already completed for this source and log is loaded. Skipping duplicate attempt from event.`
+              `Ruleset changed to ${newRulesetName}, but a log is already loaded. Suggested log path may have updated.`
             );
-            return;
+            // We can call renderManualFileSelectionView again to update the suggested file text.
+            // This will replace the controls and log output, which might be disruptive if a test is running.
+            // Let's only re-render if no test is active.
+            if (
+              this.controlsContainer &&
+              !this.controlsContainer.querySelector('#run-full-spoiler-test')
+            ) {
+              this.renderManualFileSelectionView(
+                `Ruleset changed to ${newRulesetName}. Suggested log updated.`
+              );
+            }
           }
-          // If an auto-load was tried for a *different* source, or if this is the first time we get a source.
-          this.currentSpoilerLogPath = null; // Reset before attempting auto-load
-          await this.attemptAutoLoadSpoilerLog(newRulesetName);
         }
       }
     );
 
-    // Subscribe to rawJsonDataLoaded to catch early ruleset name if available
-    // This is mostly for the initial load sequence.
+    // MODIFIED: The stateManager:rawJsonDataLoaded listener will also ONLY update suggested file.
+    if (this.rawJsonDataUnsub) this.rawJsonDataUnsub(); // Unsubscribe
     this.rawJsonDataUnsub = this.eventBus.subscribe(
       'stateManager:rawJsonDataLoaded',
       (data) => {
         if (data && data.source && !this.activeRulesetName) {
-          // Only set if not already set by rulesLoaded, to prefer the more definitive event.
           this.activeRulesetName = data.source;
           log(
             'info',
             `[TestSpoilerUI] Active ruleset name set from rawJsonDataLoaded: ${this.activeRulesetName}`
           );
-          // Potentially trigger auto-load here IF it hasn't happened yet
-          if (!this.initialAutoLoadAttempted) {
-            this.initialAutoLoadAttempted = true;
-            this.currentSpoilerLogPath = null; // Reset before attempting auto-load
-            this.attemptAutoLoadSpoilerLog(this.activeRulesetName);
+          // Refresh the view to show the new suggested log, but DO NOT auto-load.
+          if (!this.spoilerLogData) {
+            // Only refresh if no log is active
+            this.renderManualFileSelectionView(
+              `Initial ruleset ${this.activeRulesetName} detected. Suggested log updated.`
+            );
           }
         }
       }
     );
 
     this.initialized = true;
-    this.log('info', 'Test Spoiler UI Initialization complete.');
+    this.log(
+      'info',
+      'Test Spoiler UI Initialization complete. Manual load required.'
+    );
   }
 
   async attemptAutoLoadSpoilerLog(rulesetPath) {
@@ -575,11 +506,57 @@ export class TestSpoilerUI {
     const fileSelectionContainer = document.createElement('div');
     fileSelectionContainer.className = 'spoiler-file-select-controls';
 
-    const messageElement = document.createElement('p');
-    // messageElement.textContent = message; // Message is now logged above
-    // Keep a placeholder or instruction if needed directly in this view
-    messageElement.textContent =
-      'Use the controls below to load a local spoiler log file (.jsonl).';
+    // Display suggested filename and add a button to load it
+    const suggestedLogInfoContainer = document.createElement('div');
+    suggestedLogInfoContainer.className = 'suggested-log-info';
+    let suggestedLogName = 'No active ruleset detected for suggestion.';
+    let canLoadSuggested = false;
+
+    if (this.activeRulesetName) {
+      const baseName = this.extractFilenameBase(this.activeRulesetName);
+      suggestedLogName = `${baseName}_spheres_log.jsonl`;
+      canLoadSuggested = true;
+      suggestedLogInfoContainer.innerHTML = `
+        <p>Current ruleset: <strong>${this.escapeHtml(
+          this.activeRulesetName
+        )}</strong></p>
+        <p>Suggested log file: <strong>${this.escapeHtml(
+          suggestedLogName
+        )}</strong></p>
+      `;
+      const loadSuggestedButton = document.createElement('button');
+      loadSuggestedButton.textContent = 'Load Suggested Log';
+      loadSuggestedButton.id = 'load-suggested-spoiler-log';
+      loadSuggestedButton.onclick = async () => {
+        if (this.activeRulesetName) {
+          this.log(
+            'info',
+            `User initiated load for suggested log derived from: ${this.activeRulesetName}`
+          );
+          // attemptAutoLoadSpoilerLog derives the path from activeRulesetName
+          await this.attemptAutoLoadSpoilerLog(this.activeRulesetName);
+        } else {
+          this.log(
+            'warn',
+            'Cannot load suggested log: No active ruleset name available.'
+          );
+        }
+      };
+      suggestedLogInfoContainer.appendChild(loadSuggestedButton);
+    } else {
+      suggestedLogInfoContainer.innerHTML = `<p>${this.escapeHtml(
+        suggestedLogName
+      )}</p>`;
+    }
+    fileSelectionContainer.appendChild(suggestedLogInfoContainer);
+
+    const separator = document.createElement('hr');
+    fileSelectionContainer.appendChild(separator);
+
+    const manualLoadMessageElement = document.createElement('p');
+    manualLoadMessageElement.textContent =
+      'Or, select a local spoiler log file (.jsonl):';
+    fileSelectionContainer.appendChild(manualLoadMessageElement);
 
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -611,19 +588,6 @@ export class TestSpoilerUI {
       }
     };
 
-    // Display suggested filename
-    const suggestedFilenameElement = document.createElement('p');
-    let suggestedLogName = 'No active ruleset detected.';
-    if (this.activeRulesetName) {
-      const baseName = this.extractFilenameBase(this.activeRulesetName);
-      suggestedLogName = `${baseName}_spheres_log.jsonl`;
-      suggestedFilenameElement.innerHTML = `Current ruleset: <strong>${this.activeRulesetName}</strong><br>Attempted/Suggested log file: <strong>${suggestedLogName}</strong>`;
-    } else {
-      suggestedFilenameElement.innerHTML = `Attempted/Suggested log file: <strong>${suggestedLogName}</strong>`;
-    }
-
-    fileSelectionContainer.appendChild(suggestedFilenameElement);
-    fileSelectionContainer.appendChild(messageElement);
     fileSelectionContainer.appendChild(fileInput);
     fileSelectionContainer.appendChild(loadButton);
 

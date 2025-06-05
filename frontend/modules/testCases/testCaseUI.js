@@ -26,6 +26,7 @@ export class TestCaseUI {
     this.currentFolder = null; // Name of the folder for the current test set (e.g., "vanilla")
     this.testCases = null; // Loaded from _tests.json for the currentTestSet
     this.currentTestRules = null; // Loaded from _rules.json for the currentFolder
+    this.currentTestCaseLogData = null; // ADDED: To store parsed log data
 
     this.initialized = false;
     this.testCasesListContainer = null; // Will hold the list of test cases
@@ -210,6 +211,7 @@ export class TestCaseUI {
     this.currentFolder = folderName;
     this.currentTestSet = testSetName;
     this.rulesLoadedForSet = false; // Mark as not loaded until confirmed by worker
+    this.currentTestCaseLogData = null; // Reset log data for the new set
     this.logToPanel(
       `[${logId}] Selecting test set: "${testSetName}" from folder "${folderName}". Loading associated rules...`
     );
@@ -219,19 +221,57 @@ export class TestCaseUI {
 
     try {
       const folderPath = this.currentFolder ? `${this.currentFolder}/` : '';
+      const rulesFileBasename = this.currentFolder; // As per exporter.py logic for rules file
+      const testFileBasename = testSetName; // As per exporter.py logic for tests file
+
+      // Fetch Rules
       const rulesResponse = await fetch(
-        `./tests/${folderPath}${this.currentFolder}_rules.json`
+        `./tests/${folderPath}${rulesFileBasename}_rules.json`
       );
       if (!rulesResponse.ok)
-        throw new Error(`Failed to load rules for ${this.currentFolder}`);
+        throw new Error(`Failed to load rules for ${rulesFileBasename}`);
       this.currentTestRules = await rulesResponse.json(); // Store raw rules for modal display
 
+      // Fetch Test Cases
       const testsResponse = await fetch(
-        `./tests/${folderPath}${testSetName}_tests.json`
+        `./tests/${folderPath}${testFileBasename}_tests.json`
       );
       if (!testsResponse.ok)
-        throw new Error(`Failed to load tests for ${testSetName}`);
+        throw new Error(`Failed to load tests for ${testFileBasename}`);
       this.testCases = await testsResponse.json();
+
+      // Fetch Test Case Log Data
+      const logFilePath = `./tests/${folderPath}${testFileBasename}_tests_log.jsonl`;
+      try {
+        const logDataResponse = await fetch(logFilePath);
+        if (logDataResponse.ok) {
+          const logText = await logDataResponse.text();
+          this.currentTestCaseLogData = logText
+            .split('\n')
+            .filter((line) => line.trim() !== '')
+            .map((line) => JSON.parse(line));
+          this.logToPanel(
+            `[${logId}] Successfully loaded and parsed ${this.currentTestCaseLogData.length} entries from ${logFilePath}.`
+          );
+        } else {
+          this.logToPanel(
+            `[${logId}] Warning: Failed to load test log file ${logFilePath} (Status: ${logDataResponse.status}). Comparisons will be skipped.`,
+            'warn'
+          );
+          this.currentTestCaseLogData = null;
+        }
+      } catch (logError) {
+        this.logToPanel(
+          `[${logId}] Error loading or parsing test log file ${logFilePath}: ${logError.message}. Comparisons will be skipped.`,
+          'error'
+        );
+        this.currentTestCaseLogData = null;
+        log(
+          'error',
+          `Failed to load or parse log file ${logFilePath}:`,
+          logError
+        );
+      }
 
       this.logToPanel(
         `[${logId}] Rules and test cases for "${testSetName}" fetched. Applying rules to StateManager worker...`
@@ -447,7 +487,7 @@ export class TestCaseUI {
       runButton.title = `Run test for ${locationName}`;
       runButton.addEventListener('click', async () => {
         // const statusDiv = row.querySelector(`#test-status-${index}`); // Already have statusDiv
-        if (statusDiv) await this.loadTestCase(testCaseData, statusDiv);
+        if (statusDiv) await this.loadTestCase(testCaseData, statusDiv, index);
       });
       actionCell.appendChild(runButton);
 
@@ -472,7 +512,7 @@ export class TestCaseUI {
     this.updateDataSourceIndicator(); // Update based on currently loaded rules
   }
 
-  async loadTestCase(testData, statusElement) {
+  async loadTestCase(testCaseData, statusElement, testCaseIndex) {
     if (!this.rulesLoadedForSet) {
       // Check the flag
       statusElement.innerHTML = `<div class="test-error">Error: Rules for the current test set ("${this.currentTestSet}") are not yet active in the worker. Please re-select the test set or wait.</div>`;
@@ -484,16 +524,21 @@ export class TestCaseUI {
     }
 
     statusElement.textContent = 'Sending test to worker...';
-    this.logToPanel(`Starting test: ${JSON.stringify(testData)}`);
+    this.logToPanel(`Starting test: ${JSON.stringify(testCaseData)}`);
     const [
       locationName,
       expectedResult,
       requiredItems = [],
       excludedItems = [],
-    ] = testData;
+    ] = testCaseData;
 
     let passed = false;
     let actualResultFromWorker;
+    let logComparisonPassed = true; // ADDED: Track log comparison results
+    const relevantLogEntries =
+      this.currentTestCaseLogData?.filter(
+        (entry) => entry.test_case_index === testCaseIndex
+      ) || [];
 
     try {
       // COMMAND 2: Ask the worker to evaluate accessibility with the test-specific inventory
@@ -509,9 +554,6 @@ export class TestCaseUI {
         );
       }
 
-      this.logToPanel(
-        `Worker evaluation for "${locationName}": ${actualResultFromWorker}. Expected: ${expectedResult}`
-      );
       passed = actualResultFromWorker === expectedResult;
 
       let finalMessage = `${
@@ -521,6 +563,44 @@ export class TestCaseUI {
         passed ? 'test-success' : 'test-failure'
       }">${finalMessage}</div>`;
       this.logToPanel(`Test for ${locationName}: ${finalMessage}`);
+
+      // --- ADDED: Log Comparison for Main Test ---
+      if (this.currentTestCaseLogData && relevantLogEntries.length > 0) {
+        const mainTestLogEntry = relevantLogEntries.find(
+          (entry) =>
+            entry.phase_description ===
+            'After test items collected (before sweep)'
+        );
+        if (mainTestLogEntry) {
+          await stateManager.pingWorker(`testCaseUI_main_${testCaseIndex}`);
+          const currentJsSnapshot = await stateManager.getLatestStateSnapshot();
+          const mainComparisonResult = await this.compareStateWithLogEntry(
+            currentJsSnapshot,
+            mainTestLogEntry,
+            statusElement,
+            'Main Test State'
+          );
+          if (!mainComparisonResult) logComparisonPassed = false;
+        } else {
+          this.logToPanel(
+            `Warning: Log entry for "After test items collected (before sweep)" not found for test case index ${testCaseIndex}.`,
+            'warn'
+          );
+          const skippedDiv = document.createElement('div');
+          skippedDiv.className = 'log-comparison-skipped';
+          skippedDiv.textContent =
+            'Log Comparison (Main Test State): SKIPPED (Log entry not found)';
+          statusElement.appendChild(skippedDiv);
+        }
+      } else if (this.currentTestCaseLogData === null) {
+        // Log data wasn't loaded, already warned in selectTestSet
+      } else {
+        this.logToPanel(
+          `Warning: No log entries found for test case index ${testCaseIndex}.`,
+          'warn'
+        );
+      }
+      // --- END ADDED ---
 
       // Optional: Validation loop (can also use worker evaluation)
       let validationPassed = true;
@@ -533,45 +613,118 @@ export class TestCaseUI {
         this.logToPanel(
           `Validating required items for ${locationName} using worker evaluation...`
         );
-        statusElement.innerHTML += '<div>Validating required items...</div>';
+        const validationHeader = document.createElement('div');
+        validationHeader.textContent = 'CICO Validation:';
+        statusElement.appendChild(validationHeader);
+
         for (const itemToRemove of requiredItems) {
           const itemsForValidation = requiredItems.filter(
             (item) => item !== itemToRemove
           );
-          const excludedItemsForValidation = [...excludedItems, itemToRemove]; // Items to explicitly exclude for this check
+          const excludedItemsForValidation = [...excludedItems, itemToRemove];
 
-          // Ensure the application state reflects the removal of the item for this validation step
-          const validationResultFromWorker =
+          const validationResultFromWorker = // JS accessibility after removing itemToRemove
             await stateManager.applyTestInventoryAndEvaluate(
-              // Changed from evaluateLocationAccessibilityForTest
               locationName,
-              itemsForValidation, // This becomes the new current inventory
-              excludedItemsForValidation // Explicitly excluded items for this specific check
+              itemsForValidation,
+              excludedItemsForValidation
             );
 
-          // If the location is STILL ACCESSIBLE, it means itemToRemove was NOT truly required.
+          // --- ADDED: Log Comparison for CICO "After removing" ---
+          if (this.currentTestCaseLogData && relevantLogEntries.length > 0) {
+            const removalLogEntry = relevantLogEntries.find(
+              (entry) =>
+                entry.phase_description ===
+                `Exec_func: After removing '${itemToRemove}' (simulated)`
+            );
+            if (removalLogEntry) {
+              await stateManager.pingWorker(
+                `testCaseUI_cico_remove_${testCaseIndex}_${itemToRemove}`
+              );
+              const jsSnapshotAfterRemoval =
+                await stateManager.getLatestStateSnapshot();
+              const removalComparisonResult =
+                await this.compareStateWithLogEntry(
+                  jsSnapshotAfterRemoval,
+                  removalLogEntry,
+                  statusElement,
+                  `CICO - Removed '${itemToRemove}'`
+                );
+              if (!removalComparisonResult) logComparisonPassed = false;
+            } else {
+              this.logToPanel(
+                `Warning: Log entry for "Exec_func: After removing '${itemToRemove}' (simulated)" not found for test case index ${testCaseIndex}.`,
+                'warn'
+              );
+              const skippedDiv = document.createElement('div');
+              skippedDiv.className = 'log-comparison-skipped';
+              skippedDiv.textContent = `Log Comparison (CICO - Removed '${itemToRemove}'): SKIPPED (Log entry not found)`;
+              statusElement.appendChild(skippedDiv);
+            }
+          }
+          // --- END ADDED ---
+
           if (validationResultFromWorker) {
             const validationFailedMessage = `FAIL: Worker reported still accessible without required item '${itemToRemove}'. State updated.`;
             statusElement.innerHTML += `<div class="test-failure">${validationFailedMessage}</div>`;
             this.logToPanel(validationFailedMessage, 'error');
-            validationPassed = false; // The overall test case might still be "passed" initially, but validation fails.
-            break; // Stop further validation if one item fails
+            validationPassed = false;
+            break;
           } else {
             this.logToPanel(
               `Validation (Worker): Confirmed '${itemToRemove}' is required. State updated.`
             );
-            // UI will update to show the item removed and location inaccessible.
-            // For the next iteration, applyTestInventoryAndEvaluate will again set the inventory.
           }
-        }
+
+          // --- ADDED: Log Comparison for CICO "After re-collecting" ---
+          if (this.currentTestCaseLogData && relevantLogEntries.length > 0) {
+            const recollectionLogEntry = relevantLogEntries.find(
+              (entry) =>
+                entry.phase_description ===
+                `Exec_func: After collecting '${itemToRemove}' (simulated, back to full list)`
+            );
+            if (recollectionLogEntry) {
+              await stateManager.applyTestInventoryAndEvaluate(
+                locationName,
+                requiredItems,
+                excludedItems
+              );
+              await stateManager.pingWorker(
+                `testCaseUI_cico_recollect_${testCaseIndex}_${itemToRemove}`
+              );
+              const jsSnapshotAfterReCollection =
+                await stateManager.getLatestStateSnapshot();
+
+              const recollectionComparisonResult =
+                await this.compareStateWithLogEntry(
+                  jsSnapshotAfterReCollection,
+                  recollectionLogEntry,
+                  statusElement,
+                  `CICO - Re-collected '${itemToRemove}' (Full List)`
+                );
+              if (!recollectionComparisonResult) logComparisonPassed = false;
+            } else {
+              this.logToPanel(
+                `Warning: Log entry for "Exec_func: After collecting '${itemToRemove}' (simulated, back to full list)" not found for test case index ${testCaseIndex}.`,
+                'warn'
+              );
+              const skippedDiv = document.createElement('div');
+              skippedDiv.className = 'log-comparison-skipped';
+              skippedDiv.textContent = `Log Comparison (CICO - Re-collected '${itemToRemove}'): SKIPPED (Log entry not found)`;
+              statusElement.appendChild(skippedDiv);
+            }
+          }
+          // --- END ADDED ---
+        } // End CICO for loop
         if (validationPassed) {
-          statusElement.innerHTML += `<div class="test-success">All required items validated by worker. State reflects last validation.</div>`;
+          statusElement.innerHTML +=
+            '<div class="test-success">All required items validated by worker. State reflects last validation.</div>';
           this.logToPanel(
             `Required items validation passed (Worker) for ${locationName}. State reflects last validation step.`
           );
         }
-      }
-      passed = passed && validationPassed; // Update overall pass status
+      } // End CICO if block
+      passed = passed && validationPassed && logComparisonPassed; // Correctly combine all pass conditions
     } catch (error) {
       log(
         'error',
@@ -588,7 +741,7 @@ export class TestCaseUI {
       );
       passed = false;
     }
-    return passed;
+    return passed; // 'passed' now reflects primary test, CICO validation, and all log comparisons.
   }
 
   updateDataSourceIndicator() {
@@ -707,7 +860,11 @@ export class TestCaseUI {
           `#test-status-${index}`
         );
         if (statusElement) {
-          const result = await this.loadTestCase(testCaseData, statusElement);
+          const result = await this.loadTestCase(
+            testCaseData,
+            statusElement,
+            index
+          );
           result ? passedCount++ : failedCount++;
           updateResultsSummary(); // Update after each test completes
           await new Promise((resolve) => setTimeout(resolve, 10)); // Small delay for UI updates
@@ -916,6 +1073,7 @@ export class TestCaseUI {
     this.currentFolder = null;
     this.testCases = null;
     this.currentTestRules = null;
+    this.currentTestCaseLogData = null; // ADDED: Clear log data
     this.rulesLoadedForSet = false;
     if (this.testCasesListContainer) {
       this.testCasesListContainer.innerHTML =
@@ -1031,6 +1189,195 @@ export class TestCaseUI {
       this.cancelAllTests();
       return;
     }
+  }
+
+  async compareStateWithLogEntry(
+    jsSnapshot,
+    logEntry,
+    statusElement,
+    comparisonPhaseDescription
+  ) {
+    if (!jsSnapshot || !logEntry) {
+      const message = `[Log Comparison - ${comparisonPhaseDescription}] Skipped: Missing JS snapshot or Log entry.`;
+      log('warn', message);
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'log-comparison-skipped';
+      errorDiv.textContent = message;
+      statusElement.appendChild(errorDiv);
+      return false;
+    }
+
+    log(
+      'info',
+      `[Log Comparison - ${comparisonPhaseDescription}] Starting comparison.`
+    );
+    let overallMatch = true;
+    const comparisonResults = []; // To store individual comparison messages
+
+    // 1. Compare Progression Items
+    const logProgItems = logEntry.inventory_details?.prog_items_player || {};
+    const jsProgItems = jsSnapshot.prog_items?.['1'] || {}; // Assuming player '1'
+
+    const inventoryComparison = document.createElement('div');
+    inventoryComparison.className = 'log-comparison-details';
+    let itemsMatch = true;
+
+    // Check for items in log but not in JS, or different counts
+    for (const itemName in logProgItems) {
+      if (
+        !jsProgItems.hasOwnProperty(itemName) ||
+        jsProgItems[itemName] !== logProgItems[itemName]
+      ) {
+        itemsMatch = false;
+        comparisonResults.push(
+          `  Inventory Mismatch (Item: ${this.escapeHtml(itemName)}): Log has ${
+            logProgItems[itemName]
+          }, JS has ${jsProgItems[itemName] || 0}`
+        );
+      }
+    }
+    // Check for items in JS but not in log (implies JS has extra)
+    for (const itemName in jsProgItems) {
+      if (!logProgItems.hasOwnProperty(itemName)) {
+        itemsMatch = false;
+        comparisonResults.push(
+          `  Inventory Mismatch (Item: ${this.escapeHtml(itemName)}): JS has ${
+            jsProgItems[itemName]
+          }, Log has 0 (not present)`
+        );
+      }
+    }
+
+    if (itemsMatch) {
+      comparisonResults.push('  Inventory: MATCH');
+    } else {
+      overallMatch = false;
+    }
+
+    // 2. Compare Accessible Locations
+    const logAccessible = new Set(logEntry.accessible_locations || []);
+
+    // Derive JS accessible locations
+    const staticData = stateManager.getStaticData();
+    const jsAccessibleLocations = new Set();
+    if (staticData && staticData.locations && jsSnapshot) {
+      const snapshotInterface = createStateSnapshotInterface(
+        jsSnapshot,
+        staticData
+      );
+      if (snapshotInterface) {
+        for (const locName in staticData.locations) {
+          const locDef = staticData.locations[locName];
+
+          const parentRegionName = locDef.parent_region || locDef.region;
+          const parentRegionReachabilityStatus =
+            jsSnapshot.reachability?.[parentRegionName];
+          const isParentRegionEffectivelyReachable =
+            parentRegionReachabilityStatus === 'reachable' ||
+            parentRegionReachabilityStatus === 'checked';
+
+          const locationAccessRule = locDef.access_rule;
+          let locationRuleEvalResult = true;
+          if (locationAccessRule) {
+            locationRuleEvalResult = evaluateRule(
+              locationAccessRule,
+              snapshotInterface
+            );
+          }
+          const doesLocationRuleEffectivelyPass =
+            locationRuleEvalResult === true;
+
+          if (
+            isParentRegionEffectivelyReachable &&
+            doesLocationRuleEffectivelyPass
+          ) {
+            jsAccessibleLocations.add(locName);
+          }
+        }
+      } else {
+        comparisonResults.push(
+          '  Accessibility Warning: Could not create JS snapshotInterface for evaluation.'
+        );
+      }
+    } else {
+      comparisonResults.push(
+        '  Accessibility Warning: Missing staticData or jsSnapshot for JS evaluation.'
+      );
+    }
+
+    let accessibilityMatch = true;
+    const missingInJs = [...logAccessible].filter(
+      (loc) => !jsAccessibleLocations.has(loc)
+    );
+    const extraInJs = [...jsAccessibleLocations].filter(
+      (loc) => !logAccessible.has(loc)
+    );
+
+    if (missingInJs.length > 0) {
+      accessibilityMatch = false;
+      comparisonResults.push(
+        `  Accessibility Mismatch (Missing in JS): ${missingInJs
+          .map(this.escapeHtml)
+          .join(', ')}`
+      );
+    }
+    if (extraInJs.length > 0) {
+      accessibilityMatch = false;
+      comparisonResults.push(
+        `  Accessibility Mismatch (Extra in JS): ${extraInJs
+          .map(this.escapeHtml)
+          .join(', ')}`
+      );
+    }
+
+    if (
+      accessibilityMatch &&
+      missingInJs.length === 0 &&
+      extraInJs.length === 0
+    ) {
+      comparisonResults.push('  Accessibility: MATCH');
+    } else {
+      overallMatch = false;
+    }
+
+    // Render results to statusElement
+    const resultContainer = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = `Log Comparison (${comparisonPhaseDescription}): ${
+      overallMatch ? '✓ MATCH' : '❌ MISMATCH'
+    }`;
+    resultContainer.appendChild(title);
+    resultContainer.className = overallMatch
+      ? 'log-comparison-success'
+      : 'log-comparison-failure';
+
+    comparisonResults.forEach((msg) => {
+      const detailP = document.createElement('p');
+      detailP.style.margin = '2px 0 2px 10px'; // Indent details
+      detailP.textContent = msg;
+      resultContainer.appendChild(detailP);
+    });
+    statusElement.appendChild(resultContainer);
+
+    log(
+      'info',
+      `[Log Comparison - ${comparisonPhaseDescription}] Result: ${
+        overallMatch ? 'MATCH' : 'MISMATCH'
+      }`
+    );
+    if (!overallMatch) {
+      log(
+        'warn',
+        `[Log Comparison - ${comparisonPhaseDescription}] Mismatch Details:`,
+        {
+          logProgItems,
+          jsProgItems,
+          logAccessible: Array.from(logAccessible),
+          jsAccessibleUnchecked: Array.from(jsAccessibleLocations),
+        }
+      );
+    }
+    return overallMatch;
   }
 }
 

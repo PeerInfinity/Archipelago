@@ -483,7 +483,7 @@ export class StateManagerProxy {
   }
 
   sendQueryToWorker(message, timeoutMs = 10000) {
-    if (!this.isWorkerInitialized()) {
+    if (!this.worker) {
       const errorMessage =
         '[StateManagerProxy] Worker not initialized. Cannot send query.';
       log('error', errorMessage, {
