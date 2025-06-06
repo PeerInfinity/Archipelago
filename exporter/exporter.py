@@ -222,8 +222,21 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
             export_data['dungeons'][player_str] = dungeons_data
             all_dungeons[player_str] = dungeons_data
         
-        # Process items and groups
-        export_data['items'][player_str] = process_items(multiworld, player)
+        # Pre-calculate itempool counts to use them when processing item data
+        itempool_counts = {}
+        try:
+            itempool_counts = game_handler.get_itempool_counts(world, multiworld, player)
+            logger.debug(f"Successfully calculated itempool counts for player {player}")
+        except Exception as e:
+            error_msg = f"Error calculating itempool counts for player {player}: {str(e)}"
+            logger.error(error_msg)
+            itempool_counts = {
+                'error': error_msg,
+                'details': "Failed to read itempool counts. Check logs for more information."
+            }
+        
+        # Process items and groups, passing the itempool counts
+        export_data['items'][player_str] = process_items(multiworld, player, itempool_counts)
         export_data['item_groups'][player_str] = process_item_groups(multiworld, player)
         export_data['progression_mapping'][player_str] = process_progression_mapping(multiworld, player)
 
@@ -242,17 +255,8 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
                 }
             }
 
-        # Process complete itempool data using handler
-        try:
-            export_data['itempool_counts'][player_str] = game_handler.get_itempool_counts(world, multiworld, player) # Call the handler method
-            logger.debug(f"Successfully exported itempool counts via handler for player {player}")
-        except Exception as e:
-            error_msg = f"Error exporting itempool counts for player {player}: {str(e)}"
-            logger.error(error_msg)
-            export_data['itempool_counts'][player_str] = {
-                'error': error_msg,
-                'details': "Failed to read itempool counts. Check logs for more information."
-            }
+        # Store the pre-calculated itempool counts
+        export_data['itempool_counts'][player_str] = itempool_counts
 
         # Get Settings using handler
         try:
@@ -664,7 +668,7 @@ def process_regions(multiworld, player: int) -> tuple:
         logger.exception("Full traceback:")
         raise
 
-def process_items(multiworld, player: int) -> Dict[str, Any]:
+def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> Dict[str, Any]:
     """Process item data including progression flags and capacity information."""
     items_data = {}
     world = multiworld.worlds[player]
@@ -742,6 +746,18 @@ def process_items(multiworld, player: int) -> Dict[str, Any]:
                  logger.warning(f"Item '{item_name}' found in max counts for {game_name} but not in items_data.")
     except Exception as e:
         logger.error(f"Error getting game-specific max counts for {game_name}: {e}")
+
+    # Correct max_count for stackable items using itempool_counts
+    if itempool_counts and 'error' not in itempool_counts:
+        for item_name, item_data in items_data.items():
+            # If the item's max_count is the default of 1...
+            if item_data.get('max_count') == 1:
+                pool_count = itempool_counts.get(item_name)
+                # ... and the item appears more than once in the pool...
+                if pool_count and pool_count > 1:
+                    # ... then update max_count to match the pool count.
+                    logger.debug(f"Updating max_count for '{item_name}' from 1 to {pool_count} based on item pool count.")
+                    item_data['max_count'] = pool_count
 
     return items_data
 

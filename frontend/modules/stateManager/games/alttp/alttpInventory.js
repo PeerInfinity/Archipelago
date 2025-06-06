@@ -51,7 +51,7 @@ export class ALTTPInventory {
       // `progressionMapping` to determine what actual items are possessed.
       const currentCount = this.items.get(itemName) || 0;
       const itemDef = this.itemData ? this.itemData[itemName] : null;
-      const maxCount = itemDef ? itemDef.max_count : Infinity;
+      const maxCount = itemDef?.max_count ?? Infinity;
 
       if (currentCount < maxCount) {
         this.items.set(itemName, currentCount + 1);
@@ -68,7 +68,7 @@ export class ALTTPInventory {
       // This also handles adding specific tiers of progressive items if they were directly given.
       const currentCount = this.items.get(itemName) || 0;
       const itemDef = this.itemData ? this.itemData[itemName] : null;
-      const maxCount = itemDef ? itemDef.max_count : Infinity;
+      const maxCount = itemDef?.max_count ?? Infinity;
       // For non-progressive items, or specific progressive tiers, check their individual max_count.
       // This part of logic might need refinement if specific tiers (e.g. "Fighter Sword") given directly
       // should not exceed 1, while the base "Progressive Sword" can go up to 4.

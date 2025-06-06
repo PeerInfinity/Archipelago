@@ -2841,6 +2841,8 @@ export class StateManager {
           };
         } else if (loc.item) {
           locationItemsMap[loc.name] = null;
+        } else {
+          locationItemsMap[loc.name] = null;
         }
       });
     }
@@ -2849,7 +2851,8 @@ export class StateManager {
     const snapshot = {
       inventory: inventorySnapshot,
       settings: { ...this.settings },
-      flags: Array.from(this.checkedLocations || []), // Represents checked locations
+      flags: this.state?.getFlags ? this.state.getFlags() : [],
+      checkedLocations: Array.from(this.checkedLocations || []),
       state: this.state.getState(), // Contains game-specific state like mode, dungeon states
       reachability: finalReachability,
       locationItems: locationItemsMap,

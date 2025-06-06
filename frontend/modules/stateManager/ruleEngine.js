@@ -436,10 +436,22 @@ export const evaluateRule = (rule, context, depth = 0) => {
             result = left <= right;
             break;
           case '==':
-            result = left == right;
+            if (Array.isArray(left) && Array.isArray(right)) {
+              result =
+                left.length === right.length &&
+                left.every((val, index) => val == right[index]);
+            } else {
+              result = left == right;
+            }
             break;
           case '!=':
-            result = left != right;
+            if (Array.isArray(left) && Array.isArray(right)) {
+              result =
+                left.length !== right.length ||
+                left.some((val, index) => val != right[index]);
+            } else {
+              result = left != right;
+            }
             break;
           case 'in':
             if (Array.isArray(right) || typeof right === 'string') {

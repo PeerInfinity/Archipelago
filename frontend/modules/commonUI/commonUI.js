@@ -6,13 +6,13 @@ import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js';
 
-
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {
     window.logger[level]('commonUI', message, ...data);
   } else {
-    const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+    const consoleMethod =
+      console[level === 'info' ? 'log' : level] || console.log;
     consoleMethod(`[commonUI] ${message}`, ...data);
   }
 }
@@ -43,7 +43,7 @@ class CommonUI {
   logAndGetUnknownEvaluationCount(
     contextMessage = 'Logic tree rendering cycle'
   ) {
-    //log('info', 
+    //log('info',
     //  `[CommonUI] ${contextMessage}: Encountered ${this.unknownEvaluationCount} unresolved rule evaluations (undefined).`
     //);
     return this.unknownEvaluationCount;
@@ -81,43 +81,56 @@ class CommonUI {
         evaluationResult = undefined; // Treat error as unknown
       }
     } else {
-      log('warn', 
+      log(
+        'warn',
         'renderLogicTree called without stateSnapshotInterface. Rule evaluation might be inaccurate.'
       );
       evaluationResult = undefined; // No interface means unknown
     }
 
+    const isValueNode =
+      rule.type === 'constant' || rule.type === 'name' || rule.type === 'value';
+
     // Increment counter if evaluation is undefined
     if (evaluationResult === undefined) {
       this.unknownEvaluationCount++;
-    }
-
-    // Apply classes based on evaluation result
-    if (evaluationResult === true) {
-      root.classList.add('pass');
-    } else if (evaluationResult === false) {
-      root.classList.add('fail');
-    } else {
-      // evaluationResult is undefined or any other non-boolean
+      // Always mark a node as unknown if its result is undefined
       root.classList.add('logic-node-unknown');
+    } else if (!isValueNode) {
+      // For non-value nodes, apply pass/fail styling
+      if (evaluationResult === true) {
+        root.classList.add('pass');
+      } else if (evaluationResult === false) {
+        root.classList.add('fail');
+      } else {
+        // If a boolean-like node resolves to something other than true/false/undefined, it's also unknown
+        root.classList.add('logic-node-unknown');
+      }
     }
+    // Value nodes with defined results get no special styling.
 
     // Add colorblind symbol if enabled
     if (useColorblind) {
       const symbolSpan = document.createElement('span');
       symbolSpan.classList.add('colorblind-symbol');
 
-      if (evaluationResult === true) {
-        symbolSpan.textContent = '✓ '; // Checkmark for pass
-        symbolSpan.classList.add('accessible');
-      } else if (evaluationResult === false) {
-        symbolSpan.textContent = '✗ '; // X for fail
-        symbolSpan.classList.add('inaccessible');
-      } else {
-        symbolSpan.textContent = '? '; // Question mark for unknown
+      // Always show '?' for any node if its result is undefined
+      if (evaluationResult === undefined) {
+        symbolSpan.textContent = '? ';
         symbolSpan.classList.add('unknown');
+        root.appendChild(symbolSpan);
+      } else if (!isValueNode) {
+        // Only show check/cross for non-value (boolean-like) nodes
+        if (evaluationResult === true) {
+          symbolSpan.textContent = '✓ ';
+          symbolSpan.classList.add('accessible');
+          root.appendChild(symbolSpan);
+        } else if (evaluationResult === false) {
+          symbolSpan.textContent = '✗ ';
+          symbolSpan.classList.add('inaccessible');
+          root.appendChild(symbolSpan);
+        }
       }
-      root.appendChild(symbolSpan);
     }
 
     const label = document.createElement('div');
@@ -753,7 +766,8 @@ class CommonUI {
 
     // Add click handler
     link.addEventListener('click', (e) => {
-      log('info', 
+      log(
+        'info',
         `[commonUI] Click listener ON REGION LINK for "${regionName}" in commonUI.js has FIRED.`
       ); // NEW TOP-LEVEL DEBUG LOG
       e.stopPropagation(); // Prevent event from bubbling to parent elements
@@ -764,7 +778,8 @@ class CommonUI {
 
       // Then publish navigation
       eventBus.publish('ui:navigateToRegion', { regionName: regionName });
-      log('info', 
+      log(
+        'info',
         `[commonUI] Published ui:navigateToRegion for ${regionName}.`
       ); // Changed from "SUCCESSFULLY PUBLISHED" for clarity
     });
@@ -831,7 +846,8 @@ class CommonUI {
     link.addEventListener('click', (e) => {
       e.stopPropagation();
       // Publish an event with location and region names
-      log('info', 
+      log(
+        'info',
         `[commonUI] Publishing ui:navigateToLocation for ${locationName} in ${regionName}`
       );
       eventBus.publish('ui:navigateToLocation', {

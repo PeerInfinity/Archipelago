@@ -1620,6 +1620,8 @@ export function createStateSnapshotInterface(snapshot, staticData) {
           return staticData?.items;
         case 'groups':
           return staticData?.groups;
+        case 'player':
+          return snapshot?.player?.slot;
         default:
           return undefined;
       }
@@ -1659,7 +1661,7 @@ export function createStateSnapshotInterface(snapshot, staticData) {
       return count;
     },
     hasFlag: (flagName) =>
-      !!(snapshot?.flags && snapshot.flags.includes(flagName)),
+      !!(snapshot?.state?.flags && snapshot.state.flags.includes(flagName)),
     getSetting: (settingName) => snapshot?.settings?.[settingName],
     isRegionReachable: (regionName) => {
       const status = snapshot?.reachability?.[regionName];
