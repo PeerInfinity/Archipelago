@@ -80,7 +80,7 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
     return undefined;
   }
 
-  can_use_bombs() {
+  can_use_bombs(quantity = 1) {
     const bombless = this._hasFlag('bombless_start');
     if (bombless === undefined) return undefined;
 
@@ -92,16 +92,11 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
 
     // Add bomb upgrades
     const upgrade5Count = this._countItem('Bomb Upgrade (+5)');
+    if (upgrade5Count === undefined) return undefined;
     const upgrade10Count = this._countItem('Bomb Upgrade (+10)');
+    if (upgrade10Count === undefined) return undefined;
     const upgrade50Count = this._countItem('Bomb Upgrade (50)');
-
-    if (
-      upgrade5Count === undefined ||
-      upgrade10Count === undefined ||
-      upgrade50Count === undefined
-    ) {
-      return undefined;
-    }
+    if (upgrade50Count === undefined) return undefined;
 
     bombs += upgrade5Count * 5;
     bombs += upgrade10Count * 10;
@@ -119,7 +114,7 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
       }
     }
 
-    return bombs >= 1; // Need at least 1 bomb to use bombs
+    return bombs >= Math.min(quantity, 50);
   }
 
   can_bomb_clip(region) {
@@ -415,14 +410,15 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
   }
 
   has_sword() {
-    const progressive = this._hasItem('Progressive Sword');
-    const fighter = this._hasItem('Fighters Sword');
+    const fighter = this._hasItem('Fighter Sword');
+    if (fighter === true) return true;
     const master = this._hasItem('Master Sword');
+    if (master === true) return true;
     const tempered = this._hasItem('Tempered Sword');
+    if (tempered === true) return true;
     const golden = this._hasItem('Golden Sword');
 
     if (
-      progressive === true ||
       fighter === true ||
       master === true ||
       tempered === true ||
@@ -431,7 +427,6 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
       return true;
     }
     if (
-      progressive === undefined ||
       fighter === undefined ||
       master === undefined ||
       tempered === undefined ||
@@ -439,7 +434,7 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
     ) {
       return undefined;
     }
-    return false; // All are definitively false
+    return false;
   }
 
   can_bomb_or_bonk() {
@@ -470,34 +465,83 @@ export class ALTTPSnapshotHelpers extends GameSnapshotHelpers {
     return false; // All options are definitively false
   }
 
-  can_kill_most_things(count = 5) {
-    const methodResults = [
-      this.has_sword(),
-      this._hasItem('Hammer'),
-      this.can_shoot_arrows(),
-      this.can_use_bombs(),
-      this._hasItem('Fire Rod'),
-      this._hasItem('Ice Rod'),
-      this._hasItem('Cane of Somaria'),
-      this._hasItem('Cane of Byrna'),
-    ];
+  can_kill_most_things(enemies = 5) {
+    const enemyShuffle = this._getSetting('enemy_shuffle', false);
+    if (enemyShuffle === undefined) return undefined;
 
-    let undefinedCount = 0;
-    let trueCount = 0;
+    if (enemyShuffle) {
+      // This logic matches the Python implementation for enemizer.
+      const results = [
+        this.has_melee_weapon(),
+        this._hasItem('Cane of Somaria'),
+        this._hasItem('Cane of Byrna'),
+        this.can_extend_magic(),
+        this.can_shoot_arrows(),
+        this._hasItem('Fire Rod'),
+        this.can_use_bombs(enemies * 4),
+      ];
 
-    for (const result of methodResults) {
-      if (result === true) {
-        trueCount++;
-      } else if (result === undefined) {
-        undefinedCount++;
+      if (results.some((r) => r === undefined)) return undefined;
+      return results.every((r) => r === true);
+    } else {
+      // This logic matches the Python implementation for non-enemizer.
+      const enemyHealth = this._getSetting('enemy_health', 'default');
+      if (enemyHealth === undefined) return undefined;
+
+      const meleeResult = this.has_melee_weapon();
+      if (meleeResult === true) return true;
+
+      const somariaResult = this._hasItem('Cane of Somaria');
+      if (somariaResult === true) return true;
+
+      const byrnaItemResult = this._hasItem('Cane of Byrna');
+      let byrnaCheckResult = false;
+      let byrnaCheckUndefined = false;
+      if (byrnaItemResult === true) {
+        const extendMagicResult = this.can_extend_magic();
+        if (extendMagicResult === undefined) {
+          byrnaCheckUndefined = true;
+        } else if (enemies < 6 || extendMagicResult) {
+          byrnaCheckResult = true;
+        }
+      } else if (byrnaItemResult === undefined) {
+        byrnaCheckUndefined = true;
       }
-    }
+      if (byrnaCheckResult === true) return true;
 
-    if (trueCount >= count) return true;
-    // If we haven't met the count, but adding unknowns *could* meet it, then it's undefined
-    if (trueCount + undefinedCount >= count) return undefined;
-    // Otherwise, it's definitively false
-    return false;
+      const arrowsResult = this.can_shoot_arrows();
+      if (arrowsResult === true) return true;
+
+      const fireRodResult = this._hasItem('Fire Rod');
+      if (fireRodResult === true) return true;
+
+      let bombCheckResult = false;
+      let bombCheckUndefined = false;
+      if (enemyHealth === 'easy' || enemyHealth === 'default') {
+        const canUseBombsResult = this.can_use_bombs(enemies * 4);
+        if (canUseBombsResult === undefined) {
+          bombCheckUndefined = true;
+        } else if (canUseBombsResult === true) {
+          bombCheckResult = true;
+        }
+      }
+      if (bombCheckResult === true) return true;
+
+      // If we reach here, no path was definitively true. Check if any path was undefined.
+      if (
+        meleeResult === undefined ||
+        somariaResult === undefined ||
+        byrnaCheckUndefined ||
+        arrowsResult === undefined ||
+        fireRodResult === undefined ||
+        bombCheckUndefined
+      ) {
+        return undefined;
+      }
+
+      // All paths were definitively false
+      return false;
+    }
   }
 
   can_get_good_bee() {

@@ -86,7 +86,7 @@ export class ALTTPWorkerHelpers extends GameWorkerHelpers {
     return false;
   }
 
-  can_use_bombs() {
+  can_use_bombs(quantity = 1) {
     const bombless = this._hasFlag('bombless_start');
     const shuffleUpgrades = this._getSetting('shuffle_capacity_upgrades');
 
@@ -107,7 +107,7 @@ export class ALTTPWorkerHelpers extends GameWorkerHelpers {
       bombs += 40;
     }
 
-    return bombs >= 1; // Need at least 1 bomb to use bombs
+    return bombs >= Math.min(quantity, 50);
   }
 
   can_bomb_clip(region) {
@@ -293,8 +293,7 @@ export class ALTTPWorkerHelpers extends GameWorkerHelpers {
 
   has_sword() {
     return (
-      this._hasItem('Progressive Sword') ||
-      this._hasItem('Fighters Sword') ||
+      this._hasItem('Fighter Sword') ||
       this._hasItem('Master Sword') ||
       this._hasItem('Tempered Sword') ||
       this._hasItem('Golden Sword')
@@ -321,20 +320,39 @@ export class ALTTPWorkerHelpers extends GameWorkerHelpers {
     );
   }
 
-  can_kill_most_things(count = 5) {
-    // Count represents number of distinct killing methods available
-    let methods = 0;
-    if (this.has_sword()) methods++;
-    if (this._hasItem('Hammer')) methods++;
-    if (this.can_shoot_arrows()) methods++; // Bow and arrows
-    if (this.can_use_bombs()) methods++;
-    // Rods and Canes are often considered killing methods too
-    if (this._hasItem('Fire Rod')) methods++;
-    if (this._hasItem('Ice Rod')) methods++;
-    if (this._hasItem('Cane of Somaria')) methods++; // Depending on game/settings, Somaria can kill
-    if (this._hasItem('Cane of Byrna')) methods++; // Byrna definitely can
+  can_kill_most_things(enemies = 5) {
+    const enemyShuffle = this._getSetting('enemy_shuffle', false);
 
-    return methods >= count;
+    if (enemyShuffle) {
+      // This logic matches the Python implementation for enemizer.
+      return (
+        this.has_melee_weapon() &&
+        this._hasItem('Cane of Somaria') &&
+        this._hasItem('Cane of Byrna') &&
+        this.can_extend_magic() &&
+        this.can_shoot_arrows() &&
+        this._hasItem('Fire Rod') &&
+        this.can_use_bombs(enemies * 4)
+      );
+    } else {
+      // This logic matches the Python implementation for non-enemizer.
+      const enemyHealth = this._getSetting('enemy_health', 'default');
+      const byrnaCheck =
+        this._hasItem('Cane of Byrna') &&
+        (enemies < 6 || this.can_extend_magic());
+      const bombCheck =
+        (enemyHealth === 'easy' || enemyHealth === 'default') &&
+        this.can_use_bombs(enemies * 4);
+
+      return (
+        this.has_melee_weapon() ||
+        this._hasItem('Cane of Somaria') ||
+        byrnaCheck ||
+        this.can_shoot_arrows() ||
+        this._hasItem('Fire Rod') ||
+        bombCheck
+      );
+    }
   }
 
   can_get_good_bee() {

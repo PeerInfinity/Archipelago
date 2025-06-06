@@ -48,6 +48,7 @@ export class TestSpoilerUI {
     this.testStateInitialized = false;
     this.initialAutoLoadAttempted = false; // ADDED to help manage auto-load calls
     this.eventProcessingDelayMs = 20; // ADDED: Default delay for event processing
+    this.stopOnFirstError = true; // ADDED: To control test run behavior
 
     // Create and append root element immediately
     this.getRootElement(); // This creates this.rootElement and sets this.testSpoilersContainer
@@ -634,6 +635,33 @@ export class TestSpoilerUI {
     })`;
     stepButton.onclick = () => this.stepSpoilerTest();
 
+    // ADDED: Checkbox for "Stop on first error"
+    const stopOnErrorContainer = document.createElement('div');
+    stopOnErrorContainer.style.display = 'inline-block';
+    stopOnErrorContainer.style.marginLeft = '15px';
+
+    const stopOnErrorCheckbox = document.createElement('input');
+    stopOnErrorCheckbox.type = 'checkbox';
+    stopOnErrorCheckbox.id = 'stop-on-first-error-checkbox';
+    stopOnErrorCheckbox.checked = this.stopOnFirstError;
+    stopOnErrorCheckbox.onchange = (event) => {
+      this.stopOnFirstError = event.target.checked;
+      this.log(
+        'info',
+        `"Stop on first error" is now ${
+          this.stopOnFirstError ? 'enabled' : 'disabled'
+        }.`
+      );
+    };
+
+    const stopOnErrorLabel = document.createElement('label');
+    stopOnErrorLabel.htmlFor = 'stop-on-first-error-checkbox';
+    stopOnErrorLabel.textContent = 'Stop on first error';
+    stopOnErrorLabel.style.marginLeft = '4px';
+
+    stopOnErrorContainer.appendChild(stopOnErrorCheckbox);
+    stopOnErrorContainer.appendChild(stopOnErrorLabel);
+
     // ADDED: Checkbox for auto-collect events
     const autoCollectCheckbox = document.createElement('input');
     autoCollectCheckbox.type = 'checkbox';
@@ -665,6 +693,7 @@ export class TestSpoilerUI {
     controlsDiv.appendChild(testNameElement);
     controlsDiv.appendChild(runFullButton);
     controlsDiv.appendChild(stepButton);
+    controlsDiv.appendChild(stopOnErrorContainer); // ADDED
     // ADDED: Append checkbox and label
     controlsDiv.appendChild(autoCollectCheckbox);
     controlsDiv.appendChild(autoCollectLabel);
@@ -814,7 +843,15 @@ export class TestSpoilerUI {
           }): ${eventProcessingResult.message}`;
           this.log('error', errorMessage);
           detailedErrorMessages.push(errorMessage);
-          // UI update for individual error already happens in processSingleEvent via this.log('error', ...)
+
+          // ADDED: Check if we should stop on this error
+          if (this.stopOnFirstError) {
+            this.log(
+              'warn',
+              'Test run halted due to "Stop on first error" being enabled.'
+            );
+            break; // Exit the loop
+          }
         }
         // Add a small delay to allow UI updates and prevent blocking
         await new Promise((resolve) =>
