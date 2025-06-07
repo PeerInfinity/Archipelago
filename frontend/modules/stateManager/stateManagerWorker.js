@@ -286,6 +286,27 @@ self.onmessage = async function (e) {
           // Add other static data pieces if needed by the proxy or UI later
         };
 
+        // DEBUG: Log what we're sending
+        log(
+          'info',
+          '[Worker] Sending static data keys:',
+          Object.keys(workerStaticGameData)
+        );
+        log(
+          'info',
+          '[Worker] Dungeons being sent:',
+          stateManagerInstance.dungeons
+            ? Object.keys(stateManagerInstance.dungeons)
+            : 'undefined'
+        );
+        log(
+          'info',
+          '[Worker] Sample dungeon:',
+          stateManagerInstance.dungeons
+            ? Object.values(stateManagerInstance.dungeons)[0]
+            : 'none'
+        );
+
         log(
           'info',
           '[stateManagerWorker onmessage] Rules loaded. About to postMessage. WorkerStaticGameData details:'

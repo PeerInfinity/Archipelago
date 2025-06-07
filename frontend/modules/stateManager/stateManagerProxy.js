@@ -249,10 +249,18 @@ export class StateManagerProxy {
           }
 
           this.staticDataCache = newCache;
-          //log('info',
-          //  '[StateManagerProxy rulesLoadedConfirmation] Updated staticDataCache. Keys in cache:',
-          //  Object.keys(this.staticDataCache)
-          //);
+          log(
+            'info',
+            '[StateManagerProxy rulesLoadedConfirmation] Updated staticDataCache. Keys in cache:',
+            Object.keys(this.staticDataCache)
+          );
+          log(
+            'info',
+            '[StateManagerProxy rulesLoadedConfirmation] Dungeons in cache:',
+            this.staticDataCache.dungeons
+              ? Object.keys(this.staticDataCache.dungeons)
+              : 'undefined'
+          );
         } else {
           log(
             'warn',
@@ -708,8 +716,9 @@ export class StateManagerProxy {
     originalRegionOrder
   ) {
     log(
-      'warn',
-      '[StateManagerProxy setStaticData] DEPRECATED: This method should generally not be used. Static data comes from worker.'
+      'error',
+      '[StateManagerProxy setStaticData] DEPRECATED: This method is being called and will OVERWRITE dungeons data! Stack trace:',
+      new Error().stack
     );
 
     // For safety, ensure this.staticDataCache is initialized if it's null
@@ -743,7 +752,33 @@ export class StateManagerProxy {
    * @returns {object|null} The cached static game data.
    */
   getStaticData() {
-    // log('info', '[StateManagerProxy getStaticData] Called. Cache:', this.staticDataCache);
+    log(
+      'info',
+      '[StateManagerProxy getStaticData] Called. Stack trace:',
+      new Error().stack
+    );
+    log(
+      'info',
+      '[StateManagerProxy getStaticData] Cache:',
+      this.staticDataCache
+    );
+    log(
+      'info',
+      '[StateManagerProxy getStaticData] Cache type:',
+      typeof this.staticDataCache
+    );
+    log(
+      'info',
+      '[StateManagerProxy getStaticData] Cache keys:',
+      this.staticDataCache ? Object.keys(this.staticDataCache) : 'null'
+    );
+    log(
+      'info',
+      '[StateManagerProxy getStaticData] Dungeons in cache:',
+      this.staticDataCache?.dungeons
+        ? Object.keys(this.staticDataCache.dungeons)
+        : 'undefined'
+    );
     return this.staticDataCache;
   }
 
@@ -964,7 +999,7 @@ export class StateManagerProxy {
     timeout = 5000
   ) {
     if (!this.worker) {
-      // MODIFIED: Direct call to imported logWorkerCommunication
+      // MODIFIED: Direct call to imported function
       if (typeof logWorkerCommunication === 'function') {
         logWorkerCommunication(
           `[Proxy -> Worker] Error: Worker not initialized. Command: ${command}`,
@@ -1532,6 +1567,28 @@ export class StateManagerProxy {
       false // This is a fire-and-forget command, no specific response expected beyond ack
     );
   }
+
+  /**
+   * Debug method to inspect location rules
+   */
+  debugLocationRule(locationName) {
+    const locations = this.getStaticData().locations;
+    const location = Object.values(locations).find(
+      (loc) => loc.name && loc.name.includes(locationName)
+    );
+
+    if (location) {
+      console.log(`Location: ${location.name}`);
+      console.log(
+        'Access rule:',
+        JSON.stringify(location.access_rule, null, 2)
+      );
+      return location.access_rule;
+    } else {
+      console.log(`Location containing "${locationName}" not found`);
+      return null;
+    }
+  }
 }
 
 // --- ADDED: Function to create the main-thread snapshot interface ---
@@ -1547,6 +1604,8 @@ export function createStateSnapshotInterface(
   staticData,
   contextVariables = {}
 ) {
+  // Debug logging removed to prevent console spam
+
   let snapshotHelpersInstance = null; // Changed variable name for clarity
   const gameId = snapshot?.game; // Get gameId from the snapshot
 
@@ -1758,27 +1817,72 @@ export function createStateSnapshotInterface(
 
       // Handle common attribute name mismatches between Python and JavaScript
       if (baseObject && typeof baseObject === 'object') {
-        // Handle location.parent_region -> get actual region object from location.region
-        if (attributeName === 'parent_region' && baseObject.region) {
-          const regionName = baseObject.region;
-          // Look up the actual region object from static data
-          if (staticData && staticData.regions) {
-            // staticData.regions might be nested by player, try to find the region
-            for (const playerId in staticData.regions) {
-              if (
-                staticData.regions[playerId] &&
-                staticData.regions[playerId][regionName]
-              ) {
-                return staticData.regions[playerId][regionName];
-              }
-            }
-            // If not nested by player, try direct lookup
-            if (staticData.regions[regionName]) {
-              return staticData.regions[regionName];
+        // Handle location.parent_region -> get actual region object
+        if (attributeName === 'parent_region') {
+          let regionName = null;
+
+          // Try different ways to get the region name
+          if (baseObject.region) {
+            regionName = baseObject.region;
+          } else if (baseObject.parent_region) {
+            regionName = baseObject.parent_region;
+          } else if (staticData && staticData.locations) {
+            // Try to find the location in static data and get its region
+            const locationName = baseObject.name;
+            if (locationName && staticData.locations[locationName]) {
+              regionName =
+                staticData.locations[locationName].region ||
+                staticData.locations[locationName].parent_region;
             }
           }
-          // Fallback: return the region name if we can't find the object
-          return regionName;
+
+          if (regionName) {
+            // Look up the actual region object from static data
+            if (staticData && staticData.regions) {
+              // staticData.regions might be nested by player, try to find the region
+              for (const playerId in staticData.regions) {
+                if (
+                  staticData.regions[playerId] &&
+                  staticData.regions[playerId][regionName]
+                ) {
+                  const regionObject = staticData.regions[playerId][regionName];
+                  return regionObject;
+                }
+              }
+              // If not nested by player, try direct lookup
+              if (staticData.regions[regionName]) {
+                const regionObject = staticData.regions[regionName];
+                return regionObject;
+              }
+            }
+            // Fallback: return the region name if we can't find the object
+            return regionName;
+          }
+
+          return undefined;
+        }
+
+        // Handle boss.can_defeat -> boss.defeat_rule mapping
+        if (attributeName === 'can_defeat') {
+          console.log(
+            '[BOSS DEBUG] Resolving can_defeat from boss object:',
+            baseObject
+          );
+          console.log(
+            '[BOSS DEBUG] Boss object keys:',
+            Object.keys(baseObject)
+          );
+          console.log('[BOSS DEBUG] Boss defeat_rule:', baseObject.defeat_rule);
+          if (baseObject.defeat_rule) {
+            console.log(
+              '[BOSS DEBUG] Returning defeat_rule:',
+              baseObject.defeat_rule
+            );
+            return baseObject.defeat_rule;
+          } else {
+            console.log('[BOSS DEBUG] No defeat_rule found on boss object');
+            return undefined;
+          }
         }
       }
 
@@ -1852,6 +1956,9 @@ export function createStateSnapshotInterface(
     },
     resolveName: rawInterfaceForHelpers.resolveName,
   };
+
+  // Debug logging removed to prevent console spam
+
   return finalSnapshotInterface;
 }
 // --- END ADDED FUNCTION ---

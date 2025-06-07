@@ -21,4 +21,13 @@ log('info', '[stateManagerProxySingleton] Creating singleton instance...');
 // Pass the actual eventBus instance to the constructor
 const stateManagerProxySingleton = new StateManagerProxy(eventBus);
 
+// DEBUG: Expose to window for console debugging
+if (typeof window !== 'undefined') {
+  window.stateManagerProxy = stateManagerProxySingleton;
+  log(
+    'info',
+    '[stateManagerProxySingleton] Exposed to window.stateManagerProxy for debugging'
+  );
+}
+
 export default stateManagerProxySingleton;

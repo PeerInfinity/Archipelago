@@ -75,7 +75,100 @@ class CommonUI {
 
     if (stateSnapshotInterface) {
       try {
+        // DEBUG: Focus on boss defeat chain specifically
+        const isBossDefeatChain =
+          (rule.type === 'name' && rule.name === 'location') ||
+          (rule.type === 'attribute' &&
+            ['parent_region', 'dungeon', 'boss', 'can_defeat'].includes(
+              rule.attr
+            )) ||
+          (rule.type === 'function_call' &&
+            rule.function?.attr === 'can_defeat');
+
+        if (isBossDefeatChain) {
+          console.log('[BOSS DEBUG] Evaluating rule in logic tree:', {
+            ruleType: rule.type,
+            ruleName: rule.name,
+            ruleAttr: rule.attr,
+            hasResolveName: !!stateSnapshotInterface.resolveName,
+            hasResolveAttribute: !!stateSnapshotInterface.resolveAttribute,
+            rule: rule,
+          });
+
+          if (rule.type === 'name' && rule.name === 'location') {
+            const resolved = stateSnapshotInterface.resolveName
+              ? stateSnapshotInterface.resolveName(rule.name)
+              : undefined;
+            console.log('[BOSS DEBUG] Location resolved to:', resolved);
+            console.log(
+              '[BOSS DEBUG] Interface has resolveName:',
+              !!stateSnapshotInterface.resolveName
+            );
+            console.log(
+              '[BOSS DEBUG] Interface type:',
+              typeof stateSnapshotInterface
+            );
+            console.log(
+              '[BOSS DEBUG] Interface keys:',
+              Object.keys(stateSnapshotInterface).slice(0, 10)
+            );
+
+            if (resolved) {
+              console.log('[BOSS DEBUG] Location details:', {
+                name: resolved.name,
+                region: resolved.region,
+                hasAccessRule: !!resolved.access_rule,
+              });
+              console.log(
+                '[BOSS DEBUG] Full location object properties:',
+                Object.keys(resolved)
+              );
+              console.log('[BOSS DEBUG] Full location object:', resolved);
+            } else {
+              console.log('[BOSS DEBUG] Location resolution failed!');
+            }
+          }
+
+          if (rule.type === 'attribute') {
+            // Try to evaluate the base object first
+            const baseObject = evaluateRule(
+              rule.object,
+              stateSnapshotInterface
+            );
+            console.log(
+              `[BOSS DEBUG] Base object for ${rule.attr}:`,
+              baseObject
+            );
+
+            if (baseObject && typeof baseObject === 'object') {
+              const directValue = baseObject[rule.attr];
+              console.log(`[BOSS DEBUG] Direct ${rule.attr}:`, directValue);
+
+              if (stateSnapshotInterface.resolveAttribute) {
+                const resolvedValue = stateSnapshotInterface.resolveAttribute(
+                  baseObject,
+                  rule.attr
+                );
+                console.log(
+                  `[BOSS DEBUG] Resolved ${rule.attr}:`,
+                  resolvedValue
+                );
+              }
+            }
+          }
+        }
+
         evaluationResult = evaluateRule(rule, stateSnapshotInterface);
+
+        // DEBUG: Log evaluation results for boss defeat chain
+        if (isBossDefeatChain) {
+          console.log('[BOSS DEBUG] Evaluation result:', {
+            ruleType: rule.type,
+            ruleName: rule.name,
+            ruleAttr: rule.attr,
+            result: evaluationResult,
+          });
+        }
       } catch (e) {
         log('error', 'Error evaluating rule in renderLogicTree:', e, rule);
         evaluationResult = undefined; // Treat error as unknown

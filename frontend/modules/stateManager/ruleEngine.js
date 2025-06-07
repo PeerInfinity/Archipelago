@@ -175,7 +175,38 @@ export const evaluateRule = (rule, context, depth = 0) => {
   }
 
   let result;
-  const ruleType = rule?.type;
+  let ruleType = rule?.type;
+
+  // Handle numeric rule types (convert to string equivalents)
+  if (typeof ruleType === 'number') {
+    const typeMap = {
+      1: 'item_check',
+      2: 'count_check',
+      3: 'helper',
+      4: 'state_method',
+      5: 'and',
+      6: 'or',
+      7: 'not',
+      8: 'attribute',
+      9: 'function_call',
+      10: 'name',
+      11: 'constant',
+      12: 'compare',
+    };
+    const mappedType = typeMap[ruleType];
+    if (mappedType) {
+      log(
+        'debug',
+        'ruleEngine',
+        `Converted numeric rule type ${ruleType} to ${mappedType}`
+      );
+      ruleType = mappedType;
+    } else {
+      log('warn', 'ruleEngine', `Unknown numeric rule type: ${ruleType}`, {
+        rule,
+      });
+    }
+  }
 
   try {
     switch (ruleType) {
@@ -276,32 +307,219 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'attribute': {
-        const baseObject = evaluateRule(rule.object, context, depth + 1);
-        if (baseObject !== undefined && baseObject !== null) {
-          if (typeof context.resolveAttribute === 'function') {
-            // Use the new, more direct resolver if available on the interface
-            result = context.resolveAttribute(baseObject, rule.attr);
-          } else if (
-            typeof baseObject === 'object' &&
-            Object.prototype.hasOwnProperty.call(baseObject, rule.attr)
-          ) {
-            // Fallback for older interfaces or direct object property access
-            result = baseObject[rule.attr];
-          } else {
-            result = undefined;
-          }
-        } else {
-          result = undefined;
+        log(
+          'debug',
+          'ruleEngine',
+          `[depth=${depth}] Evaluating attribute rule: ${rule.attr}`
+        );
+
+        // BOSS DEBUG: Add logging for nested attribute evaluation
+        if (
+          rule.attr === 'parent_region' ||
+          rule.attr === 'dungeon' ||
+          rule.attr === 'boss' ||
+          rule.attr === 'can_defeat'
+        ) {
+          console.log(
+            `[RULE ENGINE DEBUG] About to evaluate rule.object for "${rule.attr}":`,
+            JSON.stringify(rule.object, null, 2)
+          );
         }
-        break;
+
+        const baseObject = evaluateRule(rule.object, context, depth + 1);
+
+        // BOSS DEBUG: Add logging for what the nested evaluation returned
+        if (
+          rule.attr === 'parent_region' ||
+          rule.attr === 'dungeon' ||
+          rule.attr === 'boss' ||
+          rule.attr === 'can_defeat'
+        ) {
+          console.log(
+            `[RULE ENGINE DEBUG] evaluateRule(rule.object) for "${rule.attr}" returned:`,
+            baseObject
+          );
+        }
+
+        // BOSS DEBUG: Add detailed logging for attribute chain resolution
+        if (
+          rule.attr === 'parent_region' ||
+          rule.attr === 'dungeon' ||
+          rule.attr === 'boss' ||
+          rule.attr === 'can_defeat'
+        ) {
+          console.log(
+            `[RULE ENGINE DEBUG] Attribute "${rule.attr}" - base object:`,
+            baseObject
+          );
+          console.log(
+            `[RULE ENGINE DEBUG] Attribute "${rule.attr}" - rule.object type:`,
+            rule.object?.type
+          );
+          console.log(
+            `[RULE ENGINE DEBUG] Attribute "${rule.attr}" - rule.object full:`,
+            JSON.stringify(rule.object, null, 2)
+          );
+        }
+        if (baseObject && typeof baseObject === 'object') {
+          // First try direct property access
+          let attrValue = baseObject[rule.attr];
+
+          // If not found, try resolveAttribute for mapping/transformation
+          if (
+            attrValue === undefined &&
+            typeof context.resolveAttribute === 'function'
+          ) {
+            attrValue = context.resolveAttribute(baseObject, rule.attr);
+            log(
+              'debug',
+              'ruleEngine',
+              `[depth=${depth}] resolveAttribute(${rule.attr}) returned:`,
+              attrValue
+            );
+
+            // BOSS DEBUG: Log resolve results
+            if (
+              rule.attr === 'parent_region' ||
+              rule.attr === 'dungeon' ||
+              rule.attr === 'boss' ||
+              rule.attr === 'can_defeat'
+            ) {
+              console.log(
+                `[RULE ENGINE DEBUG] resolveAttribute for "${rule.attr}" returned:`,
+                attrValue
+              );
+            }
+          }
+
+          // If the attribute value is itself a rule object that needs evaluation
+          // Rule objects should have string type properties, not numeric ones (which are used by data objects)
+          if (
+            attrValue &&
+            typeof attrValue === 'object' &&
+            attrValue.type &&
+            typeof attrValue.type === 'string'
+          ) {
+            // BOSS DEBUG: Check if our resolved values are being incorrectly treated as rule objects
+            if (
+              rule.attr === 'parent_region' ||
+              rule.attr === 'dungeon' ||
+              rule.attr === 'boss' ||
+              rule.attr === 'can_defeat'
+            ) {
+              console.log(
+                `[RULE ENGINE DEBUG] Attribute "${rule.attr}" resolved value has type property:`,
+                attrValue.type
+              );
+              console.log(
+                `[RULE ENGINE DEBUG] Attribute "${rule.attr}" resolved value:`,
+                attrValue
+              );
+              console.log(
+                `[RULE ENGINE DEBUG] Treating as rule object and re-evaluating`
+              );
+            }
+            log(
+              'debug',
+              'ruleEngine',
+              `[depth=${depth}] Attribute ${rule.attr} resolved to a rule object of type ${attrValue.type}, evaluating it`
+            );
+            return evaluateRule(attrValue, context, depth + 1);
+          }
+
+          if (typeof attrValue === 'function') {
+            return attrValue.bind(baseObject);
+          }
+
+          // BOSS DEBUG: Log what's being returned for each attribute
+          if (
+            rule.attr === 'parent_region' ||
+            rule.attr === 'dungeon' ||
+            rule.attr === 'boss' ||
+            rule.attr === 'can_defeat'
+          ) {
+            console.log(
+              `[RULE ENGINE DEBUG] Attribute "${rule.attr}" returning:`,
+              attrValue
+            );
+          }
+
+          return attrValue;
+        } else {
+          log(
+            'debug',
+            'ruleEngine',
+            `[depth=${depth}] Base object for attribute ${rule.attr} is not an object:`,
+            baseObject
+          );
+          return undefined;
+        }
       }
 
       case 'function_call': {
+        // BOSS DEBUG: Add logging for function_call evaluation
+        if (
+          rule.function &&
+          (rule.function.attr === 'defeat_rule' ||
+            rule.function.attr === 'can_defeat')
+        ) {
+          console.log(
+            '[BOSS DEBUG] Evaluating function_call for boss defeat rule'
+          );
+          console.log('[BOSS DEBUG] Rule function:', rule.function);
+          console.log('[BOSS DEBUG] Rule args:', rule.args);
+        }
+
         const func = evaluateRule(rule.function, context, depth + 1);
+
+        // BOSS DEBUG: Log what the function evaluation returned
+        if (
+          rule.function &&
+          (rule.function.attr === 'defeat_rule' ||
+            rule.function.attr === 'can_defeat')
+        ) {
+          console.log('[BOSS DEBUG] Function evaluation returned:', func);
+          console.log('[BOSS DEBUG] Function type:', typeof func);
+        }
+
         if (typeof func === 'undefined') {
+          if (
+            rule.function &&
+            (rule.function.attr === 'defeat_rule' ||
+              rule.function.attr === 'can_defeat')
+          ) {
+            console.log(
+              '[BOSS DEBUG] Function is undefined, returning undefined'
+            );
+          }
           result = undefined;
           break;
         }
+
+        // Special case: If func is a rule object (not a JavaScript function),
+        // evaluate it directly. This handles cases like boss.defeat_rule where
+        // defeat_rule is a rule object that needs evaluation, not a function call.
+        if (
+          func &&
+          typeof func === 'object' &&
+          func.type &&
+          typeof func.type === 'string'
+        ) {
+          if (
+            rule.function &&
+            (rule.function.attr === 'defeat_rule' ||
+              rule.function.attr === 'can_defeat')
+          ) {
+            console.log(
+              '[BOSS DEBUG] Function resolved to rule object, evaluating as rule:',
+              func
+            );
+          }
+          // Evaluate the rule object directly
+          result = evaluateRule(func, context, depth + 1);
+          break;
+        }
+
         const args = (rule.args || []).map(
           (arg) => evaluateRule(arg, context, depth + 1) // Evaluate args recursively
         );
