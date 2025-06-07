@@ -449,7 +449,7 @@ def process_regions(multiworld, player: int) -> tuple:
                             'name': getattr(region.dungeon.boss, 'name', None),
                             'defeat_rule': safe_expand_rule(
                                 game_handler,
-                                getattr(region.dungeon.boss, 'can_defeat', None),
+                                getattr(region.dungeon.boss, 'defeat_rule', None),
                                 getattr(region.dungeon.boss, 'name', None),
                                 target_type='Boss'
                             )

@@ -804,6 +804,7 @@ export class StateManager {
           const locationObjectForArray = {
             ...locationDataItem,
             region: regionName, // Ensure parent region context is explicitly set
+            parent_region_name: regionName, // Store region name for dynamic resolution
           };
 
           this.locations.push(locationObjectForArray);
@@ -1729,6 +1730,8 @@ export class StateManager {
     // Use the *injected* evaluateRule engine
     try {
       const snapshotInterface = this._createSelfSnapshotInterface();
+      // Add the current location to the context so rules can access it
+      snapshotInterface.currentLocation = location;
       return this.evaluateRuleFromEngine(
         location.access_rule,
         snapshotInterface
@@ -2683,6 +2686,9 @@ export class StateManager {
 
         // Player slot
         if (name === 'player') return self.playerSlot;
+
+        // Current location being evaluated (for location access rules)
+        if (name === 'location') return anInterface.currentLocation;
 
         // Game-specific entities (e.g., 'old_man') from helpers.entities
         if (

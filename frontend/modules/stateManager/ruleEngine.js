@@ -288,9 +288,24 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'not': {
-        const operandResult = evaluateRule(rule.operand, context, depth + 1);
-        // Negation of undefined is undefined
-        result = operandResult === undefined ? undefined : !operandResult;
+        // Handle both 'operand' and 'condition' field names for compatibility
+        const conditionToNegate = rule.operand || rule.condition;
+        if (!conditionToNegate) {
+          log(
+            'warn',
+            '[evaluateRule Not] Missing operand/condition in not rule:',
+            rule
+          );
+          result = undefined;
+        } else {
+          const operandResult = evaluateRule(
+            conditionToNegate,
+            context,
+            depth + 1
+          );
+          // Negation of undefined is undefined
+          result = operandResult === undefined ? undefined : !operandResult;
+        }
         break;
       }
 
@@ -305,6 +320,16 @@ export const evaluateRule = (rule, context, depth = 0) => {
         const baseObject = evaluateRule(rule.object, context, depth + 1);
 
         if (baseObject && typeof baseObject === 'object') {
+          // Special handling for parent_region attribute on location objects
+          if (rule.attr === 'parent_region' && baseObject.parent_region_name) {
+            // Dynamically resolve the parent region from the context
+            if (context.getStaticData && context.getStaticData().regions) {
+              const regions = context.getStaticData().regions;
+              return regions[baseObject.parent_region_name];
+            }
+            return undefined;
+          }
+
           // First try direct property access
           let attrValue = baseObject[rule.attr];
 
@@ -338,6 +363,67 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'function_call': {
+        // Special handling for boss.can_defeat function calls
+        // These need to be redirected to use the boss's defeat_rule data
+        if (
+          rule.function?.type === 'attribute' &&
+          rule.function.attr === 'can_defeat'
+        ) {
+          // Check if this is a boss.can_defeat call by walking up the chain
+          let current = rule.function.object;
+          let isDungeomBossDefeat = false;
+
+          // Look for the pattern: location.parent_region.dungeon.boss.can_defeat
+          while (current && current.type === 'attribute') {
+            if (current.attr === 'boss') {
+              isDungeomBossDefeat = true;
+              break;
+            }
+            current = current.object;
+          }
+
+          if (isDungeomBossDefeat) {
+            // Evaluate the boss object (everything before .can_defeat)
+            const bossObject = evaluateRule(
+              rule.function.object,
+              context,
+              depth + 1
+            );
+
+            // Debug the chain resolution step by step
+            log('debug', '[evaluateRule] Boss defeat chain resolution:', {
+              hasLocation: !!context.currentLocation,
+              locationName: context.currentLocation?.name,
+              bossObjectResult: bossObject,
+              bossObjectType: typeof bossObject,
+              hasBossDefeatRule: !!(bossObject && bossObject.defeat_rule),
+              functionChain: extractFunctionChain(rule.function.object),
+            });
+
+            if (bossObject && bossObject.defeat_rule) {
+              // Use the boss's defeat_rule instead of trying to call can_defeat
+              log(
+                'debug',
+                '[evaluateRule] Redirecting boss.can_defeat to boss.defeat_rule',
+                {
+                  boss: bossObject.name,
+                  defeatRule: bossObject.defeat_rule,
+                }
+              );
+              result = evaluateRule(bossObject.defeat_rule, context, depth + 1);
+              break;
+            } else {
+              log('warn', '[evaluateRule] Boss object missing defeat_rule', {
+                bossObject,
+                functionObject: rule.function.object,
+                contextCurrentLocation: context.currentLocation?.name,
+              });
+              result = undefined;
+              break;
+            }
+          }
+        }
+
         const func = evaluateRule(rule.function, context, depth + 1);
 
         if (typeof func === 'undefined') {
@@ -626,7 +712,7 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'conditional': {
-        if (!rule.test || !rule.if_true || !rule.if_false) {
+        if (!rule.test || !rule.if_true) {
           log(
             'warn',
             '[evaluateRule Conditional] Malformed conditional rule:',
@@ -640,7 +726,11 @@ export const evaluateRule = (rule, context, depth = 0) => {
           } else if (testResult) {
             result = evaluateRule(rule.if_true, context, depth + 1);
           } else {
-            result = evaluateRule(rule.if_false, context, depth + 1);
+            // Handle null if_false as false (can't defeat boss if condition not met)
+            result =
+              rule.if_false === null
+                ? false
+                : evaluateRule(rule.if_false, context, depth + 1);
           }
         }
         break;
@@ -965,4 +1055,24 @@ export function debugPythonAST(rule) {
   }
 
   console.groupEnd();
+}
+
+function extractFunctionChain(node) {
+  const chain = [];
+  let current = node;
+
+  while (current) {
+    if (current.type === 'attribute') {
+      chain.unshift(current.attr);
+      current = current.object;
+    } else if (current.type === 'name') {
+      chain.unshift(current.name);
+      break;
+    } else {
+      chain.unshift(`[${current.type}]`);
+      break;
+    }
+  }
+
+  return chain.join('.');
 }
