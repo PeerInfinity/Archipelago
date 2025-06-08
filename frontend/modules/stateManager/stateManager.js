@@ -97,6 +97,9 @@ export class StateManager {
 
     // Add debug mode flag
     this.debugMode = false; // Set to true to enable detailed logging
+    
+    // REFACTOR: Track whether we're using canonical state format
+    this._useCanonicalStateFormat = false;
 
     // New maps for item and location IDs
     this.itemNameToId = {};
@@ -341,18 +344,17 @@ export class StateManager {
   addItemToInventory(itemName, count = 1) {
     if (!this._batchMode) {
       // Non-batch mode: Apply immediately and update
-      if (this.inventory && typeof this.inventory.addItem === 'function') {
-        for (let i = 0; i < count; i++) {
-          this.inventory.addItem(itemName);
-        }
+      if (this.inventory) {
+        // REFACTOR: Use format-agnostic helper
+        this._addItemToInventory(itemName, count);
         this._logDebug(
-          `[StateManager] addItemToInventory: Called inventory.addItem("${itemName}") ${count} times`
+          `[StateManager] addItemToInventory: Added "${itemName}" x${count} (format: ${this._useCanonicalStateFormat ? 'canonical' : 'legacy'})`
         );
         this.invalidateCache(); // Adding an item can change reachability
         this._sendSnapshotUpdate(); // Send a new snapshot
       } else {
         this._logDebug(
-          `[StateManager] addItemToInventory: Inventory or addItem method not available for "${itemName}"`,
+          `[StateManager] addItemToInventory: Inventory not available for "${itemName}"`,
           null,
           'warn'
         );
@@ -646,6 +648,9 @@ export class StateManager {
     // After state.loadSettings, this.state.settings should be populated.
     // Sync the StateManager's main settings reference to this.
     this.settings = this.state.settings;
+    
+    // REFACTOR: Initialize canonical state format after settings are loaded
+    this._initializeCanonicalStateFormat();
 
     // CRITICAL: Ensure this.settings.game is aligned with the gameNameForStateAndHelpers
     // This ensures helpers are chosen based on the game we just instantiated state for.
@@ -2026,9 +2031,8 @@ export class StateManager {
     // Process all batched updates
     for (const [itemName, count] of this._batchedUpdates.entries()) {
       if (count > 0) {
-        for (let i = 0; i < count; i++) {
-          this.inventory.addItem(itemName);
-        }
+        // REFACTOR: Use format-agnostic helper
+        this._addItemToInventory(itemName, count);
         inventoryChanged = true;
       } else if (count < 0) {
         // This case is not currently used as we only add items in batch mode
@@ -2806,16 +2810,28 @@ export class StateManager {
     }
 
     // 1. Inventory
-    const inventorySnapshot = {};
+    // REFACTOR: Check feature flag for canonical inventory format
+    const useCanonicalFormat = 
+      this.settings?.featureFlags?.useCanonicalStateFormat ||
+      (typeof window !== 'undefined' && 
+       window.settings?.featureFlags?.useCanonicalStateFormat);
+    
+    let inventorySnapshot = {};
     if (this.inventory && this.itemData) {
-      // Need itemData to iterate all possible items
-      for (const itemName in this.itemData) {
-        if (Object.hasOwn(this.itemData, itemName)) {
-          // Use the inventory's count() method which understands progressive items
-          const itemCount = this.inventory.count(itemName);
-          if (itemCount > 0) {
-            // Only include items with a count > 0 in the snapshot
-            inventorySnapshot[itemName] = itemCount;
+      if (this._useCanonicalStateFormat) {
+        // In canonical format, inventory is already a plain object with all items
+        inventorySnapshot = { ...this.inventory };
+      } else {
+        // Legacy format: need to iterate and use inventory's count() method
+        for (const itemName in this.itemData) {
+          if (Object.hasOwn(this.itemData, itemName)) {
+            // Use the inventory's count() method which understands progressive items
+            const itemCount = this.inventory.count(itemName);
+            if (useCanonicalFormat || itemCount > 0) {
+              // In canonical format, include all items (even with 0 count)
+              // In legacy format, only include items with count > 0
+              inventorySnapshot[itemName] = itemCount;
+            }
           }
         }
       }
@@ -2874,7 +2890,18 @@ export class StateManager {
       });
     }
 
-    // 4. Assemble Snapshot
+    // 4. Convert eventLocations Map to plain object
+    const eventLocationsObject = {};
+    if (this.eventLocations && this.eventLocations instanceof Map) {
+      for (const [locationName, locationData] of this.eventLocations.entries()) {
+        eventLocationsObject[locationName] = locationData;
+      }
+    }
+
+    // 5. Assemble Snapshot
+    // REFACTOR NOTE: Currently there is duplication between top-level properties and 
+    // properties inside 'state'. This will be consolidated when we implement the 
+    // canonical state format. For now, we maintain backward compatibility.
     const snapshot = {
       inventory: inventorySnapshot,
       settings: { ...this.settings },
@@ -2890,13 +2917,143 @@ export class StateManager {
         team: this.team, // Assuming this.team exists on StateManager
       },
       game: this.gameId || this.settings?.game || 'Unknown', // Prioritize this.gameId
+      gameId: this.gameId || this.settings?.game || 'Unknown', // REFACTOR: Add consistent gameId
       difficultyRequirements: this.state?.difficultyRequirements,
       shops: this.state?.shops,
       gameMode: this.mode,
       // ADDED: Expose dungeons in the main snapshot body for easier access by some components
       dungeons: this.dungeons,
+      // REFACTOR: Add missing properties for canonical state
+      debugMode: this.debugMode || false,
+      autoCollectEventsEnabled: this.autoCollectEventsEnabled !== false, // Default true
+      eventLocations: eventLocationsObject,
+      startRegions: this.startRegions || ['Menu'],
+      
+      // Note: We don't include progressionMapping, itemData, groupData, etc. here 
+      // because they are static data already available in staticDataCache
     };
+    
+    // REFACTOR: Temporary logging to verify new properties
+    if (this.debugMode) {
+      log('info', '[StateManager getSnapshot] Snapshot includes new properties:', {
+        debugMode: snapshot.debugMode,
+        autoCollectEventsEnabled: snapshot.autoCollectEventsEnabled,
+        eventLocationsCount: Object.keys(snapshot.eventLocations).length,
+        hasGameId: !!snapshot.gameId,
+        startRegions: snapshot.startRegions,
+        inventoryFormat: useCanonicalFormat ? 'canonical' : 'legacy',
+        inventoryItemCount: Object.keys(snapshot.inventory).length
+      });
+    }
+    
     return snapshot;
+  }
+
+  /**
+   * REFACTOR: Initialize canonical state format if feature flag is enabled
+   */
+  _initializeCanonicalStateFormat() {
+    const useCanonical = 
+      this.settings?.featureFlags?.useCanonicalStateFormat ||
+      (typeof window !== 'undefined' && 
+       window.settings?.featureFlags?.useCanonicalStateFormat);
+    
+    if (useCanonical && !this._useCanonicalStateFormat) {
+      log('info', '[StateManager] Switching to canonical state format');
+      this._useCanonicalStateFormat = true;
+      
+      // Convert existing inventory to canonical format if it exists
+      if (this.inventory && this.itemData) {
+        this._migrateInventoryToCanonical();
+      }
+    } else if (!useCanonical && this._useCanonicalStateFormat) {
+      log('info', '[StateManager] Switching back to legacy state format');
+      this._useCanonicalStateFormat = false;
+      
+      // Convert back to legacy format if needed
+      if (this.inventory && this.itemData) {
+        this._migrateInventoryToLegacy();
+      }
+    }
+  }
+
+  /**
+   * REFACTOR: Convert current Map-based inventory to canonical plain object format
+   */
+  _migrateInventoryToCanonical() {
+    if (this.inventory instanceof ALTTPInventory) {
+      const canonicalInventory = {};
+      
+      // Initialize all items to 0
+      for (const itemName in this.itemData) {
+        if (Object.hasOwn(this.itemData, itemName)) {
+          canonicalInventory[itemName] = this.inventory.count(itemName);
+        }
+      }
+      
+      // Store original for migration back if needed
+      this._legacyInventory = this.inventory;
+      this.inventory = canonicalInventory;
+      
+      log('info', '[StateManager] Migrated inventory to canonical format');
+    }
+  }
+
+  /**
+   * REFACTOR: Convert canonical inventory back to Map-based format
+   */
+  _migrateInventoryToLegacy() {
+    if (this._legacyInventory) {
+      this.inventory = this._legacyInventory;
+      this._legacyInventory = null;
+      log('info', '[StateManager] Migrated inventory back to legacy format');
+    }
+  }
+
+  /**
+   * REFACTOR: Helper function to add items that works with both formats
+   */
+  _addItemToInventory(itemName, count = 1) {
+    if (this._useCanonicalStateFormat) {
+      // Canonical format: plain object
+      if (!(itemName in this.inventory)) {
+        log('warn', `[StateManager] Adding unknown item: ${itemName}`);
+        this.inventory[itemName] = 0;
+      }
+      
+      const currentCount = this.inventory[itemName];
+      const itemDef = this.itemData[itemName];
+      const maxCount = itemDef?.max_count ?? Infinity;
+      
+      this.inventory[itemName] = Math.min(currentCount + count, maxCount);
+    } else {
+      // Legacy format: ALTTPInventory instance
+      for (let i = 0; i < count; i++) {
+        this.inventory.addItem(itemName);
+      }
+    }
+  }
+
+  /**
+   * REFACTOR: Helper function to check items that works with both formats
+   */
+  _hasItem(itemName) {
+    if (this._useCanonicalStateFormat) {
+      return (this.inventory[itemName] || 0) > 0;
+    } else {
+      return this.inventory.has(itemName);
+    }
+  }
+
+  /**
+   * REFACTOR: Helper function to count items that works with both formats
+   */
+  _countItem(itemName) {
+    if (this._useCanonicalStateFormat) {
+      return this.inventory[itemName] || 0;
+    } else {
+      return this.inventory.count(itemName);
+    }
   }
 
   applyRuntimeState(payload) {
@@ -3137,6 +3294,27 @@ export class StateManager {
     this._logDebug(
       `[StateManager _createInventoryInstance] Attempting to create inventory for game: ${gameName}`
     );
+    
+    // REFACTOR: Check if we should use canonical format
+    if (this._useCanonicalStateFormat) {
+      this._logDebug(
+        `[StateManager _createInventoryInstance] Creating canonical inventory for ${gameName}`
+      );
+      const canonicalInventory = {};
+      
+      // Initialize all items to 0
+      if (this.itemData) {
+        for (const itemName in this.itemData) {
+          if (Object.hasOwn(this.itemData, itemName)) {
+            canonicalInventory[itemName] = 0;
+          }
+        }
+      }
+      
+      return canonicalInventory;
+    }
+    
+    // Legacy format
     if (gameName === 'A Link to the Past') {
       this._logDebug(
         `[StateManager _createInventoryInstance] Instantiating ALTTPInventory for ${gameName}`

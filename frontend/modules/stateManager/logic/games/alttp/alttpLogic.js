@@ -17,6 +17,11 @@ export function has(state, itemName, staticData) {
     return true;
   }
   
+  // Also check state.state.events for compatibility with current format
+  if (state.state && state.state.events && state.state.events.includes(itemName)) {
+    return true;
+  }
+  
   // Check inventory
   if (!state.inventory) return false;
   
