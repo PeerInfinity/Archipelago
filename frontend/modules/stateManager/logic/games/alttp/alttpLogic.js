@@ -199,7 +199,8 @@ export function can_use_bombs(state, world, itemName, staticData) {
   // Start with base bombs (10 unless bombless start)
   let bombs = 0;
   const bomblessStart = state.settings?.bombless_start || 
-                       (state.state && state.state.flags && state.state.flags.includes('bombless_start'));
+                       (state.state && state.state.flags && state.state.flags.includes('bombless_start')) ||
+                       (state.flags && state.flags.includes('bombless_start'));
   if (!bomblessStart) {
     bombs = 10;
   }
