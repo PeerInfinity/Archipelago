@@ -1138,12 +1138,6 @@ export class StateManagerProxy {
           stateManager:
             mainThreadLoggerConfig.categoryLevels?.stateManager ||
             mainThreadLoggerConfig.defaultLevel,
-          ALTTPInventory:
-            mainThreadLoggerConfig.categoryLevels?.ALTTPInventory ||
-            mainThreadLoggerConfig.defaultLevel,
-          alttpInventory:
-            mainThreadLoggerConfig.categoryLevels?.alttpInventory ||
-            mainThreadLoggerConfig.defaultLevel,
           ruleEngine:
             mainThreadLoggerConfig.categoryLevels?.ruleEngine ||
             mainThreadLoggerConfig.defaultLevel,

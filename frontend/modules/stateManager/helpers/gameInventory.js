@@ -97,7 +97,7 @@ export class GameInventory {
     this.logger('Inventory reset.');
   }
 
-  // Placeholder for groupData, ALTTPInventory uses this.
+  // Placeholder for groupData.
   // Base class can have it, specific inventories can choose to use it or not.
   get groupData() {
     return this._groupData || [];
@@ -108,7 +108,7 @@ export class GameInventory {
     this.logger('groupData set.');
   }
 
-  // Placeholder for itemData, ALTTPInventory uses this.
+  // Placeholder for itemData.
   get itemData() {
     return this._itemData || {};
   }
@@ -128,7 +128,5 @@ export class GameInventory {
     this.logger('progressionMapping set.');
   }
 
-  // Add other common methods that ALTTPInventory might have and could be generic,
-  // for example, countGroup, isProgressiveBaseItem etc., if they can be generalized
-  // or provided with base implementations. For now, keeping it to what AdventureInventory had.
+  // Add other common methods that specific inventories might have and could be generic.
 }

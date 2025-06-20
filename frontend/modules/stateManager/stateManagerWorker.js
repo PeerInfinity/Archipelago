@@ -87,7 +87,7 @@ function log(level, message, ...data) {
   }
 }
 
-// NOTE: ALTTPInventory, ALTTPState, ALTTPHelpers are imported
+// NOTE: ALTTPState and game-specific helpers are imported
 // and instantiated *inside* StateManager.js constructor or used directly.
 
 // Dependencies loaded message using console directly to avoid circular dependency
