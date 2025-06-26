@@ -28,7 +28,7 @@ function log(level, message, ...data) {
 
 // --- Module Info --- //
 export const moduleInfo = {
-  name: 'Client',
+  name: 'client',
   description: 'Handles Archipelago client connection and communication.',
 };
 

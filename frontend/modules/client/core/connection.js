@@ -152,6 +152,10 @@ export class Connection {
 
   // Private event handlers
   _onOpen() {
+    log('info', '[Connection] WebSocket connection opened');
+    log('info', '[Connection] Connected to server:', this.serverAddress);
+    log('info', '[Connection] WebSocket readyState:', this.socket.readyState);
+    log('info', '[Connection] WebSocket URL:', this.socket.url);
     this.eventBus?.publish('connection:open', {
       serverAddress: this.serverAddress,
     });
@@ -160,9 +164,11 @@ export class Connection {
   _onMessage(event) {
     try {
       const commands = JSON.parse(event.data);
+      log('info', '[Connection] Received message from server:', commands);
       this.eventBus?.publish('connection:message', commands);
     } catch (error) {
       log('error', 'Error parsing server message:', error);
+      log('error', 'Raw message data:', event.data);
     }
   }
 
@@ -241,11 +247,18 @@ export class Connection {
 
   send(data) {
     if (!this.isConnected()) {
+      log('warn', '[Connection] Cannot send - not connected');
+      log('warn', '[Connection] Socket state:', this.socket ? this.socket.readyState : 'null');
       return false;
     }
 
     try {
-      this.socket.send(typeof data === 'string' ? data : JSON.stringify(data));
+      const dataToSend = typeof data === 'string' ? data : JSON.stringify(data);
+      log('info', '[Connection] Sending data to server:', dataToSend);
+      log('info', '[Connection] WebSocket URL:', this.socket.url);
+      log('info', '[Connection] WebSocket readyState:', this.socket.readyState);
+      this.socket.send(dataToSend);
+      log('info', '[Connection] Data sent successfully via WebSocket');
       return true;
     } catch (error) {
       log('error', 'Error sending message:', error);

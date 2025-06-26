@@ -22,9 +22,9 @@ function log(level, message, ...data) {
 export function handleUserLocationCheckForLoops(eventData, propagationOptions) {
   log('info', 
     '[LoopsModule] handleUserLocationCheckForLoops received event:',
-    JSON.parse(JSON.stringify(eventData)),
+    eventData ? JSON.parse(JSON.stringify(eventData)) : 'undefined',
     'Propagation:',
-    JSON.parse(JSON.stringify(propagationOptions))
+    propagationOptions ? JSON.parse(JSON.stringify(propagationOptions)) : 'undefined'
   );
   const dispatcher = getLoopsModuleDispatcher(); // Get the dispatcher
 

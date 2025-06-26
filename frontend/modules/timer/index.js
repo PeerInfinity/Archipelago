@@ -72,6 +72,28 @@ export function register(registrationApi) {
     }
   );
 
+  registrationApi.registerPublicFunction(
+    moduleInfo.name,
+    'setCheckDelay',
+    (minSeconds, maxSeconds = null) => {
+      if (
+        timerLogicInstance &&
+        typeof timerLogicInstance.setCheckDelay === 'function'
+      ) {
+        log('info', 
+          `[Timer Module] setCheckDelay called with min=${minSeconds}, max=${maxSeconds}`
+        );
+        timerLogicInstance.setCheckDelay(minSeconds, maxSeconds);
+        return true;
+      } else {
+        log('error', 
+          '[Timer Module] setCheckDelay called but TimerLogic instance or method not ready.'
+        );
+        return false;
+      }
+    }
+  );
+
   // Register events this module publishes
   registrationApi.registerEventBusPublisher(moduleInfo.name, 'timer:started');
   registrationApi.registerEventBusPublisher(moduleInfo.name, 'timer:stopped');

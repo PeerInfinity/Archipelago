@@ -28,8 +28,17 @@ const CLIENT_MODULE_ID = 'Client'; // This module's ID for logging or other purp
 
 class MainContentUI {
   constructor(container, componentState) {
-    log('info', '[MainContentUI] Constructor called');
     this.container = container;
+    log('info', '[MainContentUI] Constructor called');
+
+    // Initialize console manager if it doesn't exist
+    if (!window.consoleManager) {
+      window.consoleManager = {
+        commands: {}
+      };
+      log('info', '[MainContentUI] Initialized window.consoleManager');
+    }
+
     this.componentState = componentState;
     this.timerHostPlaceholder = null;
 
@@ -61,6 +70,27 @@ class MainContentUI {
     });
     this.eventBus.subscribe('connection:reconnecting', () => {
       this.updateConnectionStatus('connecting');
+    });
+
+    // ADDED: Subscribe to the game:connected event to show the final success message
+    this.eventBus.subscribe('game:connected', (data) => {
+      // Find player name
+      const player = data.players.find((p) => p.slot === data.slot);
+      const playerName = player ? player.name : `Player ${data.slot}`;
+
+      this.appendConsoleMessage(
+        `Successfully connected to the server as ${playerName}.`,
+        'success'
+      );
+      this.appendConsoleMessage(`Team: ${data.team}, Slot: ${data.slot}`, 'info');
+
+      // Display location stats
+      const checked = data.checkedLocations?.length || 0;
+      const total = checked + (data.missingLocations?.length || 0);
+      this.appendConsoleMessage(
+        `${checked} locations checked, ${total - checked} remaining.`,
+        'info'
+      );
     });
 
     // <<< ADDED: Subscribe to console print requests >>>
@@ -160,8 +190,8 @@ class MainContentUI {
         
         <div id="main-console" class="main-console" style="flex-grow: 1; overflow-y: auto; background-color: #222; border: 1px solid #444; padding: 10px;">
           <div id="console-output" class="console-output console-messages">
-            <div class="console-message">Welcome to the console!</div>
-            <div class="console-message">Type "help" for a list of available commands.</div>
+            <div class="console-message">Welcome to the Archipelago Client Console!</div>
+            <div class="console-message">Type "help" for local commands, or "!help" for server commands.</div>
           </div>
         </div>
         
@@ -267,7 +297,7 @@ class MainContentUI {
     log('info', '[MainContentUI] Initializing console');
 
     this.appendConsoleMessage(
-      'Console initialized. Type "help" for available commands.',
+      'Console initialized. Type "help" for local commands, or "!help" for server commands.',
       'system'
     );
   }
@@ -276,45 +306,76 @@ class MainContentUI {
   appendConsoleMessage(message, type = 'info') {
     if (!this.consoleHistoryElement) return;
 
-    const messageElement = document.createElement('div');
-    messageElement.className = `console-message console-message-${type}`;
-    messageElement.textContent = message;
+    // Handle multi-line messages by splitting on newlines
+    const lines = message.split('\n');
+    
+    lines.forEach(line => {
+      // Skip empty lines unless it's the only line (preserve single empty messages)
+      if (line.trim() === '' && lines.length > 1) return;
+      
+      const messageElement = document.createElement('div');
+      messageElement.className = `console-message console-message-${type}`;
+      messageElement.textContent = line;
 
-    // Style based on message type
-    switch (type) {
-      case 'error':
-        messageElement.style.color = '#ff6b6b';
-        break;
-      case 'success':
-        messageElement.style.color = '#51cf66';
-        break;
-      case 'warning':
-        messageElement.style.color = '#fcc419';
-        break;
-      case 'system':
-        messageElement.style.color = '#4dabf7';
-        messageElement.style.fontStyle = 'italic';
-        break;
-      case 'command':
-        messageElement.style.color = '#94d3a2';
-        messageElement.style.fontWeight = 'bold';
-        break;
-      default:
-        messageElement.style.color = '#ced4da';
-    }
+      // Style based on message type
+      switch (type) {
+        case 'error':
+          messageElement.style.color = '#ff6b6b';
+          break;
+        case 'success':
+          messageElement.style.color = '#51cf66';
+          break;
+        case 'warning':
+          messageElement.style.color = '#fcc419';
+          break;
+        case 'system':
+          messageElement.style.color = '#4dabf7';
+          messageElement.style.fontStyle = 'italic';
+          break;
+        case 'command':
+          messageElement.style.color = '#94d3a2';
+          messageElement.style.fontWeight = 'bold';
+          break;
+        default:
+          messageElement.style.color = '#ced4da';
+      }
 
-    this.consoleHistoryElement.appendChild(messageElement);
+      this.consoleHistoryElement.appendChild(messageElement);
+    });
 
     // Scroll to bottom
     this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
   }
 
   executeCommand(command) {
+    // Check if this is a server command (starts with !)
+    if (command.startsWith('!')) {
+      // Send to server via messageHandler
+      if (this.messageHandler && typeof this.messageHandler.sendMessage === 'function') {
+        const success = this.messageHandler.sendMessage(command);
+        if (success) {
+          this.appendConsoleMessage(`Command: ${command}`, 'info');
+        } else {
+          this.appendConsoleMessage('Failed to send command: Not connected to server.', 'error');
+        }
+      } else {
+        this.appendConsoleMessage('Failed to send command: Message handler not available.', 'error');
+      }
+      return;
+    }
+
     const args = command.split(' ');
-    const cmd = args.shift().toLowerCase();
+    let cmd = args.shift();
     const argString = args.join(' ');
 
-    // Check for built-in commands
+    // Handle both /command and command formats for local commands
+    const isSlashCommand = cmd.startsWith('/');
+    if (isSlashCommand) {
+      cmd = cmd.substring(1); // Remove the /
+    }
+    cmd = cmd.toLowerCase();
+
+    // Check for built-in commands (support both help and /help)
     if (cmd === 'help') {
       this.showHelp();
       return;
@@ -343,32 +404,55 @@ class MainContentUI {
     }
 
     // Command not found
+    const commandDisplay = isSlashCommand ? `/${cmd}` : cmd;
     this.appendConsoleMessage(
-      `Unknown command: ${cmd}. Type "help" for available commands.`,
+      `Unknown command: ${commandDisplay}. Type "help" or "/help" for available commands.`,
       'error'
     );
   }
 
   registerCommand(name, description, handler) {
-    if (!window.consoleManager) return;
+    log('info', `[MainContentUI] Attempting to register command: ${name}`);
+    if (!window.consoleManager) {
+      log('error', '[MainContentUI] window.consoleManager not available!');
+      return;
+    }
+    if (!window.consoleManager.commands) {
+      log('error', '[MainContentUI] window.consoleManager.commands not available!');
+      return;
+    }
     window.consoleManager.commands[name.toLowerCase()] = {
       description,
       handler,
     };
-    log('info', `[MainContentUI] Registered console command: ${name}`);
+    log('info', `[MainContentUI] Successfully registered console command: ${name}`);
   }
 
   showHelp() {
+    log('info', '[MainContentUI] showHelp called');
+    log('info', '[MainContentUI] window.consoleManager exists:', !!window.consoleManager);
+    log('info', '[MainContentUI] window.consoleManager.commands exists:', !!(window.consoleManager?.commands));
+    if (window.consoleManager?.commands) {
+      log('info', '[MainContentUI] Available commands:', Object.keys(window.consoleManager.commands));
+    }
+    
     this.appendConsoleMessage('Available commands:', 'system');
     if (window.consoleManager && window.consoleManager.commands) {
-      Object.entries(window.consoleManager.commands)
-        .sort(([a], [b]) => a.localeCompare(b)) // Sort alphabetically
-        .forEach(([name, { description }]) => {
-          this.appendConsoleMessage(
-            `${name} - ${description || 'No description'}`,
-            'info'
-          );
-        });
+      const commands = Object.entries(window.consoleManager.commands);
+      if (commands.length === 0) {
+        this.appendConsoleMessage('No commands registered.', 'info');
+      } else {
+        commands
+          .sort(([a], [b]) => a.localeCompare(b)) // Sort alphabetically
+          .forEach(([name, { description }]) => {
+            this.appendConsoleMessage(
+              `/${name} - ${description || 'No description'}`,
+              'info'
+            );
+          });
+      }
+    } else {
+      this.appendConsoleMessage('Console manager not available.', 'error');
     }
   }
 
@@ -440,6 +524,115 @@ class MainContentUI {
       this.clearConsole()
     );
 
+    // --- Traditional Archipelago Commands (with / prefix) ---
+    this.registerCommand('sync', 'Force the client to synchronize with the AP server.', () => {
+      if (this.messageHandler && typeof this.messageHandler.serverSync === 'function') {
+        this.messageHandler.serverSync();
+        this.appendConsoleMessage('Requesting server sync...', 'system');
+      } else {
+        this.appendConsoleMessage('Sync failed: Message handler not available.', 'error');
+      }
+    });
+
+    this.registerCommand('received', 'List all received items.', async () => {
+      if (this.stateManager) {
+        try {
+          const snapshot = await this.stateManager.getLatestStateSnapshot();
+          const inventory = snapshot?.inventory || {};
+          if (Object.keys(inventory).length === 0) {
+            this.appendConsoleMessage('No items received yet.', 'info');
+          } else {
+            this.appendConsoleMessage('Received items:', 'info');
+            Object.entries(inventory).forEach(([item, count]) => {
+              this.appendConsoleMessage(`  ${item}: ${count}`, 'info');
+            });
+          }
+        } catch (error) {
+          this.appendConsoleMessage(`Error getting received items: ${error.message}`, 'error');
+        }
+      } else {
+        this.appendConsoleMessage('Cannot list received items: State manager not available.', 'error');
+      }
+    });
+
+    this.registerCommand('missing', 'List all missing location checks.', async () => {
+      if (this.stateManager) {
+        try {
+          const snapshot = await this.stateManager.getLatestStateSnapshot();
+          const allLocations = snapshot?.locations || [];
+          const checkedLocations = new Set(snapshot?.flags || []);
+          const missingLocations = allLocations.filter(loc => !checkedLocations.has(loc.name));
+          
+          if (missingLocations.length === 0) {
+            this.appendConsoleMessage('No missing locations.', 'info');
+          } else {
+            this.appendConsoleMessage(`Missing locations (${missingLocations.length}):`, 'info');
+            missingLocations.forEach(location => {
+              this.appendConsoleMessage(`  ${location.name}`, 'info');
+            });
+          }
+        } catch (error) {
+          this.appendConsoleMessage(`Error getting missing locations: ${error.message}`, 'error');
+        }
+      } else {
+        this.appendConsoleMessage('Cannot list missing locations: State manager not available.', 'error');
+      }
+    });
+
+    this.registerCommand('items', 'List all item names for the current game.', async () => {
+      if (this.stateManager) {
+        try {
+          const snapshot = await this.stateManager.getLatestStateSnapshot();
+          const itemData = snapshot?.itemData || {};
+          const itemNames = Object.keys(itemData);
+          
+          if (itemNames.length === 0) {
+            this.appendConsoleMessage('No items available.', 'info');
+          } else {
+            this.appendConsoleMessage(`Available items (${itemNames.length}):`, 'info');
+            itemNames.forEach(itemName => {
+              this.appendConsoleMessage(`  ${itemName}`, 'info');
+            });
+          }
+        } catch (error) {
+          this.appendConsoleMessage(`Error getting items: ${error.message}`, 'error');
+        }
+      } else {
+        this.appendConsoleMessage('Cannot list items: State manager not available.', 'error');
+      }
+    });
+
+    this.registerCommand('locations', 'List all location names for the current game.', async () => {
+      if (this.stateManager) {
+        try {
+          const snapshot = await this.stateManager.getLatestStateSnapshot();
+          const locations = snapshot?.locations || [];
+          
+          if (locations.length === 0) {
+            this.appendConsoleMessage('No locations available.', 'info');
+          } else {
+            this.appendConsoleMessage(`Available locations (${locations.length}):`, 'info');
+            locations.forEach(location => {
+              this.appendConsoleMessage(`  ${location.name}`, 'info');
+            });
+          }
+        } catch (error) {
+          this.appendConsoleMessage(`Error getting locations: ${error.message}`, 'error');
+        }
+      } else {
+        this.appendConsoleMessage('Cannot list locations: State manager not available.', 'error');
+      }
+    });
+
+    this.registerCommand('ready', 'Sends ready status to the server.', () => {
+      if (this.messageHandler && typeof this.messageHandler.sendStatusUpdate === 'function') {
+        this.messageHandler.sendStatusUpdate(30); // 30 = Ready status
+        this.appendConsoleMessage('Ready status sent to server.', 'system');
+      } else {
+        this.appendConsoleMessage('Failed to send ready status: Message handler not available.', 'error');
+      }
+    });
+
     // --- Register ConsoleUI Commands ---
     // Pass the register function and dependencies to ConsoleUI
     ConsoleUI.registerCommands(this.registerCommand.bind(this), {
@@ -447,6 +640,7 @@ class MainContentUI {
       timerState: this.timerState,
       messageHandler: this.messageHandler,
       connection: this.connection, // From constructor
+      centralRegistry: centralRegistry, // For accessing Timer module
       // Pass specific console methods needed by ConsoleUI handlers
       consoleManager: {
         print: this.appendConsoleMessage.bind(this),

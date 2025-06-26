@@ -5,7 +5,7 @@ import { handleUserLocationCheckForLoops } from './loopEvents.js'; // Import new
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Loops',
+  name: 'loops',
   description: 'Loop mode logic and UI panel.',
 };
 

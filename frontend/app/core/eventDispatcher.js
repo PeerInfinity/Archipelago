@@ -103,11 +103,11 @@ class EventDispatcher {
         if (priorityA === -1) return 1; // Put unknowns last
         if (priorityB === -1) return -1;
 
-        // Ascending order if initialTarget is bottom (default), Descending if initialTarget is top
-        // Todo - check if this is correct, or if it should be reversed
+        // For 'bottom' target: Start with highest priority index (last loaded) - DESCENDING order
+        // For 'top' target: Start with lowest priority index (first loaded) - ASCENDING order
         return initialTarget === 'bottom'
-          ? priorityA - priorityB
-          : priorityB - priorityA;
+          ? priorityB - priorityA  // FIXED: Descending order for bottom (highest index first)
+          : priorityA - priorityB; // Ascending order for top (lowest index first)
       });
 
     if (eligibleHandlers.length === 0) {

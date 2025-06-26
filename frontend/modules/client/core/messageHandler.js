@@ -12,7 +12,7 @@ import {
 } from '../utils/idMapping.js';
 import { sharedClientState } from './sharedState.js';
 import { stateManagerProxySingleton } from '../../stateManager/index.js';
-import { getClientModuleDispatcher } from '../index.js';
+import { getClientModuleDispatcher, moduleInfo } from '../index.js';
 
 
 // Helper function for logging with fallback
@@ -232,54 +232,67 @@ export class MessageHandler {
   }
 
   async _handleConnected(data) {
-    // Store connection data
-    this.clientTeam = data.team;
+    log('info', '[MessageHandler] _handleConnected called with data:', data);
+    
+    // Get stateManager
+    const stateManager = await this._getStateManager();
+
+    // Store important connection data
     this.clientSlot = data.slot;
+    this.clientTeam = data.team;
     this.players = data.players;
+    this.missingLocationIds = data.missing_locations || [];
+    this.checkedLocationIds = data.checked_locations || [];
 
-    const stateManager = await this._getStateManager(); // This now gets the proxy
-    if (stateManager) {
-      const serverCheckedLocationNames = [];
-      if (data.checked_locations && data.checked_locations.length > 0) {
-        for (const id of data.checked_locations) {
-          const name = getLocationNameFromServerId(id, stateManager);
-          if (name && name !== `Location ${id}`) {
-            serverCheckedLocationNames.push(name);
-          } else {
-            log('warn', 
-              `[MessageHandler _handleConnected] Could not map server location ID ${id} (from checked_locations) to a known name.`
-            );
-          }
-        }
-      }
-
-      const serverUncheckedLocationNames = [];
-      if (data.missing_locations && data.missing_locations.length > 0) {
-        for (const id of data.missing_locations) {
-          const name = getLocationNameFromServerId(id, stateManager);
-          if (name && name !== `Location ${id}`) {
-            serverUncheckedLocationNames.push(name);
-          } else {
-            log('warn', 
-              `[MessageHandler _handleConnected] Could not map server location ID ${id} (from missing_locations) to a known name.`
-            );
-          }
-        }
-      }
-
-      stateManager.applyRuntimeStateData({
-        serverCheckedLocationNames: serverCheckedLocationNames,
-        serverUncheckedLocationNames: serverUncheckedLocationNames,
-      });
-    }
-
+    log('info', '[MessageHandler] Connection established:');
+    log('info', '  - Client Slot:', this.clientSlot);
+    log('info', '  - Client Team:', this.clientTeam);
+    log('info', '  - Players:', this.players);
+    log('info', '  - Missing Locations:', data.missing_locations?.length || 0);
+    log('info', '  - Checked Locations:', data.checked_locations?.length || 0);
+    
     // Use injected eventBus
     this.eventBus?.publish('game:connected', {
       slot: this.clientSlot,
       team: this.clientTeam,
       players: this.players,
-      checkedLocations: data.checked_locations,
-      missingLocations: data.missing_locations,
+      checkedLocations: data.checked_locations || [],
+      missingLocations: data.missing_locations || [],
+      slotData: data.slot_data || {},
+      slotInfo: data.slot_info || [],
+    });
+
+    const serverCheckedLocationNames = [];
+    if (data.checked_locations && data.checked_locations.length > 0) {
+      for (const id of data.checked_locations) {
+        const name = getLocationNameFromServerId(id, stateManager);
+        if (name && name !== `Location ${id}`) {
+          serverCheckedLocationNames.push(name);
+        } else {
+          log('warn', 
+            `[MessageHandler _handleConnected] Could not map server location ID ${id} (from checked_locations) to a known name.`
+          );
+        }
+      }
+    }
+
+    const serverUncheckedLocationNames = [];
+    if (data.missing_locations && data.missing_locations.length > 0) {
+      for (const id of data.missing_locations) {
+        const name = getLocationNameFromServerId(id, stateManager);
+        if (name && name !== `Location ${id}`) {
+          serverUncheckedLocationNames.push(name);
+        } else {
+          log('warn', 
+            `[MessageHandler _handleConnected] Could not map server location ID ${id} (from missing_locations) to a known name.`
+          );
+        }
+      }
+    }
+
+    stateManager.applyRuntimeStateData({
+      serverCheckedLocationNames: serverCheckedLocationNames,
+      serverUncheckedLocationNames: serverUncheckedLocationNames,
     });
   }
 
@@ -448,48 +461,49 @@ export class MessageHandler {
   }
 
   _handlePrint(data) {
-    // Publish event instead of directly printing
-    this.eventBus?.publish('ui:printToConsole', { message: data.text });
+    // Use injected eventBus
+    this.eventBus?.publish('ui:printToConsole', {
+      message: data.text,
+      type: 'server-message',
+    });
   }
 
   async _handlePrintJSON(data) {
-    // Get stateManager
+    // This command is used for displaying complex data, often from the server.
     const stateManager = await this._getStateManager();
 
-    // Flag to track if we need to update the progress UI
-    let shouldUpdateProgress = false;
-
-    // Handle item/location data in PrintJSON
+    // The server sends an 'ItemSend' type message when a location is checked.
+    // We use this to mark the location as checked in our state manager.
+    // The item itself is handled by the 'ReceivedItems' packet.
     if (stateManager && data.type === 'ItemSend' && data.item) {
-      // For ItemSend type messages, we'll ONLY mark the location as checked,
-      // but NOT add the item since ReceivedItems will handle that part
-
-      // Mark location as checked if we have a location ID
       const locationId = data.item?.location;
       if (locationId !== null && locationId !== undefined) {
         const locationName = getLocationNameFromServerId(
           locationId,
           stateManager
         );
-        if (locationName && !stateManager.isLocationChecked(locationName)) {
+
+        const snapshot = await stateManager.getLatestStateSnapshot();
+        const isAlreadyChecked = snapshot?.checkedLocations?.includes(locationName);
+
+        if (locationName && !isAlreadyChecked) {
+          // Tell the state manager to check this location. It will update the state
+          // and trigger a snapshot update, which will cause the UI to refresh.
           stateManager.checkLocation(locationName);
-          stateManager.invalidateCache();
-          stateManager.notifyUI('locationChecked');
-          shouldUpdateProgress = true;
         }
       }
-
-      // REMOVED: Code that adds items from PrintJSON messages
-      // since ReceivedItems will handle that responsibility
     }
 
-    // Forward to UI
-    this.eventBus?.publish('console:formattedMessage', data.data);
-
-    // Emit a special event for PrintJSON processing that ProgressUI can listen for
-    if (shouldUpdateProgress) {
-      this.eventBus?.publish('messageHandler:printJSONProcessed', {
-        type: data.type,
+    // Handle PrintJSON messages that contain console text (Join, Tutorial, etc.)
+    if (this.eventBus && data.data && Array.isArray(data.data)) {
+      // PrintJSON data is an array of text objects
+      data.data.forEach(textObj => {
+        if (textObj && textObj.text) {
+          this.eventBus.publish('ui:printToConsole', {
+            message: textObj.text,
+            type: 'server-message',
+          });
+        }
       });
     }
   }
@@ -529,42 +543,37 @@ export class MessageHandler {
       return;
     }
 
-    log('info', 
+    log(
+      'info',
       `Syncing ${serverLocationIds.length} checked locations from server to stateManager`
     );
 
-    let syncCount = 0;
-    let failCount = 0;
-
-    // Process each location ID from the server using direct ID matching
-    for (const serverLocationId of serverLocationIds) {
-      // Convert both IDs to numbers for consistent comparison
-      const numericServerId = Number(serverLocationId);
-
-      // Find location with matching ID
-      const location = stateManager.locations.find(
-        (loc) => Number(loc.id) === numericServerId
-      );
-
-      if (location) {
-        // Mark as checked if not already
-        if (!stateManager.isLocationChecked(location.name)) {
-          stateManager.checkLocation(location.name);
-          syncCount++;
+    const serverCheckedLocationNames = [];
+    if (serverLocationIds && serverLocationIds.length > 0) {
+      for (const id of serverLocationIds) {
+        const name = getLocationNameFromServerId(id, stateManager);
+        if (name && name !== `Location ${id}`) {
+          serverCheckedLocationNames.push(name);
+        } else {
+          log(
+            'warn',
+            `[MessageHandler _syncLocationsFromServer] Could not map server location ID ${id} to a known name.`
+          );
         }
-      } else {
-        failCount++;
       }
     }
 
-    log('info', 
-      `Location sync complete: ${syncCount} synced, ${failCount} failed`
-    );
-
-    // Invalidate cache to update UI
-    stateManager.invalidateCache();
-    stateManager.notifyUI('reachableRegionsComputed');
-    stateManager.notifyUI('locationChecked');
+    // This method call now correctly merges the new locations with existing ones
+    // in the state manager, preventing previously checked locations from being forgotten.
+    if (serverCheckedLocationNames.length > 0) {
+      stateManager.applyRuntimeStateData({
+        serverCheckedLocationNames: serverCheckedLocationNames,
+      });
+      log(
+        'info',
+        `Location sync complete: Requested sync for ${serverCheckedLocationNames.length} locations.`
+      );
+    }
   }
 
   // Helper methods
@@ -791,6 +800,9 @@ export class MessageHandler {
 
   // Actual method to send location checks, used by the exported handler
   _internalSendLocationChecks(locationIds) {
+    log('info', '[MessageHandler] _internalSendLocationChecks called with IDs:', locationIds);
+    log('info', '[MessageHandler] Current clientSlot:', this.clientSlot);
+    
     if (!connection.isConnected()) {
       log('warn', 
         '[MessageHandler] Not connected, cannot send location checks.'
@@ -809,11 +821,20 @@ export class MessageHandler {
     const slot = this.clientSlot;
     if (slot === undefined || slot === null) {
       log('error', 
-        '[MessageHandler] Client slot not defined, cannot send location checks'
+        '[MessageHandler] Client slot not defined, cannot send location checks. Current value:',
+        slot
       );
       return;
     }
 
+    // Check if the location IDs are in the missing locations list
+    locationIds.forEach(locationId => {
+      const isMissing = this.missingLocationIds?.includes(locationId);
+      const isChecked = this.checkedLocationIds?.includes(locationId);
+      log('info', `[MessageHandler] Location ${locationId} - Missing: ${isMissing}, Already Checked: ${isChecked}`);
+    });
+
+    log('info', '[MessageHandler] Sending LocationChecks command with slot:', slot);
     connection.send([
       {
         cmd: 'LocationChecks',
@@ -844,12 +865,15 @@ export async function handleUserLocationCheckForClient(
 ) {
   log('info', 
     '[MessageHandler] handleUserLocationCheckForClient received event:',
-    JSON.parse(JSON.stringify(eventData)),
+    eventData ? JSON.parse(JSON.stringify(eventData)) : 'undefined',
     'Propagation:',
-    JSON.parse(JSON.stringify(propagationOptions))
-  ); // Added log
+    propagationOptions ? JSON.parse(JSON.stringify(propagationOptions)) : 'undefined'
+  );
+  
   // Access the dispatcher from the messageHandlerSingleton, which should have been set during client module initialization
   const dispatcher = messageHandlerSingleton._getDispatcher(); // Use the internal getter for now
+  log('info', '[MessageHandler] Dispatcher available:', !!dispatcher);
+  log('info', '[MessageHandler] Connection status:', connection.isConnected());
 
   if (connection.isConnected()) {
     log('info', 
@@ -857,12 +881,16 @@ export async function handleUserLocationCheckForClient(
       eventData
     );
     if (eventData.locationName) {
+      log('info', '[MessageHandler] Getting server ID for location:', eventData.locationName);
       const serverId = await getServerLocationId(
         eventData.locationName,
         stateManagerProxySingleton
       );
+      log('info', '[MessageHandler] Server ID result:', serverId);
       if (serverId !== null) {
+        log('info', '[MessageHandler] About to send location checks for ID:', serverId);
         messageHandlerSingleton._internalSendLocationChecks([serverId]); // Use the internal method
+        log('info', '[MessageHandler] Location check command sent');
       } else {
         log('warn', 
           `[ClientModule/MessageHandler] Could not find server ID for location: ${eventData.locationName}`
@@ -876,7 +904,7 @@ export async function handleUserLocationCheckForClient(
       if (dispatcher) {
         // Assuming 'client' is the correct module name string for itself
         dispatcher.publishToNextModule(
-          'Client',
+          moduleInfo.name,
           'user:locationCheck',
           eventData,
           { direction: 'up' }
@@ -895,7 +923,7 @@ export async function handleUserLocationCheckForClient(
     );
     if (dispatcher) {
       dispatcher.publishToNextModule(
-        'Client',
+        moduleInfo.name,
         'user:locationCheck',
         eventData,
         { direction: 'up' }

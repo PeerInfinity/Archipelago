@@ -972,7 +972,7 @@ export class StateManager {
       if (region && region.exits) {
         // Exits in the rules file might be an array of objects or an object
         if (Array.isArray(region.exits)) {
-          region.exits.forEach((exit) => {
+          region.exits.forEach((exit, index) => {
             if (exit && exit.name) {
               this.originalExitOrder.push(exit.name);
             }
@@ -3060,20 +3060,29 @@ export class StateManager {
       payload.serverCheckedLocationNames &&
       Array.isArray(payload.serverCheckedLocationNames)
     ) {
-      this.clearCheckedLocations({ sendUpdate: false }); // Clear all current checked locations quietly
+      let changed = false;
       payload.serverCheckedLocationNames.forEach((name) => {
-        if (this.checkedLocations) {
-          // Should have been initialized by clearCheckedLocations
+        if (this.checkedLocations && !this.checkedLocations.has(name)) {
           this.checkedLocations.add(name);
+          changed = true;
         }
       });
-      this._logDebug(
-        `[StateManager applyRuntimeState] Processed ${
-          payload.serverCheckedLocationNames.length
-        } server checked locations. Resulting this.checkedLocations size: ${
-          this.checkedLocations ? this.checkedLocations.size : 'undefined'
-        }`
-      );
+      
+      if (changed) {
+        this._logDebug(
+          `[StateManager applyRuntimeState] Merged ${
+            payload.serverCheckedLocationNames.length
+          } server checked locations. New total: ${
+            this.checkedLocations ? this.checkedLocations.size : 'undefined'
+          }`
+        );
+      } else {
+        this._logDebug(
+          `[StateManager applyRuntimeState] No new server checked locations to add. Total remains: ${
+            this.checkedLocations ? this.checkedLocations.size : 'undefined'
+          }`
+        );
+      }
     } else {
       this._logDebug(
         '[StateManager applyRuntimeState] No serverCheckedLocationNames in payload; existing checkedLocations preserved.'

@@ -257,14 +257,17 @@ export class ConsoleUI {
     consoleManager.print('Ready status sent to server.', 'system');
   }
 
-  static handleSetDelayCommand(argsString, { timerState, consoleManager }) {
-    if (!timerState) {
+  static handleSetDelayCommand(argsString, { centralRegistry, consoleManager }) {
+    // Access the Timer module via the central registry
+    const timerModule = centralRegistry?.getPublicFunction('Timer', 'setCheckDelay');
+    if (!timerModule) {
       consoleManager.print(
-        'Cannot set delay: TimerState not available.',
+        'Cannot set delay: Timer module not available.',
         'error'
       );
       return;
     }
+    
     const args = argsString.split(' ').map((s) => parseInt(s, 10));
     const minDelay = args[0];
     const maxDelay = args.length > 1 ? args[1] : minDelay; // Use min if max not provided
@@ -281,11 +284,19 @@ export class ConsoleUI {
       );
       return;
     }
-    timerState.setCheckDelay?.(minDelay, maxDelay);
-    consoleManager.print(
-      `Check delay set to ${minDelay}-${maxDelay} seconds.`,
-      'system'
-    );
+    
+    const success = timerModule(minDelay, maxDelay);
+    if (success) {
+      consoleManager.print(
+        `Check delay updated: ${minDelay}s - ${maxDelay}s`,
+        'success'
+      );
+    } else {
+      consoleManager.print(
+        'Failed to update check delay.',
+        'error'
+      );
+    }
   }
 
   // Logger command handlers
