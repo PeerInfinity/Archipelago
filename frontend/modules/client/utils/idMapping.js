@@ -249,7 +249,7 @@ export function getServerLocationId(location, stateManager = null) {
       }
     }
 
-    // Try direct lookup in locationNameToId
+    // Try direct lookup in locationNameToId (legacy approach)
     if (
       stateManager.locationNameToId &&
       stateManager.locationNameToId[location] !== undefined
@@ -258,6 +258,27 @@ export function getServerLocationId(location, stateManager = null) {
       // Add to cache for next time
       mappingCache.locationNameToId.set(location, id);
       return id;
+    }
+
+    // Try getting from static data (new approach)
+    if (
+      stateManager.getStaticData &&
+      typeof stateManager.getStaticData === 'function'
+    ) {
+      try {
+        const staticData = stateManager.getStaticData();
+        if (
+          staticData?.locationNameToId &&
+          staticData.locationNameToId[location] !== undefined
+        ) {
+          const id = Number(staticData.locationNameToId[location]);
+          // Add to cache for next time
+          mappingCache.locationNameToId.set(location, id);
+          return id;
+        }
+      } catch (error) {
+        log('warn', '[idMapping] Error accessing static data for location ID lookup:', error);
+      }
     }
   }
 
@@ -294,7 +315,7 @@ export function getServerItemId(itemName, stateManager = null) {
       }
     }
 
-    // Try direct lookup in itemNameToId
+    // Try direct lookup in itemNameToId (legacy approach)
     if (
       stateManager.itemNameToId &&
       stateManager.itemNameToId[itemName] !== undefined
@@ -303,6 +324,27 @@ export function getServerItemId(itemName, stateManager = null) {
       // Add to cache for next time
       mappingCache.itemNameToId.set(itemName, id);
       return id;
+    }
+
+    // Try getting from static data (new approach)
+    if (
+      stateManager.getStaticData &&
+      typeof stateManager.getStaticData === 'function'
+    ) {
+      try {
+        const staticData = stateManager.getStaticData();
+        if (
+          staticData?.itemNameToId &&
+          staticData.itemNameToId[itemName] !== undefined
+        ) {
+          const id = Number(staticData.itemNameToId[itemName]);
+          // Add to cache for next time
+          mappingCache.itemNameToId.set(itemName, id);
+          return id;
+        }
+      } catch (error) {
+        log('warn', '[idMapping] Error accessing static data for item ID lookup:', error);
+      }
     }
   }
 

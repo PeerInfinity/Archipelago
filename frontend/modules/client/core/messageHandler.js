@@ -243,6 +243,31 @@ export class MessageHandler {
     this.players = data.players;
     this.missingLocationIds = data.missing_locations || [];
     this.checkedLocationIds = data.checked_locations || [];
+    
+    // Build reverse mapping: location name -> server protocol ID
+    this.serverLocationNameToId = new Map();
+    
+    // Add missing locations to reverse mapping
+    if (data.missing_locations) {
+      for (const serverId of data.missing_locations) {
+        const locationName = getLocationNameFromServerId(serverId, stateManager);
+        if (locationName && locationName !== `Location ${serverId}`) {
+          this.serverLocationNameToId.set(locationName, serverId);
+        }
+      }
+    }
+    
+    // Add checked locations to reverse mapping
+    if (data.checked_locations) {
+      for (const serverId of data.checked_locations) {
+        const locationName = getLocationNameFromServerId(serverId, stateManager);
+        if (locationName && locationName !== `Location ${serverId}`) {
+          this.serverLocationNameToId.set(locationName, serverId);
+        }
+      }
+    }
+    
+    log('info', `[MessageHandler] Built server location name->ID mapping with ${this.serverLocationNameToId.size} entries`);
 
     log('info', '[MessageHandler] Connection established:');
     log('info', '  - Client Slot:', this.clientSlot);
@@ -774,7 +799,7 @@ export class MessageHandler {
   /**
    * Check a location by sending to server and/or updating stateManager
    * Updated to prevent item duplication
-   * @param {Object} location - Location object to check
+   * @param {string|Object} location - Location name or object to check
    * @returns {Promise<boolean>} - Whether successful
    */
   async checkLocation(location) {
@@ -784,11 +809,32 @@ export class MessageHandler {
     log('warn', 
       '[MessageHandler] checkLocation method called directly. This might be outdated.'
     );
-    const serverId = await getServerLocationId(location, this.stateManager);
-    if (serverId !== null) {
-      this.sendLocationChecks([serverId]);
-    } else {
-      log('warn', `Could not find server ID for location: ${location}`);
+    
+    try {
+      let serverId = null;
+      const locationName = typeof location === 'string' ? location : location.name;
+      
+      // First try to get server ID from our server-based mapping (preferred)
+      if (this.serverLocationNameToId && this.serverLocationNameToId.has(locationName)) {
+        serverId = this.serverLocationNameToId.get(locationName);
+        log('info', `[MessageHandler checkLocation] Found server protocol ID ${serverId} for location: ${locationName} (via server mapping)`);
+      } else {
+        // Fallback to static data mapping (may not work with server)
+        serverId = await getServerLocationId(location, this.stateManager);
+        log('warn', `[MessageHandler checkLocation] Using static data ID ${serverId} for location: ${locationName} (server mapping not available)`);
+      }
+      
+      if (serverId !== null) {
+        // Use the more robust internal method instead of the simple sendLocationChecks
+        this._internalSendLocationChecks([serverId]);
+        return true;
+      } else {
+        log('warn', `[MessageHandler checkLocation] Could not find any server ID for location: ${locationName}`);
+        return false;
+      }
+    } catch (error) {
+      log('error', `[MessageHandler checkLocation] Error processing location check: ${error.message}`);
+      return false;
     }
   }
 
@@ -834,6 +880,14 @@ export class MessageHandler {
       const isMissing = this.missingLocationIds?.includes(locationId);
       const isChecked = this.checkedLocationIds?.includes(locationId);
       log('info', `[MessageHandler] Location ${locationId} - Missing: ${isMissing}, Already Checked: ${isChecked}`);
+      
+      // DEBUG: Add detailed logging to understand the mismatch
+      log('info', `[MessageHandler DEBUG] Checking location ID ${locationId} (type: ${typeof locationId})`);
+      log('info', `[MessageHandler DEBUG] Missing IDs array length: ${this.missingLocationIds?.length || 0}`);
+      log('info', `[MessageHandler DEBUG] First few missing IDs: ${this.missingLocationIds?.slice(0, 5) || 'none'}`);
+      log('info', `[MessageHandler DEBUG] Missing IDs include ${locationId}? ${this.missingLocationIds?.includes(locationId)}`);
+      log('info', `[MessageHandler DEBUG] Missing IDs include Number(${locationId})? ${this.missingLocationIds?.includes(Number(locationId))}`);
+      log('info', `[MessageHandler DEBUG] Missing IDs include String(${locationId})? ${this.missingLocationIds?.includes(String(locationId))}`);
     });
 
     log('info', '[MessageHandler] Sending LocationChecks command with slot:', slot);
@@ -884,10 +938,23 @@ export async function handleUserLocationCheckForClient(
     );
     if (eventData.locationName) {
       log('info', '[MessageHandler] Getting server ID for location:', eventData.locationName);
-      const serverId = await getServerLocationId(
-        eventData.locationName,
-        stateManagerProxySingleton
-      );
+      
+      let serverId = null;
+      const locationName = eventData.locationName;
+      
+      // First try to get server ID from our server-based mapping (preferred)
+      if (messageHandlerSingleton.serverLocationNameToId && messageHandlerSingleton.serverLocationNameToId.has(locationName)) {
+        serverId = messageHandlerSingleton.serverLocationNameToId.get(locationName);
+        log('info', `[MessageHandler handleUserLocationCheck] Found server protocol ID ${serverId} for location: ${locationName} (via server mapping)`);
+      } else {
+        // Fallback to static data mapping (may not work with server)
+        serverId = await getServerLocationId(
+          eventData.locationName,
+          stateManagerProxySingleton
+        );
+        log('warn', `[MessageHandler handleUserLocationCheck] Using static data ID ${serverId} for location: ${locationName} (server mapping not available)`);
+      }
+      
       log('info', '[MessageHandler] Server ID result:', serverId);
       if (serverId !== null) {
         log('info', '[MessageHandler] About to send location checks for ID:', serverId);

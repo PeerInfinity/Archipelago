@@ -358,13 +358,13 @@ class MainContentUI {
   appendFormattedMessage(messageParts, type = 'info') {
     if (!this.consoleHistoryElement) return;
 
-    // Create the message div
-    const messageElement = document.createElement('div');
-    messageElement.className = `console-message console-message-${type}`;
-
-    // Create the spans to populate the message div
+    // Build the complete text content first to handle newlines
+    let completeText = '';
+    const textParts = []; // Store parts with their formatting info
+    
     for (const part of messageParts) {
-      const span = document.createElement('span');
+      let textContent = '';
+      let formatting = { color: null, fontWeight: null };
 
       if (part.hasOwnProperty('type')) {
         // Get client slot and players for player ID formatting
@@ -374,65 +374,117 @@ class MainContentUI {
         switch (part.type) {
           case 'player_id':
             const playerIsClient = parseInt(part.text, 10) === playerSlot;
-            if (playerIsClient) {
-              span.style.fontWeight = 'bold';
-            }
-            span.style.color = playerIsClient ? '#ffa565' : '#52b44c';
-            span.textContent =
+            formatting.fontWeight = playerIsClient ? 'bold' : null;
+            formatting.color = playerIsClient ? '#ffa565' : '#52b44c';
+            textContent =
               players[parseInt(part.text, 10) - 1]?.alias ||
               `Player${part.text}`;
             break;
 
           case 'item_id':
-            span.style.color = '#fc5252';
+            formatting.color = '#fc5252';
             try {
               // Use synchronous method for rendering
               if (
                 this.messageHandler &&
                 typeof this.messageHandler.getItemNameSync === 'function'
               ) {
-                span.textContent = this.messageHandler.getItemNameSync(part.text);
+                textContent = this.messageHandler.getItemNameSync(part.text);
               } else {
                 // Direct fallback to a placeholder with ID
-                span.textContent = `Item ${part.text}`;
+                textContent = `Item ${part.text}`;
               }
             } catch (e) {
               log('warn', 'Error getting item name:', e);
-              span.textContent = `Item ${part.text}`;
+              textContent = `Item ${part.text}`;
             }
             break;
 
           case 'location_id':
-            span.style.color = '#5ea2c1';
+            formatting.color = '#5ea2c1';
             try {
               // Use synchronous method for rendering
               if (
                 this.messageHandler &&
                 typeof this.messageHandler.getLocationNameSync === 'function'
               ) {
-                span.textContent = this.messageHandler.getLocationNameSync(part.text);
+                textContent = this.messageHandler.getLocationNameSync(part.text);
               } else {
                 // Direct fallback to a placeholder with ID
-                span.textContent = `Location ${part.text}`;
+                textContent = `Location ${part.text}`;
               }
             } catch (e) {
               log('warn', 'Error getting location name:', e);
-              span.textContent = `Location ${part.text}`;
+              textContent = `Location ${part.text}`;
             }
             break;
 
           default:
-            span.textContent = part.text;
+            textContent = part.text;
         }
       } else {
-        span.textContent = part.text;
+        textContent = part.text;
       }
 
-      messageElement.appendChild(span);
+      completeText += textContent;
+      textParts.push({ text: textContent, formatting });
     }
 
-    // Append the message div to the console
-    this.consoleHistoryElement.appendChild(messageElement);
+    // Handle multi-line messages by splitting on newlines
+    const lines = completeText.split('\n');
+    
+    lines.forEach((line, lineIndex) => {
+      // Skip empty lines unless it's the only line (preserve single empty messages)
+      if (line.trim() === '' && lines.length > 1) return;
+      
+      const messageElement = document.createElement('div');
+      messageElement.className = `console-message console-message-${type}`;
+
+      // For multi-line content, we need to rebuild the formatting for each line
+      if (lines.length === 1) {
+        // Single line - apply original formatting
+        for (const partInfo of textParts) {
+          const span = document.createElement('span');
+          span.textContent = partInfo.text;
+          if (partInfo.formatting.color) {
+            span.style.color = partInfo.formatting.color;
+          }
+          if (partInfo.formatting.fontWeight) {
+            span.style.fontWeight = partInfo.formatting.fontWeight;
+          }
+          messageElement.appendChild(span);
+        }
+      } else {
+        // Multi-line - just show the line as plain text
+        // (More complex formatting preservation would require tracking character positions)
+        messageElement.textContent = line;
+        
+        // Apply default type styling
+        switch (type) {
+          case 'error':
+            messageElement.style.color = '#ff6b6b';
+            break;
+          case 'success':
+            messageElement.style.color = '#51cf66';
+            break;
+          case 'warning':
+            messageElement.style.color = '#fcc419';
+            break;
+          case 'system':
+            messageElement.style.color = '#4dabf7';
+            messageElement.style.fontStyle = 'italic';
+            break;
+          case 'command':
+            messageElement.style.color = '#94d3a2';
+            messageElement.style.fontWeight = 'bold';
+            break;
+          default:
+            messageElement.style.color = '#ced4da';
+        }
+      }
+
+      this.consoleHistoryElement.appendChild(messageElement);
+    });
 
     // Scroll to bottom
     this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
@@ -701,6 +753,215 @@ class MainContentUI {
         this.appendConsoleMessage('Requesting server sync...', 'system');
       } else {
         this.appendConsoleMessage('Sync failed: Message handler not available.', 'error');
+      }
+    });
+
+    // --- Debug Commands for Location Checking ---
+    this.registerCommand('debugLocationIDs', 'Debug: Compare location IDs from different sources.', async (locationName) => {
+      if (!locationName || locationName.trim() === '') {
+        this.appendConsoleMessage('Usage: /debugLocationIDs <location_name>', 'error');
+        this.appendConsoleMessage('Example: /debugLocationIDs "Link\'s Uncle"', 'info');
+        return;
+      }
+
+      const trimmedName = locationName.trim();
+      this.appendConsoleMessage(`=== ID Mapping Debug for: "${trimmedName}" ===`, 'system');
+
+      try {
+        if (!this.stateManager) {
+          this.appendConsoleMessage('StateManager not available.', 'error');
+          return;
+        }
+
+        await this.stateManager.ensureReady();
+        const staticData = this.stateManager.getStaticData();
+
+        // 1. Check Static Data ID
+        if (staticData?.locations && staticData.locations[trimmedName]) {
+          const staticLocation = staticData.locations[trimmedName];
+          this.appendConsoleMessage(`Static Data ID: ${staticLocation.id}`, 'info');
+        } else {
+          this.appendConsoleMessage('Not found in Static Data locations', 'warning');
+        }
+
+        // 2. Check StateManager's locationNameToId
+        const snapshot = this.stateManager.getSnapshot();
+        if (snapshot?.locationNameToId) {
+          if (snapshot.locationNameToId[trimmedName] !== undefined) {
+            this.appendConsoleMessage(`StateManager locationNameToId: ${snapshot.locationNameToId[trimmedName]}`, 'info');
+          } else {
+            this.appendConsoleMessage('Not found in StateManager locationNameToId', 'warning');
+            // Debug: Show some other location names to see if locationNameToId is populated at all
+            const allLocationIds = Object.keys(snapshot.locationNameToId);
+            this.appendConsoleMessage(`StateManager has ${allLocationIds.length} total location IDs`, 'info');
+            if (allLocationIds.length > 0) {
+              this.appendConsoleMessage(`First few: ${allLocationIds.slice(0, 3).join(', ')}`, 'info');
+            }
+          }
+        } else {
+          this.appendConsoleMessage('StateManager snapshot has no locationNameToId property', 'warning');
+        }
+
+        // 3. Check getServerLocationId result
+        const { getServerLocationId } = await import('../utils/idMapping.js');
+        const serverId = await getServerLocationId(trimmedName, this.stateManager);
+        if (serverId !== null) {
+          this.appendConsoleMessage(`getServerLocationId result: ${serverId}`, 'info');
+        } else {
+          this.appendConsoleMessage('getServerLocationId returned null', 'warning');
+        }
+
+        // 4. Check mapping cache
+        const { mappingCache } = await import('../utils/idMapping.js');
+        if (mappingCache.locationNameToId.has(trimmedName)) {
+          this.appendConsoleMessage(`Mapping Cache ID: ${mappingCache.locationNameToId.get(trimmedName)}`, 'info');
+        } else {
+          this.appendConsoleMessage('Not found in Mapping Cache', 'warning');
+        }
+
+        this.appendConsoleMessage('=== End ID Debug ===', 'system');
+
+      } catch (error) {
+        this.appendConsoleMessage(`Error in ID debug: ${error.message}`, 'error');
+      }
+    });
+    this.registerCommand('checkLocationName', 'Debug: Check a location by name.', async (locationName) => {
+      if (!locationName || locationName.trim() === '') {
+        this.appendConsoleMessage('Usage: /checkLocationName <location_name>', 'error');
+        this.appendConsoleMessage('Example: /checkLocationName "Uncle"', 'info');
+        return;
+      }
+
+      const trimmedName = locationName.trim();
+      this.appendConsoleMessage(`Debug: Checking location by name: "${trimmedName}"`, 'system');
+
+      try {
+        // Check if stateManager is available
+        if (!this.stateManager) {
+          this.appendConsoleMessage('StateManager not available.', 'error');
+          return;
+        }
+
+        await this.stateManager.ensureReady();
+        const staticData = this.stateManager.getStaticData();
+
+        // Check if location exists
+        if (!staticData?.locations || !staticData.locations[trimmedName]) {
+          this.appendConsoleMessage(`Location "${trimmedName}" not found in static data.`, 'error');
+          
+          // Show some similar location names as suggestions
+          if (staticData?.locations) {
+            const locationNames = Object.keys(staticData.locations);
+            const similar = locationNames.filter(name => 
+              name.toLowerCase().includes(trimmedName.toLowerCase()) ||
+              trimmedName.toLowerCase().includes(name.toLowerCase())
+            ).slice(0, 5);
+            
+            if (similar.length > 0) {
+              this.appendConsoleMessage('Did you mean one of these?', 'info');
+              similar.forEach(name => this.appendConsoleMessage(`  - "${name}"`, 'info'));
+            }
+          }
+          return;
+        }
+
+        const location = staticData.locations[trimmedName];
+        this.appendConsoleMessage(`Found location: "${trimmedName}" (ID: ${location.id})`, 'info');
+
+        // Check if already checked
+        const snapshot = this.stateManager.getSnapshot();
+        const isAlreadyChecked = snapshot?.checkedLocations?.includes(trimmedName);
+        
+        if (isAlreadyChecked) {
+          this.appendConsoleMessage('Location is already checked locally.', 'warning');
+        }
+
+        // Try to send to server via messageHandler (don't update stateManager yet - that should happen when server responds)
+        if (this.messageHandler && typeof this.messageHandler.checkLocation === 'function') {
+          this.appendConsoleMessage('Sending location check to server...', 'system');
+          const success = await this.messageHandler.checkLocation(trimmedName);
+          if (success) {
+            this.appendConsoleMessage('Location check sent to server successfully.', 'success');
+          } else {
+            this.appendConsoleMessage('Failed to send location check to server.', 'error');
+          }
+        } else {
+          this.appendConsoleMessage('MessageHandler checkLocation method not available.', 'warning');
+        }
+
+      } catch (error) {
+        this.appendConsoleMessage(`Error checking location: ${error.message}`, 'error');
+      }
+    });
+
+    this.registerCommand('checkLocationID', 'Debug: Check a location by server ID.', async (locationIdStr) => {
+      if (!locationIdStr || locationIdStr.trim() === '') {
+        this.appendConsoleMessage('Usage: /checkLocationID <location_id>', 'error');
+        this.appendConsoleMessage('Example: /checkLocationID 1234567', 'info');
+        return;
+      }
+
+      const locationId = parseInt(locationIdStr.trim(), 10);
+      if (isNaN(locationId)) {
+        this.appendConsoleMessage(`Invalid location ID: "${locationIdStr}". Must be a number.`, 'error');
+        return;
+      }
+
+      this.appendConsoleMessage(`Debug: Checking location by ID: ${locationId}`, 'system');
+
+      try {
+        // Check if stateManager is available
+        if (!this.stateManager) {
+          this.appendConsoleMessage('StateManager not available.', 'error');
+          return;
+        }
+
+        await this.stateManager.ensureReady();
+        const staticData = this.stateManager.getStaticData();
+
+        // Find location by ID
+        let foundLocationName = null;
+        if (staticData?.locations) {
+          for (const [name, locationData] of Object.entries(staticData.locations)) {
+            if (locationData.id === locationId) {
+              foundLocationName = name;
+              break;
+            }
+          }
+        }
+
+        if (!foundLocationName) {
+          this.appendConsoleMessage(`Location with ID ${locationId} not found in static data.`, 'error');
+          return;
+        }
+
+        this.appendConsoleMessage(`Found location: "${foundLocationName}" (ID: ${locationId})`, 'info');
+
+        // Check if already checked
+        const snapshot = this.stateManager.getSnapshot();
+        const isAlreadyChecked = snapshot?.checkedLocations?.includes(foundLocationName);
+        
+        if (isAlreadyChecked) {
+          this.appendConsoleMessage('Location is already checked locally.', 'warning');
+        }
+
+        // Try to send directly to server using ID via messageHandler
+        if (this.messageHandler && typeof this.messageHandler.sendLocationChecks === 'function') {
+          this.appendConsoleMessage('Sending location check to server by ID...', 'system');
+          const success = this.messageHandler.sendLocationChecks([locationId]);
+          if (success) {
+            this.appendConsoleMessage('Location check sent to server by ID successfully.', 'success');
+          } else {
+            this.appendConsoleMessage('Failed to send location check to server by ID.', 'error');
+          }
+        } else {
+          this.appendConsoleMessage('MessageHandler sendLocationChecks method not available.', 'warning');
+        }
+
+        // Note: Not calling stateManager.checkLocation() here - that should happen when server responds
+
+      } catch (error) {
+        this.appendConsoleMessage(`Error checking location by ID: ${error.message}`, 'error');
       }
     });
 

@@ -127,6 +127,13 @@ export class ConsoleUI {
       'Disable temporary override',
       this.handleLogOverrideOffCommand
     );
+
+    // Debug commands for location ID mappings
+    register(
+      'debug_location_id',
+      'Debug location ID mapping: debug_location_id <location_name>',
+      this.handleDebugLocationIdCommand
+    );
   }
 
   // --- Command Handlers (Accept dependencies object) ---
@@ -523,6 +530,65 @@ export class ConsoleUI {
 
     logger.disableTemporaryOverride();
     consoleManager.print('Temporary override disabled.', 'system');
+  }
+
+  static async handleDebugLocationIdCommand(argsString, { stateManager, consoleManager }) {
+    const locationName = argsString.trim();
+    if (!locationName) {
+      consoleManager.print('Usage: debug_location_id <location_name>', 'error');
+      return;
+    }
+
+    if (!stateManager) {
+      consoleManager.print('Error: StateManager not available.', 'error');
+      return;
+    }
+
+    try {
+      await stateManager.ensureReady();
+      const staticData = stateManager.getStaticData();
+
+      if (!staticData) {
+        consoleManager.print('Error: Static data not available.', 'error');
+        return;
+      }
+
+      consoleManager.print(`=== Location ID Debug for: "${locationName}" ===`);
+
+      // Check static data location ID mapping
+      if (staticData.locationNameToId && staticData.locationNameToId[locationName] !== undefined) {
+        consoleManager.print(`✓ Static Data ID: ${staticData.locationNameToId[locationName]}`);
+      } else {
+        consoleManager.print('✗ Static Data ID: Not found in locationNameToId mapping');
+      }
+
+      // Check location exists in static data locations
+      if (staticData.locations && staticData.locations[locationName]) {
+        const locationData = staticData.locations[locationName];
+        consoleManager.print(`✓ Location Data Found:`);
+        consoleManager.print(`  - Name: ${locationData.name}`);
+        consoleManager.print(`  - ID: ${locationData.id}`);
+        consoleManager.print(`  - Region: ${locationData.region || locationData.parent_region}`);
+      } else {
+        consoleManager.print('✗ Location Data: Not found in static data locations');
+      }
+
+      // Show some context info
+      if (staticData.locationNameToId) {
+        const totalMappings = Object.keys(staticData.locationNameToId).length;
+        consoleManager.print(`📊 Total ID mappings available: ${totalMappings}`);
+        
+        // Show a few example mappings for reference
+        const exampleMappings = Object.entries(staticData.locationNameToId).slice(0, 3);
+        consoleManager.print(`📋 Example mappings:`);
+        exampleMappings.forEach(([name, id]) => {
+          consoleManager.print(`  - "${name}" → ${id}`);
+        });
+      }
+
+    } catch (error) {
+      consoleManager.print(`Error debugging location ID: ${error.message}`, 'error');
+    }
   }
 
   // --- Internal command history logic (uses static properties) ---

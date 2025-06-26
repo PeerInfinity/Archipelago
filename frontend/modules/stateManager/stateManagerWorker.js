@@ -283,6 +283,9 @@ self.onmessage = async function (e) {
           originalLocationOrder: stateManagerInstance.originalLocationOrder, // Ensure orders are included
           originalExitOrder: stateManagerInstance.originalExitOrder,
           originalRegionOrder: stateManagerInstance.originalRegionOrder,
+          // ID mappings for location and item names to server IDs
+          locationNameToId: stateManagerInstance.locationNameToId,
+          itemNameToId: stateManagerInstance.itemNameToId,
           // Add other static data pieces if needed by the proxy or UI later
         };
 

@@ -727,7 +727,13 @@ export class StateManager {
             );
           }
 
-          this.locationNameToId[descriptiveName] = this.locations.length - 1;
+          // Store the actual server location ID, not the array index
+          if (locationDataItem.id !== undefined && locationDataItem.id !== null) {
+            this.locationNameToId[descriptiveName] = locationDataItem.id;
+          } else {
+            log('warn', `[StateManager loadFromJSON] Location '${descriptiveName}' has no ID, using array index as fallback`);
+            this.locationNameToId[descriptiveName] = this.locations.length - 1;
+          }
         });
       } else if (region.locations) {
         log(
@@ -3425,5 +3431,33 @@ export class StateManager {
     // If enabling, a re-computation might pick up pending events.
     this.invalidateCache(); // Invalidate cache as this changes a core behavior
     this._sendSnapshotUpdate(); // Send update if state might have changed due to this setting
+  }
+
+  /**
+   * Returns static game data that doesn't change during gameplay.
+   * This includes location/item ID mappings, original orders, etc.
+   */
+  getStaticGameData() {
+    return {
+      gameId: this.gameId,
+      locations: this.locations,
+      regions: this.regions,
+      dungeons: this.dungeons,
+      itemData: this.itemData,
+      groupData: this.groupData,
+      progressionMapping: this.progressionMapping,
+      itempoolCounts: this.itempoolCounts,
+      startRegions: this.startRegions,
+      mode: this.mode,
+      // ID mappings
+      locationNameToId: this.locationNameToId,
+      itemNameToId: this.itemNameToId,
+      // Original orders for consistency
+      originalLocationOrder: this.originalLocationOrder,
+      originalRegionOrder: this.originalRegionOrder,
+      originalExitOrder: this.originalExitOrder,
+      // Event locations
+      eventLocations: Object.fromEntries(this.eventLocations || new Map())
+    };
   }
 }
