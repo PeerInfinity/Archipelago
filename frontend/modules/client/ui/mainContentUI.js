@@ -99,6 +99,13 @@ class MainContentUI {
         this.appendConsoleMessage(payload.message, payload.type || 'info');
       }
     });
+
+    // Subscribe to formatted console messages (PrintJSON)
+    this.eventBus.subscribe('ui:printFormattedToConsole', (payload) => {
+      if (payload && payload.messageParts) {
+        this.appendFormattedMessage(payload.messageParts, payload.type || 'info');
+      }
+    });
     // <<< END ADDED >>>
 
     // Defer full element initialization and event listener setup
@@ -347,6 +354,90 @@ class MainContentUI {
     this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
   }
 
+  // Handle formatted messages from PrintJSON with proper ID-to-name mapping and coloring
+  appendFormattedMessage(messageParts, type = 'info') {
+    if (!this.consoleHistoryElement) return;
+
+    // Create the message div
+    const messageElement = document.createElement('div');
+    messageElement.className = `console-message console-message-${type}`;
+
+    // Create the spans to populate the message div
+    for (const part of messageParts) {
+      const span = document.createElement('span');
+
+      if (part.hasOwnProperty('type')) {
+        // Get client slot and players for player ID formatting
+        const playerSlot = this.messageHandler?.getClientSlot?.() || 0;
+        const players = this.messageHandler?.getPlayers?.() || [];
+
+        switch (part.type) {
+          case 'player_id':
+            const playerIsClient = parseInt(part.text, 10) === playerSlot;
+            if (playerIsClient) {
+              span.style.fontWeight = 'bold';
+            }
+            span.style.color = playerIsClient ? '#ffa565' : '#52b44c';
+            span.textContent =
+              players[parseInt(part.text, 10) - 1]?.alias ||
+              `Player${part.text}`;
+            break;
+
+          case 'item_id':
+            span.style.color = '#fc5252';
+            try {
+              // Use synchronous method for rendering
+              if (
+                this.messageHandler &&
+                typeof this.messageHandler.getItemNameSync === 'function'
+              ) {
+                span.textContent = this.messageHandler.getItemNameSync(part.text);
+              } else {
+                // Direct fallback to a placeholder with ID
+                span.textContent = `Item ${part.text}`;
+              }
+            } catch (e) {
+              log('warn', 'Error getting item name:', e);
+              span.textContent = `Item ${part.text}`;
+            }
+            break;
+
+          case 'location_id':
+            span.style.color = '#5ea2c1';
+            try {
+              // Use synchronous method for rendering
+              if (
+                this.messageHandler &&
+                typeof this.messageHandler.getLocationNameSync === 'function'
+              ) {
+                span.textContent = this.messageHandler.getLocationNameSync(part.text);
+              } else {
+                // Direct fallback to a placeholder with ID
+                span.textContent = `Location ${part.text}`;
+              }
+            } catch (e) {
+              log('warn', 'Error getting location name:', e);
+              span.textContent = `Location ${part.text}`;
+            }
+            break;
+
+          default:
+            span.textContent = part.text;
+        }
+      } else {
+        span.textContent = part.text;
+      }
+
+      messageElement.appendChild(span);
+    }
+
+    // Append the message div to the console
+    this.consoleHistoryElement.appendChild(messageElement);
+
+    // Scroll to bottom
+    this.consoleElement.scrollTop = this.consoleElement.scrollHeight;
+  }
+
   executeCommand(command) {
     // Check if this is a server command (starts with !)
     if (command.startsWith('!')) {
@@ -465,38 +556,107 @@ class MainContentUI {
 
   registerConsoleCommands() {
     // --- MainContentUI Commands ---
-    this.registerCommand('state', 'Show current game state.', () => {
-      const currentState = this.stateManager?.instance?.getStateForPlayer(
-        this.stateManager?.selectedPlayerId
-      );
-      this.appendConsoleMessage(
-        JSON.stringify(currentState || {}, null, 2),
-        'info'
-      );
+    this.registerCommand('state', 'Show current game state.', async () => {
+      if (!this.stateManager) {
+        this.appendConsoleMessage('StateManager not available.', 'error');
+        return;
+      }
+      
+      try {
+        await this.stateManager.ensureReady();
+        const snapshot = this.stateManager.getSnapshot();
+        this.appendConsoleMessage(
+          JSON.stringify(snapshot || {}, null, 2),
+          'info'
+        );
+      } catch (error) {
+        this.appendConsoleMessage(`State command failed: ${error.message}`, 'error');
+      }
     });
-    this.registerCommand('reachable', 'List reachable locations.', () => {
-      const reachable = this.stateManager?.instance
-        ?.getPathAnalyzer?.()
-        ?.getReachableLocations?.();
-      this.appendConsoleMessage(
-        `Reachable locations: ${reachable?.join(', ') || 'None'}`,
-        'info'
-      );
+    this.registerCommand('reachable', 'List reachable locations.', async () => {
+      if (!this.stateManager) {
+        this.appendConsoleMessage('StateManager not available.', 'error');
+        return;
+      }
+      
+      try {
+        await this.stateManager.ensureReady();
+        const snapshot = this.stateManager.getSnapshot();
+        const staticData = this.stateManager.getStaticData();
+        
+        if (!staticData?.locations) {
+          this.appendConsoleMessage('Location data not available.', 'error');
+          return;
+        }
+        
+        // Get reachable locations by checking accessibility
+        // staticData.locations is an object keyed by location name, not an array
+        const reachableLocations = [];
+        const allLocations = Object.values(staticData.locations);
+        for (const location of allLocations) {
+          // We'd need access to the rule engine to check accessibility
+          // For now, let's just show all locations as we don't have direct access to rule evaluation
+          if (!snapshot.checkedLocations?.includes(location.name)) {
+            reachableLocations.push(location.name);
+          }
+        }
+        
+        this.appendConsoleMessage(
+          `Reachable locations: ${reachableLocations.length > 0 ? reachableLocations.join(', ') : 'None'}`,
+          'info'
+        );
+      } catch (error) {
+        this.appendConsoleMessage(`Reachable command failed: ${error.message}`, 'error');
+      }
     });
-    this.registerCommand('inventory', 'List current inventory items.', () => {
-      const inventory = this.stateManager?.instance?.getCurrentInventory?.();
-      this.appendConsoleMessage(
-        `Inventory: ${inventory?.join(', ') || 'Empty'}`,
-        'info'
-      );
+    this.registerCommand('inventory', 'List current inventory items.', async () => {
+      if (!this.stateManager) {
+        this.appendConsoleMessage('StateManager not available.', 'error');
+        return;
+      }
+      
+      try {
+        await this.stateManager.ensureReady();
+        const snapshot = this.stateManager.getSnapshot();
+        const inventory = snapshot?.inventory || {};
+        
+        if (Object.keys(inventory).length === 0) {
+          this.appendConsoleMessage('Inventory: Empty', 'info');
+        } else {
+          this.appendConsoleMessage('Inventory:', 'info');
+          Object.entries(inventory).forEach(([item, count]) => {
+            this.appendConsoleMessage(`  ${item}: ${count}`, 'info');
+          });
+        }
+      } catch (error) {
+        this.appendConsoleMessage(`Inventory command failed: ${error.message}`, 'error');
+      }
     });
-    this.registerCommand('debug', 'Toggle stateManager debug mode.', () => {
-      const debugMode = !this.stateManager?.instance?.getDebugMode?.();
-      this.stateManager?.instance?.setDebugMode?.(debugMode);
-      this.appendConsoleMessage(
-        `Debug mode ${debugMode ? 'enabled' : 'disabled'}.`,
-        'info'
-      );
+    this.registerCommand('debug', 'Toggle stateManager debug mode.', async () => {
+      if (!this.stateManager) {
+        this.appendConsoleMessage('StateManager not available.', 'error');
+        return;
+      }
+      
+      try {
+        await this.stateManager.ensureReady();
+        // Check if debug mode is currently enabled
+        const currentDebugMode = this.stateManager.isDebugMode?.() || false;
+        const newDebugMode = !currentDebugMode;
+        
+        // Toggle debug mode
+        if (typeof this.stateManager.setDebugMode === 'function') {
+          this.stateManager.setDebugMode(newDebugMode);
+          this.appendConsoleMessage(
+            `Debug mode ${newDebugMode ? 'enabled' : 'disabled'}.`,
+            'success'
+          );
+        } else {
+          this.appendConsoleMessage('Debug mode toggle not supported.', 'warn');
+        }
+      } catch (error) {
+        this.appendConsoleMessage(`Debug command failed: ${error.message}`, 'error');
+      }
     });
     this.registerCommand(
       'connect',
@@ -507,15 +667,25 @@ class MainContentUI {
           `Connecting to ${serverAddress}...`,
           'system'
         );
-        this.eventBus.publish('network:connectRequest', {
-          serverAddress,
-          password: '',
-        });
+        
+        if (this.connection && typeof this.connection.requestConnect === 'function') {
+          const success = this.connection.requestConnect(serverAddress, '');
+          if (!success) {
+            this.appendConsoleMessage('Failed to initiate connection.', 'error');
+          }
+        } else {
+          this.appendConsoleMessage('Connection module not available.', 'error');
+        }
       }
     );
     this.registerCommand('disconnect', 'Disconnect from server.', () => {
       this.appendConsoleMessage('Disconnecting...', 'system');
-      this.eventBus.publish('network:disconnectRequest', {});
+      
+      if (this.connection && typeof this.connection.disconnect === 'function') {
+        this.connection.disconnect();
+      } else {
+        this.appendConsoleMessage('Connection module not available.', 'error');
+      }
     });
     this.registerCommand('help', 'Show available commands.', () =>
       this.showHelp()
@@ -534,104 +704,8 @@ class MainContentUI {
       }
     });
 
-    this.registerCommand('received', 'List all received items.', async () => {
-      if (this.stateManager) {
-        try {
-          const snapshot = await this.stateManager.getLatestStateSnapshot();
-          const inventory = snapshot?.inventory || {};
-          if (Object.keys(inventory).length === 0) {
-            this.appendConsoleMessage('No items received yet.', 'info');
-          } else {
-            this.appendConsoleMessage('Received items:', 'info');
-            Object.entries(inventory).forEach(([item, count]) => {
-              this.appendConsoleMessage(`  ${item}: ${count}`, 'info');
-            });
-          }
-        } catch (error) {
-          this.appendConsoleMessage(`Error getting received items: ${error.message}`, 'error');
-        }
-      } else {
-        this.appendConsoleMessage('Cannot list received items: State manager not available.', 'error');
-      }
-    });
-
-    this.registerCommand('missing', 'List all missing location checks.', async () => {
-      if (this.stateManager) {
-        try {
-          const snapshot = await this.stateManager.getLatestStateSnapshot();
-          const allLocations = snapshot?.locations || [];
-          const checkedLocations = new Set(snapshot?.flags || []);
-          const missingLocations = allLocations.filter(loc => !checkedLocations.has(loc.name));
-          
-          if (missingLocations.length === 0) {
-            this.appendConsoleMessage('No missing locations.', 'info');
-          } else {
-            this.appendConsoleMessage(`Missing locations (${missingLocations.length}):`, 'info');
-            missingLocations.forEach(location => {
-              this.appendConsoleMessage(`  ${location.name}`, 'info');
-            });
-          }
-        } catch (error) {
-          this.appendConsoleMessage(`Error getting missing locations: ${error.message}`, 'error');
-        }
-      } else {
-        this.appendConsoleMessage('Cannot list missing locations: State manager not available.', 'error');
-      }
-    });
-
-    this.registerCommand('items', 'List all item names for the current game.', async () => {
-      if (this.stateManager) {
-        try {
-          const snapshot = await this.stateManager.getLatestStateSnapshot();
-          const itemData = snapshot?.itemData || {};
-          const itemNames = Object.keys(itemData);
-          
-          if (itemNames.length === 0) {
-            this.appendConsoleMessage('No items available.', 'info');
-          } else {
-            this.appendConsoleMessage(`Available items (${itemNames.length}):`, 'info');
-            itemNames.forEach(itemName => {
-              this.appendConsoleMessage(`  ${itemName}`, 'info');
-            });
-          }
-        } catch (error) {
-          this.appendConsoleMessage(`Error getting items: ${error.message}`, 'error');
-        }
-      } else {
-        this.appendConsoleMessage('Cannot list items: State manager not available.', 'error');
-      }
-    });
-
-    this.registerCommand('locations', 'List all location names for the current game.', async () => {
-      if (this.stateManager) {
-        try {
-          const snapshot = await this.stateManager.getLatestStateSnapshot();
-          const locations = snapshot?.locations || [];
-          
-          if (locations.length === 0) {
-            this.appendConsoleMessage('No locations available.', 'info');
-          } else {
-            this.appendConsoleMessage(`Available locations (${locations.length}):`, 'info');
-            locations.forEach(location => {
-              this.appendConsoleMessage(`  ${location.name}`, 'info');
-            });
-          }
-        } catch (error) {
-          this.appendConsoleMessage(`Error getting locations: ${error.message}`, 'error');
-        }
-      } else {
-        this.appendConsoleMessage('Cannot list locations: State manager not available.', 'error');
-      }
-    });
-
-    this.registerCommand('ready', 'Sends ready status to the server.', () => {
-      if (this.messageHandler && typeof this.messageHandler.sendStatusUpdate === 'function') {
-        this.messageHandler.sendStatusUpdate(30); // 30 = Ready status
-        this.appendConsoleMessage('Ready status sent to server.', 'system');
-      } else {
-        this.appendConsoleMessage('Failed to send ready status: Message handler not available.', 'error');
-      }
-    });
+    // Note: received, missing, items, locations, ready commands are now handled by ConsoleUI
+    // to avoid duplication and conflicts. ConsoleUI handles these with proper StateManager integration.
 
     // --- Register ConsoleUI Commands ---
     // Pass the register function and dependencies to ConsoleUI

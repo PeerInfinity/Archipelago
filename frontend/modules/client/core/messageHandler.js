@@ -396,15 +396,20 @@ export class MessageHandler {
         }
       }
 
-      // If there are items to process, send them to StateManager
+      // If there are items to process, add them to inventory incrementally
       if (processedItemDetails.length > 0) {
         this._logDebug(
-          `[MessageHandler _handleReceivedItems] Sending ${processedItemDetails.length} processed item details to applyRuntimeStateData.`
+          `[MessageHandler _handleReceivedItems] Adding ${processedItemDetails.length} items to inventory incrementally.`
         );
-        // This is a fire-and-forget call to the proxy; the batch commit will ensure processing.
-        stateManager.applyRuntimeStateData({
-          receivedItemsForProcessing: processedItemDetails,
-        });
+        // Add each item individually to preserve existing inventory
+        for (const itemDetail of processedItemDetails) {
+          if (itemDetail && itemDetail.itemName) {
+            await stateManager.addItemToInventory(itemDetail.itemName, 1);
+            this._logDebug(
+              `[MessageHandler _handleReceivedItems] Added item: ${itemDetail.itemName}`
+            );
+          }
+        }
       }
 
       // Commit updates (this will trigger computations and snapshot in StateManager if changes occurred)
@@ -496,14 +501,11 @@ export class MessageHandler {
 
     // Handle PrintJSON messages that contain console text (Join, Tutorial, etc.)
     if (this.eventBus && data.data && Array.isArray(data.data)) {
-      // PrintJSON data is an array of text objects
-      data.data.forEach(textObj => {
-        if (textObj && textObj.text) {
-          this.eventBus.publish('ui:printToConsole', {
-            message: textObj.text,
-            type: 'server-message',
-          });
-        }
+      // PrintJSON data is an array of structured text objects with type information
+      // Forward the raw structured data for proper formatting
+      this.eventBus.publish('ui:printFormattedToConsole', {
+        messageParts: data.data,
+        type: 'server-message',
       });
     }
   }

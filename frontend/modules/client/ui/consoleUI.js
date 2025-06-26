@@ -81,11 +81,7 @@ export class ConsoleUI {
       'List available locations',
       this.handleLocationsCommand
     );
-    register(
-      'location_groups',
-      'List available location groups',
-      this.handleLocationGroupsCommand
-    );
+    // location_groups command removed - location groups don't exist in Archipelago JSON data
     register('ready', 'Send ready status to server', this.handleReadyCommand);
     register(
       'set_delay',
@@ -158,90 +154,127 @@ export class ConsoleUI {
 
   static async handleMissingCommand(args, { stateManager, consoleManager }) {
     consoleManager.print('Missing Locations:');
-    if (!stateManager?.instance) {
+    if (!stateManager) {
       consoleManager.print('Error: StateManager not available.', 'error');
       return;
     }
-    const missingIds = Array.from(
-      stateManager.instance.missing_locations || []
-    );
-    if (missingIds.length === 0) {
-      consoleManager.print('No missing locations known.');
-      return;
-    }
-    const names = missingIds.map(
-      (id) => stateManager.instance.getLocationNameFromId(id) || `ID ${id}`
-    );
-    // Limit output length if necessary
-    const output =
-      names.length > 50
+    
+    try {
+      await stateManager.ensureReady();
+      const snapshot = stateManager.getSnapshot();
+      const staticData = stateManager.getStaticData();
+      
+      if (!staticData?.locations) {
+        consoleManager.print('Error: Location data not available.', 'error');
+        return;
+      }
+      
+      // staticData.locations is an object keyed by location name, not an array
+      const allLocations = Object.values(staticData.locations);
+      const checkedLocations = new Set(snapshot?.checkedLocations || []);
+      const missingLocations = allLocations.filter(loc => !checkedLocations.has(loc.name));
+      
+      if (missingLocations.length === 0) {
+        consoleManager.print('No missing locations.');
+        return;
+      }
+      
+      // Limit output length if necessary
+      const names = missingLocations.map(loc => loc.name);
+      const output = names.length > 50
         ? names.slice(0, 50).join('\n') + '\n... (and more)'
         : names.join('\n');
-    consoleManager.print(output);
+      consoleManager.print(output);
+      
+    } catch (error) {
+      consoleManager.print(`Error getting missing locations: ${error.message}`, 'error');
+    }
   }
 
   static async handleItemsCommand(args, { stateManager, consoleManager }) {
     consoleManager.print('Available Items:');
-    if (!stateManager?.instance?.items) {
-      consoleManager.print(
-        'Error: StateManager or items list not available.',
-        'error'
-      );
+    if (!stateManager) {
+      consoleManager.print('Error: StateManager not available.', 'error');
       return;
     }
-    const itemNames = Object.keys(stateManager.instance.items);
-    const output =
-      itemNames.length > 100
+    
+    try {
+      await stateManager.ensureReady();
+      const staticData = stateManager.getStaticData();
+      
+      if (!staticData?.items) {
+        consoleManager.print('Error: Item data not available.', 'error');
+        return;
+      }
+      
+      const itemNames = Object.keys(staticData.items);
+      const output = itemNames.length > 100
         ? itemNames.slice(0, 100).join('\n') + '\n... (and more)'
         : itemNames.join('\n');
-    consoleManager.print(output);
+      consoleManager.print(output);
+      
+    } catch (error) {
+      consoleManager.print(`Error getting items: ${error.message}`, 'error');
+    }
   }
 
   static async handleItemGroupsCommand(args, { stateManager, consoleManager }) {
     consoleManager.print('Item Groups:');
-    if (!stateManager?.instance?.groups?.items) {
-      consoleManager.print(
-        'Error: StateManager or item groups not available.',
-        'error'
-      );
+    if (!stateManager) {
+      consoleManager.print('Error: StateManager not available.', 'error');
       return;
     }
-    const groupNames = Object.keys(stateManager.instance.groups.items);
-    consoleManager.print(groupNames.join('\n'));
+    
+    try {
+      await stateManager.ensureReady();
+      const staticData = stateManager.getStaticData();
+      
+      if (!staticData?.groups?.items) {
+        consoleManager.print('No item groups available. Load rules data first via the JSON panel.', 'warn');
+        return;
+      }
+      
+      const groupNames = Object.keys(staticData.groups.items);
+      if (groupNames.length === 0) {
+        consoleManager.print('No item groups defined.', 'info');
+      } else {
+        consoleManager.print(groupNames.join('\n'));
+      }
+      
+    } catch (error) {
+      consoleManager.print(`Error getting item groups: ${error.message}`, 'error');
+    }
   }
 
   static async handleLocationsCommand(args, { stateManager, consoleManager }) {
     consoleManager.print('Available Locations:');
-    if (!stateManager?.instance?.locations) {
-      consoleManager.print(
-        'Error: StateManager or locations list not available.',
-        'error'
-      );
+    if (!stateManager) {
+      consoleManager.print('Error: StateManager not available.', 'error');
       return;
     }
-    const locationNames = stateManager.instance.locations.map((l) => l.name);
-    const output =
-      locationNames.length > 100
+    
+    try {
+      await stateManager.ensureReady();
+      const staticData = stateManager.getStaticData();
+      
+      if (!staticData?.locations) {
+        consoleManager.print('Error: Location data not available.', 'error');
+        return;
+      }
+      
+      // staticData.locations is an object keyed by location name, not an array
+      const locationNames = Object.values(staticData.locations).map((l) => l.name);
+      const output = locationNames.length > 100
         ? locationNames.slice(0, 100).join('\n') + '\n... (and more)'
         : locationNames.join('\n');
-    consoleManager.print(output);
+      consoleManager.print(output);
+      
+    } catch (error) {
+      consoleManager.print(`Error getting locations: ${error.message}`, 'error');
+    }
   }
 
-  static async handleLocationGroupsCommand(
-    args,
-    { stateManager, consoleManager }
-  ) {
-    consoleManager.print('Location Groups:');
-    if (!stateManager?.instance?.groups?.locations) {
-      consoleManager.print(
-        'Error: StateManager or location groups not available.',
-        'error'
-      );
-      return;
-    }
-    const groupNames = Object.keys(stateManager.instance.groups.locations);
-    consoleManager.print(groupNames.join('\n'));
-  }
+  // handleLocationGroupsCommand removed - location groups don't exist in Archipelago JSON data
 
   static handleReadyCommand(args, { connection, consoleManager }) {
     if (!connection || !connection.isConnected()) {
