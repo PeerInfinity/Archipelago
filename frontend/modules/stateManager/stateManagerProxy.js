@@ -832,7 +832,7 @@ export class StateManagerProxy {
     return this._sendCommand(
       StateManagerProxy.COMMANDS.REMOVE_ITEM_FROM_INVENTORY,
       { item, quantity },
-      true
+      false // Match addItemToInventory - no response expected, snapshot update provides confirmation
     );
   }
 

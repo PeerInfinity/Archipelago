@@ -372,6 +372,47 @@ self.onmessage = async function (e) {
         }
         break;
 
+      case 'removeItemFromInventory':
+        if (!stateManagerInstance) {
+          log(
+            'error',
+            '[stateManagerWorker] StateManager not initialized for removeItemFromInventory'
+          );
+          break;
+        }
+        try {
+          const { item, quantity } = message.payload;
+          if (typeof item === 'string') {
+            // Check if StateManager has a removeItemFromInventory method
+            if (typeof stateManagerInstance.removeItemFromInventory === 'function') {
+              stateManagerInstance.removeItemFromInventory(item, quantity || 1);
+              log(
+                'info',
+                `[stateManagerWorker] Removed ${quantity || 1} of "${item}" from inventory`
+              );
+            } else {
+              log(
+                'error',
+                '[stateManagerWorker] StateManager.removeItemFromInventory method not available'
+              );
+            }
+          } else {
+            log(
+              'error',
+              '[stateManagerWorker] Invalid payload for removeItemFromInventory: item name missing or not a string.',
+              message.payload
+            );
+          }
+        } catch (e) {
+          log(
+            'error',
+            '[stateManagerWorker] Error processing removeItemFromInventory:',
+            e
+          );
+          // Optionally send an error back
+        }
+        break;
+
       // Basic query handling for commands that expect a response via queryId
       case 'getFullSnapshot':
       case 'checkLocation':

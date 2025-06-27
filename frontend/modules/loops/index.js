@@ -1,7 +1,7 @@
 // Core state and UI for this module
 import loopStateSingleton from './loopStateSingleton.js';
 import { LoopUI } from './loopUI.js';
-import { handleUserLocationCheckForLoops } from './loopEvents.js'; // Import new handler
+import { handleUserLocationCheckForLoops, handleUserItemCheckForLoops } from './loopEvents.js'; // Import handlers
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -115,6 +115,14 @@ export function register(registrationApi) {
     moduleInfo.name,
     'user:locationCheck',
     handleUserLocationCheckForLoops,
+    { direction: 'up', condition: 'conditional', timing: 'immediate' }
+  );
+
+  // Register dispatcher receiver for user:itemCheck
+  registrationApi.registerDispatcherReceiver(
+    moduleInfo.name,
+    'user:itemCheck',
+    handleUserItemCheckForLoops,
     { direction: 'up', condition: 'conditional', timing: 'immediate' }
   );
 

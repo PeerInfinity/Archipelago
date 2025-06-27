@@ -2,6 +2,7 @@ import { stateManagerProxySingleton as stateManager } from '../stateManager/inde
 import connection from '../client/core/connection.js';
 import messageHandler from '../client/core/messageHandler.js';
 import eventBus from '../../app/core/eventBus.js';
+import { getDispatcher } from './index.js';
 
 
 // Helper function for logging with fallback
@@ -41,6 +42,7 @@ export class InventoryUI {
         '[InventoryUI app:readyForUiDataLoad] Received. Setting up base UI and event listeners.'
       );
       this.attachEventBusListeners();
+      this.dispatcher = getDispatcher(); // Get dispatcher here
       this.isInitialized = true;
       log('info', 
         '[InventoryUI app:readyForUiDataLoad] Base setup complete. Awaiting StateManager readiness.'
@@ -274,9 +276,38 @@ export class InventoryUI {
     this.rootElement.querySelectorAll('.item-button').forEach((button) => {
       button.addEventListener('click', (event) => {
         const itemName = button.dataset.item;
-        this.modifyItemCount(itemName, event.shiftKey);
+        this.handleItemClick(itemName, event.shiftKey);
       });
     });
+  }
+
+  handleItemClick(itemName, isShiftPressed = false) {
+    if (!itemName) {
+      log('warn', '[InventoryUI] handleItemClick called with invalid itemName');
+      return;
+    }
+
+    if (!this.dispatcher) {
+      log('error', '[InventoryUI] Dispatcher not available in handleItemClick. Cannot send item check request.');
+      return;
+    }
+
+    log('info', `[InventoryUI] Clicked on item: ${itemName}, Shift pressed: ${isShiftPressed}`);
+
+    // Create event payload similar to location click
+    const payload = {
+      itemName: itemName,
+      isShiftPressed: isShiftPressed,
+      originator: 'InventoryItemClick',
+      originalDOMEvent: true,
+    };
+
+    // Send event through dispatcher system starting from bottom (same as location clicks)
+    this.dispatcher.publish('user:itemCheck', payload, {
+      initialTarget: 'bottom',
+    });
+
+    log('info', `[InventoryUI] Published user:itemCheck event for item: ${itemName}`);
   }
 
   attachControlEventListeners() {

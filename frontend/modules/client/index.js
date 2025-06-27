@@ -6,6 +6,7 @@ import connection from './core/connection.js';
 import { loadMappingsFromStorage } from './utils/idMapping.js';
 import messageHandler, {
   handleUserLocationCheckForClient,
+  handleUserItemCheckForClient,
 } from './core/messageHandler.js';
 import LocationManager from './core/locationManager.js';
 
@@ -150,6 +151,14 @@ export function register(registrationApi) {
     moduleInfo.name,
     'user:locationCheck',
     handleUserLocationCheckForClient, // Use the new imported handler
+    { direction: 'up', condition: 'conditional', timing: 'immediate' }
+  );
+
+  // Register dispatcher receiver for user:itemCheck
+  registrationApi.registerDispatcherReceiver(
+    moduleInfo.name,
+    'user:itemCheck',
+    handleUserItemCheckForClient, // Use the new imported handler
     { direction: 'up', condition: 'conditional', timing: 'immediate' }
   );
 

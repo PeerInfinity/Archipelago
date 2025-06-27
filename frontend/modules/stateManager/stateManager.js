@@ -341,6 +341,38 @@ export class StateManager {
   }
 
   /**
+   * Removes items from the player's inventory
+   */
+  removeItemFromInventory(itemName, count = 1) {
+    if (!this._batchMode) {
+      // Non-batch mode: Apply immediately and update
+      if (this.inventory) {
+        // Use format-agnostic helper
+        this._removeItemFromInventory(itemName, count);
+        this._logDebug(
+          `[StateManager] removeItemFromInventory: Removed "${itemName}" x${count} (canonical format)`
+        );
+        this.invalidateCache(); // Removing items can change reachability
+        this._sendSnapshotUpdate(); // Send a new snapshot
+      } else {
+        this._logDebug(
+          `[StateManager] removeItemFromInventory: Inventory not available for "${itemName}"`,
+          null,
+          'warn'
+        );
+      }
+    } else {
+      // Batch mode: Record the item update for later processing by commitBatchUpdate
+      this._logDebug(
+        `[StateManager] removeItemFromInventory: Batching item removal "${itemName}" with count ${count}`
+      );
+      const currentBatchedCount = this._batchedUpdates.get(itemName) || 0;
+      this._batchedUpdates.set(itemName, currentBatchedCount - count);
+      // DO NOT call invalidateCache() or _sendSnapshotUpdate() here directly.
+    }
+  }
+
+  /**
    * Adds an item to the player's inventory by its name.
    */
   addItemToInventoryByName(itemName, count = 1, fromServer = false) {
@@ -727,12 +759,12 @@ export class StateManager {
             );
           }
 
-          // Store the actual server location ID, not the array index
+          // Store the actual server location ID, or null if not present
           if (locationDataItem.id !== undefined && locationDataItem.id !== null) {
             this.locationNameToId[descriptiveName] = locationDataItem.id;
           } else {
-            log('warn', `[StateManager loadFromJSON] Location '${descriptiveName}' has no ID, using array index as fallback`);
-            this.locationNameToId[descriptiveName] = this.locations.length - 1;
+            // Expected for client-side only locations that don't exist in server data
+            this.locationNameToId[descriptiveName] = null;
           }
         });
       } else if (region.locations) {
@@ -2971,6 +3003,26 @@ export class StateManager {
     const maxCount = itemDef?.max_count ?? Infinity;
 
     this.inventory[itemName] = Math.min(currentCount + count, maxCount);
+  }
+
+  /**
+   * Helper function to remove items from canonical inventory
+   */
+  _removeItemFromInventory(itemName, count = 1) {
+    // Canonical format: plain object
+    if (!(itemName in this.inventory)) {
+      this._logDebug(`[StateManager] Attempting to remove unknown item: ${itemName}`, null, 'warn');
+      return;
+    }
+
+    const currentCount = this.inventory[itemName];
+    const newCount = Math.max(0, currentCount - count);
+
+    this.inventory[itemName] = newCount;
+    
+    this._logDebug(
+      `[StateManager] _removeItemFromInventory: "${itemName}" count changed from ${currentCount} to ${newCount}`
+    );
   }
 
   /**

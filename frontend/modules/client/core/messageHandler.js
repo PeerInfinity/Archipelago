@@ -986,3 +986,75 @@ export async function handleUserLocationCheckForClient(
     }
   }
 }
+
+// New handler for user:itemCheck event
+export async function handleUserItemCheckForClient(
+  eventData,
+  propagationOptions
+) {
+  log('info', 
+    '[MessageHandler] handleUserItemCheckForClient received event:',
+    eventData ? JSON.parse(JSON.stringify(eventData)) : 'undefined',
+    'Propagation:',
+    propagationOptions ? JSON.parse(JSON.stringify(propagationOptions)) : 'undefined'
+  );
+  
+  // Access the dispatcher from the messageHandlerSingleton
+  const dispatcher = messageHandlerSingleton._getDispatcher();
+  log('info', '[MessageHandler] Dispatcher available:', !!dispatcher);
+  log('info', '[MessageHandler] Connection status:', connection.isConnected());
+
+  if (connection.isConnected()) {
+    log('info', 
+      '[ClientModule/MessageHandler] Handling user:itemCheck while connected.',
+      eventData
+    );
+    if (eventData.itemName) {
+      log('info', '[MessageHandler] Sending !getitem command for item:', eventData.itemName);
+      
+      // Send !getitem command to server
+      const command = `!getitem ${eventData.itemName}`;
+      const success = messageHandlerSingleton.sendMessage(command);
+      
+      if (success) {
+        log('info', '[MessageHandler] Successfully sent !getitem command:', command);
+      } else {
+        log('warn', '[MessageHandler] Failed to send !getitem command:', command);
+      }
+    } else {
+      log('info', 
+        '[ClientModule/MessageHandler] user:itemCheck received with no specific itemName. Propagating for local handling.'
+      );
+      if (dispatcher) {
+        dispatcher.publishToNextModule(
+          moduleInfo.name,
+          'user:itemCheck',
+          eventData,
+          { direction: 'up' }
+        );
+      } else {
+        log('error', 
+          '[ClientModule/MessageHandler] Dispatcher not available for propagation when no itemName specified.'
+        );
+      }
+    }
+    // Event considered handled (or attempted by client module).
+  } else {
+    // Not connected, propagate up for potential local handling (e.g., by StateManager).
+    log('info', 
+      '[ClientModule/MessageHandler] Not connected. Propagating user:itemCheck up.'
+    );
+    if (dispatcher) {
+      dispatcher.publishToNextModule(
+        moduleInfo.name,
+        'user:itemCheck',
+        eventData,
+        { direction: 'up' }
+      );
+    } else {
+      log('error', 
+        '[ClientModule/MessageHandler] Dispatcher not available for propagation when not connected.'
+      );
+    }
+  }
+}

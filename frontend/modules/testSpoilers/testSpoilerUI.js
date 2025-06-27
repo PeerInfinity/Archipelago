@@ -1712,27 +1712,38 @@ export class TestSpoilerUI {
       this.logContainer.scrollTop = this.logContainer.scrollHeight;
     }
 
-    // Log to browser console (or global logger)
+    // Log to browser console via centralized logger that respects settings
     // Map custom types to console methods if needed, e.g., 'step' or 'mismatch'
-    let consoleMethodType = type;
+    let logLevel = type;
     if (type === 'step' || type === 'mismatch' || type === 'state') {
-      consoleMethodType = 'info'; // Or 'debug' or a specific style
+      logLevel = 'info'; // Or 'debug' or a specific style
     } else if (type === 'success') {
-      consoleMethodType = 'info';
-    } else {
-      consoleMethodType = 'log';
+      logLevel = 'info';
+    } else if (type === 'log') {
+      logLevel = 'info';
     }
-    // Ensure type is a valid console method, defaulting to 'log'
+    // Ensure type is a valid log level, defaulting to 'info'
     if (
-      !['error', 'warn', 'info', 'debug', 'log'].includes(consoleMethodType)
+      !['error', 'warn', 'info', 'debug'].includes(logLevel)
     ) {
-      consoleMethodType = 'log';
+      logLevel = 'info';
     }
-    const consoleMethod = console[consoleMethodType] || console.log;
-    consoleMethod(
-      `[TestSpoilerUI - ${type.toUpperCase()}] ${message}`,
-      ...additionalData
-    );
+    
+    // Use centralized logger that respects settings.json logging levels
+    if (
+      typeof window !== 'undefined' &&
+      window.logger &&
+      typeof window.logger[logLevel] === 'function'
+    ) {
+      window.logger[logLevel]('testSpoilerUI', message, ...additionalData);
+    } else {
+      // Fallback to console if logger not available
+      const consoleMethod = console[logLevel] || console.log;
+      consoleMethod(
+        `[testSpoilerUI] ${message}`,
+        ...additionalData
+      );
+    }
   }
 
   _addLocationLinksToElement(element, locationNames) {

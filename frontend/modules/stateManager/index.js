@@ -89,6 +89,14 @@ function register(registrationApi) {
     null // No further propagation
   );
 
+  // Register dispatcher receiver for user:itemCheck
+  registrationApi.registerDispatcherReceiver(
+    moduleInfo.name, // 'stateManager'
+    'user:itemCheck', // Explicitly the event name we want
+    handleUserItemCheckForStateManager,
+    null // No further propagation
+  );
+
   // Register JSON Data Handler
   registrationApi.registerJsonDataHandler(
     'stateManagerRuntime', // Data Key
@@ -388,5 +396,33 @@ async function handleUserLocationCheckForStateManager(eventData) {
             log('warn', "[StateManagerModule] Cannot auto-check next location: snapshot or static data not available.");
         }
         */
+  }
+}
+
+async function handleUserItemCheckForStateManager(eventData) {
+  log(
+    'info',
+    '[StateManagerModule] handleUserItemCheckForStateManager received event:',
+    JSON.parse(JSON.stringify(eventData))
+  );
+  log(
+    'info',
+    '[StateManagerModule] Handling user:itemCheck locally.',
+    eventData
+  );
+  if (eventData.itemName) {
+    if (eventData.isShiftPressed) {
+      log('info', 
+        '[StateManagerModule] Shift-click detected, removing item from inventory:', eventData.itemName
+      );
+      await stateManagerProxySingleton.removeItemFromInventory(eventData.itemName, 1); // Command worker
+    } else {
+      await stateManagerProxySingleton.addItemToInventory(eventData.itemName); // Command worker
+    }
+  } else {
+    log(
+      'warn',
+      '[StateManagerModule] Received user:itemCheck with no itemName.'
+    );
   }
 }

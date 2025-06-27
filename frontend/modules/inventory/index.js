@@ -1,6 +1,9 @@
 // UI Class for this module
 import { InventoryUI } from './inventoryUI.js';
 
+// Store dispatcher instance
+let moduleDispatcher = null;
+
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -37,6 +40,11 @@ export function register(registrationApi) {
   // Register the panel component CLASS constructor
   registrationApi.registerPanelComponent('inventoryPanel', InventoryUI);
 
+  // Register dispatcher sender for user:itemCheck events
+  registrationApi.registerDispatcherSender('user:itemCheck', {
+    initialTarget: 'bottom',
+  });
+
   // Register event bus subscribers via centralRegistry for tracking/control
   // The actual subscription happens within the InventoryUI instance.
   registrationApi.registerEventBusSubscriberIntent('stateManager:rulesLoaded');
@@ -66,10 +74,22 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   log('info', 
     `[Inventory Module] Initializing with priority ${priorityIndex}...`
   );
+  
+  // Store dispatcher for use by UI components
+  moduleDispatcher = initializationApi.getDispatcher();
+  
   // Store API if needed by UI class (passed via constructor or method)
   // Currently, UI class imports singletons directly.
 
   log('info', '[Inventory Module] Basic initialization complete.');
+}
+
+/**
+ * Get the dispatcher instance for this module.
+ * @returns {object} The dispatcher instance.
+ */
+export function getDispatcher() {
+  return moduleDispatcher;
 }
 
 // REMOVED: postInitialize function. Logic moved to InventoryUI class.
