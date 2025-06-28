@@ -1,0 +1,112 @@
+{
+  "title": "Application Settings",
+  "description": "Schema for frontend/settings.json",
+  "type": "object",
+  "properties": {
+    "activeGame": {
+      "type": ["string", "null"],
+      "description": "Identifier for the currently active game (e.g., ALTTP, SMZ3)."
+    },
+    "activeLayout": {
+      "type": ["string", "null"],
+      "description": "Name of the active layout preset (from layout_presets.json) or null for custom."
+    },
+    "customLayoutConfig": {
+      "type": ["object", "null"],
+      "description": "Golden Layout configuration object if activeLayout is null.",
+      "additionalProperties": true
+    },
+    "generalSettings": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": ["dark", "light"],
+          "default": "dark"
+        }
+      },
+      "additionalProperties": false
+    },
+    "moduleSettings": {
+      "type": "object",
+      "description": "Settings specific to each module, keyed by module ID.",
+      "properties": {
+        "modules": { "type": "object", "title": "Modules Settings" },
+        "stateManager": {
+          "type": "object",
+          "title": "State Manager Settings",
+          "additionalProperties": true
+        },
+        "client": {
+          "type": "object",
+          "title": "Client Settings",
+          "properties": {
+            "defaultServer": {
+              "type": "string",
+              "format": "uri",
+              "default": "ws://localhost:38281"
+            }
+          },
+          "additionalProperties": true
+        },
+        "inventory": {
+          "type": "object",
+          "title": "Inventory Settings",
+          "additionalProperties": true
+        },
+        "editor": {
+          "type": "object",
+          "title": "Editor Settings",
+          "additionalProperties": true
+        },
+        "options": {
+          "type": "object",
+          "title": "Options Settings",
+          "additionalProperties": true
+        },
+        "locations": {
+          "type": "object",
+          "title": "Locations Settings",
+          "additionalProperties": true
+        },
+        "exits": {
+          "type": "object",
+          "title": "Exits Settings",
+          "additionalProperties": true
+        },
+        "pathAnalyzer": {
+          "type": "object",
+          "title": "Path Analyzer Settings",
+          "additionalProperties": true
+        },
+        "regions": {
+          "type": "object",
+          "title": "Regions Settings",
+          "additionalProperties": true
+        },
+        "discovery": {
+          "type": "object",
+          "title": "Discovery Settings",
+          "additionalProperties": true
+        },
+        "loops": {
+          "type": "object",
+          "title": "Loops Settings",
+          "properties": {
+            "defaultSpeed": { "type": "integer", "minimum": 1, "default": 10 },
+            "autoRestart": { "type": "boolean", "default": false }
+          },
+          "additionalProperties": true
+        },
+        "files": {
+          "type": "object",
+          "title": "Files Settings",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["activeLayout", "generalSettings", "moduleSettings"],
+  "additionalProperties": false
+}

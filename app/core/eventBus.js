@@ -1,4 +1,17 @@
 // eventBus.js
+import { centralRegistry } from './centralRegistry.js'; // Use named import
+
+
+// Helper function for logging with fallback
+function log(level, message, ...data) {
+  if (typeof window !== 'undefined' && window.logger) {
+    window.logger[level]('eventBus', message, ...data);
+  } else {
+    const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+    consoleMethod(`[eventBus] ${message}`, ...data);
+  }
+}
+
 export class EventBus {
   constructor() {
     this.events = {};
@@ -22,10 +35,11 @@ export class EventBus {
     }
 
     this.events[event].forEach((callback) => {
+      // Simply execute the callback
       try {
         callback(data);
       } catch (error) {
-        console.error(`Error in event handler for ${event}:`, error);
+        log('error', `Error in event handler for ${event}:`, error);
       }
     });
   }

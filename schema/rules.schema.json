@@ -1,0 +1,596 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generic Archipelago Rules JSON Schema",
+  "description": "Generic schema for rules.json files, adaptable for various games.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "description": "Version of the rules.json schema itself."
+    },
+    "game_name": {
+      "type": "string",
+      "description": "The name of the game."
+    },
+    "archipelago_version": {
+      "type": "string",
+      "description": "Version of Archipelago used to generate the game."
+    },
+    "generation_seed": {
+      "type": "integer",
+      "description": "The seed used for game generation."
+    },
+    "player_names": {
+      "type": "object",
+      "description": "Mapping of player slot ID (string) to player name.",
+      "patternProperties": {
+        "^[0-9]+$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "world_classes": {
+      "type": "object",
+      "description": "Mapping of player slot ID (string) to the world class name used.",
+      "patternProperties": {
+        "^[0-9]+$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "plando_options": {
+      "type": "array",
+      "description": "List of plando options active for this generation.",
+      "items": { "type": "string" }
+    },
+    "regions": {
+      "type": "object",
+      "description": "Region data, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Region definitions for a player, keyed by region name. Must include a 'Menu' region.",
+          "patternProperties": {
+            "^.*$": { "$ref": "#/$defs/region" }
+          },
+          "required": ["Menu"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "dungeons": {
+      "type": "object",
+      "description": "Dungeon data, keyed by player slot ID (string). Optional.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Dungeon definitions for a player, keyed by dungeon name.",
+          "patternProperties": {
+            "^.*$": { "$ref": "#/$defs/dungeon" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "start_regions": {
+      "type": "object",
+      "description": "Start region configurations, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": { "$ref": "#/$defs/startRegionConfig" }
+      },
+      "additionalProperties": false
+    },
+    "items": {
+      "type": "object",
+      "description": "Item definitions, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Item definitions for a player, keyed by item name.",
+          "patternProperties": {
+            "^.*$": { "$ref": "#/$defs/itemDefinition" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "item_groups": {
+      "type": "object",
+      "description": "List of item group names, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "itempool_counts": {
+      "type": "object",
+      "description": "Counts of each item in the player's item pool, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Mapping of item name to its count in the pool.",
+          "patternProperties": {
+            "^.*$": { "type": "integer" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "progression_mapping": {
+      "type": "object",
+      "description": "Mapping for progressive items, keyed by player slot ID (string). Optional.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "description": "Progressive item definitions for a player, keyed by the base progressive item name.",
+          "patternProperties": {
+            "^.*$": { "$ref": "#/$defs/progressionMappingDetail" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "starting_items": {
+      "type": "object",
+      "description": "List of starting items for each player, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "settings": {
+      "type": "object",
+      "description": "Game-specific settings, keyed by player slot ID (string). The structure within each player's settings varies by game.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "properties": {
+            "game": {
+              "type": "string",
+              "description": "Name of the game these settings apply to."
+            }
+          },
+          "required": ["game"],
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "game_info": {
+      "type": "object",
+      "description": "General game information, keyed by player slot ID (string).",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "rule_format": {
+              "type": "object",
+              "properties": {
+                "version": { "type": "string" }
+              },
+              "required": ["version"]
+            }
+          },
+          "required": ["name", "rule_format"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "game_name",
+    "archipelago_version",
+    "generation_seed",
+    "player_names",
+    "world_classes",
+    "regions",
+    "start_regions",
+    "items",
+    "item_groups",
+    "itempool_counts",
+    "settings",
+    "game_info"
+  ],
+  "$defs": {
+    "rule": {
+      "description": "A rule object defining access conditions.",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "value": { "description": "Used for 'constant' type." },
+        "name": {
+          "type": "string",
+          "description": "Used for 'name' or 'helper' type."
+        },
+        "item": {
+          "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/rule" }],
+          "description": "Item name or a rule resolving to an item name for 'item_check', 'count_check'."
+        },
+        "group": {
+          "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/rule" }],
+          "description": "Group name or a rule resolving to a group name for 'group_check'."
+        },
+        "count": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "$ref": "#/$defs/rule" }
+          ],
+          "description": "Required count for 'count_check', 'group_check', or a rule resolving to a count."
+        },
+        "method": {
+          "type": "string",
+          "description": "Method name for 'state_method'."
+        },
+        "args": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Arguments for 'helper', 'state_method', 'function_call'."
+        },
+        "conditions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Sub-rules for 'and', 'or'."
+        },
+        "left": {
+          "$ref": "#/$defs/rule",
+          "description": "Left operand for 'compare' or 'binary_op'."
+        },
+        "op": {
+          "type": "string",
+          "description": "Operator for 'compare' or 'binary_op'."
+        },
+        "right": {
+          "$ref": "#/$defs/rule",
+          "description": "Right operand for 'compare' or 'binary_op'."
+        },
+        "object": {
+          "$ref": "#/$defs/rule",
+          "description": "Object for 'attribute'."
+        },
+        "attr": {
+          "type": "string",
+          "description": "Attribute name for 'attribute'."
+        },
+        "index": {
+          "$ref": "#/$defs/rule",
+          "description": "Index for 'subscript'."
+        },
+        "function": {
+          "$ref": "#/$defs/rule",
+          "description": "Function reference for 'function_call'."
+        },
+        "test": {
+          "$ref": "#/$defs/rule",
+          "description": "Test condition for 'conditional'."
+        },
+        "if_true": {
+          "$ref": "#/$defs/rule",
+          "description": "Result if test is true for 'conditional'."
+        },
+        "if_false": {
+          "$ref": "#/$defs/rule",
+          "description": "Result if test is false for 'conditional'."
+        },
+        "condition": {
+          "$ref": "#/$defs/rule",
+          "description": "Condition for 'not'."
+        },
+        "element_rule": {
+          "$ref": "#/$defs/rule",
+          "description": "Rule for each element in 'all_of'."
+        },
+        "iterator_info": {
+          "type": "object",
+          "properties": {
+            "type": { "const": "comprehension_details" },
+            "target": { "$ref": "#/$defs/rule" },
+            "iterator": { "$ref": "#/$defs/rule" }
+          },
+          "required": ["type", "target", "iterator"],
+          "description": "Iterator details for 'all_of'."
+        }
+      },
+      "required": ["type"]
+    },
+    "region": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": {
+          "oneOf": [{ "type": "integer" }, { "type": "string" }],
+          "description": "Region type identifier."
+        },
+        "player": { "type": "integer" },
+        "entrances": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/entrance" }
+        },
+        "exits": { "type": "array", "items": { "$ref": "#/$defs/exit" } },
+        "locations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/location" }
+        },
+        "time_passes": { "type": "boolean" },
+        "provides_chest_count": { "type": "boolean" },
+        "region_rules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" }
+        },
+        "shop": {
+          "$ref": "#/$defs/shop",
+          "description": "Shop data if this region contains a shop. Optional."
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "player",
+        "entrances",
+        "exits",
+        "locations",
+        "time_passes",
+        "provides_chest_count"
+      ]
+    },
+    "entrance": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "parent_region": { "type": "string" },
+        "access_rule": {
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
+        },
+        "connected_region": { "type": "string" },
+        "reverse": { "type": ["string", "null"] },
+        "assumed": { "type": "boolean" },
+        "type": { "type": "string" }
+      },
+      "required": [
+        "name",
+        "parent_region",
+        "connected_region",
+        "assumed",
+        "type"
+      ]
+    },
+    "exit": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "connected_region": { "type": "string" },
+        "access_rule": {
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
+        },
+        "type": { "type": "string" }
+      },
+      "required": ["name", "connected_region", "type"]
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "id": {
+          "type": ["integer", "null"],
+          "description": "Archipelago Location ID. Null for internally generated locations."
+        },
+        "crystal": {
+          "type": ["boolean", "null"],
+          "description": "Indicates if location holds a crystal (generic, used by Adventure)."
+        },
+        "access_rule": {
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }]
+        },
+        "item_rule": {
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
+          "description": "Rule for the item at this location."
+        },
+        "progress_type": {
+          "type": "integer",
+          "description": "Location progress type indicator."
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "Indicates if the location is initially locked."
+        },
+        "item": {
+          "$ref": "#/$defs/itemPlacement",
+          "description": "The item placed at this location."
+        }
+      },
+      "required": ["name", "id", "access_rule", "progress_type", "locked"]
+    },
+    "itemPlacement": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "player": { "type": "integer" },
+        "advancement": { "type": "boolean" },
+        "priority": { "type": ["boolean", "null"] },
+        "type": {
+          "type": ["string", "null"],
+          "description": "Generic classification of the item."
+        }
+      },
+      "required": ["name", "player", "advancement", "type"]
+    },
+    "shop": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "integer", "description": "Shop type identifier." },
+        "inventory": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/shopItem" }
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "Whether the shop is initially locked."
+        },
+        "region_name": {
+          "type": ["string", "null"],
+          "description": "Name of the region the shop is in."
+        },
+        "location_name": {
+          "type": ["string", "null"],
+          "description": "Name of the location representing this shop."
+        }
+      },
+      "required": ["type", "inventory", "locked"]
+    },
+    "shopItem": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": ["string", "null"],
+          "description": "Name of the item for sale."
+        },
+        "price": { "type": "integer" },
+        "max": {
+          "type": "integer",
+          "description": "Maximum number of this item that can be bought (0 often means unlimited)."
+        },
+        "replacement": {
+          "type": ["string", "null"],
+          "description": "Item that replaces this slot after purchase (if any)."
+        },
+        "replacement_price": {
+          "type": ["integer", "null"],
+          "description": "Price of the replacement item."
+        }
+      },
+      "required": ["item", "price", "max"]
+    },
+    "dungeon": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "regions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of region names belonging to this dungeon."
+        },
+        "boss": {
+          "$ref": "#/$defs/boss",
+          "description": "Boss definition for this dungeon."
+        },
+        "medallion_check": {
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
+          "description": "Rule for checking the medallion requirement for this dungeon."
+        }
+      },
+      "required": ["name", "regions"]
+    },
+    "boss": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "defeat_rule": {
+          "oneOf": [{ "$ref": "#/$defs/rule" }, { "type": "null" }],
+          "description": "Rule for defeating this boss."
+        }
+      },
+      "required": ["name"]
+    },
+    "itemDefinition": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "id": {
+          "type": ["integer", "null"],
+          "description": "Archipelago Item ID."
+        },
+        "groups": { "type": "array", "items": { "type": "string" } },
+        "advancement": { "type": "boolean" },
+        "priority": { "type": "boolean" },
+        "useful": { "type": "boolean" },
+        "trap": { "type": "boolean" },
+        "event": { "type": "boolean" },
+        "type": {
+          "type": ["string", "null"],
+          "description": "Generic item classification."
+        },
+        "max_count": {
+          "type": "integer",
+          "description": "Maximum count of this item."
+        }
+      },
+      "required": [
+        "name",
+        "id",
+        "groups",
+        "advancement",
+        "priority",
+        "useful",
+        "trap",
+        "event",
+        "type",
+        "max_count"
+      ]
+    },
+    "progressionMappingDetail": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/progressiveItemLevel" }
+        },
+        "base_item": {
+          "type": "string",
+          "description": "The name of the base progressive item."
+        }
+      },
+      "required": ["items", "base_item"]
+    },
+    "progressiveItemLevel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the item granted at this level."
+        },
+        "level": {
+          "type": "integer",
+          "description": "The level of progression this item represents."
+        },
+        "provides": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Other items this level might also grant."
+        }
+      },
+      "required": ["name", "level"]
+    },
+    "startRegionConfig": {
+      "type": "object",
+      "properties": {
+        "default": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Default starting region(s)."
+        },
+        "available": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/availableStartRegion" },
+          "description": "List of available start regions."
+        }
+      },
+      "required": ["default", "available"]
+    },
+    "availableStartRegion": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "oneOf": [{ "type": "integer" }, { "type": "string" }] }
+      },
+      "required": ["name", "type"]
+    }
+  }
+}

@@ -4,6 +4,17 @@ import stateManager from '../app/core/stateManagerSingleton.js';
 import { TestLogger } from './testLogger.js';
 import { TestResultsDisplay } from './testResultsDisplay.js';
 
+
+// Helper function for logging with fallback
+function log(level, message, ...data) {
+  if (typeof window !== 'undefined' && window.logger) {
+    window.logger[level]('locationTester', message, ...data);
+  } else {
+    const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+    consoleMethod(`[locationTester] ${message}`, ...data);
+  }
+}
+
 /**
  * Class for testing location accessibility
  * This is used by the test runner interface
@@ -15,12 +26,12 @@ export class LocationTester {
     this.availableTestSets = null;
     this.currentTestSet = null;
     this.currentFolder = null;
-    console.log('LocationTester initialized');
+    log('info', 'LocationTester initialized');
   }
 
   async loadTestSets() {
     try {
-      console.log('Loading test sets from test_files.json...');
+      log('info', 'Loading test sets from test_files.json...');
 
       // List of possible paths to try
       const possiblePaths = [
@@ -36,31 +47,31 @@ export class LocationTester {
       // Try all possible paths
       for (const path of possiblePaths) {
         try {
-          console.log(`Trying to load from: ${path}`);
+          log('info', `Trying to load from: ${path}`);
           const xhr = new XMLHttpRequest();
           xhr.open('GET', path, false);
           xhr.send();
 
           if (xhr.status === 200) {
-            console.log(`Successfully loaded test_files.json from ${path}`);
+            log('info', `Successfully loaded test_files.json from ${path}`);
             const rawText = xhr.responseText;
-            console.log('Raw test_files.json content:', rawText);
+            log('info', 'Raw test_files.json content:', rawText);
 
             testSets = JSON.parse(rawText);
-            console.log('Parsed test sets:', testSets);
+            log('info', 'Parsed test sets:', testSets);
             this.availableTestSets = testSets;
             loaded = true;
             break;
           } else {
-            console.warn(`Failed to load from ${path}: ${xhr.status}`);
+            log('warn', `Failed to load from ${path}: ${xhr.status}`);
           }
         } catch (pathError) {
-          console.warn(`Error loading from ${path}:`, pathError);
+          log('warn', `Error loading from ${path}:`, pathError);
         }
       }
 
       if (!loaded) {
-        console.warn(
+        log('warn', 
           'Failed to load test_files.json from any location, using fallback test sets'
         );
         // Provide default test sets as a fallback
@@ -73,7 +84,7 @@ export class LocationTester {
             testWestDarkWorld: true,
           },
         };
-        console.log('Using fallback test sets:', fallbackSets);
+        log('info', 'Using fallback test sets:', fallbackSets);
         return fallbackSets;
       }
 
@@ -87,21 +98,21 @@ export class LocationTester {
         );
 
         if (!hasNestedStructure) {
-          console.log('Detected old flat format, converting to nested format');
+          log('info', 'Detected old flat format, converting to nested format');
           return { default: testSets };
         }
       }
 
       return testSets;
     } catch (error) {
-      console.error('Error loading test sets:', error);
+      log('error', 'Error loading test sets:', error);
       throw error;
     }
   }
 
   loadRulesData(testSet = 'testLightWorld', folder = null) {
     try {
-      console.log(
+      log('info', 
         `Loading rules data for test set: ${testSet} in folder: ${
           folder || 'default'
         }`
@@ -123,7 +134,7 @@ export class LocationTester {
         );
         checkXhr.send();
         if (checkXhr.status !== 200) {
-          console.warn(
+          log('warn', 
             `Rules file for ${folder} in folder ${
               folder || 'default'
             } does not exist (status: ${checkXhr.status})`
@@ -131,7 +142,7 @@ export class LocationTester {
           fileExists = false;
         }
       } catch (e) {
-        console.warn(
+        log('warn', 
           `Error checking if rules file exists for ${folder} in folder ${
             folder || 'default'
           }:`,
@@ -159,7 +170,7 @@ export class LocationTester {
       }
 
       const rulesData = JSON.parse(xhr.responseText);
-      console.log(
+      log('info', 
         `Successfully loaded rules data for ${folder} (${
           Object.keys(rulesData).length
         } top-level keys)`
@@ -169,11 +180,11 @@ export class LocationTester {
       this.rulesData = rulesData;
 
       // Initialize state manager with the rules data
-      console.log(
+      log('info', 
         'Before loadFromJSON - stateManager.inventory.progressionMapping:',
         stateManager.inventory?.progressionMapping
       );
-      console.log(
+      log('info', 
         'Before loadFromJSON - rulesData.progression_mapping:',
         rulesData.progression_mapping?.['1']
       );
@@ -181,20 +192,20 @@ export class LocationTester {
       // Pass '1' as the selectedPlayerId for test loading
       stateManager.loadFromJSON(rulesData, '1');
 
-      console.log(
+      log('info', 
         'After loadFromJSON - stateManager.inventory.progressionMapping:',
         stateManager.inventory?.progressionMapping
       );
-      console.log(
+      log('info', 
         'After loadFromJSON - stateManager state.gameSettings:',
         stateManager.state?.gameSettings
       );
 
-      console.log(`Rules data loaded into state manager for ${folder}`);
+      log('info', `Rules data loaded into state manager for ${folder}`);
 
       return true;
     } catch (error) {
-      console.error(`Error loading rules data for ${folder}:`, error);
+      log('error', `Error loading rules data for ${folder}:`, error);
       throw error;
     }
   }
@@ -208,7 +219,7 @@ export class LocationTester {
     const totalTests = testCases.length;
 
     try {
-      console.log(`Running ${totalTests} test cases`);
+      log('info', `Running ${totalTests} test cases`);
 
       // Track progress
       let progressCounter = 0;
@@ -224,7 +235,7 @@ export class LocationTester {
       const fileCount = window.testProgress?.totalFilesInFolder || '?';
       const fileIndex = window.testProgress?.currentFileIndex || '?';
 
-      console.log(
+      log('info', 
         `Test progress: Folder ${folderIndex} of ${folderCount}, File ${fileIndex} of ${fileCount}, Test 0/${totalTests} (0%)`
       );
 
@@ -241,7 +252,7 @@ export class LocationTester {
           progressCounter === totalTests
         ) {
           const percent = Math.round((progressCounter / totalTests) * 100);
-          console.log(
+          log('info', 
             `Test progress: Folder ${folderIndex} of ${folderCount}, File ${fileIndex} of ${fileCount}, Test ${progressCounter}/${totalTests} (${percent}%)`
           );
         }
@@ -269,24 +280,24 @@ export class LocationTester {
 
         if (!testResult.passed) {
           failureCount++;
-          console.error(`Test failed for ${location}:`, testResult);
+          log('error', `Test failed for ${location}:`, testResult);
         }
       }
 
       // Display results using the current display instance
       if (this.display) {
-        console.log(
+        log('info', 
           `Displaying results for ${totalTests} tests (${failureCount} failures)`
         );
         this.display.displayResults(allResults);
       } else {
-        console.warn('No display instance available to show results');
+        log('warn', 'No display instance available to show results');
       }
 
-      console.log(`Tests completed with ${failureCount} failures`);
+      log('info', `Tests completed with ${failureCount} failures`);
       return failureCount;
     } catch (error) {
-      console.error('Error in runLocationTests:', error);
+      log('error', 'Error in runLocationTests:', error);
       throw error;
     }
   }
@@ -386,7 +397,7 @@ export class LocationTester {
       this.logger.endTest(result);
       return result;
     } catch (error) {
-      console.error(`Error testing ${location}:`, error);
+      log('error', `Error testing ${location}:`, error);
       const result = {
         passed: false,
         message: `Test error: ${error.message}`,
@@ -399,7 +410,7 @@ export class LocationTester {
   // Static method to load and run all tests from available test sets
   static async loadAndRunAllTests() {
     try {
-      console.log('Starting loadAndRunAllTests...');
+      log('info', 'Starting loadAndRunAllTests...');
       window.testsStarted = true;
       window.testsCompleted = false;
 
@@ -416,7 +427,7 @@ export class LocationTester {
       // Create results container if it doesn't exist
       const resultsContainer = document.getElementById('test-results');
       if (!resultsContainer) {
-        console.error('No #test-results element found. Creating one...');
+        log('error', 'No #test-results element found. Creating one...');
         const container = document.createElement('div');
         container.id = 'test-results';
         document.body.appendChild(container);
@@ -430,9 +441,9 @@ export class LocationTester {
       `;
 
       // Load test sets from file
-      console.log('Loading available test sets...');
+      log('info', 'Loading available test sets...');
       const testSets = await tester.loadTestSets();
-      console.log('Available test sets:', testSets);
+      log('info', 'Available test sets:', testSets);
 
       // Create container for all results
       const testSetsContainer = document.getElementById('test-sets-container');
@@ -442,7 +453,7 @@ export class LocationTester {
         );
       }
 
-      console.log('Setting up UI elements...');
+      log('info', 'Setting up UI elements...');
 
       // Create overall summary section at the top
       const overallSummaryElement = document.createElement('div');
@@ -762,13 +773,13 @@ export class LocationTester {
 
       // Update the global test progress
       window.testProgress.totalFolders = totalEnabledFolders;
-      console.log(`Total enabled folders: ${totalEnabledFolders}`);
+      log('info', `Total enabled folders: ${totalEnabledFolders}`);
 
       // Now process each folder
       let currentFolderIndex = 0;
 
       for (const [folderName, folderTestSets] of Object.entries(testSets)) {
-        console.log(`Processing folder: ${folderName}`);
+        log('info', `Processing folder: ${folderName}`);
 
         // Create a header for this folder
         const folderHeader = document.createElement('div');
@@ -788,7 +799,7 @@ export class LocationTester {
               isEnabled === 'true' ||
               isEnabled === 1 ||
               isEnabled === '1';
-            console.log(
+            log('info', 
               `Test set ${name} in folder ${folderName}: enabled = ${enabled} (value type: ${typeof isEnabled}, value: '${isEnabled}')`
             );
             return enabled;
@@ -797,7 +808,7 @@ export class LocationTester {
 
         // Skip folders with no enabled test sets
         if (enabledTestSets.length === 0) {
-          console.log(
+          log('info', 
             `No enabled test sets found in folder ${folderName}, skipping`
           );
           continue;
@@ -809,7 +820,7 @@ export class LocationTester {
         window.testProgress.totalFilesInFolder = enabledTestSets.length;
         window.testProgress.currentFileIndex = 0;
 
-        console.log(
+        log('info', 
           `Found ${enabledTestSets.length} enabled test sets in folder ${folderName}`
         );
 
@@ -821,7 +832,7 @@ export class LocationTester {
           currentFileIndex++;
           window.testProgress.currentFileIndex = currentFileIndex;
 
-          console.log(
+          log('info', 
             `Processing test set: ${testSetName} in folder: ${folderName} (${currentFileIndex}/${enabledTestSets.length})`
           );
 
@@ -860,19 +871,19 @@ export class LocationTester {
           // Run tests for this test set
           try {
             // Create a new tester for this test set
-            console.log(
+            log('info', 
               `Creating new tester for ${testSetName} in folder ${folderName}`
             );
             const setTester = new LocationTester();
 
             // Load rules data for this test set
-            console.log(
+            log('info', 
               `Loading rules data for ${testSetName} in folder ${folderName}`
             );
             setTester.loadRulesData(testSetName, folderName);
 
             // Check if the test file exists
-            console.log(
+            log('info', 
               `Checking if test file exists for ${testSetName} in folder ${folderName}`
             );
             let fileExists = true;
@@ -886,13 +897,13 @@ export class LocationTester {
               );
               checkXhr.send();
               if (checkXhr.status !== 200) {
-                console.warn(
+                log('warn', 
                   `Test file for ${testSetName} in folder ${folderName} does not exist (status: ${checkXhr.status})`
                 );
                 fileExists = false;
               }
             } catch (e) {
-              console.warn(
+              log('warn', 
                 `Error checking if test file exists for ${testSetName}:`,
                 e
               );
@@ -943,7 +954,7 @@ export class LocationTester {
 
             // Setup custom display for this test set
             const testSetResultsId = `test-set-results-${testSetName}-${folderName}`;
-            console.log(`Creating display for ${testSetResultsId}`);
+            log('info', `Creating display for ${testSetResultsId}`);
 
             // Create a custom container for this test set's results
             const resultsContainer = document.createElement('div');
@@ -958,7 +969,7 @@ export class LocationTester {
             setTester.currentFolder = folderName;
 
             // Run tests and get results
-            console.log(
+            log('info', 
               `Running ${testCases.location_tests.length} location tests for ${testSetName} in folder ${folderName}...`
             );
             const failedCount = setTester.runLocationTests(
@@ -967,7 +978,7 @@ export class LocationTester {
             const passedCount = testCases.location_tests.length - failedCount;
 
             // Update test set status
-            console.log(
+            log('info', 
               `Updating status for ${testSetName}: ${passedCount} passed, ${failedCount} failed`
             );
 
@@ -992,7 +1003,7 @@ export class LocationTester {
             // Update processed sets counter
             processedSets++;
           } catch (error) {
-            console.error(`Error running tests for ${testSetName}:`, error);
+            log('error', `Error running tests for ${testSetName}:`, error);
             const testSetResults =
               testSetSection.querySelector('.test-set-results');
             const testSetStatus =
@@ -1039,7 +1050,7 @@ export class LocationTester {
         overallSummaryContainer.appendChild(overallSummaryText);
       }
 
-      console.log('All tests completed');
+      log('info', 'All tests completed');
       window.testsCompleted = true;
 
       // Reset the test progress object
@@ -1052,7 +1063,7 @@ export class LocationTester {
 
       return true;
     } catch (error) {
-      console.error('Error in loadAndRunAllTests:', error);
+      log('error', 'Error in loadAndRunAllTests:', error);
       const resultsContainer = document.getElementById('test-results');
       if (resultsContainer) {
         resultsContainer.innerHTML = `
@@ -1073,11 +1084,11 @@ export class LocationTester {
 if (typeof window !== 'undefined') {
   window.onload = () => {
     try {
-      console.log('Window loaded, starting tests...');
+      log('info', 'Window loaded, starting tests...');
       // Check if test-results container exists
       const resultsContainer = document.getElementById('test-results');
       if (!resultsContainer) {
-        console.error(
+        log('error', 
           'No #test-results element found in the DOM. Creating one...'
         );
         const container = document.createElement('div');
@@ -1086,10 +1097,10 @@ if (typeof window !== 'undefined') {
       }
 
       // Run all test sets
-      console.log('Calling loadAndRunAllTests()...');
+      log('info', 'Calling loadAndRunAllTests()...');
       LocationTester.loadAndRunAllTests();
     } catch (error) {
-      console.error('Test execution failed:', error);
+      log('error', 'Test execution failed:', error);
       const resultsContainer =
         document.getElementById('test-results') || document.body;
       resultsContainer.innerHTML = `

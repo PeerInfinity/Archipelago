@@ -1,0 +1,134 @@
+import loopStateSingleton from './loopStateSingleton.js';
+import { getLoopsModuleDispatcher, moduleInfo } from './index.js'; // Import the dispatcher getter and moduleInfo
+
+
+// Helper function for logging with fallback
+function log(level, message, ...data) {
+  if (typeof window !== 'undefined' && window.logger) {
+    window.logger[level]('loopEvents', message, ...data);
+  } else {
+    const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+    consoleMethod(`[loopEvents] ${message}`, ...data);
+  }
+}
+
+/**
+ * Handles the 'user:locationCheck' event for the Loops module.
+ * If loop mode is active, it queues the action.
+ * Otherwise, it propagates the event up the chain.
+ * @param {object} eventData - The data associated with the event.
+ * @param {object} propagationOptions - Options related to event propagation.
+ */
+export function handleUserLocationCheckForLoops(eventData, propagationOptions) {
+  log('info', 
+    '[LoopsModule] handleUserLocationCheckForLoops received event:',
+    eventData ? JSON.parse(JSON.stringify(eventData)) : 'undefined',
+    'Propagation:',
+    propagationOptions ? JSON.parse(JSON.stringify(propagationOptions)) : 'undefined'
+  );
+  const dispatcher = getLoopsModuleDispatcher(); // Get the dispatcher
+
+  if (loopStateSingleton.isLoopModeActive) {
+    log('info', 
+      '[LoopsModule] Handling user:locationCheck in Loop Mode.',
+      eventData
+    );
+    // Logic to queue 'Check Location' or 'Explore' action based on eventData.locationName
+    if (eventData.locationName) {
+      // Ensure queueAction (or a more specific method like queueCheckLocationAction) exists and is called correctly
+      if (typeof loopStateSingleton.queueAction === 'function') {
+        loopStateSingleton.queueAction({
+          type: 'checkLocation',
+          locationName: eventData.locationName,
+          regionName: eventData.regionName,
+          // pass other relevant data from eventData if needed by the queue action
+        });
+      } else if (
+        typeof loopStateSingleton.queueCheckLocationAction === 'function'
+      ) {
+        // Fallback to queueCheckLocationAction if queueAction is not generic enough or available
+        loopStateSingleton.queueCheckLocationAction(
+          eventData.regionName,
+          eventData.locationName
+        );
+      } else {
+        log('error', 
+          '[LoopsModule] No method available on loopStateSingleton to queue location check.'
+        );
+      }
+    } else {
+      // Handle "check next available" logic for loop mode if applicable
+      // This might involve a specific method on loopStateSingleton
+      if (
+        typeof loopStateSingleton.determineAndQueueNextLoopAction === 'function'
+      ) {
+        loopStateSingleton.determineAndQueueNextLoopAction();
+      } else {
+        log('warn', 
+          "[LoopsModule] 'check next available' requested in loop mode, but no handler method (determineAndQueueNextLoopAction) found on loopStateSingleton."
+        );
+      }
+    }
+    // Event handled locally, do not propagate further up from here based on typical conditional logic.
+    // If propagation is desired even when handled, the dispatcher logic here would need to change.
+  } else {
+    // Loop mode not active, propagate up.
+    if (dispatcher) {
+      // Propagation direction is 'up' as specified in registerDispatcherReceiver
+      dispatcher.publishToNextModule(
+        moduleInfo.name,
+        'user:locationCheck',
+        eventData,
+        { direction: 'up' }
+      );
+      log('info', 
+        '[LoopsModule] Loop mode not active. Propagated user:locationCheck up.',
+        eventData
+      );
+    } else {
+      log('error', 
+        '[LoopsModule] Dispatcher not available for propagation when loop mode is inactive.'
+      );
+    }
+  }
+}
+
+/**
+ * Handles the 'user:itemCheck' event for the Loops module.
+ * Currently just passes the event along since we don't have specific plans for Loops mode.
+ * @param {object} eventData - The data associated with the event.
+ * @param {object} propagationOptions - Options related to event propagation.
+ */
+export function handleUserItemCheckForLoops(eventData, propagationOptions) {
+  log('info', 
+    '[LoopsModule] handleUserItemCheckForLoops received event:',
+    eventData ? JSON.parse(JSON.stringify(eventData)) : 'undefined',
+    'Propagation:',
+    propagationOptions ? JSON.parse(JSON.stringify(propagationOptions)) : 'undefined'
+  );
+  const dispatcher = getLoopsModuleDispatcher(); // Get the dispatcher
+
+  // For now, Loops module just passes the event on unconditionally
+  // In the future, this could handle item checking in loop mode
+  log('info', 
+    '[LoopsModule] Passing user:itemCheck event to next module.'
+  );
+  
+  if (dispatcher) {
+    // Propagation direction is 'up' as specified in registerDispatcherReceiver
+    dispatcher.publishToNextModule(
+      moduleInfo.name,
+      'user:itemCheck',
+      eventData,
+      { direction: 'up' }
+    );
+    log('info', 
+      '[LoopsModule] Propagated user:itemCheck up.',
+      eventData
+    );
+  } else {
+    log('error', 
+      '[LoopsModule] Dispatcher not available for propagation of user:itemCheck.'
+    );
+  }
+}

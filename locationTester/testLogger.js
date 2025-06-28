@@ -1,4 +1,15 @@
 // testLogger.js
+
+// Helper function for logging with fallback
+function log(level, message, ...data) {
+  if (typeof window !== 'undefined' && window.logger) {
+    window.logger[level]('testLogger', message, ...data);
+  } else {
+    const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+    consoleMethod(`[testLogger] ${message}`, ...data);
+  }
+}
+
 export class TestLogger {
   static MAX_LOGS_PER_TEST = 1000; // Limit logs per test
   static MAX_LOG_LENGTH = 500; // Limit individual log length
@@ -73,13 +84,13 @@ export class TestLogger {
 
       // Output to console if appropriate
       if (this.isDebugging && TestLogger.enableDebugLogging) {
-        console.log(truncatedMessage);
+        log('info', truncatedMessage);
         if (truncatedData) {
-          console.log(truncatedData);
+          log('info', truncatedData);
         }
       }
     } catch (error) {
-      console.error('Error in logger:', error);
+      log('error', 'Error in logger:', error);
     }
   }
 

@@ -388,7 +388,7 @@ select:hover {
   overflow-x: hidden; /* Prevent horizontal scrolling */
   padding: 0.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */ /* REMOVED to allow JS to control this */
   gap: 0.5rem;
   box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
@@ -402,15 +402,66 @@ select:hover {
   color: #cecece;
 }
 
-.location-card.reachable,
-.exit-card.traversable {
-  background-color: #0a3318;
+/* --- NEW Detailed Location Card Statuses --- */
+.location-card.checked {
+  background-color: #000000; /* Black/Dark Gray for Checked */
+  color: #cecece;
+  border-color: #666;
 }
 
-.location-card.unreachable,
+.location-card.fully-reachable {
+  background-color: #0a3318; /* Green for Fully Reachable */
+}
+
+.location-card.region-only-reachable {
+  background-color: #665508; /* Yellow-ish for Region Accessible, Rule Fails */
+}
+
+.location-card.location-only-reachable {
+  background-color: #6e3b00; /* Orange-ish for Rule Met, Region Inaccessible */
+}
+
+.location-card.fully-unreachable {
+  background-color: #3a0808; /* Red for Fully Unreachable */
+}
+
+/* --- ADDED: Pending Location Card Status --- */
+.location-card.pending {
+  background-color: #082a4d; /* Dark Blue for Pending */
+}
+
+.location-card.pending.colorblind-active::before {
+  content: '⌛'; /* Hourglass symbol */
+  font-weight: bold;
+  margin-right: 4px;
+  color: #6cadff; /* A light blue for the symbol, adjust as needed */
+}
+
+.location-card.unknown {
+  background-color: #333333; /* Default gray for unknown state */
+}
+/* --- END NEW Detailed Statuses --- */
+
+/* --- Exit Card Statuses --- */
+.exit-card.traversable {
+  background-color: #0a3318; /* Green */
+}
+
+.exit-card.non-traversable-locked {
+  background-color: #3a0808; /* Red for locked/non-traversable */
+}
+
+.exit-card.unknown-accessibility,
+.exit-card.unknown-exit-state {
+  background-color: #333333; /* Gray for unknown states */
+}
+
+/* Old .not-traversable, can be removed if .non-traversable-locked covers all red cases */
+/*
 .exit-card.not-traversable {
   background-color: #3a0808;
 }
+*/
 
 .location-card.region-accessible-but-locked {
   background-color: #665508; /* Yellow-ish */
@@ -426,12 +477,6 @@ select:hover {
 
 .exit-card.region-inaccessible-but-unlocked {
   background-color: #6e3b00; /* Orange-ish */
-}
-
-.location-card.checked {
-  background-color: #000000;
-  color: #cecece;
-  border-color: #666;
 }
 
 .location-card.checked:hover {
@@ -487,14 +532,52 @@ select:hover {
 }
 
 .logic-node {
-  margin-left: 1rem;
-  padding: 2px 0;
+  padding: 2px 5px;
+  margin: 2px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2); /* More neutral background */
+  border: 1px solid #555555;
+  color: #e0e0e0;
 }
+
 .logic-node.pass {
-  border-left: 4px solid green;
+  background-color: #2a4d2a; /* Darker green for dark theme */
+  border-color: #3c7a3c; /* Brighter green border */
+  color: #c8f7c8; /* Light green text */
 }
+
 .logic-node.fail {
-  border-left: 4px solid red;
+  background-color: #5d2a2a; /* Darker red for dark theme */
+  border-color: #8c3c3c; /* Brighter red border */
+  color: #f7c8c8; /* Light red text */
+}
+
+.logic-node-unknown {
+  background-color: #484848; /* Neutral dark gray for unknown */
+  border-color: #606060;
+  color: #cccccc; /* Lighter gray text for unknown */
+}
+
+.colorblind-symbol {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.colorblind-symbol.accessible {
+  color: #60d060; /* Brighter green for dark theme */
+}
+
+.colorblind-symbol.inaccessible {
+  color: #f06060; /* Brighter red for dark theme */
+}
+
+.colorblind-symbol.unknown {
+  color: #b0b0b0; /* Light gray/off-white for the question mark */
+}
+
+/* Style for region links with unknown reachability */
+.region-link.unknown-reachability {
+  color: #9e9e9e !important; /* Using !important to ensure override if inline styles conflict, adjust as needed */
 }
 
 /* Buttons and Controls */
@@ -505,6 +588,7 @@ select:hover {
   padding: 0.25rem 0.5rem;
   cursor: pointer;
   font-size: 0.8rem;
+  border-radius: 4px;
 }
 
 .button:hover {
@@ -1002,4 +1086,246 @@ label {
 /* Specific override for checkbox/radio labels in control groups */
 .panel-container .control-group label {
   color: #cecece !important; /* Use !important to ensure override */
+}
+
+/* Style for the file input label to look like a button */
+.file-input-button-label {
+  display: inline-block;
+  padding: 6px 12px; /* Match .button padding */
+  background-color: #4a5568; /* Match .button background */
+  color: white; /* Match .button color */
+  border: none; /* Match .button border */
+  border-radius: 4px; /* Match .button border-radius */
+  cursor: pointer;
+  font-size: 0.9em; /* Match .button font-size */
+  text-align: center;
+  line-height: normal; /* Ensure text is vertically centered like a button */
+  transition: background-color 0.2s ease; /* Match .button transition */
+}
+
+.file-input-button-label:hover {
+  background-color: #2d3748; /* Match .button hover background */
+}
+
+/* Hide the actual file input, as the label triggers it */
+/* input[type="file"]#json-btn-load-file { */ /* This was already style="display: none;" inline */
+/*   display: none; */
+/* } */
+
+/* frontend/styles/index.css */
+
+/* === Tests Panel Styles === */
+
+/*
+   General panel container style is already in your index.css:
+   .panel-container { ... }
+   .tests-panel-content inherits from this.
+*/
+
+.test-panel-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between buttons/elements */
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #444; /* Separator */
+}
+
+.overall-test-status {
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.tests-ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.test-item {
+  background-color: #383838; /* Slightly lighter than panel background for contrast */
+  border: 1px solid #505050;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+}
+
+.test-item .test-item-header {
+  /* Renamed from .test-item header in UI code */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the start for multi-line descriptions */
+  margin-bottom: 8px;
+}
+
+.test-item .test-item-name-desc strong {
+  font-size: 1.1em;
+  color: #e0e0e0; /* Brighter for the name */
+}
+
+.test-item .test-item-name-desc p {
+  font-size: 0.9em;
+  color: #b0b0b0; /* Softer color for description */
+  margin: 4px 0 0 0;
+  line-height: 1.3;
+}
+
+.test-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Spacing between control elements */
+  flex-shrink: 0; /* Prevent controls from shrinking too much */
+  margin-left: 10px; /* Space from name/description */
+}
+
+.test-item-controls label {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.test-item-controls input[type='checkbox'].test-enable-checkbox {
+  margin-right: 5px;
+  transform: scale(0.9); /* Slightly smaller checkbox */
+}
+
+.test-item-controls .button-small {
+  /* Style for up/down/run buttons */
+  padding: 3px 6px;
+  font-size: 0.8em;
+  min-width: 25px; /* Ensure arrow buttons have some width */
+  text-align: center;
+}
+
+.test-status-display {
+  font-size: 0.9em;
+  margin-top: 6px;
+  padding: 4px 6px;
+  border-radius: 3px;
+  display: inline-block; /* So background only covers text */
+  color: #fff; /* Default text color */
+}
+
+/* Status-specific colors for .test-status-display */
+.test-status-pending {
+  background-color: #4a4a4a;
+  color: #ddd;
+}
+.test-status-running {
+  background-color: #3b5998;
+  color: white;
+} /* Example: Facebook Blue */
+.test-status-waiting_for_event {
+  background-color: #ff8c00;
+  color: white;
+} /* DarkOrange */
+.test-status-passed {
+  background-color: #28a745;
+  color: white;
+} /* Green */
+.test-status-failed {
+  background-color: #dc3545;
+  color: white;
+} /* Red */
+
+.test-conditions-list {
+  list-style-type: none; /* Remove default bullets */
+  padding-left: 15px; /* Indent conditions */
+  margin-top: 8px;
+  font-size: 0.85em;
+}
+
+.test-conditions-list li {
+  margin-bottom: 4px;
+  display: flex; /* Align icon and text */
+  align-items: center;
+}
+
+.test-conditions-list li::before {
+  /* Custom "bullets" */
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+.test-conditions-list li.condition-passed::before {
+  background-color: lightgreen;
+}
+.test-conditions-list li.condition-passed {
+  /* For text color */
+  color: lightgreen;
+}
+
+.test-conditions-list li.condition-failed::before {
+  background-color: lightcoral;
+}
+.test-conditions-list li.condition-failed {
+  /* For text color */
+  color: lightcoral;
+}
+
+.test-log-area {
+  max-height: 150px; /* Limit height */
+  overflow-y: auto; /* Allow scrolling */
+  background-color: #222; /* Darker background for log */
+  padding: 8px;
+  font-family: monospace; /* Monospace for logs */
+  font-size: 0.8em;
+  margin-top: 8px;
+  border: 1px solid #404040;
+  border-radius: 3px;
+  color: #bababa; /* Default log text color */
+}
+
+.test-log-area div {
+  /* Each log entry */
+  padding: 2px 0;
+  border-bottom: 1px dotted #383838;
+}
+.test-log-area div:last-child {
+  border-bottom: none;
+}
+
+.test-log-info {
+  color: #b0b0b0;
+}
+.test-log-error {
+  color: lightcoral;
+  font-weight: bold;
+}
+.test-log-warn {
+  color: orange;
+}
+
+/* General button styling (if you don't have one already) */
+.button {
+  background-color: #4a5568; /* Tailwind gray-700 */
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #2d3748; /* Tailwind gray-800 */
+}
+
+.button:disabled {
+  background-color: #718096; /* Tailwind gray-500 */
+  color: #a0aec0; /* Tailwind gray-400 */
+  cursor: not-allowed;
+}
+
+.button-small {
+  padding: 4px 8px;
+  font-size: 0.8em;
 }

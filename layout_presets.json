@@ -1,0 +1,163 @@
+{
+  "default": {
+    "settings": { "showPopoutIcon": false, "reorderEnabled": true },
+    "root": {
+      "type": "row",
+      "content": [
+        {
+          "type": "stack",
+          "width": 20,
+          "content": [
+            {
+              "type": "component",
+              "componentType": "inventoryPanel",
+              "title": "Inventory"
+            },
+            {
+              "type": "component",
+              "componentType": "testsPanel",
+              "title": "Tests"
+            },
+            {
+              "type": "component",
+              "componentType": "jsonPanel",
+              "title": "JSON"
+            },
+            {
+              "type": "component",
+              "componentType": "modulesPanel",
+              "title": "Modules"
+            },
+            {
+              "type": "component",
+              "componentType": "eventsPanel",
+              "title": "Events"
+            }
+          ]
+        },
+        {
+          "type": "stack",
+          "width": 35,
+          "content": [
+            {
+              "type": "component",
+              "componentType": "clientPanel",
+              "title": "Console & Status"
+            },
+            {
+              "type": "component",
+              "componentType": "timerPanel",
+              "title": "Timer"
+            },
+            {
+              "type": "component",
+              "componentType": "pathAnalyzerPanel",
+              "title": "Path Analyzer"
+            },
+            {
+              "type": "component",
+              "componentType": "presetsPanel",
+              "title": "Presets"
+            },
+            {
+              "type": "component",
+              "componentType": "testCasesPanel",
+              "title": "Test Cases"
+            },
+            {
+              "type": "component",
+              "componentType": "testPlaythroughsPanel",
+              "title": "Test Playthroughs"
+            },
+            {
+              "type": "component",
+              "componentType": "testSpoilersPanel",
+              "title": "Test Spoilers"
+            },
+            {
+              "type": "component",
+              "componentType": "editorPanel",
+              "title": "Editor"
+            },
+            {
+              "type": "component",
+              "componentType": "settingsPanel",
+              "title": "Settings"
+            }
+          ]
+        },
+        {
+          "type": "stack",
+          "width": 45,
+          "content": [
+            {
+              "type": "component",
+              "componentType": "locationsPanel",
+              "title": "Locations"
+            },
+            {
+              "type": "component",
+              "componentType": "exitsPanel",
+              "title": "Exits"
+            },
+            {
+              "type": "component",
+              "componentType": "regionsPanel",
+              "title": "Regions"
+            },
+            {
+              "type": "component",
+              "componentType": "dungeonsPanel",
+              "title": "Dungeons"
+            },
+            {
+              "type": "component",
+              "componentType": "loopsPanel",
+              "title": "Loops"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "compact": {
+    "settings": { "showPopoutIcon": false },
+    "root": {
+      "type": "row",
+      "content": [
+        {
+          "type": "stack",
+          "width": 50,
+          "content": [
+            {
+              "type": "component",
+              "componentType": "clientPanel",
+              "title": "Client"
+            },
+            {
+              "type": "component",
+              "componentType": "inventoryPanel",
+              "title": "Inventory"
+            }
+          ]
+        },
+        {
+          "type": "stack",
+          "width": 50,
+          "content": [
+            {
+              "type": "component",
+              "componentType": "locationsPanel",
+              "title": "Locations"
+            },
+            {
+              "type": "component",
+              "componentType": "regionsPanel",
+              "title": "Regions"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
