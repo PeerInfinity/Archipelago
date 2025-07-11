@@ -1202,7 +1202,7 @@ export class TestSpoilerUI {
           );
 
           // 4. Get the fresh snapshot from the worker.
-          const freshSnapshot = await stateManager.getLatestStateSnapshot();
+          const freshSnapshot = await stateManager.getFullSnapshot();
           if (!freshSnapshot) {
             this.log(
               'error',
@@ -1354,7 +1354,7 @@ export class TestSpoilerUI {
               `Location "${locName}" from log not found in current static data. Skipping check.`
             );
           } else {
-            const currentSnapshot = await stateManager.getLatestStateSnapshot(); // Get current dynamic state
+            const currentSnapshot = await stateManager.getFullSnapshot(); // Get current dynamic state
             if (!currentSnapshot) {
               this.log(
                 'error',
@@ -1477,7 +1477,7 @@ export class TestSpoilerUI {
 
   // Renaming old version to avoid conflict, or it could be removed if only state_update is used.
   async compareAccessibleLocations_OLD(logData, playerId, context) {
-    const originalSnapshot = await stateManager.getLatestStateSnapshot();
+    const originalSnapshot = await stateManager.getFullSnapshot();
     const staticData = stateManager.getStaticData();
 
     this.log('info', `[compareAccessibleLocations_OLD] Context:`, {

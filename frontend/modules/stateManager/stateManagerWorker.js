@@ -1,6 +1,10 @@
 // Initial startup message using console directly to avoid circular dependency
 // console.log('[stateManagerWorker] Worker starting...');
 
+// RACE CONDITION FIX: Command queue for serialized command processing
+let commandQueue = [];
+let isProcessingCommand = false;
+
 // ADDED: Top-level error handler for the worker
 self.onerror = function (message, source, lineno, colno, error) {
   // Use console directly to avoid circular dependency with log function
@@ -128,10 +132,37 @@ function setupCommunicationChannel(instance) {
   });
 }
 
-// --- Restored and Simplified onmessage Handler ---
-self.onmessage = async function (e) {
-  const message = e.data;
-  log('info', '[stateManagerWorker onmessage] Received message:', message);
+// RACE CONDITION FIX: Command queue processing functions
+async function processCommandQueue() {
+  if (isProcessingCommand || commandQueue.length === 0) {
+    return;
+  }
+  
+  isProcessingCommand = true;
+  
+  while (commandQueue.length > 0) {
+    const messageData = commandQueue.shift();
+    try {
+      await handleMessage(messageData);
+    } catch (error) {
+      log('error', '[stateManagerWorker] Error processing queued command:', error);
+      // Send error response if this was a query
+      if (messageData.queryId) {
+        self.postMessage({
+          type: 'queryResponse',
+          queryId: messageData.queryId,
+          error: error.message,
+        });
+      }
+    }
+  }
+  
+  isProcessingCommand = false;
+}
+
+// RACE CONDITION FIX: Original message handler logic moved to separate function
+async function handleMessage(message) {
+  log('info', '[stateManagerWorker handleMessage] Processing message:', message);
 
   if (!message || !message.command) {
     log(
@@ -415,6 +446,7 @@ self.onmessage = async function (e) {
 
       // Basic query handling for commands that expect a response via queryId
       case 'getFullSnapshot':
+      case 'getFullSnapshotQuery':
       case 'checkLocation':
       case 'evaluateRuleRequest':
       case 'getStaticData':
@@ -454,8 +486,8 @@ self.onmessage = async function (e) {
             `[SMW] Entered message.queryId block. Command: ${message.command}`
           );
 
-          if (message.command === 'getFullSnapshot') {
-            log('info', `[SMW] Matched command: getFullSnapshot`);
+          if (message.command === 'getFullSnapshot' || message.command === 'getFullSnapshotQuery') {
+            log('info', `[SMW] Matched command: ${message.command}`);
             const snapshot = stateManagerInstance.getSnapshot();
             self.postMessage({
               type: 'queryResponse',
@@ -1023,8 +1055,18 @@ self.onmessage = async function (e) {
       queryId: message.queryId,
     });
   }
+}
+
+// RACE CONDITION FIX: New queue-based message handler
+self.onmessage = async function (e) {
+  const message = e.data;
+  log('info', '[stateManagerWorker onmessage] Queuing message:', message);
+  
+  commandQueue.push(message);
+  processCommandQueue();
 };
-// --- END: Restored and Simplified onmessage Handler ---
+
+// --- END: Queue-based onmessage Handler ---
 
 // Worker ready message using console directly to avoid circular dependency
 // console.log(
