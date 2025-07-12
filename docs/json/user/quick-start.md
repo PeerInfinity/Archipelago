@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Welcome to the Archipelago JSON Web Client! This guide will help you get started with the two primary ways to use the application: as an advanced tracker for a standard multiworld game, and as a player in the incremental "Archipelago Loops" game mode.
+This guide will help you get started with the two primary ways to use the application: as an advanced tracker for a standard multiworld game, and as a player in the incremental "Archipelago Loops" game mode.
 
 **[Try the JSON Web Client Live](https://peerinfinity.github.io/Archipelago/)**
 
@@ -12,8 +12,10 @@ In this mode, you use the client to connect to a multiworld server and track you
 
 When you generate your game, you will receive two key files:
 
-1.  **Your `.archipelago` file:** This contains your world's specific item placements. You will use this with the standard Archipelago client that you play your game with, or you can connect to a server that has this file.
+1.  **Your `.archipelago` file:** This contains your world's specific item placements. This is used by the Archipelago server that hosts your game.
 2.  **A `rules.json` file:** This file is unique to this project. It contains all the game logic, region connections, and item rules. You will load this file into the JSON Web Client.
+
+You will need to generate the seed using a version of the Archipelago code that contains the json exporter tool.  You can download this from [Archipelago JSONExport branch](https://github.com/PeerInfinity/Archipelago/tree/JSONExport).  Make sure you specifically download the JSONExport branch, not the main branch.
 
 ### First Steps
 
@@ -38,8 +40,8 @@ When you generate your game, you will receive two key files:
 
 ### Basic Interaction
 
-- **Collecting Items:** When you receive an item in-game, find it in the **Inventory** panel and click it. This adds it to your local state, and the accessibility of all locations will update instantly. If you are connected to the server, this will also send a `!getitem` command.
-- **Checking Locations:** When you check a location in your game, find its card in the **Locations** panel and click it. The location will be marked as checked (grayed out).
+- **Collecting Items:** When you receive an item in-game, it will automatically be added to the **Inventory** panel, and the accessibility of all locations will update instantly.
+- **Checking Locations:** When you check a location in your game the location will be marked as checked (black background).
 - **Understanding Blockers:** In the **Regions** panel, you can use the **"Analyze Paths"** button to see exactly which items are required to access a new region.
 
 ## Getting Started (Archipelago Loops)
@@ -48,7 +50,7 @@ When you generate your game, you will receive two key files:
 
 ## Next Steps
 
-You're all set with the basics! For more detailed information on the client's features, check out the following guides:
+For more detailed information on the client's features, check out the following guides:
 
 - **[Standard Client Guide](./standard-client.md)**: A deep dive into all the features available in the standard tracking mode.
 - **[Tips & Tricks](./tips-and-tricks.md)**: A collection of useful console commands, keyboard shortcuts, and answers to common questions.

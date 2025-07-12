@@ -1,6 +1,6 @@
 # Archipelago JSON Export Tools
 
-This project provides a system for exporting Archipelago's game logic into a standardized JSON format and includes a powerful, modular web client that uses these rules for advanced tracking and other utilities.
+This project provides a system for exporting Archipelago's game logic into a standardized JSON format and includes a modular web client that uses these rules for advanced tracking and other utilities.
 
 **[Try the Web Client Live](https://peerinfinity.github.io/Archipelago/)**
 
@@ -29,9 +29,9 @@ This project contains a full documentation suite for both users and developers.
 
 ### Standard Mode
 
-1.  **Generate Your Game:** When you generate a seed, you will get two important files: your `.archipelago` file (for your game client) and a `rules.json` file (for this web client).
+1.  **Generate Your Game:** When you generate a seed, you will get two important files: your `.archipelago` file (for the Archipelago server) and a `rules.json` file (for this web client).  You will need to generate the seed using a version of the Archipelago code that contains the json exporter tool.  You can download this from [Archipelago JSONExport branch](https://github.com/PeerInfinity/Archipelago/tree/JSONExport).  Make sure you specifically download the JSONExport branch, not the main branch.
 2.  **Open the Web Client:** [Click this link to open the client](https://peerinfinity.github.io/Archipelago/).
-3.  **Load Your Rules:** In one of the default panels, find the **"Presets"** tab. At the top, click the **"Load JSON File"** button and select your `rules.json` file.
+3.  **Load Your Rules:** At the top of the page, find the **"Presets"** tab. At the top, click the **"Load JSON File"** button and select your `rules.json` file.
 4.  **Connect:** In the **"Console & Status"** panel, enter your server address and connect.
 
 For a more detailed walkthrough, please see the **[User Quick Start Guide](./docs/json/user/quick-start.md)**.

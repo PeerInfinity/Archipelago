@@ -1,6 +1,6 @@
 # Archipelago JSON Export Tools - Documentation
 
-Welcome to the official documentation for the Archipelago JSON Export Tools and its associated web client. This documentation provides comprehensive guides for both users of the application and developers looking to contribute or understand its architecture.
+This is the official documentation for the Archipelago JSON Export Tools and its associated web client. This documentation provides comprehensive guides for both users of the application and developers looking to contribute or understand its architecture.
 
 This project is a fork of the main Archipelago project that focuses on two key areas:
 
@@ -11,7 +11,7 @@ For the main project overview, live demo link, and credits, please see the [READ
 
 ## Documentation Sections
 
-This documentation is organized into the following main sections. Please choose the section that best fits your needs.
+This documentation is organized into the following main sections:
 
 ### 1. User Guides
 

@@ -61,7 +61,7 @@ export class TimerLogic {
       } else if (!this.isLoopModeActive && !this.isRunning()) {
         // Potentially auto-restart timer if it was paused due to loop mode.
         // This might need more nuanced logic (e.g., only restart if it was running before loop mode)
-        // For now, loop mode exiting doesn't auto-restart the timer. User has to click "Begin!" again.
+        // For now, loop mode exiting doesn't auto-restart the timer. User has to click "Begin" again.
         log('info', '[TimerLogic] Loop mode deactivated.');
       }
     };

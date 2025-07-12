@@ -1,7 +1,7 @@
 ### Module: `Timer`
 
 - **ID:** `timer`
-- **Purpose:** Manages the logic and UI for the automated location checking timer. This module encapsulates the "Begin!" / "Stop" functionality, the progress bar, and the "Quick Check" feature. It is designed to be hosted within another panel.
+- **Purpose:** Manages the logic and UI for the automated location checking timer. This module encapsulates the "Begin" / "Stop" functionality, the progress bar, and the "Quick Check" feature. It is designed to be hosted within another panel.
 
 ---
 
@@ -17,9 +17,9 @@
 - **Progress Updates:** While the timer is running, it periodically publishes `timer:progressUpdate` events so the UI can display a smoothly advancing progress bar.
 - **Location Checking:** When the timer completes, `TimerLogic` determines the next accessible, unchecked location by querying the `StateManager`. It then dispatches a `user:locationCheck` event to the `eventDispatcher` to initiate the check.
 - **UI Rendering (`TimerUI`):**
-  - Creates the DOM for the progress bar, the `Checks Sent` counter, the "Begin!"/"Stop" button, and the "Quick Check" button.
+  - Creates the DOM for the progress bar, the `Checks Sent` counter, the ""/"Stop" button, and the "Quick Check" button.
   - This UI component is "headless"—it does not create its own panel but is designed to be attached to a placeholder element provided by a host panel (like `clientPanel` or `timerPanel`).
-- **Control Logic:** Handles user interaction with the "Begin!", "Stop", and "Quick Check" buttons, calling the appropriate methods on the `TimerLogic` instance.
+- **Control Logic:** Handles user interaction with the "Begin", "Stop", and "Quick Check" buttons, calling the appropriate methods on the `TimerLogic` instance.
 
 #### Events Published
 

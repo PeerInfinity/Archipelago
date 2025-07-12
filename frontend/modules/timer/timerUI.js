@@ -153,13 +153,13 @@ export class TimerUI {
 
     this.domElement.innerHTML = `
       <h3 id="progress-container-header" style="margin: 0 0 5px 0; font-size: 1em;">Location Check Progress</h3>
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-        <progress id="timer-progress-bar" value="0" max="30000" style="flex-grow: 1; height: 15px;"></progress>
-        <span id="timer-checks-sent" style="min-width: 120px; text-align: right; font-size:0.9em;">Checked: 0/0</span>
+      <div style="margin-bottom: 5px;">
+        <progress id="timer-progress-bar" value="0" max="30000" style="width: 100%; height: 15px;"></progress>
       </div>
-      <div class="button-container" style="display: flex; gap: 10px;">
-        <button id="timer-control-button" disabled style="padding: 4px 10px;">Begin!</button>
+      <div class="button-container" style="display: flex; align-items: center; gap: 10px;">
+        <button id="timer-control-button" disabled style="padding: 4px 10px;">Begin</button>
         <button id="timer-quick-check-button" disabled style="padding: 4px 10px;">Quick Check</button>
+        <span id="timer-checks-sent" style="font-size: 0.9em; margin-left: auto; white-space: nowrap;">Checked: 0/0, Reachable: 0, Unreachable: 0, Events: 0/0</span>
       </div>
     `;
 
@@ -237,7 +237,7 @@ export class TimerUI {
       this.progressBar.setAttribute('value', '0');
       // Max can remain, or be reset to a default
     }
-    this.setControlButtonState(false); // Timer is stopped, button shows "Begin!"
+    this.setControlButtonState(false); // Timer is stopped, button shows "Begin"
     // Don't disable controls here, allow user to restart.
     // enableControls(false) might be called by connection:close
   }
@@ -294,47 +294,70 @@ export class TimerUI {
     if (
       !currentSnapshot ||
       !staticData ||
-      !staticData.locations ||
-      !currentSnapshot.flags
+      !staticData.locations
     ) {
-      this.checksCounter.textContent = 'Checked: ?/?';
+      this.checksCounter.textContent = 'Checked: ?/?, Reachable: ?, Unreachable: ?, Events: ?/?';
       this.checksCounter.title = 'Location or snapshot data not yet available.';
       return;
     }
 
     const allLocationDefinitions = staticData.locations; // This is an object keyed by name
+    const checkedLocations = new Set(currentSnapshot.checkedLocations || []);
 
-    let totalNonEventLocations = 0;
+    // Initialize counters
+    let checkedCount = 0;
+    let reachableCount = 0;
+    let unreachableCount = 0;
+    let totalCount = 0;
+
+    // Event locations (locations with no ID)
+    let checkedEventCount = 0;
+    let totalEventCount = 0;
+
+    // Process each location
     for (const locName in allLocationDefinitions) {
-      if (
-        Object.prototype.hasOwnProperty.call(allLocationDefinitions, locName)
-      ) {
+      if (Object.prototype.hasOwnProperty.call(allLocationDefinitions, locName)) {
         const loc = allLocationDefinitions[locName];
-        // Assuming loc.id is present and loc.id !== undefined and loc.id !== null means it's a "real" location.
-        // Adjust this condition if event locations are identified differently (e.g., a specific type or flag).
-        if (loc && loc.id !== null && loc.id !== undefined) {
-          totalNonEventLocations++;
+        
+        // Determine if this is an event location (no ID)
+        const isEventLocation = loc.id === null || loc.id === undefined;
+
+        // Process event locations separately
+        if (isEventLocation) {
+          totalEventCount++;
+          if (checkedLocations.has(locName)) {
+            checkedEventCount++;
+          }
+        } else {
+          // Regular locations
+          totalCount++;
+
+          // Track checked locations
+          if (checkedLocations.has(locName)) {
+            checkedCount++;
+          } else {
+            // For unchecked locations, determine if they are reachable
+            const reachability = currentSnapshot.reachability && currentSnapshot.reachability[locName];
+            if (reachability === 'reachable') {
+              reachableCount++;
+            } else {
+              unreachableCount++;
+            }
+          }
         }
       }
     }
 
-    let checkedNonEventLocations = 0;
-    if (currentSnapshot.flags && Array.isArray(currentSnapshot.flags)) {
-      currentSnapshot.flags.forEach((flagName) => {
-        const loc = allLocationDefinitions[flagName];
-        if (loc && loc.id !== null && loc.id !== undefined) {
-          checkedNonEventLocations++;
-        }
-      });
-    }
-
-    this.checksCounter.textContent = `Checked: ${checkedNonEventLocations}/${totalNonEventLocations}`;
-    this.checksCounter.title = `Locations checked: ${checkedNonEventLocations} out of ${totalNonEventLocations} non-event locations.`;
+    // Format the display text like the old version
+    const displayText = `Checked: ${checkedCount}/${totalCount}, Reachable: ${reachableCount}, Unreachable: ${unreachableCount}, Events: ${checkedEventCount}/${totalEventCount}`;
+    
+    this.checksCounter.textContent = displayText;
+    this.checksCounter.title = `Checked ${checkedCount} of ${totalCount} locations (${reachableCount} reachable, ${unreachableCount} unreachable)\nEvents: ${checkedEventCount} of ${totalEventCount} event locations collected`;
   }
 
   setControlButtonState(isStarted) {
     if (this.controlButton) {
-      this.controlButton.textContent = isStarted ? 'Stop' : 'Begin!';
+      this.controlButton.textContent = isStarted ? 'Stop' : 'Begin';
     }
   }
 
