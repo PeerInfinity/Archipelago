@@ -1749,11 +1749,11 @@ export function createStateSnapshotInterface(
       return undefined;
     },
     getStaticData: () => ({
-      items: staticData.itemData,
-      groups: staticData.groupData,
-      locations: staticData.locationData,
-      regions: staticData.regionData,
-      dungeons: staticData.dungeonData,
+      items: staticData.itemData || staticData.items,
+      groups: staticData.groupData || staticData.groups,
+      locations: staticData.locationData || staticData.locations,
+      regions: staticData.regions, // Use the main regions property for rule engine compatibility
+      dungeons: staticData.dungeonData || staticData.dungeons,
     }),
     getStateValue: (pathString) => {
       if (!snapshot || !snapshot.state) return undefined;
@@ -1847,6 +1847,10 @@ export function createStateSnapshotInterface(
     inventory: snapshot?.inventory || {},
     events: snapshot?.events || {},
     ...rawInterfaceForHelpers,
+    // Add context variables to the interface (e.g., currentLocation for boss defeat rules)
+    ...contextVariables,
+    // Map 'location' contextVariable to 'currentLocation' for rule engine compatibility
+    currentLocation: contextVariables.location,
     // Legacy helpers property removed - use executeHelper method instead
     executeHelper: (helperName, ...args) => {
       const gameName = snapshot?.game;

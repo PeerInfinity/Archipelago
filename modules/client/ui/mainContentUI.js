@@ -197,8 +197,6 @@ class MainContentUI {
         
         <div id="main-console" class="main-console" style="flex-grow: 1; overflow-y: auto; background-color: #222; border: 1px solid #444; padding: 10px;">
           <div id="console-output" class="console-output console-messages">
-            <div class="console-message">Welcome to the Archipelago Client Console!</div>
-            <div class="console-message">Type "help" for local commands, or "!help" for server commands.</div>
           </div>
         </div>
         

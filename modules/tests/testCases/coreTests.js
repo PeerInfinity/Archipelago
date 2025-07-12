@@ -99,6 +99,6 @@ registerTest({
   description: 'A test that completes almost instantly.',
   testFunction: superQuickTest,
   category: 'Core',
-  enabled: false,
+  enabled: true,
   order: 1,
 });

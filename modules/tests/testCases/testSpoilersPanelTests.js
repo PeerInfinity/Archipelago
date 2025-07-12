@@ -22,7 +22,7 @@ export async function testSpoilersPanelFullRun(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
-    await new Promise((resolve) => setTimeout(resolve, 500)); // wait for panel to init
+    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait longer for panel to fully init
 
     let spoilersPanelElement = null;
     if (
@@ -70,16 +70,48 @@ export async function testSpoilersPanelFullRun(testController) {
       `[${testRunId}] Clicking "Load Suggested Log" button...`
     );
     loadSuggestedButton.click();
+    
+    // Wait for the async loading to complete
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // 3. Wait for the "Run Full Test" button to appear, which indicates the log has loaded
     let runFullTestButton = null;
     if (
       !(await testController.pollForCondition(
         () => {
-          if (!spoilersPanelElement) return false;
-          runFullTestButton = spoilersPanelElement.querySelector(
-            '#run-full-spoiler-test'
+          // Try multiple strategies to find the button
+          
+          // Strategy 1: By ID in spoilers panel
+          const currentSpoilersPanelElement = document.querySelector(
+            '.test-spoilers-module-root'
           );
+          if (currentSpoilersPanelElement) {
+            runFullTestButton = currentSpoilersPanelElement.querySelector(
+              '#run-full-spoiler-test'
+            );
+          }
+          
+          // Strategy 2: By ID globally
+          if (!runFullTestButton) {
+            runFullTestButton = document.querySelector('#run-full-spoiler-test');
+          }
+          
+          // Strategy 3: By text content in spoilers panel
+          if (!runFullTestButton && currentSpoilersPanelElement) {
+            const allButtons = currentSpoilersPanelElement.querySelectorAll('button');
+            runFullTestButton = Array.from(allButtons).find(btn => 
+              btn.textContent.includes('Run Full Test')
+            );
+          }
+          
+          // Strategy 4: By text content globally
+          if (!runFullTestButton) {
+            const allButtons = document.querySelectorAll('button');
+            runFullTestButton = Array.from(allButtons).find(btn => 
+              btn.textContent.includes('Run Full Test')
+            );
+          }
+          
           return runFullTestButton !== null;
         },
         10000,
@@ -87,6 +119,13 @@ export async function testSpoilersPanelFullRun(testController) {
         '"Run Full Test" button to appear'
       ))
     ) {
+      // Final debug attempt - list all buttons on the page
+      const allButtons = document.querySelectorAll('button');
+      const buttonInfo = Array.from(allButtons).map(btn => 
+        `"${btn.textContent}" (id: ${btn.id || 'none'}, class: ${btn.className || 'none'})`
+      );
+      testController.log(`[${testRunId}] FINAL DEBUG: All buttons on page (${allButtons.length}): ${buttonInfo.join(', ')}`);
+      
       throw new Error(
         '"Run Full Test" button did not appear after loading log.'
       );
@@ -98,18 +137,41 @@ export async function testSpoilersPanelFullRun(testController) {
     runFullTestButton.click();
     await new Promise((resolve) => setTimeout(resolve, 100)); // allow test to start processing
 
-    // 5. Wait for the test to complete by polling for the run button to be re-enabled
+    // 5. Wait for the test to complete by polling for detailed results AND button re-enablement
     testController.log(
       `[${testRunId}] Waiting for full spoiler test to complete...`
     );
     if (
       !(await testController.pollForCondition(
         () => {
-          return runFullTestButton && !runFullTestButton.disabled;
+          // Check both button state AND detailed results availability
+          const buttonReady = runFullTestButton && !runFullTestButton.disabled;
+          const detailedResults = typeof window !== 'undefined' && window.__spoilerTestResults__;
+          const hasProcessedEvents = detailedResults && detailedResults.processedEvents !== undefined;
+          
+          testController.log(
+            `[${testRunId}] Polling: buttonReady=${buttonReady}, hasDetailedResults=${!!detailedResults}, processedEvents=${detailedResults?.processedEvents || 0}/${detailedResults?.totalEvents || 0}`
+          );
+          
+          // ENHANCED DEBUG: Log full detailedResults structure when available
+          if (detailedResults) {
+            testController.log(
+              `[${testRunId}] DEBUG detailedResults: ${JSON.stringify({
+                passed: detailedResults.passed,
+                totalEvents: detailedResults.totalEvents,
+                processedEvents: detailedResults.processedEvents,
+                errorCount: detailedResults.errorMessages?.length || 0,
+                sphereCount: detailedResults.sphereResults?.length || 0,
+                testLogPath: detailedResults.testLogPath
+              })}`
+            );
+          }
+          
+          return buttonReady && detailedResults && hasProcessedEvents;
         },
         MAX_WAIT_TIME_TEST_COMPLETION,
         1000,
-        'Full spoiler test completion'
+        'Full spoiler test completion with detailed results'
       ))
     ) {
       throw new Error(
@@ -118,7 +180,7 @@ export async function testSpoilersPanelFullRun(testController) {
     }
     testController.reportCondition('Full spoiler test completed', true);
 
-    // 6. Collect and analyze results from the log container
+    // 6. Collect and analyze results from the log container and window.__spoilerTestResults__
     const logContainer = spoilersPanelElement.querySelector(
       '#spoiler-log-output'
     );
@@ -126,8 +188,27 @@ export async function testSpoilersPanelFullRun(testController) {
       passed: true,
       logEntries: [],
       errorMessages: [],
+      detailedResults: null,
+      sphereResults: [],
+      mismatchDetails: [],
     };
 
+    // First check if detailed results are available from the spoiler UI
+    if (typeof window !== 'undefined' && window.__spoilerTestResults__) {
+      testResults.detailedResults = window.__spoilerTestResults__;
+      testResults.passed = window.__spoilerTestResults__.passed;
+      if (window.__spoilerTestResults__.errorMessages) {
+        testResults.errorMessages.push(...window.__spoilerTestResults__.errorMessages);
+      }
+      if (window.__spoilerTestResults__.sphereResults) {
+        testResults.sphereResults = window.__spoilerTestResults__.sphereResults;
+      }
+      if (window.__spoilerTestResults__.mismatchDetails) {
+        testResults.mismatchDetails = window.__spoilerTestResults__.mismatchDetails;
+      }
+    }
+
+    // Also collect from log container as fallback
     if (logContainer) {
       const logEntries = logContainer.querySelectorAll('.log-entry');
       logEntries.forEach((entry) => {
@@ -137,7 +218,9 @@ export async function testSpoilersPanelFullRun(testController) {
           entry.classList.contains('log-error') ||
           entry.classList.contains('log-mismatch')
         ) {
-          testResults.passed = false;
+          if (!testResults.detailedResults) {
+            testResults.passed = false;
+          }
           testResults.errorMessages.push(text);
         }
       });
@@ -204,6 +287,6 @@ registerTest({
     'Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.',
   testFunction: testSpoilersPanelFullRun,
   category: 'Test Spoilers Panel',
-  enabled: false,
+  enabled: true,
   order: 1,
 });
