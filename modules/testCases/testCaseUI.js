@@ -1271,7 +1271,7 @@ export class TestCaseUI {
 
           const parentRegionName = locDef.parent_region || locDef.region;
           const parentRegionReachabilityStatus =
-            jsSnapshot.reachability?.[parentRegionName];
+            jsSnapshot.regionReachability?.[parentRegionName];
           const isParentRegionEffectivelyReachable =
             parentRegionReachabilityStatus === 'reachable' ||
             parentRegionReachabilityStatus === 'checked';

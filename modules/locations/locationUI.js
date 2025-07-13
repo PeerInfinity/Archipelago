@@ -714,7 +714,7 @@ export class LocationUI {
         // Determine detailed status for filtering
         const parentRegionName = loc.parent_region || loc.region; // Use parent_region, fallback to region
         const parentRegionReachabilityStatus =
-          snapshot?.reachability?.[parentRegionName];
+          snapshot?.regionReachability?.[parentRegionName];
         const isParentRegionEffectivelyReachable =
           parentRegionReachabilityStatus === 'reachable' ||
           parentRegionReachabilityStatus === 'checked';
@@ -833,7 +833,7 @@ export class LocationUI {
         const isPendingA = this.pendingLocations.has(a.name) && !isCheckedA;
         const parentRegionNameA = a.parent_region || a.region;
         const parentRegionReachabilityStatusA =
-          snapshot?.reachability?.[parentRegionNameA];
+          snapshot?.regionReachability?.[parentRegionNameA];
         const isParentRegionEffectivelyReachableA =
           parentRegionReachabilityStatusA === 'reachable' ||
           parentRegionReachabilityStatusA === 'checked';
@@ -870,7 +870,7 @@ export class LocationUI {
         const isPendingB = this.pendingLocations.has(b.name) && !isCheckedB;
         const parentRegionNameB = b.parent_region || b.region;
         const parentRegionReachabilityStatusB =
-          snapshot?.reachability?.[parentRegionNameB];
+          snapshot?.regionReachability?.[parentRegionNameB];
         const isParentRegionEffectivelyReachableB =
           parentRegionReachabilityStatusB === 'reachable' ||
           parentRegionReachabilityStatusB === 'checked';
@@ -918,7 +918,7 @@ export class LocationUI {
         const isPendingA = this.pendingLocations.has(a.name) && !isCheckedA;
         const parentRegionNameA = a.parent_region || a.region;
         const parentRegionReachabilityStatusA =
-          snapshot?.reachability?.[parentRegionNameA];
+          snapshot?.regionReachability?.[parentRegionNameA];
         const isParentRegionEffectivelyReachableA =
           parentRegionReachabilityStatusA === 'reachable' ||
           parentRegionReachabilityStatusA === 'checked';
@@ -952,7 +952,7 @@ export class LocationUI {
         const isPendingB = this.pendingLocations.has(b.name) && !isCheckedB;
         const parentRegionNameB = b.parent_region || b.region;
         const parentRegionReachabilityStatusB =
-          snapshot?.reachability?.[parentRegionNameB];
+          snapshot?.regionReachability?.[parentRegionNameB];
         const isParentRegionEffectivelyReachableB =
           parentRegionReachabilityStatusB === 'reachable' ||
           parentRegionReachabilityStatusB === 'checked';
@@ -1056,10 +1056,11 @@ export class LocationUI {
         // Determine detailed status, statusText, and stateClass for rendering THIS card
         const parentRegionName = location.parent_region || location.region;
         const parentRegionReachabilityStatus =
-          snapshot?.reachability?.[parentRegionName];
+          snapshot?.regionReachability?.[parentRegionName];
         const isParentRegionEffectivelyReachable =
           parentRegionReachabilityStatus === 'reachable' ||
           parentRegionReachabilityStatus === 'checked';
+          
         const locationAccessRule = location.access_rule;
         const locationRuleEvalResult = locationAccessRule
           ? evaluateRule(locationAccessRule, snapshotInterface)
@@ -1231,30 +1232,32 @@ export class LocationUI {
   getLocationStatus(locationName, snapshot) {
     // --- ADD: Log input and snapshot data --- >
     //log('info', `[LocationUI getLocationStatus] Checking: ${locationName}`);
-    if (!snapshot || !snapshot.reachability) {
+    if (!snapshot || !snapshot.locationReachability) {
       //log('info',
-      //  `[LocationUI getLocationStatus] Snapshot or reachability missing for ${locationName}`
+      //  `[LocationUI getLocationStatus] Snapshot or locationReachability missing for ${locationName}`
       //);
       return 'unknown'; // Or some default/loading state
     }
-    // Reachability is now expected to be a boolean in the snapshot
-    const isReachable = snapshot.reachability[locationName] === true;
+    // Use only locationReachability for locations
+    const locationReachabilityData = snapshot.locationReachability;
+    const locationStatus = locationReachabilityData[locationName];
     const isChecked = snapshot.checkedLocations?.includes(locationName);
-    //log('info',
-    //  `[LocationUI getLocationStatus] Name: ${locationName}, Reachability: ${reachabilityStatus}, Checked: ${isChecked}`
-    //);
-    // --- END LOG --- >
+    
 
     if (isChecked) {
       return 'checked';
     }
 
-    // Interpret reachability status - CORRECTED FOR BOOLEAN
-    if (isReachable) {
+    // Handle string status values from stateManager
+    if (locationStatus === 'reachable') {
       return 'reachable';
-    } else {
-      // Assuming false means unreachable if not checked
+    } else if (locationStatus === 'unreachable') {
       return 'unreachable';
+    } else if (locationStatus === 'checked') {
+      return 'checked';
+    } else {
+      // If location is not in locationReachability, it's unknown
+      return 'unknown';
     }
     // We no longer expect string values like 'partial' or 'processing' here from the boolean snapshot
   }

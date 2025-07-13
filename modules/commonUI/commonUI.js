@@ -708,8 +708,8 @@ class CommonUI {
     link.dataset.region = regionName;
     link.title = `Click to view the ${regionName} region`;
 
-    // Determine region accessibility status from snapshot.reachability
-    const rawStatus = snapshot?.reachability?.[regionName];
+    // Determine region accessibility status from regionReachability
+    const rawStatus = snapshot?.regionReachability?.[regionName];
     let displayStatus; // Will be true (accessible), false (inaccessible), or undefined (unknown)
 
     if (

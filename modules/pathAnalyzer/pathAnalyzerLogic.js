@@ -24,9 +24,8 @@ export class PathAnalyzerLogic {
   constructor(settings = {}) {
     this.debugMode = false;
     // Use settings or defaults
-    this.maxPathFinderIterations = settings.maxPathFinderIterations || 1000;
     this.maxPaths = settings.maxPaths || 100;
-    this.maxAnalysisTimeMs = settings.maxAnalysisTimeMs || 5000;
+    this.maxAnalysisTimeMs = settings.maxAnalysisTimeMs || 10000;
   }
 
   /**
@@ -112,6 +111,19 @@ export class PathAnalyzerLogic {
   }
 
   /**
+   * Finds paths to a region using DFS with callback support for iteration tracking
+   * @param {string} targetRegion - The region to find paths to
+   * @param {number} maxPaths - Maximum number of paths to find (optional, defaults to instance setting)
+   * @param {object} snapshot - The current state snapshot.
+   * @param {object} staticData - The cached static game data.
+   * @param {function} iterationCallback - Optional callback to report iteration count
+   * @returns {Array} - Array of paths to the target region
+   */
+  findPathsToRegionWithCallback(targetRegion, maxPaths = null, snapshot, staticData, iterationCallback = null) {
+    return this._findPathsToRegionInternal(targetRegion, maxPaths, snapshot, staticData, iterationCallback);
+  }
+
+  /**
    * Finds paths to a region using DFS (not BFS as previously commented)
    * @param {string} targetRegion - The region to find paths to
    * @param {number} maxPaths - Maximum number of paths to find (optional, defaults to instance setting)
@@ -120,6 +132,20 @@ export class PathAnalyzerLogic {
    * @returns {Array} - Array of paths to the target region
    */
   findPathsToRegion(targetRegion, maxPaths = null, snapshot, staticData) {
+    return this._findPathsToRegionInternal(targetRegion, maxPaths, snapshot, staticData, null);
+  }
+
+  /**
+   * Internal implementation of pathfinding with optional callback support
+   * @param {string} targetRegion - The region to find paths to
+   * @param {number} maxPaths - Maximum number of paths to find (optional, defaults to instance setting)
+   * @param {object} snapshot - The current state snapshot.
+   * @param {object} staticData - The cached static game data.
+   * @param {function} iterationCallback - Optional callback to report iteration count
+   * @returns {Array} - Array of paths to the target region
+   * @private
+   */
+  _findPathsToRegionInternal(targetRegion, maxPaths = null, snapshot, staticData, iterationCallback) {
     // Use provided maxPaths or fall back to instance setting
     const effectiveMaxPaths = maxPaths !== null ? maxPaths : this.maxPaths;
 
@@ -159,12 +185,12 @@ export class PathAnalyzerLogic {
     );
     log(
       'info',
-      `[PathAnalyzer] Max paths: ${effectiveMaxPaths}, Max iterations: ${this.maxPathFinderIterations}`
+      `[PathAnalyzer] Max paths: ${effectiveMaxPaths}, Max time: ${this.maxAnalysisTimeMs}ms`
     );
 
     let isTargetReachableInSnapshot = false;
-    if (snapshot && snapshot.reachability) {
-      const status = snapshot.reachability[targetRegion];
+    if (snapshot && snapshot.regionReachability) {
+      const status = snapshot.regionReachability?.[targetRegion];
       isTargetReachableInSnapshot =
         status === true || status === 'reachable' || status === 'checked';
     }
@@ -197,7 +223,7 @@ export class PathAnalyzerLogic {
       `[PathAnalyzer] Total regions in data: ${Object.keys(regionsData).length}`
     );
 
-    // Add iteration counter to prevent infinite loops
+    // Add iteration counter for tracking
     const iterationCounter = { count: 0 };
 
     // Add a global timeout to prevent hanging
@@ -205,16 +231,6 @@ export class PathAnalyzerLogic {
 
     for (const startRegion of startRegions) {
       if (paths.length >= effectiveMaxPaths) break;
-      if (iterationCounter.count >= this.maxPathFinderIterations) {
-        log(
-          'info',
-          `[PathAnalyzer] Maximum iterations (${this.maxPathFinderIterations}) exceeded in findPathsToRegion`
-        );
-        this._logDebug(
-          `Maximum iterations (${this.maxPathFinderIterations}) exceeded in findPathsToRegion`
-        );
-        break;
-      }
 
       // Check timeout
       if (Date.now() - startTime > this.maxAnalysisTimeMs) {
@@ -231,14 +247,15 @@ export class PathAnalyzerLogic {
       this._findPathsDFS(
         startRegion,
         targetRegion,
-        [], // empty path to start
-        null, // visited set no longer used
+        [startRegion], // start with the start region in the path like old version
+        new Set([startRegion]), // use visited set like old version
         paths,
         effectiveMaxPaths,
         regionsData,
         snapshotInterface,
+        startTime,
         iterationCounter,
-        startTime
+        iterationCallback
       );
 
       const pathsAfter = paths.length;
@@ -246,13 +263,13 @@ export class PathAnalyzerLogic {
         'info',
         `[PathAnalyzer] DFS from ${startRegion} completed. Paths found: ${
           pathsAfter - pathsBefore
-        }, Total iterations: ${iterationCounter.count}`
+        }`
       );
     }
 
     log(
       'info',
-      `[PathAnalyzer] Path analysis completed. Total paths found: ${paths.length}, Total iterations: ${iterationCounter.count}`
+      `[PathAnalyzer] Path analysis completed. Total paths found: ${paths.length}`
     );
     log(
       'info',
@@ -266,179 +283,99 @@ export class PathAnalyzerLogic {
    * @param {string} currentRegion
    * @param {string} targetRegion
    * @param {Array<string>} currentPath
-   * @param {Set<string>} visited - NOT USED ANYMORE, kept for compatibility
+   * @param {Set<string>} visited - Used for backtracking
    * @param {Array<Array<string>>} allPaths - Array to store found paths
    * @param {number} maxPaths
    * @param {object} regionsData - Static region data object
    * @param {object} snapshotInterface - The interface for rule evaluation.
-   * @param {object} iterationCounter - Counter to prevent infinite loops
    * @param {number} startTime - Start time for timeout checking
+   * @param {object} iterationCounter - Counter object to track iterations
+   * @param {function} iterationCallback - Optional callback to report iteration count
    * @private
    */
   _findPathsDFS(
     currentRegion,
     targetRegion,
     currentPath,
-    visited, // This parameter is now ignored - we use path-specific cycle detection
+    visited,
     allPaths,
     maxPaths,
     regionsData,
     snapshotInterface,
+    startTime,
     iterationCounter,
-    startTime
+    iterationCallback
   ) {
-    // Increment iteration counter and check for limit
-    iterationCounter.count++;
-    if (iterationCounter.count >= this.maxPathFinderIterations) {
+    // Check if target reached - like old version, check if length > 1
+    if (currentRegion === targetRegion && currentPath.length > 1) {
+      allPaths.push([...currentPath]);
       log(
         'info',
-        `[PathAnalyzer DFS] Maximum iterations (${this.maxPathFinderIterations}) exceeded in _findPathsDFS`
-      );
-      this._logDebug(
-        `Maximum iterations (${this.maxPathFinderIterations}) exceeded in _findPathsDFS`
+        `[PathAnalyzer DFS] Found path to target! Path ${
+          allPaths.length
+        }: ${currentPath.join(' -> ')}`
       );
       return;
     }
 
-    // Check timeout every 50 iterations to avoid excessive time checking
-    if (iterationCounter.count % 50 === 0) {
+    // Check limits
+    if (allPaths.length >= maxPaths) return;
+
+    // Increment iteration counter and call callback if provided
+    iterationCounter.count++;
+    if (iterationCallback && iterationCounter.count % 100 === 0) {
+      iterationCallback(iterationCounter.count);
+    }
+
+    // Check timeout periodically (every 1000 recursive calls to avoid excessive checking)
+    if (iterationCounter.count % 1000 === 0) {
       if (Date.now() - startTime > this.maxAnalysisTimeMs) {
         log(
           'info',
-          `[PathAnalyzer DFS] Analysis timeout (${this.maxAnalysisTimeMs}ms) exceeded at iteration ${iterationCounter.count}`
+          `[PathAnalyzer DFS] Analysis timeout (${this.maxAnalysisTimeMs}ms) exceeded`
         );
         return;
       }
     }
 
-    // Log progress every 100 iterations for debugging
-    if (iterationCounter.count % 100 === 0) {
-      log(
-        'info',
-        `[PathAnalyzer DFS] Iteration ${iterationCounter.count}, current region: ${currentRegion}, path length: ${currentPath.length}, paths found: ${allPaths.length}`
-      );
-    }
-
-    // --- CYCLE DETECTION: Check if current region is already in the current path ---
-    if (currentPath.includes(currentRegion)) {
-      log(
-        'info',
-        `[PathAnalyzer DFS] Cycle detected: ${currentRegion} already in path ${currentPath.join(
-          ' -> '
-        )}`
-      );
-      return; // Prevent cycles by not exploring this branch
-    }
-
-    // --- PATH DEPTH LIMIT: Prevent excessively long paths ---
-    const MAX_PATH_DEPTH = 10; // Reduced from 15 to 10 for better performance
-    if (currentPath.length >= MAX_PATH_DEPTH) {
-      log(
-        'info',
-        `[PathAnalyzer DFS] Maximum path depth (${MAX_PATH_DEPTH}) reached for path: ${currentPath.join(
-          ' -> '
-        )}`
-      );
-      return;
-    }
-
-    // --- 1. Add current region to path (no global visited set) ---
-    const newPath = [...currentPath, currentRegion];
-
-    // --- 2. Check if target reached ---
-    if (currentRegion === targetRegion) {
-      allPaths.push([...newPath]);
-      log(
-        'info',
-        `[PathAnalyzer DFS] Found path to target! Path ${
-          allPaths.length
-        }: ${newPath.join(' -> ')}`
-      );
-      if (allPaths.length >= maxPaths) {
-        log(
-          'info',
-          `[PathAnalyzer DFS] Max paths (${maxPaths}) reached, stopping this branch`
-        );
-        return; // Stop this branch
-      }
-      // Don't return if max paths not hit yet - continue exploring for more paths
-    }
-
-    // --- 3. Explore neighbors via exits ---
+    // Get region data
     const regionData = regionsData[currentRegion];
-    if (regionData && regionData.exits) {
-      for (const exit of regionData.exits) {
-        // Check iteration limit before processing each exit
-        if (iterationCounter.count >= this.maxPathFinderIterations) {
-          log(
-            'info',
-            `[PathAnalyzer DFS] Max iterations reached, breaking exit loop for ${currentRegion}`
-          );
-          this._logDebug(
-            `DFS: Max iterations reached, breaking exit loop for ${currentRegion}`
-          );
-          break;
-        }
+    if (!regionData) return;
 
-        // Check timeout before processing each exit
-        if (Date.now() - startTime > this.maxAnalysisTimeMs) {
-          log(
-            'info',
-            `[PathAnalyzer DFS] Timeout reached, breaking exit loop for ${currentRegion}`
-          );
-          break;
-        }
+    // Explore neighbors via exits - like old version
+    for (const exit of regionData.exits || []) {
+      const nextRegion = exit.connected_region;
+      if (!nextRegion || visited.has(nextRegion)) continue;
 
-        if (allPaths.length >= maxPaths) {
-          break;
-        }
-        const nextRegion = exit.connected_region;
-
-        if (nextRegion && regionsData[nextRegion]) {
-          // Check if this would create a cycle in the current path
-          if (newPath.includes(nextRegion)) {
-            continue; // Skip this exit to prevent cycles
-          }
-
-          let canTraverseExit = true;
-          if (exit.access_rule) {
-            try {
-              canTraverseExit = evaluateRule(
-                exit.access_rule,
-                snapshotInterface
-              );
-            } catch (e) {
-              this._logDebug(
-                `Error evaluating exit rule in DFS: ${currentRegion}->${exit.name}`,
-                e
-              );
-              canTraverseExit = false;
-            }
-          }
-
-          if (canTraverseExit) {
-            // Recurse for the next region - pass the new path
-            this._findPathsDFS(
-              nextRegion,
-              targetRegion,
-              newPath, // Pass the new path instead of modifying currentPath
-              null, // visited set is no longer used
-              allPaths,
-              maxPaths,
-              regionsData,
-              snapshotInterface,
-              iterationCounter,
-              startTime
-            );
-            if (allPaths.length >= maxPaths) {
-              break;
-            }
-          }
-        }
-      } // End for exits
+      // MODIFIED: Like the old version, traverse ALL exits regardless of accessibility
+      // This allows us to find non-viable paths that show why regions are unreachable
+      
+      // Add to visited and path, like old version
+      visited.add(nextRegion);
+      currentPath.push(nextRegion);
+      
+      // Recurse
+      this._findPathsDFS(
+        nextRegion,
+        targetRegion,
+        currentPath,
+        visited,
+        allPaths,
+        maxPaths,
+        regionsData,
+        snapshotInterface,
+        startTime,
+        iterationCounter,
+        iterationCallback
+      );
+      
+      // Backtrack - like old version
+      currentPath.pop();
+      visited.delete(nextRegion);
+      
+      // Check if we hit max paths
+      if (allPaths.length >= maxPaths) break;
     }
-
-    // No backtracking needed since we're not modifying the original path
   }
 
   /**
@@ -495,8 +432,8 @@ export class PathAnalyzerLogic {
       const transitionAccessible = accessibleExits.length > 0;
 
       // Check reachability using the snapshot
-      const fromRegionStatus = snapshot.reachability?.[fromRegion];
-      const toRegionStatus = snapshot.reachability?.[toRegion];
+      const fromRegionStatus = snapshot.regionReachability?.[fromRegion];
+      const toRegionStatus = snapshot.regionReachability?.[toRegion];
       const fromReachable =
         fromRegionStatus === true ||
         fromRegionStatus === 'reachable' ||
@@ -706,8 +643,8 @@ export class PathAnalyzerLogic {
     );
 
     let isTargetReachableInSnapshot = false;
-    if (snapshot && snapshot.reachability) {
-      const status = snapshot.reachability[targetRegion];
+    if (snapshot && snapshot.regionReachability) {
+      const status = snapshot.regionReachability?.[targetRegion];
       isTargetReachableInSnapshot =
         status === true || status === 'reachable' || status === 'checked';
     }

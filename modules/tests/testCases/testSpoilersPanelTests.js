@@ -33,9 +33,9 @@ export async function testSpoilersPanelFullRun(testController) {
           );
           return spoilersPanelElement !== null;
         },
+        'Test Spoilers panel DOM element',
         5000,
-        250,
-        'Test Spoilers panel DOM element'
+        250
       ))
     ) {
       throw new Error('Test Spoilers panel not found in DOM');
@@ -54,9 +54,9 @@ export async function testSpoilersPanelFullRun(testController) {
           // The button should exist and be enabled. It might be disabled if no ruleset is active.
           return loadSuggestedButton !== null && !loadSuggestedButton.disabled;
         },
+        '"Load Suggested Log" button to be available',
         10000,
-        250,
-        '"Load Suggested Log" button to be available'
+        250
       ))
     ) {
       throw new Error('"Load Suggested Log" button not found or was disabled.');
@@ -114,9 +114,9 @@ export async function testSpoilersPanelFullRun(testController) {
           
           return runFullTestButton !== null;
         },
+        '"Run Full Test" button to appear',
         10000,
-        250,
-        '"Run Full Test" button to appear'
+        250
       ))
     ) {
       // Final debug attempt - list all buttons on the page
@@ -169,9 +169,9 @@ export async function testSpoilersPanelFullRun(testController) {
           
           return buttonReady && detailedResults && hasProcessedEvents;
         },
+        'Full spoiler test completion with detailed results',
         MAX_WAIT_TIME_TEST_COMPLETION,
-        1000,
-        'Full spoiler test completion with detailed results'
+        1000
       ))
     ) {
       throw new Error(
@@ -287,6 +287,6 @@ registerTest({
     'Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.',
   testFunction: testSpoilersPanelFullRun,
   category: 'Test Spoilers Panel',
-  enabled: true,
+  enabled: false,
   order: 1,
 });

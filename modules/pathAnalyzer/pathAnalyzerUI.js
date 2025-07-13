@@ -55,9 +55,7 @@ export class PathAnalyzerUI {
       const moduleSettings = settingsManager.getModuleSettings('pathAnalyzer');
       return {
         maxPaths: moduleSettings?.maxPaths || 100,
-        maxPathFinderIterations:
-          moduleSettings?.maxPathFinderIterations || 1000,
-        maxAnalysisTimeMs: moduleSettings?.maxAnalysisTimeMs || 5000,
+        maxAnalysisTimeMs: moduleSettings?.maxAnalysisTimeMs || 10000,
       };
     } catch (error) {
       log(
@@ -67,8 +65,7 @@ export class PathAnalyzerUI {
       );
       return {
         maxPaths: 100,
-        maxPathFinderIterations: 1000,
-        maxAnalysisTimeMs: 5000,
+        maxAnalysisTimeMs: 10000,
       };
     }
   }
@@ -164,70 +161,75 @@ export class PathAnalyzerUI {
       settingsContainer.appendChild(regionContainer);
     }
 
-    // Create input fields for each numeric setting
-    const settings = [
-      {
-        key: 'maxPaths',
-        label: 'Max Paths:',
-        min: 1,
-        max: 1000,
-        step: 1,
-      },
-      {
-        key: 'maxPathFinderIterations',
-        label: 'Max Iterations:',
-        min: 10,
-        max: 10000,
-        step: 10,
-      },
-      {
-        key: 'maxAnalysisTimeMs',
-        label: 'Timeout (ms):',
-        min: 1000,
-        max: 30000,
-        step: 100,
-      },
-    ];
+    // Create a row for Max Paths and Timeout settings (removing Max Iterations)
+    const settingsRow = document.createElement('div');
+    settingsRow.style.cssText = 'display: flex; align-items: center; gap: 20px; width: 100%;';
 
-    settings.forEach((setting) => {
-      const fieldContainer = document.createElement('div');
-      fieldContainer.style.cssText =
-        'display: flex; align-items: center; gap: 5px;';
+    // Max Paths setting
+    const maxPathsContainer = document.createElement('div');
+    maxPathsContainer.style.cssText = 'display: flex; align-items: center; gap: 5px;';
 
-      const label = document.createElement('label');
-      label.textContent = setting.label;
-      label.style.cssText =
-        'font-weight: bold; color: #e0e0e0; min-width: 80px;';
+    const maxPathsLabel = document.createElement('label');
+    maxPathsLabel.textContent = 'Max Paths:';
+    maxPathsLabel.style.cssText = 'font-weight: bold; color: #e0e0e0; min-width: 80px;';
 
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = setting.min;
-      input.max = setting.max;
-      input.step = setting.step;
-      input.value = this.settings[setting.key];
-      input.style.cssText =
-        'width: 80px; padding: 2px 5px; border: 1px solid #555; border-radius: 2px; background: #333; color: #e0e0e0;';
-      input.dataset.settingKey = setting.key;
+    const maxPathsInput = document.createElement('input');
+    maxPathsInput.type = 'number';
+    maxPathsInput.min = 1;
+    maxPathsInput.max = 1000;
+    maxPathsInput.step = 1;
+    maxPathsInput.value = this.settings.maxPaths;
+    maxPathsInput.style.cssText = 'width: 80px; padding: 2px 5px; border: 1px solid #555; border-radius: 2px; background: #333; color: #e0e0e0;';
+    maxPathsInput.dataset.settingKey = 'maxPaths';
 
-      // Add change event listener
+    // Timeout setting
+    const timeoutContainer = document.createElement('div');
+    timeoutContainer.style.cssText = 'display: flex; align-items: center; gap: 5px;';
+
+    const timeoutLabel = document.createElement('label');
+    timeoutLabel.textContent = 'Timeout (ms):';
+    timeoutLabel.style.cssText = 'font-weight: bold; color: #e0e0e0; min-width: 80px;';
+
+    const timeoutInput = document.createElement('input');
+    timeoutInput.type = 'number';
+    timeoutInput.min = 1000;
+    timeoutInput.max = 30000;
+    timeoutInput.step = 100;
+    timeoutInput.value = this.settings.maxAnalysisTimeMs;
+    timeoutInput.style.cssText = 'width: 80px; padding: 2px 5px; border: 1px solid #555; border-radius: 2px; background: #333; color: #e0e0e0;';
+    timeoutInput.dataset.settingKey = 'maxAnalysisTimeMs';
+
+    // Assemble the row
+    maxPathsContainer.appendChild(maxPathsLabel);
+    maxPathsContainer.appendChild(maxPathsInput);
+    timeoutContainer.appendChild(timeoutLabel);
+    timeoutContainer.appendChild(timeoutInput);
+    settingsRow.appendChild(maxPathsContainer);
+    settingsRow.appendChild(timeoutContainer);
+
+    // Add change event listeners for both inputs
+    [maxPathsInput, timeoutInput].forEach((input) => {
       input.addEventListener('change', () => {
         const newValue = parseInt(input.value, 10);
-        if (
-          !isNaN(newValue) &&
-          newValue >= setting.min &&
-          newValue <= setting.max
-        ) {
-          this.updateSettings({ [setting.key]: newValue });
+        const settingKey = input.dataset.settingKey;
+        
+        let min, max;
+        if (settingKey === 'maxPaths') {
+          min = 1; max = 1000;
+        } else if (settingKey === 'maxAnalysisTimeMs') {
+          min = 1000; max = 30000;
+        }
+        
+        if (!isNaN(newValue) && newValue >= min && newValue <= max) {
+          this.updateSettings({ [settingKey]: newValue });
         } else {
           // Reset to current value if invalid
-          input.value = this.settings[setting.key];
+          input.value = this.settings[settingKey];
         }
       });
-
-      fieldContainer.appendChild(label);
-      fieldContainer.appendChild(input);
-      settingsContainer.appendChild(fieldContainer);
     });
+
+    settingsContainer.appendChild(settingsRow);
 
     // Add buttons container
     const buttonContainer = document.createElement('div');
@@ -449,13 +451,129 @@ export class PathAnalyzerUI {
   }
 
   /**
+   * Creates analysis status UI elements
+   * @param {HTMLElement} container - Container to add status UI to
+   * @returns {Object} Object containing status UI elements
+   */
+  createAnalysisStatusUI(container) {
+    const statusContainer = document.createElement('div');
+    statusContainer.className = 'path-analyzer-status';
+    statusContainer.style.cssText = `
+      background: #1e1e1e;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: none;
+    `;
+
+    const statusTitle = document.createElement('h4');
+    statusTitle.textContent = 'Path Analysis Status';
+    statusTitle.style.cssText = 'margin: 0 0 8px 0; color: #e0e0e0; font-size: 14px;';
+
+    const statusText = document.createElement('div');
+    statusText.style.cssText = 'color: #ccc; font-size: 13px; margin-bottom: 5px;';
+    statusText.textContent = 'Initializing path analysis...';
+
+    const metricsText = document.createElement('div');
+    metricsText.style.cssText = 'color: #4CAF50; font-size: 12px; font-family: monospace;';
+    metricsText.textContent = '';
+
+    statusContainer.appendChild(statusTitle);
+    statusContainer.appendChild(statusText);
+    statusContainer.appendChild(metricsText);
+    container.appendChild(statusContainer);
+
+    return {
+      container: statusContainer,
+      status: statusText,
+      metrics: metricsText
+    };
+  }
+
+  /**
+   * Performs asynchronous pathfinding with metrics reporting
+   * @param {string} regionName - Region to find paths to
+   * @param {Object} snapshot - Current state snapshot
+   * @param {Object} staticData - Static game data
+   * @param {Object} snapshotInterface - Snapshot interface for rule evaluation
+   * @param {Object} statusUI - Status UI elements
+   * @returns {Promise<Array>} Promise resolving to found paths
+   */
+  async findPathsWithMetrics(regionName, snapshot, staticData, snapshotInterface, statusUI) {
+    const startTime = Date.now();
+    const maxTime = this.settings.maxAnalysisTimeMs;
+    let iterationCount = 0;
+    
+    // Start the metrics timer
+    const metricsTimer = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const elapsedSeconds = (elapsed / 1000).toFixed(1);
+      statusUI.metrics.textContent = `Elapsed: ${elapsedSeconds}s | Iterations: ${iterationCount.toLocaleString()}`;
+    }, 100);
+
+    try {
+      // Create a callback to update iteration count
+      const iterationCallback = (count) => {
+        iterationCount = count;
+      };
+
+      // Call the actual pathfinding with a wrapper to handle timeout
+      const result = await new Promise((resolve, reject) => {
+        // Set up timeout
+        const timeoutId = setTimeout(() => {
+          const error = new Error('TIMEOUT');
+          error.partialResults = []; // We don't have partial results in this implementation
+          reject(error);
+        }, maxTime);
+
+        // Run pathfinding in chunks to allow UI updates
+        const runPathfinding = () => {
+          try {
+            statusUI.status.textContent = 'Analyzing paths...';
+            const foundPaths = this.logic.findPathsToRegionWithCallback(
+              regionName,
+              null, // Use default from settings
+              snapshot,
+              staticData,
+              iterationCallback
+            );
+            
+            clearTimeout(timeoutId);
+            resolve(foundPaths);
+          } catch (error) {
+            clearTimeout(timeoutId);
+            reject(error);
+          }
+        };
+
+        // Start pathfinding on next tick to allow UI update
+        setTimeout(runPathfinding, 10);
+      });
+
+      // Complete the metrics
+      clearInterval(metricsTimer);
+      const finalElapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      statusUI.status.textContent = `Analysis complete! Found ${result.length} paths`;
+      statusUI.metrics.textContent = `Completed in ${finalElapsed}s | ${iterationCount.toLocaleString()} iterations`;
+
+      return result;
+    } catch (error) {
+      clearInterval(metricsTimer);
+      const finalElapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      statusUI.metrics.textContent = `Stopped at ${finalElapsed}s | ${iterationCount.toLocaleString()} iterations`;
+      throw error;
+    }
+  }
+
+  /**
    * Perform the actual path analysis and create UI elements to display the results
    * @param {string} regionName - Region name to analyze paths for
    * @param {HTMLElement} pathsContainer - Container to display paths in
    * @param {HTMLElement} pathsCountSpan - Element to display path counts
    * @param {HTMLElement} analyzePathsBtn - The button that triggered the analysis
    */
-  performPathAnalysis(
+  async performPathAnalysis(
     regionName,
     pathsContainer,
     pathsCountSpan,
@@ -474,6 +592,9 @@ export class PathAnalyzerUI {
     const isFromRegionsPanel = this.regionUI !== null;
     this.createSettingsUI(pathsContainer, regionName, isFromRegionsPanel);
 
+    // Add analysis status UI
+    const statusUI = this.createAnalysisStatusUI(pathsContainer);
+
     // PHASE 1: Get current snapshot and static data
     const snapshot = stateManager.getLatestStateSnapshot();
     const staticData = stateManager.getStaticData();
@@ -488,8 +609,8 @@ export class PathAnalyzerUI {
 
     // Check actual reachability using stateManager
     let isRegionActuallyReachable = false;
-    if (snapshot && snapshot.reachability) {
-      const status = snapshot.reachability[regionName];
+    if (snapshot && snapshot.regionReachability) {
+      const status = snapshot.regionReachability?.[regionName];
       isRegionActuallyReachable =
         status === true || status === 'reachable' || status === 'checked';
     }
@@ -523,13 +644,42 @@ export class PathAnalyzerUI {
       return;
     }
 
-    // PHASE 2: Perform traditional path analysis using the logic component with settings
-    const allPaths = this.logic.findPathsToRegion(
-      regionName,
-      null, // Use default from settings
-      snapshot,
-      staticData
-    );
+    // PHASE 2: Perform path analysis with status tracking
+    statusUI.container.style.display = 'block';
+    statusUI.status.textContent = 'Starting path analysis...';
+    
+    log('info', `[PathAnalyzer] Starting async path analysis for "${regionName}"`);
+    
+    let allPaths = [];
+    try {
+      allPaths = await this.findPathsWithMetrics(
+        regionName,
+        snapshot,
+        staticData,
+        snapshotInterface,
+        statusUI
+      );
+      
+      log('info', `[PathAnalyzer] findPathsWithMetrics returned ${allPaths.length} paths for "${regionName}"`);
+      if (allPaths.length > 0) {
+        allPaths.forEach((path, index) => {
+          log('info', `[PathAnalyzer] Path ${index + 1}: ${path.join(' → ')}`);
+        });
+      }
+    } catch (error) {
+      if (error.message === 'TIMEOUT') {
+        statusUI.status.textContent = 'Analysis timed out - showing partial results';
+        statusUI.status.style.color = '#ff9800';
+        allPaths = error.partialResults || [];
+        log('info', `[PathAnalyzer] Analysis timed out, got ${allPaths.length} partial paths`);
+      } else {
+        statusUI.status.textContent = 'Analysis failed: ' + error.message;
+        statusUI.status.style.color = '#f44336';
+        allPaths = [];
+      }
+    }
+    
+    // Keep status UI visible (don't hide it)
 
     // Track path statistics
     let accessiblePathCount = 0;
@@ -546,8 +696,12 @@ export class PathAnalyzerUI {
     };
 
     if (allPaths.length > 0) {
+      log('info', `[PathAnalyzer] Processing ${allPaths.length} paths found by pathfinding algorithm`);
+      
       // Process and analyze paths
       allPaths.forEach((path, pathIndex) => {
+        log('info', `[PathAnalyzer] Processing path ${pathIndex + 1}/${allPaths.length}: ${path.join(' → ')}`);
+        
         const transitions = this.logic.findAllTransitions(
           path,
           snapshot,
@@ -571,6 +725,8 @@ export class PathAnalyzerUI {
           }
         }
 
+        log('info', `[PathAnalyzer] Path ${pathIndex + 1} viability: ${pathHasIssues ? 'NON-VIABLE' : 'VIABLE'}`);
+
         // Generate path element and add to container
         const pathEl = this._processPath(
           path,
@@ -587,8 +743,31 @@ export class PathAnalyzerUI {
           pathEl.style.borderLeft = '3px solid #4caf50';
         }
 
+        log('info', `[PathAnalyzer] Appending path ${pathIndex + 1} element to DOM`);
         pathsDiv.appendChild(pathEl);
       });
+      
+      log('info', `[PathAnalyzer] Completed processing all ${allPaths.length} paths. Viable paths: ${accessiblePathCount}`);
+    } else {
+      // FIX: When no paths are found, analyze direct connections to show what's blocking access
+      log('info', `[PathAnalyzer] No paths found for ${regionName}, analyzing direct connections to show requirements`);
+      
+      const directConnectionsResult = this.logic.analyzeDirectConnections(
+        regionName,
+        staticData,
+        snapshotInterface
+      );
+      
+      if (directConnectionsResult && directConnectionsResult.nodes) {
+        // Merge the direct connections analysis into allNodes
+        Object.keys(allNodes).forEach(key => {
+          if (directConnectionsResult.nodes[key]) {
+            allNodes[key].push(...directConnectionsResult.nodes[key]);
+          }
+        });
+        
+        log('info', `[PathAnalyzer] Added direct connection requirements for ${regionName}:`, directConnectionsResult.nodes);
+      }
     }
 
     // Set status indicator based on actual reachability and path analysis
@@ -862,10 +1041,10 @@ export class PathAnalyzerUI {
     path.forEach((region, index) => {
       // Check region's general accessibility from snapshot
       const regionAccessible =
-        snapshot.reachability &&
-        (snapshot.reachability[region] === true ||
-          snapshot.reachability[region] === 'reachable' ||
-          snapshot.reachability[region] === 'checked');
+        snapshot.regionReachability &&
+        (snapshot.regionReachability?.[region] === true ||
+          snapshot.regionReachability?.[region] === 'reachable' ||
+          snapshot.regionReachability?.[region] === 'checked');
 
       // Determine color based on accessibility and path integrity
       let regionColor;

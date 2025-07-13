@@ -437,6 +437,396 @@ export async function simplePathAnalyzerTest(testController) {
   }
 }
 
+export async function testPathAnalyzerLibrary(testController) {
+  const testRunId = `path-analyzer-library-${Date.now()}`;
+  testController.log(`[${testRunId}] Path Analyzer Library Test - Testing region without parentheses`);
+
+  try {
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Verify state manager availability
+    const stateManager = testController.stateManager;
+    if (!stateManager) {
+      throw new Error('State manager not available via TestController.');
+    }
+    testController.reportCondition('State manager available', true);
+
+    // Step 2: Get static data to verify region exists
+    const staticData = stateManager.getStaticData();
+    if (!staticData || !staticData.regions || !staticData.regions['Library']) {
+      testController.log(`[${testRunId}] Library region not found in static data`);
+      testController.reportCondition('Library region exists in static data', false);
+      return false;
+    }
+    testController.reportCondition('Library region exists in static data', true);
+
+    // Step 3: Test direct connection analysis
+    testController.log(`[${testRunId}] Testing analyzeDirectConnections for Library`);
+    const { PathAnalyzerLogic } = await import('../../pathAnalyzer/pathAnalyzerLogic.js');
+    const logic = new PathAnalyzerLogic();
+    logic.setDebugMode(true); // Enable debug logging
+
+    const snapshot = stateManager.getSnapshot();
+    const { createStateSnapshotInterface } = await import('../../stateManager/stateManagerProxy.js');
+    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+
+    const result = logic.analyzeDirectConnections('Library', staticData, snapshotInterface);
+    
+    testController.log(`[${testRunId}] Library analysis result:`, JSON.stringify(result, null, 2));
+    
+    // Check if we got meaningful results
+    const hasEntrances = result.analysisData && result.analysisData.entrances && result.analysisData.entrances.length > 0;
+    const hasNodes = result.nodes && Object.keys(result.nodes).some(key => result.nodes[key].length > 0);
+    
+    testController.reportCondition('Library analysis returned entrances or nodes', hasEntrances || hasNodes);
+    testController.log(`[${testRunId}] Library - Found ${result.analysisData?.entrances?.length || 0} entrances`);
+
+    testController.reportCondition('Library path analysis completed successfully', true);
+    return true;
+
+  } catch (error) {
+    testController.log(`[${testRunId}] ✗ Library test failed: ${error.message}`, 'error');
+    testController.reportCondition('Test execution failed', false);
+    return false;
+  }
+}
+
+export async function testPathAnalyzerMiseryMireEntrance(testController) {
+  const testRunId = `path-analyzer-misery-mire-${Date.now()}`;
+  testController.log(`[${testRunId}] Path Analyzer Misery Mire (Entrance) Test - Testing region with parentheses`);
+
+  try {
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Verify state manager availability
+    const stateManager = testController.stateManager;
+    if (!stateManager) {
+      throw new Error('State manager not available via TestController.');
+    }
+    testController.reportCondition('State manager available', true);
+
+    // Step 2: Get static data to verify region exists
+    const staticData = stateManager.getStaticData();
+    const regionName = 'Misery Mire (Entrance)';
+    
+    if (!staticData || !staticData.regions || !staticData.regions[regionName]) {
+      testController.log(`[${testRunId}] ${regionName} region not found in static data`);
+      testController.log(`[${testRunId}] Available regions matching "Misery":`, 
+        Object.keys(staticData.regions || {}).filter(name => name.includes('Misery')));
+      testController.reportCondition(`${regionName} region exists in static data`, false);
+      return false;
+    }
+    testController.reportCondition(`${regionName} region exists in static data`, true);
+
+    // Step 3: Test direct connection analysis
+    testController.log(`[${testRunId}] Testing analyzeDirectConnections for ${regionName}`);
+    const { PathAnalyzerLogic } = await import('../../pathAnalyzer/pathAnalyzerLogic.js');
+    const logic = new PathAnalyzerLogic();
+    logic.setDebugMode(true); // Enable debug logging
+
+    const snapshot = stateManager.getSnapshot();
+    const { createStateSnapshotInterface } = await import('../../stateManager/stateManagerProxy.js');
+    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+
+    const result = logic.analyzeDirectConnections(regionName, staticData, snapshotInterface);
+    
+    testController.log(`[${testRunId}] ${regionName} analysis result:`, JSON.stringify(result, null, 2));
+    
+    // Check if we got meaningful results
+    const hasEntrances = result.analysisData && result.analysisData.entrances && result.analysisData.entrances.length > 0;
+    const hasNodes = result.nodes && Object.keys(result.nodes).some(key => result.nodes[key].length > 0);
+    
+    testController.reportCondition(`${regionName} analysis returned entrances or nodes`, hasEntrances || hasNodes);
+    testController.log(`[${testRunId}] ${regionName} - Found ${result.analysisData?.entrances?.length || 0} entrances`);
+
+    // Log specific debug information about string matching
+    testController.log(`[${testRunId}] Checking for exits that connect to "${regionName}"`);
+    let foundMatches = 0;
+    Object.entries(staticData.regions).forEach(([otherRegionName, otherRegionData]) => {
+      if (otherRegionData.exits) {
+        otherRegionData.exits.forEach(exit => {
+          if (exit.connected_region === regionName) {
+            foundMatches++;
+            testController.log(`[${testRunId}] MATCH: ${otherRegionName} -> ${exit.name} connects to "${exit.connected_region}"`);
+          } else if (exit.connected_region && exit.connected_region.includes('Misery Mire')) {
+            testController.log(`[${testRunId}] NEAR-MATCH: ${otherRegionName} -> ${exit.name} connects to "${exit.connected_region}"`);
+          }
+        });
+      }
+    });
+    
+    testController.log(`[${testRunId}] Total exact matches found: ${foundMatches}`);
+    testController.reportCondition(`Found exits connecting to ${regionName}`, foundMatches > 0);
+
+    testController.reportCondition(`${regionName} path analysis completed successfully`, true);
+    return true;
+
+  } catch (error) {
+    testController.log(`[${testRunId}] ✗ ${regionName} test failed: ${error.message}`, 'error');
+    testController.reportCondition('Test execution failed', false);
+    return false;
+  }
+}
+
+export async function testPathAnalyzerUILibrary(testController) {
+  const testRunId = `path-analyzer-ui-library-${Date.now()}`;
+  testController.log(`[${testRunId}] Path Analyzer UI Library Test - Testing UI with region without parentheses`);
+
+  try {
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Verify state manager availability
+    const stateManager = testController.stateManager;
+    if (!stateManager) {
+      throw new Error('State manager not available via TestController.');
+    }
+    testController.reportCondition('State manager available', true);
+
+    // Step 2: Activate Path Analyzer panel
+    testController.log(`[${testRunId}] Activating Path Analyzer panel...`);
+    await testController.performAction({
+      type: 'DISPATCH_EVENT',
+      eventName: 'ui:activatePanel',
+      payload: { panelId: 'pathAnalyzerPanel' },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Step 3: Wait for panel elements to be available
+    testController.log(`[${testRunId}] Waiting for Path Analyzer panel elements...`);
+    const panelElements = await testController.pollForValue(
+      () => {
+        const panelRoot = document.querySelector('#path-analyzer-panel-container');
+        if (!panelRoot) return null;
+
+        const regionInput = panelRoot.querySelector('[data-testid="path-analyzer-region-input"]');
+        const analyzeButton = panelRoot.querySelector('[data-testid="path-analyzer-analyze-button"]');
+        const resultsContainer = panelRoot.querySelector('.path-analysis-results');
+
+        if (panelRoot && regionInput && analyzeButton && resultsContainer) {
+          return { panelRoot, regionInput, analyzeButton, resultsContainer };
+        }
+        return null;
+      },
+      'Path Analyzer panel elements to exist',
+      10000,
+      250
+    );
+
+    if (!panelElements) {
+      throw new Error('Path Analyzer panel elements not found');
+    }
+    testController.reportCondition('Path Analyzer panel elements found', true);
+
+    const { regionInput, analyzeButton, resultsContainer } = panelElements;
+
+    // Step 4: Enter "Library" in the input field
+    const regionName = 'Library';
+    testController.log(`[${testRunId}] Entering "${regionName}" in region input...`);
+    regionInput.value = regionName;
+    regionInput.dispatchEvent(new Event('input'));
+    testController.reportCondition(`Region input set to "${regionName}"`, regionInput.value === regionName);
+
+    // Step 5: Click the analyze button
+    testController.log(`[${testRunId}] Clicking analyze button...`);
+    analyzeButton.click();
+    testController.reportCondition('Analyze button clicked', true);
+
+    // Step 6: Wait for analysis results
+    testController.log(`[${testRunId}] Waiting for analysis results...`);
+    const analysisComplete = await testController.pollForCondition(
+      () => {
+        const resultText = resultsContainer.textContent || '';
+        // Check if analysis is complete (either success with results or an error message)
+        return resultText.includes('Requirements') || 
+               resultText.includes('No requirements found') || 
+               resultText.includes('Error:') ||
+               resultText.includes('Analysis failed');
+      },
+      'Analysis results to appear',
+      15000,
+      500
+    );
+
+    if (!analysisComplete) {
+      throw new Error('Analysis did not complete within timeout');
+    }
+    testController.reportCondition('Analysis completed', true);
+
+    // Step 7: Check the results content
+    const resultText = resultsContainer.textContent || '';
+    testController.log(`[${testRunId}] Analysis result text: "${resultText}"`);
+    
+    const hasRequirements = resultText.includes('Requirements') && !resultText.includes('No requirements found');
+    const hasNoRequirements = resultText.includes('No requirements found');
+    const hasError = resultText.includes('Error:') || resultText.includes('Analysis failed');
+    
+    // Count paths found - look for indicators of path sections
+    const pathMatches = resultText.match(/Path \d+:/g) || [];
+    const pathCount = pathMatches.length;
+    
+    testController.log(`[${testRunId}] Result analysis: hasRequirements=${hasRequirements}, hasNoRequirements=${hasNoRequirements}, hasError=${hasError}, pathCount=${pathCount}`);
+    
+    if (hasError) {
+      testController.reportCondition('Library analysis completed without error', false);
+      testController.log(`[${testRunId}] Error in analysis: ${resultText}`, 'error');
+    } else {
+      testController.reportCondition('Library analysis completed without error', true);
+      
+      if (pathCount > 0) {
+        testController.reportCondition(`Library analysis found ${pathCount} paths`, true);
+        testController.log(`[${testRunId}] SUCCESS: Found ${pathCount} paths for Library (old version shows 6: 2 viable + 4 non-viable)`);
+      } else if (hasRequirements) {
+        testController.reportCondition('Library analysis found requirements but no paths', true);
+        testController.log(`[${testRunId}] Found requirements but no visible paths - this might be the bug`);
+      } else if (hasNoRequirements) {
+        testController.reportCondition('Library analysis returned "No requirements found"', true);
+        testController.log(`[${testRunId}] Note: Library returned no requirements`);
+      } else {
+        testController.reportCondition('Library analysis had unexpected result format', false);
+      }
+    }
+
+    testController.reportCondition('Library UI test completed successfully', true);
+    return true;
+
+  } catch (error) {
+    testController.log(`[${testRunId}] ✗ Library UI test failed: ${error.message}`, 'error');
+    testController.reportCondition('Test execution failed', false);
+    return false;
+  }
+}
+
+export async function testPathAnalyzerUIMiseryMireEntrance(testController) {
+  const testRunId = `path-analyzer-ui-misery-mire-${Date.now()}`;
+  testController.log(`[${testRunId}] Path Analyzer UI Misery Mire Test - Testing UI with region with parentheses`);
+
+  try {
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Verify state manager availability
+    const stateManager = testController.stateManager;
+    if (!stateManager) {
+      throw new Error('State manager not available via TestController.');
+    }
+    testController.reportCondition('State manager available', true);
+
+    // Step 2: Activate Path Analyzer panel
+    testController.log(`[${testRunId}] Activating Path Analyzer panel...`);
+    await testController.performAction({
+      type: 'DISPATCH_EVENT',
+      eventName: 'ui:activatePanel',
+      payload: { panelId: 'pathAnalyzerPanel' },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Step 3: Wait for panel elements to be available
+    testController.log(`[${testRunId}] Waiting for Path Analyzer panel elements...`);
+    const panelElements = await testController.pollForValue(
+      () => {
+        const panelRoot = document.querySelector('#path-analyzer-panel-container');
+        if (!panelRoot) return null;
+
+        const regionInput = panelRoot.querySelector('[data-testid="path-analyzer-region-input"]');
+        const analyzeButton = panelRoot.querySelector('[data-testid="path-analyzer-analyze-button"]');
+        const resultsContainer = panelRoot.querySelector('.path-analysis-results');
+
+        if (panelRoot && regionInput && analyzeButton && resultsContainer) {
+          return { panelRoot, regionInput, analyzeButton, resultsContainer };
+        }
+        return null;
+      },
+      'Path Analyzer panel elements to exist',
+      10000,
+      250
+    );
+
+    if (!panelElements) {
+      throw new Error('Path Analyzer panel elements not found');
+    }
+    testController.reportCondition('Path Analyzer panel elements found', true);
+
+    const { regionInput, analyzeButton, resultsContainer } = panelElements;
+
+    // Step 4: Enter "Misery Mire (Entrance)" in the input field
+    const regionName = 'Misery Mire (Entrance)';
+    testController.log(`[${testRunId}] Entering "${regionName}" in region input...`);
+    regionInput.value = regionName;
+    regionInput.dispatchEvent(new Event('input'));
+    testController.reportCondition(`Region input set to "${regionName}"`, regionInput.value === regionName);
+
+    // Step 5: Click the analyze button
+    testController.log(`[${testRunId}] Clicking analyze button...`);
+    analyzeButton.click();
+    testController.reportCondition('Analyze button clicked', true);
+
+    // Step 6: Wait for analysis results
+    testController.log(`[${testRunId}] Waiting for analysis results...`);
+    const analysisComplete = await testController.pollForCondition(
+      () => {
+        const resultText = resultsContainer.textContent || '';
+        // Check if analysis is complete (either success with results or an error message)
+        return resultText.includes('Requirements') || 
+               resultText.includes('No requirements found') || 
+               resultText.includes('Error:') ||
+               resultText.includes('Analysis failed');
+      },
+      'Analysis results to appear',
+      15000,
+      500
+    );
+
+    if (!analysisComplete) {
+      throw new Error('Analysis did not complete within timeout');
+    }
+    testController.reportCondition('Analysis completed', true);
+
+    // Step 7: Check the results content
+    const resultText = resultsContainer.textContent || '';
+    testController.log(`[${testRunId}] Analysis result text: "${resultText}"`);
+    
+    const hasRequirements = resultText.includes('Requirements') && !resultText.includes('No requirements found');
+    const hasNoRequirements = resultText.includes('No requirements found');
+    const hasError = resultText.includes('Error:') || resultText.includes('Analysis failed');
+
+    testController.log(`[${testRunId}] Result analysis: hasRequirements=${hasRequirements}, hasNoRequirements=${hasNoRequirements}, hasError=${hasError}`);
+    
+    if (hasError) {
+      testController.reportCondition('Misery Mire (Entrance) analysis completed without error', false);
+      testController.log(`[${testRunId}] Error in analysis: ${resultText}`, 'error');
+    } else {
+      testController.reportCondition('Misery Mire (Entrance) analysis completed without error', true);
+      
+      if (hasRequirements) {
+        testController.reportCondition('Misery Mire (Entrance) analysis found requirements', true);
+      } else if (hasNoRequirements) {
+        testController.reportCondition('Misery Mire (Entrance) analysis returned "No requirements found"', true);
+        testController.log(`[${testRunId}] ISSUE: Misery Mire (Entrance) returned "No requirements found" - this suggests the parentheses bug!`, 'warn');
+      } else {
+        testController.reportCondition('Misery Mire (Entrance) analysis had unexpected result format', false);
+      }
+    }
+
+    // Step 8: Additional debugging - check if the region exists in static data
+    testController.log(`[${testRunId}] Verifying region exists in static data...`);
+    const staticData = stateManager.getStaticData();
+    const regionExists = staticData && staticData.regions && staticData.regions[regionName];
+    testController.reportCondition(`"${regionName}" exists in static data`, !!regionExists);
+    
+    if (!regionExists) {
+      testController.log(`[${testRunId}] Available regions matching "Misery":`, 
+        Object.keys(staticData.regions || {}).filter(name => name.includes('Misery')));
+    }
+
+    testController.reportCondition('Misery Mire (Entrance) UI test completed successfully', true);
+    return true;
+
+  } catch (error) {
+    testController.log(`[${testRunId}] ✗ Misery Mire (Entrance) UI test failed: ${error.message}`, 'error');
+    testController.reportCondition('Test execution failed', false);
+    return false;
+  }
+}
+
 // Self-register tests
 registerTest({
   id: 'simple_path_analyzer',
@@ -467,4 +857,152 @@ registerTest({
   category: 'Path Analysis',
   enabled: false,
   order: 0,
+});
+
+registerTest({
+  id: 'test_path_analyzer_library',
+  name: 'Path Analyzer - Library Test',
+  description: 'Tests Path Analyzer with Library region (no parentheses).',
+  testFunction: testPathAnalyzerLibrary,
+  category: 'Path Analysis',
+  enabled: true,
+  order: 1,
+});
+
+registerTest({
+  id: 'test_path_analyzer_misery_mire_entrance',
+  name: 'Path Analyzer - Misery Mire (Entrance) Test',
+  description: 'Tests Path Analyzer with Misery Mire (Entrance) region (with parentheses).',
+  testFunction: testPathAnalyzerMiseryMireEntrance,
+  category: 'Path Analysis',
+  enabled: false,
+  order: 2,
+});
+
+registerTest({
+  id: 'test_path_analyzer_ui_library',
+  name: 'Path Analyzer UI - Library Test',
+  description: 'Tests Path Analyzer UI interaction with Library region (no parentheses).',
+  testFunction: testPathAnalyzerUILibrary,
+  category: 'Path Analysis',
+  enabled: true,
+  order: 3,
+});
+
+// DEBUG TEST: Check actual DOM structure
+export async function debugPathAnalyzerLibraryPaths(testController) {
+  const testRunId = `debug-paths-${Date.now()}`;
+  testController.log(`[${testRunId}] Debug Path Analyzer Library Paths - Checking DOM structure`);
+
+  try {
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Get state manager and trigger analysis
+    const stateManager = testController.stateManager;
+    if (!stateManager) {
+      throw new Error('State manager not available via TestController.');
+    }
+
+    // Step 2: Activate Path Analyzer panel
+    await testController.performAction({
+      type: 'DISPATCH_EVENT',
+      eventName: 'ui:activatePanel',
+      payload: { panelId: 'pathAnalyzerPanel' },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Step 3: Get panel elements
+    const panelElements = await testController.pollForValue(
+      () => {
+        const panelRoot = document.querySelector('#path-analyzer-panel-container');
+        if (!panelRoot) return null;
+        const regionInput = panelRoot.querySelector('[data-testid="path-analyzer-region-input"]');
+        const analyzeButton = panelRoot.querySelector('[data-testid="path-analyzer-analyze-button"]');
+        const resultsContainer = panelRoot.querySelector('.path-analysis-results');
+        if (panelRoot && regionInput && analyzeButton && resultsContainer) {
+          return { panelRoot, regionInput, analyzeButton, resultsContainer };
+        }
+        return null;
+      },
+      'Path Analyzer panel elements to exist',
+      10000,
+      250
+    );
+
+    if (!panelElements) {
+      throw new Error('Path Analyzer panel elements not found');
+    }
+
+    const { regionInput, analyzeButton, resultsContainer } = panelElements;
+
+    // Step 4: Analyze Library
+    regionInput.value = 'Library';
+    regionInput.dispatchEvent(new Event('input'));
+    analyzeButton.click();
+
+    // Step 5: Wait for analysis to complete
+    await testController.pollForCondition(
+      () => {
+        const resultText = resultsContainer.textContent || '';
+        return resultText.includes('Requirements') || 
+               resultText.includes('No requirements found') || 
+               resultText.includes('Error:');
+      },
+      'Analysis results to appear',
+      15000,
+      500
+    );
+
+    // Step 6: DEBUG - Check what path containers exist in the DOM
+    const pathContainers = resultsContainer.querySelectorAll('.path-container');
+    testController.log(`[${testRunId}] Found ${pathContainers.length} .path-container elements in DOM`);
+
+    pathContainers.forEach((container, index) => {
+      const pathHeader = container.querySelector('.path-header');
+      const pathHeaderText = pathHeader ? pathHeader.textContent : 'NO HEADER';
+      const isVisible = container.style.display !== 'none' && !container.hidden;
+      testController.log(`[${testRunId}] Path ${index + 1}: "${pathHeaderText}" - Visible: ${isVisible}`);
+      
+      // Check if details are expanded/collapsed
+      const exitRules = container.querySelector('.path-exit-rules');
+      const exitRulesVisible = exitRules ? exitRules.style.display !== 'none' : false;
+      testController.log(`[${testRunId}]   Exit rules visible: ${exitRulesVisible}`);
+    });
+
+    // Step 7: Check for path header text patterns
+    const resultText = resultsContainer.textContent || '';
+    const pathMatches = resultText.match(/Path \d+:/g) || [];
+    testController.log(`[${testRunId}] Found ${pathMatches.length} "Path X:" patterns in text content`);
+    pathMatches.forEach((match, index) => {
+      testController.log(`[${testRunId}]   Pattern ${index + 1}: "${match}"`);
+    });
+
+    testController.reportCondition('Debug test completed successfully', true);
+    return true;
+
+  } catch (error) {
+    testController.log(`[${testRunId}] ✗ Debug test failed: ${error.message}`, 'error');
+    testController.reportCondition('Test execution failed', false);
+    return false;
+  }
+}
+
+registerTest({
+  id: 'debug_path_analyzer_library_paths',
+  name: 'Debug Path Analyzer Library Paths',
+  description: 'Debug test to check actual DOM structure for Library paths',
+  testFunction: debugPathAnalyzerLibraryPaths,
+  category: 'Path Analysis',
+  enabled: true,
+  order: 2.5,
+});
+
+registerTest({
+  id: 'test_path_analyzer_ui_misery_mire_entrance',
+  name: 'Path Analyzer UI - Misery Mire (Entrance) Test',
+  description: 'Tests Path Analyzer UI interaction with Misery Mire (Entrance) region (with parentheses).',
+  testFunction: testPathAnalyzerUIMiseryMireEntrance,
+  category: 'Path Analysis',
+  enabled: false,
+  order: 4,
 });

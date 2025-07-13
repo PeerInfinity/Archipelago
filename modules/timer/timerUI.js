@@ -337,7 +337,7 @@ export class TimerUI {
             checkedCount++;
           } else {
             // For unchecked locations, determine if they are reachable
-            const reachability = currentSnapshot.reachability && currentSnapshot.reachability[locName];
+            const reachability = currentSnapshot.locationReachability && currentSnapshot.locationReachability[locName];
             if (reachability === 'reachable') {
               reachableCount++;
             } else {

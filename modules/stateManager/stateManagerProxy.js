@@ -1710,7 +1710,7 @@ export function createStateSnapshotInterface(
       !!(snapshot?.flags && snapshot.flags.includes(flagName)),
     getSetting: (settingName) => snapshot?.settings?.[settingName],
     isRegionReachable: (regionName) => {
-      const status = snapshot?.reachability?.[regionName];
+      const status = snapshot?.regionReachability?.[regionName];
       if (status === 'reachable' || status === 'checked') return true;
       if (status === 'unreachable') return false;
       return undefined;
@@ -1927,6 +1927,16 @@ export function createStateSnapshotInterface(
     },
     resolveName: rawInterfaceForHelpers.resolveName,
   };
+
+  // Add helper functions as direct properties for compatibility with spoiler tests
+  if (snapshot?.game === 'A Link to the Past') {
+    for (const [helperName, helperFunction] of Object.entries(alttpLogic)) {
+      finalSnapshotInterface[helperName] = (...args) => {
+        return helperFunction(snapshot, 'world', args[0], staticData);
+      };
+    }
+  }
+
   return finalSnapshotInterface;
 }
 // --- END ADDED FUNCTION ---
