@@ -1710,7 +1710,8 @@ export function createStateSnapshotInterface(
       !!(snapshot?.flags && snapshot.flags.includes(flagName)),
     getSetting: (settingName) => snapshot?.settings?.[settingName],
     isRegionReachable: (regionName) => {
-      const status = snapshot?.reachability?.[regionName];
+      // Use new regionReachability field, fallback to legacy reachability
+      const status = snapshot?.regionReachability?.[regionName] || snapshot?.reachability?.[regionName];
       if (status === 'reachable' || status === 'checked') return true;
       if (status === 'unreachable') return false;
       return undefined;

@@ -949,7 +949,7 @@ export class TestPlaythroughUI {
       // Determine accessibility based on snapshot and staticDef
       const parentRegionName = locDef.parent_region || locDef.region;
       const parentRegionReachabilityStatus =
-        snapshot.reachability?.[parentRegionName];
+        (snapshot.regionReachability?.[parentRegionName] || snapshot.reachability?.[parentRegionName]);
       const isParentRegionEffectivelyReachable =
         parentRegionReachabilityStatus === 'reachable' ||
         parentRegionReachabilityStatus === 'checked';

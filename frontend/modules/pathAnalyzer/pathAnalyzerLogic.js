@@ -163,8 +163,8 @@ export class PathAnalyzerLogic {
     );
 
     let isTargetReachableInSnapshot = false;
-    if (snapshot && snapshot.reachability) {
-      const status = snapshot.reachability[targetRegion];
+    if (snapshot && (snapshot.regionReachability || snapshot.reachability)) {
+      const status = (snapshot.regionReachability?.[targetRegion] || snapshot.reachability?.[targetRegion]);
       isTargetReachableInSnapshot =
         status === true || status === 'reachable' || status === 'checked';
     }
@@ -495,8 +495,8 @@ export class PathAnalyzerLogic {
       const transitionAccessible = accessibleExits.length > 0;
 
       // Check reachability using the snapshot
-      const fromRegionStatus = snapshot.reachability?.[fromRegion];
-      const toRegionStatus = snapshot.reachability?.[toRegion];
+      const fromRegionStatus = (snapshot.regionReachability?.[fromRegion] || snapshot.reachability?.[fromRegion]);
+      const toRegionStatus = (snapshot.regionReachability?.[toRegion] || snapshot.reachability?.[toRegion]);
       const fromReachable =
         fromRegionStatus === true ||
         fromRegionStatus === 'reachable' ||
@@ -706,8 +706,8 @@ export class PathAnalyzerLogic {
     );
 
     let isTargetReachableInSnapshot = false;
-    if (snapshot && snapshot.reachability) {
-      const status = snapshot.reachability[targetRegion];
+    if (snapshot && (snapshot.regionReachability || snapshot.reachability)) {
+      const status = (snapshot.regionReachability?.[targetRegion] || snapshot.reachability?.[targetRegion]);
       isTargetReachableInSnapshot =
         status === true || status === 'reachable' || status === 'checked';
     }

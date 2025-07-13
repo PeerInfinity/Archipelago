@@ -1056,10 +1056,11 @@ export class LocationUI {
         // Determine detailed status, statusText, and stateClass for rendering THIS card
         const parentRegionName = location.parent_region || location.region;
         const parentRegionReachabilityStatus =
-          snapshot?.reachability?.[parentRegionName];
+          snapshot?.regionReachability?.[parentRegionName];
         const isParentRegionEffectivelyReachable =
           parentRegionReachabilityStatus === 'reachable' ||
           parentRegionReachabilityStatus === 'checked';
+          
         const locationAccessRule = location.access_rule;
         const locationRuleEvalResult = locationAccessRule
           ? evaluateRule(locationAccessRule, snapshotInterface)
@@ -1231,30 +1232,32 @@ export class LocationUI {
   getLocationStatus(locationName, snapshot) {
     // --- ADD: Log input and snapshot data --- >
     //log('info', `[LocationUI getLocationStatus] Checking: ${locationName}`);
-    if (!snapshot || !snapshot.reachability) {
+    if (!snapshot || !snapshot.locationReachability) {
       //log('info',
-      //  `[LocationUI getLocationStatus] Snapshot or reachability missing for ${locationName}`
+      //  `[LocationUI getLocationStatus] Snapshot or locationReachability missing for ${locationName}`
       //);
       return 'unknown'; // Or some default/loading state
     }
-    // Reachability is now expected to be a boolean in the snapshot
-    const isReachable = snapshot.reachability[locationName] === true;
+    // Use only locationReachability for locations
+    const locationReachabilityData = snapshot.locationReachability;
+    const locationStatus = locationReachabilityData[locationName];
     const isChecked = snapshot.checkedLocations?.includes(locationName);
-    //log('info',
-    //  `[LocationUI getLocationStatus] Name: ${locationName}, Reachability: ${reachabilityStatus}, Checked: ${isChecked}`
-    //);
-    // --- END LOG --- >
+    
 
     if (isChecked) {
       return 'checked';
     }
 
-    // Interpret reachability status - CORRECTED FOR BOOLEAN
-    if (isReachable) {
+    // Handle string status values from stateManager
+    if (locationStatus === 'reachable') {
       return 'reachable';
-    } else {
-      // Assuming false means unreachable if not checked
+    } else if (locationStatus === 'unreachable') {
       return 'unreachable';
+    } else if (locationStatus === 'checked') {
+      return 'checked';
+    } else {
+      // If location is not in locationReachability, it's unknown
+      return 'unknown';
     }
     // We no longer expect string values like 'partial' or 'processing' here from the boolean snapshot
   }

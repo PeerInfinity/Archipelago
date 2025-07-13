@@ -665,11 +665,12 @@ export class ExitUI {
       const parentRegionName = exit.parentRegion;
       const connectedRegionName = exit.connectedRegion;
 
-      // Determine region reachability from snapshot
+      // Get the parent region status, prioritizing regionReachability
+      const parentRegionStatus = snapshot.regionReachability?.[parentRegionName] || snapshot.reachability?.[parentRegionName];
       const parentRegionReachable =
-        snapshot.reachability?.[parentRegionName] === true ||
-        snapshot.reachability?.[parentRegionName] === 'reachable' ||
-        snapshot.reachability?.[parentRegionName] === 'checked';
+        parentRegionStatus === true ||
+        parentRegionStatus === 'reachable' ||
+        parentRegionStatus === 'checked';
 
       // ADDED LOGGING HERE
       if (connectedRegionName) {
@@ -678,14 +679,17 @@ export class ExitUI {
         //  `[ExitUI Check] Exit: ${exit.name} (from ${
         //    parentRegionName || 'N/A'
         //  }) -> ${connectedRegionName}. Reachability[${connectedRegionName}]:`,
-        //  snapshot.reachability?.[connectedRegionName]
+        //  (snapshot.regionReachability?.[connectedRegionName])
         //);
       }
 
+      // Get the connected region status, prioritizing regionReachability
+      const connectedRegionStatus = snapshot.regionReachability?.[connectedRegionName] || snapshot.reachability?.[connectedRegionName];
       const connectedRegionReachable =
-        snapshot.reachability?.[connectedRegionName] === true ||
-        snapshot.reachability?.[connectedRegionName] === 'reachable' ||
-        snapshot.reachability?.[connectedRegionName] === 'checked';
+        connectedRegionStatus === true ||
+        connectedRegionStatus === 'reachable' ||
+        connectedRegionStatus === 'checked';
+
 
       // Evaluate access rule
       let rulePasses = true; // Default to true if no rule
@@ -735,13 +739,13 @@ export class ExitUI {
       if (sortMethod === 'accessibility') {
         // Determine status for A
         const parentAReachable =
-          snapshot.reachability?.[a.parentRegion] === true ||
-          snapshot.reachability?.[a.parentRegion] === 'reachable' ||
-          snapshot.reachability?.[a.parentRegion] === 'checked';
+          (snapshot.regionReachability?.[a.parentRegion]) === true ||
+          (snapshot.regionReachability?.[a.parentRegion]) === 'reachable' ||
+          (snapshot.regionReachability?.[a.parentRegion]) === 'checked';
         const connectedAReachable =
-          snapshot.reachability?.[a.connectedRegion] === true ||
-          snapshot.reachability?.[a.connectedRegion] === 'reachable' ||
-          snapshot.reachability?.[a.connectedRegion] === 'checked';
+          (snapshot.regionReachability?.[a.connectedRegion]) === true ||
+          (snapshot.regionReachability?.[a.connectedRegion]) === 'reachable' ||
+          (snapshot.regionReachability?.[a.connectedRegion]) === 'checked';
         let ruleAPasses = true;
         if (a.access_rule)
           try {
@@ -764,13 +768,13 @@ export class ExitUI {
 
         // Determine status for B
         const parentBReachable =
-          snapshot.reachability?.[b.parentRegion] === true ||
-          snapshot.reachability?.[b.parentRegion] === 'reachable' ||
-          snapshot.reachability?.[b.parentRegion] === 'checked';
+          (snapshot.regionReachability?.[b.parentRegion]) === true ||
+          (snapshot.regionReachability?.[b.parentRegion]) === 'reachable' ||
+          (snapshot.regionReachability?.[b.parentRegion]) === 'checked';
         const connectedBReachable =
-          snapshot.reachability?.[b.connectedRegion] === true ||
-          snapshot.reachability?.[b.connectedRegion] === 'reachable' ||
-          snapshot.reachability?.[b.connectedRegion] === 'checked';
+          (snapshot.regionReachability?.[b.connectedRegion]) === true ||
+          (snapshot.regionReachability?.[b.connectedRegion]) === 'reachable' ||
+          (snapshot.regionReachability?.[b.connectedRegion]) === 'checked';
         let ruleBPasses = true;
         if (b.access_rule)
           try {
@@ -803,11 +807,11 @@ export class ExitUI {
       } else if (sortMethod === 'accessibility_original') {
         // Determine status for A (same as 'accessibility' sort)
         const parentAReachable =
-          snapshot.reachability?.[a.parentRegion] === true ||
-          snapshot.reachability?.[a.parentRegion] === 'checked';
+          (snapshot.regionReachability?.[a.parentRegion]) === true ||
+          (snapshot.regionReachability?.[a.parentRegion]) === 'checked';
         const connectedAReachable =
-          snapshot.reachability?.[a.connectedRegion] === true ||
-          snapshot.reachability?.[a.connectedRegion] === 'checked';
+          (snapshot.regionReachability?.[a.connectedRegion]) === true ||
+          (snapshot.regionReachability?.[a.connectedRegion]) === 'checked';
         let ruleAPasses = true;
         if (a.access_rule)
           try {
@@ -829,11 +833,11 @@ export class ExitUI {
 
         // Determine status for B (same as 'accessibility' sort)
         const parentBReachable =
-          snapshot.reachability?.[b.parentRegion] === true ||
-          snapshot.reachability?.[b.parentRegion] === 'checked';
+          (snapshot.regionReachability?.[b.parentRegion]) === true ||
+          (snapshot.regionReachability?.[b.parentRegion]) === 'checked';
         const connectedBReachable =
-          snapshot.reachability?.[b.connectedRegion] === true ||
-          snapshot.reachability?.[b.connectedRegion] === 'checked';
+          (snapshot.regionReachability?.[b.connectedRegion]) === true ||
+          (snapshot.regionReachability?.[b.connectedRegion]) === 'checked';
         let ruleBPasses = true;
         if (b.access_rule)
           try {
@@ -925,14 +929,18 @@ export class ExitUI {
         const parentRegionName = exit.parentRegion;
         const connectedRegionName = exit.connectedRegion;
 
+        // Get region status using new regionReachability field with fallback
+        const parentRegionStatus = snapshot.regionReachability?.[parentRegionName] || snapshot.reachability?.[parentRegionName];
         const parentRegionReachable =
-          snapshot.reachability?.[parentRegionName] === true ||
-          snapshot.reachability?.[parentRegionName] === 'reachable' ||
-          snapshot.reachability?.[parentRegionName] === 'checked';
+          parentRegionStatus === true ||
+          parentRegionStatus === 'reachable' ||
+          parentRegionStatus === 'checked';
+          
+        const connectedRegionStatus = snapshot.regionReachability?.[connectedRegionName] || snapshot.reachability?.[connectedRegionName];
         const connectedRegionReachable =
-          snapshot.reachability?.[connectedRegionName] === true ||
-          snapshot.reachability?.[connectedRegionName] === 'reachable' ||
-          snapshot.reachability?.[connectedRegionName] === 'checked';
+          connectedRegionStatus === true ||
+          connectedRegionStatus === 'reachable' ||
+          connectedRegionStatus === 'checked';
         let rulePasses = true;
         if (exit.access_rule)
           try {
@@ -940,6 +948,21 @@ export class ExitUI {
           } catch (e) {
             rulePasses = false;
           }
+
+        // DEBUG: Log for Library exit in rendering section
+        if (exit.name === 'Library') {
+          console.log('[ExitUI DEBUG] Library exit RENDERING logic:', {
+            exitName: exit.name,
+            parentRegionName,
+            connectedRegionName,
+            parentRegionStatus,
+            parentRegionReachable,
+            connectedRegionStatus,
+            connectedRegionReachable,
+            rulePasses,
+            hasAccessRule: !!exit.access_rule
+          });
+        }
 
         let stateClass = 'unknown-exit-state'; // Default for truly unknown/edge cases
         let statusText = 'Unknown Status';

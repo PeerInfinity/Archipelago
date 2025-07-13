@@ -277,8 +277,8 @@ export class TestController {
 
       case 'IS_REGION_REACHABLE': {
         const snapshot = this.stateManager.getSnapshot();
-        if (snapshot && snapshot.reachability && actionDetails.regionName) {
-          const status = snapshot.reachability[actionDetails.regionName];
+        if (snapshot && (snapshot.regionReachability || snapshot.reachability) && actionDetails.regionName) {
+          const status = (snapshot.regionReachability?.[actionDetails.regionName] || snapshot.reachability?.[actionDetails.regionName]);
           return (
             status === 'reachable' || status === 'checked' || status === true
           );

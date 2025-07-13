@@ -1873,15 +1873,14 @@ export class TestSpoilerUI {
     // Get accessible regions from the current worker snapshot
     const stateAccessibleRegions = [];
     
-    // Use the reachability data from the worker snapshot, but filter to only actual regions
-    if (currentWorkerSnapshot.reachability && staticData.regions) {
-      for (const regionName in currentWorkerSnapshot.reachability) {
-        // Only include entries that are actually regions (not locations)
-        if (staticData.regions[regionName]) {
-          const reachabilityStatus = currentWorkerSnapshot.reachability[regionName];
-          if (reachabilityStatus === 'reachable' || reachabilityStatus === 'checked') {
-            stateAccessibleRegions.push(regionName);
-          }
+    // Use the regionReachability data from the worker snapshot (no filtering needed!)
+    const regionReachabilityData = currentWorkerSnapshot.regionReachability || currentWorkerSnapshot.reachability;
+    if (regionReachabilityData) {
+      for (const regionName in regionReachabilityData) {
+        // With regionReachability, we know all entries are regions, no filtering needed
+        const reachabilityStatus = regionReachabilityData[regionName];
+        if (reachabilityStatus === 'reachable' || reachabilityStatus === 'checked') {
+          stateAccessibleRegions.push(regionName);
         }
       }
     }

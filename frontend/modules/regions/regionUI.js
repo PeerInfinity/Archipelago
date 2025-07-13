@@ -815,9 +815,9 @@ export class RegionUI {
           this.showAllExpansionState.get(name) || // Use separate tracking for "Show All" mode
           false,
         isReachable:
-          snapshot.reachability?.[name] === true ||
-          snapshot.reachability?.[name] === 'reachable' ||
-          snapshot.reachability?.[name] === 'checked',
+          (snapshot.regionReachability?.[name] || snapshot.reachability?.[name]) === true ||
+          (snapshot.regionReachability?.[name] || snapshot.reachability?.[name]) === 'reachable' ||
+          (snapshot.regionReachability?.[name] || snapshot.reachability?.[name]) === 'checked',
       }));
     } else {
       regionsToRender = this.visitedRegions.map((vr) => ({
@@ -826,9 +826,9 @@ export class RegionUI {
         uid: vr.uid,
         expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
         isReachable:
-          snapshot.reachability?.[vr.name] === true ||
-          snapshot.reachability?.[vr.name] === 'reachable' ||
-          snapshot.reachability?.[vr.name] === 'checked',
+          (snapshot.regionReachability?.[vr.name] || snapshot.reachability?.[vr.name]) === true ||
+          (snapshot.regionReachability?.[vr.name] || snapshot.reachability?.[vr.name]) === 'reachable' ||
+          (snapshot.regionReachability?.[vr.name] || snapshot.reachability?.[vr.name]) === 'checked',
       }));
       // log('info', '[RegionUI] "Show All" is OFF. Initial regionsToRender from visitedRegions:', JSON.parse(JSON.stringify(regionsToRender)));
       if (regionsToRender.length === 0) {
@@ -843,9 +843,9 @@ export class RegionUI {
             uid: vr.uid,
             expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
             isReachable:
-              snapshot.reachability?.[vr.name] === true ||
-              snapshot.reachability?.[vr.name] === 'reachable' ||
-              snapshot.reachability?.[vr.name] === 'checked',
+              (snapshot.regionReachability?.[vr.name] || snapshot.reachability?.[vr.name]) === true ||
+              (snapshot.regionReachability?.[vr.name] || snapshot.reachability?.[vr.name]) === 'reachable' ||
+              (snapshot.regionReachability?.[vr.name] || snapshot.reachability?.[vr.name]) === 'checked',
           }));
         } else {
           log(
@@ -1345,9 +1345,9 @@ export class RegionUI {
         // Also need to consider connected region reachability from snapshot
         const connectedRegionName = exitDef.connected_region;
         const connectedRegionReachable =
-          snapshot.reachability?.[connectedRegionName] === true ||
-          snapshot.reachability?.[connectedRegionName] === 'reachable' ||
-          snapshot.reachability?.[connectedRegionName] === 'checked';
+          (snapshot.regionReachability?.[connectedRegionName] || snapshot.reachability?.[connectedRegionName]) === true ||
+          (snapshot.regionReachability?.[connectedRegionName] || snapshot.reachability?.[connectedRegionName]) === 'reachable' ||
+          (snapshot.regionReachability?.[connectedRegionName] || snapshot.reachability?.[connectedRegionName]) === 'checked';
         const isTraversable =
           regionIsReachable && exitAccessible && connectedRegionReachable;
 

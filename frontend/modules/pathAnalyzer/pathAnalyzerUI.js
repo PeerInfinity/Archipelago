@@ -488,8 +488,8 @@ export class PathAnalyzerUI {
 
     // Check actual reachability using stateManager
     let isRegionActuallyReachable = false;
-    if (snapshot && snapshot.reachability) {
-      const status = snapshot.reachability[regionName];
+    if (snapshot && (snapshot.regionReachability || snapshot.reachability)) {
+      const status = (snapshot.regionReachability?.[regionName] || snapshot.reachability?.[regionName]);
       isRegionActuallyReachable =
         status === true || status === 'reachable' || status === 'checked';
     }
@@ -862,10 +862,10 @@ export class PathAnalyzerUI {
     path.forEach((region, index) => {
       // Check region's general accessibility from snapshot
       const regionAccessible =
-        snapshot.reachability &&
-        (snapshot.reachability[region] === true ||
-          snapshot.reachability[region] === 'reachable' ||
-          snapshot.reachability[region] === 'checked');
+        (snapshot.regionReachability || snapshot.reachability) &&
+        ((snapshot.regionReachability?.[region] || snapshot.reachability?.[region]) === true ||
+          (snapshot.regionReachability?.[region] || snapshot.reachability?.[region]) === 'reachable' ||
+          (snapshot.regionReachability?.[region] || snapshot.reachability?.[region]) === 'checked');
 
       // Determine color based on accessibility and path integrity
       let regionColor;

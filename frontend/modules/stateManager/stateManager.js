@@ -2865,14 +2865,14 @@ export class StateManager {
       );
     }
 
-    // 2. Reachability
-    const finalReachability = {};
+    // 2. Region Reachability
+    const regionReachability = {};
     if (this.regions) {
       for (const regionName in this.regions) {
         if (this.knownReachableRegions.has(regionName)) {
-          finalReachability[regionName] = 'reachable';
+          regionReachability[regionName] = 'reachable';
         } else {
-          finalReachability[regionName] = this.knownUnreachableRegions.has(
+          regionReachability[regionName] = this.knownUnreachableRegions.has(
             regionName
           )
             ? 'unreachable'
@@ -2880,20 +2880,23 @@ export class StateManager {
         }
       }
     }
+
+    // 3. Location Reachability
+    const locationReachability = {};
     if (this.locations) {
       this.locations.forEach((loc) => {
         if (this.isLocationChecked(loc.name)) {
-          finalReachability[loc.name] = 'checked';
+          locationReachability[loc.name] = 'checked';
         } else if (!this._inHelperExecution && this.isLocationAccessible(loc)) {
           // Skip location accessibility check during helper execution to prevent recursion
-          finalReachability[loc.name] = 'reachable';
+          locationReachability[loc.name] = 'reachable';
         } else {
-          finalReachability[loc.name] = 'unreachable';
+          locationReachability[loc.name] = 'unreachable';
         }
       });
     }
 
-    // 3. LocationItems
+    // 4. LocationItems
     const locationItemsMap = {};
     if (this.locations) {
       this.locations.forEach((loc) => {
@@ -2914,7 +2917,7 @@ export class StateManager {
       });
     }
 
-    // 4. Convert eventLocations Map to plain object
+    // 5. Convert eventLocations Map to plain object
     const eventLocationsObject = {};
     if (this.eventLocations && this.eventLocations instanceof Map) {
       for (const [
@@ -2925,7 +2928,7 @@ export class StateManager {
       }
     }
 
-    // 5. Assemble Snapshot
+    // 6. Assemble Snapshot
     // REFACTOR: Duplication removed - using single source of truth for all fields
     const snapshot = {
       inventory: inventorySnapshot,
@@ -2933,8 +2936,11 @@ export class StateManager {
       // All games now use gameStateModule flags
       flags: this.gameStateModule?.flags || [],
       checkedLocations: Array.from(this.checkedLocations || []),
-      // REFACTOR: Removed 'state' object to eliminate duplication
-      reachability: finalReachability,
+      // REFACTOR: Separated region and location reachability to prevent name conflicts
+      regionReachability: regionReachability,
+      locationReachability: locationReachability,
+      // DEPRECATED: Keep legacy reachability for backward compatibility during transition
+      reachability: { ...regionReachability, ...locationReachability },
       locationItems: locationItemsMap,
       // serverProvidedUncheckedLocations: Array.from(this.serverProvidedUncheckedLocations || []), // Optionally expose if UI needs it directly
       player: {
@@ -2975,6 +2981,8 @@ export class StateManager {
           checkedLocationsCount: snapshot.checkedLocations.length,
           eventsCount: snapshot.events.length,
           eventLocationsCount: Object.keys(snapshot.eventLocations).length,
+          regionReachabilityCount: Object.keys(snapshot.regionReachability).length,
+          locationReachabilityCount: Object.keys(snapshot.locationReachability).length,
         }
       );
     }

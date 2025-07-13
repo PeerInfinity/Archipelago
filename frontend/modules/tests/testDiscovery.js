@@ -29,6 +29,9 @@ const TEST_CASE_FILES = [
   './testCases/testCasesPanelTests.js',
   './testCases/testPlaythroughPanelTests.js',
   './testCases/testSpoilersPanelTests.js',
+  './testCases/locationPanelTests.js',
+  './testCases/exitPanelTests.js',
+  './testCases/regionPanelTests.js',
 ];
 
 let discoveryComplete = false;

@@ -256,7 +256,7 @@ export function can_buy_unlimited(state, world, itemName, staticData) {
   
   // ALTTP-specific fallback for potions - basic implementation
   if (itemName === 'Green Potion' || itemName === 'Blue Potion') {
-    const potionShopReachable = state.reachability && state.reachability['Potion Shop'];
+    const potionShopReachable = (state.regionReachability && state.regionReachability['Potion Shop']) || (state.reachability && state.reachability['Potion Shop']);
     return potionShopReachable === 'reachable';
   }
   
@@ -728,8 +728,8 @@ export function can_reach_region(state, world, itemName, staticData) {
   // Check if a specific region is reachable
   const regionName = itemName;
   
-  if (!state.reachability) return false;
-  return state.reachability[regionName] === 'reachable';
+  if (!state.regionReachability && !state.reachability) return false;
+  return (state.regionReachability?.[regionName] || state.reachability?.[regionName]) === 'reachable';
 }
 
 export function can_get_bottle(state, world, itemName, staticData) {
