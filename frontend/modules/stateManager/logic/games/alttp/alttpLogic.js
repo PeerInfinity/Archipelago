@@ -437,12 +437,12 @@ export function can_complete_gt_climb(state, world, itemName, staticData) {
 // Medallion helpers
 
 export function has_misery_mire_medallion(state, world, itemName, staticData) {
-  const medallion = state.settings?.mm_medallion || 'Ether';
+  const medallion = state.settings?.misery_mire_medallion || 'Ether';
   return has(state, medallion, staticData);
 }
 
 export function has_turtle_rock_medallion(state, world, itemName, staticData) {
-  const medallion = state.settings?.tr_medallion || 'Quake';
+  const medallion = state.settings?.turtle_rock_medallion || 'Quake';
   return has(state, medallion, staticData);
 }
 

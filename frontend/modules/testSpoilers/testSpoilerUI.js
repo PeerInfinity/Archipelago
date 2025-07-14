@@ -2509,7 +2509,7 @@ export class TestSpoilerUI {
 
         for (const exitName in sourceRegionDef.exits) {
           const exitDef = sourceRegionDef.exits[exitName];
-          if (exitDef.target === targetRegionName) {
+          if (exitDef.connected_region === targetRegionName) {
             exitsToTarget.push({
               exitName,
               sourceRegion: sourceRegionName,
@@ -2520,8 +2520,46 @@ export class TestSpoilerUI {
       }
 
       if (exitsToTarget.length === 0) {
-        this.log('warn', `    No exits found from accessible regions to ${targetRegionName}`);
-        this.log('info', `    This region might be starting region or have exits from inaccessible regions`);
+        this.log('warn', `    No exits found from currently accessible regions to ${targetRegionName}`);
+        this.log('info', `    Note: Only checking exits from accessible regions (${accessibleRegions.length} regions)`);
+        
+        // Check for exits from inaccessible regions to provide more helpful information
+        const exitsFromInaccessibleRegions = [];
+        const allRegions = Object.keys(staticData.regions || {});
+        const inaccessibleRegions = allRegions.filter(region => !accessibleRegions.includes(region));
+        
+        for (const sourceRegionName of inaccessibleRegions) {
+          const sourceRegionDef = staticData.regions[sourceRegionName];
+          if (!sourceRegionDef || !sourceRegionDef.exits) continue;
+
+          for (const exitName in sourceRegionDef.exits) {
+            const exitDef = sourceRegionDef.exits[exitName];
+            if (exitDef.connected_region === targetRegionName) {
+              exitsFromInaccessibleRegions.push({
+                exitName,
+                sourceRegion: sourceRegionName,
+                exitDef,
+                sourceStatus: currentWorkerSnapshot.regionReachability?.[sourceRegionName] || 'unreachable'
+              });
+            }
+          }
+        }
+        
+        if (exitsFromInaccessibleRegions.length > 0) {
+          this.log('info', `    Found ${exitsFromInaccessibleRegions.length} exit(s) from inaccessible regions:`);
+          for (const exitInfo of exitsFromInaccessibleRegions) {
+            this.log('info', `      Exit: ${exitInfo.exitName} (from ${exitInfo.sourceRegion} - status: ${exitInfo.sourceStatus})`);
+            this.log('info', `        Exit definition: ${JSON.stringify(exitInfo.exitDef)}`);
+            
+            // Analyze why the source region is inaccessible
+            if (exitInfo.sourceStatus === 'unreachable' || !exitInfo.sourceStatus) {
+              this.log('info', `        → Source region "${exitInfo.sourceRegion}" is not accessible, blocking this exit`);
+            }
+          }
+        } else {
+          this.log('info', `    No exits found from any region to ${targetRegionName}`);
+          this.log('info', `    This might be a starting region or there could be a data issue`);
+        }
       } else {
         this.log('info', `    Found ${exitsToTarget.length} exit(s) from accessible regions:`);
         
@@ -2695,6 +2733,82 @@ export class TestSpoilerUI {
             // Check if helper function exists
             if (snapshotInterface[helperName]) {
               this.log('info', `${indent}  Helper function "${helperName}" found in snapshotInterface`);
+              
+              // Add specific analysis for commonly problematic helper functions
+              if (result === false) {
+                this.log('info', `${indent}  Helper function returned false - analyzing why:`);
+                
+                // Special analysis for medallion helpers
+                if (helperName.includes('medallion')) {
+                  this.log('info', `${indent}    This is a medallion requirement helper`);
+                  this.log('info', `${indent}    Check if player has the required medallion item`);
+                  
+                  // Show game settings for medallion assignments
+                  if (snapshotInterface.getSetting) {
+                    const mmMedallion = snapshotInterface.getSetting('misery_mire_medallion');
+                    const trMedallion = snapshotInterface.getSetting('turtle_rock_medallion');
+                    this.log('info', `${indent}    Game settings: misery_mire_medallion=${mmMedallion}, turtle_rock_medallion=${trMedallion}`);
+                  } else if (snapshotInterface.settings) {
+                    this.log('info', `${indent}    Settings object available: ${JSON.stringify(snapshotInterface.settings)}`);
+                  } else {
+                    this.log('info', `${indent}    No settings interface available for medallion lookup`);
+                  }
+                  
+                  // Try to determine which medallion is required for this specific helper
+                  if (helperName === 'has_misery_mire_medallion') {
+                    const mmMedallion = snapshotInterface.getSetting ? snapshotInterface.getSetting('misery_mire_medallion') : null;
+                    const requiredMedallion = mmMedallion || 'Ether'; // Default to Ether like the helper function
+                    this.log('info', `${indent}    Misery Mire requires: ${requiredMedallion} (from setting: ${mmMedallion})`);
+                    
+                    const hasRequired = snapshotInterface.hasItem ? snapshotInterface.hasItem(requiredMedallion) : false;
+                    const countRequired = snapshotInterface.countItem ? snapshotInterface.countItem(requiredMedallion) : 0;
+                    this.log('info', `${indent}    Required medallion ${requiredMedallion}: ${hasRequired} (count: ${countRequired})`);
+                  }
+                  
+                  // Show all medallions for context
+                  const medallionItems = ['Ether', 'Bombos', 'Quake'];
+                  this.log('info', `${indent}    All medallions in inventory:`);
+                  for (const medallion of medallionItems) {
+                    const hasThis = snapshotInterface.hasItem ? snapshotInterface.hasItem(medallion) : false;
+                    const count = snapshotInterface.countItem ? snapshotInterface.countItem(medallion) : 0;
+                    this.log('info', `${indent}      ${medallion}: ${hasThis} (count: ${count})`);
+                  }
+                }
+                
+                // Special analysis for weapon/sword helpers
+                if (helperName.includes('sword') || helperName === 'has_sword') {
+                  this.log('info', `${indent}    This is a sword/weapon requirement helper`);
+                  const swordItems = ['Fighter Sword', 'Master Sword', 'Tempered Sword', 'Golden Sword'];
+                  for (const sword of swordItems) {
+                    const hasThis = snapshotInterface.hasItem ? snapshotInterface.hasItem(sword) : false;
+                    const count = snapshotInterface.countItem ? snapshotInterface.countItem(sword) : 0;
+                    this.log('info', `${indent}      ${sword}: ${hasThis} (count: ${count})`);
+                  }
+                }
+                
+                // Special analysis for item requirement helpers
+                if (helperName.includes('has_') && !helperName.includes('medallion') && !helperName.includes('sword')) {
+                  const itemName = helperName.replace('has_', '').replace(/_/g, ' ');
+                  this.log('info', `${indent}    This appears to be an item requirement helper`);
+                  this.log('info', `${indent}    Possible required item: "${itemName}"`);
+                  
+                  // Try variations of the item name
+                  const itemVariations = [
+                    itemName,
+                    itemName.charAt(0).toUpperCase() + itemName.slice(1),
+                    itemName.replace(/ /g, '_'),
+                    itemName.replace(/ /g, '')
+                  ];
+                  
+                  for (const variation of itemVariations) {
+                    const hasThis = snapshotInterface.hasItem ? snapshotInterface.hasItem(variation) : false;
+                    const count = snapshotInterface.countItem ? snapshotInterface.countItem(variation) : 0;
+                    if (hasThis || count > 0) {
+                      this.log('info', `${indent}      Found item "${variation}": ${hasThis} (count: ${count})`);
+                    }
+                  }
+                }
+              }
             } else {
               this.log('error', `${indent}  Helper function "${helperName}" NOT FOUND in snapshotInterface`);
               this.log('info', `${indent}  Available helper functions: ${Object.keys(snapshotInterface).filter(k => typeof snapshotInterface[k] === 'function').join(', ')}`);
@@ -2703,6 +2817,7 @@ export class TestSpoilerUI {
             this.log('error', `${indent}HELPER evaluation error: ${helperError.message}`);
             this.log('info', `${indent}  Helper name: ${helperName}`);
             this.log('info', `${indent}  Raw args: ${JSON.stringify(rule.args)}`);
+            this.log('info', `${indent}  Error stack: ${helperError.stack}`);
           }
           break;
           
