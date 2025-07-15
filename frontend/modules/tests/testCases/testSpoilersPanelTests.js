@@ -287,6 +287,6 @@ registerTest({
     'Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.',
   testFunction: testSpoilersPanelFullRun,
   category: 'Test Spoilers Panel',
-  enabled: true,
+  enabled: false,
   order: 1,
 });

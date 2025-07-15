@@ -19,10 +19,10 @@ function log(level, message, ...data) {
 // };
 
 // Store module-level references
-// let moduleEventBus = null; // Removed unused variable
 export let moduleDispatcher = null; // Export the dispatcher
 let moduleId = 'regions'; // Store module ID
 let moduleUnsubscribeHandles = [];
+let regionUIInstance = null; // Store reference to the UI instance
 
 /**
  * Registration function for the Regions module.
@@ -31,10 +31,16 @@ let moduleUnsubscribeHandles = [];
 export function register(registrationApi) {
   log('info', `[${moduleId} Module] Registering...`);
 
-  // Register the panel component CLASS directly
+  // Create a wrapper to capture the UI instance
+  function RegionUIWrapper(container, componentState) {
+    regionUIInstance = new RegionUI(container, componentState);
+    return regionUIInstance;
+  }
+
+  // Register the panel component wrapper
   registrationApi.registerPanelComponent(
     'regionsPanel',
-    RegionUI // Pass the class constructor itself
+    RegionUIWrapper
   );
 
   // Register EventBus subscriber intentions
@@ -66,9 +72,49 @@ export function register(registrationApi) {
     'bottom',
     'first'
   );
+  
+  registrationApi.registerDispatcherSender(
+    moduleId,
+    'user:regionMove',
+    'bottom',
+    'first'
+  );
+
+  // Register dispatcher receiver for user:regionMove events
+  registrationApi.registerDispatcherReceiver(
+    moduleId,
+    'user:regionMove',
+    handleRegionMove,
+    { direction: 'up', condition: 'unconditional', timing: 'immediate' }
+  );
 
   // Register settings schema if needed
   // registrationApi.registerSettingsSchema(moduleId, { /* ... schema ... */ });
+}
+
+// Handler for user:regionMove events
+function handleRegionMove(data, propagationOptions) {
+  log('info', `[${moduleId} Module] Received user:regionMove event`, data);
+  
+  // Handle the region move by calling moveToRegion on the UI instance
+  if (data && data.sourceRegion && data.targetRegion && regionUIInstance) {
+    log('info', `[${moduleId} Module] Processing region move from ${data.sourceRegion} to ${data.targetRegion}`);
+    regionUIInstance.moveToRegion(data.sourceRegion, data.targetRegion);
+  } else if (!regionUIInstance) {
+    log('warn', `[${moduleId} Module] Cannot process region move - UI instance not available`);
+  }
+  
+  // Propagate the event to the next module (up direction)
+  if (moduleDispatcher) {
+    moduleDispatcher.publishToNextModule(
+      moduleId,
+      'user:regionMove',
+      data,
+      { direction: 'up' }
+    );
+  } else {
+    log('error', `[${moduleId} Module] Dispatcher not available for propagation of user:regionMove event`);
+  }
 }
 
 /**
@@ -82,7 +128,6 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     `[${moduleId} Module] Initializing with priority ${priorityIndex}...`
   );
 
-  // moduleEventBus = initializationApi.getEventBus(); // Removed unused assignment
   // Assign the dispatcher to the exported variable
   moduleDispatcher = initializationApi.getDispatcher();
 

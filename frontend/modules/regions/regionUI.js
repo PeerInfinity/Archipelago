@@ -48,6 +48,8 @@ export class RegionUI {
 
     // If set to true, we'll show **all** regions, ignoring the visited chain
     this.showAll = false;
+    // If set to true, we'll show the full visited path. If false, only show last region
+    this.showPaths = true;
     this.isInitialized = false; // Add flag
     this.colorblindSettings = {}; // Add colorblind settings cache
     this.navigationTarget = null; // Add navigation target state
@@ -289,6 +291,18 @@ export class RegionUI {
     });
     // --- END ADDED ---
 
+    // Subscribe to playerState region changes
+    const handlePlayerStateRegionChanged = (eventPayload) => {
+      if (eventPayload && eventPayload.oldRegion && eventPayload.newRegion) {
+        log(
+          'info',
+          `[RegionUI] Received playerState:regionChanged from ${eventPayload.oldRegion} to ${eventPayload.newRegion}. Calling moveToRegion.`
+        );
+        this.moveToRegion(eventPayload.oldRegion, eventPayload.newRegion);
+      }
+    };
+    subscribe('playerState:regionChanged', handlePlayerStateRegionChanged);
+
     // Subscribe to region navigation requests
     const handleNavigateToRegion = (eventPayload) => {
       if (eventPayload && eventPayload.regionName) {
@@ -307,6 +321,24 @@ export class RegionUI {
     };
     subscribe('ui:navigateToRegion', handleNavigateToRegion);
     log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToRegion'); // DEBUG LOG
+
+    // Subscribe to user:regionMove events
+    const handleRegionMove = (eventPayload) => {
+      if (eventPayload && eventPayload.sourceRegion && eventPayload.targetRegion) {
+        log(
+          'info',
+          `[RegionUI] Received user:regionMove from ${eventPayload.sourceRegion} to ${eventPayload.targetRegion}`
+        );
+        this.moveToRegion(eventPayload.sourceRegion, eventPayload.targetRegion);
+      } else {
+        log(
+          'warn',
+          '[RegionUI] Received user:regionMove with missing data.',
+          eventPayload
+        );
+      }
+    };
+    subscribe('user:regionMove', handleRegionMove);
 
     log('info', '[RegionUI] Event subscriptions complete.');
   }
@@ -352,6 +384,10 @@ export class RegionUI {
         <label style="margin-right: 10px;">
           <input type="checkbox" id="show-all-regions" />
           Show All Regions
+        </label>
+        <label style="margin-right: 10px;">
+          <input type="checkbox" id="show-paths" checked />
+          Show Paths
         </label>
         <button id="expand-collapse-all">Expand All</button>
       </div>
@@ -433,6 +469,15 @@ export class RegionUI {
           }
         }
         
+        this.renderAllRegions();
+      });
+    }
+
+    // Show Paths checkbox
+    const showPathsCheckbox = this.rootElement.querySelector('#show-paths');
+    if (showPathsCheckbox) {
+      showPathsCheckbox.addEventListener('change', (e) => {
+        this.showPaths = e.target.checked;
         this.renderAllRegions();
       });
     }
@@ -820,16 +865,37 @@ export class RegionUI {
           snapshot.regionReachability?.[name] === 'checked',
       }));
     } else {
-      regionsToRender = this.visitedRegions.map((vr) => ({
-        name: vr.name,
-        isVisited: true,
-        uid: vr.uid,
-        expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
-        isReachable:
-          snapshot.regionReachability?.[vr.name] === true ||
-          snapshot.regionReachability?.[vr.name] === 'reachable' ||
-          snapshot.regionReachability?.[vr.name] === 'checked',
-      }));
+      // When showAll is false, check showPaths to determine what to render
+      if (this.showPaths) {
+        // Show full path
+        regionsToRender = this.visitedRegions.map((vr) => ({
+          name: vr.name,
+          isVisited: true,
+          uid: vr.uid,
+          expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
+          isReachable:
+            snapshot.regionReachability?.[vr.name] === true ||
+            snapshot.regionReachability?.[vr.name] === 'reachable' ||
+            snapshot.regionReachability?.[vr.name] === 'checked',
+        }));
+      } else {
+        // Show only last region, always expanded
+        if (this.visitedRegions.length > 0) {
+          const lastRegion = this.visitedRegions[this.visitedRegions.length - 1];
+          regionsToRender = [{
+            name: lastRegion.name,
+            isVisited: true,
+            uid: lastRegion.uid,
+            expanded: true, // Always expanded when showing only last region
+            isReachable:
+              snapshot.regionReachability?.[lastRegion.name] === true ||
+              snapshot.regionReachability?.[lastRegion.name] === 'reachable' ||
+              snapshot.regionReachability?.[lastRegion.name] === 'checked',
+          }];
+        } else {
+          regionsToRender = [];
+        }
+      }
       // log('info', '[RegionUI] "Show All" is OFF. Initial regionsToRender from visitedRegions:', JSON.parse(JSON.stringify(regionsToRender)));
       if (regionsToRender.length === 0) {
         // log('info', "[RegionUI] Show All is off and visited list is empty, attempting to show start region 'Menu'...");
@@ -935,7 +1001,8 @@ export class RegionUI {
         isReachable,
         useColorblind,
         regionInfo.uid,
-        regionInfo.expanded
+        regionInfo.expanded,
+        staticData
       );
       if (!regionBlock) {
         if (regionName === 'Menu') {
@@ -1150,7 +1217,8 @@ export class RegionUI {
     regionIsReachable,
     useColorblind,
     currentUid, // Added: Pass UID for consistency
-    currentExpandedState // Added: Pass expanded state for consistency
+    currentExpandedState, // Added: Pass expanded state for consistency
+    staticData // Added: Pass staticData for entrance lookup
   ) {
     // Determine if the region is currently expanded based on visitedRegions or passed state
     // const visitedEntry = this.visitedRegions.find(
@@ -1320,7 +1388,98 @@ export class RegionUI {
       contentEl.appendChild(rrContainer);
     }
 
+    // Entrances List (before exits)
+    const entrancesList = document.createElement('ul');
+    entrancesList.classList.add('region-entrances-list');
+    
+    // Find all entrances to this region by checking all regions' exits
+    const entrances = [];
+    for (const [sourceRegionName, sourceRegionData] of Object.entries(staticData.regions)) {
+      if (sourceRegionData.exits) {
+        for (const exit of sourceRegionData.exits) {
+          if (exit.connected_region === regionName) {
+            entrances.push({
+              sourceRegion: sourceRegionName,
+              exitName: exit.name,
+              accessRule: exit.access_rule
+            });
+          }
+        }
+      }
+    }
+    
+    if (entrances.length > 0) {
+      const entrancesHeader = document.createElement('h4');
+      entrancesHeader.textContent = 'Entrances:';
+      contentEl.appendChild(entrancesHeader);
+      
+      entrances.forEach((entrance) => {
+        const li = document.createElement('li');
+        
+        // Create clickable region link
+        const regionLink = commonUI.createRegionLink(
+          entrance.sourceRegion,
+          useColorblind,
+          snapshot
+        );
+        li.appendChild(regionLink);
+        
+        li.appendChild(document.createTextNode(` - ${entrance.exitName}`));
+        
+        // Evaluate entrance accessibility
+        let entranceAccessible = true;
+        if (entrance.accessRule) {
+          try {
+            entranceAccessible = evaluateRule(
+              entrance.accessRule,
+              snapshotInterface
+            );
+          } catch (e) {
+            log(
+              'error',
+              `[RegionUI] Error evaluating entrance rule for ${entrance.exitName} from ${entrance.sourceRegion}:`,
+              e
+            );
+            entranceAccessible = false;
+          }
+        }
+        
+        // Check if source region is reachable
+        const sourceRegionReachable =
+          snapshot.regionReachability?.[entrance.sourceRegion] === true ||
+          snapshot.regionReachability?.[entrance.sourceRegion] === 'reachable' ||
+          snapshot.regionReachability?.[entrance.sourceRegion] === 'checked';
+          
+        const isTraversable = sourceRegionReachable && entranceAccessible;
+        
+        // Apply classes based on accessibility
+        li.classList.toggle('accessible', isTraversable);
+        li.classList.toggle('inaccessible', !isTraversable);
+        
+        // Render logic tree for the entrance rule if present
+        if (entrance.accessRule) {
+          const logicTreeElement = renderLogicTree(
+            entrance.accessRule,
+            useColorblind,
+            snapshotInterface
+          );
+          const ruleDiv = document.createElement('div');
+          ruleDiv.style.marginLeft = '1rem';
+          ruleDiv.innerHTML = `Rule: ${logicTreeElement.outerHTML}`;
+          li.appendChild(ruleDiv);
+        }
+        
+        entrancesList.appendChild(li);
+      });
+      
+      contentEl.appendChild(entrancesList);
+    }
+
     // Exits List
+    const exitsHeader = document.createElement('h4');
+    exitsHeader.textContent = 'Exits:';
+    contentEl.appendChild(exitsHeader);
+    
     const exitsList = document.createElement('ul');
     exitsList.classList.add('region-exits-list');
     if (regionStaticData.exits && regionStaticData.exits.length > 0) {
@@ -1387,7 +1546,18 @@ export class RegionUI {
 
         moveBtn.addEventListener('click', () => {
           if (!moveBtn.disabled) {
-            this.moveToRegion(regionName, connectedRegionName);
+            // Publish user:regionMove event to bottom direction (same as user:locationCheck)
+            log('info', `[RegionUI] Move button clicked - moduleDispatcher available: ${!!moduleDispatcher}`);
+            if (moduleDispatcher) {
+              log('info', `[RegionUI] Publishing user:regionMove event for ${regionName} -> ${connectedRegionName}`);
+              moduleDispatcher.publish('user:regionMove', {
+                sourceRegion: regionName,
+                targetRegion: connectedRegionName,
+                exitName: exitDef.name
+              }, 'bottom');
+            } else {
+              log('warn', '[RegionUI] moduleDispatcher not available for publishing user:regionMove');
+            }
           }
         });
         li.appendChild(moveBtn);
