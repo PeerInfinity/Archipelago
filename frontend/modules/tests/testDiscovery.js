@@ -32,6 +32,7 @@ const TEST_CASE_FILES = [
   './testCases/locationPanelTests.js',
   './testCases/exitPanelTests.js',
   './testCases/regionPanelTests.js',
+  './testCases/eventsPanelTests.js',
 ];
 
 let discoveryComplete = false;

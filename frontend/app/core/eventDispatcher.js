@@ -93,8 +93,16 @@ class EventDispatcher {
 
     // Filter for enabled modules and sort by priority
     const eligibleHandlers = potentialHandlers
-      .filter((entry) => this.isModuleEnabled(entry.moduleId)) // Use checker function
-      .filter((entry) => entry.enabled !== false) // Also check if the specific handler registration is enabled (default true)
+      .filter((entry) => {
+        const moduleEnabled = this.isModuleEnabled(entry.moduleId);
+        log('debug', `[EventDispatcher] Checking module enabled for ${entry.moduleId}: ${moduleEnabled}`);
+        return moduleEnabled;
+      }) // Use checker function
+      .filter((entry) => {
+        const handlerEnabled = entry.enabled !== false;
+        log('debug', `[EventDispatcher] Checking handler enabled for ${entry.moduleId}: ${handlerEnabled} (entry.enabled=${entry.enabled})`);
+        return handlerEnabled;
+      }) // Also check if the specific handler registration is enabled (default true)
       .sort((a, b) => {
         const priorityA = this._getPriorityIndex(a.moduleId); // Get current priority
         const priorityB = this._getPriorityIndex(b.moduleId);
@@ -178,6 +186,9 @@ class EventDispatcher {
           entry.enabled === false ||
           entryPriority === -1
         ) {
+          if (entry.enabled === false) {
+            log('info', `[EventDispatcher] Skipping disabled handler in propagation: ${entry.moduleId} for event ${eventName}`);
+          }
           return false;
         }
         // If up, we want modules with lower priority index (loaded before)

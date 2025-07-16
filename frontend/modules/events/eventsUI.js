@@ -65,7 +65,7 @@ const CSS = `
   margin-right: 10px;
 }
 .symbols-column {
-  flex-basis: 30px; /* Fixed width for symbol columns */
+  flex-basis: 50px; /* Increased width to accommodate symbols and checkboxes */
   text-align: center;
   font-family: monospace; /* Monospace often aligns symbols well */
   color: #abb2bf; /* Default light symbol color */
@@ -504,6 +504,7 @@ class EventsUI {
           const sendersForEvent = sendersMap.get(eventName) || [];
           const handlersForEvent = handlersMap.get(eventName) || [];
 
+
           const allModuleIdsInvolved = new Set();
           sendersForEvent.forEach((s) => allModuleIdsInvolved.add(s.moduleId));
           handlersForEvent.forEach((h) => allModuleIdsInvolved.add(h.moduleId));
@@ -525,14 +526,13 @@ class EventsUI {
 
             const isTopSender =
               senderInfo &&
-              senderInfo.direction &&
-              senderInfo.direction.initialTarget === 'top';
+              senderInfo.direction === 'top';
             const isBottomSender =
               senderInfo &&
-              senderInfo.direction &&
-              senderInfo.direction.initialTarget === 'bottom';
+              senderInfo.direction === 'bottom';
             const isGenericSender =
               senderInfo && !isTopSender && !isBottomSender;
+            
 
             if (isTopSender) {
               topSenders.push({
@@ -560,39 +560,14 @@ class EventsUI {
               });
             }
             // Add to middleEntries if it's a generic sender OR a handler
-            if (isGenericSender) {
+            // Create a single entry that can represent both roles
+            if (isGenericSender || handlerInfo) {
               middleEntries.push({
                 moduleId,
-                isGenericSender: true,
-                senderInfo,
-                isHandler: !!handlerInfo, // Can be generic sender AND handler
-                handlerInfo,
-                originalPriority,
-                isTopSender: false,
-                isBottomSender: false,
-              });
-            }
-            // If it's a handler AND NOT already added as a generic sender (to avoid double entry if it's only a handler)
-            // Or, more simply, if it's a handler and we want to ensure it has its own entry focused on its handler role
-            // if (handlerInfo && !isGenericSender) { // This condition prevents double-listing if it's both
-            if (handlerInfo) {
-              // This allows a module to be listed for its generic send role AND its handler role separately in middle
-              // If a module is ONLY a handler (not a generic sender), it will be added here.
-              // If a module IS a generic sender, it was added above. If it is ALSO a handler, this adds a second entry for the handler role.
-              // To avoid this, we might need a flag if an entry was made for the moduleID in middle already.
-              // For now, let's stick to the refined plan: one entry in middle if generic sender, one if handler.
-              // This means if module is GenericSender AND Handler, it appears twice in middle with different primary roles.
-              // This is actually desirable to show both icons/contexts clearly.
-
-              // Check if an entry for this moduleId as a generic sender already exists in middleEntries.
-              // If it is a generic sender AND a handler, we've already added it for its sender role.
-              // We should add it again FOR ITS HANDLER ROLE, so it can show handler symbols.
-              middleEntries.push({
-                moduleId,
-                isHandler: true,
-                handlerInfo,
-                isGenericSender: isGenericSender, // It might still be a generic sender
+                isGenericSender: isGenericSender,
                 senderInfo: isGenericSender ? senderInfo : null,
+                isHandler: !!handlerInfo,
+                handlerInfo,
                 originalPriority,
                 isTopSender: false,
                 isBottomSender: false,
@@ -711,28 +686,28 @@ class EventsUI {
         let success = false;
         switch (type) {
           case 'eventBusPublisher':
-            success = window.moduleManagerApi.setEventBusPublisherEnabled(
+            success = centralRegistry.setEventBusPublisherEnabled(
               eventName,
               moduleId,
               newState
             );
             break;
           case 'eventBusSubscriber':
-            success = window.moduleManagerApi.setEventBusSubscriberEnabled(
+            success = centralRegistry.setEventBusSubscriberIntentEnabled(
               eventName,
               moduleId,
               newState
             );
             break;
           case 'dispatcherSender':
-            success = window.moduleManagerApi.setDispatcherSenderEnabled(
+            success = centralRegistry.setDispatcherSenderEnabled(
               eventName,
               moduleId,
               newState
             );
             break;
           case 'dispatcherHandler':
-            success = window.moduleManagerApi.setDispatcherHandlerEnabled(
+            success = centralRegistry.setDispatcherHandlerEnabled(
               eventName,
               moduleId,
               newState

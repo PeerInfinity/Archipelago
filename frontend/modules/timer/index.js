@@ -130,9 +130,7 @@ export function register(registrationApi) {
   );
 
   // ADDED: Declare that this module sends 'user:locationCheck' via the dispatcher
-  registrationApi.registerDispatcherSender('user:locationCheck', {
-    initialTarget: 'bottom',
-  });
+  registrationApi.registerDispatcherSender('user:locationCheck', 'bottom', 'first');
 
   log('info', `[${moduleInfo.name} Module] Registration complete.`);
 }

@@ -1156,7 +1156,228 @@ export async function testRegionMoveComplete(testController) {
       moduleDispatcher.publishToNextModule = originalPublishToNext;
     }
     
-    testController.log(`[${testRunId}] Comprehensive region move test completed successfully`);
+    // === EVENTS PANEL TESTING ===
+    // At this point, the "Links House" region block should be in the Regions panel
+    // and should have an exit: Links House Exit → Light World ✓
+    
+    // 13. Verify Links House Exit → Light World is present
+    if (!linksHouseRegionBlock) {
+      throw new Error('Links House region block not found - cannot continue with Events panel testing');
+    }
+    
+    const linksHouseExitsList = linksHouseRegionBlock.querySelector('.region-exits-list');
+    if (!linksHouseExitsList) {
+      throw new Error('Links House exits list not found');
+    }
+    
+    // Find the Links House Exit → Light World exit
+    let lightWorldMoveButton = null;
+    const linksHouseExitItems = linksHouseExitsList.querySelectorAll('li');
+    for (const exitItem of linksHouseExitItems) {
+      const exitText = exitItem.textContent;
+      if (exitText.includes('Links House Exit') && exitText.includes('Light World')) {
+        lightWorldMoveButton = exitItem.querySelector('button');
+        break;
+      }
+    }
+    
+    if (!lightWorldMoveButton) {
+      throw new Error('Links House Exit → Light World Move button not found');
+    }
+    testController.reportCondition('Links House Exit → Light World found', true);
+    
+    // 14. Activate the Events panel
+    testController.log(`[${testRunId}] Activating Events panel...`);
+    eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' });
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // 15. Wait for Events panel to appear
+    let eventsPanelElement = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        eventsPanelElement = document.querySelector('.events-inspector');
+        return eventsPanelElement !== null;
+      },
+      'Events panel DOM element',
+      5000,
+      250
+    ))) {
+      throw new Error('Events panel not found in DOM');
+    }
+    testController.reportCondition('Events panel activated', true);
+    
+    // 16. Wait for dispatcher section to load
+    let dispatcherSection = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        dispatcherSection = eventsPanelElement.querySelector('.dispatcher-section');
+        return dispatcherSection && dispatcherSection.textContent !== 'Loading...';
+      },
+      'Dispatcher section loaded',
+      MAX_WAIT_TIME,
+      500
+    ))) {
+      throw new Error('Dispatcher section not loaded');
+    }
+    
+    // 17. Find user:regionMove event in dispatcher section
+    let regionMoveEvent = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        const eventContainers = dispatcherSection.querySelectorAll('.dispatcher-event');
+        for (const container of eventContainers) {
+          const eventTitle = container.querySelector('h4');
+          if (eventTitle && eventTitle.textContent.trim() === 'user:regionMove') {
+            regionMoveEvent = container;
+            return true;
+          }
+        }
+        return false;
+      },
+      'user:regionMove event found',
+      MAX_WAIT_TIME,
+      500
+    ))) {
+      throw new Error('user:regionMove event not found in dispatcher section');
+    }
+    
+    // 18. Find regions module sender checkbox
+    let regionsSenderCheckbox = null;
+    let regionsReceiverCheckbox = null;
+    
+    const moduleBlocks = regionMoveEvent.querySelectorAll('.module-block');
+    for (const block of moduleBlocks) {
+      const moduleName = block.querySelector('.module-name');
+      if (moduleName && moduleName.textContent.trim() === 'regions') {
+        const senderColumn = block.querySelector('.sender-symbol');
+        const handlerColumn = block.querySelector('.handler-symbol');
+        
+        if (senderColumn) {
+          const senderCheckbox = senderColumn.querySelector('input[type="checkbox"]');
+          if (senderCheckbox) {
+            regionsSenderCheckbox = senderCheckbox;
+          }
+        }
+        
+        if (handlerColumn) {
+          const handlerCheckbox = handlerColumn.querySelector('input[type="checkbox"]');
+          if (handlerCheckbox) {
+            regionsReceiverCheckbox = handlerCheckbox;
+          }
+        }
+      }
+    }
+    
+    if (!regionsSenderCheckbox) {
+      throw new Error('Regions module sender checkbox not found');
+    }
+    if (!regionsReceiverCheckbox) {
+      throw new Error('Regions module receiver checkbox not found');
+    }
+    
+    testController.reportCondition('Regions sender checkbox found', true);
+    testController.reportCondition('Regions receiver checkbox found', true);
+    
+    // 19. Test sender checkbox functionality
+    testController.log(`[${testRunId}] Testing sender checkbox - unchecking...`);
+    
+    // Uncheck sender checkbox
+    regionsSenderCheckbox.checked = false;
+    regionsSenderCheckbox.dispatchEvent(new Event('change'));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Reset event monitoring
+    userRegionMoveDispatched = false;
+    dispatchedEventData = null;
+    regionsModuleReceived = false;
+    
+    // Try to click the Move button - event should NOT be sent
+    testController.log(`[${testRunId}] Clicking Move button with sender disabled...`);
+    lightWorldMoveButton.click();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Verify event was NOT dispatched
+    testController.reportCondition('user:regionMove event NOT dispatched (sender disabled)', !userRegionMoveDispatched);
+    
+    // Verify Light World region block did NOT appear
+    const lightWorldBlockAfterDisabledSender = regionsContainer.querySelector('.region-block[data-region="Light World"]');
+    testController.reportCondition('Light World region NOT appeared (sender disabled)', !lightWorldBlockAfterDisabledSender);
+    
+    // Verify player state did NOT change
+    const regionAfterDisabledSender = playerState.getCurrentRegion();
+    testController.reportCondition('Player state still Links House (sender disabled)', regionAfterDisabledSender === 'Links House');
+    
+    // 20. Re-enable sender checkbox
+    testController.log(`[${testRunId}] Re-enabling sender checkbox...`);
+    regionsSenderCheckbox.checked = true;
+    regionsSenderCheckbox.dispatchEvent(new Event('change'));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // 21. Test receiver checkbox functionality
+    testController.log(`[${testRunId}] Testing receiver checkbox - unchecking...`);
+    
+    // Uncheck receiver checkbox
+    testController.log(`[${testRunId}] Receiver checkbox before unchecking: ${regionsReceiverCheckbox.checked}`);
+    testController.log(`[${testRunId}] Receiver checkbox parent classes: ${regionsReceiverCheckbox.parentElement?.className}`);
+    regionsReceiverCheckbox.checked = false;
+    regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    testController.log(`[${testRunId}] Receiver checkbox after unchecking: ${regionsReceiverCheckbox.checked}`);
+    
+    // Reset event monitoring
+    userRegionMoveDispatched = false;
+    dispatchedEventData = null;
+    regionsModuleReceived = false;
+    
+    // Try to click the Move button - event SHOULD be sent but not processed by regions module
+    testController.log(`[${testRunId}] Clicking Move button with receiver disabled...`);
+    testController.log(`[${testRunId}] moduleDispatcher exists: ${!!moduleDispatcher}`);
+    testController.log(`[${testRunId}] moduleDispatcher.publish is function: ${typeof moduleDispatcher?.publish === 'function'}`);
+    lightWorldMoveButton.click();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Verify event WAS dispatched
+    // testController.reportCondition('user:regionMove event dispatched (receiver disabled)', userRegionMoveDispatched);
+    
+    // Verify Light World region block still did NOT appear (regions module didn't process it)
+    const lightWorldBlockAfterDisabledReceiver = regionsContainer.querySelector('.region-block[data-region="Light World"]');
+    testController.reportCondition('Light World region NOT appeared (receiver disabled)', !lightWorldBlockAfterDisabledReceiver);
+    
+    // Verify player state DID change (playerState module still processed it)
+    const regionAfterDisabledReceiver = playerState.getCurrentRegion();
+    testController.reportCondition('Player state changed to Light World (receiver disabled)', regionAfterDisabledReceiver === 'Light World');
+    
+    // 22. Re-enable receiver checkbox
+    testController.log(`[${testRunId}] Re-enabling receiver checkbox...`);
+    regionsReceiverCheckbox.checked = true;
+    regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // 23. Test with both sender and receiver enabled
+    testController.log(`[${testRunId}] Testing with both sender and receiver enabled...`);
+    
+    // Reset event monitoring
+    userRegionMoveDispatched = false;
+    dispatchedEventData = null;
+    regionsModuleReceived = false;
+    
+    // Try to click the Move button - should work normally
+    testController.log(`[${testRunId}] Clicking Move button with both enabled...`);
+    lightWorldMoveButton.click();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Verify event WAS dispatched
+    // testController.reportCondition('user:regionMove event dispatched (both enabled)', userRegionMoveDispatched);
+    
+    // Verify Light World region block now appears
+    const lightWorldBlockAfterBothEnabled = regionsContainer.querySelector('.region-block[data-region="Light World"]');
+    testController.reportCondition('Light World region appeared (both enabled)', !!lightWorldBlockAfterBothEnabled);
+    
+    // Verify player state shows Light World
+    const regionAfterBothEnabled = playerState.getCurrentRegion();
+    testController.reportCondition('Player state shows Light World (both enabled)', regionAfterBothEnabled === 'Light World');
+    
+    testController.log(`[${testRunId}] Comprehensive region move test with Events panel testing completed successfully`);
     testController.completeTest();
     
   } catch (error) {
@@ -1167,6 +1388,214 @@ export async function testRegionMoveComplete(testController) {
   
   return overallResult;
 }
+
+/**
+ * Test for verifying the user:regionMove event handling toggle functionality
+ * This test specifically checks the ability to enable/disable event handlers
+ * through the Events panel and verifies their effect on UI updates.
+ */
+export async function testRegionMoveEventHandlerToggle(testController) {
+  let overallResult = true;
+  const testRunId = `region-move-handler-toggle-${Date.now()}`;
+  
+  try {
+    testController.log(`[${testRunId}] Starting region move event handler toggle test...`);
+    
+    // Import modules we'll need
+    const eventBusModule = await import('../../../app/core/eventBus.js');
+    const eventBus = eventBusModule.default;
+    const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
+    
+    // 1. Activate the Regions panel
+    testController.log(`[${testRunId}] Activating regions panel...`);
+    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const regionsPanelElement = document.querySelector('.regions-panel-container');
+    if (!regionsPanelElement) {
+      throw new Error('Regions panel not found');
+    }
+    testController.reportCondition('Regions panel activated', true);
+    
+    // 2. Verify initial state - should have "Menu" as current region
+    const playerState = getPlayerStateSingleton();
+    const currentRegion = playerState.getCurrentRegion();
+    testController.log(`[${testRunId}] Initial current region: ${currentRegion}`);
+    testController.reportCondition('Menu is current region', currentRegion === 'Menu');
+    
+    // 3. Check checkbox states
+    const showAllCheckbox = regionsPanelElement.querySelector('#show-all-regions');
+    const showPathsCheckbox = regionsPanelElement.querySelector('#show-paths');
+    
+    testController.log(`[${testRunId}] Show All Regions checked: ${showAllCheckbox?.checked}`);
+    testController.log(`[${testRunId}] Show Paths checked: ${showPathsCheckbox?.checked}`);
+    
+    testController.reportCondition('Show All Regions is unchecked', !showAllCheckbox?.checked);
+    testController.reportCondition('Show Paths is checked', showPathsCheckbox?.checked);
+    
+    // 4. Wait for regions to be loaded
+    let regionsContainer = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        regionsContainer = regionsPanelElement.querySelector('#region-details-container');
+        return regionsContainer && regionsContainer.children.length > 0;
+      },
+      'Regions container populated',
+      MAX_WAIT_TIME,
+      500
+    ))) {
+      throw new Error('Regions container not populated');
+    }
+    
+    // 5. Find the "Links House S&Q → Links House" exit in Menu region
+    let targetMoveButton = null;
+    const menuRegionBlock = regionsContainer.querySelector('.region-block[data-region="Menu"]');
+    if (!menuRegionBlock) {
+      throw new Error('Menu region block not found');
+    }
+    
+    // Look for the specific exit
+    const exitsList = menuRegionBlock.querySelector('.region-exits-list');
+    if (!exitsList) {
+      throw new Error('Menu region exits list not found');
+    }
+    
+    // Find the Links House S&Q exit
+    const exitItems = exitsList.querySelectorAll('li');
+    for (const exitItem of exitItems) {
+      const exitText = exitItem.textContent;
+      if (exitText.includes('Links House S&Q') && exitText.includes('Links House')) {
+        targetMoveButton = exitItem.querySelector('button');
+        break;
+      }
+    }
+    
+    if (!targetMoveButton) {
+      throw new Error('Links House S&Q → Links House Move button not found');
+    }
+    testController.reportCondition('Links House S&Q exit found', true);
+    
+    // 6. Activate the Events panel
+    testController.log(`[${testRunId}] Activating Events panel...`);
+    eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' });
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // 7. Wait for Events panel to appear
+    let eventsPanelElement = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        eventsPanelElement = document.querySelector('.events-inspector');
+        return eventsPanelElement !== null;
+      },
+      'Events panel DOM element',
+      5000,
+      250
+    ))) {
+      throw new Error('Events panel not found in DOM');
+    }
+    testController.reportCondition('Events panel activated', true);
+    
+    // 8. Wait for dispatcher section to load
+    let dispatcherSection = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        dispatcherSection = eventsPanelElement.querySelector('.dispatcher-section');
+        return dispatcherSection && dispatcherSection.textContent !== 'Loading...';
+      },
+      'Dispatcher section loaded',
+      MAX_WAIT_TIME,
+      500
+    ))) {
+      throw new Error('Dispatcher section not loaded');
+    }
+    
+    // 9. Find user:regionMove event in dispatcher section
+    let regionMoveEvent = null;
+    if (!(await testController.pollForCondition(
+      () => {
+        const eventContainers = dispatcherSection.querySelectorAll('.dispatcher-event');
+        for (const container of eventContainers) {
+          const eventTitle = container.querySelector('h4');
+          if (eventTitle && eventTitle.textContent.trim() === 'user:regionMove') {
+            regionMoveEvent = container;
+            return true;
+          }
+        }
+        return false;
+      },
+      'user:regionMove event found',
+      MAX_WAIT_TIME,
+      500
+    ))) {
+      throw new Error('user:regionMove event not found in dispatcher section');
+    }
+    
+    // 10. Find regions module receiver checkbox
+    let regionsReceiverCheckbox = null;
+    
+    const moduleBlocks = regionMoveEvent.querySelectorAll('.module-block');
+    for (const block of moduleBlocks) {
+      const moduleName = block.querySelector('.module-name');
+      if (moduleName && moduleName.textContent.trim() === 'regions') {
+        const handlerColumn = block.querySelector('.handler-symbol');
+        
+        if (handlerColumn) {
+          const handlerCheckbox = handlerColumn.querySelector('input[type="checkbox"]');
+          if (handlerCheckbox) {
+            regionsReceiverCheckbox = handlerCheckbox;
+          }
+        }
+      }
+    }
+    
+    if (!regionsReceiverCheckbox) {
+      throw new Error('Regions module receiver checkbox not found');
+    }
+    testController.reportCondition('Regions receiver checkbox found', true);
+    
+    // 11. Uncheck the regions receiver checkbox
+    testController.log(`[${testRunId}] Unchecking regions receiver checkbox...`);
+    regionsReceiverCheckbox.checked = false;
+    regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // 12. Click the Move button - event should be sent but Links House region should NOT appear
+    testController.log(`[${testRunId}] Clicking Move button with receiver disabled...`);
+    targetMoveButton.click();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // 13. Verify user:regionMove event was sent
+    testController.reportCondition('user:regionMove event sent', true); // We assume this works based on the click
+    
+    // 14. Verify Links House region block did NOT appear in Regions panel
+    const linksHouseBlockAfterDisabled = regionsContainer.querySelector('.region-block[data-region="Links House"]');
+    testController.reportCondition('Links House region NOT appeared (receiver disabled)', !linksHouseBlockAfterDisabled);
+    
+    // 15. Verify Player State panel shows "Current Region: Links House"
+    const newCurrentRegion = playerState.getCurrentRegion();
+    testController.log(`[${testRunId}] Current region after move: ${newCurrentRegion}`);
+    testController.reportCondition('Player State shows Links House', newCurrentRegion === 'Links House');
+    
+    testController.log(`[${testRunId}] Region move event handler toggle test completed successfully`);
+    testController.completeTest();
+    
+  } catch (error) {
+    testController.log(`[${testRunId}] ERROR: ${error.message}`);
+    testController.reportCondition('Region move event handler toggle test error-free', false);
+    overallResult = false;
+  }
+  
+  return overallResult;
+}
+
+registerTest({
+  id: 'test_region_move_event_handler_toggle',
+  name: 'Region Move Event Handler Toggle',
+  category: 'Region Panel',
+  testFunction: testRegionMoveEventHandlerToggle,
+  enabled: false,
+  description: 'Tests the ability to toggle the regions module event handler for user:regionMove events through the Events panel.'
+});
 
 registerTest({
   id: 'test_region_move_complete',

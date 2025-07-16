@@ -60,21 +60,19 @@ export function register(registrationApi) {
   });
 
   // Register EventBus publisher intentions (used by RegionUI)
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToRegion');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToLocation');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToDungeon');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:activatePanel');
+  registrationApi.registerEventBusPublisher('ui:navigateToRegion');
+  registrationApi.registerEventBusPublisher('ui:navigateToLocation');
+  registrationApi.registerEventBusPublisher('ui:navigateToDungeon');
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
 
   // Register Dispatcher sender intentions (used by RegionUI)
   registrationApi.registerDispatcherSender(
-    moduleId,
     'user:checkLocationRequest',
     'bottom',
     'first'
   );
   
   registrationApi.registerDispatcherSender(
-    moduleId,
     'user:regionMove',
     'bottom',
     'first'

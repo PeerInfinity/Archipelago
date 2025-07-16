@@ -42,9 +42,7 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('locationsPanel', LocationUI);
 
   // Declare that this module sends 'user:locationCheck' via the dispatcher
-  registrationApi.registerDispatcherSender('user:locationCheck', {
-    initialTarget: 'bottom',
-  });
+  registrationApi.registerDispatcherSender('user:locationCheck', 'bottom', 'first');
 
   // Register settings schema if needed
   // No settings schema specific to Locations registration.

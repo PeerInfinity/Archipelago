@@ -292,16 +292,16 @@ export class RegionUI {
     // --- END ADDED ---
 
     // Subscribe to playerState region changes
-    const handlePlayerStateRegionChanged = (eventPayload) => {
-      if (eventPayload && eventPayload.oldRegion && eventPayload.newRegion) {
-        log(
-          'info',
-          `[RegionUI] Received playerState:regionChanged from ${eventPayload.oldRegion} to ${eventPayload.newRegion}. Calling moveToRegion.`
-        );
-        this.moveToRegion(eventPayload.oldRegion, eventPayload.newRegion);
-      }
-    };
-    subscribe('playerState:regionChanged', handlePlayerStateRegionChanged);
+    //const handlePlayerStateRegionChanged = (eventPayload) => {
+    //  if (eventPayload && eventPayload.oldRegion && eventPayload.newRegion) {
+    //    log(
+    //      'info',
+    //      `[RegionUI] Received playerState:regionChanged from ${eventPayload.oldRegion} to ${eventPayload.newRegion}. Calling moveToRegion.`
+    //    );
+    //    this.moveToRegion(eventPayload.oldRegion, eventPayload.newRegion);
+    //  }
+    //};
+    //subscribe('playerState:regionChanged', handlePlayerStateRegionChanged);
 
     // Subscribe to region navigation requests
     const handleNavigateToRegion = (eventPayload) => {

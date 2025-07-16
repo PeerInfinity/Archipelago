@@ -188,7 +188,19 @@ function createInitializationApi(moduleId) {
   return {
     getModuleSettings: async () => settingsManager.getModuleSettings(moduleId),
     getDispatcher: () => ({
-      publish: dispatcher.publish.bind(dispatcher),
+      publish: (eventName, data, options = {}) => {
+        // Check if this module is enabled as a sender for this event
+        const dispatcherSenders = centralRegistry.getAllDispatcherSenders();
+        const sendersForEvent = dispatcherSenders.get(eventName) || [];
+        const senderInfo = sendersForEvent.find(s => s.moduleId === moduleId);
+        
+        if (senderInfo && senderInfo.enabled === false) {
+          logger.debug('init', `Module ${moduleId} is disabled as sender for event ${eventName}, skipping publish`);
+          return;
+        }
+        
+        return dispatcher.publish(eventName, data, options);
+      },
       publishToNextModule: dispatcher.publishToNextModule.bind(dispatcher),
     }),
     getEventBus: () => eventBus,
