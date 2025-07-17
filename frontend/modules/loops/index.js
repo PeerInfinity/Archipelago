@@ -126,7 +126,17 @@ export function register(registrationApi) {
     { direction: 'up', condition: 'conditional', timing: 'immediate' }
   );
 
-  // TODO: Add event bus publisher/subscriber intentions after reviewing loopState/loopUI
+  // Register events that loops publishes
+  registrationApi.registerEventBusPublisher('loopState:autoRestartChanged');
+  registrationApi.registerEventBusPublisher('loopState:paused');
+  registrationApi.registerEventBusPublisher('loopState:processingStopped');
+  registrationApi.registerEventBusPublisher('loopState:progressUpdated');
+  registrationApi.registerEventBusPublisher('loopState:queueCompleted');
+  registrationApi.registerEventBusPublisher('loopState:resumed');
+  registrationApi.registerEventBusPublisher('loopState:speedChanged');
+  registrationApi.registerEventBusPublisher('loopState:stateLoaded');
+  registrationApi.registerEventBusPublisher('loopState:xpChanged');
+  registrationApi.registerEventBusPublisher('loopUI:modeChanged');
 }
 
 /**

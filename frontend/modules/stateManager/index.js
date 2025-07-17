@@ -51,30 +51,15 @@ function register(registrationApi) {
   log('info', '[StateManager Module] Registering...');
 
   // Register events published by the StateManagerProxy on the EventBus
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:rulesLoaded' // Confirms worker loaded initial rules and sent snapshot
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:snapshotUpdated' // Indicates a new state snapshot is available in the proxy cache
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:computationProgress' // Progress updates during long computations
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:workerQueueStatus' // Updates on the worker's internal queue status
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:workerError' // Non-critical errors reported by the worker during processing
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:error' // Critical errors (e.g., worker init failure, communication failure)
-  );
+  registrationApi.registerEventBusPublisher('stateManager:rulesLoaded'); // Confirms worker loaded initial rules and sent snapshot
+  registrationApi.registerEventBusPublisher('stateManager:ready'); // Confirms worker is ready
+  registrationApi.registerEventBusPublisher('stateManager:snapshotUpdated'); // Indicates a new state snapshot is available in the proxy cache
+  registrationApi.registerEventBusPublisher('stateManager:computationProgress'); // Progress updates during long computations
+  registrationApi.registerEventBusPublisher('stateManager:workerQueueStatus'); // Updates on the worker's internal queue status
+  registrationApi.registerEventBusPublisher('stateManager:workerError'); // Non-critical errors reported by the worker during processing
+  registrationApi.registerEventBusPublisher('stateManager:error'); // Critical errors (e.g., worker init failure, communication failure)
+  registrationApi.registerEventBusPublisher('stateManager:loadingRules'); // Status updates during rule loading
+  registrationApi.registerEventBusPublisher('stateManager:pongReceived'); // Response to ping requests
   // Add other specific events forwarded by the proxy if needed (e.g., 'stateManager:itemAdded')
 
   // Register events this module (or the proxy logic implicitly) might subscribe to

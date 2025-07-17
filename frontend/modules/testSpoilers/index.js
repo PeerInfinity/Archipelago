@@ -35,15 +35,9 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('testSpoilersPanel', TestSpoilerUI);
 
   // Declare events published by TestSpoilerUI
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'editor:loadJsonData'
-  );
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'files:jsonLoaded'
-  );
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'ui:notification');
+  registrationApi.registerEventBusPublisher('editor:loadJsonData');
+  registrationApi.registerEventBusPublisher('files:jsonLoaded');
+  registrationApi.registerEventBusPublisher('ui:notification');
 
   // Declare events subscribed to by TestSpoilerUI
   registrationApi.registerEventBusSubscriberIntent(

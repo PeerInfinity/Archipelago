@@ -230,7 +230,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
     testController.log(`[${testRunId}] Starting Events panel module name tracking test...`);
     testController.reportCondition('Test started', true);
 
-    // 1. First activate the Regions panel to trigger subscription to ui:navigateToLocation
+    // 1. First activate the Regions panel to trigger subscription to ui:navigateToRegion
     testController.log(`[${testRunId}] Activating regions panel to trigger event subscriptions...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
@@ -280,7 +280,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
     }
     testController.reportCondition('Event bus section loaded', true);
 
-    // 4. Look for the ui:navigateToLocation event in the event bus section
+    // 4. Look for the ui:navigateToRegion event in the event bus section
     let navigateLocationEvent = null;
     if (
       !(await testController.pollForCondition(
@@ -288,21 +288,21 @@ export async function testEventsPanelModuleNameTracking(testController) {
           const eventContainers = eventBusSection.querySelectorAll('.event-bus-event');
           for (const container of eventContainers) {
             const eventTitle = container.querySelector('h4');
-            if (eventTitle && eventTitle.textContent.trim() === 'ui:navigateToLocation') {
+            if (eventTitle && eventTitle.textContent.trim() === 'ui:navigateToRegion') {
               navigateLocationEvent = container;
               return true;
             }
           }
           return false;
         },
-        'ui:navigateToLocation event found',
+        'ui:navigateToRegion event found',
         MAX_WAIT_TIME,
         500
       ))
     ) {
-      throw new Error('ui:navigateToLocation event not found in event bus section');
+      throw new Error('ui:navigateToRegion event not found in event bus section');
     }
-    testController.reportCondition('ui:navigateToLocation event found', true);
+    testController.reportCondition('ui:navigateToRegion event found', true);
 
     // 5. Verify commonUI is listed as a publisher
     const moduleBlocks = navigateLocationEvent.querySelectorAll('.module-block');
@@ -330,12 +330,12 @@ export async function testEventsPanelModuleNameTracking(testController) {
     }
 
     if (!commonUIFound) {
-      throw new Error('commonUI module not found as publisher for ui:navigateToLocation');
+      throw new Error('commonUI module not found as publisher for ui:navigateToRegion');
     }
     testController.reportCondition('commonUI module shows as publisher', true);
 
     if (!regionsFound) {
-      throw new Error('regions module not found as subscriber for ui:navigateToLocation');
+      throw new Error('regions module not found as subscriber for ui:navigateToRegion');
     }
     testController.reportCondition('regions module shows as subscriber', true);
 
@@ -359,7 +359,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
     if (
       !(await testController.pollForCondition(
         () => {
-          regionsPanel = document.querySelector('.regions-main-content');
+          regionsPanel = document.querySelector('.regions-panel-container');
           return regionsPanel !== null;
         },
         'Regions panel found',
@@ -380,8 +380,8 @@ export async function testEventsPanelModuleNameTracking(testController) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
-    // Click on "Links House" link in Menu region
-    const linksHouseLink = regionsPanel.querySelector('a[href="#Links House"]');
+    // Click on "Links House" link in Menu region - look for region link spans
+    const linksHouseLink = regionsPanel.querySelector('.region-link[data-region="Links House"], .location-link[data-location="Links House"], span[data-region="Links House"]');
     if (!linksHouseLink) {
       throw new Error('Links House link not found in regions panel');
     }
@@ -390,10 +390,14 @@ export async function testEventsPanelModuleNameTracking(testController) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
-    const showAllRegionsCheckbox = regionsPanel.querySelector('input[type="checkbox"]');
+    // Look specifically for the "Show All Regions" checkbox with correct ID
+    const showAllRegionsCheckbox = regionsPanel.querySelector('#show-all-regions');
     if (!showAllRegionsCheckbox) {
       throw new Error('Show All Regions checkbox not found');
     }
+    
+    // Debug logging to see what we found
+    testController.log(`[${testRunId}] Found checkbox with checked=${showAllRegionsCheckbox.checked}, id="${showAllRegionsCheckbox.id}", class="${showAllRegionsCheckbox.className}"`);
     
     if (showAllRegionsCheckbox.checked) {
       throw new Error('Navigation happened when publisher was disabled');
@@ -414,11 +418,12 @@ export async function testEventsPanelModuleNameTracking(testController) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
-    // Click on "Links House" link again
+    // Click on "Links House" link again (reuse the element found earlier)
     linksHouseLink.click();
     await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
+    testController.log(`[${testRunId}] After subscriber disable test - checkbox checked=${showAllRegionsCheckbox.checked}`);
     if (showAllRegionsCheckbox.checked) {
       throw new Error('Navigation happened when subscriber was disabled');
     }
@@ -431,11 +436,13 @@ export async function testEventsPanelModuleNameTracking(testController) {
 
     // 12. Test that navigation works when both are enabled
     testController.log(`[${testRunId}] Testing navigation with both enabled...`);
+    testController.log(`[${testRunId}] Before final test - checkbox checked=${showAllRegionsCheckbox.checked}`);
     
     linksHouseLink.click();
     await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation happened (Show All Regions should now be checked)
+    testController.log(`[${testRunId}] After final test - checkbox checked=${showAllRegionsCheckbox.checked}`);
     if (!showAllRegionsCheckbox.checked) {
       throw new Error('Navigation did not happen when both publisher and subscriber were enabled');
     }

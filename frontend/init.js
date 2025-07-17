@@ -29,6 +29,8 @@ centralRegistry.registerEventBusPublisher('core', 'module:stateChanged');
 centralRegistry.registerEventBusPublisher('core', 'app:modesJsonLoaded');
 centralRegistry.registerEventBusPublisher('core', 'app:readyForUiDataLoad');
 centralRegistry.registerEventBusPublisher('core', 'app:activeModeDetermined');
+centralRegistry.registerEventBusPublisher('core', 'uiHostRegistry:hostStatusChanged');
+
 import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
 
 // Helper function for logging with fallback

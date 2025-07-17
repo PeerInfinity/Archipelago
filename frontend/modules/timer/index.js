@@ -95,13 +95,10 @@ export function register(registrationApi) {
   );
 
   // Register events this module publishes
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'timer:started');
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'timer:stopped');
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'timer:progressUpdate'
-  );
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'ui:notification');
+  registrationApi.registerEventBusPublisher('timer:started');
+  registrationApi.registerEventBusPublisher('timer:stopped');
+  registrationApi.registerEventBusPublisher('timer:progressUpdate');
+  registrationApi.registerEventBusPublisher('ui:notification');
 
   // Register events this module subscribes to
   registrationApi.registerEventBusSubscriberIntent(

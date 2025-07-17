@@ -36,6 +36,11 @@ export const moduleInfo = {
 export function register(registrationApi) {
   log('info', '[Discovery Module] Registering...');
 
+  // Register events that discovery publishes
+  registrationApi.registerEventBusPublisher('discovery:changed');
+  registrationApi.registerEventBusPublisher('discovery:locationDiscovered');
+  registrationApi.registerEventBusPublisher('discovery:regionDiscovered');
+
   // Register dispatcher receivers for loop events
   registrationApi.registerDispatcherReceiver(
     moduleInfo.name,

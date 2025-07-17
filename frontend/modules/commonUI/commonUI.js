@@ -4,7 +4,13 @@ import { evaluateRule } from '../stateManager/ruleEngine.js';
 // Import the function directly from its source file
 import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import eventBus from '../../app/core/eventBus.js';
+// eventBus will be injected during module initialization
+let eventBus = null;
+
+// Function to set the eventBus (called during module initialization)
+export function setEventBus(injectedEventBus) {
+  eventBus = injectedEventBus;
+}
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -772,6 +778,11 @@ class CommonUI {
       ); // NEW TOP-LEVEL DEBUG LOG
       e.stopPropagation(); // Prevent event from bubbling to parent elements
 
+      if (!eventBus) {
+        log('error', '[commonUI] eventBus not available - cannot publish events');
+        return;
+      }
+
       // Publish panel activation first
       eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'commonUI');
       log('info', `[commonUI] Published ui:activatePanel for regionsPanel.`);
@@ -845,6 +856,12 @@ class CommonUI {
     // Add click handler
     link.addEventListener('click', (e) => {
       e.stopPropagation();
+      
+      if (!eventBus) {
+        log('error', '[commonUI] eventBus not available - cannot publish events');
+        return;
+      }
+      
       // Publish an event with location and region names
       log(
         'info',
@@ -899,10 +916,8 @@ export default commonUIInstance;
  * Debounce function: Limits the rate at which a function can fire.
  * @param {Function} func The function to debounce.
  * @param {number} wait The number of millisconds to delay.
- * @param {boole
-a n} immediate If true, trigger the function on the leading edge instead of the trailing.
- *
-  @returns {Function} The debounced function.
+ * @param {boolean} immediate If true, trigger the function on the leading edge instead of the trailing.
+ * @returns {Function} The debounced function.
  */
 export function debounce(func, wait, immediate = false) {
   let timeout;

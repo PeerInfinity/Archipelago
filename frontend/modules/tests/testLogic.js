@@ -335,11 +335,11 @@ export const testLogic = {
 
     if (eventBusInstance) {
       const testsToPublish = await this.getTests();
-      eventBusInstance.publish('test:listUpdated', { tests: testsToPublish });
+      eventBusInstance.publish('test:listUpdated', { tests: testsToPublish }, 'tests');
       if (autoStartChanged) {
         eventBusInstance.publish('test:autoStartConfigChanged', {
           autoStartEnabled: TestState.shouldAutoStartTests(),
-        });
+        }, 'tests');
       }
     }
 
@@ -362,7 +362,7 @@ export const testLogic = {
         autoStartEnabled: TestState.shouldAutoStartTests(),
         testCount: currentTests.length,
         enabledTestCount: currentTests.filter((t) => t.isEnabled).length,
-      });
+      }, 'tests');
     }
 
     // Check if we should auto-start tests now that loaded state is fully applied
@@ -400,7 +400,7 @@ export const testLogic = {
     if (eventBusInstance) {
       eventBusInstance.publish('test:autoStartConfigChanged', {
         autoStartEnabled: shouldAutoStart,
-      });
+      }, 'tests');
     }
   },
 
@@ -410,7 +410,7 @@ export const testLogic = {
     if (eventBusInstance)
       eventBusInstance.publish('test:listUpdated', {
         tests: await this.getTests(),
-      });
+      }, 'tests');
   },
 
   async updateTestOrder(testId, direction) {
@@ -419,7 +419,7 @@ export const testLogic = {
       if (eventBusInstance)
         eventBusInstance.publish('test:listUpdated', {
           tests: await this.getTests(),
-        });
+        }, 'tests');
     }
   },
 
@@ -431,7 +431,7 @@ export const testLogic = {
         testId,
         status,
         eventWaitingFor,
-      });
+      }, 'tests');
   },
 
   _addTestCondition(testId, description, status) {
@@ -441,13 +441,13 @@ export const testLogic = {
         testId,
         description,
         status,
-      });
+      }, 'tests');
   },
 
   _emitLogMessage(testId, message, type) {
     TestState.addTestLog(testId, message, type || 'info');
     if (eventBusInstance)
-      eventBusInstance.publish('test:logAdded', { testId, message, type });
+      eventBusInstance.publish('test:logAdded', { testId, message, type }, 'tests');
   },
 
   _emitTestCompleted(testId, overallStatus) {
@@ -477,7 +477,7 @@ export const testLogic = {
         name: test ? test.name : testId,
         overallStatus: overallStatus ? 'passed' : 'failed',
         conditions: test ? test.conditions : [],
-      });
+      }, 'tests');
       log(
         'info',
         `[_emitTestCompleted] test:completed event published successfully`
@@ -609,7 +609,7 @@ export const testLogic = {
     if (eventBusInstance)
       eventBusInstance.publish('test:allRunsStarted', {
         testCount: enabledTests.length,
-      });
+      }, 'tests');
 
     for (const test of enabledTests) {
       log('info', `[TestLogic] Starting test: ${test.name} (${test.id})`);
@@ -652,7 +652,7 @@ export const testLogic = {
     log('info', '[TestLogic] All enabled tests completed:', summary);
 
     if (eventBusInstance)
-      eventBusInstance.publish('test:allRunsCompleted', { summary });
+      eventBusInstance.publish('test:allRunsCompleted', { summary }, 'tests');
 
     // Set Playwright completion flags for automated testing
     this._setPlaywrightCompletionFlags(summary, finalTests);
@@ -673,7 +673,7 @@ export const testLogic = {
       eventBusInstance.publish('test:categoryChanged', {
         categoryName,
         isEnabled,
-      });
+      }, 'tests');
   },
 
   updateCategoryOrder(categoryName, direction) {
@@ -681,7 +681,7 @@ export const testLogic = {
       if (eventBusInstance)
         eventBusInstance.publish('test:categoriesUpdated', {
           categories: TestState.getCategories(),
-        });
+        }, 'tests');
     }
   },
 
@@ -698,7 +698,7 @@ export const testLogic = {
       eventBusInstance.publish('test:allCategoriesChanged', {
         isEnabled,
         categories,
-      });
+      }, 'tests');
     }
   },
 

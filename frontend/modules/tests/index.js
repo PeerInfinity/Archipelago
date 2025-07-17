@@ -31,6 +31,21 @@ export function register(registrationApi) {
 
   registrationApi.registerPanelComponent('testsPanel', TestUI);
 
+  // Register events that tests publishes
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
+  registrationApi.registerEventBusPublisher('test:listUpdated');
+  registrationApi.registerEventBusPublisher('test:autoStartConfigChanged');
+  registrationApi.registerEventBusPublisher('test:loadedStateApplied');
+  registrationApi.registerEventBusPublisher('test:statusChanged');
+  registrationApi.registerEventBusPublisher('test:conditionReported');
+  registrationApi.registerEventBusPublisher('test:logAdded');
+  registrationApi.registerEventBusPublisher('test:completed');
+  registrationApi.registerEventBusPublisher('test:allRunsStarted');
+  registrationApi.registerEventBusPublisher('test:allRunsCompleted');
+  registrationApi.registerEventBusPublisher('test:categoryChanged');
+  registrationApi.registerEventBusPublisher('test:categoriesUpdated');
+  registrationApi.registerEventBusPublisher('test:allCategoriesChanged');
+
   registrationApi.registerJsonDataHandler('testsConfig', {
     displayName: 'Tests Configuration',
     defaultChecked: true,

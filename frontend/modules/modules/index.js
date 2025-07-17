@@ -34,6 +34,9 @@ export function register(registrationApi) {
   // ModulesPanel constructor no longer takes the initApi directly.
   // It will access the moduleManager via the getInitializationApi function.
   registrationApi.registerPanelComponent('modulesPanel', ModulesPanel);
+  
+  // Register events that modules publishes
+  registrationApi.registerEventBusPublisher('module:loadExternalRequest');
   // Register intent to subscribe to module state changes
   /* // REMOVED - Registration will happen in UI constructor
   registrationApi.registerEventBusSubscriber(

@@ -62,7 +62,7 @@ export function register(registrationApi) {
   });
 
   // Register EventBus publications/subscriptions if needed
-  // registrationApi.registerEventBusPublisher('pathAnalyzer', 'someEvent');
+  // registrationApi.registerEventBusPublisher('someEvent');
   // registrationApi.registerEventBusSubscriber('pathAnalyzer', 'anotherEvent');
 }
 

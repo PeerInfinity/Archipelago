@@ -48,12 +48,9 @@ export function register(registrationApi) {
   // No settings schema specific to Locations registration.
 
   // Register EventBus publisher intentions (used by LocationUI)
-  registrationApi.registerEventBusPublisher(
-    moduleId,
-    'stateManager:locationCollectionChanged'
-  );
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:activatePanel');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToDungeon');
+  registrationApi.registerEventBusPublisher('stateManager:locationCollectionChanged');
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
+  registrationApi.registerEventBusPublisher('ui:navigateToDungeon');
 }
 
 export function initialize(mId, priorityIndex, initializationApi) {
