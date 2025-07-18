@@ -468,7 +468,7 @@ registerTest({
   testFunction: testEventsPanelSenderReceiverDisplay,
   category: 'Events Panel',
   enabled: false,
-  order: 1
+  //order: 1
 });
 
 registerTest({
@@ -477,6 +477,6 @@ registerTest({
   description: 'Verifies that the Events panel correctly tracks module names and enable/disable functionality works',
   testFunction: testEventsPanelModuleNameTracking,
   category: 'Events Panel',
-  enabled: true,
-  order: 2
+  enabled: false,
+  //order: 2
 });

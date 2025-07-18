@@ -288,5 +288,5 @@ registerTest({
   testFunction: testSpoilersPanelFullRun,
   category: 'Test Spoilers Panel',
   enabled: false,
-  order: 1,
+  //order: 1,
 });

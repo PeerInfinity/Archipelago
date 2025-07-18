@@ -334,5 +334,5 @@ registerTest({
   testFunction: configLoadAndItemCheckTest,
   category: 'State Management',
   enabled: false, // Keep disabled unless specifically testing this
-  order: 0,
+  //order: 0,
 });

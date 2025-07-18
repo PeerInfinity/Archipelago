@@ -18,6 +18,32 @@ const registeredTests = new Map();
 const registeredCategories = new Map();
 
 /**
+ * Resolve order conflicts by adding decimal increments
+ * @param {number} desiredOrder - The desired order value
+ * @returns {number} A unique order value
+ */
+function resolveOrderConflicts(desiredOrder) {
+  const existingOrders = Array.from(registeredTests.values()).map(t => t.order);
+  
+  // If no conflict, return the desired order
+  if (!existingOrders.includes(desiredOrder)) {
+    return desiredOrder;
+  }
+  
+  // Find the next available decimal increment
+  let increment = 0.1;
+  let candidateOrder = desiredOrder + increment;
+  
+  while (existingOrders.includes(candidateOrder)) {
+    increment += 0.1;
+    candidateOrder = parseFloat((desiredOrder + increment).toFixed(1));
+  }
+  
+  log('info', `[TestRegistry] Order conflict resolved: ${desiredOrder} -> ${candidateOrder}`);
+  return candidateOrder;
+}
+
+/**
  * Register a test function with metadata
  * @param {Object} testDefinition - Test definition object
  * @param {string} testDefinition.id - Unique test identifier
@@ -51,20 +77,18 @@ export function registerTest(testDefinition) {
     return;
   }
 
-  // Register category if not already registered
-  if (!registeredCategories.has(category)) {
-    registerCategory({
-      name: category,
-      enabled: true,
-      order: registeredCategories.size,
-    });
+  // Determine final order value
+  let finalOrder;
+  
+  if (order !== undefined) {
+    // Use provided order, but check for duplicates and resolve them
+    finalOrder = resolveOrderConflicts(order);
+  } else {
+    // Auto-assign order: find the highest existing order and add 1
+    const existingOrders = Array.from(registeredTests.values()).map(t => t.order);
+    const maxOrder = existingOrders.length > 0 ? Math.max(...existingOrders) : -1;
+    finalOrder = maxOrder + 1;
   }
-
-  // Auto-assign order within category if not provided
-  const categoryTests = Array.from(registeredTests.values()).filter(
-    (t) => t.category === category
-  );
-  const finalOrder = order !== undefined ? order : categoryTests.length;
 
   registeredTests.set(id, {
     id,
@@ -84,7 +108,7 @@ export function registerTest(testDefinition) {
 
   log(
     'info',
-    `[TestRegistry] Registered test: ${id} (${name}) in category '${category}'`
+    `[TestRegistry] Registered test: ${id} (${name}) in category '${category}' with order: ${finalOrder}${order !== undefined ? ` (requested: ${order})` : ' (auto-assigned)'}`
   );
 }
 
@@ -121,17 +145,7 @@ export function registerCategory(categoryDefinition) {
  * @returns {Array} Array of test definitions
  */
 export function getAllRegisteredTests() {
-  return Array.from(registeredTests.values()).sort((a, b) => {
-    // Sort by category order first, then by test order within category
-    const catA = registeredCategories.get(a.category) || { order: 999 };
-    const catB = registeredCategories.get(b.category) || { order: 999 };
-
-    if (catA.order !== catB.order) {
-      return catA.order - catB.order;
-    }
-
-    return a.order - b.order;
-  });
+  return Array.from(registeredTests.values()).sort((a, b) => a.order - b.order);
 }
 
 /**

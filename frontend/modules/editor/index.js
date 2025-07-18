@@ -25,4 +25,6 @@ export const moduleInfo = {
 export function register(registrationApi) {
   log('info', '[Editor Module] Registering...');
   registrationApi.registerPanelComponent('editorPanel', EditorUI);
+
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
 }

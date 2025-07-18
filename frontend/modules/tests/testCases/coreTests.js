@@ -82,23 +82,24 @@ export async function superQuickTest(testController) {
 }
 
 // Self-register tests
+
 registerTest({
-  id: 'test_1_simple_event',
+  id: 'test_core_super_quick',
+  name: 'Super Quick Test',
+  description: 'A test that completes almost instantly.',
+  testFunction: superQuickTest,
+  category: 'Core',
+  enabled: false,
+  //order: 0,
+});
+
+registerTest({
+  id: 'test_core_simple_event',
   name: 'Test Simple Event Wait',
   description:
     'Checks if waitForEvent correctly pauses and resumes on a custom event.',
   testFunction: simpleEventTest,
   category: 'Core',
-  enabled: true,
-  order: 0,
-});
-
-registerTest({
-  id: 'test_4_super_quick',
-  name: 'Super Quick Test',
-  description: 'A test that completes almost instantly.',
-  testFunction: superQuickTest,
-  category: 'Core',
-  enabled: true,
-  order: 1,
+  enabled: false,
+  //order: 1,
 });

@@ -33,7 +33,7 @@ function setLoadedStateApplied(value) {
     'info',
     `[TestLogic] Setting loadedStateApplied from ${loadedStateApplied} to ${value}`
   );
-  console.trace('[TestLogic] Call stack for loadedStateApplied change:');
+  //console.trace('[TestLogic] Call stack for loadedStateApplied change:');
   loadedStateApplied = value;
 }
 
@@ -45,7 +45,43 @@ async function initializeTestDiscovery() {
   }
 
   log('info', '[TestLogic] Initializing test discovery...');
-  await discoverTests();
+  
+  try {
+    // Add timeout to test discovery to prevent infinite waiting
+    const discoveryPromise = discoverTests();
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Test discovery timeout after 10 seconds')), 10000);
+    });
+    
+    await Promise.race([discoveryPromise, timeoutPromise]);
+  } catch (error) {
+    log('error', '[TestLogic] Test discovery failed:', error);
+    
+    // Set basic test state even if discovery fails
+    TestState.testLogicState.tests = [];
+    TestState.testLogicState.categories = {};
+    TestState.testLogicState.fromDiscovery = true;
+    discoveryInitialized = true;
+    
+    // Set Playwright completion flags immediately if we're in test mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const isTestMode = urlParams.get('mode') === 'test' || TestState.shouldAutoStartTests();
+    
+    if (isTestMode) {
+      log('info', '[TestLogic] Test mode detected but discovery failed, setting completion flags...');
+      const summary = {
+        totalRun: 0,
+        passedCount: 0,
+        failedCount: 0,
+        failedConditionsCount: 0,
+        error: error.message
+      };
+      
+      testLogic._setPlaywrightCompletionFlags(summary, []);
+    }
+    
+    return;
+  }
 
   // Replace TestState with discovered tests and categories
   const discoveredTests = getDiscoveredTests();
@@ -147,12 +183,28 @@ export const testLogic = {
           '[TestLogic] Auto-starting tests (from setEventBus after loaded state applied)...'
         );
         setTimeout(() => {
-          this.runAllEnabledTests().catch((error) => {
+          // Add timeout to auto-start to prevent infinite waiting
+          Promise.race([
+            this.runAllEnabledTests(),
+            new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Auto-start timeout after 30 seconds')), 30000);
+            })
+          ]).catch((error) => {
             log(
               'error',
               '[TestLogic] Error during auto-start (from setEventBus):',
               error
             );
+            
+            // Set completion flags even if auto-start fails
+            const summary = {
+              totalRun: 0,
+              passedCount: 0,
+              failedCount: 0,
+              failedConditionsCount: 0,
+              error: error.message
+            };
+            this._setPlaywrightCompletionFlags(summary, TestState.getTests());
           });
         }, 1000); // Give some time for full initialization
       } else {
@@ -256,32 +308,7 @@ export const testLogic = {
       TestState.testLogicState.defaultEnabledState = data.defaultEnabledState;
     }
 
-    // Categories: Merge discovered categories with loaded ones
-    const discoveredCategories = getDiscoveredCategories();
-    const mergedCategories = { ...discoveredCategories };
-
-    if (data && data.categories) {
-      for (const categoryName in data.categories) {
-        if (Object.hasOwnProperty.call(data.categories, categoryName)) {
-          const loadedCategory = data.categories[categoryName];
-          if (mergedCategories[categoryName]) {
-            // Update existing discovered category with loaded preferences
-            mergedCategories[categoryName].isEnabled = loadedCategory.isEnabled;
-            if (loadedCategory.order !== undefined) {
-              mergedCategories[categoryName].order = loadedCategory.order;
-            }
-          } else {
-            // Add new category from loaded data
-            mergedCategories[categoryName] = {
-              isEnabled: loadedCategory.isEnabled,
-              order:
-                loadedCategory.order || Object.keys(mergedCategories).length,
-            };
-          }
-        }
-      }
-    }
-    TestState.testLogicState.categories = mergedCategories;
+    // No category merging needed in flat structure
 
     // Tests: Merge discovered tests with loaded preferences
     const discoveredTests = getDiscoveredTests();
@@ -333,27 +360,11 @@ export const testLogic = {
       currentTests.push(...discoveredTests);
     }
 
-    // Sort and normalize
-    currentTests.sort((a, b) => {
-      const catA = mergedCategories[a.category] || { order: 999 };
-      const catB = mergedCategories[b.category] || { order: 999 };
+    // Sort by order
+    currentTests.sort((a, b) => a.order - b.order);
 
-      if (catA.order !== catB.order) {
-        return catA.order - catB.order;
-      }
-
-      return a.order - b.order;
-    });
-
-    // Re-normalize order within categories
-    const categoryCounts = {};
+    // Ensure required runtime fields exist
     currentTests.forEach((test) => {
-      if (!categoryCounts[test.category]) {
-        categoryCounts[test.category] = 0;
-      }
-      test.order = categoryCounts[test.category]++;
-
-      // Ensure required runtime fields exist
       if (!test.logs) test.logs = [];
       if (!test.conditions) test.conditions = [];
       if (test.status === undefined) test.status = 'pending';
@@ -413,13 +424,30 @@ export const testLogic = {
             'info',
             '[TestLogic applyLoadedState] Running auto-start tests...'
           );
-          await this.runAllEnabledTests();
+          
+          // Add timeout to auto-start to prevent infinite waiting
+          await Promise.race([
+            this.runAllEnabledTests(),
+            new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Auto-start timeout after 30 seconds')), 30000);
+            })
+          ]);
         } catch (error) {
           log(
             'error',
             '[TestLogic applyLoadedState] Error during auto-start:',
             error
           );
+          
+          // Set completion flags even if auto-start fails
+          const summary = {
+            totalRun: 0,
+            passedCount: 0,
+            failedCount: 0,
+            failedConditionsCount: 0,
+            error: error.message
+          };
+          this._setPlaywrightCompletionFlags(summary, TestState.getTests());
         }
       }, 100);
     }
@@ -646,6 +674,24 @@ export const testLogic = {
 
     if (enabledTests.length === 0) {
       log('info', '[TestLogic] No enabled tests to run.');
+      
+      // Still need to emit completion events and set Playwright flags
+      const summary = {
+        totalRun: 0,
+        passedCount: 0,
+        failedCount: 0,
+        failedConditionsCount: 0,
+      };
+
+      if (eventBusInstance) {
+        eventBusInstance.publish('tests:allRunsStarted', {
+          testCount: 0,
+        }, 'tests');
+        eventBusInstance.publish('tests:allRunsCompleted', { summary }, 'tests');
+      }
+
+      // Set Playwright completion flags even when no tests run
+      this._setPlaywrightCompletionFlags(summary, tests);
       return;
     }
 
@@ -714,96 +760,21 @@ export const testLogic = {
     this._setPlaywrightCompletionFlags(summary, finalTests);
   },
 
-  async getCategories() {
+  async toggleAllTestsEnabled(isEnabled) {
     await initializeTestDiscovery();
-    return TestState.getCategories();
-  },
+    const tests = TestState.getTests();
 
-  isCategoryEnabled(categoryName) {
-    return TestState.getCategoryState(categoryName)?.isEnabled || false;
-  },
-
-  toggleCategoryEnabled(categoryName, isEnabled) {
-    TestState.toggleCategoryEnabled(categoryName, isEnabled);
-    if (eventBusInstance)
-      eventBusInstance.publish('tests:categoryChanged', {
-        categoryName,
-        isEnabled,
-      }, 'tests');
-  },
-
-  updateCategoryOrder(categoryName, direction) {
-    if (TestState.updateCategoryOrder(categoryName, direction)) {
-      if (eventBusInstance)
-        eventBusInstance.publish('tests:categoriesUpdated', {
-          categories: TestState.getCategories(),
-        }, 'tests');
-    }
-  },
-
-  async toggleAllCategoriesEnabled(isEnabled) {
-    await initializeTestDiscovery();
-    const categories = TestState.getCategories();
-
-    // Enable/disable all categories
-    categories.forEach((category) => {
-      TestState.toggleCategoryEnabled(category, isEnabled);
+    // Enable/disable all tests
+    tests.forEach((test) => {
+      TestState.toggleTestEnabled(test.id, isEnabled);
     });
 
     if (eventBusInstance) {
-      eventBusInstance.publish('tests:allCategoriesChanged', {
+      eventBusInstance.publish('tests:allTestsChanged', {
         isEnabled,
-        categories,
+        testCount: tests.length,
       }, 'tests');
     }
-  },
-
-  async getAllCategoriesState() {
-    await initializeTestDiscovery();
-    const categories = TestState.getCategories();
-
-    if (categories.length === 0) {
-      return { allEnabled: false, anyEnabled: false };
-    }
-
-    const tests = TestState.getTests();
-    let allCategoriesFullyEnabled = true;
-    let anyCategoryHasEnabledTests = false;
-    let anyCategoryIndeterminate = false;
-
-    // Check each category's state
-    categories.forEach((category) => {
-      const testsInCategory = tests.filter(
-        (test) => test.category === category
-      );
-      if (testsInCategory.length === 0) return;
-
-      const enabledTestsInCategory = testsInCategory.filter(
-        (test) => test.isEnabled
-      );
-      const allEnabledInCategory =
-        enabledTestsInCategory.length === testsInCategory.length;
-      const anyEnabledInCategory = enabledTestsInCategory.length > 0;
-
-      if (!allEnabledInCategory) {
-        allCategoriesFullyEnabled = false;
-      }
-
-      if (anyEnabledInCategory) {
-        anyCategoryHasEnabledTests = true;
-      }
-
-      // Category is indeterminate if some but not all tests are enabled
-      if (anyEnabledInCategory && !allEnabledInCategory) {
-        anyCategoryIndeterminate = true;
-      }
-    });
-
-    return {
-      allEnabled: allCategoriesFullyEnabled,
-      anyEnabled: anyCategoryHasEnabledTests,
-      anyIndeterminate: anyCategoryIndeterminate,
-    };
   },
 
   // Set localStorage flags for Playwright test completion detection

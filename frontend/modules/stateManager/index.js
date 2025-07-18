@@ -60,6 +60,7 @@ function register(registrationApi) {
   registrationApi.registerEventBusPublisher('stateManager:error'); // Critical errors (e.g., worker init failure, communication failure)
   registrationApi.registerEventBusPublisher('stateManager:loadingRules'); // Status updates during rule loading
   registrationApi.registerEventBusPublisher('stateManager:pongReceived'); // Response to ping requests
+  registrationApi.registerEventBusPublisher('stateManager:inventoryChanged'); // Inventory changes
   // Add other specific events forwarded by the proxy if needed (e.g., 'stateManager:itemAdded')
 
   // Register events this module (or the proxy logic implicitly) might subscribe to

@@ -836,7 +836,7 @@ registerTest({
   testFunction: simplePathAnalyzerTest,
   category: 'Path Analysis',
   enabled: false,
-  order: -2, // Run first
+  //order: -2, // Run first
 });
 
 registerTest({
@@ -846,7 +846,7 @@ registerTest({
   testFunction: debugPathAnalyzerTest,
   category: 'Path Analysis',
   enabled: false,
-  order: -1,
+  //order: -1,
 });
 
 registerTest({
@@ -856,7 +856,7 @@ registerTest({
   testFunction: testPathAnalyzerPanel,
   category: 'Path Analysis',
   enabled: false,
-  order: 0,
+  //order: 0,
 });
 
 registerTest({
@@ -866,7 +866,7 @@ registerTest({
   testFunction: testPathAnalyzerLibrary,
   category: 'Path Analysis',
   enabled: false,
-  order: 1,
+  //order: 1,
 });
 
 registerTest({
@@ -876,7 +876,7 @@ registerTest({
   testFunction: testPathAnalyzerMiseryMireEntrance,
   category: 'Path Analysis',
   enabled: false,
-  order: 2,
+  //order: 2,
 });
 
 registerTest({
@@ -886,7 +886,7 @@ registerTest({
   testFunction: testPathAnalyzerUILibrary,
   category: 'Path Analysis',
   enabled: false,
-  order: 3,
+  //order: 3,
 });
 
 // DEBUG TEST: Check actual DOM structure
@@ -994,7 +994,7 @@ registerTest({
   testFunction: debugPathAnalyzerLibraryPaths,
   category: 'Path Analysis',
   enabled: false,
-  order: 2.5,
+  //order: 2.5,
 });
 
 registerTest({
@@ -1004,5 +1004,5 @@ registerTest({
   testFunction: testPathAnalyzerUIMiseryMireEntrance,
   category: 'Path Analysis',
   enabled: false,
-  order: 4,
+  //order: 4,
 });

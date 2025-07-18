@@ -136,6 +136,7 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('loopState:speedChanged');
   registrationApi.registerEventBusPublisher('loopState:stateLoaded');
   registrationApi.registerEventBusPublisher('loopState:xpChanged');
+  registrationApi.registerEventBusPublisher('loopState:manaChanged');
   registrationApi.registerEventBusPublisher('loopUI:modeChanged');
 }
 

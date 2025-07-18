@@ -2,74 +2,23 @@
   "autoStartTestsOnLoad": true,
   "hideDisabledTests": false,
   "defaultEnabledState": false,
-  "categories": {
-    "Core": {
-      "isEnabled": true,
-      "order": 0
-    },
-    "State Management": {
-      "isEnabled": true,
-      "order": 1
-    },
-    "Path Analysis": {
-      "isEnabled": true,
-      "order": 2
-    },
-    "Test Playthroughs Panel": {
-      "isEnabled": true,
-      "order": 3
-    },
-    "Test Cases Panel": {
-      "isEnabled": true,
-      "order": 4
-    },
-    "Test Spoilers Panel": {
-      "isEnabled": true,
-      "order": 5
-    },
-    "Location Panel": {
-      "isEnabled": true,
-      "order": 6
-    },
-    "Exit Panel": {
-      "isEnabled": true,
-      "order": 7
-    },
-    "Events Panel": {
-      "isEnabled": true,
-      "order": 8
-    },
-    "Region Panel": {
-      "isEnabled": true,
-      "order": 9
-    }
-  },
   "tests": [
     {
-      "id": "simple_path_analyzer",
-      "name": "Simple Path Analyzer",
-      "description": "Very simple test to isolate Path Analyzer issues without state manager.",
-      "functionName": "simplePathAnalyzerTest",
+      "id": "test_core_super_quick",
+      "name": "Super Quick Test",
+      "description": "A test that completes almost instantly.",
+      "functionName": "superQuickTest",
       "isEnabled": true,
-      "order": -2,
-      "category": "Path Analysis"
+      "order": 0,
+      "category": "Core"
     },
     {
-      "id": "debug_path_analyzer",
-      "name": "Debug Path Analyzer",
-      "description": "Simple debug test to isolate Path Analyzer issues.",
-      "functionName": "debugPathAnalyzerTest",
-      "isEnabled": true,
-      "order": -1,
-      "category": "Path Analysis"
-    },
-    {
-      "id": "test_1_simple_event",
+      "id": "test_core_simple_event",
       "name": "Test Simple Event Wait",
       "description": "Checks if waitForEvent correctly pauses and resumes on a custom event.",
       "functionName": "simpleEventTest",
       "isEnabled": true,
-      "order": 0,
+      "order": 1,
       "category": "Core"
     },
     {
@@ -78,17 +27,8 @@
       "description": "Tests loading rules configuration, adding items to inventory, and checking location accessibility based on item requirements.",
       "functionName": "configLoadAndItemCheckTest",
       "isEnabled": true,
-      "order": 0,
+      "order": 2,
       "category": "State Management"
-    },
-    {
-      "id": "test_path_analyzer_panel",
-      "name": "Path Analyzer - Panel Test",
-      "description": "Opens the Path Analyzer panel and selects a region to analyze.",
-      "functionName": "testPathAnalyzerPanel",
-      "isEnabled": true,
-      "order": 0,
-      "category": "Path Analysis"
     },
     {
       "id": "test_library_location_accessibility",
@@ -96,62 +36,8 @@
       "description": "Verifies that Library region and location accessibility are properly separated. Expected: Library region reachable, Library location unreachable.",
       "functionName": "testLibraryLocationAccessibility",
       "isEnabled": true,
-      "order": 0,
+      "order": 3,
       "category": "Location Panel"
-    },
-    {
-      "id": "test_library_exit_accessibility",
-      "name": "Library Exit Accessibility Test",
-      "description": "Verifies that the Library exit shows correct accessibility status, specifically testing the fix for region/location name conflicts.",
-      "functionName": "testLibraryExitAccessibility",
-      "isEnabled": true,
-      "order": 0,
-      "category": "Exit Panel"
-    },
-    {
-      "id": "test_library_region_accessibility_show_all",
-      "name": "Library Region Accessibility Test (Show All)",
-      "description": "Verifies that Library region shows as accessible while Library location shows as inaccessible using \"Show All Regions\" mode.",
-      "functionName": "testLibraryRegionAccessibilityShowAll",
-      "isEnabled": true,
-      "order": 0,
-      "category": "Region Panel"
-    },
-    {
-      "id": "test_4_super_quick",
-      "name": "Super Quick Test",
-      "description": "A test that completes almost instantly.",
-      "functionName": "superQuickTest",
-      "isEnabled": true,
-      "order": 1,
-      "category": "Core"
-    },
-    {
-      "id": "test_path_analyzer_library",
-      "name": "Path Analyzer - Library Test",
-      "description": "Tests Path Analyzer with Library region (no parentheses).",
-      "functionName": "testPathAnalyzerLibrary",
-      "isEnabled": true,
-      "order": 1,
-      "category": "Path Analysis"
-    },
-    {
-      "id": "test_case_run_all",
-      "name": "Test Case Panel - Run All",
-      "description": "Tests activating the Test Cases panel, selecting the vanilla Light World test, running all tests, and collecting results for Playwright.",
-      "functionName": "testCasePanelRunAll",
-      "isEnabled": true,
-      "order": 1,
-      "category": "Test Cases Panel"
-    },
-    {
-      "id": "test_spoiler_full_run",
-      "name": "Test Spoilers Panel - Full Run",
-      "description": "Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.",
-      "functionName": "testSpoilersPanelFullRun",
-      "isEnabled": true,
-      "order": 1,
-      "category": "Test Spoilers Panel"
     },
     {
       "id": "test_location_panel_basic",
@@ -159,17 +45,8 @@
       "description": "Tests basic functionality of the Location Panel including UI elements and data loading.",
       "functionName": "testLocationPanelBasicFunctionality",
       "isEnabled": true,
-      "order": 1,
+      "order": 4,
       "category": "Location Panel"
-    },
-    {
-      "id": "test_exit_panel_basic",
-      "name": "Exit Panel Basic Functionality",
-      "description": "Tests basic functionality of the Exit Panel including UI elements and data loading.",
-      "functionName": "testExitPanelBasicFunctionality",
-      "isEnabled": true,
-      "order": 1,
-      "category": "Exit Panel"
     },
     {
       "id": "test_events_panel_sender_receiver",
@@ -177,35 +54,8 @@
       "description": "Verifies that modules appearing as both senders and receivers are correctly displayed in the Events panel",
       "functionName": "testEventsPanelSenderReceiverDisplay",
       "isEnabled": true,
-      "order": 1,
+      "order": 5,
       "category": "Events Panel"
-    },
-    {
-      "id": "test_library_region_accessibility_navigation",
-      "name": "Library Region Accessibility Test (Navigation)",
-      "description": "Verifies that Library region shows as accessible while Library location shows as inaccessible using Move button navigation.",
-      "functionName": "testLibraryRegionAccessibilityNavigation",
-      "isEnabled": true,
-      "order": 1,
-      "category": "Region Panel"
-    },
-    {
-      "id": "test_path_analyzer_misery_mire_entrance",
-      "name": "Path Analyzer - Misery Mire (Entrance) Test",
-      "description": "Tests Path Analyzer with Misery Mire (Entrance) region (with parentheses).",
-      "functionName": "testPathAnalyzerMiseryMireEntrance",
-      "isEnabled": true,
-      "order": 2,
-      "category": "Path Analysis"
-    },
-    {
-      "id": "test_case_run_one",
-      "name": "Test Case Panel - Single Test",
-      "description": "Runs a single test in the Test Cases panel.",
-      "functionName": "testCasePanelRunOneTest",
-      "isEnabled": true,
-      "order": 2,
-      "category": "Test Cases Panel"
     },
     {
       "id": "test_events_panel_module_names",
@@ -213,25 +63,70 @@
       "description": "Verifies that the Events panel correctly tracks module names and enable/disable functionality works",
       "functionName": "testEventsPanelModuleNameTracking",
       "isEnabled": true,
-      "order": 2,
+      "order": 6,
       "category": "Events Panel"
     },
     {
-      "id": "test_region_panel_basic",
-      "name": "Region Panel Basic Functionality",
-      "description": "Tests basic functionality of the Region Panel including UI elements and data loading.",
-      "functionName": "testRegionPanelBasicFunctionality",
+      "id": "test_library_exit_accessibility",
+      "name": "Library Exit Accessibility Test",
+      "description": "Verifies that the Library exit shows correct accessibility status, specifically testing the fix for region/location name conflicts.",
+      "functionName": "testLibraryExitAccessibility",
       "isEnabled": true,
-      "order": 2,
-      "category": "Region Panel"
+      "order": 7,
+      "category": "Exit Panel"
     },
     {
-      "id": "debug_path_analyzer_library_paths",
-      "name": "Debug Path Analyzer Library Paths",
-      "description": "Debug test to check actual DOM structure for Library paths",
-      "functionName": "debugPathAnalyzerLibraryPaths",
+      "id": "test_exit_panel_basic",
+      "name": "Exit Panel Basic Functionality",
+      "description": "Tests basic functionality of the Exit Panel including UI elements and data loading.",
+      "functionName": "testExitPanelBasicFunctionality",
       "isEnabled": true,
-      "order": 2.5,
+      "order": 8,
+      "category": "Exit Panel"
+    },
+    {
+      "id": "simple_path_analyzer",
+      "name": "Simple Path Analyzer",
+      "description": "Very simple test to isolate Path Analyzer issues without state manager.",
+      "functionName": "simplePathAnalyzerTest",
+      "isEnabled": true,
+      "order": 9,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "debug_path_analyzer",
+      "name": "Debug Path Analyzer",
+      "description": "Simple debug test to isolate Path Analyzer issues.",
+      "functionName": "debugPathAnalyzerTest",
+      "isEnabled": true,
+      "order": 10,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_panel",
+      "name": "Path Analyzer - Panel Test",
+      "description": "Opens the Path Analyzer panel and selects a region to analyze.",
+      "functionName": "testPathAnalyzerPanel",
+      "isEnabled": true,
+      "order": 11,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_library",
+      "name": "Path Analyzer - Library Test",
+      "description": "Tests Path Analyzer with Library region (no parentheses).",
+      "functionName": "testPathAnalyzerLibrary",
+      "isEnabled": true,
+      "order": 12,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_misery_mire_entrance",
+      "name": "Path Analyzer - Misery Mire (Entrance) Test",
+      "description": "Tests Path Analyzer with Misery Mire (Entrance) region (with parentheses).",
+      "functionName": "testPathAnalyzerMiseryMireEntrance",
+      "isEnabled": true,
+      "order": 13,
       "category": "Path Analysis"
     },
     {
@@ -240,26 +135,17 @@
       "description": "Tests Path Analyzer UI interaction with Library region (no parentheses).",
       "functionName": "testPathAnalyzerUILibrary",
       "isEnabled": true,
-      "order": 3,
+      "order": 14,
       "category": "Path Analysis"
     },
     {
-      "id": "test_case_run_sub_test",
-      "name": "Test Case Panel - Single Item Sub-test",
-      "description": "Tests clicking a specific item link to trigger its sub-test in the Test Cases panel.",
-      "functionName": "testCasePanelRunItemSubTest",
+      "id": "debug_path_analyzer_library_paths",
+      "name": "Debug Path Analyzer Library Paths",
+      "description": "Debug test to check actual DOM structure for Library paths",
+      "functionName": "debugPathAnalyzerLibraryPaths",
       "isEnabled": true,
-      "order": 3,
-      "category": "Test Cases Panel"
-    },
-    {
-      "id": "test_show_paths_checkbox",
-      "name": "Show Paths Checkbox",
-      "description": "Tests the Show Paths checkbox functionality for hiding/showing the full region path.",
-      "functionName": "testShowPathsCheckbox",
-      "isEnabled": true,
-      "order": 3,
-      "category": "Region Panel"
+      "order": 15,
+      "category": "Path Analysis"
     },
     {
       "id": "test_path_analyzer_ui_misery_mire_entrance",
@@ -267,8 +153,53 @@
       "description": "Tests Path Analyzer UI interaction with Misery Mire (Entrance) region (with parentheses).",
       "functionName": "testPathAnalyzerUIMiseryMireEntrance",
       "isEnabled": true,
-      "order": 4,
+      "order": 16,
       "category": "Path Analysis"
+    },
+    {
+      "id": "test_spoiler_full_run",
+      "name": "Test Spoilers Panel - Full Run",
+      "description": "Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.",
+      "functionName": "testSpoilersPanelFullRun",
+      "isEnabled": true,
+      "order": 17,
+      "category": "Test Spoilers Panel"
+    },
+    {
+      "id": "test_library_region_accessibility_show_all",
+      "name": "Library Region Accessibility Test (Show All)",
+      "description": "Verifies that Library region shows as accessible while Library location shows as inaccessible using \"Show All Regions\" mode.",
+      "functionName": "testLibraryRegionAccessibilityShowAll",
+      "isEnabled": true,
+      "order": 18,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_library_region_accessibility_navigation",
+      "name": "Library Region Accessibility Test (Navigation)",
+      "description": "Verifies that Library region shows as accessible while Library location shows as inaccessible using Move button navigation.",
+      "functionName": "testLibraryRegionAccessibilityNavigation",
+      "isEnabled": true,
+      "order": 19,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_region_panel_basic",
+      "name": "Region Panel Basic Functionality",
+      "description": "Tests basic functionality of the Region Panel including UI elements and data loading.",
+      "functionName": "testRegionPanelBasicFunctionality",
+      "isEnabled": true,
+      "order": 20,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_show_paths_checkbox",
+      "name": "Show Paths Checkbox",
+      "description": "Tests the Show Paths checkbox functionality for hiding/showing the full region path.",
+      "functionName": "testShowPathsCheckbox",
+      "isEnabled": true,
+      "order": 21,
+      "category": "Region Panel"
     },
     {
       "id": "test_region_move_event",
@@ -276,7 +207,7 @@
       "description": "Tests that clicking Move buttons dispatches user:regionMove events.",
       "functionName": "testRegionMoveEventDispatch",
       "isEnabled": true,
-      "order": 4,
+      "order": 22,
       "category": "Region Panel"
     },
     {
@@ -285,7 +216,7 @@
       "description": "Tests that region entrances are displayed with proper formatting and accessibility.",
       "functionName": "testEntranceDisplay",
       "isEnabled": true,
-      "order": 5,
+      "order": 23,
       "category": "Region Panel"
     },
     {
@@ -294,7 +225,7 @@
       "description": "Tests the ability to toggle the regions module event handler for user:regionMove events through the Events panel.",
       "functionName": "testRegionMoveEventHandlerToggle",
       "isEnabled": true,
-      "order": 6,
+      "order": 24,
       "category": "Region Panel"
     },
     {
@@ -303,17 +234,8 @@
       "description": "Comprehensive test of region move functionality including event dispatch, state updates, and UI changes.",
       "functionName": "testRegionMoveComplete",
       "isEnabled": true,
-      "order": 7,
+      "order": 25,
       "category": "Region Panel"
-    },
-    {
-      "id": "test_playthrough_panel",
-      "name": "Test Playthrough Panel - Run Full Test",
-      "description": "Tests selecting and running a full test playthrough using the first available playthrough log.",
-      "functionName": "testPlaythroughPanelRunFullTest",
-      "isEnabled": true,
-      "order": 20,
-      "category": "Test Playthroughs Panel"
     }
   ]
 }

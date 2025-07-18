@@ -84,20 +84,6 @@ export class TestUI {
     runAllButton.style.width = 'fit-content';
     controlsContainer.appendChild(runAllButton);
 
-    // Enable All checkbox
-    const enableAllLabel = document.createElement('label');
-    enableAllLabel.style.display = 'block';
-    enableAllLabel.style.fontWeight = 'bold';
-    this.enableAllCheckbox = document.createElement('input');
-    this.enableAllCheckbox.type = 'checkbox';
-    this.enableAllCheckbox.id = 'enable-all-tests-checkbox';
-    this.enableAllCheckbox.style.marginRight = '5px';
-    enableAllLabel.appendChild(this.enableAllCheckbox);
-    enableAllLabel.appendChild(
-      document.createTextNode('Enable All Categories')
-    );
-    controlsContainer.appendChild(enableAllLabel);
-
     // Auto-start checkbox
     const autoStartLabel = document.createElement('label');
     autoStartLabel.style.display = 'block';
@@ -111,6 +97,20 @@ export class TestUI {
       document.createTextNode('Auto-start tests on application load')
     );
     controlsContainer.appendChild(autoStartLabel);
+
+    // Enable All checkbox
+    const enableAllLabel = document.createElement('label');
+    enableAllLabel.style.display = 'block';
+    enableAllLabel.style.fontWeight = 'bold';
+    this.enableAllCheckbox = document.createElement('input');
+    this.enableAllCheckbox.type = 'checkbox';
+    this.enableAllCheckbox.id = 'enable-all-tests-checkbox';
+    this.enableAllCheckbox.style.marginRight = '5px';
+    enableAllLabel.appendChild(this.enableAllCheckbox);
+    enableAllLabel.appendChild(
+      document.createTextNode('Enable All Tests')
+    );
+    controlsContainer.appendChild(enableAllLabel);
 
     // Hide Disabled Tests checkbox
     const hideDisabledLabel = document.createElement('label');
@@ -156,7 +156,7 @@ export class TestUI {
     // Listener for the enable all checkbox
     if (this.enableAllCheckbox) {
       this.enableAllCheckbox.addEventListener('change', (event) => {
-        testLogic.toggleAllCategoriesEnabled(event.target.checked);
+        testLogic.toggleAllTestsEnabled(event.target.checked);
       });
     }
 
@@ -240,12 +240,10 @@ export class TestUI {
         this.updateAutoStartCheckbox(data.autoStartEnabled),
       'tests:hideDisabledConfigChanged': (data) =>
         this.updateHideDisabledCheckbox(data.hideDisabledEnabled),
-      'tests:allCategoriesChanged': (data) =>
+      'tests:allTestsChanged': (data) =>
         this.renderTestList().catch(console.error),
-      'tests:categoryChanged': (data) =>
+      'tests:testChanged': (data) =>
         this.updateEnableAllCheckbox().catch(console.error),
-      'tests:categoriesUpdated': (data) =>
-        this.renderTestList().catch(console.error),
     };
 
     for (const [eventName, handler] of Object.entries(handlers)) {
@@ -266,257 +264,147 @@ export class TestUI {
     // Check if we should hide disabled tests
     const shouldHideDisabled = testLogic.shouldHideDisabledTests();
 
-    // Group tests by category
-    const testsByCategory = {};
-    tests.forEach((test) => {
-      // Skip disabled tests if hiding is enabled
-      if (shouldHideDisabled && !test.isEnabled) {
-        return;
-      }
-      
-      if (!testsByCategory[test.category]) {
-        testsByCategory[test.category] = [];
-      }
-      testsByCategory[test.category].push(test);
-    });
+    // Filter tests if hiding disabled tests
+    const filteredTests = shouldHideDisabled ? tests.filter(test => test.isEnabled) : tests;
 
-    // Get categories in the correct order from testLogic
-    const orderedCategories = await testLogic.getCategories();
+    // Create tests list container
+    const testsList = document.createElement('ul');
+    testsList.className = 'tests-ul';
+    testsList.style.listStyle = 'none';
+    testsList.style.padding = '0';
 
-    // Create sections for each category in the correct order
-    orderedCategories.forEach((category, categoryIndex) => {
-      // Skip categories that have no tests
-      if (!testsByCategory[category]) return;
-      
-      // If hiding disabled tests, also skip categories where all tests are disabled
-      if (shouldHideDisabled && testsByCategory[category].length === 0) {
-        return;
-      }
-      
-      // If hiding disabled tests, also skip categories that are disabled
-      if (shouldHideDisabled && !testLogic.isCategoryEnabled(category)) {
-        return;
-      }
+    filteredTests.forEach((test, index) => {
+      const li = document.createElement('li');
+      li.className = 'test-item';
+      li.dataset.testId = test.id;
+      li.style.marginBottom = '15px';
+      li.style.padding = '10px';
+      li.style.border = '1px solid #444';
+      li.style.borderRadius = '4px';
 
-      const categorySection = document.createElement('div');
-      categorySection.className = 'test-category-section';
-      categorySection.style.marginBottom = '20px';
-      categorySection.style.border = '1px solid #444';
-      categorySection.style.borderRadius = '4px';
-      categorySection.style.padding = '10px';
+      // Create controlsDiv first
+      const controlsDiv = document.createElement('div');
+      controlsDiv.className = 'test-item-controls';
+      controlsDiv.style.display = 'flex';
+      controlsDiv.style.justifyContent = 'space-between';
+      controlsDiv.style.marginBottom = '8px';
+      controlsDiv.style.alignItems = 'center';
 
-      // Category header with enable/disable control
-      const categoryHeader = document.createElement('div');
-      categoryHeader.className = 'test-category-header';
-      categoryHeader.style.display = 'flex';
-      categoryHeader.style.alignItems = 'center';
-      categoryHeader.style.marginBottom = '10px';
-      categoryHeader.style.paddingBottom = '5px';
-      categoryHeader.style.borderBottom = '1px solid #444';
+      const enableLabel = document.createElement('label');
+      enableLabel.style.display = 'flex';
+      enableLabel.style.alignItems = 'center';
+      const enableCheckbox = document.createElement('input');
+      enableCheckbox.type = 'checkbox';
+      enableCheckbox.className = 'test-enable-checkbox';
+      enableCheckbox.checked = test.isEnabled;
+      enableCheckbox.title = 'Enable/Disable Test';
+      enableCheckbox.addEventListener('change', (event) => {
+        testLogic.toggleTestEnabled(test.id, event.target.checked);
+      });
+      enableLabel.appendChild(enableCheckbox);
+      enableLabel.appendChild(document.createTextNode('Enabled'));
+      controlsDiv.appendChild(enableLabel);
 
-      // Category reordering controls
-      const categoryControls = document.createElement('div');
-      categoryControls.style.display = 'flex';
-      categoryControls.style.alignItems = 'center';
-      categoryControls.style.marginRight = '10px';
+      // Create a new div to group the action buttons on the right
+      const actionButtonsGroup = document.createElement('div');
+      actionButtonsGroup.style.display = 'flex';
+      actionButtonsGroup.style.gap = '5px';
+      actionButtonsGroup.style.alignItems = 'center';
+
+      // Add order display
+      const orderDisplay = document.createElement('span');
+      orderDisplay.textContent = `${test.order}`;
+      orderDisplay.style.marginRight = '10px';
+      orderDisplay.style.fontSize = '12px';
+      orderDisplay.style.color = '#888';
+      orderDisplay.title = 'Test Order';
+      actionButtonsGroup.appendChild(orderDisplay);
 
       const upButton = document.createElement('button');
       upButton.textContent = '↑';
-      upButton.className = 'button button-small move-category-up-button';
-      upButton.title = 'Move Category Up';
-      upButton.disabled = categoryIndex === 0;
-      upButton.addEventListener('click', () => {
-        testLogic.updateCategoryOrder(category, 'up');
-      });
-      categoryControls.appendChild(upButton);
+      upButton.className = 'button button-small move-test-up-button';
+      upButton.title = 'Move Up';
+      upButton.disabled = index === 0;
+      actionButtonsGroup.appendChild(upButton);
 
       const downButton = document.createElement('button');
       downButton.textContent = '↓';
-      downButton.className = 'button button-small move-category-down-button';
-      downButton.title = 'Move Category Down';
-      downButton.disabled = categoryIndex === orderedCategories.length - 1;
-      downButton.addEventListener('click', () => {
-        testLogic.updateCategoryOrder(category, 'down');
-      });
-      categoryControls.appendChild(downButton);
+      downButton.className = 'button button-small move-test-down-button';
+      downButton.title = 'Move Down';
+      downButton.disabled = index === filteredTests.length - 1;
+      actionButtonsGroup.appendChild(downButton);
 
-      categoryHeader.appendChild(categoryControls);
+      const runButton = document.createElement('button');
+      runButton.textContent = 'Run';
+      runButton.className = 'button button-small run-single-test-button';
+      actionButtonsGroup.appendChild(runButton);
 
-      const categoryLabel = document.createElement('label');
-      categoryLabel.style.display = 'flex';
-      categoryLabel.style.alignItems = 'center';
-      categoryLabel.style.flex = '1';
-      categoryLabel.style.fontWeight = 'bold';
+      controlsDiv.appendChild(actionButtonsGroup);
+      li.appendChild(controlsDiv);
 
-      const categoryCheckbox = document.createElement('input');
-      categoryCheckbox.type = 'checkbox';
-      categoryCheckbox.className = 'test-category-checkbox';
+      // Category and name/description
+      const nameDescDiv = document.createElement('div');
+      nameDescDiv.className = 'test-item-name-desc';
+      nameDescDiv.style.marginBottom = '5px';
 
-      // NEW LOGIC for category checkbox state:
-      const testsInThisCategory = testsByCategory[category];
-      const allEnabledInCategory = testsInThisCategory.every(
-        (t) => t.isEnabled
+      // Display category in smaller font above test name
+      if (test.category) {
+        const categoryEl = document.createElement('div');
+        categoryEl.textContent = test.category;
+        categoryEl.style.fontSize = '11px';
+        categoryEl.style.color = '#aaa';
+        categoryEl.style.marginBottom = '2px';
+        nameDescDiv.appendChild(categoryEl);
+      }
+
+      const nameEl = document.createElement('strong');
+      nameEl.textContent = test.name;
+      nameEl.style.display = 'block';
+      nameEl.style.marginBottom = '3px';
+      nameDescDiv.appendChild(nameEl);
+
+      if (test.description) {
+        const descEl = document.createElement('p');
+        descEl.textContent = test.description;
+        descEl.style.margin = '0';
+        nameDescDiv.appendChild(descEl);
+      }
+      li.appendChild(nameDescDiv);
+
+      const statusEl = document.createElement('div');
+      statusEl.className = 'test-status-display';
+      statusEl.dataset.statusFor = test.id;
+      this.updateTestStatusElement(
+        statusEl,
+        test.status,
+        test.currentEventWaitingFor
       );
-      const anyEnabledInCategory = testsInThisCategory.some((t) => t.isEnabled);
+      li.appendChild(statusEl);
 
-      categoryCheckbox.checked = allEnabledInCategory;
-      categoryCheckbox.indeterminate =
-        !allEnabledInCategory && anyEnabledInCategory;
-
-      categoryCheckbox.style.marginRight = '8px';
-      categoryCheckbox.addEventListener('change', (event) => {
-        const isEnabled = event.target.checked;
-        testLogic.toggleCategoryEnabled(category, isEnabled);
-        // Update all test checkboxes in this category (for immediate visual feedback)
-        // This will be confirmed by the re-render triggered by 'tests:listUpdated'
-        const testCheckboxes = categorySection.querySelectorAll(
-          '.test-enable-checkbox'
+      const conditionsEl = document.createElement('ul');
+      conditionsEl.className = 'test-conditions-list';
+      conditionsEl.dataset.conditionsFor = test.id;
+      test.conditions.forEach((cond) => {
+        const condItem = document.createElement('li');
+        condItem.textContent = `${cond.status === 'passed' ? '✅' : '❌'} ${
+          cond.description
+        }`;
+        condItem.classList.add(
+          cond.status === 'passed' ? 'condition-passed' : 'condition-failed'
         );
-        testCheckboxes.forEach((checkbox) => {
-          checkbox.checked = isEnabled;
-        });
+        conditionsEl.appendChild(condItem);
       });
-      categoryLabel.appendChild(categoryCheckbox);
-      categoryLabel.appendChild(document.createTextNode(category));
-      categoryHeader.appendChild(categoryLabel);
+      li.appendChild(conditionsEl);
 
-      // Add category-level run button
-      const runCategoryButton = document.createElement('button');
-      runCategoryButton.textContent = 'Run Category';
-      runCategoryButton.className = 'button button-small run-category-button';
-      runCategoryButton.style.marginLeft = '10px';
-      runCategoryButton.addEventListener('click', async () => {
-        const categoryTests = testsByCategory[category];
-        for (const test of categoryTests) {
-          if (test.isEnabled) {
-            await testLogic.runTest(test.id);
-          }
-        }
-      });
-      categoryHeader.appendChild(runCategoryButton);
+      const logArea = document.createElement('div');
+      logArea.className = 'test-log-area';
+      logArea.dataset.logFor = test.id;
+      li.appendChild(logArea);
 
-      categorySection.appendChild(categoryHeader);
-
-      // Tests list for this category
-      const testsList = document.createElement('ul');
-      testsList.className = 'tests-ul';
-      testsList.style.listStyle = 'none';
-      testsList.style.padding = '0';
-
-      testsByCategory[category].forEach((test, index) => {
-        const li = document.createElement('li');
-        li.className = 'test-item';
-        li.dataset.testId = test.id;
-
-        // Create controlsDiv first
-        const controlsDiv = document.createElement('div');
-        controlsDiv.className = 'test-item-controls';
-        // Apply some styling to make it a clear top row
-        controlsDiv.style.display = 'flex';
-        controlsDiv.style.justifyContent = 'space-between'; // Changed from flex-start
-        controlsDiv.style.marginBottom = '8px'; // Space below the button row
-        controlsDiv.style.alignItems = 'center'; // Vertically align items in the controls row
-
-        const enableLabel = document.createElement('label');
-        enableLabel.style.display = 'flex'; // Align checkbox and text
-        enableLabel.style.alignItems = 'center';
-        const enableCheckbox = document.createElement('input');
-        enableCheckbox.type = 'checkbox';
-        enableCheckbox.className = 'test-enable-checkbox';
-        enableCheckbox.checked = test.isEnabled;
-        enableCheckbox.title = 'Enable/Disable Test';
-        enableCheckbox.addEventListener('change', (event) => {
-          testLogic.toggleTestEnabled(test.id, event.target.checked);
-        });
-        enableLabel.appendChild(enableCheckbox);
-        enableLabel.appendChild(document.createTextNode('Enabled'));
-        controlsDiv.appendChild(enableLabel);
-
-        // Create a new div to group the action buttons on the right
-        const actionButtonsGroup = document.createElement('div');
-        actionButtonsGroup.style.display = 'flex';
-        actionButtonsGroup.style.gap = '5px'; // Space between action buttons
-
-        const upButton = document.createElement('button');
-        upButton.textContent = '↑';
-        upButton.className = 'button button-small move-test-up-button';
-        upButton.title = 'Move Up';
-        upButton.disabled = index === 0;
-        actionButtonsGroup.appendChild(upButton); // Add to group
-
-        const downButton = document.createElement('button');
-        downButton.textContent = '↓';
-        downButton.className = 'button button-small move-test-down-button';
-        downButton.title = 'Move Down';
-        downButton.disabled = index === testsByCategory[category].length - 1;
-        actionButtonsGroup.appendChild(downButton); // Add to group
-
-        const runButton = document.createElement('button');
-        runButton.textContent = 'Run';
-        runButton.className = 'button button-small run-single-test-button';
-        actionButtonsGroup.appendChild(runButton); // Add to group
-
-        controlsDiv.appendChild(actionButtonsGroup); // Add the group to the main controlsDiv
-
-        // Append controls to the list item first
-        li.appendChild(controlsDiv);
-
-        // Then create and append name/description
-        const nameDescDiv = document.createElement('div');
-        nameDescDiv.className = 'test-item-name-desc';
-        // Ensure it takes full width and elements stack
-        nameDescDiv.style.marginBottom = '5px'; // Space below description
-
-        const nameEl = document.createElement('strong');
-        nameEl.textContent = test.name;
-        nameEl.style.display = 'block'; // Ensure it takes its own line
-        nameEl.style.marginBottom = '3px'; // Space between title and description
-        nameDescDiv.appendChild(nameEl);
-
-        if (test.description) {
-          const descEl = document.createElement('p');
-          descEl.textContent = test.description;
-          descEl.style.margin = '0'; // Remove default paragraph margins
-          nameDescDiv.appendChild(descEl);
-        }
-        li.appendChild(nameDescDiv);
-
-        const statusEl = document.createElement('div');
-        statusEl.className = 'test-status-display';
-        statusEl.dataset.statusFor = test.id;
-        this.updateTestStatusElement(
-          statusEl,
-          test.status,
-          test.currentEventWaitingFor
-        );
-        li.appendChild(statusEl);
-
-        const conditionsEl = document.createElement('ul');
-        conditionsEl.className = 'test-conditions-list';
-        conditionsEl.dataset.conditionsFor = test.id;
-        test.conditions.forEach((cond) => {
-          const condItem = document.createElement('li');
-          condItem.textContent = `${cond.status === 'passed' ? '✅' : '❌'} ${
-            cond.description
-          }`;
-          condItem.classList.add(
-            cond.status === 'passed' ? 'condition-passed' : 'condition-failed'
-          );
-          conditionsEl.appendChild(condItem);
-        });
-        li.appendChild(conditionsEl);
-
-        const logArea = document.createElement('div');
-        logArea.className = 'test-log-area';
-        logArea.dataset.logFor = test.id;
-        li.appendChild(logArea);
-
-        testsList.appendChild(li);
-      });
-
-      categorySection.appendChild(testsList);
-      this.testListContainer.appendChild(categorySection);
+      testsList.appendChild(li);
     });
+
+    this.testListContainer.appendChild(testsList);
 
     // Update the Enable All checkbox state after rendering
     this.updateEnableAllCheckbox().catch(console.error);
@@ -622,10 +510,12 @@ export class TestUI {
     if (!this.enableAllCheckbox) return;
 
     try {
-      const state = await testLogic.getAllCategoriesState();
-      this.enableAllCheckbox.checked = state.allEnabled;
-      this.enableAllCheckbox.indeterminate =
-        !state.allEnabled && (state.anyEnabled || state.anyIndeterminate);
+      const tests = await testLogic.getTests();
+      const allEnabled = tests.every(test => test.isEnabled);
+      const anyEnabled = tests.some(test => test.isEnabled);
+      
+      this.enableAllCheckbox.checked = allEnabled;
+      this.enableAllCheckbox.indeterminate = !allEnabled && anyEnabled;
     } catch (error) {
       log('error', 'Error updating Enable All checkbox:', error);
     }

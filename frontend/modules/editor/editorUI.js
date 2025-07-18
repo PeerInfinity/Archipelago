@@ -44,6 +44,11 @@ class EditorUI {
         loaded: false,
         name: 'Loaded Mode Data',
       },
+      dataForExport: {
+        text: '{\n  "message": "No export data loaded yet."\n}',
+        loaded: false,
+        name: 'Data for Export',
+      },
     };
     this.currentSourceKey = 'rules'; // Default source
     this.editorDropdown = null;
@@ -237,6 +242,57 @@ class EditorUI {
         }
         if (this.currentSourceKey === 'localStorageMode') {
           this._displayCurrentSourceContent();
+        }
+      }
+    , 'editor');
+
+    // Subscribe to export data events from JSON panel
+    if (this.unsubscribeHandles['exportData']) {
+      log('warn', 
+        'EditorUI already subscribed to exportData. Unsubscribing previous first.'
+      );
+      this.unsubscribeHandles['exportData']();
+    }
+    
+    log('info', "EditorUI subscribing to 'json:exportToEditor'");
+    this.unsubscribeHandles['exportData'] = eventBus.subscribe(
+      'json:exportToEditor',
+      (eventData) => {
+        if (!eventData || !eventData.data) {
+          log('warn', 
+            "EditorUI received invalid payload for 'json:exportToEditor'",
+            eventData
+          );
+          this.contentSources.dataForExport.text = 'Error: Invalid export data received.';
+          this.contentSources.dataForExport.loaded = true;
+        } else {
+          log('info', 
+            'EditorUI received export data from JSON panel'
+          );
+          try {
+            this.contentSources.dataForExport.text = JSON.stringify(
+              eventData.data,
+              null,
+              2
+            );
+            this.contentSources.dataForExport.loaded = true;
+            
+            // Switch to the export view and activate Editor panel
+            this.currentSourceKey = 'dataForExport';
+            if (this.editorDropdown) {
+              this.editorDropdown.value = 'dataForExport';
+            }
+            this._displayCurrentSourceContent();
+            
+            // Activate the Editor panel
+            if (eventData.activatePanel !== false) {
+              eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'editor');
+            }
+          } catch (e) {
+            log('error', 'Error stringifying export data:', e);
+            this.contentSources.dataForExport.text = 'Error: Could not display export data.';
+            this.contentSources.dataForExport.loaded = true;
+          }
         }
       }
     , 'editor');

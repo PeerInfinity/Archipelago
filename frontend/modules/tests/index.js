@@ -47,6 +47,7 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('tests:categoriesUpdated');
   registrationApi.registerEventBusPublisher('tests:allCategoriesChanged');
   registrationApi.registerEventBusPublisher('tests:testEventAfterDelay');
+  registrationApi.registerEventBusPublisher('tests:allTestsChanged');
 
   registrationApi.registerJsonDataHandler('testsConfig', {
     displayName: 'Tests Configuration',

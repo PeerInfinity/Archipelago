@@ -141,6 +141,7 @@ export class JsonUI {
 
         <div class="json-section button-group">
           <button id="json-btn-save-file" class="button">Save Combined to File</button>
+          <button id="json-btn-export-text" class="button">Export to Text</button>
           <label class="file-input-button-label">
             Load Combined from File
             <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
@@ -203,6 +204,7 @@ export class JsonUI {
 
   _attachEventListeners(contextElement) {
     const saveFileButton = contextElement.querySelector('#json-btn-save-file');
+    const exportTextButton = contextElement.querySelector('#json-btn-export-text');
     const loadFileLabel = contextElement.querySelector(
       '.file-input-button-label'
     );
@@ -216,6 +218,9 @@ export class JsonUI {
 
     if (saveFileButton) {
       saveFileButton.addEventListener('click', () => this._handleSaveToFile());
+    }
+    if (exportTextButton) {
+      exportTextButton.addEventListener('click', () => this._handleExportToText());
     }
     if (loadFileInput) {
       loadFileInput.addEventListener('change', (event) =>
@@ -427,6 +432,35 @@ export class JsonUI {
       combinedData
     );
     this._downloadJSON(combinedData, `${modeName}_config.json`);
+  }
+
+  async _handleExportToText() {
+    const modeName = this.modeNameInput.value.trim() || 'default';
+    // Use the same data gathering logic as save to file
+    const dataToExport = await this._gatherSelectedData();
+
+    if (Object.keys(dataToExport).length === 0) {
+      alert('No data types selected to export.');
+      return;
+    }
+
+    const combinedData = {
+      modeName: modeName, // Store the mode name within the data
+      savedTimestamp: new Date().toISOString(),
+      ...dataToExport,
+    };
+
+    log('info', 
+      `[JsonUI] Export to text. Mode: ${modeName}, Data:`,
+      combinedData
+    );
+
+    // Send the data to the Editor panel via eventBus
+    eventBus.publish('json:exportToEditor', {
+      data: combinedData,
+      modeName: modeName,
+      activatePanel: true
+    }, 'json');
   }
 
   _handleLoadFromFile(event) {

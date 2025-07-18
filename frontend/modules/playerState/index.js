@@ -30,6 +30,8 @@ export async function register(registrationApi) {
         { direction: 'up', condition: 'unconditional', timing: 'immediate' }
     );
 
+    registrationApi.registerEventBusPublisher('playerState:regionChanged');
+
     // Export public functions
     registrationApi.registerPublicFunction(moduleId, 'getCurrentRegion', () => {
         const playerState = getPlayerStateSingleton();

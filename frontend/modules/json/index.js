@@ -28,6 +28,8 @@ export function register(registrationApi) {
   // Register the panel component CLASS constructor
   registrationApi.registerPanelComponent('jsonPanel', JsonUI);
 
+  registrationApi.registerEventBusPublisher('json:exportToEditor');
+
   // TODO: Register any event bus subscribers or publishers if needed directly by the module index
   // TODO: Register any dispatcher receivers or senders if needed
   // TODO: Register settings schema if this module has direct settings
