@@ -1005,6 +1005,11 @@ export async function testRegionMoveComplete(testController) {
   try {
     testController.log(`[${testRunId}] Starting comprehensive region move test...`);
     
+    // Reset state by reloading current rules
+    testController.log(`[${testRunId}] Reloading current rules to reset state...`);
+    await testController.reloadCurrentRules();
+    testController.log(`[${testRunId}] Rules reloaded successfully`);
+    
     // Import modules we'll need
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
@@ -1401,6 +1406,11 @@ export async function testRegionMoveEventHandlerToggle(testController) {
   try {
     testController.log(`[${testRunId}] Starting region move event handler toggle test...`);
     
+    // Reset state by reloading current rules
+    testController.log(`[${testRunId}] Reloading current rules to reset state...`);
+    await testController.reloadCurrentRules();
+    testController.log(`[${testRunId}] Rules reloaded successfully`);
+    
     // Import modules we'll need
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
@@ -1420,7 +1430,8 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     // 2. Verify initial state - should have "Menu" as current region
     const playerState = getPlayerStateSingleton();
     const currentRegion = playerState.getCurrentRegion();
-    testController.log(`[${testRunId}] Initial current region: ${currentRegion}`);
+    testController.log(`[${testRunId}] Initial current region: "${currentRegion}" (type: ${typeof currentRegion})`);
+    testController.log(`[${testRunId}] Comparison result: ${currentRegion === 'Menu'} (expected: true)`);
     testController.reportCondition('Menu is current region', currentRegion === 'Menu');
     
     // 3. Check checkbox states

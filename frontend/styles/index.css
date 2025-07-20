@@ -1329,3 +1329,25 @@ label {
   padding: 4px 8px;
   font-size: 0.8em;
 }
+
+/* JSON Module - Checkbox containers with Text buttons */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.checkbox-container .text-export-btn {
+  min-width: 44px;
+  flex-shrink: 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin: 0;
+}
+
+.checkbox-container label {
+  margin: 0;
+  flex-grow: 1;
+}

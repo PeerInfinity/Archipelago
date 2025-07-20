@@ -442,10 +442,11 @@ export const testLogic = {
           );
           
           // Add timeout to auto-start to prevent infinite waiting
+          // Increased timeout to accommodate many enabled tests
           await Promise.race([
             this.runAllEnabledTests(),
             new Promise((_, reject) => {
-              setTimeout(() => reject(new Error('Auto-start timeout after 30 seconds')), 30000);
+              setTimeout(() => reject(new Error('Auto-start timeout after 120 seconds')), 120000);
             })
           ]);
         } catch (error) {
@@ -455,15 +456,23 @@ export const testLogic = {
             error
           );
           
-          // Set completion flags even if auto-start fails
+          // Set completion flags even if auto-start fails, but use actual test results
+          const tests = TestState.getTests();
+          const completedTests = tests.filter(test => test.status === 'passed' || test.status === 'failed');
+          const passedTests = tests.filter(test => test.status === 'passed');
+          const failedTests = tests.filter(test => test.status === 'failed');
+          const failedConditions = failedTests.reduce((total, test) => {
+            return total + (test.conditions ? test.conditions.filter(c => c.status === 'failed').length : 0);
+          }, 0);
+          
           const summary = {
-            totalRun: 0,
-            passedCount: 0,
-            failedCount: 0,
-            failedConditionsCount: 0,
+            totalRun: completedTests.length,
+            passedCount: passedTests.length,
+            failedCount: failedTests.length,
+            failedConditionsCount: failedConditions,
             error: error.message
           };
-          this._setPlaywrightCompletionFlags(summary, TestState.getTests());
+          this._setPlaywrightCompletionFlags(summary, tests);
         }
       }, 100);
     }
@@ -514,6 +523,17 @@ export const testLogic = {
 
   // Methods called by TestController via callbacks
   _setTestStatus(testId, status, eventWaitingFor = null) {
+    // Check if this test has already completed - prevent status changes after completion
+    // EXCEPT when starting a new test run (status = 'running') which is allowed for re-runs
+    const test = TestState.findTestById(testId);
+    const currentRunningTestId = TestState.getCurrentRunningTestId();
+    
+    
+    if (test && (test.status === 'passed' || test.status === 'failed') && status !== 'running') {
+      log('warn', `[TestLogic] Ignoring status change to '${status}' for completed test '${testId}' (current status: ${test.status}), currentRunning: ${currentRunningTestId}`);
+      return;
+    }
+    
     TestState.setTestStatus(testId, status, eventWaitingFor);
     if (eventBusInstance)
       eventBusInstance.publish('tests:statusChanged', {
@@ -524,6 +544,19 @@ export const testLogic = {
   },
 
   _addTestCondition(testId, description, status) {
+    // Allow condition additions if:
+    // 1. Test is not completed, OR
+    // 2. Test is currently running (being re-run), OR  
+    // 3. Any test is currently running (during a test run)
+    const test = TestState.findTestById(testId);
+    const currentRunningTestId = TestState.getCurrentRunningTestId();
+    
+    if (test && (test.status === 'passed' || test.status === 'failed') && 
+        testId !== currentRunningTestId && !currentRunningTestId) {
+      log('warn', `[TestLogic] Ignoring condition addition for completed test '${testId}' (current status: ${test.status}): ${description}`);
+      return;
+    }
+    
     TestState.addTestCondition(testId, description, status);
     if (eventBusInstance)
       eventBusInstance.publish('tests:conditionReported', {
@@ -534,6 +567,21 @@ export const testLogic = {
   },
 
   _emitLogMessage(testId, message, type) {
+    // Allow log additions if:
+    // 1. Test is not completed, OR
+    // 2. Test is currently running (being re-run), OR  
+    // 3. Any test is currently running (during a test run), OR
+    // 4. It's an error/warn level message
+    const test = TestState.findTestById(testId);
+    const currentRunningTestId = TestState.getCurrentRunningTestId();
+    
+    if (test && (test.status === 'passed' || test.status === 'failed') && 
+        testId !== currentRunningTestId && !currentRunningTestId &&
+        type !== 'error' && type !== 'warn' && type !== 'debug') {
+      log('warn', `[TestLogic] Ignoring log addition for completed test '${testId}' (current status: ${test.status}): ${message}`);
+      return;
+    }
+    
     TestState.addTestLog(testId, message, type || 'info');
     if (eventBusInstance)
       eventBusInstance.publish('tests:logAdded', { testId, message, type }, 'tests');
@@ -544,14 +592,30 @@ export const testLogic = {
       'info',
       `[_emitTestCompleted] CALLED with testId: ${testId}, overallStatus: ${overallStatus}`
     );
+    
+    // Check if any conditions failed and override overallStatus if needed
+    const test = TestState.findTestById(testId);
+    let finalStatus = overallStatus;
+    
+    if (test && test.conditions && Array.isArray(test.conditions)) {
+      const failedConditions = test.conditions.filter(condition => condition.status === 'failed');
+      if (failedConditions.length > 0) {
+        log(
+          'info',
+          `[_emitTestCompleted] Found ${failedConditions.length} failed conditions, overriding overallStatus from ${overallStatus} to false`
+        );
+        finalStatus = false;
+      }
+    }
+    
     // Finalize test status
-    TestState.setTestStatus(testId, overallStatus ? 'passed' : 'failed');
+    TestState.setTestStatus(testId, finalStatus ? 'passed' : 'failed');
     TestState.setCurrentRunningTestId(null);
 
     log(
       'info',
       `[_emitTestCompleted] Updated test status to: ${
-        overallStatus ? 'passed' : 'failed'
+        finalStatus ? 'passed' : 'failed'
       }`
     );
 
@@ -564,7 +628,7 @@ export const testLogic = {
       eventBusInstance.publish('tests:completed', {
         testId,
         name: test ? test.name : testId,
-        overallStatus: overallStatus ? 'passed' : 'failed',
+        overallStatus: finalStatus ? 'passed' : 'failed',
         conditions: test ? test.conditions : [],
       }, 'tests');
       log(
@@ -679,6 +743,11 @@ export const testLogic = {
         false
       );
       await testController.completeTest(false);
+    } finally {
+      // Ensure cleanup happens even if completeTest wasn't called
+      if (testController && typeof testController._cleanupAllEventListeners === 'function') {
+        testController._cleanupAllEventListeners();
+      }
     }
   },
 

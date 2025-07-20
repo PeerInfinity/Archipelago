@@ -19,12 +19,6 @@ export async function register(registrationApi) {
     // Register dispatcher receivers for events
     registrationApi.registerDispatcherReceiver(
         moduleId,
-        'state:rulesLoaded',
-        handleRulesLoaded
-    );
-    
-    registrationApi.registerDispatcherReceiver(
-        moduleId,
         'user:regionMove',
         handleRegionMove,
         { direction: 'up', condition: 'unconditional', timing: 'immediate' }
@@ -54,11 +48,17 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     const eventBus = initializationApi.getEventBus();
     createPlayerStateSingleton(eventBus);
     
+    // Subscribe to stateManager:rulesLoaded via eventBus (not dispatcher)
+    if (eventBus) {
+        eventBus.subscribe('stateManager:rulesLoaded', handleRulesLoaded, moduleId);
+        log('info', `[${moduleId} Module] Subscribed to stateManager:rulesLoaded via eventBus`);
+    }
+    
     log('info', `[${moduleId} Module] Initialization complete.`);
 }
 
 function handleRulesLoaded(data, propagationOptions) {
-    log('info', `[${moduleId} Module] Received state:rulesLoaded event`);
+    log('info', `[${moduleId} Module] Received stateManager:rulesLoaded event`);
     
     const playerState = getPlayerStateSingleton();
     playerState.reset();
@@ -67,12 +67,12 @@ function handleRulesLoaded(data, propagationOptions) {
     if (moduleDispatcher) {
         moduleDispatcher.publishToNextModule(
             moduleId,
-            'state:rulesLoaded',
+            'stateManager:rulesLoaded',
             data,
             { direction: 'up' }
         );
     } else {
-        log('error', `[${moduleId} Module] Dispatcher not available for propagation of state:rulesLoaded event`);
+        log('error', `[${moduleId} Module] Dispatcher not available for propagation of stateManager:rulesLoaded event`);
     }
 }
 

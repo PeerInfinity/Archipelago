@@ -61,6 +61,7 @@ function register(registrationApi) {
   registrationApi.registerEventBusPublisher('stateManager:loadingRules'); // Status updates during rule loading
   registrationApi.registerEventBusPublisher('stateManager:pongReceived'); // Response to ping requests
   registrationApi.registerEventBusPublisher('stateManager:inventoryChanged'); // Inventory changes
+  registrationApi.registerEventBusPublisher('stateManager:checkedLocationsCleared'); // Inventory changes
   // Add other specific events forwarded by the proxy if needed (e.g., 'stateManager:itemAdded')
 
   // Register events this module (or the proxy logic implicitly) might subscribe to

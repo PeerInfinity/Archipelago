@@ -34,7 +34,7 @@ test.describe('Application End-to-End Tests', () => {
         return flag === 'true';
       },
       null,
-      { timeout: 60000, polling: 500 }
+      { timeout: 130000, polling: 500 }
     ); // Poll every 500ms
 
     console.log(

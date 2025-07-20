@@ -5,9 +5,9 @@ export default defineConfig({
   testDir: './tests/e2e',
 
   // Timeout for each test (in milliseconds)
-  // Increased from default 30s to 60s to give a bit more leeway,
+  // Increased from default 30s to 150s to accommodate running many in-app tests,
   // especially if the app or tests are slow to initialize in CI environments.
-  timeout: 60000,
+  timeout: 150000,
 
   // Expectations timeout (how long to wait for expect() conditions to be met)
   expect: {

@@ -21,6 +21,10 @@ export class TestController {
     this.callbacks = callbacks; // { log, reportCondition, setTestStatus, completeTest }
     this.eventBus = eventBus; // Injected eventBus instance
     this.stateManager = stateManagerProxySingleton; // Direct import
+    
+    // Track active event listeners for automatic cleanup
+    this.activeEventListeners = new Map(); // eventName -> Set of handlers
+    this.isCompleted = false; // Flag to track if test has completed
   }
 
   log(message, type = 'info') {
@@ -507,19 +511,44 @@ export class TestController {
         reject(new Error(msg));
         return;
       }
+      
+      // Check if test has already completed
+      if (this.isCompleted) {
+        const msg = `Test ${this.testId} has already completed, ignoring waitForEvent for ${eventName}`;
+        this.log(msg, 'warn');
+        reject(new Error(msg));
+        return;
+      }
+      
       let timeoutId;
       const handler = (data) => {
         clearTimeout(timeoutId);
+        
+        // Remove from tracking before unsubscribing
+        this._removeEventListenerFromTracking(eventName, handler);
+        
         // Ensure eventBus and unsubscribe are still valid before calling
         if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
           this.eventBus.unsubscribe(eventName, handler);
         }
+        
+        // Check if test has already completed - don't update status if so
+        if (this.isCompleted) {
+          this.log(`Event received for completed test, ignoring: ${eventName}`, 'warn');
+          resolve(data);
+          return;
+        }
+        
         this.log(`Event received: ${eventName}`);
         this.log(`Event data: ${JSON.stringify(data)}`, 'debug');
         this.callbacks.setTestStatus(this.testId, 'running');
         resolve(data);
       };
+      
       timeoutId = setTimeout(() => {
+        // Remove from tracking before unsubscribing
+        this._removeEventListenerFromTracking(eventName, handler);
+        
         if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
           this.eventBus.unsubscribe(eventName, handler);
         }
@@ -531,6 +560,9 @@ export class TestController {
 
       if (this.eventBus && typeof this.eventBus.subscribe === 'function') {
         this.eventBus.subscribe(eventName, handler, 'tests');
+        
+        // Track this listener for cleanup
+        this._addEventListenerToTracking(eventName, handler);
       } else {
         clearTimeout(timeoutId);
         const msg =
@@ -559,6 +591,11 @@ export class TestController {
     this.log(
       `Test completion signal: ${overallPassStatus ? 'PASSED' : 'FAILED'}`
     );
+    
+    // Mark as completed and cleanup event listeners
+    this.isCompleted = true;
+    this._cleanupAllEventListeners();
+    
     // The status update and event emission will be handled by the callback
     this.callbacks.completeTest(this.testId, overallPassStatus);
   }
@@ -654,5 +691,64 @@ export class TestController {
       playerId: options.playerId || '1',
       playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
     });
+  }
+
+  // === Event Listener Tracking and Cleanup Methods ===
+  
+  /**
+   * Add an event listener to the tracking map
+   * @private
+   */
+  _addEventListenerToTracking(eventName, handler) {
+    if (!this.activeEventListeners.has(eventName)) {
+      this.activeEventListeners.set(eventName, new Set());
+    }
+    this.activeEventListeners.get(eventName).add(handler);
+    this.log(`Tracking event listener for ${eventName} (total: ${this.activeEventListeners.get(eventName).size})`, 'debug');
+  }
+  
+  /**
+   * Remove an event listener from the tracking map
+   * @private
+   */
+  _removeEventListenerFromTracking(eventName, handler) {
+    if (this.activeEventListeners.has(eventName)) {
+      this.activeEventListeners.get(eventName).delete(handler);
+      if (this.activeEventListeners.get(eventName).size === 0) {
+        this.activeEventListeners.delete(eventName);
+      }
+      this.log(`Removed tracking for event listener on ${eventName}`, 'debug');
+    }
+  }
+  
+  /**
+   * Clean up all active event listeners when test completes
+   * @private
+   */
+  _cleanupAllEventListeners() {
+    if (this.activeEventListeners.size === 0) {
+      this.log('No active event listeners to clean up', 'debug');
+      return;
+    }
+    
+    let totalCleaned = 0;
+    for (const [eventName, handlers] of this.activeEventListeners.entries()) {
+      this.log(`Cleaning up ${handlers.size} listeners for event: ${eventName}`, 'info');
+      
+      for (const handler of handlers) {
+        if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
+          try {
+            this.eventBus.unsubscribe(eventName, handler);
+            totalCleaned++;
+          } catch (error) {
+            this.log(`Error unsubscribing from ${eventName}: ${error.message}`, 'warn');
+          }
+        }
+      }
+    }
+    
+    // Clear the tracking map
+    this.activeEventListeners.clear();
+    this.log(`Event listener cleanup completed. Cleaned up ${totalCleaned} listeners.`, 'info');
   }
 }

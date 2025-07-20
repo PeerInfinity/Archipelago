@@ -113,18 +113,22 @@ export class JsonUI {
         <div class="json-section">
           <h4>Include in Operations:</h4>
           <div class="checkbox-container">
+            <button class="button button-small text-export-btn" data-config-key="rulesConfig">Text</button>
             <input type="checkbox" id="json-chk-rules" data-config-key="rulesConfig" checked />
             <label for="json-chk-rules">Rules Config (rules.json)</label>
           </div>
           <div class="checkbox-container">
+            <button class="button button-small text-export-btn" data-config-key="moduleConfig">Text</button>
             <input type="checkbox" id="json-chk-modules" data-config-key="moduleConfig" checked />
             <label for="json-chk-modules">Module Config (modules.json)</label>
           </div>
           <div class="checkbox-container">
+            <button class="button button-small text-export-btn" data-config-key="layoutConfig">Text</button>
             <input type="checkbox" id="json-chk-layout" data-config-key="layoutConfig" />
             <label for="json-chk-layout">Layout Config (layout_presets.json / Current)</label>
           </div>
           <div class="checkbox-container">
+            <button class="button button-small text-export-btn" data-config-key="userSettings">Text</button>
             <input type="checkbox" id="json-chk-settings" data-config-key="userSettings" />
             <label for="json-chk-settings">User Settings (settings.json)</label>
           </div>
@@ -237,6 +241,18 @@ export class JsonUI {
         this._handleResetDefaults()
       );
     }
+
+    // Add event listeners for individual Text export buttons
+    const textExportButtons = contextElement.querySelectorAll('.text-export-btn');
+    textExportButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const configKey = event.target.dataset.configKey;
+        if (configKey) {
+          this._handleExportSectionToText(configKey);
+        }
+      });
+    });
+
     // TODO: Add event listeners for delete mode buttons when they are generated
   }
 
@@ -411,6 +427,69 @@ export class JsonUI {
     return dataToSave;
   }
 
+  async _gatherSectionData(configKey) {
+    log('info', `[JsonUI] Gathering data for single section: ${configKey}`);
+
+    // Handle Core Data Types (Direct Access)
+    if (configKey === 'rulesConfig') {
+      return window.G_combinedModeData?.rulesConfig;
+    }
+    if (configKey === 'moduleConfig') {
+      return window.G_combinedModeData?.moduleConfig;
+    }
+    if (configKey === 'layoutConfig') {
+      // Get the current live layout state
+      if (
+        window.goldenLayoutInstance &&
+        typeof window.goldenLayoutInstance.toJSON === 'function'
+      ) {
+        return window.goldenLayoutInstance.toJSON();
+      } else if (
+        this.container &&
+        this.container.layoutManager &&
+        typeof this.container.layoutManager.toJSON === 'function'
+      ) {
+        return this.container.layoutManager.toJSON();
+      } else {
+        // Fallback to loaded preset if live one isn't available
+        return window.G_combinedModeData?.layoutConfig;
+      }
+    }
+    if (configKey === 'userSettings') {
+      try {
+        return settingsManager.getSettings();
+      } catch (e) {
+        log('error', `[JsonUI] Failed to get userSettings:`, e);
+        return null;
+      }
+    }
+
+    // Handle Registered Module Data Types (Using registered functions)
+    const handlers = centralRegistry.getAllJsonDataHandlers();
+    if (handlers.has(configKey)) {
+      const handler = handlers.get(configKey);
+      log('info', `[JsonUI] Gathering data for registered section: ${configKey}`);
+      try {
+        const saveDataResult = handler.getSaveDataFunction();
+        // Check if the result is a Promise
+        if (saveDataResult instanceof Promise) {
+          return await saveDataResult;
+        } else {
+          return saveDataResult;
+        }
+      } catch (e) {
+        log('error', 
+          `[JsonUI] Error calling getSaveDataFunction for ${configKey}:`,
+          e
+        );
+        return null;
+      }
+    }
+
+    log('warn', `[JsonUI] Unknown config key: ${configKey}`);
+    return null;
+  }
+
   async _handleSaveToFile() {
     const modeName = this.modeNameInput.value.trim() || 'default';
     // Use await here
@@ -461,6 +540,39 @@ export class JsonUI {
       modeName: modeName,
       activatePanel: true
     }, 'json');
+  }
+
+  async _handleExportSectionToText(configKey) {
+    log('info', `[JsonUI] Exporting single section to text: ${configKey}`);
+
+    try {
+      // Gather data for just this specific section
+      const sectionData = await this._gatherSectionData(configKey);
+      
+      if (sectionData === null || sectionData === undefined) {
+        alert(`No data available for section: ${configKey}`);
+        return;
+      }
+
+      // Export the section data directly (without the outer wrapper key)
+      const exportData = sectionData;
+
+      log('info', 
+        `[JsonUI] Export section ${configKey} to text. Data:`,
+        exportData
+      );
+
+      // Send the section data to the Editor panel via eventBus
+      eventBus.publish('json:exportToEditor', {
+        data: exportData,
+        modeName: `${configKey} Section`,
+        activatePanel: true
+      }, 'json');
+
+    } catch (error) {
+      log('error', `[JsonUI] Error exporting section ${configKey}:`, error);
+      alert(`Error exporting section ${configKey}. See console for details.`);
+    }
   }
 
   _handleLoadFromFile(event) {
@@ -839,6 +951,15 @@ export class JsonUI {
       const div = document.createElement('div');
       div.classList.add('checkbox-container');
 
+      const textButton = document.createElement('button');
+      textButton.classList.add('button', 'button-small', 'text-export-btn');
+      textButton.textContent = 'Text';
+      textButton.dataset.configKey = dataKey;
+      // Add event listener directly to the button
+      textButton.addEventListener('click', () => {
+        this._handleExportSectionToText(dataKey);
+      });
+
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.id = `json-chk-module-${dataKey}`;
@@ -853,6 +974,7 @@ export class JsonUI {
         label.title = 'Applying this data requires a page reload.';
       }
 
+      div.appendChild(textButton);
       div.appendChild(checkbox);
       div.appendChild(label);
       listItem.appendChild(div);
