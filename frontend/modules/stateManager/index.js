@@ -123,6 +123,13 @@ async function initialize(moduleId, priorityIndex, initializationApi) {
   // The proxy singleton instance is created automatically when this module is imported.
   // No explicit instance creation needed here.
 
+  // Subscribe to settings changes to update worker logging configuration
+  const eventBus = initializationApi.getEventBus();
+  if (eventBus) {
+    eventBus.subscribe('settings:changed', handleSettingsChanged, moduleId);
+    log('info', '[StateManager Module] Subscribed to settings:changed events');
+  }
+
   log(
     'info',
     '[StateManager Module] Basic initialization complete (proxy singleton exists).'
@@ -411,5 +418,24 @@ async function handleUserItemCheckForStateManager(eventData) {
       'warn',
       '[StateManagerModule] Received user:itemCheck with no itemName.'
     );
+  }
+}
+
+/**
+ * Handle settings changes and update worker logging configuration if logging settings changed
+ * @param {Object} eventData - Event data containing the changed settings
+ */
+function handleSettingsChanged(eventData) {
+  // Check if the change involves logging settings
+  if (eventData.key && (eventData.key.startsWith('logging') || eventData.key === '*')) {
+    log('info', '[StateManagerModule] Logging settings changed, updating worker configuration');
+    
+    // Get the current logging configuration from the logger
+    if (typeof window !== 'undefined' && window.logger) {
+      const newLoggingConfig = window.logger.getConfig();
+      stateManagerProxySingleton.updateWorkerLoggingConfig(newLoggingConfig);
+    } else {
+      log('warn', '[StateManagerModule] Window logger not available for worker config update');
+    }
   }
 }

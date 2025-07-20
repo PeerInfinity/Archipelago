@@ -347,11 +347,11 @@ export class TestUI {
       nameDescDiv.className = 'test-item-name-desc';
       nameDescDiv.style.marginBottom = '5px';
 
-      // Display category in smaller font above test name
+      // Display category in bold font above test name
       if (test.category) {
         const categoryEl = document.createElement('div');
         categoryEl.textContent = test.category;
-        categoryEl.style.fontSize = '11px';
+        categoryEl.style.fontWeight = 'bold';
         categoryEl.style.color = '#aaa';
         categoryEl.style.marginBottom = '2px';
         nameDescDiv.appendChild(categoryEl);

@@ -4,6 +4,7 @@ import { alttpStateModule } from './logic/games/alttp/alttpLogic.js';
 import * as genericLogic from './logic/games/generic/genericLogic.js';
 
 // Helper function for logging with fallback
+// Note: This is only for module-level logging before StateManager instance is created
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {
     window.logger[level]('stateManager', message, ...data);
@@ -116,6 +117,42 @@ export class StateManager {
     this.originalExitOrder = [];
 
     this.logger.info('StateManager', 'Instance created with injected logger.');
+  }
+
+  /**
+   * Centralized logging method using the injected logger instance
+   * @param {string} level - Log level (error, warn, info, debug, verbose)
+   * @param {string} category - Category name for the log message
+   * @param {string} message - Log message
+   * @param {...any} data - Additional data to log
+   */
+  log(level, category, message, ...data) {
+    if (this.logger && typeof this.logger[level] === 'function') {
+      this.logger[level](category, message, ...data);
+    } else {
+      // Fallback to console if logger method not available
+      const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+      consoleMethod(`[${category}] ${message}`, ...data);
+    }
+  }
+
+  /**
+   * Convenience logging methods for different categories
+   */
+  logStateManager(level, message, ...data) {
+    this.log(level, 'StateManager', message, ...data);
+  }
+
+  logInventory(level, message, ...data) {
+    this.log(level, 'gameInventory', message, ...data);
+  }
+
+  logALTTP(level, message, ...data) {
+    this.log(level, 'ALTTPState', message, ...data);
+  }
+
+  logHelpers(level, message, ...data) {
+    this.log(level, 'alttpHelpers', message, ...data);
   }
 
   /**
@@ -2064,17 +2101,16 @@ export class StateManager {
    * @private
    */
   _logDebug(message, data = null) {
-    if (this.debugMode) {
-      if (data) {
-        try {
-          const clonedData = JSON.parse(JSON.stringify(data));
-          console.debug(message, clonedData);
-        } catch (e) {
-          console.debug(message, '[Could not clone data]', data);
-        }
-      } else {
-        console.debug(message);
+    // Use the proper logger instance with DEBUG level and StateManager category
+    if (data) {
+      try {
+        const clonedData = JSON.parse(JSON.stringify(data));
+        this.logStateManager('debug', message, clonedData);
+      } catch (e) {
+        this.logStateManager('debug', message, '[Could not clone data]', data);
       }
+    } else {
+      this.logStateManager('debug', message);
     }
   }
 

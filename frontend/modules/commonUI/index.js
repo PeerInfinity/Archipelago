@@ -1,5 +1,3 @@
-console.log('[commonUI] index.js file loaded!');
-
 import {
   renderLogicTree,
   debounce,
@@ -25,19 +23,13 @@ let _moduleDispatcher = null;
 
 // --- Module Registration ---
 export function register(registrationApi) {
-  console.log('[commonUI] register() function called!');
   
   // Register events that commonUI publishes
-  console.log('[commonUI] Registering ui:activatePanel');
   registrationApi.registerEventBusPublisher('ui:activatePanel');
   
-  console.log('[commonUI] Registering ui:navigateToRegion');
   registrationApi.registerEventBusPublisher('ui:navigateToRegion');
   
-  console.log('[commonUI] Registering ui:navigateToLocation');
   registrationApi.registerEventBusPublisher('ui:navigateToLocation');
-  
-  console.log('[commonUI] register() function completed!');
 }
 
 // --- Module Initialization ---

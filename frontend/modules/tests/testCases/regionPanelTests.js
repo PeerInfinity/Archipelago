@@ -1587,6 +1587,17 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     testController.log(`[${testRunId}] Current region after move: ${newCurrentRegion}`);
     testController.reportCondition('Player State shows Links House', newCurrentRegion === 'Links House');
     
+    // 16. Re-enable the regions receiver checkbox before completing
+    testController.log(`[${testRunId}] Re-enabling regions receiver checkbox before completing test...`);
+    if (regionsReceiverCheckbox) {
+      regionsReceiverCheckbox.checked = true;
+      regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+      await new Promise(resolve => setTimeout(resolve, 500));
+      testController.log(`[${testRunId}] Regions receiver checkbox re-enabled`);
+    } else {
+      testController.log(`[${testRunId}] WARNING: regionsReceiverCheckbox not available for re-enabling`);
+    }
+    
     testController.log(`[${testRunId}] Region move event handler toggle test completed successfully`);
     testController.completeTest();
     
@@ -1594,6 +1605,18 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     testController.log(`[${testRunId}] ERROR: ${error.message}`);
     testController.reportCondition('Region move event handler toggle test error-free', false);
     overallResult = false;
+    
+    // Attempt to re-enable regions receiver checkbox even if test failed
+    if (typeof regionsReceiverCheckbox !== 'undefined' && regionsReceiverCheckbox) {
+      try {
+        testController.log(`[${testRunId}] Re-enabling regions receiver checkbox after error...`);
+        regionsReceiverCheckbox.checked = true;
+        regionsReceiverCheckbox.dispatchEvent(new Event('change'));
+        testController.log(`[${testRunId}] Regions receiver checkbox re-enabled after error`);
+      } catch (cleanupError) {
+        testController.log(`[${testRunId}] Failed to re-enable checkbox: ${cleanupError.message}`);
+      }
+    }
   }
   
   return overallResult;

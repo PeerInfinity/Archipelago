@@ -38,6 +38,8 @@ The console in the center panel accepts a few client-specific commands, even whe
 
 - **Additional Tabs:** If several panels are in the same stack of tabs, there might not be enough room for the UI to display the tabs for all of the panels.  If this happens, then there will be a down arrow in the top right of the panel, labeled "additional tabs".  Clicking on this arrow will show the tabs that were hidden because there wasn't enough room for them.
 
+- **Reset settings:** If you want to reset all of the settings to the defaults, one way to do this is by clicking the "Reset Default Mode" button in the JSON panel.  Another way to reset the settings to the defaults is by adding "?mode=reset" to the page's URL.
+
 ## Frequently Asked Questions (FAQs)
 
 **Q: Do I need both the `.archipelago` file and `rules.json`?**

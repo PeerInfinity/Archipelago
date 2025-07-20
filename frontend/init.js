@@ -427,11 +427,11 @@ async function _postInitializeSingleModule(moduleId) {
       logger.info('init', `Post-initializing module: ${moduleId}`);
       // Special handling for stateManager postInitialize to pass mode-specific data
       if (moduleId === 'stateManager') {
-        log(
-          'info',
-          '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
-          JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
-        );
+        //log(
+        //  'info',
+        //  '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
+        //  JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
+        //);
         // Pass the prepared configForPostInitialize
         await moduleInstance.postInitialize(api, configForPostInitialize);
       } else if (moduleInstance.postInitialize) {
@@ -764,25 +764,25 @@ async function loadCombinedModeData() {
   }
 
   // ADDED LOGGING BEFORE MODIFICATION ATTEMPT
-  log(
-    'info',
-    '[Init] stateManager module_config BEFORE sourceName logic (exists?): ' +
-      (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
-      ', sourceName: ' +
-      (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
-  );
-  log(
-    'info',
-    '[Init] baseCombinedData.dataSources.rulesConfig.source (stale check): ' + // Clarified this log refers to potentially stale data
-      (baseCombinedData.dataSources?.rulesConfig?.source || 'undefined')
-  );
-  log(
-    'info',
-    '[Init] local dataSources.rulesConfig.source (live check): ' + // Log the relevant part of the local dataSources
-      (dataSources.rulesConfig?.source || 'undefined') +
-      ', details: ' +
-      (dataSources.rulesConfig?.details || 'undefined')
-  );
+  //log(
+  //  'info',
+  //  '[Init] stateManager module_config BEFORE sourceName logic (exists?): ' +
+  //    (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
+  //    ', sourceName: ' +
+  //    (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
+  //);
+  //log(
+  //  'info',
+  //  '[Init] baseCombinedData.dataSources.rulesConfig.source (stale check): ' + // Clarified this log refers to potentially stale data
+  //    (baseCombinedData.dataSources?.rulesConfig?.source || 'undefined')
+  //);
+  //log(
+  //  'info',
+  //  '[Init] local dataSources.rulesConfig.source (live check): ' + // Log the relevant part of the local dataSources
+  //    (dataSources.rulesConfig?.source || 'undefined') +
+  //    ', details: ' +
+  //    (dataSources.rulesConfig?.details || 'undefined')
+  //);
 
   // Ensure StateManager gets the correct source name if its rulesConfig is being set by the mode
   // and those rules are the default ones loaded from a file.
@@ -799,10 +799,10 @@ async function loadCombinedModeData() {
         sourceName:
           './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json', // Correctly set the sourceName
       };
-      log(
-        'info',
-        '[Init] Created stateManager module_config with ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content and sourceName because rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
-      );
+      //log(
+      //  'info',
+      //  '[Init] Created stateManager module_config with ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content and sourceName because rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
+      //);
     } else if (
       baseCombinedData.module_configs.stateManager.rulesConfig && // If stateManager already has rules defined in its module_config
       !baseCombinedData.module_configs.stateManager.sourceName && // And no sourceName is set
@@ -823,13 +823,13 @@ async function loadCombinedModeData() {
   }
 
   // ADDED LOGGING AFTER MODIFICATION ATTEMPT
-  log(
-    'info',
-    '[Init] stateManager module_config AFTER sourceName logic (exists?): ' +
-      (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
-      ', sourceName: ' +
-      (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
-  );
+  //log(
+  //  'info',
+  //  '[Init] stateManager module_config AFTER sourceName logic (exists?): ' +
+  //    (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
+  //    ', sourceName: ' +
+  //    (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
+  //);
 
   // Add the dataSources to the combined data
   baseCombinedData.dataSources = dataSources;

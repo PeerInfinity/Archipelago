@@ -65,6 +65,72 @@ export class StateManagerProxy {
     );
   }
 
+  /**
+   * Update the worker's logging configuration
+   * Call this when the main thread logging settings change
+   * @param {Object} newLoggingConfig - New logging configuration from main thread
+   */
+  updateWorkerLoggingConfig(newLoggingConfig) {
+    if (!this.worker) {
+      log('warn', '[StateManagerProxy] Cannot update worker logging config - worker not initialized');
+      return;
+    }
+    
+    // Define all worker-related logging categories that should be passed through
+    const workerCategories = [
+      // Core worker modules
+      'stateManagerWorker',
+      'StateManager', 
+      'stateManager',
+      'ruleEngine',
+      'stateManagerHelpers',
+      
+      // Game-specific modules
+      'gameInventory',
+      'alttpHelpers',
+      'ALTTPState',
+      
+      // Game logic modules
+      'alttpLogic',
+      'genericLogic',
+      
+      // Additional worker categories that might be added in the future
+      'inventoryManager',
+      'progressiveItems',
+      'gameState',
+      'helperFunctions',
+    ];
+    
+    // Build category levels object by copying from new config
+    const workerCategoryLevels = {};
+    workerCategories.forEach(category => {
+      workerCategoryLevels[category] = 
+        newLoggingConfig.categoryLevels?.[category] ||
+        newLoggingConfig.defaultLevel;
+    });
+    
+    const workerLoggingConfig = {
+      defaultLevel: newLoggingConfig.defaultLevel,
+      categoryLevels: workerCategoryLevels,
+      filters: newLoggingConfig.filters,
+      showTimestamp: newLoggingConfig.showTimestamp,
+      showCategoryName: newLoggingConfig.showCategoryName,
+      enabled: newLoggingConfig.enabled,
+      temporaryOverride: newLoggingConfig.temporaryOverride,
+    };
+    
+    // Send the update to the worker
+    try {
+      this.worker.postMessage({
+        command: 'updateLogConfig',
+        payload: workerLoggingConfig,
+      });
+      log('info', '[StateManagerProxy] Worker logging configuration updated');
+    } catch (error) {
+      log('error', '[StateManagerProxy] Failed to update worker logging config:', error);
+    }
+  }
+
   getGameId() {
     if (this.uiCache && this.uiCache.game) {
       return this.uiCache.game;
@@ -1144,37 +1210,51 @@ export class StateManagerProxy {
     let workerLoggingConfig = null;
     if (typeof window !== 'undefined' && window.logger) {
       const mainThreadLoggerConfig = window.logger.getConfig();
+      
+      // Define all worker-related logging categories that should be passed through
+      const workerCategories = [
+        // Core worker modules
+        'stateManagerWorker',
+        'StateManager',
+        'stateManager',
+        'ruleEngine',
+        'stateManagerHelpers',
+        
+        // Game-specific modules
+        'gameInventory',
+        'alttpHelpers',
+        'ALTTPState',
+        
+        // Game logic modules
+        'alttpLogic',
+        'genericLogic',
+        
+        // Additional worker categories that might be added in the future
+        'inventoryManager',
+        'progressiveItems',
+        'gameState',
+        'helperFunctions',
+      ];
+      
+      // Build category levels object by copying from main thread config
+      const workerCategoryLevels = {};
+      workerCategories.forEach(category => {
+        workerCategoryLevels[category] = 
+          mainThreadLoggerConfig.categoryLevels?.[category] ||
+          mainThreadLoggerConfig.defaultLevel;
+      });
+      
       workerLoggingConfig = {
         defaultLevel: mainThreadLoggerConfig.defaultLevel,
-        categoryLevels: {
-          // Worker-specific modules
-          stateManagerWorker:
-            mainThreadLoggerConfig.categoryLevels?.stateManagerWorker ||
-            mainThreadLoggerConfig.defaultLevel,
-          StateManager:
-            mainThreadLoggerConfig.categoryLevels?.StateManager ||
-            mainThreadLoggerConfig.defaultLevel,
-          stateManager:
-            mainThreadLoggerConfig.categoryLevels?.stateManager ||
-            mainThreadLoggerConfig.defaultLevel,
-          ruleEngine:
-            mainThreadLoggerConfig.categoryLevels?.ruleEngine ||
-            mainThreadLoggerConfig.defaultLevel,
-          stateManagerHelpers:
-            mainThreadLoggerConfig.categoryLevels?.stateManagerHelpers ||
-            mainThreadLoggerConfig.defaultLevel,
-          gameInventory:
-            mainThreadLoggerConfig.categoryLevels?.gameInventory ||
-            mainThreadLoggerConfig.defaultLevel,
-          alttpHelpers:
-            mainThreadLoggerConfig.categoryLevels?.alttpHelpers ||
-            mainThreadLoggerConfig.defaultLevel,
-        },
+        categoryLevels: workerCategoryLevels,
         filters: mainThreadLoggerConfig.filters,
         showTimestamp: mainThreadLoggerConfig.showTimestamp,
         showCategoryName: mainThreadLoggerConfig.showCategoryName,
         enabled: mainThreadLoggerConfig.enabled,
+        temporaryOverride: mainThreadLoggerConfig.temporaryOverride,
       };
+      
+      log('info', '[StateManagerProxy] Worker logging config prepared with categories:', Object.keys(workerCategoryLevels));
     }
 
     log(
