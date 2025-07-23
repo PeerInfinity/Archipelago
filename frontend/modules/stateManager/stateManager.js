@@ -3250,6 +3250,51 @@ export class StateManager {
       }
     }
 
+    // 7. Process JSON Export Format (inventory object + checkedLocations array)
+    if (payload.inventory && typeof payload.inventory === 'object') {
+      this._logDebug(
+        '[StateManager applyRuntimeState] Processing JSON export format - inventory object'
+      );
+      if (!this.inventory) {
+        log(
+          'warn',
+          '[StateManager applyRuntimeState] Inventory is unexpectedly null/undefined before processing JSON export inventory.'
+        );
+      } else {
+        // Replace inventory from JSON format (restorative, not additive)
+        // Clear existing inventory items by setting them to 0
+        for (const existingItemName in this.inventory) {
+          if (this.inventory[existingItemName] > 0) {
+            this.inventory[existingItemName] = 0;
+          }
+        }
+        // Then set the imported inventory items
+        for (const [itemName, quantity] of Object.entries(payload.inventory)) {
+          if (typeof quantity === 'number' && quantity > 0) {
+            // Set the inventory item directly to the specified quantity
+            this.inventory[itemName] = quantity;
+            this._logDebug(
+              `[StateManager applyRuntimeState] Set inventory[${itemName}] to ${this.inventory[itemName]}`
+            );
+          }
+        }
+        this._logDebug(
+          `[StateManager applyRuntimeState] Applied ${Object.keys(payload.inventory).length} inventory items from JSON format`
+        );
+      }
+    }
+
+    if (payload.checkedLocations && Array.isArray(payload.checkedLocations)) {
+      this._logDebug(
+        '[StateManager applyRuntimeState] Processing JSON export format - checkedLocations array'
+      );
+      // Replace checked locations from JSON format (restorative, not additive)
+      this.checkedLocations = new Set(payload.checkedLocations);
+      this._logDebug(
+        `[StateManager applyRuntimeState] Replaced checked locations with JSON format. Total: ${this.checkedLocations.size}`
+      );
+    }
+
     // 6. Finalize state and send snapshot
     if (!this.batchUpdateActive) {
       this._logDebug(

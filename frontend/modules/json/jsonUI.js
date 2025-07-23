@@ -111,6 +111,10 @@ export class JsonUI {
         </div>
 
         <div class="json-section">
+          <div class="checkbox-controls" style="margin-top: 15px; margin-bottom: 10px;">
+            <button id="json-btn-check-all" class="button button-small">Check All</button>
+            <button id="json-btn-uncheck-all" class="button button-small">Uncheck All</button>
+          </div>
           <h4>Include in Operations:</h4>
           <div class="checkbox-container">
             <button class="button button-small text-export-btn" data-config-key="rulesConfig">Text</button>
@@ -144,16 +148,26 @@ export class JsonUI {
         </div>
 
         <div class="json-section button-group">
-          <button id="json-btn-export-text" class="button">Export to Text</button>
-          <button id="json-btn-import-text" class="button">Import from Text</button>
-          <button id="json-btn-export-live-layout" class="button">Export Live Layout</button>
-          <button id="json-btn-save-file" class="button">Save Combined to File</button>
-          <label class="file-input-button-label">
-            Load Combined from File
-            <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
-          </label>
-          <button id="json-btn-save-localstorage" class="button">Save to LocalStorage</button>
-          <button id="json-btn-reset-defaults" class="button button-danger">Reset Default Mode</button>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-export-text" class="button">Export to Text</button>
+            <button id="json-btn-import-text" class="button">Import from Text</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-save-file" class="button">Save Combined to File</button>
+            <label class="file-input-button-label">
+              Load Combined from File
+              <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
+            </label>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-export-live-layout" class="button">Export Live Layout</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-save-localstorage" class="button">Save to LocalStorage</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-reset-defaults" class="button button-danger">Reset Default Mode</button>
+          </div>
         </div>
 
         <div class="json-section">
@@ -223,6 +237,8 @@ export class JsonUI {
     const resetDefaultsButton = contextElement.querySelector(
       '#json-btn-reset-defaults'
     );
+    const checkAllButton = contextElement.querySelector('#json-btn-check-all');
+    const uncheckAllButton = contextElement.querySelector('#json-btn-uncheck-all');
 
     if (exportTextButton) {
       exportTextButton.addEventListener('click', () => this._handleExportToText());
@@ -250,6 +266,12 @@ export class JsonUI {
       resetDefaultsButton.addEventListener('click', () =>
         this._handleResetDefaults()
       );
+    }
+    if (checkAllButton) {
+      checkAllButton.addEventListener('click', () => this._handleCheckAll());
+    }
+    if (uncheckAllButton) {
+      uncheckAllButton.addEventListener('click', () => this._handleUncheckAll());
     }
 
     // Add event listeners for individual Text export buttons
@@ -1003,6 +1025,44 @@ export class JsonUI {
         alert('Error resetting defaults. See console for details.');
       }
     }
+  }
+
+  _handleCheckAll() {
+    log('info', '[JsonUI] Check All button clicked');
+    
+    // Check all core checkboxes
+    for (const key in this.checkboxes) {
+      if (this.checkboxes[key]) {
+        this.checkboxes[key].checked = true;
+      }
+    }
+    
+    // Check all module data checkboxes
+    const moduleCheckboxes = this.rootElement.querySelectorAll('#json-module-data-list input[type="checkbox"]');
+    moduleCheckboxes.forEach(checkbox => {
+      checkbox.checked = true;
+    });
+    
+    log('info', '[JsonUI] All checkboxes checked');
+  }
+
+  _handleUncheckAll() {
+    log('info', '[JsonUI] Uncheck All button clicked');
+    
+    // Uncheck all core checkboxes
+    for (const key in this.checkboxes) {
+      if (this.checkboxes[key]) {
+        this.checkboxes[key].checked = false;
+      }
+    }
+    
+    // Uncheck all module data checkboxes
+    const moduleCheckboxes = this.rootElement.querySelectorAll('#json-module-data-list input[type="checkbox"]');
+    moduleCheckboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+    
+    log('info', '[JsonUI] All checkboxes unchecked');
   }
 
   _destroy() {

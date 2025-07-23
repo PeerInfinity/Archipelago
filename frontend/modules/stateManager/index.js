@@ -62,6 +62,7 @@ function register(registrationApi) {
   registrationApi.registerEventBusPublisher('stateManager:pongReceived'); // Response to ping requests
   registrationApi.registerEventBusPublisher('stateManager:inventoryChanged'); // Inventory changes
   registrationApi.registerEventBusPublisher('stateManager:checkedLocationsCleared'); // Inventory changes
+  registrationApi.registerEventBusPublisher('stateManager:locationCheckRejected'); // Location check rejected
   // Add other specific events forwarded by the proxy if needed (e.g., 'stateManager:itemAdded')
 
   // Register events this module (or the proxy logic implicitly) might subscribe to
@@ -89,7 +90,7 @@ function register(registrationApi) {
     'stateManagerRuntime', // Data Key
     {
       displayName: 'Game State (Inv/Checks)', // Checkbox Label
-      defaultChecked: false, // Checkbox default state
+      defaultChecked: true, // Checkbox default state
       requiresReload: false, // Can this data be applied live?
       getSaveDataFunction: async () => {
         // Assumes stateManagerProxySingleton is the proxy instance

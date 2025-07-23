@@ -55,6 +55,10 @@ export class StateManagerProxy {
     this.messageCounter = 0; // DEPRECATED or RENAMED? Let's ensure nextMessageId is primary.
     this.nextMessageId = 0; // MODIFIED: Initialize nextMessageId
     this.config = null; // To store initial config like gameId, playerId
+    
+    // Track worker initialization state
+    this.workerInitialized = false;
+    this.pendingGameStateData = null; // Queue Game State data for after initialization
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -243,6 +247,24 @@ export class StateManagerProxy {
           '[StateManagerProxy] Worker initialized confirmation received:',
           JSON.parse(JSON.stringify(message.configEcho || {}))
         );
+        
+        // Mark worker as initialized
+        this.workerInitialized = true;
+        
+        // Apply any pending Game State data that was queued during early loading
+        if (this.pendingGameStateData) {
+          log('info', '[StateManagerProxy] Applying pending Game State data after worker initialization');
+          try {
+            this._sendCommand(
+              StateManagerProxy.COMMANDS.APPLY_RUNTIME_STATE,
+              this.pendingGameStateData
+            );
+            this.pendingGameStateData = null; // Clear the pending data
+          } catch (error) {
+            log('error', '[StateManagerProxy] Failed to apply pending Game State data:', error);
+          }
+        }
+        
         // Worker is up, but we still wait for rules to be loaded for the main "ready" state.
         // This event could be used for finer-grained readiness if needed in the future.
         break;
@@ -1335,10 +1357,10 @@ export class StateManagerProxy {
   // --- New methods for JSON Module data handling ---
   getSavableStateData() {
     log('info', '[StateManagerProxy] getSavableStateData called.');
-    if (!this.uiDataCache) {
+    if (!this.uiCache) {
       log(
         'warn',
-        '[StateManagerProxy] No uiDataCache available when getting savable state. Returning empty structure.'
+        '[StateManagerProxy] No uiCache available when getting savable state. Returning empty structure.'
       );
       return {
         inventory: {},
@@ -1347,13 +1369,13 @@ export class StateManagerProxy {
       };
     }
 
-    // Assuming uiDataCache contains the full snapshot structure
+    // Assuming uiCache contains the full snapshot structure
     const savableData = {
-      inventory: this.uiDataCache.inventory || {},
-      checkedLocations: this.uiDataCache.checkedLocations || [],
+      inventory: this.uiCache.inventory || {},
+      checkedLocations: this.uiCache.checkedLocations || [],
       // Potentially other things if they are not part of rules or settings and can change runtime
       // e.g., game-specific flags if they are stored in the snapshot and can be modified by user/events
-      // Example: if (this.uiDataCache.gameSpecificFlags) savableData.gameSpecificFlags = this.uiDataCache.gameSpecificFlags;
+      // Example: if (this.uiCache.gameSpecificFlags) savableData.gameSpecificFlags = this.uiCache.gameSpecificFlags;
     };
 
     log(
@@ -1379,6 +1401,14 @@ export class StateManagerProxy {
       return;
     }
 
+    // Check if worker is initialized
+    if (!this.workerInitialized) {
+      log('info', '[StateManagerProxy] Worker not initialized yet, queuing Game State data for later application');
+      this.pendingGameStateData = loadedData;
+      return;
+    }
+    
+    // Worker is ready, apply the data immediately
     this._sendCommand(
       StateManagerProxy.COMMANDS.APPLY_RUNTIME_STATE,
       loadedData
