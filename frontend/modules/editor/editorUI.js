@@ -258,6 +258,10 @@ class EditorUI {
     this.unsubscribeHandles['exportData'] = eventBus.subscribe(
       'json:exportToEditor',
       (eventData) => {
+        log('info', '[EditorUI] Received json:exportToEditor event!');
+        log('info', '[EditorUI] eventData exists:', !!eventData);
+        log('info', '[EditorUI] eventData.data exists:', !!(eventData && eventData.data));
+        
         if (!eventData || !eventData.data) {
           log('warn', 
             "EditorUI received invalid payload for 'json:exportToEditor'",
@@ -267,8 +271,11 @@ class EditorUI {
           this.contentSources.dataForExport.loaded = true;
         } else {
           log('info', 
-            'EditorUI received export data from JSON panel'
+            '[EditorUI] Processing valid export data. Keys in eventData.data:',
+            Object.keys(eventData.data)
           );
+          log('info', '[EditorUI] eventData.data contains layoutConfig:', !!eventData.data.layoutConfig);
+          
           try {
             this.contentSources.dataForExport.text = JSON.stringify(
               eventData.data,
@@ -277,16 +284,22 @@ class EditorUI {
             );
             this.contentSources.dataForExport.loaded = true;
             
+            log('info', '[EditorUI] JSON stringified successfully. Length:', this.contentSources.dataForExport.text.length);
+            log('info', '[EditorUI] Stringified text contains "layoutConfig":', this.contentSources.dataForExport.text.includes('layoutConfig'));
+            
             // Switch to the export view and activate Editor panel
             this.currentSourceKey = 'dataForExport';
             if (this.editorDropdown) {
               this.editorDropdown.value = 'dataForExport';
+              log('info', '[EditorUI] Set dropdown to dataForExport');
             }
             this._displayCurrentSourceContent();
+            log('info', '[EditorUI] Called _displayCurrentSourceContent()');
             
             // Activate the Editor panel
             if (eventData.activatePanel !== false) {
               eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'editor');
+              log('info', '[EditorUI] Published ui:activatePanel event');
             }
           } catch (e) {
             log('error', 'Error stringifying export data:', e);
@@ -446,9 +459,23 @@ class EditorUI {
   }
 
   _displayCurrentSourceContent() {
-    if (!this.textAreaElement) return;
+    log('info', '[EditorUI] _displayCurrentSourceContent called');
+    log('info', '[EditorUI] textAreaElement exists:', !!this.textAreaElement);
+    log('info', '[EditorUI] currentSourceKey:', this.currentSourceKey);
+    
+    if (!this.textAreaElement) {
+      log('info', '[EditorUI] No textAreaElement, returning early');
+      return;
+    }
 
     const source = this.contentSources[this.currentSourceKey];
+    log('info', '[EditorUI] source exists:', !!source);
+    log('info', '[EditorUI] source loaded:', source ? source.loaded : 'N/A');
+    if (source) {
+      log('info', '[EditorUI] source text length:', source.text ? source.text.length : 0);
+      log('info', '[EditorUI] source text contains "layoutConfig":', source.text ? source.text.includes('layoutConfig') : false);
+    }
+    
     if (!source) {
       log('warn', 
         `[EditorUI] No content source found for key: ${this.currentSourceKey}`
@@ -458,6 +485,7 @@ class EditorUI {
 
     if (!source.loaded) {
       this.textAreaElement.value = 'Loading...';
+      log('info', '[EditorUI] Set textarea to "Loading..." because source not loaded');
       return;
     }
 
@@ -479,6 +507,8 @@ class EditorUI {
         }
       } else {
         this.textAreaElement.value = source.text;
+        log('info', '[EditorUI] Set textarea value. Current textarea length:', this.textAreaElement.value.length);
+        log('info', '[EditorUI] Textarea contains "layoutConfig":', this.textAreaElement.value.includes('layoutConfig'));
       }
     } catch (e) {
       log('error', '[EditorUI] Error displaying content:', e);

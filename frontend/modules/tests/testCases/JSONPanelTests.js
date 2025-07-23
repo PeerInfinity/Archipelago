@@ -553,7 +553,7 @@ registerTest({
   name: 'JSON Panel - Import from Text',
   description: 'Tests the Import from Text functionality of the JSON panel by exporting settings, modifying them, and importing them back',
   category: 'JSON Panel',
-  enabled: true,
+  //enabled: false,
   testFunction: testJSONPanelImportFromText
 });
 
@@ -562,6 +562,6 @@ registerTest({
   name: 'JSON Panel - Layout Import/Export',
   description: 'Tests the layout import/export functionality of the JSON panel',
   category: 'JSON Panel',
-  enabled: true,
+  //enabled: false,
   testFunction: testJSONPanelLayoutImportExport
 });

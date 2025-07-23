@@ -146,6 +146,7 @@ export class JsonUI {
         <div class="json-section button-group">
           <button id="json-btn-export-text" class="button">Export to Text</button>
           <button id="json-btn-import-text" class="button">Import from Text</button>
+          <button id="json-btn-export-live-layout" class="button">Export Live Layout</button>
           <button id="json-btn-save-file" class="button">Save Combined to File</button>
           <label class="file-input-button-label">
             Load Combined from File
@@ -210,6 +211,7 @@ export class JsonUI {
   _attachEventListeners(contextElement) {
     const exportTextButton = contextElement.querySelector('#json-btn-export-text');
     const importTextButton = contextElement.querySelector('#json-btn-import-text');
+    const exportLiveLayoutButton = contextElement.querySelector('#json-btn-export-live-layout');
     const saveFileButton = contextElement.querySelector('#json-btn-save-file');
     const loadFileLabel = contextElement.querySelector(
       '.file-input-button-label'
@@ -227,6 +229,9 @@ export class JsonUI {
     }
     if (importTextButton) {
       importTextButton.addEventListener('click', () => this._handleImportFromText());
+    }
+    if (exportLiveLayoutButton) {
+      exportLiveLayoutButton.addEventListener('click', () => this._handleExportLiveLayout());
     }
     if (saveFileButton) {
       saveFileButton.addEventListener('click', () => this._handleSaveToFile());
@@ -323,6 +328,8 @@ export class JsonUI {
       );
     }
     if (selectedDataKeys.includes('layoutConfig')) {
+      log('info', '[JsonUI] Starting layout export process');
+      
       // Save the current live layout state using Golden Layout 2.x API
       let rawLayoutConfig = null;
       if (
@@ -332,7 +339,7 @@ export class JsonUI {
         rawLayoutConfig = window.goldenLayoutInstance.saveLayout();
         log('info', 
           '[JsonUI] Retrieved current layoutConfig from window.goldenLayoutInstance.saveLayout():',
-          rawLayoutConfig ? 'Exists' : 'MISSING'
+          rawLayoutConfig ? 'SUCCESS' : 'FAILED'
         );
       } else if (
         this.container &&
@@ -341,25 +348,39 @@ export class JsonUI {
       ) {
         // Fallback to container.layoutManager if global is not found
         rawLayoutConfig = this.container.layoutManager.saveLayout();
-        log('warn', 
+        log('info', 
           '[JsonUI] Used this.container.layoutManager.saveLayout() as fallback for layoutConfig:',
-          rawLayoutConfig ? 'Exists' : 'MISSING'
+          rawLayoutConfig ? 'SUCCESS' : 'FAILED'
         );
       } else {
         // Fallback to loaded preset if live one isn't available
         rawLayoutConfig = window.G_combinedModeData?.layoutConfig;
-        log('warn', 
+        log('info', 
           '[JsonUI] Could not get live layout, falling back to preset layoutConfig from G_combinedModeData:',
-          rawLayoutConfig ? 'Exists' : 'MISSING'
+          rawLayoutConfig ? 'SUCCESS' : 'FAILED'
         );
       }
       
+      log('info', '[JsonUI] rawLayoutConfig type:', typeof rawLayoutConfig);
+      log('info', '[JsonUI] rawLayoutConfig exists:', !!rawLayoutConfig);
+      
       // Clean the layout config for compatibility with Golden Layout 2.x on reload
       if (rawLayoutConfig) {
-        dataToSave.layoutConfig = this._transformLayoutConfigSizes(rawLayoutConfig);
-        log('info', '[JsonUI] Cleaned layoutConfig by removing problematic size/dimensions properties');
+        log('info', '[JsonUI] About to transform layout config...');
+        try {
+          dataToSave.layoutConfig = this._transformLayoutConfigSizes(rawLayoutConfig);
+          log('info', '[JsonUI] Successfully processed layoutConfig for export. Keys in result:', Object.keys(dataToSave.layoutConfig || {}));
+          log('info', '[JsonUI] Final dataToSave.layoutConfig type:', typeof dataToSave.layoutConfig);
+        } catch (transformError) {
+          log('error', '[JsonUI] ERROR: _transformLayoutConfigSizes threw an error:', transformError);
+          log('error', '[JsonUI] Stack trace:', transformError.stack);
+          dataToSave.layoutConfig = rawLayoutConfig; // Use raw data as fallback
+          log('warn', '[JsonUI] Used raw layoutConfig as fallback due to transform error');
+        }
       } else {
         dataToSave.layoutConfig = rawLayoutConfig;
+        log('warn', '[JsonUI] No layoutConfig available - all fallbacks failed');
+        log('warn', '[JsonUI] Setting layoutConfig to null/undefined in dataToSave');
       }
     }
     if (selectedDataKeys.includes('userSettings')) {
@@ -437,7 +458,12 @@ export class JsonUI {
       }
     }
 
-    log('info', '[JsonUI] Finished gathering data:', dataToSave);
+    log('info', '[JsonUI] Finished gathering data. Keys:', Object.keys(dataToSave));
+    log('info', '[JsonUI] layoutConfig exists in result:', !!dataToSave.layoutConfig);
+    if (dataToSave.layoutConfig) {
+      log('info', '[JsonUI] layoutConfig is type:', typeof dataToSave.layoutConfig);
+      log('info', '[JsonUI] layoutConfig has keys:', Object.keys(dataToSave.layoutConfig));
+    }
     return dataToSave;
   }
 
@@ -552,16 +578,19 @@ export class JsonUI {
     };
 
     log('info', 
-      `[JsonUI] Export to text. Mode: ${modeName}, Data:`,
-      combinedData
+      `[JsonUI] Export to text. Mode: ${modeName}, Combined data keys:`,
+      Object.keys(combinedData)
     );
+    log('info', '[JsonUI] combinedData contains layoutConfig:', !!combinedData.layoutConfig);
 
     // Send the data to the Editor panel via eventBus
+    log('info', '[JsonUI] About to publish json:exportToEditor event...');
     eventBus.publish('json:exportToEditor', {
       data: combinedData,
       modeName: modeName,
       activatePanel: true
     }, 'json');
+    log('info', '[JsonUI] json:exportToEditor event published successfully');
   }
 
   async _handleExportSectionToText(configKey) {
@@ -595,6 +624,110 @@ export class JsonUI {
       log('error', `[JsonUI] Error exporting section ${configKey}:`, error);
       alert(`Error exporting section ${configKey}. See console for details.`);
     }
+  }
+
+  async _handleExportLiveLayout() {
+    log('info', '[JsonUI] Export Live Layout button clicked');
+
+    try {
+      // Get access to the Golden Layout instance
+      const goldenLayoutInstance = window.goldenLayoutInstance || window.panelManager?.goldenLayout;
+      
+      if (!goldenLayoutInstance) {
+        alert('No Golden Layout instance available. Cannot read live layout data.');
+        return;
+      }
+
+      // Create an object to hold both the live layout data and analysis
+      const liveLayoutData = {
+        timestamp: new Date().toISOString(),
+        description: "Live Golden Layout instance data - traversed from goldenLayoutInstance.root",
+        liveLayoutRoot: this._traverseLiveLayout(goldenLayoutInstance.root),
+        savedLayoutConfig: null,
+        analysis: {}
+      };
+
+      // Also get the saved layout config for comparison
+      try {
+        const savedConfig = goldenLayoutInstance.saveLayout();
+        liveLayoutData.savedLayoutConfig = savedConfig;
+      } catch (e) {
+        log('warn', '[JsonUI] Could not get saved layout config for comparison:', e);
+        liveLayoutData.savedLayoutConfig = { error: 'Could not retrieve saved config' };
+      }
+
+      // Add some analysis comparing the two
+      liveLayoutData.analysis = {
+        liveRootType: liveLayoutData.liveLayoutRoot?.type || 'unknown',
+        savedRootType: liveLayoutData.savedLayoutConfig?.root?.type || 'unknown',
+        typesMatch: (liveLayoutData.liveLayoutRoot?.type === liveLayoutData.savedLayoutConfig?.root?.type),
+        liveHasConfig: !!liveLayoutData.liveLayoutRoot?.config,
+        liveConfigKeys: liveLayoutData.liveLayoutRoot?.config ? Object.keys(liveLayoutData.liveLayoutRoot.config) : [],
+        message: "This shows the difference between goldenLayoutInstance.root (live) and goldenLayoutInstance.saveLayout() (saved)"
+      };
+
+      log('info', '[JsonUI] Live layout data gathered:', liveLayoutData);
+
+      // Send the data to the Editor panel via eventBus
+      eventBus.publish('json:exportToEditor', {
+        data: liveLayoutData,
+        modeName: 'Live Layout Data',
+        activatePanel: true
+      }, 'json');
+
+    } catch (error) {
+      log('error', '[JsonUI] Error exporting live layout:', error);
+      alert('Error exporting live layout data. See console for details.');
+    }
+  }
+
+  /**
+   * Recursively traverses the live Golden Layout structure to extract all data
+   */
+  _traverseLiveLayout(item, depth = 0) {
+    if (!item) {
+      return null;
+    }
+
+    const result = {
+      type: item.type,
+      depth: depth,
+    };
+
+    // Add config if it exists
+    if (item.config) {
+      result.config = { ...item.config };
+      result.configKeys = Object.keys(item.config);
+    }
+
+    // Add other interesting properties
+    if (item.id !== undefined) result.id = item.id;
+    if (item.title !== undefined) result.title = item.title;
+    if (item.isInitialised !== undefined) result.isInitialised = item.isInitialised;
+    if (item.isMaximised !== undefined) result.isMaximised = item.isMaximised;
+    if (item.isHidden !== undefined) result.isHidden = item.isHidden;
+
+    // Add size information if available
+    if (item.width !== undefined) result.width = item.width;
+    if (item.height !== undefined) result.height = item.height;
+
+    // Add any other potentially useful properties
+    const interestingProps = ['componentName', 'componentType', 'reorderEnabled', 'size'];
+    interestingProps.forEach(prop => {
+      if (item[prop] !== undefined) {
+        result[prop] = item[prop];
+      }
+    });
+
+    // Recursively process children
+    if (item.contentItems && Array.isArray(item.contentItems)) {
+      result.contentItems = item.contentItems.map(child => 
+        this._traverseLiveLayout(child, depth + 1)
+      );
+      result.childCount = item.contentItems.length;
+    }
+
+    return result;
   }
 
   async _handleImportFromText() {
@@ -1223,33 +1356,74 @@ export class JsonUI {
   }
 
   /**
-   * Recursively transforms layout config to remove problematic entries that cause Golden Layout parsing issues.
-   * Removes 'size' and 'dimensions' entries that contain numeric values incompatible with Golden Layout 2.x.
+   * Enhanced layout config transformation that:
+   * 1. Removes problematic 'size' and 'dimensions' entries that cause Golden Layout parsing issues
+   * 2. Optionally assigns IDs to stacks that don't have them (for easier tracking)
+   * 3. Preserves width/height percentage values from the actual Golden Layout instance
    */
   _transformLayoutConfigSizes(config) {
     if (!config || typeof config !== 'object') {
       return config;
     }
 
-    // Create a deep copy to avoid mutating the original
-    const transformed = Array.isArray(config) ? [...config] : { ...config };
+    log('info', '[JsonUI] Processing layout config: convert size attributes based on container type');
 
-    // Properties that cause parsing issues in Golden Layout 2.x - remove them entirely
-    const problematicProps = ['size', 'dimensions'];
-
-    for (const key in transformed) {
-      const value = transformed[key];
-      
-      if (problematicProps.includes(key)) {
-        // Remove problematic properties entirely
-        delete transformed[key];
-        log('info', `[JsonUI] Removed problematic property ${key} from layout config`);
-      } else if (typeof value === 'object' && value !== null) {
-        // Recursively transform nested objects and arrays
-        transformed[key] = this._transformLayoutConfigSizes(value);
-      }
-    }
+    // Step 1: Get the json data from saveLayout (this is already done - config is the result)
+    // Step 2: Process the config to convert size attributes appropriately
+    const transformed = this._convertSizeAttributes(config);
 
     return transformed;
   }
+
+  /**
+   * Converts size attributes based on parent-child relationships and removes dimensions entries
+   */
+  _convertSizeAttributes(config, parentType = null) {
+    if (!config || typeof config !== 'object') {
+      return config;
+    }
+    
+    if (Array.isArray(config)) {
+      return config.map(item => this._convertSizeAttributes(item, parentType));
+    }
+    
+    const converted = {};
+    for (const [key, value] of Object.entries(config)) {
+      // Remove "dimensions" entries
+      if (key === 'dimensions') {
+        log('info', `[JsonUI] Removed "dimensions" property from layout config`);
+        continue;
+      }
+      
+      // Handle "size" attribute based on parent-child relationship
+      if (key === 'size') {
+        if (config.type === 'stack' && parentType === 'row') {
+          // For "stack" entries whose parent is a "row", rename "size" to "width"
+          converted.width = value;
+          log('info', `[JsonUI] Converted "size" to "width" for stack in row container: ${value}`);
+        } else if (config.type === 'stack' && parentType === 'column') {
+          // For "stack" entries whose parent is a "column", rename "size" to "height"
+          converted.height = value;
+          log('info', `[JsonUI] Converted "size" to "height" for stack in column container: ${value}`);
+        } else {
+          // For all other entries, remove the "size" entries
+          log('info', `[JsonUI] Removed "size" property from ${config.type || 'unknown'} container (parent: ${parentType || 'none'})`);
+        }
+        continue;
+      }
+      
+      if (typeof value === 'object' && value !== null) {
+        // Pass the current item's type as the parent type for its children
+        const currentType = config.type || parentType;
+        converted[key] = this._convertSizeAttributes(value, currentType);
+      } else {
+        converted[key] = value;
+      }
+    }
+    
+    return converted;
+  }
+
+
+
 }
