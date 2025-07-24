@@ -79,7 +79,7 @@ class PanelManager {
           );
           this.activatePanel(payload.panelId);
         }
-      });
+      }, 'panelManager');
 
       // Attempt to populate panelMap from existing items
       if (

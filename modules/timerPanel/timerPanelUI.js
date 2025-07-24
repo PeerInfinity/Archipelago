@@ -65,7 +65,7 @@ export class TimerPanelUI {
     // This subscription might still be relevant if the panel needs to react to its own module being disabled/enabled
     // for reasons other than timer hosting. If not, it can be removed.
     // For now, keep it, but its logic in _handleSelfModuleStateChange will change.
-    eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler);
+    eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler, 'timerPanel');
     // centralRegistry.registerEventBusSubscriberIntent(this.moduleId, 'module:stateChanged'); // This was likely for the old system; remove if not broadly used
 
     log(

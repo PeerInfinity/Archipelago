@@ -163,19 +163,13 @@ export function register(registrationApi) {
   );
 
   // Register EventBus publisher intentions
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'error:client');
+  registrationApi.registerEventBusPublisher('error:client');
   // MainContentUI might still publish these, so keep registration for now
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'network:disconnectRequest' // This is if MainContentUI publishes disconnect on EventBus
-  );
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'network:connectRequest' // This is if MainContentUI publishes connect on EventBus (though it now calls directly)
-  );
+  registrationApi.registerEventBusPublisher('network:disconnectRequest'); // This is if MainContentUI publishes disconnect on EventBus
+  registrationApi.registerEventBusPublisher('network:connectRequest'); // This is if MainContentUI publishes connect on EventBus (though it now calls directly)
   // Removed event bus registrations for control:start and control:quickCheck as they are now internal to Timer module
-  // registrationApi.registerEventBusPublisher(moduleInfo.name, 'control:start');
-  // registrationApi.registerEventBusPublisher(moduleInfo.name, 'control:quickCheck');
+  // registrationApi.registerEventBusPublisher('control:start');
+  // registrationApi.registerEventBusPublisher('control:quickCheck');
 }
 
 // --- Initialization --- //

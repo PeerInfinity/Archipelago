@@ -65,7 +65,7 @@ const CSS = `
   margin-right: 10px;
 }
 .symbols-column {
-  flex-basis: 30px; /* Fixed width for symbol columns */
+  flex-basis: 50px; /* Increased width to accommodate symbols and checkboxes */
   text-align: center;
   font-family: monospace; /* Monospace often aligns symbols well */
   color: #abb2bf; /* Default light symbol color */
@@ -157,18 +157,15 @@ class EventsUI {
     // Defer loading data until the app signals it's ready
     eventBus.subscribe(
       'app:readyForUiDataLoad',
-      this.handleAppReady.bind(this)
-    );
+      this.handleAppReady.bind(this),
+      this.moduleId
+    , 'events');
 
     this.unsubscribeModuleState = eventBus.subscribe(
       'module:stateChanged',
-      this.moduleStateChangeHandler
-    );
-    centralRegistry.registerEventBusSubscriberIntent(
-      this.moduleId,
-      'module:stateChanged',
-      this.moduleStateChangeHandler
-    );
+      this.moduleStateChangeHandler,
+      this.moduleId
+    , 'events');
 
     this.container.on('destroy', () => {
       this.destroy();
@@ -233,7 +230,47 @@ class EventsUI {
     style.textContent = CSS;
     this.rootElement.appendChild(style);
 
-    // 2. Create and append structural elements - Dispatcher first
+    // 2. Create and append Expand/Collapse buttons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.marginBottom = '10px';
+    buttonContainer.style.textAlign = 'center';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.gap = '10px';
+    buttonContainer.style.justifyContent = 'center';
+    
+    const expandCollapseAllButton = document.createElement('button');
+    expandCollapseAllButton.textContent = 'Collapse All';
+    expandCollapseAllButton.style.padding = '5px 10px';
+    expandCollapseAllButton.style.backgroundColor = '#61afef';
+    expandCollapseAllButton.style.color = '#282c34';
+    expandCollapseAllButton.style.border = 'none';
+    expandCollapseAllButton.style.borderRadius = '3px';
+    expandCollapseAllButton.style.cursor = 'pointer';
+    expandCollapseAllButton.style.fontSize = '12px';
+    expandCollapseAllButton.addEventListener('click', () => {
+      this._toggleAllDetails();
+    });
+    
+    const expandCollapseCategoriesButton = document.createElement('button');
+    expandCollapseCategoriesButton.textContent = 'Collapse Categories';
+    expandCollapseCategoriesButton.style.padding = '5px 10px';
+    expandCollapseCategoriesButton.style.backgroundColor = '#61afef';
+    expandCollapseCategoriesButton.style.color = '#282c34';
+    expandCollapseCategoriesButton.style.border = 'none';
+    expandCollapseCategoriesButton.style.borderRadius = '3px';
+    expandCollapseCategoriesButton.style.cursor = 'pointer';
+    expandCollapseCategoriesButton.style.fontSize = '12px';
+    expandCollapseCategoriesButton.addEventListener('click', () => {
+      this._toggleCategoryDetails();
+    });
+    
+    buttonContainer.appendChild(expandCollapseAllButton);
+    buttonContainer.appendChild(expandCollapseCategoriesButton);
+    this.rootElement.appendChild(buttonContainer);
+    this.expandCollapseAllButton = expandCollapseAllButton;
+    this.expandCollapseCategoriesButton = expandCollapseCategoriesButton;
+
+    // 3. Create and append structural elements - Dispatcher first
     const dispatcherDetails = document.createElement('details');
     dispatcherDetails.open = true;
     dispatcherDetails.className = 'main-details-section';
@@ -255,7 +292,7 @@ class EventsUI {
     `;
     this.rootElement.appendChild(eventBusDetails);
 
-    // 3. Query for the sections within the appended elements
+    // 4. Query for the sections within the appended elements
     this.dispatcherSection = dispatcherDetails.querySelector(
       '.dispatcher-section'
     );
@@ -504,6 +541,7 @@ class EventsUI {
           const sendersForEvent = sendersMap.get(eventName) || [];
           const handlersForEvent = handlersMap.get(eventName) || [];
 
+
           const allModuleIdsInvolved = new Set();
           sendersForEvent.forEach((s) => allModuleIdsInvolved.add(s.moduleId));
           handlersForEvent.forEach((h) => allModuleIdsInvolved.add(h.moduleId));
@@ -525,14 +563,13 @@ class EventsUI {
 
             const isTopSender =
               senderInfo &&
-              senderInfo.direction &&
-              senderInfo.direction.initialTarget === 'top';
+              senderInfo.direction === 'top';
             const isBottomSender =
               senderInfo &&
-              senderInfo.direction &&
-              senderInfo.direction.initialTarget === 'bottom';
+              senderInfo.direction === 'bottom';
             const isGenericSender =
               senderInfo && !isTopSender && !isBottomSender;
+            
 
             if (isTopSender) {
               topSenders.push({
@@ -560,39 +597,14 @@ class EventsUI {
               });
             }
             // Add to middleEntries if it's a generic sender OR a handler
-            if (isGenericSender) {
+            // Create a single entry that can represent both roles
+            if (isGenericSender || handlerInfo) {
               middleEntries.push({
                 moduleId,
-                isGenericSender: true,
-                senderInfo,
-                isHandler: !!handlerInfo, // Can be generic sender AND handler
-                handlerInfo,
-                originalPriority,
-                isTopSender: false,
-                isBottomSender: false,
-              });
-            }
-            // If it's a handler AND NOT already added as a generic sender (to avoid double entry if it's only a handler)
-            // Or, more simply, if it's a handler and we want to ensure it has its own entry focused on its handler role
-            // if (handlerInfo && !isGenericSender) { // This condition prevents double-listing if it's both
-            if (handlerInfo) {
-              // This allows a module to be listed for its generic send role AND its handler role separately in middle
-              // If a module is ONLY a handler (not a generic sender), it will be added here.
-              // If a module IS a generic sender, it was added above. If it is ALSO a handler, this adds a second entry for the handler role.
-              // To avoid this, we might need a flag if an entry was made for the moduleID in middle already.
-              // For now, let's stick to the refined plan: one entry in middle if generic sender, one if handler.
-              // This means if module is GenericSender AND Handler, it appears twice in middle with different primary roles.
-              // This is actually desirable to show both icons/contexts clearly.
-
-              // Check if an entry for this moduleId as a generic sender already exists in middleEntries.
-              // If it is a generic sender AND a handler, we've already added it for its sender role.
-              // We should add it again FOR ITS HANDLER ROLE, so it can show handler symbols.
-              middleEntries.push({
-                moduleId,
-                isHandler: true,
-                handlerInfo,
-                isGenericSender: isGenericSender, // It might still be a generic sender
+                isGenericSender: isGenericSender,
                 senderInfo: isGenericSender ? senderInfo : null,
+                isHandler: !!handlerInfo,
+                handlerInfo,
                 originalPriority,
                 isTopSender: false,
                 isBottomSender: false,
@@ -711,28 +723,28 @@ class EventsUI {
         let success = false;
         switch (type) {
           case 'eventBusPublisher':
-            success = window.moduleManagerApi.setEventBusPublisherEnabled(
+            success = centralRegistry.setEventBusPublisherEnabled(
               eventName,
               moduleId,
               newState
             );
             break;
           case 'eventBusSubscriber':
-            success = window.moduleManagerApi.setEventBusSubscriberEnabled(
+            success = centralRegistry.setEventBusSubscriberIntentEnabled(
               eventName,
               moduleId,
               newState
             );
             break;
           case 'dispatcherSender':
-            success = window.moduleManagerApi.setDispatcherSenderEnabled(
+            success = centralRegistry.setDispatcherSenderEnabled(
               eventName,
               moduleId,
               newState
             );
             break;
           case 'dispatcherHandler':
-            success = window.moduleManagerApi.setDispatcherHandlerEnabled(
+            success = centralRegistry.setDispatcherHandlerEnabled(
               eventName,
               moduleId,
               newState
@@ -761,6 +773,46 @@ class EventsUI {
       }
     });
     return checkbox;
+  }
+
+  // Method to toggle all details elements
+  _toggleAllDetails() {
+    const allDetails = this.rootElement.querySelectorAll('details');
+    const allOpen = Array.from(allDetails).every(detail => detail.open);
+    
+    if (allOpen) {
+      // Close all details
+      allDetails.forEach(detail => {
+        detail.open = false;
+      });
+      this.expandCollapseAllButton.textContent = 'Expand All';
+    } else {
+      // Open all details
+      allDetails.forEach(detail => {
+        detail.open = true;
+      });
+      this.expandCollapseAllButton.textContent = 'Collapse All';
+    }
+  }
+
+  // Method to toggle only category details elements
+  _toggleCategoryDetails() {
+    const categoryDetails = this.rootElement.querySelectorAll('details.category-block');
+    const allOpen = Array.from(categoryDetails).every(detail => detail.open);
+    
+    if (allOpen) {
+      // Close all category details
+      categoryDetails.forEach(detail => {
+        detail.open = false;
+      });
+      this.expandCollapseCategoriesButton.textContent = 'Expand Categories';
+    } else {
+      // Open all category details
+      categoryDetails.forEach(detail => {
+        detail.open = true;
+      });
+      this.expandCollapseCategoriesButton.textContent = 'Collapse Categories';
+    }
   }
 
   // ADDED: Helper to render a single module entry for the dispatcher view
@@ -871,7 +923,8 @@ class EventsUI {
       // Use the stored handler reference for unsubscribe
       eventBus.unsubscribe(
         'module:stateChanged',
-        this.moduleStateChangeHandler
+        this.moduleStateChangeHandler,
+        this.moduleId
       );
       this.unsubscribeModuleState = null;
       log('info', '[EventsUI] Unsubscribed from module:stateChanged.');

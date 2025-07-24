@@ -120,7 +120,7 @@ class EditorUI {
           this.setContent({ text: String(payload.data) });
         }
       }
-    );
+    , 'editor');
   }
 
   // Unsubscribe from EventBus events

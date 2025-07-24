@@ -50,8 +50,10 @@ export class LocationUI {
 
     // Attach control listeners immediately
     this.attachEventListeners();
-    // Subscribe to settings
-    this.subscribeToSettings();
+    // Subscribe to settings (async)
+    this.subscribeToSettings().catch(error => {
+      log('error', 'Error subscribing to settings:', error);
+    });
 
     // Defer full data-dependent initialization
     const readyHandler = (eventPayload) => {
@@ -79,33 +81,41 @@ export class LocationUI {
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'locations');
 
     this.container.on('destroy', () => {
       this.onPanelDestroy();
     });
   }
 
-  subscribeToSettings() {
+  async subscribeToSettings() {
     if (this.settingsUnsubscribe) {
       this.settingsUnsubscribe();
     }
     // Update local cache on any settings change
-    this.colorblindSettings =
-      settingsManager.getSetting('colorblindMode.locations') || {};
+    try {
+      this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
+    } catch (error) {
+      log('error', 'Error loading colorblind settings:', error);
+      this.colorblindSettings = false;
+    }
 
     this.settingsUnsubscribe = eventBus.subscribe(
       'settings:changed',
-      ({ key, value }) => {
+      async ({ key, value }) => {
         if (key === '*' || key.startsWith('colorblindMode.locations')) {
           log('info', 'LocationUI reacting to settings change:', key);
           // Update cache
-          this.colorblindSettings =
-            settingsManager.getSetting('colorblindMode.locations') || {};
+          try {
+            this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
+          } catch (error) {
+            log('error', 'Error loading colorblind settings during update:', error);
+            this.colorblindSettings = false;
+          }
           this.updateLocationDisplay(); // Trigger redraw
         }
       }
-    );
+    , 'locations');
   }
 
   onPanelDestroy() {
@@ -133,7 +143,7 @@ export class LocationUI {
 
       const subscribe = (eventName, handler) => {
         log('info', `[LocationUI] Subscribing to ${eventName}`);
-        const unsubscribe = eventBus.subscribe(eventName, handler);
+        const unsubscribe = eventBus.subscribe(eventName, handler, 'locations');
         this.stateUnsubscribeHandles.push(unsubscribe);
       };
 
@@ -220,7 +230,7 @@ export class LocationUI {
       subscribe('stateManager:rulesLoaded', (event) => {
         log(
           'info',
-          '[LocationUI] Received stateManager:rulesLoaded event. Full refresh triggered.'
+          '[LocationUI] Received stateManager:rulesLoaded event. Full refresh triggered with state reset.'
         );
 
         // Access snapshot from event (this is the new initial snapshot for the loaded rules)
@@ -235,6 +245,14 @@ export class LocationUI {
         // Note: this.uiCache in StateManagerProxy is updated with this snapshot,
         // so stateManager.getLatestStateSnapshot() SHOULD return this soon after,
         // but using event.snapshot is more direct for this event.
+
+        // RESET UI STATE: Clear all panel-specific state that should reset when rules are reloaded
+        log('info', '[LocationUI rulesLoaded] Resetting panel state...');
+        this.pendingLocations.clear(); // Clear all pending location states
+        // Note: No need to clear checked locations here as they come from the game state snapshot
+        
+        // Force clear the UI display immediately to remove any stale DOM content
+        this.clear(); // This will clear the locations grid
 
         // Fetch and store the NEW static data, including the original location order.
         const currentStaticData = stateManager.getStaticData();
@@ -258,7 +276,7 @@ export class LocationUI {
         // trigger a full display update.
         // The updateLocationDisplay method will use stateManager.getLatestStateSnapshot()
         // and stateManager.getStaticData() which should reflect the newly loaded data.
-        log('info', '[LocationUI rulesLoaded] Triggering full display update.');
+        log('info', '[LocationUI rulesLoaded] Triggering full display update after state reset.');
         this.updateLocationDisplay();
       });
 
@@ -1421,14 +1439,14 @@ export class LocationUI {
       log('info', `[LocationUI] Dungeon link clicked for: ${dungeonName}`);
 
       // Publish panel activation first
-      eventBus.publish('ui:activatePanel', { panelId: 'dungeonsPanel' });
+      eventBus.publish('ui:activatePanel', { panelId: 'dungeonsPanel' }, 'locations');
       log('info', `[LocationUI] Published ui:activatePanel for dungeonsPanel.`);
 
       // Then publish navigation
       eventBus.publish('ui:navigateToDungeon', {
         dungeonName: dungeonName,
         sourcePanel: 'locations',
-      });
+      }, 'locations');
       log(
         'info',
         `[LocationUI] Published ui:navigateToDungeon for ${dungeonName}.`

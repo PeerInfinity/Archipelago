@@ -24,14 +24,14 @@ function log(level, message, ...data) {
 // List of test case files to import (this is the only manual part)
 const TEST_CASE_FILES = [
   './testCases/coreTests.js',
-  './testCases/stateManagementTests.js',
-  './testCases/pathAnalyzerTests.js',
-  './testCases/testCasesPanelTests.js',
-  './testCases/testPlaythroughPanelTests.js',
-  './testCases/testSpoilersPanelTests.js',
   './testCases/locationPanelTests.js',
   './testCases/exitPanelTests.js',
   './testCases/regionPanelTests.js',
+  './testCases/eventsPanelTests.js',
+  './testCases/pathAnalyzerTests.js',
+  './testCases/settingsPanelTests.js',
+  './testCases/JSONPanelTests.js',
+  './testCases/testSpoilersPanelTests.js',
 ];
 
 let discoveryComplete = false;
@@ -56,7 +56,8 @@ export async function discoverTests() {
   log('info', '[TestDiscovery] Starting test discovery...');
 
   discoveryPromise = (async () => {
-    const importPromises = TEST_CASE_FILES.map(async (file) => {
+    // Import files sequentially to maintain order from TEST_CASE_FILES array
+    for (const file of TEST_CASE_FILES) {
       try {
         log('info', `[TestDiscovery] Importing ${file}...`);
         await import(file);
@@ -64,9 +65,7 @@ export async function discoverTests() {
       } catch (error) {
         log('error', `[TestDiscovery] Failed to import ${file}:`, error);
       }
-    });
-
-    await Promise.all(importPromises);
+    }
 
     discoveryComplete = true;
 

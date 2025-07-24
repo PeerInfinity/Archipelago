@@ -42,18 +42,26 @@ export class DungeonUI {
       }
     }, 50);
 
-    const readyHandler = () => {
+    const readyHandler = async () => {
       this.isInitialized = true;
-      this.colorblindSettings =
-        settingsManager.getSetting('colorblindMode.regions') || {};
+      try {
+        this.colorblindSettings = await settingsManager.getSetting('colorblindMode.dungeons', false);
+      } catch (error) {
+        log('error', 'Error loading colorblind settings:', error);
+        this.colorblindSettings = false;
+      }
       this.update();
       eventBus.unsubscribe('stateManager:ready', readyHandler);
     };
 
-    const settingsHandler = ({ key, value }) => {
-      if (key === '*' || key.startsWith('colorblindMode.regions')) {
-        this.colorblindSettings =
-          settingsManager.getSetting('colorblindMode.regions') || {};
+    const settingsHandler = async ({ key, value }) => {
+      if (key === '*' || key.startsWith('colorblindMode.dungeons')) {
+        try {
+          this.colorblindSettings = await settingsManager.getSetting('colorblindMode.dungeons', false);
+        } catch (error) {
+          log('error', 'Error loading colorblind settings during update:', error);
+          this.colorblindSettings = false;
+        }
         if (this.isInitialized) debouncedUpdate();
       }
     };
@@ -64,11 +72,11 @@ export class DungeonUI {
       }
     };
 
-    eventBus.subscribe('settings:changed', settingsHandler);
-    eventBus.subscribe('stateManager:ready', readyHandler);
-    eventBus.subscribe('stateManager:snapshotUpdated', debouncedUpdate);
-    eventBus.subscribe('stateManager:rulesLoaded', () => this.update());
-    eventBus.subscribe('ui:navigateToDungeon', navigateToDungeonHandler);
+    eventBus.subscribe('settings:changed', settingsHandler, 'dungeons');
+    eventBus.subscribe('stateManager:ready', readyHandler, 'dungeons');
+    eventBus.subscribe('stateManager:snapshotUpdated', debouncedUpdate, 'dungeons');
+    eventBus.subscribe('stateManager:rulesLoaded', () => this.update(), 'dungeons');
+    eventBus.subscribe('ui:navigateToDungeon', navigateToDungeonHandler, 'dungeons');
 
     // Store handlers for cleanup
     this.unsubscribeHandles.push(

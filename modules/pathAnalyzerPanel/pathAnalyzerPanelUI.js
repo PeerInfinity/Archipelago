@@ -55,7 +55,7 @@ export class PathAnalyzerPanelUI {
     this.container.on('hide', this._handlePanelHide.bind(this));
     this.container.on('destroy', this._handlePanelDestroy.bind(this));
 
-    eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler);
+    eventBus.subscribe('module:stateChanged', this.moduleStateChangeHandler, 'pathAnalyzerPanel');
 
     this._createUI();
 

@@ -59,7 +59,7 @@ export class TestPlaythroughUI {
       this.initialize();
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'testPlaythroughs');
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup
@@ -117,7 +117,7 @@ export class TestPlaythroughUI {
             this.clearDisplay();
           }
         }
-      );
+      , 'testPlaythroughs');
     } else {
       log(
         'error',
@@ -828,7 +828,7 @@ export class TestPlaythroughUI {
             unsub();
             resolve(true);
           }
-        );
+        , 'testPlaythroughs');
       });
 
       if (!rulesLoadedConfirmation) {

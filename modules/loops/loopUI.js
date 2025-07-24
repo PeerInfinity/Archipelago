@@ -73,7 +73,7 @@ export class LoopUI {
       this.initialize(); // This will call buildInitialStructure and attachInternalListeners
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'loops');
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup
@@ -94,7 +94,7 @@ export class LoopUI {
           this.renderLoopPanel(); // Re-render panel when setting changes
         }
       }
-    );
+    , 'loops');
   }
 
   createRootElement() {
@@ -331,7 +331,7 @@ export class LoopUI {
     this._updateManaDisplay(loopState.currentMana, loopState.maxMana);
     eventBus.publish('loopState:queueUpdated', {
       queue: loopState.actionQueue,
-    });
+    }, 'loops');
     this.renderLoopPanel();
   }
 
@@ -509,7 +509,7 @@ export class LoopUI {
     this.eventSubscriptions = []; // Initialize array to hold unsubscribe handles
 
     const subscribe = (eventName, handler) => {
-      const unsubscribe = eventBus.subscribe(eventName, handler.bind(this)); // Bind 'this'
+      const unsubscribe = eventBus.subscribe(eventName, handler.bind(this), 'loops'); // Bind 'this'
       this.eventSubscriptions.push(unsubscribe);
     };
 
@@ -689,7 +689,7 @@ export class LoopUI {
       // }
       // // If loop mode changed, we might need to re-render again or publish the event
       // this.renderLoopPanel(); // Potentially re-render if mode changed
-      // eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
+      // eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive }, 'loops');
 
       // Listen for explore action repeat events
       subscribe('loopState:exploreActionRepeated', (data) => {
@@ -2119,7 +2119,7 @@ export class LoopUI {
     this.renderLoopPanel(); // Re-render to show/hide appropriate content
 
     // --- Emit event for other components ---
-    eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive });
+    eventBus.publish('loopUI:modeChanged', { active: this.isLoopModeActive }, 'loops');
 
     log('info', `LoopUI: Loop mode toggled. Active: ${this.isLoopModeActive}`);
   }

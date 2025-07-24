@@ -55,6 +55,10 @@ export class StateManagerProxy {
     this.messageCounter = 0; // DEPRECATED or RENAMED? Let's ensure nextMessageId is primary.
     this.nextMessageId = 0; // MODIFIED: Initialize nextMessageId
     this.config = null; // To store initial config like gameId, playerId
+    
+    // Track worker initialization state
+    this.workerInitialized = false;
+    this.pendingGameStateData = null; // Queue Game State data for after initialization
 
     this._setupInitialLoadPromise();
     this.initializeWorker();
@@ -63,6 +67,72 @@ export class StateManagerProxy {
       '[StateManagerProxy Constructor] this._sendCommand type:',
       typeof this._sendCommand
     );
+  }
+
+  /**
+   * Update the worker's logging configuration
+   * Call this when the main thread logging settings change
+   * @param {Object} newLoggingConfig - New logging configuration from main thread
+   */
+  updateWorkerLoggingConfig(newLoggingConfig) {
+    if (!this.worker) {
+      log('warn', '[StateManagerProxy] Cannot update worker logging config - worker not initialized');
+      return;
+    }
+    
+    // Define all worker-related logging categories that should be passed through
+    const workerCategories = [
+      // Core worker modules
+      'stateManagerWorker',
+      'StateManager', 
+      'stateManager',
+      'ruleEngine',
+      'stateManagerHelpers',
+      
+      // Game-specific modules
+      'gameInventory',
+      'alttpHelpers',
+      'ALTTPState',
+      
+      // Game logic modules
+      'alttpLogic',
+      'genericLogic',
+      
+      // Additional worker categories that might be added in the future
+      'inventoryManager',
+      'progressiveItems',
+      'gameState',
+      'helperFunctions',
+    ];
+    
+    // Build category levels object by copying from new config
+    const workerCategoryLevels = {};
+    workerCategories.forEach(category => {
+      workerCategoryLevels[category] = 
+        newLoggingConfig.categoryLevels?.[category] ||
+        newLoggingConfig.defaultLevel;
+    });
+    
+    const workerLoggingConfig = {
+      defaultLevel: newLoggingConfig.defaultLevel,
+      categoryLevels: workerCategoryLevels,
+      filters: newLoggingConfig.filters,
+      showTimestamp: newLoggingConfig.showTimestamp,
+      showCategoryName: newLoggingConfig.showCategoryName,
+      enabled: newLoggingConfig.enabled,
+      temporaryOverride: newLoggingConfig.temporaryOverride,
+    };
+    
+    // Send the update to the worker
+    try {
+      this.worker.postMessage({
+        command: 'updateLogConfig',
+        payload: workerLoggingConfig,
+      });
+      log('info', '[StateManagerProxy] Worker logging configuration updated');
+    } catch (error) {
+      log('error', '[StateManagerProxy] Failed to update worker logging config:', error);
+    }
   }
 
   getGameId() {
@@ -134,7 +204,7 @@ export class StateManagerProxy {
         this.eventBus.publish('stateManager:error', {
           message: errorMessage,
           isCritical: true,
-        });
+        }, 'stateManager');
         // Consider attempting to restart the worker or entering a failed state
       };
     } catch (e) {
@@ -142,7 +212,7 @@ export class StateManagerProxy {
       this.eventBus.publish('stateManager:error', {
         message: 'Failed to initialize StateManager worker.',
         isCritical: true,
-      });
+      }, 'stateManager');
       // Prevent further interaction
       this.worker = null;
     }
@@ -177,6 +247,24 @@ export class StateManagerProxy {
           '[StateManagerProxy] Worker initialized confirmation received:',
           JSON.parse(JSON.stringify(message.configEcho || {}))
         );
+        
+        // Mark worker as initialized
+        this.workerInitialized = true;
+        
+        // Apply any pending Game State data that was queued during early loading
+        if (this.pendingGameStateData) {
+          log('info', '[StateManagerProxy] Applying pending Game State data after worker initialization');
+          try {
+            this._sendCommand(
+              StateManagerProxy.COMMANDS.APPLY_RUNTIME_STATE,
+              this.pendingGameStateData
+            );
+            this.pendingGameStateData = null; // Clear the pending data
+          } catch (error) {
+            log('error', '[StateManagerProxy] Failed to apply pending Game State data:', error);
+          }
+        }
+        
         // Worker is up, but we still wait for rules to be loaded for the main "ready" state.
         // This event could be used for finer-grained readiness if needed in the future.
         break;
@@ -293,7 +381,7 @@ export class StateManagerProxy {
           gameId: this.gameIdFromWorker, // Forward gameId from worker confirmation (using stored one)
           playerId: message.playerId, // Forward playerId
           source: this.currentRulesSource, // MODIFIED: Use the stored source
-        });
+        }, 'stateManager');
 
         // Update static groups cache if provided by worker
         if (message.workerStaticGroups && this.staticDataCache) {
@@ -319,7 +407,7 @@ export class StateManagerProxy {
           // Publish a generic event indicating the cache is updated
           this.eventBus.publish('stateManager:snapshotUpdated', {
             snapshot: this.uiCache,
-          });
+          }, 'stateManager');
         } else {
           log(
             'warn',
@@ -332,19 +420,19 @@ export class StateManagerProxy {
         this.eventBus.publish(
           'stateManager:computationProgress',
           message.detail
-        );
+        , 'stateManager');
         break;
       case 'event': // For granular events forwarded from worker
         log(
           'info',
           `[stateManagerProxy] Forwarding worker event: ${message.name}`
         );
-        this.eventBus.publish(`stateManager:${message.name}`, message.payload);
+        this.eventBus.publish(`stateManager:${message.name}`, message.payload, 'stateManager');
         break;
       case 'workerQueueStatus':
         this.eventBus.publish('stateManager:workerQueueStatus', {
           queueSummary: message.queueSummary,
-        });
+        }, 'stateManager');
         break;
       case 'error': // Errors reported by the worker during processing
         log('error', '[stateManagerProxy] Error reported by worker:', message);
@@ -353,7 +441,7 @@ export class StateManagerProxy {
           stack: message.stack,
           originalCommand: message.originalCommand,
           queryId: message.queryId, // Forward queryId if the error is related to a query
-        });
+        }, 'stateManager');
         // If the error is tied to a specific query, reject that query's promise
         if (message.queryId) {
           const pending = this.pendingQueries.get(message.queryId);
@@ -379,7 +467,7 @@ export class StateManagerProxy {
           stack: message.errorStack,
           originalCommand: message.command, // From the worker's new error structure
           queryId: message.queryId,
-        });
+        }, 'stateManager');
         if (message.queryId) {
           const pending = this.pendingQueries.get(message.queryId);
           if (pending) {
@@ -398,7 +486,7 @@ export class StateManagerProxy {
         this.eventBus.publish(
           'stateManager:computationProgress',
           message.detail
-        );
+        , 'stateManager');
         break;
       case 'eventPublish': // New case for event republishing from worker
         this._handleEventPublish(message);
@@ -462,14 +550,14 @@ export class StateManagerProxy {
         message.payload
       );
       // Potentially publish an event if generic pongs are useful
-      // this.eventBus.publish('stateManager:pongReceived', { payload: message.payload });
+      // this.eventBus.publish('stateManager:pongReceived', { payload: message.payload }, 'stateManager');
     }
   }
 
   _handleEventPublish(message) {
     try {
       // Republish the event from the worker on the main thread's eventBus
-      this.eventBus.publish(`stateManager:${message.eventType}`, message.eventData);
+      this.eventBus.publish(`stateManager:${message.eventType}`, message.eventData, 'stateManager');
       this._logDebug(
         `[StateManagerProxy] Republished worker event: ${message.eventType}`,
         message.eventData
@@ -504,7 +592,7 @@ export class StateManagerProxy {
       this.eventBus.publish('stateManager:error', {
         message: 'Error communicating with StateManager worker.',
         isCritical: true,
-      });
+      }, 'stateManager');
     }
   }
 
@@ -519,7 +607,7 @@ export class StateManagerProxy {
       this.eventBus.publish('stateManager:proxyError', {
         message: errorMessage,
         details: { command: message.command, payload: message.payload },
-      });
+      }, 'stateManager');
       return Promise.reject(new Error(errorMessage));
     }
 
@@ -569,7 +657,7 @@ export class StateManagerProxy {
         this.eventBus.publish('stateManager:error', {
           message: 'Error communicating with StateManager worker.',
           isCritical: true,
-        });
+        }, 'stateManager');
       }
     });
   }
@@ -964,7 +1052,7 @@ export class StateManagerProxy {
         // Directly use event name string
         gameId: this.config ? this.config.gameId : null,
         playerId: this.config ? this.config.playerId : null,
-      });
+      }, 'stateManager');
     }
   }
 
@@ -1144,37 +1232,51 @@ export class StateManagerProxy {
     let workerLoggingConfig = null;
     if (typeof window !== 'undefined' && window.logger) {
       const mainThreadLoggerConfig = window.logger.getConfig();
+      
+      // Define all worker-related logging categories that should be passed through
+      const workerCategories = [
+        // Core worker modules
+        'stateManagerWorker',
+        'StateManager',
+        'stateManager',
+        'ruleEngine',
+        'stateManagerHelpers',
+        
+        // Game-specific modules
+        'gameInventory',
+        'alttpHelpers',
+        'ALTTPState',
+        
+        // Game logic modules
+        'alttpLogic',
+        'genericLogic',
+        
+        // Additional worker categories that might be added in the future
+        'inventoryManager',
+        'progressiveItems',
+        'gameState',
+        'helperFunctions',
+      ];
+      
+      // Build category levels object by copying from main thread config
+      const workerCategoryLevels = {};
+      workerCategories.forEach(category => {
+        workerCategoryLevels[category] = 
+          mainThreadLoggerConfig.categoryLevels?.[category] ||
+          mainThreadLoggerConfig.defaultLevel;
+      });
+      
       workerLoggingConfig = {
         defaultLevel: mainThreadLoggerConfig.defaultLevel,
-        categoryLevels: {
-          // Worker-specific modules
-          stateManagerWorker:
-            mainThreadLoggerConfig.categoryLevels?.stateManagerWorker ||
-            mainThreadLoggerConfig.defaultLevel,
-          StateManager:
-            mainThreadLoggerConfig.categoryLevels?.StateManager ||
-            mainThreadLoggerConfig.defaultLevel,
-          stateManager:
-            mainThreadLoggerConfig.categoryLevels?.stateManager ||
-            mainThreadLoggerConfig.defaultLevel,
-          ruleEngine:
-            mainThreadLoggerConfig.categoryLevels?.ruleEngine ||
-            mainThreadLoggerConfig.defaultLevel,
-          stateManagerHelpers:
-            mainThreadLoggerConfig.categoryLevels?.stateManagerHelpers ||
-            mainThreadLoggerConfig.defaultLevel,
-          gameInventory:
-            mainThreadLoggerConfig.categoryLevels?.gameInventory ||
-            mainThreadLoggerConfig.defaultLevel,
-          alttpHelpers:
-            mainThreadLoggerConfig.categoryLevels?.alttpHelpers ||
-            mainThreadLoggerConfig.defaultLevel,
-        },
+        categoryLevels: workerCategoryLevels,
         filters: mainThreadLoggerConfig.filters,
         showTimestamp: mainThreadLoggerConfig.showTimestamp,
         showCategoryName: mainThreadLoggerConfig.showCategoryName,
         enabled: mainThreadLoggerConfig.enabled,
+        temporaryOverride: mainThreadLoggerConfig.temporaryOverride,
       };
+      
+      log('info', '[StateManagerProxy] Worker logging config prepared with categories:', Object.keys(workerCategoryLevels));
     }
 
     log(
@@ -1244,7 +1346,7 @@ export class StateManagerProxy {
           'Critical error posting initialize message to worker: ' +
           error.message,
         isCritical: true,
-      });
+      }, 'stateManager');
     }
   }
 
@@ -1255,10 +1357,10 @@ export class StateManagerProxy {
   // --- New methods for JSON Module data handling ---
   getSavableStateData() {
     log('info', '[StateManagerProxy] getSavableStateData called.');
-    if (!this.uiDataCache) {
+    if (!this.uiCache) {
       log(
         'warn',
-        '[StateManagerProxy] No uiDataCache available when getting savable state. Returning empty structure.'
+        '[StateManagerProxy] No uiCache available when getting savable state. Returning empty structure.'
       );
       return {
         inventory: {},
@@ -1267,13 +1369,13 @@ export class StateManagerProxy {
       };
     }
 
-    // Assuming uiDataCache contains the full snapshot structure
+    // Assuming uiCache contains the full snapshot structure
     const savableData = {
-      inventory: this.uiDataCache.inventory || {},
-      checkedLocations: this.uiDataCache.checkedLocations || [],
+      inventory: this.uiCache.inventory || {},
+      checkedLocations: this.uiCache.checkedLocations || [],
       // Potentially other things if they are not part of rules or settings and can change runtime
       // e.g., game-specific flags if they are stored in the snapshot and can be modified by user/events
-      // Example: if (this.uiDataCache.gameSpecificFlags) savableData.gameSpecificFlags = this.uiDataCache.gameSpecificFlags;
+      // Example: if (this.uiCache.gameSpecificFlags) savableData.gameSpecificFlags = this.uiCache.gameSpecificFlags;
     };
 
     log(
@@ -1299,6 +1401,14 @@ export class StateManagerProxy {
       return;
     }
 
+    // Check if worker is initialized
+    if (!this.workerInitialized) {
+      log('info', '[StateManagerProxy] Worker not initialized yet, queuing Game State data for later application');
+      this.pendingGameStateData = loadedData;
+      return;
+    }
+    
+    // Worker is ready, apply the data immediately
     this._sendCommand(
       StateManagerProxy.COMMANDS.APPLY_RUNTIME_STATE,
       loadedData
@@ -1493,12 +1603,12 @@ export class StateManagerProxy {
 
         this.eventBus.publish('stateManager:snapshotUpdated', {
           snapshot: response.newSnapshot,
-        });
+        }, 'stateManager');
         this.eventBus.publish('stateManager:inventoryChanged', {
           inventory: response.newInventory,
           // itemsAdded: requiredItems, // This might be complex if worker derives the diff
           // itemsRemoved: excludedItems, // For simplicity, let UI re-render from new inventory
-        });
+        }, 'stateManager');
 
         // The actual result of the test for the specific location
         return response.locationAccessibilityResult;

@@ -111,7 +111,7 @@ export class LoopState {
           '[LoopState] Received snapshotUpdated event without snapshot data.'
         );
       }
-    });
+    }, 'loops');
   }
 
   /**
@@ -189,7 +189,7 @@ export class LoopState {
     this.eventBus.publish('loopState:manaChanged', {
       current: this.currentMana,
       max: this.maxMana,
-    });
+    }, 'loops');
   }
 
   /**
@@ -226,7 +226,7 @@ export class LoopState {
       xpData.xpForNextLevel = this._calculateXPForNextLevel(xpData.level);
 
       // Always notify UI of level up
-      this.eventBus.publish('loopState:xpChanged', { regionName, xpData });
+      this.eventBus.publish('loopState:xpChanged', { regionName, xpData }, 'loops');
     }
   }
 
@@ -266,7 +266,7 @@ export class LoopState {
     //log('info', 'Action queued:', action);
     this.eventBus.publish('loopState:queueUpdated', {
       queue: this.actionQueue,
-    });
+    }, 'loops');
     //log('info', 'Published loopState:queueUpdated event');
 
     // Start processing if not already running
@@ -346,7 +346,7 @@ export class LoopState {
     // Notify queue updated
     this.eventBus.publish('loopState:queueUpdated', {
       queue: this.actionQueue,
-    });
+    }, 'loops');
 
     // Restart processing if stopped and there are actions to process
     if (!this.isProcessing && this.actionQueue.length > 0 && !this.isPaused) {
@@ -405,7 +405,7 @@ export class LoopState {
 
     this.eventBus.publish('loopState:processingStarted', {
       action: this.currentAction,
-    });
+    }, 'loops');
   }
 
   /**
@@ -427,7 +427,7 @@ export class LoopState {
       this._animationFrameId = null;
     }
 
-    this.eventBus.publish('loopState:processingStopped', {});
+    this.eventBus.publish('loopState:processingStopped', {}, 'loops');
   }
 
   /**
@@ -439,15 +439,15 @@ export class LoopState {
 
     if (isPaused) {
       this.stopProcessing();
-      this.eventBus.publish('loopState:paused', { isPaused: true });
+      this.eventBus.publish('loopState:paused', { isPaused: true }, 'loops');
     } else if (this.actionQueue.length > 0) {
       this.startProcessing();
-      this.eventBus.publish('loopState:resumed', { isPaused: false });
+      this.eventBus.publish('loopState:resumed', { isPaused: false }, 'loops');
     } else {
       // Even if there are no actions, still publish the state change
       this.eventBus.publish('loopState:pauseStateChanged', {
         isPaused: this.isPaused,
-      });
+      }, 'loops');
     }
   }
 
@@ -463,7 +463,7 @@ export class LoopState {
       this._lastFrameTime = null;
     }
 
-    this.eventBus.publish('loopState:speedChanged', { speed: this.gameSpeed });
+    this.eventBus.publish('loopState:speedChanged', { speed: this.gameSpeed }, 'loops');
   }
 
   /**
@@ -527,7 +527,7 @@ export class LoopState {
       this.eventBus.publish('loopState:manaChanged', {
         current: this.currentMana,
         max: this.maxMana,
-      });
+      }, 'loops');
 
       // Continuous XP gain during action
       if (this.currentAction.regionName) {
@@ -544,7 +544,7 @@ export class LoopState {
         this.eventBus.publish('loopState:xpChanged', {
           regionName: this.currentAction.regionName,
           xpData,
-        });
+        }, 'loops');
       }
 
       // Log every few frames for debugging
@@ -585,7 +585,7 @@ export class LoopState {
         eventData.action = this.currentAction;
       }
 
-      this.eventBus.publish('loopState:progressUpdated', eventData);
+      this.eventBus.publish('loopState:progressUpdated', eventData, 'loops');
     } catch (error) {
       log('error', 'Error in _processFrame:', error);
       // Try to recover by stopping processing
@@ -613,7 +613,7 @@ export class LoopState {
     // Notify completion
     this.eventBus.publish('loopState:actionCompleted', {
       action: this.currentAction,
-    });
+    }, 'loops');
 
     // Check if this is an explore action that just completed
     if (this.currentAction.type === 'explore') {
@@ -653,7 +653,7 @@ export class LoopState {
         this.eventBus.publish('loopState:exploreActionRepeated', {
           action: repeatAction,
           regionName: repeatAction.regionName,
-        });
+        }, 'loops');
       }
     }
 
@@ -680,10 +680,10 @@ export class LoopState {
         if (this.actionQueue.length === 0) {
           this.currentAction = null;
           this.isProcessing = false;
-          this.eventBus.publish('loopState:queueCompleted', {});
+          this.eventBus.publish('loopState:queueCompleted', {}, 'loops');
           this.eventBus.publish('loopState:queueUpdated', {
             queue: this.actionQueue,
-          });
+          }, 'loops');
           return; // Exit the function
         }
 
@@ -704,7 +704,7 @@ export class LoopState {
         // Queue completed
         this.currentAction = null;
         this.isProcessing = false;
-        this.eventBus.publish('loopState:queueCompleted', {});
+        this.eventBus.publish('loopState:queueCompleted', {}, 'loops');
         return;
       }
     }
@@ -715,7 +715,7 @@ export class LoopState {
       this.currentAction.progress = 0;
       this.eventBus.publish('loopState:newActionStarted', {
         action: this.currentAction,
-      });
+      }, 'loops');
     }
   }
 
@@ -739,7 +739,7 @@ export class LoopState {
         this.eventBus.publish('loop:exploreCompleted', {
           regionName: action.regionName,
           // Any other relevant data loopState knows? Probably just the region.
-        });
+        }, 'loops');
         break;
       case 'checkLocation':
         // Mark location as checked in stateManager (assuming this is still desired)
@@ -749,7 +749,7 @@ export class LoopState {
           locationName: action.locationName,
           regionName: action.regionName, // Include region for context
           // Include item info if needed by discovery/other modules?
-        });
+        }, 'loops');
         break;
       case 'moveToRegion':
         // Publish event for discovery module
@@ -757,7 +757,7 @@ export class LoopState {
           sourceRegion: action.regionName,
           destinationRegion: action.destinationRegion,
           exitName: action.exitName,
-        });
+        }, 'loops');
         break;
     }
   }
@@ -858,7 +858,7 @@ export class LoopState {
           max: this.maxMana,
         },
         paused: true,
-      });
+      }, 'loops');
 
       return;
     }
@@ -882,7 +882,7 @@ export class LoopState {
         max: this.maxMana,
       },
       paused: false,
-    });
+    }, 'loops');
   }
 
   /**
@@ -893,7 +893,7 @@ export class LoopState {
     this.autoRestartQueue = autoRestart;
     this.eventBus.publish('loopState:autoRestartChanged', {
       autoRestart: this.autoRestartQueue,
-    });
+    }, 'loops');
   }
 
   /**
@@ -945,12 +945,12 @@ export class LoopState {
     this.eventBus.publish('loopState:manaChanged', {
       current: this.currentMana,
       max: this.maxMana,
-    });
+    }, 'loops');
 
     // Notify about queue update (so UI can refresh)
     this.eventBus.publish('loopState:queueUpdated', {
       queue: this.actionQueue,
-    });
+    }, 'loops');
 
     // Start processing if there are actions
     if (this.actionQueue.length > 0 && !this.isPaused) {
@@ -1041,7 +1041,7 @@ export class LoopState {
     // Notify state loaded
     if (this.eventBus) {
       // Ensure eventBus is available
-      this.eventBus.publish('loopState:stateLoaded', {});
+      this.eventBus.publish('loopState:stateLoaded', {}, 'loops');
     } else {
       log(
         'warn',

@@ -18,6 +18,21 @@ import eventBus from './app/core/eventBus.js';
 import settingsManager from './app/core/settingsManager.js';
 import { centralRegistry } from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
+
+// Make eventBus and centralRegistry globally available for cross-module communication
+window.eventBus = eventBus;
+window.centralRegistry = centralRegistry;
+
+// Register frontend as publisher for events it publishes
+centralRegistry.registerEventBusPublisher('core', 'app:fullModeDataLoadedFromStorage');
+centralRegistry.registerEventBusPublisher('core', 'module:stateChanged');
+centralRegistry.registerEventBusPublisher('core', 'app:modesJsonLoaded');
+centralRegistry.registerEventBusPublisher('core', 'app:readyForUiDataLoad');
+centralRegistry.registerEventBusPublisher('core', 'app:activeModeDetermined');
+centralRegistry.registerEventBusPublisher('core', 'uiHostRegistry:hostStatusChanged');
+centralRegistry.registerEventBusPublisher('core', 'ui:activatePanel');
+centralRegistry.registerEventBusPublisher('core', 'settings:changed');
+
 import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
 
 // Helper function for logging with fallback
@@ -188,7 +203,19 @@ function createInitializationApi(moduleId) {
   return {
     getModuleSettings: async () => settingsManager.getModuleSettings(moduleId),
     getDispatcher: () => ({
-      publish: dispatcher.publish.bind(dispatcher),
+      publish: (eventName, data, options = {}) => {
+        // Check if this module is enabled as a sender for this event
+        const dispatcherSenders = centralRegistry.getAllDispatcherSenders();
+        const sendersForEvent = dispatcherSenders.get(eventName) || [];
+        const senderInfo = sendersForEvent.find(s => s.moduleId === moduleId);
+        
+        if (senderInfo && senderInfo.enabled === false) {
+          logger.debug('init', `Module ${moduleId} is disabled as sender for event ${eventName}, skipping publish`);
+          return;
+        }
+        
+        return dispatcher.publish(eventName, data, options);
+      },
       publishToNextModule: dispatcher.publishToNextModule.bind(dispatcher),
     }),
     getEventBus: () => eventBus,
@@ -400,11 +427,11 @@ async function _postInitializeSingleModule(moduleId) {
       logger.info('init', `Post-initializing module: ${moduleId}`);
       // Special handling for stateManager postInitialize to pass mode-specific data
       if (moduleId === 'stateManager') {
-        log(
-          'info',
-          '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
-          JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
-        );
+        //log(
+        //  'info',
+        //  '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
+        //  JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
+        //);
         // Pass the prepared configForPostInitialize
         await moduleInstance.postInitialize(api, configForPostInitialize);
       } else if (moduleInstance.postInitialize) {
@@ -737,25 +764,25 @@ async function loadCombinedModeData() {
   }
 
   // ADDED LOGGING BEFORE MODIFICATION ATTEMPT
-  log(
-    'info',
-    '[Init] stateManager module_config BEFORE sourceName logic (exists?): ' +
-      (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
-      ', sourceName: ' +
-      (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
-  );
-  log(
-    'info',
-    '[Init] baseCombinedData.dataSources.rulesConfig.source (stale check): ' + // Clarified this log refers to potentially stale data
-      (baseCombinedData.dataSources?.rulesConfig?.source || 'undefined')
-  );
-  log(
-    'info',
-    '[Init] local dataSources.rulesConfig.source (live check): ' + // Log the relevant part of the local dataSources
-      (dataSources.rulesConfig?.source || 'undefined') +
-      ', details: ' +
-      (dataSources.rulesConfig?.details || 'undefined')
-  );
+  //log(
+  //  'info',
+  //  '[Init] stateManager module_config BEFORE sourceName logic (exists?): ' +
+  //    (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
+  //    ', sourceName: ' +
+  //    (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
+  //);
+  //log(
+  //  'info',
+  //  '[Init] baseCombinedData.dataSources.rulesConfig.source (stale check): ' + // Clarified this log refers to potentially stale data
+  //    (baseCombinedData.dataSources?.rulesConfig?.source || 'undefined')
+  //);
+  //log(
+  //  'info',
+  //  '[Init] local dataSources.rulesConfig.source (live check): ' + // Log the relevant part of the local dataSources
+  //    (dataSources.rulesConfig?.source || 'undefined') +
+  //    ', details: ' +
+  //    (dataSources.rulesConfig?.details || 'undefined')
+  //);
 
   // Ensure StateManager gets the correct source name if its rulesConfig is being set by the mode
   // and those rules are the default ones loaded from a file.
@@ -772,10 +799,10 @@ async function loadCombinedModeData() {
         sourceName:
           './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json', // Correctly set the sourceName
       };
-      log(
-        'info',
-        '[Init] Created stateManager module_config with ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content and sourceName because rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
-      );
+      //log(
+      //  'info',
+      //  '[Init] Created stateManager module_config with ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content and sourceName because rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
+      //);
     } else if (
       baseCombinedData.module_configs.stateManager.rulesConfig && // If stateManager already has rules defined in its module_config
       !baseCombinedData.module_configs.stateManager.sourceName && // And no sourceName is set
@@ -796,13 +823,13 @@ async function loadCombinedModeData() {
   }
 
   // ADDED LOGGING AFTER MODIFICATION ATTEMPT
-  log(
-    'info',
-    '[Init] stateManager module_config AFTER sourceName logic (exists?): ' +
-      (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
-      ', sourceName: ' +
-      (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
-  );
+  //log(
+  //  'info',
+  //  '[Init] stateManager module_config AFTER sourceName logic (exists?): ' +
+  //    (baseCombinedData.module_configs?.stateManager ? 'yes' : 'no') +
+  //    ', sourceName: ' +
+  //    (baseCombinedData.module_configs?.stateManager?.sourceName || 'undefined')
+  //);
 
   // Add the dataSources to the combined data
   baseCombinedData.dataSources = dataSources;
@@ -999,7 +1026,7 @@ async function main() {
 
     eventBus.publish('app:fullModeDataLoadedFromStorage', {
       modeData: G_combinedModeData,
-    });
+    }, 'core');
     logger.debug(
       'init',
       'Published app:fullModeDataLoadedFromStorage with G_combinedModeData.'
@@ -1689,7 +1716,7 @@ async function main() {
           initialized: false,
           enabled: false,
         });
-        eventBus.publish('module:stateChanged', { moduleId, enabled: false });
+        eventBus.publish('module:stateChanged', { moduleId, enabled: false }, 'core');
         return;
       }
     } else {
@@ -1785,11 +1812,11 @@ async function main() {
       // Revert enabled state on error
       const currentState = runtimeModuleStates.get(moduleId);
       if (currentState) currentState.enabled = false;
-      eventBus.publish('module:stateChanged', { moduleId, enabled: false });
+      eventBus.publish('module:stateChanged', { moduleId, enabled: false }, 'core');
       return;
     }
 
-    eventBus.publish('module:stateChanged', { moduleId, enabled: true });
+    eventBus.publish('module:stateChanged', { moduleId, enabled: true }, 'core');
 
     // ADDED: Dispatch rehome event after enabling a module and its panel is potentially ready
     if (dispatcher) {
@@ -1814,7 +1841,7 @@ async function main() {
       eventBus.publish('module:stateChanged', {
         moduleId,
         enabled: false,
-      }); // Ensure consistent payload
+      }, 'core'); // Ensure consistent payload
 
       // Get componentType from centralRegistry
       const componentType = centralRegistry.getComponentTypeForModule(moduleId);
@@ -1957,7 +1984,7 @@ async function main() {
           `Panel closed by user. Updating module state to disabled.`
       );
       moduleState.enabled = false;
-      eventBus.publish('module:stateChanged', { moduleId, enabled: false });
+      eventBus.publish('module:stateChanged', { moduleId, enabled: false }, 'core');
       // The panel is already destroyed by GoldenLayout.
       // The rehome dispatch is handled by the panel's own destroy/dispose handler.
       // No need to call moduleManagerApi.disableModule() here, as that would try to destroy the panel again.
@@ -1973,13 +2000,13 @@ async function main() {
         `Runtime state for module ${moduleId} not found. Cannot update state.`
       );
     }
-  });
+  }, 'core');
 
   // Publish an event indicating that the modes.json has been loaded and processed
   // This allows modules that depend on mode configurations (e.g., for UI elements)
   if (G_modesConfig) {
     logger.info('init', 'Publishing app:modesJsonLoaded event.');
-    eventBus.publish('app:modesJsonLoaded', { modesConfig: G_modesConfig });
+    eventBus.publish('app:modesJsonLoaded', { modesConfig: G_modesConfig }, 'core');
   } else {
     logger.warn(
       'init',
@@ -1988,7 +2015,7 @@ async function main() {
     // Still publish, but with a potentially empty or default config if G_modesConfig was truly not set
     eventBus.publish('app:modesJsonLoaded', {
       modesConfig: G_modesConfig || {},
-    });
+    }, 'core');
   }
 
   // Make G_combinedModeData globally available BEFORE app:readyForUiDataLoad
@@ -2001,7 +2028,7 @@ async function main() {
   logger.info('init', 'Publishing app:readyForUiDataLoad event...');
   eventBus.publish('app:readyForUiDataLoad', {
     getModuleManager: () => moduleManagerApi,
-  });
+  }, 'core');
 
   // ADDED: Dispatch initial timer rehoming event
   // This is done with a timeout to allow app:readyForUiDataLoad handlers (e.g., UI panel creation)
@@ -2042,7 +2069,7 @@ async function main() {
   );
   eventBus.publish('app:activeModeDetermined', {
     activeMode: G_currentActiveMode,
-  });
+  }, 'core');
 
   // Attach a global listener for files:jsonLoaded to update rules in StateManager
   eventBus.subscribe('files:jsonLoaded', async (eventData) => {
@@ -2095,7 +2122,7 @@ async function main() {
         logger.error('init', 'Error handling files:jsonLoaded event:', error);
       }
     }
-  });
+  }, 'core');
 }
 
 // Start the initialization process

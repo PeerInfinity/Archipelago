@@ -38,15 +38,9 @@ export function register(registrationApi) {
   );
 
   // Declare events published by TestPlaythroughUI
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'editor:loadJsonData'
-  );
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'files:jsonLoaded'
-  );
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'ui:notification');
+  registrationApi.registerEventBusPublisher('editor:loadJsonData');
+  registrationApi.registerEventBusPublisher('files:jsonLoaded');
+  registrationApi.registerEventBusPublisher('ui:notification');
 
   // Declare events subscribed to by TestPlaythroughUI
   registrationApi.registerEventBusSubscriberIntent(

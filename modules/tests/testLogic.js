@@ -33,7 +33,7 @@ function setLoadedStateApplied(value) {
     'info',
     `[TestLogic] Setting loadedStateApplied from ${loadedStateApplied} to ${value}`
   );
-  console.trace('[TestLogic] Call stack for loadedStateApplied change:');
+  //console.trace('[TestLogic] Call stack for loadedStateApplied change:');
   loadedStateApplied = value;
 }
 
@@ -45,7 +45,43 @@ async function initializeTestDiscovery() {
   }
 
   log('info', '[TestLogic] Initializing test discovery...');
-  await discoverTests();
+  
+  try {
+    // Add timeout to test discovery to prevent infinite waiting
+    const discoveryPromise = discoverTests();
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Test discovery timeout after 10 seconds')), 10000);
+    });
+    
+    await Promise.race([discoveryPromise, timeoutPromise]);
+  } catch (error) {
+    log('error', '[TestLogic] Test discovery failed:', error);
+    
+    // Set basic test state even if discovery fails
+    TestState.testLogicState.tests = [];
+    TestState.testLogicState.categories = {};
+    TestState.testLogicState.fromDiscovery = true;
+    discoveryInitialized = true;
+    
+    // Set Playwright completion flags immediately if we're in test mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const isTestMode = urlParams.get('mode') === 'test' || TestState.shouldAutoStartTests();
+    
+    if (isTestMode) {
+      log('info', '[TestLogic] Test mode detected but discovery failed, setting completion flags...');
+      const summary = {
+        totalRun: 0,
+        passedCount: 0,
+        failedCount: 0,
+        failedConditionsCount: 0,
+        error: error.message
+      };
+      
+      testLogic._setPlaywrightCompletionFlags(summary, []);
+    }
+    
+    return;
+  }
 
   // Replace TestState with discovered tests and categories
   const discoveredTests = getDiscoveredTests();
@@ -147,12 +183,28 @@ export const testLogic = {
           '[TestLogic] Auto-starting tests (from setEventBus after loaded state applied)...'
         );
         setTimeout(() => {
-          this.runAllEnabledTests().catch((error) => {
+          // Add timeout to auto-start to prevent infinite waiting
+          Promise.race([
+            this.runAllEnabledTests(),
+            new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Auto-start timeout after 30 seconds')), 30000);
+            })
+          ]).catch((error) => {
             log(
               'error',
               '[TestLogic] Error during auto-start (from setEventBus):',
               error
             );
+            
+            // Set completion flags even if auto-start fails
+            const summary = {
+              totalRun: 0,
+              passedCount: 0,
+              failedCount: 0,
+              failedConditionsCount: 0,
+              error: error.message
+            };
+            this._setPlaywrightCompletionFlags(summary, TestState.getTests());
           });
         }, 1000); // Give some time for full initialization
       } else {
@@ -193,6 +245,17 @@ export const testLogic = {
         autoStartToApply
       );
     }
+    
+    // Store the hideDisabledTests value
+    let hideDisabledToApply = false;
+    if (data && typeof data.hideDisabledTests === 'boolean') {
+      hideDisabledToApply = data.hideDisabledTests;
+      log(
+        'info',
+        '[TestLogic applyLoadedState] hideDisabledToApply:',
+        hideDisabledToApply
+      );
+    }
 
     // Ensure discovery is complete before applying loaded state
     await initializeTestDiscovery();
@@ -223,36 +286,29 @@ export const testLogic = {
       '[TestLogic applyLoadedState] Stored loadedAutoStartSetting:',
       loadedAutoStartSetting
     );
+    
+    // Apply the hideDisabledTests setting
+    let hideDisabledChanged = false;
+    const oldHideDisabledValue = TestState.shouldHideDisabledTests();
+    log(
+      'info',
+      '[TestLogic applyLoadedState] oldHideDisabledValue after discovery:',
+      oldHideDisabledValue
+    );
+    if (hideDisabledToApply !== oldHideDisabledValue) {
+      TestState.setHideDisabledTests(hideDisabledToApply);
+      hideDisabledChanged = true;
+      log(
+        'info',
+        '[TestLogic applyLoadedState] Set hideDisabledTests to:',
+        hideDisabledToApply
+      );
+    }
     if (data && typeof data.defaultEnabledState === 'boolean') {
       TestState.testLogicState.defaultEnabledState = data.defaultEnabledState;
     }
 
-    // Categories: Merge discovered categories with loaded ones
-    const discoveredCategories = getDiscoveredCategories();
-    const mergedCategories = { ...discoveredCategories };
-
-    if (data && data.categories) {
-      for (const categoryName in data.categories) {
-        if (Object.hasOwnProperty.call(data.categories, categoryName)) {
-          const loadedCategory = data.categories[categoryName];
-          if (mergedCategories[categoryName]) {
-            // Update existing discovered category with loaded preferences
-            mergedCategories[categoryName].isEnabled = loadedCategory.isEnabled;
-            if (loadedCategory.order !== undefined) {
-              mergedCategories[categoryName].order = loadedCategory.order;
-            }
-          } else {
-            // Add new category from loaded data
-            mergedCategories[categoryName] = {
-              isEnabled: loadedCategory.isEnabled,
-              order:
-                loadedCategory.order || Object.keys(mergedCategories).length,
-            };
-          }
-        }
-      }
-    }
-    TestState.testLogicState.categories = mergedCategories;
+    // No category merging needed in flat structure
 
     // Tests: Merge discovered tests with loaded preferences
     const discoveredTests = getDiscoveredTests();
@@ -277,8 +333,15 @@ export const testLogic = {
             // But allow some overrides from loaded data if needed
           });
         } else {
-          // Use discovered test as-is
-          currentTests.push({ ...discoveredTest });
+          // Use discovered test but only apply defaultEnabledState if test has no explicit enabled value
+          const finalEnabledState = discoveredTest.isEnabled !== undefined 
+            ? discoveredTest.isEnabled  // Use explicit value from registration
+            : TestState.testLogicState.defaultEnabledState;  // Use default only if no explicit value
+          
+          currentTests.push({ 
+            ...discoveredTest,
+            isEnabled: finalEnabledState
+          });
         }
       });
 
@@ -300,31 +363,24 @@ export const testLogic = {
         }
       });
     } else {
-      // No loaded data, use discovered tests as-is
-      currentTests.push(...discoveredTests);
+      // No loaded data, use discovered tests but only apply defaultEnabledState if test has no explicit enabled value
+      discoveredTests.forEach((discoveredTest) => {
+        const finalEnabledState = discoveredTest.isEnabled !== undefined 
+          ? discoveredTest.isEnabled  // Use explicit value from registration
+          : TestState.testLogicState.defaultEnabledState;  // Use default only if no explicit value
+        
+        currentTests.push({ 
+          ...discoveredTest,
+          isEnabled: finalEnabledState
+        });
+      });
     }
 
-    // Sort and normalize
-    currentTests.sort((a, b) => {
-      const catA = mergedCategories[a.category] || { order: 999 };
-      const catB = mergedCategories[b.category] || { order: 999 };
+    // Sort by order
+    currentTests.sort((a, b) => a.order - b.order);
 
-      if (catA.order !== catB.order) {
-        return catA.order - catB.order;
-      }
-
-      return a.order - b.order;
-    });
-
-    // Re-normalize order within categories
-    const categoryCounts = {};
+    // Ensure required runtime fields exist
     currentTests.forEach((test) => {
-      if (!categoryCounts[test.category]) {
-        categoryCounts[test.category] = 0;
-      }
-      test.order = categoryCounts[test.category]++;
-
-      // Ensure required runtime fields exist
       if (!test.logs) test.logs = [];
       if (!test.conditions) test.conditions = [];
       if (test.status === undefined) test.status = 'pending';
@@ -335,11 +391,16 @@ export const testLogic = {
 
     if (eventBusInstance) {
       const testsToPublish = await this.getTests();
-      eventBusInstance.publish('test:listUpdated', { tests: testsToPublish });
+      eventBusInstance.publish('tests:listUpdated', { tests: testsToPublish }, 'tests');
       if (autoStartChanged) {
-        eventBusInstance.publish('test:autoStartConfigChanged', {
+        eventBusInstance.publish('tests:autoStartConfigChanged', {
           autoStartEnabled: TestState.shouldAutoStartTests(),
-        });
+        }, 'tests');
+      }
+      if (hideDisabledChanged) {
+        eventBusInstance.publish('tests:hideDisabledConfigChanged', {
+          hideDisabledEnabled: TestState.shouldHideDisabledTests(),
+        }, 'tests');
       }
     }
 
@@ -358,11 +419,11 @@ export const testLogic = {
 
     // Publish event to notify that loaded state is fully applied
     if (eventBusInstance) {
-      eventBusInstance.publish('test:loadedStateApplied', {
+      eventBusInstance.publish('tests:loadedStateApplied', {
         autoStartEnabled: TestState.shouldAutoStartTests(),
         testCount: currentTests.length,
         enabledTestCount: currentTests.filter((t) => t.isEnabled).length,
-      });
+      }, 'tests');
     }
 
     // Check if we should auto-start tests now that loaded state is fully applied
@@ -379,13 +440,39 @@ export const testLogic = {
             'info',
             '[TestLogic applyLoadedState] Running auto-start tests...'
           );
-          await this.runAllEnabledTests();
+          
+          // Add timeout to auto-start to prevent infinite waiting
+          // Increased timeout to accommodate many enabled tests
+          await Promise.race([
+            this.runAllEnabledTests(),
+            new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Auto-start timeout after 120 seconds')), 120000);
+            })
+          ]);
         } catch (error) {
           log(
             'error',
             '[TestLogic applyLoadedState] Error during auto-start:',
             error
           );
+          
+          // Set completion flags even if auto-start fails, but use actual test results
+          const tests = TestState.getTests();
+          const completedTests = tests.filter(test => test.status === 'passed' || test.status === 'failed');
+          const passedTests = tests.filter(test => test.status === 'passed');
+          const failedTests = tests.filter(test => test.status === 'failed');
+          const failedConditions = failedTests.reduce((total, test) => {
+            return total + (test.conditions ? test.conditions.filter(c => c.status === 'failed').length : 0);
+          }, 0);
+          
+          const summary = {
+            totalRun: completedTests.length,
+            passedCount: passedTests.length,
+            failedCount: failedTests.length,
+            failedConditionsCount: failedConditions,
+            error: error.message
+          };
+          this._setPlaywrightCompletionFlags(summary, tests);
         }
       }, 100);
     }
@@ -398,9 +485,20 @@ export const testLogic = {
   setAutoStartTests(shouldAutoStart) {
     TestState.setAutoStartTests(shouldAutoStart);
     if (eventBusInstance) {
-      eventBusInstance.publish('test:autoStartConfigChanged', {
+      eventBusInstance.publish('tests:autoStartConfigChanged', {
         autoStartEnabled: shouldAutoStart,
-      });
+      }, 'tests');
+    }
+  },
+  shouldHideDisabledTests() {
+    return TestState.shouldHideDisabledTests();
+  },
+  setHideDisabledTests(shouldHide) {
+    TestState.setHideDisabledTests(shouldHide);
+    if (eventBusInstance) {
+      eventBusInstance.publish('tests:hideDisabledConfigChanged', {
+        hideDisabledEnabled: shouldHide,
+      }, 'tests');
     }
   },
 
@@ -408,46 +506,85 @@ export const testLogic = {
     await initializeTestDiscovery();
     TestState.toggleTestEnabled(testId, isEnabled);
     if (eventBusInstance)
-      eventBusInstance.publish('test:listUpdated', {
+      eventBusInstance.publish('tests:listUpdated', {
         tests: await this.getTests(),
-      });
+      }, 'tests');
   },
 
   async updateTestOrder(testId, direction) {
     await initializeTestDiscovery();
     if (TestState.updateTestOrder(testId, direction)) {
       if (eventBusInstance)
-        eventBusInstance.publish('test:listUpdated', {
+        eventBusInstance.publish('tests:listUpdated', {
           tests: await this.getTests(),
-        });
+        }, 'tests');
     }
   },
 
   // Methods called by TestController via callbacks
   _setTestStatus(testId, status, eventWaitingFor = null) {
+    // Check if this test has already completed - prevent status changes after completion
+    // EXCEPT when starting a new test run (status = 'running') which is allowed for re-runs
+    const test = TestState.findTestById(testId);
+    const currentRunningTestId = TestState.getCurrentRunningTestId();
+    
+    
+    if (test && (test.status === 'passed' || test.status === 'failed') && status !== 'running') {
+      log('warn', `[TestLogic] Ignoring status change to '${status}' for completed test '${testId}' (current status: ${test.status}), currentRunning: ${currentRunningTestId}`);
+      return;
+    }
+    
     TestState.setTestStatus(testId, status, eventWaitingFor);
     if (eventBusInstance)
-      eventBusInstance.publish('test:statusChanged', {
+      eventBusInstance.publish('tests:statusChanged', {
         testId,
         status,
         eventWaitingFor,
-      });
+      }, 'tests');
   },
 
   _addTestCondition(testId, description, status) {
+    // Allow condition additions if:
+    // 1. Test is not completed, OR
+    // 2. Test is currently running (being re-run), OR  
+    // 3. Any test is currently running (during a test run)
+    const test = TestState.findTestById(testId);
+    const currentRunningTestId = TestState.getCurrentRunningTestId();
+    
+    if (test && (test.status === 'passed' || test.status === 'failed') && 
+        testId !== currentRunningTestId && !currentRunningTestId) {
+      log('warn', `[TestLogic] Ignoring condition addition for completed test '${testId}' (current status: ${test.status}): ${description}`);
+      return;
+    }
+    
     TestState.addTestCondition(testId, description, status);
     if (eventBusInstance)
-      eventBusInstance.publish('test:conditionReported', {
+      eventBusInstance.publish('tests:conditionReported', {
         testId,
         description,
         status,
-      });
+      }, 'tests');
   },
 
   _emitLogMessage(testId, message, type) {
+    // Allow log additions if:
+    // 1. Test is not completed, OR
+    // 2. Test is currently running (being re-run), OR  
+    // 3. Any test is currently running (during a test run), OR
+    // 4. It's an error/warn level message
+    const test = TestState.findTestById(testId);
+    const currentRunningTestId = TestState.getCurrentRunningTestId();
+    
+    if (test && (test.status === 'passed' || test.status === 'failed') && 
+        testId !== currentRunningTestId && !currentRunningTestId &&
+        type !== 'error' && type !== 'warn' && type !== 'debug') {
+      log('warn', `[TestLogic] Ignoring log addition for completed test '${testId}' (current status: ${test.status}): ${message}`);
+      return;
+    }
+    
     TestState.addTestLog(testId, message, type || 'info');
     if (eventBusInstance)
-      eventBusInstance.publish('test:logAdded', { testId, message, type });
+      eventBusInstance.publish('tests:logAdded', { testId, message, type }, 'tests');
   },
 
   _emitTestCompleted(testId, overallStatus) {
@@ -455,14 +592,30 @@ export const testLogic = {
       'info',
       `[_emitTestCompleted] CALLED with testId: ${testId}, overallStatus: ${overallStatus}`
     );
+    
+    // Check if any conditions failed and override overallStatus if needed
+    const test = TestState.findTestById(testId);
+    let finalStatus = overallStatus;
+    
+    if (test && test.conditions && Array.isArray(test.conditions)) {
+      const failedConditions = test.conditions.filter(condition => condition.status === 'failed');
+      if (failedConditions.length > 0) {
+        log(
+          'info',
+          `[_emitTestCompleted] Found ${failedConditions.length} failed conditions, overriding overallStatus from ${overallStatus} to false`
+        );
+        finalStatus = false;
+      }
+    }
+    
     // Finalize test status
-    TestState.setTestStatus(testId, overallStatus ? 'passed' : 'failed');
+    TestState.setTestStatus(testId, finalStatus ? 'passed' : 'failed');
     TestState.setCurrentRunningTestId(null);
 
     log(
       'info',
       `[_emitTestCompleted] Updated test status to: ${
-        overallStatus ? 'passed' : 'failed'
+        finalStatus ? 'passed' : 'failed'
       }`
     );
 
@@ -472,12 +625,12 @@ export const testLogic = {
         'info',
         `[_emitTestCompleted] Publishing test:completed event for testId: ${testId}`
       );
-      eventBusInstance.publish('test:completed', {
+      eventBusInstance.publish('tests:completed', {
         testId,
         name: test ? test.name : testId,
-        overallStatus: overallStatus ? 'passed' : 'failed',
+        overallStatus: finalStatus ? 'passed' : 'failed',
         conditions: test ? test.conditions : [],
-      });
+      }, 'tests');
       log(
         'info',
         `[_emitTestCompleted] test:completed event published successfully`
@@ -590,6 +743,11 @@ export const testLogic = {
         false
       );
       await testController.completeTest(false);
+    } finally {
+      // Ensure cleanup happens even if completeTest wasn't called
+      if (testController && typeof testController._cleanupAllEventListeners === 'function') {
+        testController._cleanupAllEventListeners();
+      }
     }
   },
 
@@ -601,15 +759,33 @@ export const testLogic = {
 
     if (enabledTests.length === 0) {
       log('info', '[TestLogic] No enabled tests to run.');
+      
+      // Still need to emit completion events and set Playwright flags
+      const summary = {
+        totalRun: 0,
+        passedCount: 0,
+        failedCount: 0,
+        failedConditionsCount: 0,
+      };
+
+      if (eventBusInstance) {
+        eventBusInstance.publish('tests:allRunsStarted', {
+          testCount: 0,
+        }, 'tests');
+        eventBusInstance.publish('tests:allRunsCompleted', { summary }, 'tests');
+      }
+
+      // Set Playwright completion flags even when no tests run
+      this._setPlaywrightCompletionFlags(summary, tests);
       return;
     }
 
     log('info', `[TestLogic] Running ${enabledTests.length} enabled tests...`);
 
     if (eventBusInstance)
-      eventBusInstance.publish('test:allRunsStarted', {
+      eventBusInstance.publish('tests:allRunsStarted', {
         testCount: enabledTests.length,
-      });
+      }, 'tests');
 
     for (const test of enabledTests) {
       log('info', `[TestLogic] Starting test: ${test.name} (${test.id})`);
@@ -619,13 +795,13 @@ export const testLogic = {
         const specificEventListener = (eventData) => {
           if (eventData.testId === test.id) {
             eventBusInstance.unsubscribe(
-              'test:completed',
+              'tests:completed',
               specificEventListener
             );
             resolve();
           }
         };
-        eventBusInstance.subscribe('test:completed', specificEventListener);
+        eventBusInstance.subscribe('tests:completed', specificEventListener, 'tests');
       });
 
       // Start the test
@@ -639,6 +815,16 @@ export const testLogic = {
 
     // Emit summary event
     const finalTests = TestState.getTests();
+    const ranTests = finalTests.filter(t => enabledTests.some(e => e.id === t.id));
+    
+    // Count failed conditions (subtests)
+    const failedConditionsCount = ranTests.reduce((total, test) => {
+      if (test.conditions && Array.isArray(test.conditions)) {
+        return total + test.conditions.filter(cond => cond.status === 'failed').length;
+      }
+      return total;
+    }, 0);
+    
     const summary = {
       totalRun: enabledTests.length,
       passedCount: finalTests.filter(
@@ -647,107 +833,33 @@ export const testLogic = {
       failedCount: finalTests.filter(
         (t) => enabledTests.some((e) => e.id === t.id) && t.status === 'failed'
       ).length,
+      failedConditionsCount: failedConditionsCount,
     };
 
     log('info', '[TestLogic] All enabled tests completed:', summary);
 
     if (eventBusInstance)
-      eventBusInstance.publish('test:allRunsCompleted', { summary });
+      eventBusInstance.publish('tests:allRunsCompleted', { summary }, 'tests');
 
     // Set Playwright completion flags for automated testing
     this._setPlaywrightCompletionFlags(summary, finalTests);
   },
 
-  async getCategories() {
+  async toggleAllTestsEnabled(isEnabled) {
     await initializeTestDiscovery();
-    return TestState.getCategories();
-  },
+    const tests = TestState.getTests();
 
-  isCategoryEnabled(categoryName) {
-    return TestState.getCategoryState(categoryName)?.isEnabled || false;
-  },
-
-  toggleCategoryEnabled(categoryName, isEnabled) {
-    TestState.toggleCategoryEnabled(categoryName, isEnabled);
-    if (eventBusInstance)
-      eventBusInstance.publish('test:categoryChanged', {
-        categoryName,
-        isEnabled,
-      });
-  },
-
-  updateCategoryOrder(categoryName, direction) {
-    if (TestState.updateCategoryOrder(categoryName, direction)) {
-      if (eventBusInstance)
-        eventBusInstance.publish('test:categoriesUpdated', {
-          categories: TestState.getCategories(),
-        });
-    }
-  },
-
-  async toggleAllCategoriesEnabled(isEnabled) {
-    await initializeTestDiscovery();
-    const categories = TestState.getCategories();
-
-    // Enable/disable all categories
-    categories.forEach((category) => {
-      TestState.toggleCategoryEnabled(category, isEnabled);
+    // Enable/disable all tests
+    tests.forEach((test) => {
+      TestState.toggleTestEnabled(test.id, isEnabled);
     });
 
     if (eventBusInstance) {
-      eventBusInstance.publish('test:allCategoriesChanged', {
+      eventBusInstance.publish('tests:allTestsChanged', {
         isEnabled,
-        categories,
-      });
+        testCount: tests.length,
+      }, 'tests');
     }
-  },
-
-  async getAllCategoriesState() {
-    await initializeTestDiscovery();
-    const categories = TestState.getCategories();
-
-    if (categories.length === 0) {
-      return { allEnabled: false, anyEnabled: false };
-    }
-
-    const tests = TestState.getTests();
-    let allCategoriesFullyEnabled = true;
-    let anyCategoryHasEnabledTests = false;
-    let anyCategoryIndeterminate = false;
-
-    // Check each category's state
-    categories.forEach((category) => {
-      const testsInCategory = tests.filter(
-        (test) => test.category === category
-      );
-      if (testsInCategory.length === 0) return;
-
-      const enabledTestsInCategory = testsInCategory.filter(
-        (test) => test.isEnabled
-      );
-      const allEnabledInCategory =
-        enabledTestsInCategory.length === testsInCategory.length;
-      const anyEnabledInCategory = enabledTestsInCategory.length > 0;
-
-      if (!allEnabledInCategory) {
-        allCategoriesFullyEnabled = false;
-      }
-
-      if (anyEnabledInCategory) {
-        anyCategoryHasEnabledTests = true;
-      }
-
-      // Category is indeterminate if some but not all tests are enabled
-      if (anyEnabledInCategory && !allEnabledInCategory) {
-        anyCategoryIndeterminate = true;
-      }
-    });
-
-    return {
-      allEnabled: allCategoriesFullyEnabled,
-      anyEnabled: anyCategoryHasEnabledTests,
-      anyIndeterminate: anyCategoryIndeterminate,
-    };
   },
 
   // Set localStorage flags for Playwright test completion detection

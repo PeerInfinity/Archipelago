@@ -34,7 +34,7 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('testCasesPanel', TestCaseUI);
 
   // Declare events published by TestCaseUI
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'ui:notification');
+  registrationApi.registerEventBusPublisher('ui:notification');
 
   // Declare events subscribed to by TestCaseUI
   // Note: The actual subscription logic remains within TestCaseUI.initialize

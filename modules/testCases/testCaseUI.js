@@ -69,7 +69,7 @@ export class TestCaseUI {
       this.initialize(); // This will fetch test_files.json and subscribe to events
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'testCases');
 
     // GoldenLayout destroy listener
     this.container.on('destroy', () => {
@@ -118,7 +118,7 @@ export class TestCaseUI {
             this.clearDisplayAndState();
           }
         }
-      );
+      , 'testCases');
     }
 
     try {
@@ -307,7 +307,7 @@ export class TestCaseUI {
             unsub();
             resolve();
           }
-        );
+        , 'testCases');
       });
 
       this.renderTestCasesList();
@@ -316,7 +316,7 @@ export class TestCaseUI {
       this.eventBus.publish('ui:notification', {
         type: 'info',
         message: `[${logId}] Test set "${testSetName}" loaded. Rules are now active for testing.`,
-      });
+      }, 'testCases');
     } catch (error) {
       this.logToPanel(
         `[${logId}] Error loading test set "${testSetName}": ${error.message}`,
@@ -1064,7 +1064,7 @@ export class TestCaseUI {
     log('info', `[TestCaseUI Panel Log - ${type}]: ${message}`);
     // Optionally publish to a more general notification system if desired for certain types
     if (type === 'error' || type === 'success') {
-      this.eventBus.publish('ui:notification', { type, message });
+      this.eventBus.publish('ui:notification', { type, message }, 'testCases');
     }
   }
 

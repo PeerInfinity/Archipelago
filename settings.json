@@ -6,8 +6,26 @@
     "showDevTools": false,
     "debugMode": false
   },
+  "//": "playerId can be a string or number. It is used by StateManager.",
+  "playerId": "1",
+  "//": "playerName is primarily for display and client hello message.",
+  "playerName": "Player1",
+  "colorblindMode": {
+    "locations": false,
+    "exits": false,
+    "regions": false,
+    "dungeons": false,
+    "loops": false
+  },
   "logging": {
     "defaultLevel": "WARN",
+    "showTimestamp": true,
+    "showCategoryName": true,
+    "enabled": true,
+    "temporaryOverride": {
+      "enabled": false,
+      "level": "DEBUG"
+    },
     "categoryLevels": {
       "init": "WARN",
       "centralRegistry": "WARN",
@@ -47,7 +65,7 @@
       "testPlaythroughsModule": "WARN",
       "testPlaythroughUI": "WARN",
       "testSpoilerModule": "WARN",
-      "testSpoilerUI": "INFO",
+      "testSpoilerUI": "WARN",
       "testDiscovery": "WARN",
       "testRegistry": "WARN",
       "commonUI": "WARN",
@@ -98,13 +116,6 @@
     "filters": {
       "includeKeywords": [],
       "excludeKeywords": []
-    },
-    "showTimestamp": true,
-    "showCategoryName": true,
-    "enabled": true,
-    "temporaryOverride": {
-      "enabled": false,
-      "level": "DEBUG"
     }
   },
   "moduleSettings": {
@@ -143,13 +154,6 @@
       "manaCostExplore": 10,
       "manaCostCheck": 5,
       "manaCostMove": 2
-    },
-    "tests": {
-      "autoStartTestsOnLoad": false
     }
-  },
-  "//": "playerId can be a string or number. It is used by StateManager.",
-  "playerId": "1",
-  "//": "playerName is primarily for display and client hello message.",
-  "playerName": "Player1"
+  }
 }

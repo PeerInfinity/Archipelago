@@ -61,16 +61,16 @@ class MainContentUI {
     // Subscribe to connection events using the imported eventBus singleton
     this.eventBus.subscribe('connection:open', () => {
       this.updateConnectionStatus(true);
-    });
+    }, 'client');
     this.eventBus.subscribe('connection:close', () => {
       this.updateConnectionStatus(false);
-    });
+    }, 'client');
     this.eventBus.subscribe('connection:error', () => {
       this.updateConnectionStatus(false);
-    });
+    }, 'client');
     this.eventBus.subscribe('connection:reconnecting', () => {
       this.updateConnectionStatus('connecting');
-    });
+    }, 'client');
 
     // ADDED: Subscribe to the game:connected event to show the final success message
     this.eventBus.subscribe('game:connected', (data) => {
@@ -91,21 +91,21 @@ class MainContentUI {
         `${checked} locations checked, ${total - checked} remaining.`,
         'info'
       );
-    });
+    }, 'client');
 
     // <<< ADDED: Subscribe to console print requests >>>
     this.eventBus.subscribe('ui:printToConsole', (payload) => {
       if (payload && payload.message) {
         this.appendConsoleMessage(payload.message, payload.type || 'info');
       }
-    });
+    }, 'client');
 
     // Subscribe to formatted console messages (PrintJSON)
     this.eventBus.subscribe('ui:printFormattedToConsole', (payload) => {
       if (payload && payload.messageParts) {
         this.appendFormattedMessage(payload.messageParts, payload.type || 'info');
       }
-    });
+    }, 'client');
     // <<< END ADDED >>>
 
     // Defer full element initialization and event listener setup
@@ -117,7 +117,7 @@ class MainContentUI {
       this.initializeElements(this.container.element);
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'client');
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup

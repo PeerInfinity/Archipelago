@@ -65,7 +65,7 @@ export class LocationManager {
 
     log('info', '[LocationManager] Subscribing to events...');
     const subscribe = (eventName, handler) => {
-      const unsub = this.eventBus.subscribe(eventName, handler);
+      const unsub = this.eventBus.subscribe(eventName, handler, 'locationManager');
       this.unsubscribeHandles.push(unsub);
     };
 

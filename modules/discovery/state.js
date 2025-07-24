@@ -130,8 +130,8 @@ export class DiscoveryState {
         this.discoveredExits.set(regionName, new Set());
       }
 
-      this.eventBus.publish('discovery:regionDiscovered', { regionName });
-      this.eventBus.publish('discovery:changed', {}); // General change event
+      this.eventBus.publish('discovery:regionDiscovered', { regionName }, 'discovery');
+      this.eventBus.publish('discovery:changed', {}, 'discovery'); // General change event
       return true; // Indicate that a change occurred
     }
     return false;
@@ -142,8 +142,8 @@ export class DiscoveryState {
     if (!this.discoveredLocations.has(locationName)) {
       this.discoveredLocations.add(locationName);
       log('info', `[DiscoveryState] Discovered Location: ${locationName}`);
-      this.eventBus.publish('discovery:locationDiscovered', { locationName });
-      this.eventBus.publish('discovery:changed', {});
+      this.eventBus.publish('discovery:locationDiscovered', { locationName }, 'discovery');
+      this.eventBus.publish('discovery:changed', {}, 'discovery');
       return true;
     }
     return false;
@@ -164,8 +164,8 @@ export class DiscoveryState {
       this.eventBus.publish('discovery:exitDiscovered', {
         regionName,
         exitName,
-      });
-      this.eventBus.publish('discovery:changed', {});
+      }, 'discovery');
+      this.eventBus.publish('discovery:changed', {}, 'discovery');
       return true;
     }
     return false;
@@ -200,7 +200,7 @@ export class DiscoveryState {
     }
     log('info', '[DiscoveryState] State loaded.');
     if (this.eventBus) {
-      this.eventBus.publish('discovery:changed', {}); // Notify UI after loading
+      this.eventBus.publish('discovery:changed', {}, 'discovery'); // Notify UI after loading
     } else {
       log(
         'warn',
@@ -217,7 +217,7 @@ export class DiscoveryState {
     this.discoveredExits.set('Menu', new Set()); // Re-initialize Menu exits map
     this.initialize(); // Re-initialize based on current game data
     if (this.eventBus) {
-      this.eventBus.publish('discovery:changed', {});
+      this.eventBus.publish('discovery:changed', {}, 'discovery');
     } else {
       log(
         'warn',

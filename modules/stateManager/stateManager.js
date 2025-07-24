@@ -4,6 +4,7 @@ import { alttpStateModule } from './logic/games/alttp/alttpLogic.js';
 import * as genericLogic from './logic/games/generic/genericLogic.js';
 
 // Helper function for logging with fallback
+// Note: This is only for module-level logging before StateManager instance is created
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {
     window.logger[level]('stateManager', message, ...data);
@@ -119,6 +120,42 @@ export class StateManager {
   }
 
   /**
+   * Centralized logging method using the injected logger instance
+   * @param {string} level - Log level (error, warn, info, debug, verbose)
+   * @param {string} category - Category name for the log message
+   * @param {string} message - Log message
+   * @param {...any} data - Additional data to log
+   */
+  log(level, category, message, ...data) {
+    if (this.logger && typeof this.logger[level] === 'function') {
+      this.logger[level](category, message, ...data);
+    } else {
+      // Fallback to console if logger method not available
+      const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
+      consoleMethod(`[${category}] ${message}`, ...data);
+    }
+  }
+
+  /**
+   * Convenience logging methods for different categories
+   */
+  logStateManager(level, message, ...data) {
+    this.log(level, 'StateManager', message, ...data);
+  }
+
+  logInventory(level, message, ...data) {
+    this.log(level, 'gameInventory', message, ...data);
+  }
+
+  logALTTP(level, message, ...data) {
+    this.log(level, 'ALTTPState', message, ...data);
+  }
+
+  logHelpers(level, message, ...data) {
+    this.log(level, 'alttpHelpers', message, ...data);
+  }
+
+  /**
    * Responds to a ping request from the main thread.
    * @param {*} payload - The payload to echo back.
    */
@@ -213,7 +250,7 @@ export class StateManager {
     // Also emit to eventBus for ProgressUI
     try {
       if (this.eventBus) {
-        this.eventBus.publish(`stateManager:${eventType}`, {});
+        this.eventBus.publish(`stateManager:${eventType}`, {}, 'stateManager');
       }
     } catch (e) {
       log('warn', 'Could not publish to eventBus:', e);
@@ -426,6 +463,9 @@ export class StateManager {
    */
   loadFromJSON(jsonData, selectedPlayerId) {
     this.invalidateCache(); // +++ ADDED: Ensure cache is cleared for new rules load +++
+
+    // Clear checked locations for fresh rules load
+    this.clearCheckedLocations({ sendUpdate: false }); // Don't send update during initialization
 
     // --- VERY EARLY DIAGNOSTIC LOG (using console.log directly) ---
     //log('info',
@@ -2061,17 +2101,16 @@ export class StateManager {
    * @private
    */
   _logDebug(message, data = null) {
-    if (this.debugMode) {
-      if (data) {
-        try {
-          const clonedData = JSON.parse(JSON.stringify(data));
-          console.debug(message, clonedData);
-        } catch (e) {
-          console.debug(message, '[Could not clone data]', data);
-        }
-      } else {
-        console.debug(message);
+    // Use the proper logger instance with DEBUG level and StateManager category
+    if (data) {
+      try {
+        const clonedData = JSON.parse(JSON.stringify(data));
+        this.logStateManager('debug', message, clonedData);
+      } catch (e) {
+        this.logStateManager('debug', message, '[Could not clone data]', data);
       }
+    } else {
+      this.logStateManager('debug', message);
     }
   }
 
@@ -2115,7 +2154,7 @@ export class StateManager {
     } else if (this.eventBus) {
       // Main thread mode - publish directly to eventBus
       try {
-        this.eventBus.publish(`stateManager:${eventType}`, eventData);
+        this.eventBus.publish(`stateManager:${eventType}`, eventData, 'stateManager');
         this._logDebug(
           `[StateManager Class] Published ${eventType} event via EventBus.`
         );
@@ -3211,6 +3250,51 @@ export class StateManager {
       }
     }
 
+    // 7. Process JSON Export Format (inventory object + checkedLocations array)
+    if (payload.inventory && typeof payload.inventory === 'object') {
+      this._logDebug(
+        '[StateManager applyRuntimeState] Processing JSON export format - inventory object'
+      );
+      if (!this.inventory) {
+        log(
+          'warn',
+          '[StateManager applyRuntimeState] Inventory is unexpectedly null/undefined before processing JSON export inventory.'
+        );
+      } else {
+        // Replace inventory from JSON format (restorative, not additive)
+        // Clear existing inventory items by setting them to 0
+        for (const existingItemName in this.inventory) {
+          if (this.inventory[existingItemName] > 0) {
+            this.inventory[existingItemName] = 0;
+          }
+        }
+        // Then set the imported inventory items
+        for (const [itemName, quantity] of Object.entries(payload.inventory)) {
+          if (typeof quantity === 'number' && quantity > 0) {
+            // Set the inventory item directly to the specified quantity
+            this.inventory[itemName] = quantity;
+            this._logDebug(
+              `[StateManager applyRuntimeState] Set inventory[${itemName}] to ${this.inventory[itemName]}`
+            );
+          }
+        }
+        this._logDebug(
+          `[StateManager applyRuntimeState] Applied ${Object.keys(payload.inventory).length} inventory items from JSON format`
+        );
+      }
+    }
+
+    if (payload.checkedLocations && Array.isArray(payload.checkedLocations)) {
+      this._logDebug(
+        '[StateManager applyRuntimeState] Processing JSON export format - checkedLocations array'
+      );
+      // Replace checked locations from JSON format (restorative, not additive)
+      this.checkedLocations = new Set(payload.checkedLocations);
+      this._logDebug(
+        `[StateManager applyRuntimeState] Replaced checked locations with JSON format. Total: ${this.checkedLocations.size}`
+      );
+    }
+
     // 6. Finalize state and send snapshot
     if (!this.batchUpdateActive) {
       this._logDebug(
@@ -3228,7 +3312,7 @@ export class StateManager {
   }
 
   async loadRules(source) {
-    this.eventBus.publish('stateManager:loadingRules', { source });
+    this.eventBus.publish('stateManager:loadingRules', { source }, 'stateManager');
     log('info', `[StateManager] Attempting to load rules from source:`, source);
 
     if (
@@ -3257,7 +3341,7 @@ export class StateManager {
         this.eventBus.publish('stateManager:rulesLoadFailed', {
           source,
           error,
-        });
+        }, 'stateManager');
         this.rules = null; // Ensure rules are null on failure
         return; // Exit early
       }
@@ -3276,7 +3360,7 @@ export class StateManager {
         this.eventBus.publish('stateManager:rulesLoadFailed', {
           source: 'directData',
           error: 'Malformed direct rules data',
-        });
+        }, 'stateManager');
         this.rules = null; // Ensure rules are null on failure
         return; // Exit early
       }
@@ -3293,7 +3377,7 @@ export class StateManager {
       this.eventBus.publish('stateManager:rulesLoadFailed', {
         source,
         error: 'Invalid rules source type',
-      });
+      }, 'stateManager');
       this.rules = null;
       return; // Exit early
     }

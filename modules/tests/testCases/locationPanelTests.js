@@ -24,7 +24,7 @@ export async function testLibraryLocationAccessibility(testController) {
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
+    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
     await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
 
     // 2. Wait for the locations panel to appear in DOM
@@ -215,7 +215,7 @@ export async function testLocationPanelBasicFunctionality(testController) {
     // 1. Activate the Locations panel
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
+    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // 2. Check panel exists
@@ -268,7 +268,7 @@ registerTest({
   name: 'Library Location Accessibility Test',
   category: 'Location Panel',
   testFunction: testLibraryLocationAccessibility,
-  enabled: false,
+  //enabled: false,
   description: 'Verifies that Library region and location accessibility are properly separated. Expected: Library region reachable, Library location unreachable.'
 });
 
@@ -277,6 +277,6 @@ registerTest({
   name: 'Location Panel Basic Functionality',
   category: 'Location Panel',
   testFunction: testLocationPanelBasicFunctionality,
-  enabled: false,
+  //enabled: false,
   description: 'Tests basic functionality of the Location Panel including UI elements and data loading.'
 });

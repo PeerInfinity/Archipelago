@@ -95,13 +95,10 @@ export function register(registrationApi) {
   );
 
   // Register events this module publishes
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'timer:started');
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'timer:stopped');
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'timer:progressUpdate'
-  );
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'ui:notification');
+  registrationApi.registerEventBusPublisher('timer:started');
+  registrationApi.registerEventBusPublisher('timer:stopped');
+  registrationApi.registerEventBusPublisher('timer:progressUpdate');
+  registrationApi.registerEventBusPublisher('ui:notification');
 
   // Register events this module subscribes to
   registrationApi.registerEventBusSubscriberIntent(
@@ -130,9 +127,7 @@ export function register(registrationApi) {
   );
 
   // ADDED: Declare that this module sends 'user:locationCheck' via the dispatcher
-  registrationApi.registerDispatcherSender('user:locationCheck', {
-    initialTarget: 'bottom',
-  });
+  registrationApi.registerDispatcherSender('user:locationCheck', 'bottom', 'first');
 
   log('info', `[${moduleInfo.name} Module] Registration complete.`);
 }

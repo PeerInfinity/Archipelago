@@ -42,20 +42,15 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('locationsPanel', LocationUI);
 
   // Declare that this module sends 'user:locationCheck' via the dispatcher
-  registrationApi.registerDispatcherSender('user:locationCheck', {
-    initialTarget: 'bottom',
-  });
+  registrationApi.registerDispatcherSender('user:locationCheck', 'bottom', 'first');
 
   // Register settings schema if needed
   // No settings schema specific to Locations registration.
 
   // Register EventBus publisher intentions (used by LocationUI)
-  registrationApi.registerEventBusPublisher(
-    moduleId,
-    'stateManager:locationCollectionChanged'
-  );
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:activatePanel');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToDungeon');
+  registrationApi.registerEventBusPublisher('stateManager:locationCollectionChanged');
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
+  registrationApi.registerEventBusPublisher('ui:navigateToDungeon');
 }
 
 export function initialize(mId, priorityIndex, initializationApi) {

@@ -7,6 +7,7 @@
         {
           "type": "stack",
           "width": 20,
+          "id": "left-stack",
           "content": [
             {
               "type": "component",
@@ -38,6 +39,7 @@
         {
           "type": "stack",
           "width": 35,
+          "id": "middle-stack",
           "content": [
             {
               "type": "component",
@@ -83,12 +85,18 @@
               "type": "component",
               "componentType": "settingsPanel",
               "title": "Settings"
+            },
+            {
+              "type": "component",
+              "componentType": "playerStatePanel",
+              "title": "Player State"
             }
           ]
         },
         {
           "type": "stack",
           "width": 45,
+          "id": "right-stack",
           "content": [
             {
               "type": "component",

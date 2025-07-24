@@ -41,9 +41,7 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('inventoryPanel', InventoryUI);
 
   // Register dispatcher sender for user:itemCheck events
-  registrationApi.registerDispatcherSender('user:itemCheck', {
-    initialTarget: 'bottom',
-  });
+  registrationApi.registerDispatcherSender('user:itemCheck', 'bottom', 'first');
 
   // Register event bus subscribers via centralRegistry for tracking/control
   // The actual subscription happens within the InventoryUI instance.

@@ -31,7 +31,7 @@ class SettingsManager {
       this.isLoading = false;
       // If there was a loadPromise, it's now irrelevant or should be handled.
       // For simplicity, ensureLoaded will check isLoading and this.settings.
-      eventBus.publish('settings:loaded', this.settings);
+      eventBus.publish('settings:loaded', this.settings, 'core');
     } else {
       log('warn', 
         '[SettingsManager] setInitialSettings called with invalid settings object.',
@@ -63,7 +63,7 @@ class SettingsManager {
       log('warn', 'Using default fallback settings.');
     } finally {
       this.isLoading = false;
-      eventBus.publish('settings:loaded', this.settings); // Notify when loaded/failed
+      eventBus.publish('settings:loaded', this.settings, 'core'); // Notify when loaded/failed
     }
     return this.settings; // Return settings for chaining/awaiting
   }
@@ -197,7 +197,7 @@ class SettingsManager {
           key,
           value,
           settings: await this.getSettings(), // Get fresh copy
-        });
+        }, 'core');
         await this.saveSettings(); // Trigger save
         return true;
       }
@@ -224,7 +224,7 @@ class SettingsManager {
       key: '*', // Indicate general change
       value: this.settings,
       settings: await this.getSettings(),
-    });
+    }, 'core');
     await this.saveSettings();
   }
 
@@ -265,7 +265,7 @@ class SettingsManager {
         key: `moduleSettings.${moduleId}.${key}`, // More specific key
         value,
         settings: await this.getSettings(),
-      });
+      }, 'core');
       await this.saveSettings();
       return true;
     }

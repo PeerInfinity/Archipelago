@@ -44,6 +44,11 @@ class EditorUI {
         loaded: false,
         name: 'Loaded Mode Data',
       },
+      dataForExport: {
+        text: '{\n  "message": "No export data loaded yet."\n}',
+        loaded: false,
+        name: 'Data for Export',
+      },
     };
     this.currentSourceKey = 'rules'; // Default source
     this.editorDropdown = null;
@@ -63,7 +68,7 @@ class EditorUI {
       this.initialize(); // This will create the textarea and subscribe to data events
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'editor');
 
     this.container.on('destroy', () => {
       this.onPanelDestroy();
@@ -196,7 +201,7 @@ class EditorUI {
           this._displayCurrentSourceContent();
         }
       }
-    );
+    , 'editor');
 
     if (this.unsubscribeHandles['localStorageData']) {
       log('warn', 
@@ -239,7 +244,128 @@ class EditorUI {
           this._displayCurrentSourceContent();
         }
       }
-    );
+    , 'editor');
+
+    // Subscribe to export data events from JSON panel
+    if (this.unsubscribeHandles['exportData']) {
+      log('warn', 
+        'EditorUI already subscribed to exportData. Unsubscribing previous first.'
+      );
+      this.unsubscribeHandles['exportData']();
+    }
+    
+    log('info', "EditorUI subscribing to 'json:exportToEditor'");
+    this.unsubscribeHandles['exportData'] = eventBus.subscribe(
+      'json:exportToEditor',
+      (eventData) => {
+        log('info', '[EditorUI] Received json:exportToEditor event!');
+        log('info', '[EditorUI] eventData exists:', !!eventData);
+        log('info', '[EditorUI] eventData.data exists:', !!(eventData && eventData.data));
+        
+        if (!eventData || !eventData.data) {
+          log('warn', 
+            "EditorUI received invalid payload for 'json:exportToEditor'",
+            eventData
+          );
+          this.contentSources.dataForExport.text = 'Error: Invalid export data received.';
+          this.contentSources.dataForExport.loaded = true;
+        } else {
+          log('info', 
+            '[EditorUI] Processing valid export data. Keys in eventData.data:',
+            Object.keys(eventData.data)
+          );
+          log('info', '[EditorUI] eventData.data contains layoutConfig:', !!eventData.data.layoutConfig);
+          
+          try {
+            this.contentSources.dataForExport.text = JSON.stringify(
+              eventData.data,
+              null,
+              2
+            );
+            this.contentSources.dataForExport.loaded = true;
+            
+            log('info', '[EditorUI] JSON stringified successfully. Length:', this.contentSources.dataForExport.text.length);
+            log('info', '[EditorUI] Stringified text contains "layoutConfig":', this.contentSources.dataForExport.text.includes('layoutConfig'));
+            
+            // Switch to the export view and activate Editor panel
+            this.currentSourceKey = 'dataForExport';
+            if (this.editorDropdown) {
+              this.editorDropdown.value = 'dataForExport';
+              log('info', '[EditorUI] Set dropdown to dataForExport');
+            }
+            this._displayCurrentSourceContent();
+            log('info', '[EditorUI] Called _displayCurrentSourceContent()');
+            
+            // Activate the Editor panel
+            if (eventData.activatePanel !== false) {
+              eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'editor');
+              log('info', '[EditorUI] Published ui:activatePanel event');
+            }
+          } catch (e) {
+            log('error', 'Error stringifying export data:', e);
+            this.contentSources.dataForExport.text = 'Error: Could not display export data.';
+            this.contentSources.dataForExport.loaded = true;
+          }
+        }
+      }
+    , 'editor');
+
+    // Subscribe to content request events from other modules
+    if (this.unsubscribeHandles['contentRequest']) {
+      log('warn', 
+        'EditorUI already subscribed to contentRequest. Unsubscribing previous first.'
+      );
+      this.unsubscribeHandles['contentRequest']();
+    }
+    
+    log('info', "EditorUI subscribing to 'editor:requestContent'");
+    this.unsubscribeHandles['contentRequest'] = eventBus.subscribe(
+      'editor:requestContent',
+      (eventData) => {
+        log('info', '[EditorUI] Received content request:', eventData);
+        
+        // Get current content
+        const content = this.getContent();
+        
+        // If a specific source was requested, check if we're on that source
+        if (eventData.requestedSource && eventData.requestedSource !== this.currentSourceKey) {
+          log('warn', 
+            `[EditorUI] Requested source '${eventData.requestedSource}' but current source is '${this.currentSourceKey}'`
+          );
+          // Switch to the requested source if it exists
+          if (this.contentSources[eventData.requestedSource]) {
+            this.currentSourceKey = eventData.requestedSource;
+            if (this.editorDropdown) {
+              this.editorDropdown.value = eventData.requestedSource;
+            }
+            this._displayCurrentSourceContent();
+            
+            // Get content from the newly selected source
+            const newContent = this.getContent();
+            
+            // Respond with the content
+            eventBus.publish('editor:contentResponse', {
+              ...newContent,
+              requestId: eventData.requestId
+            }, 'editor');
+          } else {
+            // Respond with error if requested source doesn't exist
+            eventBus.publish('editor:contentResponse', {
+              text: '',
+              source: 'error',
+              error: `Requested source '${eventData.requestedSource}' not found`,
+              requestId: eventData.requestId
+            }, 'editor');
+          }
+        } else {
+          // Respond with current content
+          eventBus.publish('editor:contentResponse', {
+            ...content,
+            requestId: eventData.requestId
+          }, 'editor');
+        }
+      }
+    , 'editor');
   }
 
   // Unsubscribe from EventBus events
@@ -260,7 +386,7 @@ class EditorUI {
       this.contentSources[this.currentSourceKey].text = event.target.value;
     }
     // Optional: Dispatch an event if other modules need to know about changes immediately
-    // eventBus.publish(`editor:contentChanged:${this.currentSourceKey}`, { text: event.target.value });
+    // eventBus.publish(`editor:contentChanged:${this.currentSourceKey}`, { text: event.target.value }, 'editor');
   }
 
   initializeEditor() {
@@ -333,9 +459,23 @@ class EditorUI {
   }
 
   _displayCurrentSourceContent() {
-    if (!this.textAreaElement) return;
+    log('info', '[EditorUI] _displayCurrentSourceContent called');
+    log('info', '[EditorUI] textAreaElement exists:', !!this.textAreaElement);
+    log('info', '[EditorUI] currentSourceKey:', this.currentSourceKey);
+    
+    if (!this.textAreaElement) {
+      log('info', '[EditorUI] No textAreaElement, returning early');
+      return;
+    }
 
     const source = this.contentSources[this.currentSourceKey];
+    log('info', '[EditorUI] source exists:', !!source);
+    log('info', '[EditorUI] source loaded:', source ? source.loaded : 'N/A');
+    if (source) {
+      log('info', '[EditorUI] source text length:', source.text ? source.text.length : 0);
+      log('info', '[EditorUI] source text contains "layoutConfig":', source.text ? source.text.includes('layoutConfig') : false);
+    }
+    
     if (!source) {
       log('warn', 
         `[EditorUI] No content source found for key: ${this.currentSourceKey}`
@@ -345,6 +485,7 @@ class EditorUI {
 
     if (!source.loaded) {
       this.textAreaElement.value = 'Loading...';
+      log('info', '[EditorUI] Set textarea to "Loading..." because source not loaded');
       return;
     }
 
@@ -366,6 +507,8 @@ class EditorUI {
         }
       } else {
         this.textAreaElement.value = source.text;
+        log('info', '[EditorUI] Set textarea value. Current textarea length:', this.textAreaElement.value.length);
+        log('info', '[EditorUI] Textarea contains "layoutConfig":', this.textAreaElement.value.includes('layoutConfig'));
       }
     } catch (e) {
       log('error', '[EditorUI] Error displaying content:', e);

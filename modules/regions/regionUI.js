@@ -48,8 +48,10 @@ export class RegionUI {
 
     // If set to true, we'll show **all** regions, ignoring the visited chain
     this.showAll = false;
+    // If set to true, we'll show the full visited path. If false, only show last region
+    this.showPaths = true;
     this.isInitialized = false; // Add flag
-    this.colorblindSettings = {}; // Add colorblind settings cache
+    this.colorblindSettings = false; // Add colorblind settings cache
     this.navigationTarget = null; // Add navigation target state
     
     // Separate tracking for "Show All" mode expansion states
@@ -82,8 +84,8 @@ export class RegionUI {
       // Full render will occur on 'stateManager:ready'.
 
       // Initialize settings cache and showAll state here as they don't depend on StateManager data
-      this.colorblindSettings =
-        settingsManager.getSetting('colorblindMode.regions') || {};
+      this.colorblindSettings = false; // Will be loaded async
+      this._loadColorblindSettings();
       const showAllCheckbox =
         this.rootElement.querySelector('#show-all-regions');
       this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
@@ -96,7 +98,7 @@ export class RegionUI {
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'regions');
 
     this.container.on('destroy', () => {
       this.onPanelDestroy();
@@ -125,7 +127,7 @@ export class RegionUI {
 
     const subscribe = (eventName, handler) => {
       log('info', `[RegionUI] Subscribing to ${eventName}`);
-      const unsubscribe = eventBus.subscribe(eventName, handler);
+      const unsubscribe = eventBus.subscribe(eventName, handler, 'regions');
       this.unsubscribeHandles.push(unsubscribe);
     };
 
@@ -141,8 +143,8 @@ export class RegionUI {
           '[RegionUI stateManager:ready] Panel base not yet initialized by app:readyForUiDataLoad. This is unexpected. Proceeding with render attempt.'
         );
         // Initialize settings cache and showAll state if not done by app:readyForUiDataLoad handler
-        this.colorblindSettings =
-          settingsManager.getSetting('colorblindMode.regions') || {};
+        this.colorblindSettings = false; // Will be loaded async
+        this._loadColorblindSettings();
         const showAllCheckbox =
           this.rootElement.querySelector('#show-all-regions');
         this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
@@ -230,8 +232,7 @@ export class RegionUI {
           `[RegionUI] Settings changed (${key}), updating cache and triggering update.`
         );
         // Update local cache
-        this.colorblindSettings =
-          settingsManager.getSetting('colorblindMode.regions') || {};
+        this._loadColorblindSettings();
         if (this.isInitialized) debouncedUpdate(); // Trigger redraw if initialized
       }
     };
@@ -241,7 +242,7 @@ export class RegionUI {
     subscribe('stateManager:rulesLoaded', (event) => {
       log(
         'info',
-        '[RegionUI] Received stateManager:rulesLoaded event. Full refresh triggered.'
+        '[RegionUI] Received stateManager:rulesLoaded event. Full refresh triggered with state reset.'
       );
 
       // Access snapshot from event (this is the new initial snapshot for the loaded rules)
@@ -253,6 +254,16 @@ export class RegionUI {
         );
         return;
       }
+
+      // RESET UI STATE: Clear all panel-specific state that should reset when rules are reloaded
+      log('info', '[RegionUI rulesLoaded] Resetting panel state...');
+      this.visitedRegions = []; // Clear all visited regions
+      this.showAllExpansionState.clear(); // Clear expansion states for "Show All" mode
+      this.navigationTarget = null; // Clear any navigation target
+      this.nextUID = 1; // Reset UID counter
+      
+      // Force clear the UI display immediately to remove any stale DOM content
+      this.clear(); // This will clear the regions container and reset expansion states
 
       // Fetch and store the NEW static data, including the original region order.
       const currentStaticData = stateManager.getStaticData();
@@ -272,22 +283,34 @@ export class RegionUI {
         this.originalRegionOrder = []; // Reset if not available
       }
 
-      // If 'Show All' is off and visitedRegions is empty (e.g., after a rules reload clears it),
-      // re-initialize with the start region. This needs the new staticData.
-      if (!this.showAll && this.visitedRegions.length === 0) {
+      // After state reset, re-initialize with the start region if 'Show All' is off
+      // This ensures we always start fresh with the default region
+      if (!this.showAll) {
         log(
           'info',
-          "[RegionUI rulesLoaded] Show All is off and visitedRegions is empty after rules load, setting start region to 'Menu'."
+          "[RegionUI rulesLoaded] Show All is off, resetting to start region 'Menu'."
         );
         // showStartRegion internally calls this.update() if successful
         this.showStartRegion('Menu');
       } else {
-        // Otherwise, trigger a full display update directly.
-        log('info', '[RegionUI rulesLoaded] Triggering full display update.');
+        // If 'Show All' is on, trigger a full display update directly.
+        log('info', '[RegionUI rulesLoaded] Triggering full display update after state reset.');
         this.update(); // this.update() calls renderAllRegions()
       }
     });
     // --- END ADDED ---
+
+    // Subscribe to playerState region changes
+    //const handlePlayerStateRegionChanged = (eventPayload) => {
+    //  if (eventPayload && eventPayload.oldRegion && eventPayload.newRegion) {
+    //    log(
+    //      'info',
+    //      `[RegionUI] Received playerState:regionChanged from ${eventPayload.oldRegion} to ${eventPayload.newRegion}. Calling moveToRegion.`
+    //    );
+    //    this.moveToRegion(eventPayload.oldRegion, eventPayload.newRegion);
+    //  }
+    //};
+    //subscribe('playerState:regionChanged', handlePlayerStateRegionChanged);
 
     // Subscribe to region navigation requests
     const handleNavigateToRegion = (eventPayload) => {
@@ -308,7 +331,35 @@ export class RegionUI {
     subscribe('ui:navigateToRegion', handleNavigateToRegion);
     log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToRegion'); // DEBUG LOG
 
+    // Subscribe to user:regionMove events
+    const handleRegionMove = (eventPayload) => {
+      if (eventPayload && eventPayload.sourceRegion && eventPayload.targetRegion) {
+        log(
+          'info',
+          `[RegionUI] Received user:regionMove from ${eventPayload.sourceRegion} to ${eventPayload.targetRegion}`
+        );
+        this.moveToRegion(eventPayload.sourceRegion, eventPayload.targetRegion);
+      } else {
+        log(
+          'warn',
+          '[RegionUI] Received user:regionMove with missing data.',
+          eventPayload
+        );
+      }
+    };
+    subscribe('user:regionMove', handleRegionMove);
+
     log('info', '[RegionUI] Event subscriptions complete.');
+  }
+
+  async _loadColorblindSettings() {
+    try {
+      this.colorblindSettings = await settingsManager.getSetting('colorblindMode.regions', false);
+      log('debug', `[RegionUI] Loaded colorblind settings: ${this.colorblindSettings}`);
+    } catch (error) {
+      log('error', '[RegionUI] Failed to load colorblind settings:', error);
+      this.colorblindSettings = false;
+    }
   }
 
   onPanelDestroy() {
@@ -352,6 +403,10 @@ export class RegionUI {
         <label style="margin-right: 10px;">
           <input type="checkbox" id="show-all-regions" />
           Show All Regions
+        </label>
+        <label style="margin-right: 10px;">
+          <input type="checkbox" id="show-paths" checked />
+          Show Paths
         </label>
         <button id="expand-collapse-all">Expand All</button>
       </div>
@@ -433,6 +488,15 @@ export class RegionUI {
           }
         }
         
+        this.renderAllRegions();
+      });
+    }
+
+    // Show Paths checkbox
+    const showPathsCheckbox = this.rootElement.querySelector('#show-paths');
+    if (showPathsCheckbox) {
+      showPathsCheckbox.addEventListener('change', (e) => {
+        this.showPaths = e.target.checked;
         this.renderAllRegions();
       });
     }
@@ -696,12 +760,7 @@ export class RegionUI {
     // Reset the unknown evaluation counter for this rendering cycle
     resetUnknownEvaluationCounter();
 
-    //const useColorblind =
-    //  typeof this.colorblindSettings === 'boolean'
-    //    ? this.colorblindSettings
-    //    : Object.keys(this.colorblindSettings).length > 0;
-
-    const useColorblind = true;
+    const useColorblind = this.colorblindSettings;
 
     // Get references to structural elements within this.regionsContainer
     // this.regionsContainer is this.rootElement.querySelector('#region-details-container') (set in constructor)
@@ -820,16 +879,37 @@ export class RegionUI {
           snapshot.regionReachability?.[name] === 'checked',
       }));
     } else {
-      regionsToRender = this.visitedRegions.map((vr) => ({
-        name: vr.name,
-        isVisited: true,
-        uid: vr.uid,
-        expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
-        isReachable:
-          snapshot.regionReachability?.[vr.name] === true ||
-          snapshot.regionReachability?.[vr.name] === 'reachable' ||
-          snapshot.regionReachability?.[vr.name] === 'checked',
-      }));
+      // When showAll is false, check showPaths to determine what to render
+      if (this.showPaths) {
+        // Show full path
+        regionsToRender = this.visitedRegions.map((vr) => ({
+          name: vr.name,
+          isVisited: true,
+          uid: vr.uid,
+          expanded: vr.name === this.navigationTarget || vr.expanded, // Expand if it's the navigation target or already expanded
+          isReachable:
+            snapshot.regionReachability?.[vr.name] === true ||
+            snapshot.regionReachability?.[vr.name] === 'reachable' ||
+            snapshot.regionReachability?.[vr.name] === 'checked',
+        }));
+      } else {
+        // Show only last region, always expanded
+        if (this.visitedRegions.length > 0) {
+          const lastRegion = this.visitedRegions[this.visitedRegions.length - 1];
+          regionsToRender = [{
+            name: lastRegion.name,
+            isVisited: true,
+            uid: lastRegion.uid,
+            expanded: true, // Always expanded when showing only last region
+            isReachable:
+              snapshot.regionReachability?.[lastRegion.name] === true ||
+              snapshot.regionReachability?.[lastRegion.name] === 'reachable' ||
+              snapshot.regionReachability?.[lastRegion.name] === 'checked',
+          }];
+        } else {
+          regionsToRender = [];
+        }
+      }
       // log('info', '[RegionUI] "Show All" is OFF. Initial regionsToRender from visitedRegions:', JSON.parse(JSON.stringify(regionsToRender)));
       if (regionsToRender.length === 0) {
         // log('info', "[RegionUI] Show All is off and visited list is empty, attempting to show start region 'Menu'...");
@@ -935,7 +1015,8 @@ export class RegionUI {
         isReachable,
         useColorblind,
         regionInfo.uid,
-        regionInfo.expanded
+        regionInfo.expanded,
+        staticData
       );
       if (!regionBlock) {
         if (regionName === 'Menu') {
@@ -978,7 +1059,7 @@ export class RegionUI {
 
   createRegionLink(regionName, snapshot) {
     // Just call commonUI directly, which now handles event publishing
-    return commonUI.createRegionLink(regionName, this.colorblindMode, snapshot);
+    return commonUI.createRegionLink(regionName, this.colorblindSettings, snapshot);
   }
 
   /**
@@ -1136,7 +1217,7 @@ export class RegionUI {
     return commonUI.createLocationLink(
       locationName,
       regionName,
-      this.colorblindMode,
+      this.colorblindSettings,
       snapshot
     );
   }
@@ -1150,7 +1231,8 @@ export class RegionUI {
     regionIsReachable,
     useColorblind,
     currentUid, // Added: Pass UID for consistency
-    currentExpandedState // Added: Pass expanded state for consistency
+    currentExpandedState, // Added: Pass expanded state for consistency
+    staticData // Added: Pass staticData for entrance lookup
   ) {
     // Determine if the region is currently expanded based on visitedRegions or passed state
     // const visitedEntry = this.visitedRegions.find(
@@ -1320,7 +1402,87 @@ export class RegionUI {
       contentEl.appendChild(rrContainer);
     }
 
+    // Entrances List (before exits)
+    const entrancesList = document.createElement('ul');
+    entrancesList.classList.add('region-entrances-list');
+    
+    // Find all entrances to this region by checking all regions' exits
+    const entrances = [];
+    for (const [sourceRegionName, sourceRegionData] of Object.entries(staticData.regions)) {
+      if (sourceRegionData.exits) {
+        for (const exit of sourceRegionData.exits) {
+          if (exit.connected_region === regionName) {
+            entrances.push({
+              sourceRegion: sourceRegionName,
+              exitName: exit.name,
+              accessRule: exit.access_rule
+            });
+          }
+        }
+      }
+    }
+    
+    if (entrances.length > 0) {
+      const entrancesHeader = document.createElement('h4');
+      entrancesHeader.textContent = 'Entrances:';
+      contentEl.appendChild(entrancesHeader);
+      
+      entrances.forEach((entrance) => {
+        const li = document.createElement('li');
+        
+        // Create clickable region link
+        const regionLink = commonUI.createRegionLink(
+          entrance.sourceRegion,
+          useColorblind,
+          snapshot
+        );
+        li.appendChild(regionLink);
+        
+        li.appendChild(document.createTextNode(` - ${entrance.exitName}`));
+        
+        // Evaluate entrance accessibility
+        let entranceAccessible = true;
+        if (entrance.accessRule) {
+          try {
+            entranceAccessible = evaluateRule(
+              entrance.accessRule,
+              snapshotInterface
+            );
+          } catch (e) {
+            log(
+              'error',
+              `[RegionUI] Error evaluating entrance rule for ${entrance.exitName} from ${entrance.sourceRegion}:`,
+              e
+            );
+            entranceAccessible = false;
+          }
+        }
+        
+        // Check if source region is reachable
+        const sourceRegionReachable =
+          snapshot.regionReachability?.[entrance.sourceRegion] === true ||
+          snapshot.regionReachability?.[entrance.sourceRegion] === 'reachable' ||
+          snapshot.regionReachability?.[entrance.sourceRegion] === 'checked';
+          
+        const isTraversable = sourceRegionReachable && entranceAccessible;
+        
+        // Apply classes based on accessibility
+        li.classList.toggle('accessible', isTraversable);
+        li.classList.toggle('inaccessible', !isTraversable);
+        
+        // Logic tree display removed for entrances - only showing entrance name
+        
+        entrancesList.appendChild(li);
+      });
+      
+      contentEl.appendChild(entrancesList);
+    }
+
     // Exits List
+    const exitsHeader = document.createElement('h4');
+    exitsHeader.textContent = 'Exits:';
+    contentEl.appendChild(exitsHeader);
+    
     const exitsList = document.createElement('ul');
     exitsList.classList.add('region-exits-list');
     if (regionStaticData.exits && regionStaticData.exits.length > 0) {
@@ -1387,7 +1549,18 @@ export class RegionUI {
 
         moveBtn.addEventListener('click', () => {
           if (!moveBtn.disabled) {
-            this.moveToRegion(regionName, connectedRegionName);
+            // Publish user:regionMove event to bottom direction (same as user:locationCheck)
+            log('info', `[RegionUI] Move button clicked - moduleDispatcher available: ${!!moduleDispatcher}`);
+            if (moduleDispatcher) {
+              log('info', `[RegionUI] Publishing user:regionMove event for ${regionName} -> ${connectedRegionName}`);
+              moduleDispatcher.publish('user:regionMove', {
+                sourceRegion: regionName,
+                targetRegion: connectedRegionName,
+                exitName: exitDef.name
+              }, 'bottom');
+            } else {
+              log('warn', '[RegionUI] moduleDispatcher not available for publishing user:regionMove');
+            }
           }
         });
         li.appendChild(moveBtn);
@@ -1490,7 +1663,7 @@ export class RegionUI {
                 // Use eventBus for consistency with LocationUI
                 eventBus.publish('user:checkLocationRequest', {
                   locationData: locationDef,
-                });
+                }, 'regions');
               } else {
                 log(
                   'info',
@@ -1643,13 +1816,13 @@ export class RegionUI {
    * Toggles colorblind mode and updates the UI
    */
   toggleColorblindMode() {
-    this.colorblindMode = !this.colorblindMode;
+    this.colorblindSettings = !this.colorblindSettings;
 
     // Update the path analyzer's colorblind mode as well
-    this.pathAnalyzer.setColorblindMode(this.colorblindMode);
+    this.pathAnalyzer.setColorblindMode(this.colorblindSettings);
 
     // Sync with commonUI
-    commonUI.setColorblindMode(this.colorblindMode);
+    commonUI.setColorblindMode(this.colorblindSettings);
 
     // Update colorblind indicators in the UI
     this._updateColorblindIndicators();
@@ -1676,7 +1849,7 @@ export class RegionUI {
 
       // Add new symbol if needed
       if (
-        this.colorblindMode &&
+        this.colorblindSettings &&
         (node.classList.contains('pass') || node.classList.contains('fail'))
       ) {
         const symbolSpan = document.createElement('span');
@@ -1781,14 +1954,14 @@ export class RegionUI {
       log('info', `[RegionUI] Dungeon link clicked for: ${dungeonName}`);
 
       // Publish panel activation first (like createRegionLink does)
-      eventBus.publish('ui:activatePanel', { panelId: 'dungeonsPanel' });
+      eventBus.publish('ui:activatePanel', { panelId: 'dungeonsPanel' }, 'regions');
       log('info', `[RegionUI] Published ui:activatePanel for dungeonsPanel.`);
 
       // Then publish navigation
       eventBus.publish('ui:navigateToDungeon', {
         dungeonName: dungeonName,
         sourcePanel: 'regions',
-      });
+      }, 'regions');
       log(
         'info',
         `[RegionUI] Published ui:navigateToDungeon for ${dungeonName}.`

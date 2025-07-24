@@ -48,7 +48,7 @@ export class JsonUI {
           data
         );
       }
-    });
+    }, 'json');
 
     // Listen for modes.json being loaded
     eventBus.subscribe('app:modesJsonLoaded', (data) => {
@@ -63,7 +63,7 @@ export class JsonUI {
           data
         );
       }
-    });
+    }, 'json');
 
     // Check if modes.json was already loaded and the event missed
     if (window.G_modesConfig) {
@@ -100,7 +100,7 @@ export class JsonUI {
   _createBaseUI() {
     const html = `
       <div class="json-panel-container panel-container" style="overflow-y: auto; height: 100%;">
-        <div class="sidebar-header">
+        <div class="json-header">
           <h2>JSON Data Management</h2>
         </div>
 
@@ -111,21 +111,29 @@ export class JsonUI {
         </div>
 
         <div class="json-section">
+          <div class="checkbox-controls" style="margin-top: 15px; margin-bottom: 10px;">
+            <button id="json-btn-check-all" class="button button-small">Check All</button>
+            <button id="json-btn-uncheck-all" class="button button-small">Uncheck All</button>
+          </div>
           <h4>Include in Operations:</h4>
           <div class="checkbox-container">
+            <button class="button button-small text-export-btn" data-config-key="rulesConfig">Text</button>
             <input type="checkbox" id="json-chk-rules" data-config-key="rulesConfig" checked />
             <label for="json-chk-rules">Rules Config (rules.json)</label>
           </div>
           <div class="checkbox-container">
+            <button class="button button-small text-export-btn" data-config-key="moduleConfig">Text</button>
             <input type="checkbox" id="json-chk-modules" data-config-key="moduleConfig" checked />
             <label for="json-chk-modules">Module Config (modules.json)</label>
           </div>
           <div class="checkbox-container">
-            <input type="checkbox" id="json-chk-layout" data-config-key="layoutConfig" />
+            <button class="button button-small text-export-btn" data-config-key="layoutConfig">Text</button>
+            <input type="checkbox" id="json-chk-layout" data-config-key="layoutConfig" checked />
             <label for="json-chk-layout">Layout Config (layout_presets.json / Current)</label>
           </div>
           <div class="checkbox-container">
-            <input type="checkbox" id="json-chk-settings" data-config-key="userSettings" />
+            <button class="button button-small text-export-btn" data-config-key="userSettings">Text</button>
+            <input type="checkbox" id="json-chk-settings" data-config-key="userSettings" checked />
             <label for="json-chk-settings">User Settings (settings.json)</label>
           </div>
           <!-- Placeholder for module-specific data checkboxes -->
@@ -140,13 +148,26 @@ export class JsonUI {
         </div>
 
         <div class="json-section button-group">
-          <button id="json-btn-save-file" class="button">Save Combined to File</button>
-          <label class="file-input-button-label">
-            Load Combined from File
-            <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
-          </label>
-          <button id="json-btn-save-localstorage" class="button">Save to LocalStorage</button>
-          <button id="json-btn-reset-defaults" class="button button-danger">Reset Default Mode</button>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-export-text" class="button">Export to Text</button>
+            <button id="json-btn-import-text" class="button">Import from Text</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-save-file" class="button">Save Combined to File</button>
+            <label class="file-input-button-label">
+              Load Combined from File
+              <input type="file" id="json-btn-load-file" accept=".json" style="display: none;" />
+            </label>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-export-live-layout" class="button">Export Live Layout</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-save-localstorage" class="button">Save to LocalStorage</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button id="json-btn-reset-defaults" class="button button-danger">Reset Default Mode</button>
+          </div>
         </div>
 
         <div class="json-section">
@@ -202,6 +223,9 @@ export class JsonUI {
   }
 
   _attachEventListeners(contextElement) {
+    const exportTextButton = contextElement.querySelector('#json-btn-export-text');
+    const importTextButton = contextElement.querySelector('#json-btn-import-text');
+    const exportLiveLayoutButton = contextElement.querySelector('#json-btn-export-live-layout');
     const saveFileButton = contextElement.querySelector('#json-btn-save-file');
     const loadFileLabel = contextElement.querySelector(
       '.file-input-button-label'
@@ -213,7 +237,18 @@ export class JsonUI {
     const resetDefaultsButton = contextElement.querySelector(
       '#json-btn-reset-defaults'
     );
+    const checkAllButton = contextElement.querySelector('#json-btn-check-all');
+    const uncheckAllButton = contextElement.querySelector('#json-btn-uncheck-all');
 
+    if (exportTextButton) {
+      exportTextButton.addEventListener('click', () => this._handleExportToText());
+    }
+    if (importTextButton) {
+      importTextButton.addEventListener('click', () => this._handleImportFromText());
+    }
+    if (exportLiveLayoutButton) {
+      exportLiveLayoutButton.addEventListener('click', () => this._handleExportLiveLayout());
+    }
     if (saveFileButton) {
       saveFileButton.addEventListener('click', () => this._handleSaveToFile());
     }
@@ -232,6 +267,24 @@ export class JsonUI {
         this._handleResetDefaults()
       );
     }
+    if (checkAllButton) {
+      checkAllButton.addEventListener('click', () => this._handleCheckAll());
+    }
+    if (uncheckAllButton) {
+      uncheckAllButton.addEventListener('click', () => this._handleUncheckAll());
+    }
+
+    // Add event listeners for individual Text export buttons
+    const textExportButtons = contextElement.querySelectorAll('.text-export-btn');
+    textExportButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const configKey = event.target.dataset.configKey;
+        if (configKey) {
+          this._handleExportSectionToText(configKey);
+        }
+      });
+    });
+
     // TODO: Add event listeners for delete mode buttons when they are generated
   }
 
@@ -297,40 +350,65 @@ export class JsonUI {
       );
     }
     if (selectedDataKeys.includes('layoutConfig')) {
-      // Save the current live layout state
+      log('info', '[JsonUI] Starting layout export process');
+      
+      // Save the current live layout state using Golden Layout 2.x API
+      let rawLayoutConfig = null;
       if (
         window.goldenLayoutInstance &&
-        typeof window.goldenLayoutInstance.toJSON === 'function'
+        typeof window.goldenLayoutInstance.saveLayout === 'function'
       ) {
-        dataToSave.layoutConfig = window.goldenLayoutInstance.toJSON();
+        rawLayoutConfig = window.goldenLayoutInstance.saveLayout();
         log('info', 
-          '[JsonUI] Included current layoutConfig from window.goldenLayoutInstance:',
-          dataToSave.layoutConfig ? 'Exists' : 'MISSING'
+          '[JsonUI] Retrieved current layoutConfig from window.goldenLayoutInstance.saveLayout():',
+          rawLayoutConfig ? 'SUCCESS' : 'FAILED'
         );
       } else if (
         this.container &&
         this.container.layoutManager &&
-        typeof this.container.layoutManager.toJSON === 'function'
+        typeof this.container.layoutManager.saveLayout === 'function'
       ) {
-        // Fallback to container.layoutManager if global is not found (less likely for current setup but good to have a check)
-        dataToSave.layoutConfig = this.container.layoutManager.toJSON();
-        log('warn', 
-          '[JsonUI] Used this.container.layoutManager.toJSON() as fallback for layoutConfig:',
-          dataToSave.layoutConfig ? 'Exists' : 'MISSING'
+        // Fallback to container.layoutManager if global is not found
+        rawLayoutConfig = this.container.layoutManager.saveLayout();
+        log('info', 
+          '[JsonUI] Used this.container.layoutManager.saveLayout() as fallback for layoutConfig:',
+          rawLayoutConfig ? 'SUCCESS' : 'FAILED'
         );
       } else {
         // Fallback to loaded preset if live one isn't available
-        dataToSave.layoutConfig = window.G_combinedModeData?.layoutConfig;
-        log('warn', 
+        rawLayoutConfig = window.G_combinedModeData?.layoutConfig;
+        log('info', 
           '[JsonUI] Could not get live layout, falling back to preset layoutConfig from G_combinedModeData:',
-          dataToSave.layoutConfig ? 'Exists' : 'MISSING'
+          rawLayoutConfig ? 'SUCCESS' : 'FAILED'
         );
+      }
+      
+      log('info', '[JsonUI] rawLayoutConfig type:', typeof rawLayoutConfig);
+      log('info', '[JsonUI] rawLayoutConfig exists:', !!rawLayoutConfig);
+      
+      // Clean the layout config for compatibility with Golden Layout 2.x on reload
+      if (rawLayoutConfig) {
+        log('info', '[JsonUI] About to transform layout config...');
+        try {
+          dataToSave.layoutConfig = this._transformLayoutConfigSizes(rawLayoutConfig);
+          log('info', '[JsonUI] Successfully processed layoutConfig for export. Keys in result:', Object.keys(dataToSave.layoutConfig || {}));
+          log('info', '[JsonUI] Final dataToSave.layoutConfig type:', typeof dataToSave.layoutConfig);
+        } catch (transformError) {
+          log('error', '[JsonUI] ERROR: _transformLayoutConfigSizes threw an error:', transformError);
+          log('error', '[JsonUI] Stack trace:', transformError.stack);
+          dataToSave.layoutConfig = rawLayoutConfig; // Use raw data as fallback
+          log('warn', '[JsonUI] Used raw layoutConfig as fallback due to transform error');
+        }
+      } else {
+        dataToSave.layoutConfig = rawLayoutConfig;
+        log('warn', '[JsonUI] No layoutConfig available - all fallbacks failed');
+        log('warn', '[JsonUI] Setting layoutConfig to null/undefined in dataToSave');
       }
     }
     if (selectedDataKeys.includes('userSettings')) {
       try {
-        // Assuming settingsManager is imported and has a method to get all settings
-        dataToSave.userSettings = settingsManager.getSettings(); // User to verify this method
+        // settingsManager.getSettings() is async, so we need to await it
+        dataToSave.userSettings = await settingsManager.getSettings();
         log('info', 
           '[JsonUI] Included userSettings:',
           dataToSave.userSettings ? 'Exists' : 'MISSING'
@@ -402,8 +480,84 @@ export class JsonUI {
       }
     }
 
-    log('info', '[JsonUI] Finished gathering data:', dataToSave);
+    log('info', '[JsonUI] Finished gathering data. Keys:', Object.keys(dataToSave));
+    log('info', '[JsonUI] layoutConfig exists in result:', !!dataToSave.layoutConfig);
+    if (dataToSave.layoutConfig) {
+      log('info', '[JsonUI] layoutConfig is type:', typeof dataToSave.layoutConfig);
+      log('info', '[JsonUI] layoutConfig has keys:', Object.keys(dataToSave.layoutConfig));
+    }
     return dataToSave;
+  }
+
+  async _gatherSectionData(configKey) {
+    log('info', `[JsonUI] Gathering data for single section: ${configKey}`);
+
+    // Handle Core Data Types (Direct Access)
+    if (configKey === 'rulesConfig') {
+      return window.G_combinedModeData?.rulesConfig;
+    }
+    if (configKey === 'moduleConfig') {
+      return window.G_combinedModeData?.moduleConfig;
+    }
+    if (configKey === 'layoutConfig') {
+      // Get the current live layout state using Golden Layout 2.x API
+      let rawLayoutConfig = null;
+      if (
+        window.goldenLayoutInstance &&
+        typeof window.goldenLayoutInstance.saveLayout === 'function'
+      ) {
+        rawLayoutConfig = window.goldenLayoutInstance.saveLayout();
+      } else if (
+        this.container &&
+        this.container.layoutManager &&
+        typeof this.container.layoutManager.saveLayout === 'function'
+      ) {
+        rawLayoutConfig = this.container.layoutManager.saveLayout();
+      } else {
+        // Fallback to loaded preset if live one isn't available
+        rawLayoutConfig = window.G_combinedModeData?.layoutConfig;
+      }
+      
+      // Clean the layout config for compatibility with Golden Layout 2.x on reload
+      if (rawLayoutConfig) {
+        return this._transformLayoutConfigSizes(rawLayoutConfig);
+      } else {
+        return rawLayoutConfig;
+      }
+    }
+    if (configKey === 'userSettings') {
+      try {
+        return await settingsManager.getSettings();
+      } catch (e) {
+        log('error', `[JsonUI] Failed to get userSettings:`, e);
+        return null;
+      }
+    }
+
+    // Handle Registered Module Data Types (Using registered functions)
+    const handlers = centralRegistry.getAllJsonDataHandlers();
+    if (handlers.has(configKey)) {
+      const handler = handlers.get(configKey);
+      log('info', `[JsonUI] Gathering data for registered section: ${configKey}`);
+      try {
+        const saveDataResult = handler.getSaveDataFunction();
+        // Check if the result is a Promise
+        if (saveDataResult instanceof Promise) {
+          return await saveDataResult;
+        } else {
+          return saveDataResult;
+        }
+      } catch (e) {
+        log('error', 
+          `[JsonUI] Error calling getSaveDataFunction for ${configKey}:`,
+          e
+        );
+        return null;
+      }
+    }
+
+    log('warn', `[JsonUI] Unknown config key: ${configKey}`);
+    return null;
   }
 
   async _handleSaveToFile() {
@@ -427,6 +581,273 @@ export class JsonUI {
       combinedData
     );
     this._downloadJSON(combinedData, `${modeName}_config.json`);
+  }
+
+  async _handleExportToText() {
+    const modeName = this.modeNameInput.value.trim() || 'default';
+    // Use the same data gathering logic as save to file
+    const dataToExport = await this._gatherSelectedData();
+
+    if (Object.keys(dataToExport).length === 0) {
+      alert('No data types selected to export.');
+      return;
+    }
+
+    const combinedData = {
+      modeName: modeName, // Store the mode name within the data
+      savedTimestamp: new Date().toISOString(),
+      ...dataToExport,
+    };
+
+    log('info', 
+      `[JsonUI] Export to text. Mode: ${modeName}, Combined data keys:`,
+      Object.keys(combinedData)
+    );
+    log('info', '[JsonUI] combinedData contains layoutConfig:', !!combinedData.layoutConfig);
+
+    // Send the data to the Editor panel via eventBus
+    log('info', '[JsonUI] About to publish json:exportToEditor event...');
+    eventBus.publish('json:exportToEditor', {
+      data: combinedData,
+      modeName: modeName,
+      activatePanel: true
+    }, 'json');
+    log('info', '[JsonUI] json:exportToEditor event published successfully');
+  }
+
+  async _handleExportSectionToText(configKey) {
+    log('info', `[JsonUI] Exporting single section to text: ${configKey}`);
+
+    try {
+      // Gather data for just this specific section
+      const sectionData = await this._gatherSectionData(configKey);
+      
+      if (sectionData === null || sectionData === undefined) {
+        alert(`No data available for section: ${configKey}`);
+        return;
+      }
+
+      // Export the section data directly (without the outer wrapper key)
+      const exportData = sectionData;
+
+      log('info', 
+        `[JsonUI] Export section ${configKey} to text. Data:`,
+        exportData
+      );
+
+      // Send the section data to the Editor panel via eventBus
+      eventBus.publish('json:exportToEditor', {
+        data: exportData,
+        modeName: `${configKey} Section`,
+        activatePanel: true
+      }, 'json');
+
+    } catch (error) {
+      log('error', `[JsonUI] Error exporting section ${configKey}:`, error);
+      alert(`Error exporting section ${configKey}. See console for details.`);
+    }
+  }
+
+  async _handleExportLiveLayout() {
+    log('info', '[JsonUI] Export Live Layout button clicked');
+
+    try {
+      // Get access to the Golden Layout instance
+      const goldenLayoutInstance = window.goldenLayoutInstance || window.panelManager?.goldenLayout;
+      
+      if (!goldenLayoutInstance) {
+        alert('No Golden Layout instance available. Cannot read live layout data.');
+        return;
+      }
+
+      // Create an object to hold both the live layout data and analysis
+      const liveLayoutData = {
+        timestamp: new Date().toISOString(),
+        description: "Live Golden Layout instance data - traversed from goldenLayoutInstance.root",
+        liveLayoutRoot: this._traverseLiveLayout(goldenLayoutInstance.root),
+        savedLayoutConfig: null,
+        analysis: {}
+      };
+
+      // Also get the saved layout config for comparison
+      try {
+        const savedConfig = goldenLayoutInstance.saveLayout();
+        liveLayoutData.savedLayoutConfig = savedConfig;
+      } catch (e) {
+        log('warn', '[JsonUI] Could not get saved layout config for comparison:', e);
+        liveLayoutData.savedLayoutConfig = { error: 'Could not retrieve saved config' };
+      }
+
+      // Add some analysis comparing the two
+      liveLayoutData.analysis = {
+        liveRootType: liveLayoutData.liveLayoutRoot?.type || 'unknown',
+        savedRootType: liveLayoutData.savedLayoutConfig?.root?.type || 'unknown',
+        typesMatch: (liveLayoutData.liveLayoutRoot?.type === liveLayoutData.savedLayoutConfig?.root?.type),
+        liveHasConfig: !!liveLayoutData.liveLayoutRoot?.config,
+        liveConfigKeys: liveLayoutData.liveLayoutRoot?.config ? Object.keys(liveLayoutData.liveLayoutRoot.config) : [],
+        message: "This shows the difference between goldenLayoutInstance.root (live) and goldenLayoutInstance.saveLayout() (saved)"
+      };
+
+      log('info', '[JsonUI] Live layout data gathered:', liveLayoutData);
+
+      // Send the data to the Editor panel via eventBus
+      eventBus.publish('json:exportToEditor', {
+        data: liveLayoutData,
+        modeName: 'Live Layout Data',
+        activatePanel: true
+      }, 'json');
+
+    } catch (error) {
+      log('error', '[JsonUI] Error exporting live layout:', error);
+      alert('Error exporting live layout data. See console for details.');
+    }
+  }
+
+  /**
+   * Recursively traverses the live Golden Layout structure to extract all data
+   */
+  _traverseLiveLayout(item, depth = 0) {
+    if (!item) {
+      return null;
+    }
+
+    const result = {
+      type: item.type,
+      depth: depth,
+    };
+
+    // Add config if it exists
+    if (item.config) {
+      result.config = { ...item.config };
+      result.configKeys = Object.keys(item.config);
+    }
+
+    // Add other interesting properties
+    if (item.id !== undefined) result.id = item.id;
+    if (item.title !== undefined) result.title = item.title;
+    if (item.isInitialised !== undefined) result.isInitialised = item.isInitialised;
+    if (item.isMaximised !== undefined) result.isMaximised = item.isMaximised;
+    if (item.isHidden !== undefined) result.isHidden = item.isHidden;
+
+    // Add size information if available
+    if (item.width !== undefined) result.width = item.width;
+    if (item.height !== undefined) result.height = item.height;
+
+    // Add any other potentially useful properties
+    const interestingProps = ['componentName', 'componentType', 'reorderEnabled', 'size'];
+    interestingProps.forEach(prop => {
+      if (item[prop] !== undefined) {
+        result[prop] = item[prop];
+      }
+    });
+
+    // Recursively process children
+    if (item.contentItems && Array.isArray(item.contentItems)) {
+      result.contentItems = item.contentItems.map(child => 
+        this._traverseLiveLayout(child, depth + 1)
+      );
+      result.childCount = item.contentItems.length;
+    }
+
+    return result;
+  }
+
+  async _handleImportFromText() {
+    log('info', '[JsonUI] Import from Text button clicked');
+
+    // First, activate the Editor panel without overwriting content
+    eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'json');
+
+    // Wait a moment for the panel to activate
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Now request the current content from the editor, specifically requesting dataForExport source
+    const editorContent = await this._requestEditorContent();
+    
+    if (!editorContent || !editorContent.text.trim()) {
+      alert('No text found in the Editor panel. Please enter or paste JSON data in the Editor first.');
+      return;
+    }
+
+    // Show confirmation dialog
+    const confirmImport = confirm(
+      'Do you want to load the data from the Editor text? This will apply the JSON data to the current application state.'
+    );
+
+    if (!confirmImport) {
+      log('info', '[JsonUI] Import from text cancelled by user');
+      return;
+    }
+
+    // Parse and load the data using the same logic as _handleLoadFromFile
+    try {
+      const loadedData = JSON.parse(editorContent.text);
+      log('info', '[JsonUI] Editor text content parsed successfully:', loadedData);
+
+      const modeName =
+        loadedData.modeName || this.modeNameInput.value.trim() || 'default';
+
+      if (this.modeNameInput && modeName) {
+        this.modeNameInput.value = modeName;
+        this.updateCurrentModeDisplay(modeName);
+      }
+
+      // Construct dataToStore by including only what's in loadedData, plus meta fields
+      const dataToStore = {
+        modeName: modeName,
+        savedTimestamp: new Date().toISOString(),
+      };
+      // Iterate over loadedData and add its properties to dataToStore, excluding meta fields already set
+      for (const key in loadedData) {
+        if (
+          loadedData.hasOwnProperty(key) &&
+          key !== 'modeName' &&
+          key !== 'savedTimestamp'
+        ) {
+          dataToStore[key] = loadedData[key];
+        }
+      }
+
+      // Apply non-reloadable data
+      await this._applyNonReloadData(loadedData);
+
+      // Show success alert
+      alert(
+        `Data for mode '${modeName}' loaded from Editor text and applied where possible. Reload if prompted or if layout/module changes were included. This data has NOT been saved to LocalStorage yet.`
+      );
+    } catch (error) {
+      log('error', '[JsonUI] Error parsing JSON from Editor text:', error);
+      alert(
+        'Failed to parse JSON from Editor text. Ensure it contains valid JSON configuration.'
+      );
+    }
+  }
+
+  async _requestEditorContent() {
+    // Create a promise to wait for the editor response
+    return new Promise((resolve) => {
+      // Set up a one-time listener for the editor response
+      const responseHandler = (eventData) => {
+        log('info', '[JsonUI] Received editor content response:', eventData);
+        eventBus.unsubscribe('editor:contentResponse', responseHandler);
+        resolve(eventData);
+      };
+      
+      eventBus.subscribe('editor:contentResponse', responseHandler, 'json');
+      
+      // Request content from the editor
+      eventBus.publish('editor:requestContent', {
+        requestId: 'json-import-request',
+        requestedSource: 'dataForExport'
+      }, 'json');
+      
+      // Set a timeout in case no response comes
+      setTimeout(() => {
+        eventBus.unsubscribe('editor:contentResponse', responseHandler);
+        log('warn', '[JsonUI] Timeout waiting for editor content response');
+        resolve({ text: '', source: 'timeout' });
+      }, 5000);
+    });
   }
 
   _handleLoadFromFile(event) {
@@ -496,7 +917,7 @@ export class JsonUI {
         //   );
 
         // --- Apply non-reloadable data ---
-        this._applyNonReloadData(loadedData); // Apply data directly from loadedData
+        await this._applyNonReloadData(loadedData); // Apply data directly from loadedData
 
         // Show alert (might need adjustment based on requiresReload checks)
         alert(
@@ -604,6 +1025,44 @@ export class JsonUI {
         alert('Error resetting defaults. See console for details.');
       }
     }
+  }
+
+  _handleCheckAll() {
+    log('info', '[JsonUI] Check All button clicked');
+    
+    // Check all core checkboxes
+    for (const key in this.checkboxes) {
+      if (this.checkboxes[key]) {
+        this.checkboxes[key].checked = true;
+      }
+    }
+    
+    // Check all module data checkboxes
+    const moduleCheckboxes = this.rootElement.querySelectorAll('#json-module-data-list input[type="checkbox"]');
+    moduleCheckboxes.forEach(checkbox => {
+      checkbox.checked = true;
+    });
+    
+    log('info', '[JsonUI] All checkboxes checked');
+  }
+
+  _handleUncheckAll() {
+    log('info', '[JsonUI] Uncheck All button clicked');
+    
+    // Uncheck all core checkboxes
+    for (const key in this.checkboxes) {
+      if (this.checkboxes[key]) {
+        this.checkboxes[key].checked = false;
+      }
+    }
+    
+    // Uncheck all module data checkboxes
+    const moduleCheckboxes = this.rootElement.querySelectorAll('#json-module-data-list input[type="checkbox"]');
+    moduleCheckboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+    
+    log('info', '[JsonUI] All checkboxes unchecked');
   }
 
   _destroy() {
@@ -805,6 +1264,15 @@ export class JsonUI {
       const div = document.createElement('div');
       div.classList.add('checkbox-container');
 
+      const textButton = document.createElement('button');
+      textButton.classList.add('button', 'button-small', 'text-export-btn');
+      textButton.textContent = 'Text';
+      textButton.dataset.configKey = dataKey;
+      // Add event listener directly to the button
+      textButton.addEventListener('click', () => {
+        this._handleExportSectionToText(dataKey);
+      });
+
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.id = `json-chk-module-${dataKey}`;
@@ -819,6 +1287,7 @@ export class JsonUI {
         label.title = 'Applying this data requires a page reload.';
       }
 
+      div.appendChild(textButton);
       div.appendChild(checkbox);
       div.appendChild(label);
       listItem.appendChild(div);
@@ -830,7 +1299,7 @@ export class JsonUI {
     });
   }
 
-  _applyNonReloadData(loadedData) {
+  async _applyNonReloadData(loadedData) {
     const handlers = centralRegistry.getAllJsonDataHandlers();
     let requiresReloadDetected = false;
 
@@ -848,11 +1317,21 @@ export class JsonUI {
         );
         // this.applyRulesConfig(loadedData.rulesConfig);
       } else if (dataKey === 'userSettings') {
-        // TODO: Implement live settings application
+        // Implement live settings application
         log('info', 
-          '[JsonUI] Found userSettings, calling apply function (placeholder)...'
+          '[JsonUI] Found userSettings, applying settings...'
         );
-        // settingsManager.updateSettings(loadedData.userSettings);
+        try {
+          await settingsManager.updateSettings(loadedData.userSettings);
+          log('info', '[JsonUI] Settings applied successfully');
+        } catch (e) {
+          log('error', '[JsonUI] Error applying settings:', e);
+        }
+      } else if (dataKey === 'layoutConfig') {
+        // Skip live layout configuration application - layouts will be applied on page reload
+        log('info', 
+          '[JsonUI] Found layoutConfig, skipping live application (will be applied on reload)'
+        );
       }
       // Check registered module handlers
       else if (handlers.has(dataKey)) {
@@ -879,4 +1358,132 @@ export class JsonUI {
     // Optionally adjust the alert message based on requiresReloadDetected
     // For now, the generic alert in _handleLoadFromFile should suffice.
   }
+
+  async _applyLayoutConfig(layoutConfig) {
+    if (!layoutConfig) {
+      log('warn', '[JsonUI] No layout config provided to apply');
+      return;
+    }
+
+    log('info', '[JsonUI] Attempting to apply layout config:', layoutConfig);
+
+    // Check if we have access to the Golden Layout instance
+    let goldenLayoutInstance = null;
+    
+    if (window.goldenLayoutInstance) {
+      goldenLayoutInstance = window.goldenLayoutInstance;
+      log('info', '[JsonUI] Using window.goldenLayoutInstance for layout application');
+    } else if (this.container && this.container.layoutManager) {
+      goldenLayoutInstance = this.container.layoutManager;
+      log('info', '[JsonUI] Using this.container.layoutManager for layout application');
+    } else {
+      throw new Error('No Golden Layout instance available for layout application');
+    }
+
+    // Transform layout config to ensure size values are strings (Golden Layout 2.x requirement)
+    let transformedConfig = this._transformLayoutConfigSizes(layoutConfig);
+    log('info', '[JsonUI] Transformed layout config sizes from numbers to strings');
+
+    // Check if the layout config is a "Resolved Config" and convert it if needed
+    let configToLoad = transformedConfig;
+    
+    // According to Golden Layout 2.x docs, when reloading a saved layout,
+    // first convert the saved "Resolved Config" to a "Config" by calling LayoutConfig.fromResolved()
+    if (window.LayoutConfig && typeof window.LayoutConfig.fromResolved === 'function') {
+      try {
+        configToLoad = window.LayoutConfig.fromResolved(transformedConfig);
+        log('info', '[JsonUI] Converted resolved config to config using LayoutConfig.fromResolved()');
+      } catch (e) {
+        log('warn', '[JsonUI] Failed to convert with LayoutConfig.fromResolved(), using config as-is:', e);
+        // If conversion fails, try using the config as-is
+      }
+    } else {
+      log('warn', '[JsonUI] LayoutConfig.fromResolved() not available, using config as-is');
+    }
+
+    // Apply the layout using Golden Layout 2.x loadLayout() method
+    if (typeof goldenLayoutInstance.loadLayout === 'function') {
+      try {
+        await goldenLayoutInstance.loadLayout(configToLoad);
+        log('info', '[JsonUI] Layout loaded successfully using loadLayout()');
+      } catch (e) {
+        log('error', '[JsonUI] Error calling loadLayout():', e);
+        throw new Error(`Failed to load layout: ${e.message}`);
+      }
+    } else {
+      throw new Error('Golden Layout instance does not have loadLayout() method available');
+    }
+  }
+
+  /**
+   * Enhanced layout config transformation that:
+   * 1. Removes problematic 'size' and 'dimensions' entries that cause Golden Layout parsing issues
+   * 2. Optionally assigns IDs to stacks that don't have them (for easier tracking)
+   * 3. Preserves width/height percentage values from the actual Golden Layout instance
+   */
+  _transformLayoutConfigSizes(config) {
+    if (!config || typeof config !== 'object') {
+      return config;
+    }
+
+    log('info', '[JsonUI] Processing layout config: convert size attributes based on container type');
+
+    // Step 1: Get the json data from saveLayout (this is already done - config is the result)
+    // Step 2: Process the config to convert size attributes appropriately
+    const transformed = this._convertSizeAttributes(config);
+
+    return transformed;
+  }
+
+  /**
+   * Converts size attributes based on parent-child relationships and removes dimensions entries
+   */
+  _convertSizeAttributes(config, parentType = null) {
+    if (!config || typeof config !== 'object') {
+      return config;
+    }
+    
+    if (Array.isArray(config)) {
+      return config.map(item => this._convertSizeAttributes(item, parentType));
+    }
+    
+    const converted = {};
+    for (const [key, value] of Object.entries(config)) {
+      // Remove "dimensions" entries
+      if (key === 'dimensions') {
+        log('info', `[JsonUI] Removed "dimensions" property from layout config`);
+        continue;
+      }
+      
+      // Handle "size" attribute based on parent-child relationship
+      if (key === 'size') {
+        if (config.type === 'stack' && parentType === 'row') {
+          // For "stack" entries whose parent is a "row", rename "size" to "width"
+          converted.width = value;
+          log('info', `[JsonUI] Converted "size" to "width" for stack in row container: ${value}`);
+        } else if (config.type === 'stack' && parentType === 'column') {
+          // For "stack" entries whose parent is a "column", rename "size" to "height"
+          converted.height = value;
+          log('info', `[JsonUI] Converted "size" to "height" for stack in column container: ${value}`);
+        } else {
+          // For all other entries, remove the "size" entries
+          log('info', `[JsonUI] Removed "size" property from ${config.type || 'unknown'} container (parent: ${parentType || 'none'})`);
+        }
+        continue;
+      }
+      
+      if (typeof value === 'object' && value !== null) {
+        // Pass the current item's type as the parent type for its children
+        const currentType = config.type || parentType;
+        converted[key] = this._convertSizeAttributes(value, currentType);
+      } else {
+        converted[key] = value;
+      }
+    }
+    
+    return converted;
+  }
+
+
+
 }

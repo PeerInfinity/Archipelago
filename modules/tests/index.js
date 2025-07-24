@@ -31,6 +31,24 @@ export function register(registrationApi) {
 
   registrationApi.registerPanelComponent('testsPanel', TestUI);
 
+  // Register events that tests publishes
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
+  registrationApi.registerEventBusPublisher('tests:listUpdated');
+  registrationApi.registerEventBusPublisher('tests:autoStartConfigChanged');
+  registrationApi.registerEventBusPublisher('tests:hideDisabledConfigChanged');
+  registrationApi.registerEventBusPublisher('tests:loadedStateApplied');
+  registrationApi.registerEventBusPublisher('tests:statusChanged');
+  registrationApi.registerEventBusPublisher('tests:conditionReported');
+  registrationApi.registerEventBusPublisher('tests:logAdded');
+  registrationApi.registerEventBusPublisher('tests:completed');
+  registrationApi.registerEventBusPublisher('tests:allRunsStarted');
+  registrationApi.registerEventBusPublisher('tests:allRunsCompleted');
+  registrationApi.registerEventBusPublisher('tests:categoryChanged');
+  registrationApi.registerEventBusPublisher('tests:categoriesUpdated');
+  registrationApi.registerEventBusPublisher('tests:allCategoriesChanged');
+  registrationApi.registerEventBusPublisher('tests:testEventAfterDelay');
+  registrationApi.registerEventBusPublisher('tests:allTestsChanged');
+
   registrationApi.registerJsonDataHandler('testsConfig', {
     displayName: 'Tests Configuration',
     defaultChecked: true,
@@ -60,9 +78,9 @@ export function register(registrationApi) {
       );
 
       // Optionally, trigger a UI refresh if the panel might already be open
-      eventBus.publish('test:listUpdated', {
+      eventBus.publish('tests:listUpdated', {
         tests: await testLogic.getTests(),
-      });
+      }, 'tests');
     },
   });
 
@@ -93,19 +111,19 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       localStorage.getItem('archipelagoToolSuite_lastActiveMode') ||
       'unknown';
     log('info', '[Tests Module] Current application mode:', currentMode);
-  });
+  }, 'tests');
 
   // Listen for when test loaded state is fully applied (including auto-start check)
-  eventBus.subscribe('test:loadedStateApplied', (eventData) => {
+  eventBus.subscribe('tests:loadedStateApplied', (eventData) => {
     log('info', '[Tests Module] test:loadedStateApplied received:', eventData);
     log(
       'info',
       '[Tests Module] Auto-start handling is now done by testLogic.applyLoadedState()'
     );
-  });
+  }, 'tests');
 
   // Subscribe to test log messages to pipe them to the main logger
-  eventBus.subscribe('test:logAdded', (logData) => {
+  eventBus.subscribe('tests:logAdded', (logData) => {
     if (window.logger && typeof window.logger.log === 'function') {
       const { testId, message, type } = logData;
       const category = `TestRunner/${testId}`;
@@ -121,7 +139,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
         logData.message
       );
     }
-  });
+  }, 'tests');
 
   log('info', '[Tests Module] Initialization complete.');
 }

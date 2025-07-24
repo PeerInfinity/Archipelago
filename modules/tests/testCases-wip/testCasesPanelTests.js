@@ -26,7 +26,7 @@ export async function testCasePanelRunAll(testController) {
     }
 
     // Activate the Test Cases panel using the same pattern as region links
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID_TEST_CASES });
+    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID_TEST_CASES }, 'tests');
     testController.reportCondition(
       'Test Cases panel activation event published',
       true

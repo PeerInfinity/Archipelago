@@ -333,6 +333,6 @@ registerTest({
     'Tests loading rules configuration, adding items to inventory, and checking location accessibility based on item requirements.',
   testFunction: configLoadAndItemCheckTest,
   category: 'State Management',
-  enabled: false, // Keep disabled unless specifically testing this
-  order: 0,
+  //enabled: false,
+  //order: 0,
 });

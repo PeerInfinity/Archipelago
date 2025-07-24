@@ -336,7 +336,7 @@ export class PathAnalyzerUI {
           }
         }
       }
-    );
+    , 'pathAnalyzer');
   }
 
   dispose() {

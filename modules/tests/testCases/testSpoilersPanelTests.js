@@ -21,7 +21,7 @@ export async function testSpoilersPanelFullRun(testController) {
     testController.log(`[${testRunId}] Activating ${PANEL_ID} panel...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
-    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID });
+    eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
     await new Promise((resolve) => setTimeout(resolve, 1500)); // wait longer for panel to fully init
 
     let spoilersPanelElement = null;
@@ -287,6 +287,6 @@ registerTest({
     'Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.',
   testFunction: testSpoilersPanelFullRun,
   category: 'Test Spoilers Panel',
-  enabled: false,
-  order: 1,
+  //enabled: false,
+  //order: 1,
 });

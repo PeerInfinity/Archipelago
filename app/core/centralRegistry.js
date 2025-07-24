@@ -128,6 +128,11 @@ class CentralRegistry {
     );
     // Store publisher with enabled state
     this.eventBusPublishers.get(eventName).set(moduleId, { enabled: true });
+
+    // Also register with eventBus itself
+    if (typeof window !== 'undefined' && window.eventBus) {
+      window.eventBus.registerPublisher(eventName, moduleId);
+    }
   }
 
   /**
@@ -299,7 +304,7 @@ class CentralRegistry {
         status: 'registration_update', // More generic status
         isActive: newHostData.isActive,
         priority: newHostData.priority,
-      });
+      }, 'core');
       // log('info',`[CentralRegistry] Fired uiHostRegistry:hostStatusChanged for ${hostModuleId} (type ${uiComponentType}) due to registration/priority update. New Prio: ${newHostData.priority}, Active: ${newHostData.isActive}`);
     }
   }
@@ -327,7 +332,7 @@ class CentralRegistry {
           status: isActive ? 'activated' : 'deactivated',
           isActive: isActive,
           priority: host.priority,
-        });
+        }, 'core');
       } else {
         // Optionally log if no change, or just be silent
         // log('info',`[CentralRegistry] Host ${hostModuleId} for ${uiComponentType} active status already ${isActive}. No change necessary.`);
@@ -374,7 +379,7 @@ class CentralRegistry {
         status: 'unregistered',
         isActive: removedHost.isActive, // Report its last known active state
         priority: removedHost.priority,
-      });
+      }, 'core');
     } else {
       log(
         'warn',
@@ -514,7 +519,7 @@ class CentralRegistry {
   }
 
   setEventBusPublisherEnabled(eventName, moduleId, isEnabled) {
-    // Special handling because the value is an object { enabled: ...}
+    // Update the registry
     if (!this.eventBusPublishers.has(eventName)) {
       log(
         'warn',
@@ -531,6 +536,12 @@ class CentralRegistry {
       return false;
     }
     moduleMap.get(moduleId).enabled = isEnabled;
+
+    // Also update the eventBus itself
+    if (typeof window !== 'undefined' && window.eventBus) {
+      window.eventBus.setPublisherEnabled(eventName, moduleId, isEnabled);
+    }
+
     log(
       'info',
       `[Registry Toggle] Set publisher '${eventName}' for module '${moduleId}' to enabled=${isEnabled}`
@@ -539,12 +550,19 @@ class CentralRegistry {
   }
 
   setEventBusSubscriberIntentEnabled(eventName, moduleId, isEnabled) {
-    return this._setEnabledState(
+    const success = this._setEnabledState(
       this.eventBusSubscribers,
       eventName,
       moduleId,
       isEnabled
     );
+
+    // Also update the eventBus itself
+    if (success && typeof window !== 'undefined' && window.eventBus) {
+      window.eventBus.setSubscriberEnabled(eventName, moduleId, isEnabled);
+    }
+
+    return success;
   }
 
   _getEnabledState(map, eventName, moduleId) {

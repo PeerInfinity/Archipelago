@@ -35,15 +35,10 @@ export function register(registrationApi) {
   registrationApi.registerPanelComponent('presetsPanel', PresetUI);
 
   // Declare events published by PresetUI on the EventBus
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name, // Associate with this module
-    'editor:loadJsonData'
-  );
-  registrationApi.registerEventBusPublisher(
-    moduleInfo.name,
-    'files:jsonLoaded'
-  );
-  registrationApi.registerEventBusPublisher(moduleInfo.name, 'ui:notification');
+  registrationApi.registerEventBusPublisher('editor:loadJsonData');
+  registrationApi.registerEventBusPublisher('files:jsonLoaded');
+  registrationApi.registerEventBusPublisher('ui:notification');
+  registrationApi.registerEventBusPublisher('rules:loaded');
 
   log('info', '[Presets Module] Registration complete.');
 }

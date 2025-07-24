@@ -835,8 +835,8 @@ registerTest({
     'Very simple test to isolate Path Analyzer issues without state manager.',
   testFunction: simplePathAnalyzerTest,
   category: 'Path Analysis',
-  enabled: false,
-  order: -2, // Run first
+  //enabled: false,
+  //order: -2, // Run first
 });
 
 registerTest({
@@ -845,8 +845,8 @@ registerTest({
   description: 'Simple debug test to isolate Path Analyzer issues.',
   testFunction: debugPathAnalyzerTest,
   category: 'Path Analysis',
-  enabled: false,
-  order: -1,
+  //enabled: false,
+  //order: -1,
 });
 
 registerTest({
@@ -855,8 +855,8 @@ registerTest({
   description: 'Opens the Path Analyzer panel and selects a region to analyze.',
   testFunction: testPathAnalyzerPanel,
   category: 'Path Analysis',
-  enabled: false,
-  order: 0,
+  //enabled: false,
+  //order: 0,
 });
 
 registerTest({
@@ -865,8 +865,8 @@ registerTest({
   description: 'Tests Path Analyzer with Library region (no parentheses).',
   testFunction: testPathAnalyzerLibrary,
   category: 'Path Analysis',
-  enabled: true,
-  order: 1,
+  //enabled: false,
+  //order: 1,
 });
 
 registerTest({
@@ -875,8 +875,8 @@ registerTest({
   description: 'Tests Path Analyzer with Misery Mire (Entrance) region (with parentheses).',
   testFunction: testPathAnalyzerMiseryMireEntrance,
   category: 'Path Analysis',
-  enabled: false,
-  order: 2,
+  //enabled: false,
+  //order: 2,
 });
 
 registerTest({
@@ -885,8 +885,8 @@ registerTest({
   description: 'Tests Path Analyzer UI interaction with Library region (no parentheses).',
   testFunction: testPathAnalyzerUILibrary,
   category: 'Path Analysis',
-  enabled: true,
-  order: 3,
+  //enabled: false,
+  //order: 3,
 });
 
 // DEBUG TEST: Check actual DOM structure
@@ -993,8 +993,8 @@ registerTest({
   description: 'Debug test to check actual DOM structure for Library paths',
   testFunction: debugPathAnalyzerLibraryPaths,
   category: 'Path Analysis',
-  enabled: true,
-  order: 2.5,
+  //enabled: false,
+  //order: 2.5,
 });
 
 registerTest({
@@ -1003,6 +1003,6 @@ registerTest({
   description: 'Tests Path Analyzer UI interaction with Misery Mire (Entrance) region (with parentheses).',
   testFunction: testPathAnalyzerUIMiseryMireEntrance,
   category: 'Path Analysis',
-  enabled: false,
-  order: 4,
+  //enabled: false,
+  //order: 4,
 });

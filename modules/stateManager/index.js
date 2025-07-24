@@ -51,30 +51,18 @@ function register(registrationApi) {
   log('info', '[StateManager Module] Registering...');
 
   // Register events published by the StateManagerProxy on the EventBus
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:rulesLoaded' // Confirms worker loaded initial rules and sent snapshot
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:snapshotUpdated' // Indicates a new state snapshot is available in the proxy cache
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:computationProgress' // Progress updates during long computations
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:workerQueueStatus' // Updates on the worker's internal queue status
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:workerError' // Non-critical errors reported by the worker during processing
-  );
-  registrationApi.registerEventBusPublisher(
-    'stateManager',
-    'stateManager:error' // Critical errors (e.g., worker init failure, communication failure)
-  );
+  registrationApi.registerEventBusPublisher('stateManager:rulesLoaded'); // Confirms worker loaded initial rules and sent snapshot
+  registrationApi.registerEventBusPublisher('stateManager:ready'); // Confirms worker is ready
+  registrationApi.registerEventBusPublisher('stateManager:snapshotUpdated'); // Indicates a new state snapshot is available in the proxy cache
+  registrationApi.registerEventBusPublisher('stateManager:computationProgress'); // Progress updates during long computations
+  registrationApi.registerEventBusPublisher('stateManager:workerQueueStatus'); // Updates on the worker's internal queue status
+  registrationApi.registerEventBusPublisher('stateManager:workerError'); // Non-critical errors reported by the worker during processing
+  registrationApi.registerEventBusPublisher('stateManager:error'); // Critical errors (e.g., worker init failure, communication failure)
+  registrationApi.registerEventBusPublisher('stateManager:loadingRules'); // Status updates during rule loading
+  registrationApi.registerEventBusPublisher('stateManager:pongReceived'); // Response to ping requests
+  registrationApi.registerEventBusPublisher('stateManager:inventoryChanged'); // Inventory changes
+  registrationApi.registerEventBusPublisher('stateManager:checkedLocationsCleared'); // Inventory changes
+  registrationApi.registerEventBusPublisher('stateManager:locationCheckRejected'); // Location check rejected
   // Add other specific events forwarded by the proxy if needed (e.g., 'stateManager:itemAdded')
 
   // Register events this module (or the proxy logic implicitly) might subscribe to
@@ -102,7 +90,7 @@ function register(registrationApi) {
     'stateManagerRuntime', // Data Key
     {
       displayName: 'Game State (Inv/Checks)', // Checkbox Label
-      defaultChecked: false, // Checkbox default state
+      defaultChecked: true, // Checkbox default state
       requiresReload: false, // Can this data be applied live?
       getSaveDataFunction: async () => {
         // Assumes stateManagerProxySingleton is the proxy instance
@@ -135,6 +123,13 @@ async function initialize(moduleId, priorityIndex, initializationApi) {
 
   // The proxy singleton instance is created automatically when this module is imported.
   // No explicit instance creation needed here.
+
+  // Subscribe to settings changes to update worker logging configuration
+  const eventBus = initializationApi.getEventBus();
+  if (eventBus) {
+    eventBus.subscribe('settings:changed', handleSettingsChanged, moduleId);
+    log('info', '[StateManager Module] Subscribed to settings:changed events');
+  }
 
   log(
     'info',
@@ -292,7 +287,7 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
         source: sourceNameForTheseRules, // MODIFIED: Use the same accurately determined source
         rawJsonData: rulesConfigToUse,
         selectedPlayerInfo: playerInfo,
-      });
+      }, 'stateManager');
       logger.info(
         moduleInfo.name,
         '[StateManager Module] Published stateManager:rawJsonDataLoaded.'
@@ -313,7 +308,7 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
       eventBus.publish('stateManager:error', {
         message: `Failed to initialize proxy or load rules: ${error.message}`,
         isCritical: true,
-      });
+      }, 'stateManager');
     } else {
       logger.error(
         moduleInfo.name,
@@ -424,5 +419,24 @@ async function handleUserItemCheckForStateManager(eventData) {
       'warn',
       '[StateManagerModule] Received user:itemCheck with no itemName.'
     );
+  }
+}
+
+/**
+ * Handle settings changes and update worker logging configuration if logging settings changed
+ * @param {Object} eventData - Event data containing the changed settings
+ */
+function handleSettingsChanged(eventData) {
+  // Check if the change involves logging settings
+  if (eventData.key && (eventData.key.startsWith('logging') || eventData.key === '*')) {
+    log('info', '[StateManagerModule] Logging settings changed, updating worker configuration');
+    
+    // Get the current logging configuration from the logger
+    if (typeof window !== 'undefined' && window.logger) {
+      const newLoggingConfig = window.logger.getConfig();
+      stateManagerProxySingleton.updateWorkerLoggingConfig(newLoggingConfig);
+    } else {
+      log('warn', '[StateManagerModule] Window logger not available for worker config update');
+    }
   }
 }

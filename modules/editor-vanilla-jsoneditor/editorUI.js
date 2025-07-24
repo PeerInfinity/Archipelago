@@ -101,7 +101,7 @@ class EditorUI {
         // Wrap the data in the format expected by vanilla-jsoneditor's setContent
         this.setContent({ json: payload.data });
       }
-    );
+    , 'editor');
   }
 
   // Unsubscribe from EventBus events

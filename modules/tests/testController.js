@@ -21,6 +21,10 @@ export class TestController {
     this.callbacks = callbacks; // { log, reportCondition, setTestStatus, completeTest }
     this.eventBus = eventBus; // Injected eventBus instance
     this.stateManager = stateManagerProxySingleton; // Direct import
+    
+    // Track active event listeners for automatic cleanup
+    this.activeEventListeners = new Map(); // eventName -> Set of handlers
+    this.isCompleted = false; // Flag to track if test has completed
   }
 
   log(message, type = 'info') {
@@ -87,7 +91,7 @@ export class TestController {
     switch (actionDetails.type) {
       case 'DISPATCH_EVENT':
         if (this.eventBus) {
-          this.eventBus.publish(actionDetails.eventName, actionDetails.payload);
+          this.eventBus.publish(actionDetails.eventName, actionDetails.payload, 'tests');
         } else {
           this.log(
             'Error: eventBus not available for DISPATCH_EVENT.',
@@ -423,6 +427,70 @@ export class TestController {
         break;
       }
 
+      case 'RELOAD_CURRENT_RULES':
+        if (this.stateManager) {
+          this.log('Getting current rules source...');
+          
+          // Get the current rules source
+          const currentSource = this.stateManager.getRawJsonDataSource();
+          if (!currentSource) {
+            const errMsg = 'No rules source available to reload.';
+            this.log(errMsg, 'error');
+            throw new Error(errMsg);
+          }
+          
+          this.log(`Reloading rules from source: ${currentSource}`);
+          
+          try {
+            // Determine if it's a file path or direct data
+            let rulesData;
+            let playerInfo = {
+              playerId: actionDetails.playerId || '1',
+              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || '1'}`,
+            };
+
+            if (typeof currentSource === 'string' && currentSource.includes('.json')) {
+              // It's a file path, need to fetch the data
+              this.log(`Fetching rules data from file: ${currentSource}`);
+              const response = await fetch(currentSource);
+              if (!response.ok) {
+                throw new Error(`Failed to fetch rules: ${response.status} ${response.statusText}`);
+              }
+              rulesData = await response.json();
+            } else {
+              // For other cases, we'd need access to the original data
+              // For now, throw an error as we can't reload non-file sources easily
+              throw new Error(`Cannot reload rules from source type: ${currentSource}. Only file paths are supported.`);
+            }
+
+            // Set up the event listener BEFORE calling loadRules to avoid race condition
+            const rulesLoadedPromise = this.waitForEvent(
+              'stateManager:rulesLoaded',
+              8000 // Longer timeout for reloading
+            );
+
+            // Reload the rules
+            await this.stateManager.loadRules(rulesData, playerInfo, currentSource);
+            this.log('StateManager.loadRules command sent for reload.');
+
+            // Wait for the worker to process and confirm
+            await rulesLoadedPromise;
+            this.log('stateManager:rulesLoaded event received after RELOAD_CURRENT_RULES.');
+            
+          } catch (error) {
+            this.log(
+              `Error reloading current rules: ${error.message}`,
+              'error'
+            );
+            throw error;
+          }
+        } else {
+          const errMsg = 'StateManager proxy not available for RELOAD_CURRENT_RULES.';
+          this.log(errMsg, 'error');
+          throw new Error(errMsg);
+        }
+        return; // This action is for setup
+
       default:
         this.log(`Unknown action type: ${actionDetails.type}`, 'warn');
         return Promise.resolve();
@@ -443,19 +511,44 @@ export class TestController {
         reject(new Error(msg));
         return;
       }
+      
+      // Check if test has already completed
+      if (this.isCompleted) {
+        const msg = `Test ${this.testId} has already completed, ignoring waitForEvent for ${eventName}`;
+        this.log(msg, 'warn');
+        reject(new Error(msg));
+        return;
+      }
+      
       let timeoutId;
       const handler = (data) => {
         clearTimeout(timeoutId);
+        
+        // Remove from tracking before unsubscribing
+        this._removeEventListenerFromTracking(eventName, handler);
+        
         // Ensure eventBus and unsubscribe are still valid before calling
         if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
           this.eventBus.unsubscribe(eventName, handler);
         }
+        
+        // Check if test has already completed - don't update status if so
+        if (this.isCompleted) {
+          this.log(`Event received for completed test, ignoring: ${eventName}`, 'warn');
+          resolve(data);
+          return;
+        }
+        
         this.log(`Event received: ${eventName}`);
         this.log(`Event data: ${JSON.stringify(data)}`, 'debug');
         this.callbacks.setTestStatus(this.testId, 'running');
         resolve(data);
       };
+      
       timeoutId = setTimeout(() => {
+        // Remove from tracking before unsubscribing
+        this._removeEventListenerFromTracking(eventName, handler);
+        
         if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
           this.eventBus.unsubscribe(eventName, handler);
         }
@@ -466,7 +559,10 @@ export class TestController {
       }, timeoutMilliseconds);
 
       if (this.eventBus && typeof this.eventBus.subscribe === 'function') {
-        this.eventBus.subscribe(eventName, handler);
+        this.eventBus.subscribe(eventName, handler, 'tests');
+        
+        // Track this listener for cleanup
+        this._addEventListenerToTracking(eventName, handler);
       } else {
         clearTimeout(timeoutId);
         const msg =
@@ -495,6 +591,11 @@ export class TestController {
     this.log(
       `Test completion signal: ${overallPassStatus ? 'PASSED' : 'FAILED'}`
     );
+    
+    // Mark as completed and cleanup event listeners
+    this.isCompleted = true;
+    this._cleanupAllEventListeners();
+    
     // The status update and event emission will be handled by the callback
     this.callbacks.completeTest(this.testId, overallPassStatus);
   }
@@ -573,5 +674,81 @@ export class TestController {
         // If errorOccurred or result is falsy, continue polling until timeout
       }, intervalMs);
     });
+  }
+
+  /**
+   * Reloads the most recently loaded rules.json file and waits for completion.
+   * This is useful for tests that need to start with a fresh state.
+   * 
+   * @param {Object} options - Optional configuration
+   * @param {string} options.playerId - Player ID to use (defaults to '1')
+   * @param {string} options.playerName - Player name to use (defaults to 'TestPlayer1')
+   * @returns {Promise<void>} - Resolves when rules are reloaded and ready
+   */
+  async reloadCurrentRules(options = {}) {
+    return await this.performAction({
+      type: 'RELOAD_CURRENT_RULES',
+      playerId: options.playerId || '1',
+      playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
+    });
+  }
+
+  // === Event Listener Tracking and Cleanup Methods ===
+  
+  /**
+   * Add an event listener to the tracking map
+   * @private
+   */
+  _addEventListenerToTracking(eventName, handler) {
+    if (!this.activeEventListeners.has(eventName)) {
+      this.activeEventListeners.set(eventName, new Set());
+    }
+    this.activeEventListeners.get(eventName).add(handler);
+    this.log(`Tracking event listener for ${eventName} (total: ${this.activeEventListeners.get(eventName).size})`, 'debug');
+  }
+  
+  /**
+   * Remove an event listener from the tracking map
+   * @private
+   */
+  _removeEventListenerFromTracking(eventName, handler) {
+    if (this.activeEventListeners.has(eventName)) {
+      this.activeEventListeners.get(eventName).delete(handler);
+      if (this.activeEventListeners.get(eventName).size === 0) {
+        this.activeEventListeners.delete(eventName);
+      }
+      this.log(`Removed tracking for event listener on ${eventName}`, 'debug');
+    }
+  }
+  
+  /**
+   * Clean up all active event listeners when test completes
+   * @private
+   */
+  _cleanupAllEventListeners() {
+    if (this.activeEventListeners.size === 0) {
+      this.log('No active event listeners to clean up', 'debug');
+      return;
+    }
+    
+    let totalCleaned = 0;
+    for (const [eventName, handlers] of this.activeEventListeners.entries()) {
+      this.log(`Cleaning up ${handlers.size} listeners for event: ${eventName}`, 'info');
+      
+      for (const handler of handlers) {
+        if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
+          try {
+            this.eventBus.unsubscribe(eventName, handler);
+            totalCleaned++;
+          } catch (error) {
+            this.log(`Error unsubscribing from ${eventName}: ${error.message}`, 'warn');
+          }
+        }
+      }
+    }
+    
+    // Clear the tracking map
+    this.activeEventListeners.clear();
+    this.log(`Event listener cleanup completed. Cleaned up ${totalCleaned} listeners.`, 'info');
   }
 }

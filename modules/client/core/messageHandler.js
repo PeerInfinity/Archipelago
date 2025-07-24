@@ -82,10 +82,10 @@ export class MessageHandler {
       this.players = [];
       this.clientSlot = 0;
       this.clientTeam = 0;
-    });
+    }, 'messageHandler');
     this.eventBus.subscribe('connection:message', (commands) => {
       commands.forEach((command) => this.processMessage(command));
-    });
+    }, 'messageHandler');
   }
 
   processMessage(command) {
@@ -516,7 +516,7 @@ export class MessageHandler {
       this.eventBus.publish('ui:printFormattedToConsole', {
         messageParts: data.data,
         type: 'server-message',
-      });
+      }, 'core');
     }
   }
 

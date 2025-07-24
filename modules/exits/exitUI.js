@@ -38,7 +38,9 @@ export class ExitUI {
     this.originalExitOrder = [];
     this.container.element.appendChild(this.rootElement);
     this.attachEventListeners();
-    this.subscribeToSettings();
+    this.subscribeToSettings().catch(error => {
+      log('error', 'Error subscribing to settings:', error);
+    });
 
     // Defer full data-dependent initialization
     const readyHandler = (eventPayload) => {
@@ -58,7 +60,7 @@ export class ExitUI {
 
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
-    eventBus.subscribe('app:readyForUiDataLoad', readyHandler);
+    eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'exits');
 
     this.container.on('destroy', () => {
       // ADDED: Ensure cleanup
@@ -66,19 +68,35 @@ export class ExitUI {
     });
   }
 
-  subscribeToSettings() {
+  async subscribeToSettings() {
     if (this.settingsUnsubscribe) {
       this.settingsUnsubscribe();
     }
+    
+    // Load initial colorblind settings
+    try {
+      this.colorblindSettings = await settingsManager.getSetting('colorblindMode.exits', false);
+    } catch (error) {
+      log('error', 'Error loading colorblind settings:', error);
+      this.colorblindSettings = false;
+    }
+    
     this.settingsUnsubscribe = eventBus.subscribe(
       'settings:changed',
-      ({ key, value }) => {
+      async ({ key, value }) => {
         if (key === '*' || key.startsWith('colorblindMode.exits')) {
           log('info', 'ExitUI reacting to settings change:', key);
+          // Update colorblind settings cache
+          try {
+            this.colorblindSettings = await settingsManager.getSetting('colorblindMode.exits', false);
+          } catch (error) {
+            log('error', 'Error loading colorblind settings during update:', error);
+            this.colorblindSettings = false;
+          }
           this.updateExitDisplay();
         }
       }
-    );
+    , 'exits');
   }
 
   onPanelDestroy() {
@@ -104,7 +122,7 @@ export class ExitUI {
 
     const subscribe = (eventName, handler) => {
       log('info', `[ExitUI] Subscribing to ${eventName}`);
-      const unsubscribe = eventBus.subscribe(eventName, handler);
+      const unsubscribe = eventBus.subscribe(eventName, handler, 'exits');
       this.stateUnsubscribeHandles.push(unsubscribe);
     };
 
@@ -430,7 +448,7 @@ export class ExitUI {
         // Notify UI components about queue changes
         eventBus.publish('loopState:queueUpdated', {
           queue: loopStateSingleton.actionQueue,
-        });
+        }, 'exits');
       } else {
         // Path not found - display error message
         const errorMessage = `Cannot find a path to ${exit.region} in loop mode.`;
@@ -948,21 +966,6 @@ export class ExitUI {
           } catch (e) {
             rulePasses = false;
           }
-
-        // DEBUG: Log for Library exit in rendering section
-        if (exit.name === 'Library') {
-          console.log('[ExitUI DEBUG] Library exit RENDERING logic:', {
-            exitName: exit.name,
-            parentRegionName,
-            connectedRegionName,
-            parentRegionStatus,
-            parentRegionReachable,
-            connectedRegionStatus,
-            connectedRegionReachable,
-            rulePasses,
-            hasAccessRule: !!exit.access_rule
-          });
-        }
 
         let stateClass = 'unknown-exit-state'; // Default for truly unknown/edge cases
         let statusText = 'Unknown Status';

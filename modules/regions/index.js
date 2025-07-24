@@ -19,10 +19,10 @@ function log(level, message, ...data) {
 // };
 
 // Store module-level references
-// let moduleEventBus = null; // Removed unused variable
 export let moduleDispatcher = null; // Export the dispatcher
 let moduleId = 'regions'; // Store module ID
 let moduleUnsubscribeHandles = [];
+let regionUIInstance = null; // Store reference to the UI instance
 
 /**
  * Registration function for the Regions module.
@@ -31,44 +31,72 @@ let moduleUnsubscribeHandles = [];
 export function register(registrationApi) {
   log('info', `[${moduleId} Module] Registering...`);
 
-  // Register the panel component CLASS directly
+  // Create a wrapper to capture the UI instance
+  function RegionUIWrapper(container, componentState) {
+    regionUIInstance = new RegionUI(container, componentState);
+    return regionUIInstance;
+  }
+
+  // Register the panel component wrapper
   registrationApi.registerPanelComponent(
     'regionsPanel',
-    RegionUI // Pass the class constructor itself
+    RegionUIWrapper
   );
 
-  // Register EventBus subscriber intentions
-  const eventsToSubscribe = [
-    'stateManager:inventoryChanged',
-    'stateManager:regionsComputed',
-    'stateManager:locationChecked',
-    'stateManager:checkedLocationsCleared',
-    'loop:stateChanged',
-    'loop:actionCompleted',
-    'loop:discoveryChanged',
-    'loop:modeChanged',
-    'settings:changed', // For colorblind mode etc. within RegionUI
-  ];
-  eventsToSubscribe.forEach((eventName) => {
-    registrationApi.registerEventBusSubscriberIntent(eventName);
-  });
-
   // Register EventBus publisher intentions (used by RegionUI)
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToRegion');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToLocation');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:navigateToDungeon');
-  registrationApi.registerEventBusPublisher(moduleId, 'ui:activatePanel');
+  registrationApi.registerEventBusPublisher('ui:navigateToRegion');
+  registrationApi.registerEventBusPublisher('ui:navigateToLocation');
+  registrationApi.registerEventBusPublisher('ui:navigateToDungeon');
+  registrationApi.registerEventBusPublisher('ui:activatePanel');
 
   // Register Dispatcher sender intentions (used by RegionUI)
   registrationApi.registerDispatcherSender(
-    moduleId,
     'user:checkLocationRequest',
     'bottom',
     'first'
   );
+  
+  registrationApi.registerDispatcherSender(
+    'user:regionMove',
+    'bottom',
+    'first'
+  );
+
+  // Register dispatcher receiver for user:regionMove events
+  registrationApi.registerDispatcherReceiver(
+    moduleId,
+    'user:regionMove',
+    handleRegionMove,
+    { direction: 'up', condition: 'unconditional', timing: 'immediate' }
+  );
 
   // Register settings schema if needed
   // registrationApi.registerSettingsSchema(moduleId, { /* ... schema ... */ });
+}
+
+// Handler for user:regionMove events
+function handleRegionMove(data, propagationOptions) {
+  log('info', `[${moduleId} Module] Received user:regionMove event`, data);
+  
+  // Handle the region move by calling moveToRegion on the UI instance
+  if (data && data.sourceRegion && data.targetRegion && regionUIInstance) {
+    log('info', `[${moduleId} Module] Processing region move from ${data.sourceRegion} to ${data.targetRegion}`);
+    regionUIInstance.moveToRegion(data.sourceRegion, data.targetRegion);
+  } else if (!regionUIInstance) {
+    log('warn', `[${moduleId} Module] Cannot process region move - UI instance not available`);
+  }
+  
+  // Propagate the event to the next module (up direction)
+  if (moduleDispatcher) {
+    moduleDispatcher.publishToNextModule(
+      moduleId,
+      'user:regionMove',
+      data,
+      { direction: 'up' }
+    );
+  } else {
+    log('error', `[${moduleId} Module] Dispatcher not available for propagation of user:regionMove event`);
+  }
 }
 
 /**
@@ -82,12 +110,11 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     `[${moduleId} Module] Initializing with priority ${priorityIndex}...`
   );
 
-  // moduleEventBus = initializationApi.getEventBus(); // Removed unused assignment
   // Assign the dispatcher to the exported variable
   moduleDispatcher = initializationApi.getDispatcher();
 
   // Example: Subscribe to something using the module-wide eventBus if needed later
-  // const handle = moduleEventBus.subscribe('some:event', () => {});
+  // const handle = moduleEventBus.subscribe('some:event', () => {}, 'moduleName');
   // moduleUnsubscribeHandles.push(handle);
 
   // If the module needs to perform async setup, do it here

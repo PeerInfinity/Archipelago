@@ -34,6 +34,9 @@ export function register(registrationApi) {
   // ModulesPanel constructor no longer takes the initApi directly.
   // It will access the moduleManager via the getInitializationApi function.
   registrationApi.registerPanelComponent('modulesPanel', ModulesPanel);
+  
+  // Register events that modules publishes
+  registrationApi.registerEventBusPublisher('module:loadExternalRequest');
   // Register intent to subscribe to module state changes
   /* // REMOVED - Registration will happen in UI constructor
   registrationApi.registerEventBusSubscriber(
@@ -65,7 +68,7 @@ export async function initialize(id, index, initApi) {
   // const moduleManager = api.getModuleManager(); // Hypothetical manager
 
   // Subscribe to events needed for UI updates (e.g., when a panel is closed)
-  // eventBus.subscribe('panel:closed', handlePanelClosed);
+  // eventBus.subscribe('panel:closed', handlePanelClosed, 'modules');
 }
 
 // Potentially add an uninitialize function if needed for cleanup

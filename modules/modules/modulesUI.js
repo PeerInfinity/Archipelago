@@ -150,7 +150,7 @@ export class ModulesPanel {
     this.appReadyListener = eventBus.subscribe(
       'app:readyForUiDataLoad', // MODIFIED: Listen to app:ready
       this.appReadyHandler
-    );
+    , 'modules');
     // NOW register the subscription with the registry
     centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
@@ -158,19 +158,19 @@ export class ModulesPanel {
     );
 
     // Subscribe to external events using bound handlers
-    eventBus.subscribe('module:stateChanged', this.moduleStateHandler);
+    eventBus.subscribe('module:stateChanged', this.moduleStateHandler, 'modules');
     centralRegistry.registerEventBusSubscriberIntent(
       this.moduleId,
       'module:stateChanged'
     );
 
-    // eventBus.subscribe('panel:closed', this._handlePanelClosed.bind(this)); // Keep commented for now
-    eventBus.subscribe('module:loaded', this.moduleLoadHandler); // Listen for newly loaded modules
+    // eventBus.subscribe('panel:closed', this._handlePanelClosed.bind(this), 'modules'); // Keep commented for now
+    eventBus.subscribe('module:loaded', this.moduleLoadHandler, 'modules'); // Listen for newly loaded modules
     // No need to register 'module:loaded' or 'failed' unless we add UI toggles for them
     eventBus.subscribe(
       'module:loadFailed',
       this.moduleFailHandler // Listen for load failures
-    );
+    , 'modules');
   }
 
   async _requestModuleData(moduleManager) {
@@ -478,7 +478,7 @@ export class ModulesPanel {
     log('info', 
       `Requesting load for external module: ${moduleId} from ${modulePath}`
     );
-    eventBus.publish('module:loadExternalRequest', { moduleId, modulePath });
+    eventBus.publish('module:loadExternalRequest', { moduleId, modulePath }, 'modules');
   }
 
   // MODIFIED: Renamed from _handleInitComplete to _handleAppReady
