@@ -116,6 +116,16 @@
       "path": "./modules/progressBarPanel/index.js",
       "enabled": true,
       "requires": ["progressBar"]
+    },
+    "metaGame": {
+      "path": "./modules/metaGame/index.js",
+      "enabled": true,
+      "requires": ["progressBar", "progressBarPanel"]
+    },
+    "metaGamePanel": {
+      "path": "./modules/metaGamePanel/index.js",
+      "enabled": true,
+      "requires": ["metaGame"]
     }
   },
   "loadPriority": [
@@ -146,6 +156,8 @@
     "testSpoilers",
     "tests",
     "progressBar",
-    "progressBarPanel"
+    "progressBarPanel",
+    "metaGame",
+    "metaGamePanel"
   ]
 }

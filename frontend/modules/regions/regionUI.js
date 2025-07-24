@@ -1594,6 +1594,10 @@ export class RegionUI {
     contentEl.appendChild(exitsList);
 
     // Locations List
+    const locationsHeader = document.createElement('h4');
+    locationsHeader.textContent = 'Locations:';
+    contentEl.appendChild(locationsHeader);
+    
     const locationsList = document.createElement('ul');
     locationsList.classList.add('region-locations-list');
     if (regionStaticData.locations && regionStaticData.locations.length > 0) {
