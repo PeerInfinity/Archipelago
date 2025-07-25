@@ -717,7 +717,7 @@ registerTest({
   description: 'Tests the metaGame module with progress bar integration using progressBarTest.js configuration',
   testFunction: testMetaGameProgressBarIntegration,
   category: 'Meta Game',
-  //enabled: false,
+  //enabled: true,
 });
 
 registerTest({
@@ -726,5 +726,5 @@ registerTest({
   description: 'Tests the metaGame panel UI elements including dropdown selection, configuration loading, and JSON editing',
   testFunction: testMetaGamePanelUI,
   category: 'Meta Game',
-  enabled: true,
+  //enabled: true,
 });

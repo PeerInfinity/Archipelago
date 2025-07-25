@@ -51,7 +51,7 @@ export function register(registrationApi) {
 
   // Register Dispatcher sender intentions (used by RegionUI)
   registrationApi.registerDispatcherSender(
-    'user:checkLocationRequest',
+    'user:locationCheck',
     'bottom',
     'first'
   );

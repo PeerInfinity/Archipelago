@@ -1657,24 +1657,31 @@ export class RegionUI {
 
         checkBtn.addEventListener('click', async () => {
           if (locAccessible && !locChecked) {
-            // Mirror logic from LocationUI.handleLocationClick
+            // Use same pattern as LocationUI.handleLocationClick
             try {
-              if (loopStateSingleton.isLoopModeActive) {
-                log(
-                  'info',
-                  `[RegionUI CheckBtn] Loop mode active, dispatching check request for ${locationDef.name}`
-                );
-                // Use eventBus for consistency with LocationUI
-                eventBus.publish('user:checkLocationRequest', {
-                  locationData: locationDef,
-                }, 'regions');
+              log(
+                'info',
+                `[RegionUI CheckBtn] Clicked on location: ${locationDef.name}, Region: ${locationDef.region}`
+              );
+
+              // Use dispatcher to publish user:locationCheck event (same as LocationUI)
+              const payload = {
+                locationName: locationDef.name,
+                regionName: locationDef.region || regionName, // Ensure regionName is correctly passed
+                originator: 'RegionPanelCheck',
+                originalDOMEvent: true, // This is a direct user click
+              };
+
+              if (moduleDispatcher) {
+                moduleDispatcher.publish('user:locationCheck', payload, {
+                  initialTarget: 'bottom',
+                });
+                log('info', '[RegionUI] Dispatched user:locationCheck', payload);
               } else {
                 log(
-                  'info',
-                  `[RegionUI CheckBtn] Sending checkLocation command for ${locationDef.name}`
+                  'error',
+                  '[RegionUI] Dispatcher not available to handle location check.'
                 );
-                await stateManager.checkLocation(locationDef.name);
-                // Snapshot update should handle the visual change
               }
             } catch (error) {
               log(
@@ -1684,15 +1691,6 @@ export class RegionUI {
               );
               // Optionally show user feedback
             }
-            /* // OLD logic using dispatcher:
-                if (moduleDispatcher) {
-                    moduleDispatcher.publish('user:checkLocationRequest', {
-                        locationData: locationDef, // Pass the static location data
-                    });
-                } else {
-                    log('error', '[RegionUI] Cannot publish checkLocationRequest: moduleDispatcher unavailable.');
-                }
-                */
           }
         });
         li.appendChild(checkBtn);

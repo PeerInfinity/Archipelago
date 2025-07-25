@@ -33,6 +33,7 @@ const TEST_CASE_FILES = [
   './testCases/JSONPanelTests.js',
   './testCases/progressBarTests.js',
   './testCases/metaGamePanelTests.js',
+  './testCases/textAdventurePanelTests.js',
   './testCases/testSpoilersPanelTests.js',
 ];
 
