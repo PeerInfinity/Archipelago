@@ -3,6 +3,7 @@ import { stateManagerProxySingleton as stateManager } from '../stateManager/inde
 import { getPlayerStateSingleton } from '../playerState/singleton.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
 import { moduleDispatcher } from './index.js';
 // Instance registration is no longer needed
 
@@ -320,7 +321,39 @@ export class TextAdventureLogic {
     isLocationAccessible(locationName) {
         try {
             const snapshot = stateManager.getLatestStateSnapshot();
-            return snapshot && snapshot.accessibleLocations && snapshot.accessibleLocations.includes(locationName);
+            const staticData = stateManager.getStaticData();
+            
+            if (!snapshot || !staticData || !staticData.locations) {
+                return false;
+            }
+            
+            // Find the location definition
+            const locationDef = staticData.locations[locationName];
+            if (!locationDef) {
+                return false;
+            }
+            
+            // Check if the location's region is reachable
+            const regionName = locationDef.region;
+            const regionIsReachable = 
+                snapshot.regionReachability?.[regionName] === true ||
+                snapshot.regionReachability?.[regionName] === 'reachable' ||
+                snapshot.regionReachability?.[regionName] === 'checked';
+            
+            // Determine accessibility using same logic as Regions panel
+            let locAccessible = true; // Assume accessible if region is reachable and no rule
+            if (locationDef.access_rule) {
+                try {
+                    const snapshotInterface = createStateSnapshotInterface(snapshot);
+                    locAccessible = evaluateRule(locationDef.access_rule, snapshotInterface);
+                } catch (e) {
+                    log('error', `Error evaluating location rule for ${locationName}:`, e);
+                    locAccessible = false;
+                }
+            }
+            
+            // Must be in reachable region AND pass rule (same as Regions panel)
+            return regionIsReachable && locAccessible;
         } catch (error) {
             log('error', 'Error checking location accessibility:', error);
             return false;

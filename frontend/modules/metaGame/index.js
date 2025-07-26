@@ -6,6 +6,7 @@ export const moduleInfo = {
 };
 
 let metaGameLogic = null;
+let storedRegistrationApi = null;
 
 // Handler functions for dispatcher events
 function handleRegionMove(eventData, context) {
@@ -23,20 +24,9 @@ function handleLocationCheck(eventData, context) {
 }
 
 export function register(registrationApi) {
-  // Register event dispatcher receivers for the events we want to intercept
-  registrationApi.registerDispatcherReceiver(
-    moduleInfo.name,
-    'user:regionMove',
-    handleRegionMove,
-    { direction: 'up', condition: 'unconditional', timing: 'immediate' }
-  );
-  
-  registrationApi.registerDispatcherReceiver(
-    moduleInfo.name,
-    'user:locationCheck',
-    handleLocationCheck,
-    { direction: 'up', condition: 'unconditional', timing: 'immediate' }
-  );
+  // Store registrationApi for later use when configuration is loaded
+  storedRegistrationApi = registrationApi;
+  // Event dispatcher receivers will be registered after configuration is loaded
   
   // Register public functions for other modules to call
   registrationApi.registerPublicFunction(moduleInfo.name, 'loadConfiguration', loadConfiguration);
@@ -84,7 +74,8 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
       logger,
       moduleId,
       priorityIndex,
-      initializationApi
+      initializationApi,
+      registrationApi: storedRegistrationApi
     });
     
     // Event handlers are registered during the registration phase

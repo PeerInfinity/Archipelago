@@ -1,11 +1,12 @@
 export class MetaGameLogic {
-  constructor({ dispatcher, eventBus, logger, moduleId, priorityIndex, initializationApi }) {
+  constructor({ dispatcher, eventBus, logger, moduleId, priorityIndex, initializationApi, registrationApi }) {
     this.dispatcher = dispatcher;
     this.eventBus = eventBus;
     this.logger = logger;
     this.moduleId = moduleId;
     this.priorityIndex = priorityIndex;
     this.initializationApi = initializationApi;
+    this.registrationApi = registrationApi;
     
     this.configuration = null;
     this.isReady = false;
@@ -113,13 +114,39 @@ export class MetaGameLogic {
     console.log('Processing configuration with data:', this.configuration);
     this.logger.info('metaGame', 'Processing configuration...');
     
+    // Register event dispatcher receivers now that we have configuration
+    if (this.registrationApi) {
+      // Create handler functions that call our methods
+      const regionMoveHandler = (eventData, context) => {
+        return this.handleRegionMoveEvent(eventData, context);
+      };
+      
+      const locationCheckHandler = (eventData, context) => {
+        return this.handleLocationCheckEvent(eventData, context);
+      };
+      
+      this.registrationApi.registerDispatcherReceiver(
+        'MetaGame',
+        'user:regionMove',
+        regionMoveHandler,
+        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
+      );
+      
+      this.registrationApi.registerDispatcherReceiver(
+        'MetaGame',
+        'user:locationCheck',
+        locationCheckHandler,
+        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
+      );
+      
+      this.logger.info('metaGame', 'Event dispatcher receivers registered after configuration loading');
+    }
+    
     // Process eventDispatcher configuration
     if (this.configuration.eventDispatcher) {
       for (const [eventName, eventConfig] of Object.entries(this.configuration.eventDispatcher)) {
-        this.logger.debug('metaGame', `Setting up dispatcher handler for: ${eventName}`);
+        this.logger.debug('metaGame', `Processing dispatcher configuration for: ${eventName}`);
         
-        // The actual event handling will be done in handleRegionMoveEvent and handleLocationCheckEvent
-        // This section just validates the configuration
         if (!eventConfig.actions) {
           this.logger.warn('metaGame', `No actions defined for event: ${eventName}`);
         }
@@ -316,55 +343,69 @@ export class MetaGameLogic {
   async handleRegionMoveEvent(eventData, context) {
     this.logger.debug('metaGame', 'Handling user:regionMove event', eventData);
     
-    if (!this.configuration || !this.configuration.eventDispatcher) {
-      // No configuration, just forward the event
-      return { action: 'continue' };
+    // First, immediately forward the event up unless configuration instructs otherwise
+    let shouldForward = true;
+    
+    if (this.configuration && this.configuration.eventDispatcher) {
+      const eventConfig = this.configuration.eventDispatcher['user:regionMove'];
+      if (eventConfig) {
+        // Execute the configured actions
+        if (eventConfig.actions) {
+          await this.executeActions(eventConfig.actions, eventData, 'user:regionMove');
+        }
+        
+        // Check if configuration says not to forward
+        if (eventConfig.stopPropagation) {
+          shouldForward = false;
+        }
+      }
     }
     
-    const eventConfig = this.configuration.eventDispatcher['user:regionMove'];
-    if (!eventConfig) {
-      // No specific configuration for this event, forward it
-      return { action: 'continue' };
+    if (shouldForward) {
+      // Immediately forward the event up to the next module
+      this.dispatcher.publishToNextModule(
+        'MetaGame',
+        'user:regionMove',
+        eventData,
+        { direction: 'up' }
+      );
     }
     
-    // Execute the configured actions
-    if (eventConfig.actions) {
-      await this.executeActions(eventConfig.actions, eventData, 'user:regionMove');
-    }
-    
-    // Check if we should stop propagation
-    if (eventConfig.stopPropagation) {
-      return { action: 'stop' };
-    }
-    
-    return { action: 'continue' };
+    return { action: shouldForward ? 'continue' : 'stop' };
   }
   
   async handleLocationCheckEvent(eventData, context) {
     this.logger.debug('metaGame', 'Handling user:locationCheck event', eventData);
     
-    if (!this.configuration || !this.configuration.eventDispatcher) {
-      // No configuration, just forward the event
-      return { action: 'continue' };
+    // First, immediately forward the event up unless configuration instructs otherwise
+    let shouldForward = true;
+    
+    if (this.configuration && this.configuration.eventDispatcher) {
+      const eventConfig = this.configuration.eventDispatcher['user:locationCheck'];
+      if (eventConfig) {
+        // Execute the configured actions
+        if (eventConfig.actions) {
+          await this.executeActions(eventConfig.actions, eventData, 'user:locationCheck');
+        }
+        
+        // Check if configuration says not to forward
+        if (eventConfig.stopPropagation) {
+          shouldForward = false;
+        }
+      }
     }
     
-    const eventConfig = this.configuration.eventDispatcher['user:locationCheck'];
-    if (!eventConfig) {
-      // No specific configuration for this event, forward it
-      return { action: 'continue' };
+    if (shouldForward) {
+      // Immediately forward the event up to the next module
+      this.dispatcher.publishToNextModule(
+        'MetaGame',
+        'user:locationCheck',
+        eventData,
+        { direction: 'up' }
+      );
     }
     
-    // Execute the configured actions
-    if (eventConfig.actions) {
-      await this.executeActions(eventConfig.actions, eventData, 'user:locationCheck');
-    }
-    
-    // Check if we should stop propagation
-    if (eventConfig.stopPropagation) {
-      return { action: 'stop' };
-    }
-    
-    return { action: 'continue' };
+    return { action: shouldForward ? 'continue' : 'stop' };
   }
   
   async updateJSONConfiguration(jsonData) {
