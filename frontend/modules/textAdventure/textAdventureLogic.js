@@ -344,8 +344,13 @@ export class TextAdventureLogic {
             let locAccessible = true; // Assume accessible if region is reachable and no rule
             if (locationDef.access_rule) {
                 try {
-                    const snapshotInterface = createStateSnapshotInterface(snapshot);
-                    locAccessible = evaluateRule(locationDef.access_rule, snapshotInterface);
+                    // Create context-aware snapshot interface with location object (same as Regions)
+                    const locationContextInterface = createStateSnapshotInterface(
+                        snapshot,
+                        staticData,
+                        { location: locationDef }
+                    );
+                    locAccessible = evaluateRule(locationDef.access_rule, locationContextInterface);
                 } catch (e) {
                     log('error', `Error evaluating location rule for ${locationName}:`, e);
                     locAccessible = false;
@@ -410,11 +415,7 @@ export class TextAdventureLogic {
             if (exitDef.access_rule) {
                 console.log(`[textAdventureLogic] Evaluating rule for ${exitName}:`, exitDef.access_rule);
                 try {
-                    const snapshotInterface = { 
-                        snapshot, 
-                        staticData, 
-                        _isSnapshotInterface: true 
-                    };
+                    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
                     exitAccessible = evaluateRule(exitDef.access_rule, snapshotInterface);
                     console.log(`[textAdventureLogic] Rule evaluation result for ${exitName}: ${exitAccessible}`);
                 } catch (e) {
@@ -477,6 +478,15 @@ export class TextAdventureLogic {
     }
 
     /**
+     * Handle look command - redisplays current region
+     * @returns {string} Response message 
+     */
+    handleLookCommand() {
+        this.displayCurrentRegion();
+        return ''; // No additional response needed since displayCurrentRegion handles the message
+    }
+
+    /**
      * Generate region enter message
      * @param {string} regionName - Name of region
      * @returns {string} Generated message
@@ -502,8 +512,25 @@ export class TextAdventureLogic {
         const availableExits = this.getAvailableExits();
         
         if (availableLocations.length > 0) {
-            const locationLinks = availableLocations.map(loc => this.createLocationLink(loc)).join(', ');
-            message += `\n\nYou can search: ${locationLinks}`;
+            // Get current snapshot to check which locations are already checked
+            const snapshot = stateManager.getLatestStateSnapshot();
+            const checkedLocations = snapshot?.checkedLocations || [];
+            
+            // Separate unchecked and checked locations
+            const uncheckedLocations = availableLocations.filter(loc => !checkedLocations.includes(loc));
+            const checkedLocationsList = availableLocations.filter(loc => checkedLocations.includes(loc));
+            
+            // Add unchecked locations (as clickable links)
+            if (uncheckedLocations.length > 0) {
+                const locationLinks = uncheckedLocations.map(loc => this.createLocationLink(loc)).join(', ');
+                message += `\n\nYou can search: ${locationLinks}`;
+            }
+            
+            // Add checked locations (as plain text)
+            if (checkedLocationsList.length > 0) {
+                const checkedText = checkedLocationsList.join(', ');
+                message += `\n\nAlready searched: ${checkedText}`;
+            }
         }
         
         if (availableExits.length > 0) {
@@ -515,34 +542,69 @@ export class TextAdventureLogic {
     }
 
     /**
+     * Check if a location is currently unchecked
+     * @param {string} locationName - Name of location to check
+     * @returns {boolean} True if location is unchecked
+     */
+    isLocationUnchecked(locationName) {
+        try {
+            const snapshot = stateManager.getLatestStateSnapshot();
+            return snapshot?.checkedLocations && !snapshot.checkedLocations.includes(locationName);
+        } catch (error) {
+            log('error', 'Error checking if location is unchecked:', error);
+            return false;
+        }
+    }
+
+    /**
      * Handle location check
      * @param {string} locationName - Name of location to check
      * @returns {string} Result message
      */
     handleLocationCheck(locationName) {
         if (!this.isLocationAccessible(locationName)) {
-            // Check for custom inaccessible message
+            // Prepare inaccessible message
+            let inaccessibleMessage;
             if (this.customData && this.customData.locations && this.customData.locations[locationName]) {
                 const customLocation = this.customData.locations[locationName];
                 if (customLocation.inaccessibleMessage) {
-                    return this.processMessageTemplate(customLocation.inaccessibleMessage, { locationName });
+                    inaccessibleMessage = this.processMessageTemplate(customLocation.inaccessibleMessage, { locationName });
                 }
             }
-            return `You cannot reach ${locationName} from here.`;
+            if (!inaccessibleMessage) {
+                inaccessibleMessage = `You cannot reach ${locationName} from here.`;
+            }
+
+            // Display region info after inaccessible message
+            setTimeout(() => {
+                this.displayCurrentRegion();
+            }, 100);
+
+            return inaccessibleMessage;
         }
 
         // Check if already checked
         try {
             const snapshot = stateManager.getLatestStateSnapshot();
             if (snapshot.checkedLocations.includes(locationName)) {
-                // Check for custom already checked message
+                // Prepare already checked message
+                let alreadyCheckedMessage;
                 if (this.customData && this.customData.locations && this.customData.locations[locationName]) {
                     const customLocation = this.customData.locations[locationName];
                     if (customLocation.alreadyCheckedMessage) {
-                        return this.processMessageTemplate(customLocation.alreadyCheckedMessage, { locationName });
+                        alreadyCheckedMessage = this.processMessageTemplate(customLocation.alreadyCheckedMessage, { locationName });
                     }
                 }
-                return `You have already searched ${locationName}.`;
+                if (!alreadyCheckedMessage) {
+                    alreadyCheckedMessage = `You have already searched ${locationName}.`;
+                }
+
+                // Display region info after already checked message
+                setTimeout(() => {
+                    this.displayCurrentRegion();
+                }, 100);
+
+                return alreadyCheckedMessage;
             }
         } catch (error) {
             log('error', 'Error checking if location already checked:', error);
@@ -559,16 +621,27 @@ export class TextAdventureLogic {
         // Get the item that would be found (this is a simplification)
         const itemFound = this.getItemAtLocation(locationName);
         
-        // Check for custom check message
+        // Prepare the location check message
+        let checkMessage;
         if (this.customData && this.customData.locations && this.customData.locations[locationName]) {
             const customLocation = this.customData.locations[locationName];
             if (customLocation.checkMessage) {
-                return this.processMessageTemplate(customLocation.checkMessage, { locationName, item: itemFound });
+                checkMessage = this.processMessageTemplate(customLocation.checkMessage, { locationName, item: itemFound });
             }
         }
 
-        // Generic message
-        return `You search ${locationName} and find: ${itemFound}!`;
+        // Use generic message if no custom message
+        if (!checkMessage) {
+            checkMessage = `You search ${locationName} and find: ${itemFound}!`;
+        }
+
+        // Display the check message first, then redisplay the current region
+        // We need to add a delay to ensure proper message ordering
+        setTimeout(() => {
+            this.displayCurrentRegion();
+        }, 100);
+
+        return checkMessage;
     }
 
     /**

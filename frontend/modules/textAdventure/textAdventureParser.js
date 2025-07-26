@@ -15,7 +15,8 @@ export class TextAdventureParser {
     constructor() {
         // Define command verbs
         this.moveVerbs = ['move', 'go', 'travel', 'to'];
-        this.checkVerbs = ['check', 'examine', 'search', 'look'];
+        this.checkVerbs = ['check', 'examine', 'search'];
+        this.lookVerbs = ['look', 'l'];
         this.inventoryVerbs = ['inventory', 'inv', 'items'];
         this.helpVerbs = ['help', '?'];
     }
@@ -49,6 +50,11 @@ export class TextAdventureParser {
             return { type: 'inventory' };
         }
 
+        // Handle look commands
+        if (this.lookVerbs.includes(trimmed)) {
+            return { type: 'look' };
+        }
+
         // Try to extract verb and target
         const { verb, target } = this.extractVerbAndTarget(trimmed);
         
@@ -67,6 +73,9 @@ export class TextAdventureParser {
             if (this.moveVerbs.includes(verb)) {
                 return this.handleMoveCommand(target, matchingExits);
             } else if (this.checkVerbs.includes(verb)) {
+                return this.handleCheckCommand(target, matchingLocations);
+            } else if (this.lookVerbs.includes(verb)) {
+                // "look" with a target is treated as same as check
                 return this.handleCheckCommand(target, matchingLocations);
             } else {
                 return { type: 'error', message: 'Unrecognized command. Type "help" for available commands.' };
@@ -237,6 +246,7 @@ export class TextAdventureParser {
         return `Available commands:
 • move <exit>, go <exit> - Move to an exit
 • check <location>, examine <location> - Check a location
+• look, l - Look around the current region
 • inventory, inv - Show your inventory
 • help, ? - Show this help text
 

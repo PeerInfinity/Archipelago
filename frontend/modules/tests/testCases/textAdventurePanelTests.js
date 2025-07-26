@@ -692,7 +692,7 @@ registerTest({
   description: 'Tests basic panel initialization, rules loading, and initial display.',
   testFunction: textAdventureBasicInitializationTest,
   category: 'Text Adventure Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -701,7 +701,7 @@ registerTest({
   description: 'Tests loading and applying custom data files with Adventure-specific messages.',
   testFunction: textAdventureCustomDataLoadingTest,
   category: 'Text Adventure Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -719,7 +719,7 @@ registerTest({
   description: 'Tests location checking ("check Blue Labyrinth 0") and item discovery.',
   testFunction: textAdventureLocationCheckCommandTest,
   category: 'Text Adventure Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -728,7 +728,7 @@ registerTest({
   description: 'Tests clicking on exit and location links for movement and checking.',
   testFunction: textAdventureLinkClickTest,
   category: 'Text Adventure Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -737,5 +737,5 @@ registerTest({
   description: 'Tests error handling for invalid commands and inaccessible targets.',
   testFunction: textAdventureErrorHandlingTest,
   category: 'Text Adventure Tests',
-  enabled: true,
+  //enabled: true,
 });

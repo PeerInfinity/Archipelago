@@ -213,11 +213,23 @@ Load a rules file to begin your adventure.`;
                 break;
                 
             case 'check':
+                // Check if this location was previously unchecked to determine if it's an item discovery
+                const wasLocationUnchecked = this.logic.isLocationUnchecked(command.target);
                 response = this.logic.handleLocationCheck(command.target);
+                
+                // If the location was unchecked and the response indicates success, highlight the item name
+                if (wasLocationUnchecked && response && this.isSuccessfulCheckMessage(response)) {
+                    // Parse and highlight the item name in the response
+                    response = this.highlightItemName(response);
+                }
                 break;
                 
             case 'inventory':
                 response = this.logic.handleInventoryCommand();
+                break;
+                
+            case 'look':
+                response = this.logic.handleLookCommand();
                 break;
                 
             case 'help':
@@ -354,6 +366,62 @@ Load a rules file to begin your adventure.`;
     processMessageForLinks(message) {
         // The logic class already handles link creation, but we might need to 
         // add additional processing here for special cases or formatting
+        return message;
+    }
+
+    /**
+     * Check if a message indicates a successful location check (item discovery)
+     * @param {string} message - The response message
+     * @returns {boolean} True if message indicates successful check
+     */
+    isSuccessfulCheckMessage(message) {
+        // Check for patterns that indicate successful item discovery
+        // This covers both custom and generic success messages
+        return message.includes('find:') || 
+               message.includes('discover:') || 
+               message.includes('and find') ||
+               (message.includes('search') && message.includes('!')) ||
+               !message.includes('cannot reach') && 
+               !message.includes('already searched') &&
+               !message.includes('blocked') &&
+               !message.includes('inaccessible');
+    }
+
+    /**
+     * Highlight the item name in blue within a success message
+     * @param {string} message - The success message containing an item name
+     * @returns {string} Message with item name wrapped in blue styling
+     */
+    highlightItemName(message) {
+        // Common patterns for item discovery messages:
+        // "You search X and find: Item!"
+        // "You discover: Item!"
+        // "find: Item!"
+        // "{custom message with {item} template}"
+        
+        // Pattern 1: "find: ItemName!" or "discover: ItemName!"
+        let match = message.match(/(find|discover):\s*([^!]+)!/i);
+        if (match) {
+            const itemName = match[2].trim();
+            return message.replace(match[0], `${match[1]}: <span class="item-name">${itemName}</span>!`);
+        }
+        
+        // Pattern 2: "and find: ItemName!" 
+        match = message.match(/(and find):\s*([^!]+)!/i);
+        if (match) {
+            const itemName = match[2].trim();
+            return message.replace(match[0], `${match[1]}: <span class="item-name">${itemName}</span>!`);
+        }
+        
+        // Pattern 3: Custom template messages that already processed {item}
+        // Look for text after common discovery words that ends with !
+        match = message.match(/(discover|find|found)\s*:?\s*([^!,.]+)!/i);
+        if (match) {
+            const itemName = match[2].trim();
+            return message.replace(match[2], `<span class="item-name">${itemName}</span>`);
+        }
+        
+        // If no pattern matches, return original message
         return message;
     }
 
