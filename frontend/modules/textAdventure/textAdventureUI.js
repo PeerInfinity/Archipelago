@@ -129,17 +129,23 @@ export class TextAdventureUI {
             }, 'textAdventureUI');
             this.unsubscribeHandles.push(messageUnsubscribe);
 
-            // Subscribe to rules loaded event
-            const rulesUnsubscribe = eventBus.subscribe('stateManager:rulesLoaded', () => {
-                this.handleRulesLoaded();
-            }, 'textAdventureUI');
-            this.unsubscribeHandles.push(rulesUnsubscribe);
-
             // Subscribe to custom data loaded event
             const customDataUnsubscribe = eventBus.subscribe('textAdventure:customDataLoaded', () => {
                 this.updateDisplay();
             }, 'textAdventureUI');
             this.unsubscribeHandles.push(customDataUnsubscribe);
+
+            // Subscribe to history cleared event
+            const historyClearedUnsubscribe = eventBus.subscribe('textAdventure:historyCleared', () => {
+                this.clearDisplay();
+            }, 'textAdventureUI');
+            this.unsubscribeHandles.push(historyClearedUnsubscribe);
+
+            // Subscribe to rules loaded event directly from StateManager
+            const rulesUnsubscribe = eventBus.subscribe('stateManager:rulesLoaded', () => {
+                this.handleRulesLoaded();
+            }, 'textAdventureUI');
+            this.unsubscribeHandles.push(rulesUnsubscribe);
         }
     }
 
@@ -173,6 +179,8 @@ Load a rules file to begin your adventure.`;
         const input = this.inputField.value.trim();
         if (!input) return;
 
+        console.log(`[textAdventureUI] handleCommand called with input: "${input}"`);
+
         // Display user input
         this.displayMessage(`> ${input}`, 'user-input');
 
@@ -182,8 +190,12 @@ Load a rules file to begin your adventure.`;
         // Parse command
         const availableLocations = this.logic.getAvailableLocations();
         const availableExits = this.logic.getAvailableExits();
+        console.log(`[textAdventureUI] Available locations: ${availableLocations.join(', ')}`);
+        console.log(`[textAdventureUI] Available exits: ${availableExits.join(', ')}`);
+        
         const command = this.parser.parseCommand(input, availableLocations, availableExits);
 
+        console.log(`[textAdventureUI] Parsed command:`, command);
         log('debug', 'Parsed command:', command);
 
         // Handle command
@@ -195,7 +207,9 @@ Load a rules file to begin your adventure.`;
 
         switch (command.type) {
             case 'move':
+                console.log(`[textAdventureUI] Processing move command: ${command.target}`);
                 response = this.logic.handleRegionMove(command.target);
+                console.log(`[textAdventureUI] Move command response: ${response}`);
                 break;
                 
             case 'check':
@@ -287,10 +301,15 @@ Load a rules file to begin your adventure.`;
                 }
             };
 
+            // Clear existing messages first
+            this.logic.clearMessageHistory();
+            
+            // Add confirmation message first
+            this.displayMessage('Custom Adventure data loaded!', 'system');
+            
+            // Then load custom data and display the entrance message
             const success = this.logic.loadCustomData(mockCustomData);
-            if (success) {
-                this.displayMessage('Custom Adventure data loaded!', 'system');
-            } else {
+            if (!success) {
                 this.displayMessage('Failed to load custom data.', 'error');
             }
         }
@@ -298,6 +317,14 @@ Load a rules file to begin your adventure.`;
 
     displayMessage(message, messageType = 'normal') {
         if (!message || !this.textArea) return;
+
+        // Debug logging
+        if (messageType === 'user-input') {
+            console.log(`[textAdventureUI] User input being displayed: "${message}"`);
+        }
+        if (message.includes('travel through') || message.includes('Overworld') || message.includes('GameStart')) {
+            console.log(`[textAdventureUI] Movement-related message being displayed: "${message}"`);
+        }
 
         // Create message element
         const messageElement = document.createElement('div');

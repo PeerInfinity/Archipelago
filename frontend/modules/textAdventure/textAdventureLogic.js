@@ -2,6 +2,9 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import { getPlayerStateSingleton } from '../playerState/singleton.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
+import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { moduleDispatcher } from './index.js';
+// Instance registration is no longer needed
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -17,11 +20,14 @@ function log(level, message, ...data) {
 export class TextAdventureLogic {
     constructor(eventBus, dispatcher) {
         this.eventBus = eventBus;
-        this.dispatcher = dispatcher;
+        // Note: We now use moduleDispatcher directly instead of constructor parameter
+        console.log(`[textAdventureLogic] Constructor - moduleDispatcher available: ${!!moduleDispatcher}`);
         this.customData = null;
         this.messageHistory = [];
         this.messageHistoryLimit = 10;
         this.discoveryMode = false;
+        this.retryAttempts = 0;
+        this.maxRetryAttempts = 10; // Limit retries to prevent infinite loops
         
         // Subscribe to relevant events
         this.setupEventSubscriptions();
@@ -31,21 +37,36 @@ export class TextAdventureLogic {
 
     setupEventSubscriptions() {
         if (this.eventBus) {
-            // Listen for rules loaded to initialize player to starting region
-            this.eventBus.subscribe('stateManager:rulesLoaded', (data) => {
-                this.handleRulesLoaded(data);
-            }, 'textAdventure');
-
             // Listen for player state changes
             this.eventBus.subscribe('playerState:regionChanged', (data) => {
                 this.handleRegionChange(data);
             }, 'textAdventure');
 
-            // Listen for state manager updates
-            this.eventBus.subscribe('stateManager:stateChanged', (data) => {
+            // Listen for rules loaded event directly from StateManager
+            this.eventBus.subscribe('stateManager:rulesLoaded', (data) => {
+                this.handleRulesLoaded(data);
+            }, 'textAdventure');
+
+            // Listen for ready event directly from StateManager  
+            this.eventBus.subscribe('stateManager:ready', (data) => {
+                this.handleStateManagerReady(data);
+            }, 'textAdventure');
+
+            // Listen for state changed event directly from StateManager
+            this.eventBus.subscribe('stateManager:snapshotUpdated', (data) => {
                 this.handleStateChange(data);
             }, 'textAdventure');
         }
+    }
+
+    /**
+     * Handle state manager ready event - StateManager is fully ready with data
+     * @param {Object} data - Ready event data
+     */
+    handleStateManagerReady(data) {
+        log('info', 'StateManager ready');
+        // Don't call displayCurrentRegion here - let handleRulesLoaded handle player initialization
+        // This event just confirms the StateManager is ready, but player positioning is handled elsewhere
     }
 
     /**
@@ -53,48 +74,125 @@ export class TextAdventureLogic {
      * @param {Object} data - Rules loaded event data
      */
     handleRulesLoaded(data) {
-        log('info', 'Rules loaded, initializing player to starting region');
+        log('info', 'Rules loaded, initializing player positioning and display');
+        log('debug', 'Rules loaded event data:', data);
         
         try {
-            // Get the current player state
+            // Get snapshot and static data
+            const snapshot = data.snapshot;
+            const staticData = stateManager.getStaticData();
+            
+            log('debug', 'Snapshot from event:', { hasSnapshot: !!snapshot });
+            log('debug', 'Static data:', { hasStaticData: !!staticData, hasRegions: !!(staticData && staticData.regions) });
+            
+            if (!snapshot) {
+                log('error', 'No snapshot in rules loaded event. Cannot initialize player.');
+                this.displayCurrentRegion(); // Show fallback
+                return;
+            }
+            
+            if (!staticData || !staticData.regions) {
+                log('error', 'No static data or regions available. Cannot initialize player.');
+                this.displayCurrentRegion(); // Show fallback
+                return;
+            }
+            
+            // Reset retry attempts since we got valid data
+            this.retryAttempts = 0;
+            
+            // Initialize player positioning with the snapshot and static data
+            this.initializePlayerWithSnapshot(snapshot, staticData);
+            
+        } catch (error) {
+            log('error', 'Error handling rules loaded:', error);
+            this.displayCurrentRegion(); // Show fallback
+        }
+    }
+    
+    /**
+     * Initialize player positioning with snapshot and static data
+     * @param {Object} snapshot - The state snapshot
+     * @param {Object} staticData - The static data containing regions
+     */
+    initializePlayerWithSnapshot(snapshot, staticData) {
+        log('info', 'Initializing player with snapshot and static data');
+        
+        try {
             const playerState = getPlayerStateSingleton();
             const currentRegion = playerState ? playerState.getCurrentRegion() : null;
             
-            // If player is not in any region, move them to the starting region
-            if (!currentRegion) {
-                const snapshot = stateManager.getSnapshot();
-                if (snapshot && snapshot.start_regions) {
-                    // Get the starting regions for the current player
-                    const playerId = snapshot.playerId || '1';
-                    const startRegions = snapshot.start_regions[playerId];
-                    
-                    if (startRegions && startRegions.default && startRegions.default.length > 0) {
-                        const startingRegion = startRegions.default[0];
-                        log('info', `Moving player to starting region: ${startingRegion}`);
-                        
-                        // Move player to starting region via dispatcher
-                        if (this.dispatcher) {
-                            this.dispatcher.publish('user:regionMove', {
-                                exitName: 'Initial',
-                                targetRegion: startingRegion,
-                                sourceRegion: null,
-                                sourceModule: 'textAdventure'
-                            }, 'bottom');
-                        }
-                    } else {
-                        log('warn', 'No starting regions found in rules data');
+            log('info', `Current player region: ${currentRegion}`);
+            log('info', `Available regions in static data: ${Object.keys(staticData.regions).join(', ')}`);
+            
+            // Check if the current region exists in the loaded rules
+            if (currentRegion && staticData.regions[currentRegion]) {
+                log('info', `Player region '${currentRegion}' exists in rules, displaying it`);
+                this.displayCurrentRegion();
+                return;
+            }
+            
+            // Try to find a suitable starting region
+            let targetRegion = null;
+            
+            // First, try start_regions if available
+            if (snapshot.start_regions) {
+                const playerId = snapshot.playerId || '1';
+                const startRegions = snapshot.start_regions[playerId];
+                if (startRegions && startRegions.default && startRegions.default.length > 0) {
+                    targetRegion = startRegions.default[0];
+                    log('info', `Found starting region from start_regions: ${targetRegion}`);
+                }
+            }
+            
+            // If no start_regions, look for common starting regions
+            if (!targetRegion) {
+                const commonStartRegions = ['Menu', 'Overworld', 'Start', 'Beginning'];
+                for (const regionName of commonStartRegions) {
+                    if (staticData.regions[regionName]) {
+                        targetRegion = regionName;
+                        log('info', `Found common starting region: ${targetRegion}`);
+                        break;
                     }
+                }
+            }
+            
+            // If still no target, use the first available region
+            if (!targetRegion) {
+                const availableRegions = Object.keys(staticData.regions);
+                if (availableRegions.length > 0) {
+                    targetRegion = availableRegions[0];
+                    log('info', `Using first available region: ${targetRegion}`);
+                }
+            }
+            
+            if (targetRegion) {
+                log('info', `Moving player to target region: ${targetRegion}`);
+                
+                // Move player to target region via dispatcher
+                if (moduleDispatcher) {
+                    moduleDispatcher.publish('user:regionMove', {
+                        exitName: 'Initial',
+                        targetRegion: targetRegion,
+                        sourceRegion: currentRegion,
+                        sourceModule: 'textAdventure'
+                    }, 'bottom');
+                    
+                    // Set up a timer to display the region after the move
+                    setTimeout(() => {
+                        log('info', 'Post-move timer: displaying current region');
+                        this.displayCurrentRegion();
+                    }, 1500);
                 } else {
-                    log('warn', 'No snapshot or start_regions data available');
+                    log('warn', 'ModuleDispatcher not available, cannot move player');
+                    this.displayCurrentRegion();
                 }
             } else {
-                log('info', `Player already in region: ${currentRegion}`);
-                // Just refresh the display for the current region
+                log('warn', 'No suitable target region found');
                 this.displayCurrentRegion();
             }
+            
         } catch (error) {
-            log('error', 'Error handling rules loaded:', error);
-            // Fallback to displaying current region (which will show "nowhere" if needed)
+            log('error', 'Error in initializePlayerWithSnapshot:', error);
             this.displayCurrentRegion();
         }
     }
@@ -150,12 +248,12 @@ export class TextAdventureLogic {
                 return null;
             }
 
-            const snapshot = stateManager.getSnapshot();
-            if (!snapshot || !snapshot.regions) {
+            const staticData = stateManager.getStaticData();
+            if (!staticData || !staticData.regions) {
                 return null;
             }
 
-            const regionData = snapshot.regions[currentRegion];
+            const regionData = staticData.regions[currentRegion];
             if (!regionData) {
                 return null;
             }
@@ -221,8 +319,8 @@ export class TextAdventureLogic {
      */
     isLocationAccessible(locationName) {
         try {
-            const snapshot = stateManager.getSnapshot();
-            return snapshot.accessibleLocations.includes(locationName);
+            const snapshot = stateManager.getLatestStateSnapshot();
+            return snapshot && snapshot.accessibleLocations && snapshot.accessibleLocations.includes(locationName);
         } catch (error) {
             log('error', 'Error checking location accessibility:', error);
             return false;
@@ -235,10 +333,80 @@ export class TextAdventureLogic {
      * @returns {boolean} True if accessible
      */
     isExitAccessible(exitName) {
+        console.log(`[textAdventureLogic] isExitAccessible called for exit: "${exitName}"`);
         try {
-            const snapshot = stateManager.getSnapshot();
-            return snapshot.accessibleExits.includes(exitName);
+            const snapshot = stateManager.getLatestStateSnapshot();
+            const staticData = stateManager.getStaticData();
+            
+            console.log(`[textAdventureLogic] Got snapshot: ${!!snapshot}, staticData: ${!!staticData}`);
+            
+            if (!snapshot || !staticData || !staticData.regions) {
+                console.log(`[textAdventureLogic] Missing data - snapshot: ${!!snapshot}, staticData: ${!!staticData}, regions: ${!!(staticData && staticData.regions)}`);
+                return false;
+            }
+            
+            // Get current region info
+            const regionInfo = this.getCurrentRegionInfo();
+            log('debug', `isExitAccessible: regionInfo = ${regionInfo ? regionInfo.name : 'null'}`);
+            if (!regionInfo || !regionInfo.data.exits) {
+                log('debug', `isExitAccessible: No region info or exits for ${exitName}`);
+                return false;
+            }
+            
+            // Find the exit definition
+            const exitDef = regionInfo.data.exits.find(exit => exit.name === exitName);
+            log('debug', `isExitAccessible: Found exit def for ${exitName}: ${!!exitDef}`);
+            if (!exitDef) {
+                log('debug', `isExitAccessible: Available exits: ${regionInfo.data.exits.map(e => e.name).join(', ')}`);
+                return false;
+            }
+            
+            // Check if current region is reachable
+            const currentRegion = regionInfo.name;
+            const regionIsReachable = snapshot.regionReachability?.[currentRegion] === true ||
+                                    snapshot.regionReachability?.[currentRegion] === 'reachable' ||
+                                    snapshot.regionReachability?.[currentRegion] === 'checked' ||
+                                    currentRegion === 'Menu'; // Menu is always reachable
+            
+            if (!regionIsReachable) {
+                return false;
+            }
+            
+            // Evaluate exit's access rule if it exists
+            let exitAccessible = true;
+            if (exitDef.access_rule) {
+                console.log(`[textAdventureLogic] Evaluating rule for ${exitName}:`, exitDef.access_rule);
+                try {
+                    const snapshotInterface = { 
+                        snapshot, 
+                        staticData, 
+                        _isSnapshotInterface: true 
+                    };
+                    exitAccessible = evaluateRule(exitDef.access_rule, snapshotInterface);
+                    console.log(`[textAdventureLogic] Rule evaluation result for ${exitName}: ${exitAccessible}`);
+                } catch (e) {
+                    console.log(`[textAdventureLogic] Error evaluating rule for ${exitName}:`, e);
+                    log('error', `Error evaluating exit rule for ${exitName}:`, e);
+                    exitAccessible = false;
+                }
+            } else {
+                console.log(`[textAdventureLogic] No access rule for ${exitName}, defaulting to accessible`);
+            }
+            
+            // Check if connected region is reachable  
+            const connectedRegionName = exitDef.connected_region;
+            const connectedRegionReachable = snapshot.regionReachability?.[connectedRegionName] === true ||
+                                           snapshot.regionReachability?.[connectedRegionName] === 'reachable' ||
+                                           snapshot.regionReachability?.[connectedRegionName] === 'checked' ||
+                                           connectedRegionName === 'Menu'; // Menu is always reachable
+            
+            // Exit is accessible if all conditions are met
+            const result = exitAccessible && connectedRegionReachable;
+            console.log(`[textAdventureLogic] Final accessibility result for ${exitName}: ${result} (exitAccessible: ${exitAccessible}, connectedRegionReachable: ${connectedRegionReachable})`);
+            return result;
+            
         } catch (error) {
+            console.log(`[textAdventureLogic] Error in isExitAccessible for ${exitName}:`, error);
             log('error', 'Error checking exit accessibility:', error);
             return false;
         }
@@ -250,7 +418,7 @@ export class TextAdventureLogic {
      */
     getPlayerInventory() {
         try {
-            const snapshot = stateManager.getSnapshot();
+            const snapshot = stateManager.getLatestStateSnapshot();
             if (snapshot && snapshot.inventory) {
                 return Object.keys(snapshot.inventory).filter(item => snapshot.inventory[item] > 0);
             }
@@ -281,17 +449,22 @@ export class TextAdventureLogic {
      * @returns {string} Generated message
      */
     generateRegionMessage(regionName) {
+        let message;
+        
         // Check for custom message first
         if (this.customData && this.customData.regions && this.customData.regions[regionName]) {
             const customRegion = this.customData.regions[regionName];
             if (customRegion.enterMessage) {
-                return this.processMessageTemplate(customRegion.enterMessage, { regionName });
+                message = this.processMessageTemplate(customRegion.enterMessage, { regionName });
             }
         }
 
-        // Generate generic message
-        let message = `You are now in ${regionName}.`;
+        // Use generic message if no custom message found
+        if (!message) {
+            message = `You are now in ${regionName}.`;
+        }
         
+        // Always add available locations and exits, regardless of message type
         const availableLocations = this.getAvailableLocations();
         const availableExits = this.getAvailableExits();
         
@@ -327,7 +500,7 @@ export class TextAdventureLogic {
 
         // Check if already checked
         try {
-            const snapshot = stateManager.getSnapshot();
+            const snapshot = stateManager.getLatestStateSnapshot();
             if (snapshot.checkedLocations.includes(locationName)) {
                 // Check for custom already checked message
                 if (this.customData && this.customData.locations && this.customData.locations[locationName]) {
@@ -343,8 +516,8 @@ export class TextAdventureLogic {
         }
 
         // Perform the check via dispatcher
-        if (this.dispatcher) {
-            this.dispatcher.publish('user:locationCheck', {
+        if (moduleDispatcher) {
+            moduleDispatcher.publish('user:locationCheck', {
                 locationName: locationName,
                 sourceModule: 'textAdventure'
             }, 'bottom');
@@ -371,7 +544,13 @@ export class TextAdventureLogic {
      * @returns {string} Result message
      */
     handleRegionMove(exitName) {
-        if (!this.isExitAccessible(exitName)) {
+        console.log(`[textAdventureLogic] handleRegionMove called with exitName: "${exitName}"`);
+        const isAccessible = this.isExitAccessible(exitName);
+        console.log(`[textAdventureLogic] isExitAccessible returned: ${isAccessible}`);
+        log('debug', `handleRegionMove: ${exitName} accessibility check: ${isAccessible}`);
+        
+        if (!isAccessible) {
+            console.log(`[textAdventureLogic] Exit ${exitName} not accessible, returning error message`);
             // Check for custom inaccessible message
             if (this.customData && this.customData.exits && this.customData.exits[exitName]) {
                 const customExit = this.customData.exits[exitName];
@@ -382,20 +561,27 @@ export class TextAdventureLogic {
             return `The path to ${exitName} is blocked.`;
         }
 
+        console.log(`[textAdventureLogic] Exit ${exitName} is accessible, getting destination region`);
         // Get destination region
         const destinationRegion = this.getExitDestination(exitName);
+        console.log(`[textAdventureLogic] Destination region for ${exitName}: ${destinationRegion}`);
         if (!destinationRegion) {
+            console.log(`[textAdventureLogic] Could not determine destination region for ${exitName}`);
             return `Cannot determine where ${exitName} leads.`;
         }
 
+        console.log(`[textAdventureLogic] Publishing user:regionMove event for ${exitName} -> ${destinationRegion}`);
         // Perform the move via dispatcher
-        if (this.dispatcher) {
-            this.dispatcher.publish('user:regionMove', {
+        if (moduleDispatcher) {
+            moduleDispatcher.publish('user:regionMove', {
                 exitName: exitName,
                 targetRegion: destinationRegion,
                 sourceRegion: this.getCurrentRegionInfo()?.name,
                 sourceModule: 'textAdventure'
             }, 'bottom');
+            console.log(`[textAdventureLogic] Successfully published user:regionMove event`);
+        } else {
+            console.log(`[textAdventureLogic] No moduleDispatcher available, cannot publish regionMove event`);
         }
 
         // Check for custom move message

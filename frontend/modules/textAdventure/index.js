@@ -17,26 +17,18 @@ let moduleDispatcher = null;
 let moduleEventBus = null;
 const moduleId = 'textAdventure';
 
+// Module instances are now managed directly by their classes
+
 export async function register(registrationApi) {
     log('info', `[${moduleId} Module] Registering...`);
 
     // Register panel component for Golden Layout
     registrationApi.registerPanelComponent('textAdventurePanel', TextAdventureUI);
 
-    // Register dispatcher receivers for events we handle
-    registrationApi.registerDispatcherReceiver(
-        moduleId,
-        'stateManager:rulesLoaded',
-        handleRulesLoaded,
-        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
-    );
+    registrationApi.registerEventBusPublisher('textAdventure:historyCleared');
 
-    registrationApi.registerDispatcherReceiver(
-        moduleId,
-        'stateManager:stateChanged',
-        handleStateChanged,
-        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
-    );
+    // Note: stateManager events are published via eventBus, not dispatcher
+    // So we don't register dispatcher receivers for these events
 
     registrationApi.registerDispatcherReceiver(
         moduleId,
@@ -87,34 +79,7 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     log('info', `[${moduleId} Module] Initialization complete.`);
 }
 
-// Event handlers
-function handleRulesLoaded(data, propagationOptions) {
-    log('info', `[${moduleId} Module] Received stateManager:rulesLoaded event`);
-    
-    // Propagate event to the next module
-    if (moduleDispatcher) {
-        moduleDispatcher.publishToNextModule(
-            moduleId,
-            'stateManager:rulesLoaded',
-            data,
-            { direction: 'up' }
-        );
-    }
-}
-
-function handleStateChanged(data, propagationOptions) {
-    log('info', `[${moduleId} Module] Received stateManager:stateChanged event`);
-    
-    // Propagate event to the next module
-    if (moduleDispatcher) {
-        moduleDispatcher.publishToNextModule(
-            moduleId,
-            'stateManager:stateChanged',
-            data,
-            { direction: 'up' }
-        );
-    }
-}
+// Event handlers for dispatcher events (user actions)
 
 function handleRegionMove(data, propagationOptions) {
     log('info', `[${moduleId} Module] Received user:regionMove event`, data);
