@@ -178,11 +178,8 @@ export class TextAdventureLogic {
                         sourceModule: 'textAdventure'
                     }, 'bottom');
                     
-                    // Set up a timer to display the region after the move
-                    setTimeout(() => {
-                        log('info', 'Post-move timer: displaying current region');
-                        this.displayCurrentRegion();
-                    }, 1500);
+                    // The handleRegionChange event will display the region when the move completes
+                    // No timeout needed - proper event-driven architecture
                 } else {
                     log('warn', 'ModuleDispatcher not available, cannot move player');
                     this.displayCurrentRegion();
@@ -559,7 +556,7 @@ export class TextAdventureLogic {
     /**
      * Handle location check
      * @param {string} locationName - Name of location to check
-     * @returns {string} Result message
+     * @returns {Object} Result object with message and actions
      */
     handleLocationCheck(locationName) {
         if (!this.isLocationAccessible(locationName)) {
@@ -575,12 +572,11 @@ export class TextAdventureLogic {
                 inaccessibleMessage = `You cannot reach ${locationName} from here.`;
             }
 
-            // Display region info after inaccessible message
-            setTimeout(() => {
-                this.displayCurrentRegion();
-            }, 100);
-
-            return inaccessibleMessage;
+            return {
+                message: inaccessibleMessage,
+                shouldRedisplayRegion: true,
+                wasSuccessful: false
+            };
         }
 
         // Check if already checked
@@ -599,16 +595,18 @@ export class TextAdventureLogic {
                     alreadyCheckedMessage = `You have already searched ${locationName}.`;
                 }
 
-                // Display region info after already checked message
-                setTimeout(() => {
-                    this.displayCurrentRegion();
-                }, 100);
-
-                return alreadyCheckedMessage;
+                return {
+                    message: alreadyCheckedMessage,
+                    shouldRedisplayRegion: true,
+                    wasSuccessful: false
+                };
             }
         } catch (error) {
             log('error', 'Error checking if location already checked:', error);
         }
+
+        // Check if this was previously unchecked (for item highlighting)
+        const wasUnchecked = this.isLocationUnchecked(locationName);
 
         // Perform the check via dispatcher
         if (moduleDispatcher) {
@@ -621,27 +619,32 @@ export class TextAdventureLogic {
         // Get the item that would be found (this is a simplification)
         const itemFound = this.getItemAtLocation(locationName);
         
-        // Prepare the location check message
+        // Prepare the location check message with item highlighting if it's a new discovery
         let checkMessage;
+        const templateVars = { locationName, item: itemFound, wasUnchecked };
+        
         if (this.customData && this.customData.locations && this.customData.locations[locationName]) {
             const customLocation = this.customData.locations[locationName];
             if (customLocation.checkMessage) {
-                checkMessage = this.processMessageTemplate(customLocation.checkMessage, { locationName, item: itemFound });
+                checkMessage = this.processMessageTemplate(customLocation.checkMessage, templateVars);
             }
         }
 
         // Use generic message if no custom message
         if (!checkMessage) {
-            checkMessage = `You search ${locationName} and find: ${itemFound}!`;
+            if (wasUnchecked) {
+                checkMessage = `You search ${locationName} and find: <span class="item-name">${itemFound}</span>!`;
+            } else {
+                checkMessage = `You search ${locationName} and find: ${itemFound}!`;
+            }
         }
 
-        // Display the check message first, then redisplay the current region
-        // We need to add a delay to ensure proper message ordering
-        setTimeout(() => {
-            this.displayCurrentRegion();
-        }, 100);
-
-        return checkMessage;
+        return {
+            message: checkMessage,
+            shouldRedisplayRegion: true,
+            wasSuccessful: true,
+            wasNewDiscovery: wasUnchecked
+        };
     }
 
     /**
@@ -788,7 +791,14 @@ export class TextAdventureLogic {
         let processed = template;
         for (const [key, value] of Object.entries(variables)) {
             const placeholder = `{${key}}`;
-            processed = processed.replace(new RegExp(placeholder, 'g'), value);
+            
+            // Special handling for item highlighting on new discoveries
+            if (key === 'item' && variables.wasUnchecked) {
+                const highlightedValue = `<span class="item-name">${value}</span>`;
+                processed = processed.replace(new RegExp(placeholder, 'g'), highlightedValue);
+            } else {
+                processed = processed.replace(new RegExp(placeholder, 'g'), value);
+            }
         }
         return processed;
     }
@@ -841,10 +851,8 @@ export class TextAdventureLogic {
      */
     handleRegionChange(data) {
         log('info', 'Region changed:', data);
-        // Display new region after a brief delay to allow state to update
-        setTimeout(() => {
-            this.displayCurrentRegion();
-        }, 100);
+        // Display new region immediately - this event fires when region change is complete
+        this.displayCurrentRegion();
     }
 
     /**

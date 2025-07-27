@@ -522,6 +522,13 @@ export class TestController {
       
       let timeoutId;
       const handler = (data) => {
+        // FIRST: Check if test is completed - return immediately without any processing
+        if (this.isCompleted) {
+          // Event received for completed test - this is normal and not an error
+          // Don't log at all to reduce noise
+          return;
+        }
+        
         clearTimeout(timeoutId);
         
         // Remove from tracking before unsubscribing
@@ -530,13 +537,6 @@ export class TestController {
         // Ensure eventBus and unsubscribe are still valid before calling
         if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
           this.eventBus.unsubscribe(eventName, handler);
-        }
-        
-        // Check if test has already completed - don't update status if so
-        if (this.isCompleted) {
-          this.log(`Event received for completed test, ignoring: ${eventName}`, 'warn');
-          resolve(data);
-          return;
         }
         
         this.log(`Event received: ${eventName}`);

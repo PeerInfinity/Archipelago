@@ -30,8 +30,7 @@ async function loadAdventureRulesAndPositionPlayer(testController, targetRegion 
   );
   testController.reportCondition('Text Adventure panel is active for helper', panelReady);
   
-  // Additional wait for panel components to initialize
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  // Panel components initialize synchronously - no wait needed
   
   // Step 2: Load Adventure rules
   testController.log('Loading Adventure rules file...');
@@ -49,8 +48,7 @@ async function loadAdventureRulesAndPositionPlayer(testController, targetRegion 
   await rulesLoadedPromise;
   testController.reportCondition('Adventure rules loaded', true);
   
-  // Step 3: Wait for state manager to be fully ready
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  // Step 3: State manager is ready when rulesLoaded event fires - no additional wait needed
   
   // Step 4: Position player in target region
   testController.log(`Positioning player in ${targetRegion} region...`);
@@ -77,8 +75,7 @@ async function loadAdventureRulesAndPositionPlayer(testController, targetRegion 
     }
   }
   
-  // Step 5: Wait for UI to fully update
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  // Step 5: UI updates when region change event fires - no additional wait needed
   
   // Step 6: Verify positioning using playerStateSingleton (proper approach)
   const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
@@ -375,7 +372,7 @@ export async function textAdventureLocationCheckCommandTest(testController) {
       await testController.pollForCondition(
         () => {
           const displayArea = document.querySelector('.text-adventure-display');
-          return displayArea && displayArea.textContent.includes('Overworld');
+          return displayArea && displayArea.textContent.includes('overworld');
         },
         'Move to Overworld to complete',
         5000,
@@ -467,8 +464,16 @@ export async function textAdventureLinkClickTest(testController) {
       await customDataLoadedPromise;
     }
 
-    // Wait for player to be positioned in Menu region and display to update
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Wait for display to show current region content
+    await testController.pollForCondition(
+      () => {
+        const displayArea = document.querySelector('.text-adventure-display');
+        return displayArea && displayArea.textContent.includes('GameStart');
+      },
+      'Display to show region content with GameStart',
+      2000,
+      200
+    );
     
     // Check current display content for debugging
     const displayArea = document.querySelector('.text-adventure-display');
@@ -692,7 +697,7 @@ registerTest({
   description: 'Tests basic panel initialization, rules loading, and initial display.',
   testFunction: textAdventureBasicInitializationTest,
   category: 'Text Adventure Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -701,7 +706,7 @@ registerTest({
   description: 'Tests loading and applying custom data files with Adventure-specific messages.',
   testFunction: textAdventureCustomDataLoadingTest,
   category: 'Text Adventure Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -719,7 +724,7 @@ registerTest({
   description: 'Tests location checking ("check Blue Labyrinth 0") and item discovery.',
   testFunction: textAdventureLocationCheckCommandTest,
   category: 'Text Adventure Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -728,7 +733,7 @@ registerTest({
   description: 'Tests clicking on exit and location links for movement and checking.',
   testFunction: textAdventureLinkClickTest,
   category: 'Text Adventure Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -737,5 +742,5 @@ registerTest({
   description: 'Tests error handling for invalid commands and inaccessible targets.',
   testFunction: textAdventureErrorHandlingTest,
   category: 'Text Adventure Tests',
-  //enabled: true,
+  enabled: true,
 });

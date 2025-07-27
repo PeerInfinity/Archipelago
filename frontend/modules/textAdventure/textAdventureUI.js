@@ -169,10 +169,11 @@ Load a rules file to begin your adventure.`;
         this.clearDisplay();
         this.displayMessage('Rules loaded! Your adventure begins...');
         
-        // Display current region
-        setTimeout(() => {
+        // Give the logic layer a chance to initialize, then display region
+        // Use requestAnimationFrame for proper sequencing without arbitrary timeout
+        requestAnimationFrame(() => {
             this.logic.displayCurrentRegion();
-        }, 500);
+        });
     }
 
     handleCommand() {
@@ -210,18 +211,36 @@ Load a rules file to begin your adventure.`;
                 console.log(`[textAdventureUI] Processing move command: ${command.target}`);
                 response = this.logic.handleRegionMove(command.target);
                 console.log(`[textAdventureUI] Move command response: ${response}`);
+                
+                // For successful move commands, wait briefly for region change to complete
+                // then display updated region info
+                if (response && !response.includes('blocked') && !response.includes('Cannot determine')) {
+                    setTimeout(() => {
+                        this.logic.displayCurrentRegion();
+                    }, 100);
+                }
                 break;
                 
             case 'check':
-                // Check if this location was previously unchecked to determine if it's an item discovery
-                const wasLocationUnchecked = this.logic.isLocationUnchecked(command.target);
-                response = this.logic.handleLocationCheck(command.target);
+                const checkResult = this.logic.handleLocationCheck(command.target);
+                const checkMessage = checkResult.message || checkResult; // Handle both old string format and new object format
                 
-                // If the location was unchecked and the response indicates success, highlight the item name
-                if (wasLocationUnchecked && response && this.isSuccessfulCheckMessage(response)) {
-                    // Parse and highlight the item name in the response
-                    response = this.highlightItemName(response);
+                // Display the check message immediately
+                if (checkMessage) {
+                    this.displayMessage(checkMessage);
                 }
+                
+                // If we should redisplay region info, wait for state update first
+                if (checkResult.shouldRedisplayRegion && checkResult.wasSuccessful) {
+                    // For successful checks, wait for state update before redisplaying region
+                    this.waitForStateUpdateThenDisplayRegion();
+                } else if (checkResult.shouldRedisplayRegion) {
+                    // For unsuccessful checks (already checked, inaccessible), display immediately
+                    this.logic.displayCurrentRegion();
+                }
+                
+                // Set response to null so it doesn't get displayed again
+                response = null;
                 break;
                 
             case 'inventory':
@@ -370,59 +389,17 @@ Load a rules file to begin your adventure.`;
     }
 
     /**
-     * Check if a message indicates a successful location check (item discovery)
-     * @param {string} message - The response message
-     * @returns {boolean} True if message indicates successful check
+     * Wait for the next state update, then display current region
      */
-    isSuccessfulCheckMessage(message) {
-        // Check for patterns that indicate successful item discovery
-        // This covers both custom and generic success messages
-        return message.includes('find:') || 
-               message.includes('discover:') || 
-               message.includes('and find') ||
-               (message.includes('search') && message.includes('!')) ||
-               !message.includes('cannot reach') && 
-               !message.includes('already searched') &&
-               !message.includes('blocked') &&
-               !message.includes('inaccessible');
-    }
-
-    /**
-     * Highlight the item name in blue within a success message
-     * @param {string} message - The success message containing an item name
-     * @returns {string} Message with item name wrapped in blue styling
-     */
-    highlightItemName(message) {
-        // Common patterns for item discovery messages:
-        // "You search X and find: Item!"
-        // "You discover: Item!"
-        // "find: Item!"
-        // "{custom message with {item} template}"
+    waitForStateUpdateThenDisplayRegion() {
+        // Set up a one-time listener for the next state update
+        const onStateUpdate = () => {
+            this.logic.displayCurrentRegion();
+            // Clean up the listener after use
+            eventBus.unsubscribe('stateManager:snapshotUpdated', onStateUpdate);
+        };
         
-        // Pattern 1: "find: ItemName!" or "discover: ItemName!"
-        let match = message.match(/(find|discover):\s*([^!]+)!/i);
-        if (match) {
-            const itemName = match[2].trim();
-            return message.replace(match[0], `${match[1]}: <span class="item-name">${itemName}</span>!`);
-        }
-        
-        // Pattern 2: "and find: ItemName!" 
-        match = message.match(/(and find):\s*([^!]+)!/i);
-        if (match) {
-            const itemName = match[2].trim();
-            return message.replace(match[0], `${match[1]}: <span class="item-name">${itemName}</span>!`);
-        }
-        
-        // Pattern 3: Custom template messages that already processed {item}
-        // Look for text after common discovery words that ends with !
-        match = message.match(/(discover|find|found)\s*:?\s*([^!,.]+)!/i);
-        if (match) {
-            const itemName = match[2].trim();
-            return message.replace(match[2], `<span class="item-name">${itemName}</span>`);
-        }
-        
-        // If no pattern matches, return original message
-        return message;
+        eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureUI-oneTime');
     }
 
     updateDisplay() {
