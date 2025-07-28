@@ -1,4 +1,5 @@
 import eventBus from '../../app/core/eventBus.js'; // <<< Import eventBus
+import { setupCrossBrowserDropdown } from '../commonUI/index.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -468,13 +469,12 @@ class EditorUI {
       this.editorDropdown.appendChild(option);
     }
     this.editorDropdown.value = this.currentSourceKey; // Set initial selection
-    this.editorDropdown.addEventListener(
-      'change',
-      this._handleSourceChange.bind(this)
-    );
     controlsDiv.appendChild(this.editorDropdown);
 
     this.rootElement.appendChild(controlsDiv); // Add controls to the top
+    
+    // Set up cross-browser dropdown after it's been added to the DOM
+    setupCrossBrowserDropdown(this.editorDropdown, this._handleSourceChange.bind(this));
 
     try {
       this.textAreaElement = document.createElement('textarea');

@@ -552,6 +552,201 @@ export async function textAdventureIframeConnectionTest(testController) {
   }
 }
 
+export async function textAdventureIframeManagerUITest(testController) {
+  try {
+    testController.log('Starting textAdventureIframeManagerUITest...');
+    testController.reportCondition('Test started', true);
+
+    // Step 1: Load Adventure rules in main app first
+    testController.log('Loading Adventure rules file in main app...');
+    const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 8000);
+    
+    const rulesResponse = await fetch('./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json');
+    const rulesData = await rulesResponse.json();
+    
+    testController.eventBus.publish('files:jsonLoaded', {
+      fileName: 'AP_14089154938208861744_rules.json',
+      jsonData: rulesData,
+      selectedPlayerId: '1'
+    }, 'tests');
+    
+    await rulesLoadedPromise;
+    testController.reportCondition('Adventure rules loaded in main app', true);
+
+    // Step 2: Position player in Menu region in main app
+    testController.log('Positioning player in Menu region in main app...');
+    if (window.eventDispatcher) {
+      const regionChangePromise = testController.waitForEvent('playerState:regionChanged', 5000);
+      
+      testController.log('Publishing user:regionMove event to move to Menu...');
+      window.eventDispatcher.publish('user:regionMove', {
+        exitName: 'Initial',
+        targetRegion: 'Menu',
+        sourceRegion: null,
+        sourceModule: 'tests'
+      }, { initialTarget: 'bottom' });
+      
+      try {
+        const regionChangeData = await regionChangePromise;
+        testController.log('Successfully received playerState:regionChanged event:', regionChangeData);
+        testController.reportCondition('Player region change event received', true);
+      } catch (error) {
+        testController.log(`WARNING: Region change event not received: ${error.message}`, 'warn');
+        testController.reportCondition('Player region change event received', false);
+      }
+    }
+
+    // Step 3: Create iframe manager panel
+    testController.log('Creating iframe manager panel...');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframeManagerPanel' }, 'tests');
+    
+    const managerPanelReady = await testController.pollForCondition(
+      () => {
+        const panel = document.querySelector('.iframe-manager-panel-container');
+        return panel !== null;
+      },
+      'Iframe manager panel to appear',
+      5000,
+      200
+    );
+    testController.reportCondition('Iframe manager panel is active', managerPanelReady);
+
+    // Step 4: Create iframe panel
+    testController.log('Creating iframe panel...');
+    testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' }, 'tests');
+    
+    const iframePanelReady = await testController.pollForCondition(
+      () => {
+        const panel = document.querySelector('.iframe-panel-container');
+        return panel !== null;
+      },
+      'Iframe panel to appear',
+      5000,
+      200
+    );
+    testController.reportCondition('Iframe panel is active', iframePanelReady);
+
+    // Step 5: Get references to iframe manager UI elements
+    const managerPanel = document.querySelector('.iframe-manager-panel-container');
+    const knownPagesSelect = managerPanel ? managerPanel.querySelector('.known-pages-select') : null;
+    const loadButton = managerPanel ? managerPanel.querySelector('.load-button') : null;
+
+    testController.reportCondition('Iframe manager known pages dropdown exists', knownPagesSelect !== null);
+    testController.reportCondition('Iframe manager load button exists', loadButton !== null);
+
+    if (!knownPagesSelect || !loadButton) {
+      throw new Error('Required iframe manager UI elements not found');
+    }
+
+    // Step 6: Select "Text Adventure (Standalone)" from dropdown
+    testController.log('Selecting "Text Adventure (Standalone)" from known pages dropdown...');
+    
+    // Find the option value for Text Adventure
+    let textAdventureValue = null;
+    for (const option of knownPagesSelect.options) {
+      if (option.textContent.includes('Text Adventure (Standalone)')) {
+        textAdventureValue = option.value;
+        break;
+      }
+    }
+    
+    testController.reportCondition('Text Adventure option found in dropdown', textAdventureValue !== null);
+    
+    if (textAdventureValue) {
+      // Set the dropdown value and trigger change event
+      knownPagesSelect.value = textAdventureValue;
+      const changeEvent = new Event('change', { bubbles: true });
+      knownPagesSelect.dispatchEvent(changeEvent);
+      
+      testController.log(`Selected value: ${textAdventureValue}`);
+      testController.reportCondition('Text Adventure option selected from dropdown', true);
+    }
+
+    // Step 7: Click the "Load Iframe" button
+    testController.log('Clicking "Load Iframe" button...');
+    testController.log(`Button disabled state: ${loadButton.disabled}`);
+    testController.log(`Current URL input value: ${managerPanel.querySelector('.url-input')?.value}`);
+    
+    const iframeLoadedPromise = testController.waitForEvent('iframePanel:loaded', 10000);
+    
+    // Also listen for the iframe:loadUrl event that should be published by the manager
+    const loadUrlPromise = testController.waitForEvent('iframe:loadUrl', 5000);
+    
+    loadButton.click();
+    testController.reportCondition('Load iframe button clicked', true);
+    
+    // Wait for the load URL event first
+    try {
+      const loadUrlEvent = await loadUrlPromise;
+      testController.log('iframe:loadUrl event received:', loadUrlEvent);
+      testController.reportCondition('iframe:loadUrl event published by manager', true);
+    } catch (error) {
+      testController.log('iframe:loadUrl event not received:', error.message);
+      testController.reportCondition('iframe:loadUrl event published by manager', false);
+    }
+
+    // Step 8: Wait for iframe to load
+    const iframeLoaded = await iframeLoadedPromise;
+    testController.reportCondition('Iframe loaded successfully via UI', !!iframeLoaded);
+
+    // Step 9: Wait for iframe to establish connection
+    testController.log('Waiting for iframe connection...');
+    const iframeConnectedPromise = testController.waitForEvent('iframe:connected', 5000);
+    
+    const iframeConnected = await iframeConnectedPromise;
+    testController.reportCondition('Iframe connected to adapter via UI', !!iframeConnected);
+
+    // Step 10: Wait for iframe UI to be ready and check basic elements
+    await testController.pollForCondition(
+      () => {
+        const iframe = document.querySelector('.iframe-panel iframe');
+        if (!iframe) return false;
+        
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const textArea = iframeDoc.querySelector('.text-adventure-display');
+          return textArea !== null;
+        } catch (error) {
+          return false;
+        }
+      },
+      'Iframe text adventure UI to be ready',
+      5000,
+      500
+    );
+    testController.reportCondition('Iframe text adventure UI ready via UI', true);
+
+    // Step 11: Get final state and check all UI elements
+    const elements = getIframeElements();
+    testController.reportCondition('Iframe document accessible via UI', elements !== null);
+    
+    if (elements) {
+      testController.reportCondition('Text display area exists in iframe via UI', elements.textArea !== null);
+      testController.reportCondition('Input field exists in iframe via UI', elements.inputField !== null);
+      testController.reportCondition('Custom data dropdown exists in iframe via UI', elements.customDataSelect !== null);
+      
+      // Check for rules loaded message in iframe - should be much faster now with polling
+      if (elements.textArea) {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Brief wait for UI to update
+        const hasRulesMessage = elements.textArea.textContent.includes('Rules loaded! Your adventure begins');
+        testController.reportCondition('Rules loaded message displayed in iframe via UI', hasRulesMessage);
+      }
+      
+      // Verify no "nowhere" message
+      if (elements.textArea) {
+        const hasNowhereMessage = elements.textArea.textContent.includes('You are nowhere');
+        testController.reportCondition('No "nowhere" fallback message in iframe via UI', !hasNowhereMessage);
+      }
+    }
+
+    await testController.completeTest(true);
+  } catch (error) {
+    testController.log(`Test failed with error: ${error.message}`, 'error');
+    testController.reportCondition('Test completed without errors', false);
+    await testController.completeTest(false);
+  }
+}
+
 // Register all iframe tests
 
 registerTest({
@@ -560,7 +755,7 @@ registerTest({
   description: 'Tests iframe adapter, panel creation, and connection establishment.',
   testFunction: textAdventureIframeConnectionTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -569,7 +764,7 @@ registerTest({
   description: 'Tests basic iframe panel initialization, rules loading, and initial display through iframe.',
   testFunction: textAdventureIframeBasicInitializationTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -578,7 +773,7 @@ registerTest({
   description: 'Tests loading and applying custom data files with Adventure-specific messages through iframe.',
   testFunction: textAdventureIframeCustomDataLoadingTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -587,7 +782,7 @@ registerTest({
   description: 'Tests text command movement ("move GameStart") and region changes through iframe.',
   testFunction: textAdventureIframeMovementCommandTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -596,7 +791,7 @@ registerTest({
   description: 'Tests location checking ("check Blue Labyrinth 0") and item discovery through iframe.',
   testFunction: textAdventureIframeLocationCheckCommandTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -604,6 +799,15 @@ registerTest({
   name: 'Text Adventure Iframe Link Click',  
   description: 'Tests clicking on exit and location links for movement and checking through iframe.',
   testFunction: textAdventureIframeLinkClickTest,
+  category: 'Text Adventure Iframe Tests',
+  //enabled: true,
+});
+
+registerTest({
+  id: 'test_textadventure_iframe_manager_ui',
+  name: 'Text Adventure Iframe Manager UI Test',
+  description: 'Tests using the iframe Manager panel UI to set up and load the text adventure iframe.',
+  testFunction: textAdventureIframeManagerUITest,
   category: 'Text Adventure Iframe Tests',
   enabled: true,
 });

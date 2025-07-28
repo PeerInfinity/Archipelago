@@ -8,6 +8,7 @@ import {
   renderLogicTree,
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
+  setupCrossBrowserDropdown,
 } from '../commonUI/index.js';
 import loopStateSingleton from '../loops/loopStateSingleton.js';
 import eventBus from '../../app/core/eventBus.js';
@@ -492,8 +493,14 @@ export class ExitUI {
       );
     }
 
+    // Handle sort dropdown with cross-browser fix
+    const sortSelect = this.rootElement.querySelector('#exit-sort-select');
+    if (sortSelect) {
+      setupCrossBrowserDropdown(sortSelect, () => this.updateExitDisplay());
+    }
+    
+    // Handle checkbox controls with standard events
     [
-      'exit-sort-select',
       'exit-show-traversable',
       'exit-show-non-traversable',
       'exit-show-explored',

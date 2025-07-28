@@ -1,6 +1,6 @@
 // UI component for iframe manager panel module
 import { moduleEventBus } from './index.js';
-import eventBus from '../../app/core/eventBus.js';
+import { setupCrossBrowserDropdown } from '../commonUI/commonUI.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -213,13 +213,9 @@ export class IframeManagerUI {
     setupEventListeners() {
         // Known pages dropdown change
         if (this.knownPagesSelect) {
-            log('debug', 'Setting up known pages dropdown event listener');
-            this.knownPagesSelect.addEventListener('change', (e) => {
-                log('debug', `Dropdown changed to: ${e.target.value}`);
-                this.handleKnownPageSelection(e.target.value);
+            setupCrossBrowserDropdown(this.knownPagesSelect, (value) => {
+                this.handleKnownPageSelection(value);
             });
-        } else {
-            log('warn', 'Known pages dropdown not found when setting up event listeners');
         }
 
         // Load button click
@@ -253,30 +249,30 @@ export class IframeManagerUI {
     }
 
     setupEventSubscriptions() {
-        if (eventBus) {
+        if (moduleEventBus) {
             // Subscribe to iframe panel events
-            const loadedUnsubscribe = eventBus.subscribe('iframePanel:loaded', (data) => {
+            const loadedUnsubscribe = moduleEventBus.subscribe('iframePanel:loaded', (data) => {
                 this.handleIframeLoaded(data);
             }, 'iframeManagerUI');
             this.unsubscribeHandles.push(loadedUnsubscribe);
 
-            const unloadedUnsubscribe = eventBus.subscribe('iframePanel:unloaded', (data) => {
+            const unloadedUnsubscribe = moduleEventBus.subscribe('iframePanel:unloaded', (data) => {
                 this.handleIframeUnloaded(data);
             }, 'iframeManagerUI');
             this.unsubscribeHandles.push(unloadedUnsubscribe);
 
-            const errorUnsubscribe = eventBus.subscribe('iframePanel:error', (data) => {
+            const errorUnsubscribe = moduleEventBus.subscribe('iframePanel:error', (data) => {
                 this.handleIframeError(data);
             }, 'iframeManagerUI');
             this.unsubscribeHandles.push(errorUnsubscribe);
 
             // Subscribe to iframe adapter events
-            const connectedUnsubscribe = eventBus.subscribe('iframe:connected', (data) => {
+            const connectedUnsubscribe = moduleEventBus.subscribe('iframe:connected', (data) => {
                 this.handleIframeConnected(data);
             }, 'iframeManagerUI');
             this.unsubscribeHandles.push(connectedUnsubscribe);
 
-            const disconnectedUnsubscribe = eventBus.subscribe('iframe:disconnected', (data) => {
+            const disconnectedUnsubscribe = moduleEventBus.subscribe('iframe:disconnected', (data) => {
                 this.handleIframeDisconnected(data);
             }, 'iframeManagerUI');
             this.unsubscribeHandles.push(disconnectedUnsubscribe);
@@ -307,7 +303,13 @@ export class IframeManagerUI {
      * Populate known pages dropdown
      */
     populateKnownPagesDropdown() {
-        if (!this.knownPagesSelect) return;
+        if (!this.knownPagesSelect) {
+            log('warn', 'knownPagesSelect is null, cannot populate dropdown');
+            return;
+        }
+
+        log('info', `Populating dropdown with ${this.knownPages.length} known pages`);
+        log('info', `Dropdown reference valid: ${this.knownPagesSelect !== null}`);
 
         // Clear existing options (except first)
         this.knownPagesSelect.innerHTML = '<option value="">Select a known page...</option>';
@@ -318,23 +320,36 @@ export class IframeManagerUI {
             option.value = page.url;
             option.textContent = `${page.name} - ${page.description}`;
             this.knownPagesSelect.appendChild(option);
+            log('info', `Added option: value="${page.url}", text="${page.name} - ${page.description}"`);
         });
+        
+        log('info', `Dropdown populated with ${this.knownPagesSelect.options.length} total options`);
+        
+        // Diagnostic: List all options for debugging
+        for (let i = 0; i < this.knownPagesSelect.options.length; i++) {
+            const option = this.knownPagesSelect.options[i];
+            log('info', `Option ${i}: value="${option.value}", text="${option.textContent}", selected=${option.selected}`);
+        }
+        
+        // Test if event listeners are still working after populating
+        log('info', 'Testing if dropdown still has event listeners after population...');
     }
+
 
     /**
      * Handle known page selection
      * @param {string} url - Selected URL
      */
     handleKnownPageSelection(url) {
-        log('debug', `handleKnownPageSelection called with URL: ${url}`);
-        log('debug', `urlInput exists: ${this.urlInput !== null}`);
+        log('info', `handleKnownPageSelection called with URL: ${url}`);
+        log('info', `urlInput exists: ${this.urlInput !== null}`);
         
         if (url && this.urlInput) {
-            log('debug', `Setting urlInput.value to: ${url}`);
+            log('info', `Setting urlInput.value to: ${url}`);
             this.urlInput.value = url;
             this.currentUrl = url;
             this.updateUI();
-            log('debug', `URL field updated, currentUrl: ${this.currentUrl}`);
+            log('info', `URL field updated, currentUrl: ${this.currentUrl}`);
         } else {
             log('warn', `Cannot update URL field - url: ${url}, urlInput: ${this.urlInput}`);
         }
@@ -354,11 +369,11 @@ export class IframeManagerUI {
         log('info', `Loading iframe with URL: ${url}`);
         
         // Publish load event
-        if (eventBus) {
-            eventBus.publish('iframe:loadUrl', { 
+        if (moduleEventBus) {
+            moduleEventBus.publish('iframe:loadUrl', { 
                 url: url,
                 // Don't specify panelId to load in any available iframe panel
-            }, 'iframeManagerUI');
+            }, 'iframeManagerPanel');
         }
 
         this.updateStatus(`Loading: ${url}`);
@@ -371,8 +386,8 @@ export class IframeManagerUI {
         log('info', 'Unloading all iframes');
         
         // Publish unload event
-        if (eventBus) {
-            eventBus.publish('iframe:unload', {
+        if (moduleEventBus) {
+            moduleEventBus.publish('iframe:unload', {
                 // Don't specify panelId to unload all iframe panels
             }, 'iframeManagerUI');
         }
@@ -495,9 +510,15 @@ export class IframeManagerUI {
     updateUI() {
         const hasUrl = this.currentUrl && this.currentUrl.trim().length > 0;
         
+        log('info', `updateUI called - currentUrl: "${this.currentUrl}", hasUrl: ${hasUrl}`);
+        log('info', `loadButton exists: ${this.loadButton !== null}`);
+        
         if (this.loadButton) {
             this.loadButton.disabled = !hasUrl;
             this.loadButton.style.opacity = hasUrl ? '1' : '0.5';
+            log('info', `Load button disabled: ${this.loadButton.disabled}, opacity: ${this.loadButton.style.opacity}`);
+        } else {
+            log('warn', 'Load button not found in updateUI');
         }
     }
 

@@ -3,6 +3,7 @@ import { TextAdventureParser } from './textAdventureParser.js';
 import { TextAdventureLogic } from './textAdventureLogic.js';
 import { moduleDispatcher } from './index.js';
 import eventBus from '../../app/core/eventBus.js';
+import { setupCrossBrowserDropdown } from '../commonUI/commonUI.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -106,8 +107,8 @@ export class TextAdventureUI {
 
         // Custom data file selection
         if (this.customDataSelect) {
-            this.customDataSelect.addEventListener('change', (e) => {
-                this.handleCustomDataSelection(e.target.value);
+            setupCrossBrowserDropdown(this.customDataSelect, (value) => {
+                this.handleCustomDataSelection(value);
             });
         }
 

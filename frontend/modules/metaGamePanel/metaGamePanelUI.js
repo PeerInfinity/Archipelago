@@ -1,3 +1,5 @@
+import { setupCrossBrowserDropdown } from '../commonUI/index.js';
+
 export class MetaGamePanelUI {
   constructor(container, componentState, componentType) {
     this.container = container;
@@ -230,8 +232,8 @@ export class MetaGamePanelUI {
     const applyBtn = this.rootElement.querySelector('#metagame-apply-btn');
     const clearBtn = this.rootElement.querySelector('#metagame-clear-btn');
     
-    // Configuration dropdown change handler
-    this.configurationDropdown.addEventListener('change', () => this.handleConfigurationSelection());
+    // Configuration dropdown change handler - use cross-browser fix
+    setupCrossBrowserDropdown(this.configurationDropdown, () => this.handleConfigurationSelection());
     
     // Button event handlers
     viewJsBtn.addEventListener('click', () => this.handleViewJSFile());
