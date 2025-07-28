@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Adventure (Standalone)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .connection-status {
+            background: #e3f2fd;
+            border-bottom: 1px solid #2196f3;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #1976d2;
+        }
+        
+        .connection-status.connected {
+            background: #e8f5e8;
+            border-bottom-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .connection-status.error {
+            background: #ffebee;
+            border-bottom-color: #f44336;
+            color: #c62828;
+        }
+        
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .error-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            background: #fafafa;
+        }
+        
+        .error-message {
+            max-width: 400px;
+        }
+        
+        .error-message h2 {
+            color: #f44336;
+            margin-bottom: 10px;
+        }
+        
+        .error-message p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .error-message a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .error-message a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Text Adventure Styles */
+        .text-adventure-panel-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .text-adventure-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .text-adventure-header {
+            padding: 10px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .text-adventure-display {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: white;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+        
+        .text-adventure-input-container {
+            padding: 10px;
+            background: #f8f8f8;
+            border-top: 1px solid #ddd;
+        }
+        
+        .text-adventure-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .text-adventure-message {
+            margin-bottom: 10px;
+        }
+        
+        .text-adventure-message.user-input {
+            color: #0066cc;
+            font-weight: bold;
+        }
+        
+        .text-adventure-message.system {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .text-adventure-message.error {
+            color: #cc0000;
+        }
+        
+        .text-adventure-link {
+            color: #0066cc;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .text-adventure-link:hover {
+            background: #e6f2ff;
+        }
+        
+        .text-adventure-link.inaccessible {
+            color: #999;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+        
+        .item-name {
+            color: #ff6600;
+            font-weight: bold;
+        }
+        
+        .custom-data-select {
+            width: 200px;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="connection-status" id="connectionStatus">
+            Connecting to main application...
+        </div>
+        
+        <div class="app-container" id="appContainer">
+            <!-- Text adventure will be inserted here once connected -->
+        </div>
+        
+        <div class="error-container" id="errorContainer" style="display: none;">
+            <div class="error-message">
+                <h2>Connection Failed</h2>
+                <p>This Text Adventure is designed to run within the main Archipelago frontend application.</p>
+                <p>It cannot operate standalone because it needs access to game state and events.</p>
+                <p><a href="../../index.html" target="_parent">Click here to open the main frontend</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the standalone application -->
+    <script type="module" src="./standalone.js"></script>
+</body>
+</html>

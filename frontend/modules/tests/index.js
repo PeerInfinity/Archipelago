@@ -57,10 +57,13 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('test:eventProgressComplete');
   registrationApi.registerEventBusPublisher('test:progressUpdate');
   registrationApi.registerEventBusPublisher('test:commandsStart');
+
   registrationApi.registerEventBusPublisher('progressBar:create');
   registrationApi.registerEventBusPublisher('progressBar:destroy');
   registrationApi.registerEventBusPublisher('progressBar:show');
   registrationApi.registerEventBusPublisher('progressBar:hide');
+
+  registrationApi.registerEventBusPublisher('iframe:loadUrl');
 
   registrationApi.registerJsonDataHandler('testsConfig', {
     displayName: 'Tests Configuration',

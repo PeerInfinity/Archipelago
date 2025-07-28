@@ -131,6 +131,20 @@
       "path": "./modules/metaGamePanel/index.js",
       "enabled": true,
       "requires": ["metaGame"]
+    },
+    "iframeAdapter": {
+      "path": "./modules/iframeAdapter/index.js",
+      "enabled": true
+    },
+    "iframePanel": {
+      "path": "./modules/iframePanel/index.js", 
+      "enabled": true,
+      "requires": ["iframeAdapter"]
+    },
+    "iframeManagerPanel": {
+      "path": "./modules/iframeManagerPanel/index.js",
+      "enabled": true,
+      "requires": ["iframeAdapter", "iframePanel"]
     }
   },
   "loadPriority": [
@@ -164,6 +178,9 @@
     "progressBar",
     "progressBarPanel",
     "metaGame",
-    "metaGamePanel"
+    "metaGamePanel",
+    "iframeAdapter",
+    "iframePanel",
+    "iframeManagerPanel"
   ]
 }

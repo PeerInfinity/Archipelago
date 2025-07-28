@@ -22,7 +22,7 @@ export class TextAdventureLogic {
     constructor(eventBus, dispatcher) {
         this.eventBus = eventBus;
         // Note: We now use moduleDispatcher directly instead of constructor parameter
-        console.log(`[textAdventureLogic] Constructor - moduleDispatcher available: ${!!moduleDispatcher}`);
+        log('debug', `Constructor - moduleDispatcher available: ${!!moduleDispatcher}`);
         this.customData = null;
         this.messageHistory = [];
         this.messageHistoryLimit = 10;
@@ -368,15 +368,15 @@ export class TextAdventureLogic {
      * @returns {boolean} True if accessible
      */
     isExitAccessible(exitName) {
-        console.log(`[textAdventureLogic] isExitAccessible called for exit: "${exitName}"`);
+        log('debug', `isExitAccessible called for exit: "${exitName}"`);
         try {
             const snapshot = stateManager.getLatestStateSnapshot();
             const staticData = stateManager.getStaticData();
             
-            console.log(`[textAdventureLogic] Got snapshot: ${!!snapshot}, staticData: ${!!staticData}`);
+            log('debug', `Got snapshot: ${!!snapshot}, staticData: ${!!staticData}`);
             
             if (!snapshot || !staticData || !staticData.regions) {
-                console.log(`[textAdventureLogic] Missing data - snapshot: ${!!snapshot}, staticData: ${!!staticData}, regions: ${!!(staticData && staticData.regions)}`);
+                log('warn', `Missing data - snapshot: ${!!snapshot}, staticData: ${!!staticData}, regions: ${!!(staticData && staticData.regions)}`);
                 return false;
             }
             
@@ -410,18 +410,18 @@ export class TextAdventureLogic {
             // Evaluate exit's access rule if it exists
             let exitAccessible = true;
             if (exitDef.access_rule) {
-                console.log(`[textAdventureLogic] Evaluating rule for ${exitName}:`, exitDef.access_rule);
+                log('debug', `Evaluating rule for ${exitName}:`, exitDef.access_rule);
                 try {
                     const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
                     exitAccessible = evaluateRule(exitDef.access_rule, snapshotInterface);
-                    console.log(`[textAdventureLogic] Rule evaluation result for ${exitName}: ${exitAccessible}`);
+                    log('debug', `Rule evaluation result for ${exitName}: ${exitAccessible}`);
                 } catch (e) {
-                    console.log(`[textAdventureLogic] Error evaluating rule for ${exitName}:`, e);
+                    log('error', `Error evaluating rule for ${exitName}:`, e);
                     log('error', `Error evaluating exit rule for ${exitName}:`, e);
                     exitAccessible = false;
                 }
             } else {
-                console.log(`[textAdventureLogic] No access rule for ${exitName}, defaulting to accessible`);
+                log('debug', `No access rule for ${exitName}, defaulting to accessible`);
             }
             
             // Check if connected region is reachable  
@@ -433,12 +433,11 @@ export class TextAdventureLogic {
             
             // Exit is accessible if all conditions are met
             const result = exitAccessible && connectedRegionReachable;
-            console.log(`[textAdventureLogic] Final accessibility result for ${exitName}: ${result} (exitAccessible: ${exitAccessible}, connectedRegionReachable: ${connectedRegionReachable})`);
+            log('debug', `Final accessibility result for ${exitName}: ${result} (exitAccessible: ${exitAccessible}, connectedRegionReachable: ${connectedRegionReachable})`);
             return result;
             
         } catch (error) {
-            console.log(`[textAdventureLogic] Error in isExitAccessible for ${exitName}:`, error);
-            log('error', 'Error checking exit accessibility:', error);
+            log('error', `Error in isExitAccessible for ${exitName}:`, error);
             return false;
         }
     }
@@ -653,13 +652,12 @@ export class TextAdventureLogic {
      * @returns {string} Result message
      */
     handleRegionMove(exitName) {
-        console.log(`[textAdventureLogic] handleRegionMove called with exitName: "${exitName}"`);
+        log('debug', `handleRegionMove called with exitName: "${exitName}"`);
         const isAccessible = this.isExitAccessible(exitName);
-        console.log(`[textAdventureLogic] isExitAccessible returned: ${isAccessible}`);
-        log('debug', `handleRegionMove: ${exitName} accessibility check: ${isAccessible}`);
+        log('debug', `isExitAccessible returned: ${isAccessible}`);
         
         if (!isAccessible) {
-            console.log(`[textAdventureLogic] Exit ${exitName} not accessible, returning error message`);
+            log('debug', `Exit ${exitName} not accessible, returning error message`);
             // Check for custom inaccessible message
             if (this.customData && this.customData.exits && this.customData.exits[exitName]) {
                 const customExit = this.customData.exits[exitName];
@@ -670,16 +668,16 @@ export class TextAdventureLogic {
             return `The path to ${exitName} is blocked.`;
         }
 
-        console.log(`[textAdventureLogic] Exit ${exitName} is accessible, getting destination region`);
+        log('debug', `Exit ${exitName} is accessible, getting destination region`);
         // Get destination region
         const destinationRegion = this.getExitDestination(exitName);
-        console.log(`[textAdventureLogic] Destination region for ${exitName}: ${destinationRegion}`);
+        log('debug', `Destination region for ${exitName}: ${destinationRegion}`);
         if (!destinationRegion) {
-            console.log(`[textAdventureLogic] Could not determine destination region for ${exitName}`);
+            log('warn', `Could not determine destination region for ${exitName}`);
             return `Cannot determine where ${exitName} leads.`;
         }
 
-        console.log(`[textAdventureLogic] Publishing user:regionMove event for ${exitName} -> ${destinationRegion}`);
+        log('debug', `Publishing user:regionMove event for ${exitName} -> ${destinationRegion}`);
         // Perform the move via dispatcher
         if (moduleDispatcher) {
             moduleDispatcher.publish('user:regionMove', {
@@ -688,9 +686,9 @@ export class TextAdventureLogic {
                 sourceRegion: this.getCurrentRegionInfo()?.name,
                 sourceModule: 'textAdventure'
             }, 'bottom');
-            console.log(`[textAdventureLogic] Successfully published user:regionMove event`);
+            log('debug', 'Successfully published user:regionMove event');
         } else {
-            console.log(`[textAdventureLogic] No moduleDispatcher available, cannot publish regionMove event`);
+            log('warn', 'No moduleDispatcher available, cannot publish regionMove event');
         }
 
         // Check for custom move message

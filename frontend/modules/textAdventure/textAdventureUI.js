@@ -180,7 +180,7 @@ Load a rules file to begin your adventure.`;
         const input = this.inputField.value.trim();
         if (!input) return;
 
-        console.log(`[textAdventureUI] handleCommand called with input: "${input}"`);
+        log('debug', `handleCommand called with input: "${input}"`);
 
         // Display user input
         this.displayMessage(`> ${input}`, 'user-input');
@@ -191,12 +191,12 @@ Load a rules file to begin your adventure.`;
         // Parse command
         const availableLocations = this.logic.getAvailableLocations();
         const availableExits = this.logic.getAvailableExits();
-        console.log(`[textAdventureUI] Available locations: ${availableLocations.join(', ')}`);
-        console.log(`[textAdventureUI] Available exits: ${availableExits.join(', ')}`);
+        log('debug', `Available locations: ${availableLocations.join(', ')}`);
+        log('debug', `Available exits: ${availableExits.join(', ')}`);
         
         const command = this.parser.parseCommand(input, availableLocations, availableExits);
 
-        console.log(`[textAdventureUI] Parsed command:`, command);
+        log('debug', 'Parsed command:', command);
         log('debug', 'Parsed command:', command);
 
         // Handle command
@@ -208,9 +208,9 @@ Load a rules file to begin your adventure.`;
 
         switch (command.type) {
             case 'move':
-                console.log(`[textAdventureUI] Processing move command: ${command.target}`);
+                log('debug', `Processing move command: ${command.target}`);
                 response = this.logic.handleRegionMove(command.target);
-                console.log(`[textAdventureUI] Move command response: ${response}`);
+                log('debug', `Move command response: ${response}`);
                 
                 // For successful move commands, wait briefly for region change to complete
                 // then display updated region info
@@ -351,10 +351,10 @@ Load a rules file to begin your adventure.`;
 
         // Debug logging
         if (messageType === 'user-input') {
-            console.log(`[textAdventureUI] User input being displayed: "${message}"`);
+            log('debug', `User input being displayed: "${message}"`);
         }
         if (message.includes('travel through') || message.includes('Overworld') || message.includes('GameStart')) {
-            console.log(`[textAdventureUI] Movement-related message being displayed: "${message}"`);
+            log('debug', `Movement-related message being displayed: "${message}"`);
         }
 
         // Create message element
