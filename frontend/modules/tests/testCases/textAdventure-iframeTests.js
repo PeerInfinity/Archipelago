@@ -341,6 +341,14 @@ export async function textAdventureIframeLocationCheckCommandTest(testController
 
           const hasCorrectItem = elements.textArea.textContent.includes('Left Difficulty Switch');
           testController.reportCondition('Found Left Difficulty Switch item in iframe', hasCorrectItem);
+
+          // Wait a moment for state to update and region to redisplay
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+          // Check that Blue Labyrinth 0 is now listed as checked
+          const hasAlreadySearched = elements.textArea.textContent.includes('Already searched:') && 
+                                     elements.textArea.textContent.includes('Blue Labyrinth 0');
+          testController.reportCondition('Blue Labyrinth 0 listed as already searched after check', hasAlreadySearched);
         }
       }
     }
@@ -791,7 +799,7 @@ registerTest({
   description: 'Tests iframe adapter, panel creation, and connection establishment.',
   testFunction: textAdventureIframeConnectionTest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -800,7 +808,7 @@ registerTest({
   description: 'Tests basic iframe panel initialization, rules loading, and initial display through iframe.',
   testFunction: textAdventureIframeBasicInitializationTest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -809,7 +817,7 @@ registerTest({
   description: 'Tests loading and applying custom data files with Adventure-specific messages through iframe.',
   testFunction: textAdventureIframeCustomDataLoadingTest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -827,7 +835,7 @@ registerTest({
   description: 'Tests location checking ("check Blue Labyrinth 0") and item discovery through iframe.',
   testFunction: textAdventureIframeLocationCheckCommandTest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -836,7 +844,7 @@ registerTest({
   description: 'Tests clicking on exit and location links for movement and checking through iframe.',
   testFunction: textAdventureIframeLinkClickTest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -845,5 +853,5 @@ registerTest({
   description: 'Tests using the iframe Manager panel UI to set up and load the text adventure iframe.',
   testFunction: textAdventureIframeManagerUITest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });

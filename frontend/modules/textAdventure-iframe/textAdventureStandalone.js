@@ -1,5 +1,6 @@
 // Standalone version of TextAdventure adapted for iframe communication
 import { createStateSnapshotInterface, evaluateRule } from './mockDependencies.js';
+import { IframeStateAdapter } from './stateAdapter.js';
 
 // Helper function for logging
 function log(level, message, ...data) {
@@ -17,6 +18,9 @@ export class TextAdventureStandalone {
         this.discoveryState = dependencies.discoveryState;
         this.iframeClient = dependencies.iframeClient;
         
+        // NEW: Initialize async state adapter for unified architecture approach
+        this.stateAdapter = new IframeStateAdapter(this.iframeClient);
+        
         // UI elements
         this.rootElement = null;
         this.textArea = null;
@@ -28,6 +32,7 @@ export class TextAdventureStandalone {
         this.messageHistory = [];
         this.messageHistoryLimit = 10;
         this.discoveryMode = false;
+        
         
         this.initialize();
         this.setupEventSubscriptions();
@@ -154,6 +159,7 @@ export class TextAdventureStandalone {
         }, 'textAdventureStandalone');
 
         this.eventBus.subscribe('stateManager:snapshotUpdated', (data) => {
+            log('debug', 'Received stateManager:snapshotUpdated event in iframe:', data);
             this.handleStateChange(data);
         }, 'textAdventureStandalone');
 
@@ -193,8 +199,68 @@ Load a rules file in the main application to begin your adventure.`;
     }
 
     handleStateChange(data) {
-        // State has changed, might need to update accessibility of links
-        log('debug', 'State changed, might need to update link colors');
+        // Normal state change, redisplay current region to show updated location status
+        log('debug', 'State changed, redisplaying current region to show updated status');
+        // Don't automatically redisplay here to avoid multiple region messages
+        // Let the one-time event listener in waitForStateUpdateThenDisplayRegion handle it
+    }
+
+    waitForStateUpdateThenDisplayRegion(locationName) {
+        log('debug', `Waiting for state update after checking location ${locationName}`);
+        
+        // Flag to ensure we only display region once
+        let hasDisplayed = false;
+        
+        // Use one-time event listener approach like original textAdventure module
+        const onStateUpdate = (eventData) => {
+            // Skip if we've already displayed the region
+            if (hasDisplayed) {
+                log('debug', `Already displayed region for ${locationName}, skipping duplicate event`);
+                return;
+            }
+            
+            log('debug', `Received state update event, checking for ${locationName}`, eventData);
+            const snapshot = eventData.snapshot || eventData;
+            
+            if (snapshot && snapshot.checkedLocations && snapshot.checkedLocations.includes(locationName)) {
+                log('debug', `Location ${locationName} found in state update, displaying region`);
+                hasDisplayed = true; // Set flag before displaying
+                this.displayCurrentRegion();
+                // Clean up the listener after use (note: unsubscribe not fully implemented in iframe context)
+                try {
+                    this.eventBus.unsubscribe('stateManager:snapshotUpdated', onStateUpdate);
+                } catch (error) {
+                    log('debug', 'Unsubscribe not implemented in iframe eventBus, ignoring error');
+                }
+            } else {
+                log('debug', `Location ${locationName} not yet in state update, keeping listener active`, {
+                    hasSnapshot: !!snapshot,
+                    hasCheckedLocations: !!(snapshot && snapshot.checkedLocations),
+                    checkedLocations: snapshot?.checkedLocations || 'none'
+                });
+            }
+        };
+        
+        // Subscribe to the next state update
+        this.eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureStandalone-oneTime');
+        
+        // Request fresh state snapshot to trigger the update
+        this.iframeClient.requestStateSnapshot();
+        
+        // Fallback timeout in case the state update doesn't include our location
+        setTimeout(() => {
+            if (!hasDisplayed) {
+                log('warn', `Timeout waiting for ${locationName} to appear in state, displaying region anyway`);
+                hasDisplayed = true;
+                this.displayCurrentRegion();
+            }
+            // Clean up the listener
+            try {
+                this.eventBus.unsubscribe('stateManager:snapshotUpdated', onStateUpdate);
+            } catch (error) {
+                log('debug', 'Unsubscribe not implemented in iframe eventBus, ignoring error');
+            }
+        }, 2000);
     }
 
     handleCommand() {
@@ -277,11 +343,13 @@ Load a rules file in the main application to begin your adventure.`;
         switch (command.type) {
             case 'move':
                 response = this.handleRegionMove(command.target);
-                // For successful moves, display region after a brief delay
+                // For successful moves, display region immediately after
                 if (response && !response.includes('blocked') && !response.includes('Cannot determine')) {
+                    log('debug', `Successful move completed, displaying current region. Response: "${response}"`);
+                    // Display region immediately after response message
                     setTimeout(() => {
                         this.displayCurrentRegion();
-                    }, 100);
+                    }, 10); // Very short delay to ensure response message is displayed first
                 }
                 break;
                 
@@ -290,11 +358,9 @@ Load a rules file in the main application to begin your adventure.`;
                 if (checkResult && checkResult.message) {
                     this.displayMessage(checkResult.message);
                 }
-                // Redisplay region after location check
+                // Wait for state update then redisplay region
                 if (checkResult && checkResult.shouldRedisplayRegion) {
-                    setTimeout(() => {
-                        this.displayCurrentRegion();
-                    }, 100);
+                    this.waitForStateUpdateThenDisplayRegion(command.target);
                 }
                 response = null; // Already handled
                 break;
@@ -338,11 +404,17 @@ Load a rules file in the main application to begin your adventure.`;
             return `Cannot determine where ${exitName} leads.`;
         }
 
+        // Get current region before updating
+        const sourceRegion = this.getCurrentRegionInfo()?.name;
+
+        // Update iframe's player state to reflect the new region
+        this.playerState.setCurrentRegion(destinationRegion);
+
         // Publish region move via dispatcher
         this.moduleDispatcher.publish('user:regionMove', {
             exitName: exitName,
             targetRegion: destinationRegion,
-            sourceRegion: this.getCurrentRegionInfo()?.name,
+            sourceRegion: sourceRegion,
             sourceModule: 'textAdventureStandalone'
         }, 'bottom');
 
@@ -580,6 +652,7 @@ Load a rules file in the main application to begin your adventure.`;
         }
 
         const message = this.generateRegionMessage(regionInfo.name);
+        log('debug', `displayCurrentRegion - generated message for ${regionInfo.name}:`, message);
         this.addMessage(message);
     }
 
@@ -607,8 +680,12 @@ Load a rules file in the main application to begin your adventure.`;
             const snapshot = this.stateManager.getLatestStateSnapshot();
             const checkedLocations = snapshot?.checkedLocations || [];
             
+            log('debug', `generateRegionMessage - iframe snapshot checkedLocations:`, checkedLocations);
+            
             const uncheckedLocations = availableLocations.filter(loc => !checkedLocations.includes(loc));
             const checkedLocationsList = availableLocations.filter(loc => checkedLocations.includes(loc));
+            
+            log('debug', `generateRegionMessage - unchecked: ${uncheckedLocations.length}, checked: ${checkedLocationsList.length}`);
             
             if (uncheckedLocations.length > 0) {
                 const locationLinks = uncheckedLocations.map(loc => this.createLocationLink(loc)).join(', ');

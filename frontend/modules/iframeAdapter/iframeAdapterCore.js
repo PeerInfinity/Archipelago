@@ -353,13 +353,38 @@ export class IframeAdapterCore {
         if (typeof window !== 'undefined' && window.stateManagerProxy) {
             try {
                 log('debug', `stateManagerProxy is available for iframe ${iframeId}`);
-                stateSnapshot = window.stateManagerProxy.getLatestStateSnapshot();
-                log('info', `Retrieved state snapshot for iframe ${iframeId} - has game data:`, !!(stateSnapshot && stateSnapshot.game));
-                if (stateSnapshot) {
-                    log('debug', `State snapshot keys:`, Object.keys(stateSnapshot));
-                } else {
-                    log('warn', `State snapshot is null for iframe ${iframeId}`);
-                }
+                
+                // Use pingWorker to ensure we get fresh state
+                window.stateManagerProxy.pingWorker({ requestedBy: `iframe-${iframeId}` }, 1000)
+                    .then(() => {
+                        // After ping, get the fresh snapshot
+                        stateSnapshot = window.stateManagerProxy.getLatestStateSnapshot();
+                        log('info', `Retrieved FRESH state snapshot for iframe ${iframeId} - has game data:`, !!(stateSnapshot && stateSnapshot.game));
+                        if (stateSnapshot && stateSnapshot.checkedLocations) {
+                            log('debug', `Fresh state checkedLocations count:`, stateSnapshot.checkedLocations.length);
+                        }
+                        
+                        // Send the fresh snapshot to iframe
+                        const response = createMessage(MessageTypes.STATE_SNAPSHOT, iframeId, {
+                            snapshot: stateSnapshot
+                        });
+                        log('debug', `Sending FRESH STATE_SNAPSHOT response to iframe ${iframeId}`);
+                        safePostMessage(source, response);
+                    })
+                    .catch((error) => {
+                        log('warn', 'Ping failed, using cached snapshot:', error);
+                        // Fallback to cached snapshot
+                        stateSnapshot = window.stateManagerProxy.getLatestStateSnapshot();
+                        const response = createMessage(MessageTypes.STATE_SNAPSHOT, iframeId, {
+                            snapshot: stateSnapshot
+                        });
+                        log('debug', `Sending fallback STATE_SNAPSHOT response to iframe ${iframeId}`);
+                        safePostMessage(source, response);
+                    });
+                
+                // Return early since we're handling this asynchronously
+                return;
+                
             } catch (error) {
                 log('error', 'Error getting state snapshot:', error);
             }
@@ -367,12 +392,11 @@ export class IframeAdapterCore {
             log('warn', `stateManagerProxy not available for iframe ${iframeId} - window:`, typeof window, 'proxy:', !!window.stateManagerProxy);
         }
         
-        // Send response using STATE_SNAPSHOT message type
+        // Fallback: send null snapshot if no stateManagerProxy available
         const response = createMessage(MessageTypes.STATE_SNAPSHOT, iframeId, {
-            snapshot: stateSnapshot
+            snapshot: null
         });
-        
-        log('debug', `Sending STATE_SNAPSHOT response to iframe ${iframeId}`);
+        log('debug', `Sending null STATE_SNAPSHOT response to iframe ${iframeId}`);
         safePostMessage(source, response);
     }
 

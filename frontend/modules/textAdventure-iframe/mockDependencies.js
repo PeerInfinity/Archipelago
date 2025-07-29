@@ -1,6 +1,10 @@
 // Mock dependencies for the standalone text adventure
 // These provide the same APIs as the original modules but communicate via postMessage
 
+// Using local shared module copies for iframe self-containment
+import { evaluateRule as sharedEvaluateRule } from './shared/ruleEngine.js';
+import { createStateSnapshotInterface as sharedCreateStateInterface } from './shared/stateInterface.js';
+
 // Helper function for logging
 function log(level, message, ...data) {
     const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
@@ -136,88 +140,15 @@ export class DiscoveryStateProxy {
 }
 
 /**
- * Create snapshot interface compatible with the original stateManager
+ * Create snapshot interface using the shared implementation
  */
 export function createStateSnapshotInterface(snapshot, staticData, context = {}) {
-    if (!snapshot || !staticData) {
-        log('warn', 'Cannot create snapshot interface: missing snapshot or static data');
-        return null;
-    }
-
-    // This should mirror the original createStateSnapshotInterface function
-    // For now, return a basic interface
-    return {
-        snapshot,
-        staticData,
-        context,
-        
-        // Add helper methods that the rule engine expects
-        has: (itemName) => {
-            return snapshot.inventory && snapshot.inventory[itemName] > 0;
-        },
-        
-        count: (itemName) => {
-            return snapshot.inventory ? (snapshot.inventory[itemName] || 0) : 0;
-        }
-    };
+    return sharedCreateStateInterface(snapshot, staticData, context);
 }
 
 /**
- * Mock rule engine evaluation function
+ * Rule engine evaluation using the shared implementation
  */
-export function evaluateRule(rule, snapshotInterface) {
-    // This is a simplified version - the real rule engine is more complex
-    // For iframe purposes, we might need to request rule evaluation from the main app
-    // or implement a simplified version here
-    
-    if (!rule || !snapshotInterface) {
-        return false;
-    }
-    
-    // Handle simple rule types
-    if (typeof rule === 'boolean') {
-        return rule;
-    }
-    
-    if (typeof rule === 'string') {
-        // Simple item check
-        return snapshotInterface.has(rule);
-    }
-    
-    if (Array.isArray(rule)) {
-        // Array rules (AND/OR logic)
-        const [operator, ...operands] = rule;
-        
-        switch (operator) {
-            case 'AND':
-                return operands.every(operand => evaluateRule(operand, snapshotInterface));
-            case 'OR':
-                return operands.some(operand => evaluateRule(operand, snapshotInterface));
-            default:
-                log('warn', `Unknown rule operator: ${operator}`);
-                return false;
-        }
-    }
-    
-    if (typeof rule === 'object') {
-        // Handle specific object rule types
-        if (rule.type === 'constant') {
-            // Handle constant rules
-            return Boolean(rule.value);
-        }
-        
-        if (rule.type === 'item') {
-            // Handle item rules
-            const itemName = rule.item;
-            const count = rule.count || 1;
-            return snapshotInterface.count(itemName) >= count;
-        }
-        
-        // For other complex rules, log a warning but don't automatically return false
-        // In a real implementation, these would be handled by the main rule engine
-        log('warn', 'Complex object rules not fully supported in iframe:', rule);
-        return false;
-    }
-    
-    return false;
+export function evaluateRule(rule, snapshotInterface, contextName = null) {
+    return sharedEvaluateRule(rule, snapshotInterface, contextName);
 }
