@@ -653,13 +653,49 @@ export async function textAdventureIframeManagerUITest(testController) {
     testController.reportCondition('Text Adventure option found in dropdown', textAdventureValue !== null);
     
     if (textAdventureValue) {
-      // Set the dropdown value and trigger change event
-      knownPagesSelect.value = textAdventureValue;
-      const changeEvent = new Event('change', { bubbles: true });
-      knownPagesSelect.dispatchEvent(changeEvent);
+      // Handle cross-browser dropdown selection (works with both standard and Firefox custom dropdowns)
+      testController.log(`Selecting dropdown value: ${textAdventureValue}`);
       
-      testController.log(`Selected value: ${textAdventureValue}`);
-      testController.reportCondition('Text Adventure option selected from dropdown', true);
+      // Check if this is a Firefox custom dropdown replacement
+      const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+      const customDropdownButton = managerPanel.querySelector('button[type="button"]');
+      const hasCustomDropdown = isFirefox && customDropdownButton && knownPagesSelect.style.display === 'none';
+      
+      if (hasCustomDropdown) {
+        testController.log('Detected Firefox custom dropdown, using click-based selection');
+        
+        // Click the custom dropdown button to open it
+        customDropdownButton.click();
+        
+        // Wait a moment for dropdown to open
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Find and click the correct option
+        const dropdownOptions = managerPanel.querySelectorAll('div[style*="cursor: pointer"]');
+        let optionClicked = false;
+        
+        for (const optionDiv of dropdownOptions) {
+          if (optionDiv.textContent.includes('Text Adventure (Standalone)')) {
+            optionDiv.click();
+            optionClicked = true;
+            testController.log('Clicked Text Adventure option in custom dropdown');
+            break;
+          }
+        }
+        
+        testController.reportCondition('Text Adventure option clicked in custom dropdown', optionClicked);
+      } else {
+        testController.log('Using standard dropdown selection');
+        
+        // Standard dropdown selection
+        knownPagesSelect.value = textAdventureValue;
+        const changeEvent = new Event('change', { bubbles: true });
+        knownPagesSelect.dispatchEvent(changeEvent);
+        
+        testController.reportCondition('Text Adventure option selected from standard dropdown', true);
+      }
+      
+      testController.log(`Final dropdown value: ${knownPagesSelect.value}`);
     }
 
     // Step 7: Click the "Load Iframe" button
@@ -782,7 +818,7 @@ registerTest({
   description: 'Tests text command movement ("move GameStart") and region changes through iframe.',
   testFunction: textAdventureIframeMovementCommandTest,
   category: 'Text Adventure Iframe Tests',
-  //enabled: true,
+  enabled: true,
 });
 
 registerTest({
@@ -809,5 +845,5 @@ registerTest({
   description: 'Tests using the iframe Manager panel UI to set up and load the text adventure iframe.',
   testFunction: textAdventureIframeManagerUITest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });

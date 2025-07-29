@@ -9,42 +9,56 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            height: 100vh;
+            height: 100%;
             overflow: hidden;
-            background: #f5f5f5;
+            background: #9a9a9a;
+            color: #cecece;
+        }
+        
+        html {
+            height: 100%;
         }
         
         .container {
-            height: 100vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
         
         .connection-status {
-            background: #e3f2fd;
-            border-bottom: 1px solid #2196f3;
-            padding: 8px 12px;
-            font-size: 12px;
-            color: #1976d2;
+            background: #2d2d2d;
+            border-bottom: 1px solid #555;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #cecece;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Hide connection status when running in iframe panel (parent shows status) */
+        .iframe-embedded .connection-status {
+            display: none;
         }
         
         .connection-status.connected {
-            background: #e8f5e8;
-            border-bottom-color: #4caf50;
-            color: #2e7d32;
+            background: #0a3318;
+            border-bottom-color: #3c7a3c;
+            color: #c8f7c8;
         }
         
         .connection-status.error {
-            background: #ffebee;
-            border-bottom-color: #f44336;
-            color: #c62828;
+            background: #5d2a2a;
+            border-bottom-color: #8c3c3c;
+            color: #f7c8c8;
         }
         
         .app-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: white;
+            background: #2d2d2d;
+            box-sizing: border-box;
+            min-height: 0;
         }
         
         .error-container {
@@ -54,7 +68,7 @@
             justify-content: center;
             text-align: center;
             padding: 20px;
-            background: #fafafa;
+            background: #2d2d2d;
         }
         
         .error-message {
@@ -62,117 +76,166 @@
         }
         
         .error-message h2 {
-            color: #f44336;
+            color: #cc8888;
             margin-bottom: 10px;
         }
         
         .error-message p {
-            color: #666;
+            color: #cecece;
             margin-bottom: 15px;
             line-height: 1.4;
         }
         
         .error-message a {
-            color: #2196f3;
+            color: #88cc88;
             text-decoration: none;
             font-weight: bold;
         }
         
         .error-message a:hover {
             text-decoration: underline;
+            filter: brightness(1.2);
         }
         
-        /* Text Adventure Styles */
+        /* Text Adventure Styles - Match main CSS dark theme */
         .text-adventure-panel-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             height: 100%;
+            box-sizing: border-box;
+            min-height: 0;
         }
         
         .text-adventure-panel {
-            flex: 1;
             display: flex;
             flex-direction: column;
             height: 100%;
+            background-color: #2d2d2d;
+            color: #cecece;
+            box-sizing: border-box;
         }
         
         .text-adventure-header {
-            padding: 10px;
-            background: #f0f0f0;
-            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            background-color: #3d3d3d;
+            border-bottom: 1px solid #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+        
+        .text-adventure-header label {
+            font-size: 12px;
+            color: #cecece;
         }
         
         .text-adventure-display {
             flex: 1;
-            padding: 15px;
             overflow-y: auto;
-            background: white;
+            padding: 12px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: pre-wrap;
+            font-size: 13px;
+            line-height: 1.4;
+            background-color: #1e1e1e;
+            border: 1px solid #555;
+            margin: 8px;
+            margin-bottom: 0;
+            box-sizing: border-box;
+            min-height: 0;
         }
         
         .text-adventure-input-container {
-            padding: 10px;
-            background: #f8f8f8;
-            border-top: 1px solid #ddd;
+            padding: 8px;
+            background-color: #3d3d3d;
+            border-top: 1px solid #555;
+            box-sizing: border-box;
+            flex-shrink: 0;
         }
         
         .text-adventure-input {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            background-color: #4d4d4d;
+            color: #cecece;
+            border: 1px solid #666;
+            border-radius: 3px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+        
+        .text-adventure-input:focus {
+            outline: none;
+            border-color: #88cc88;
+            box-shadow: 0 0 3px rgba(136, 204, 136, 0.3);
+        }
+        
+        .text-adventure-input::placeholder {
+            color: #888;
         }
         
         .text-adventure-message {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            white-space: pre-wrap;
         }
         
         .text-adventure-message.user-input {
-            color: #0066cc;
+            color: #88cc88;
             font-weight: bold;
         }
         
         .text-adventure-message.system {
-            color: #666;
+            color: #8888cc;
             font-style: italic;
         }
         
         .text-adventure-message.error {
-            color: #cc0000;
+            color: #cc8888;
+        }
+        
+        .text-adventure-message.item-discovery {
+            color: #4da6ff;
+            font-weight: bold;
+        }
+        
+        .text-adventure-separator {
+            height: 8px;
         }
         
         .text-adventure-link {
-            color: #0066cc;
             cursor: pointer;
             text-decoration: underline;
+            transition: color 0.2s ease;
         }
         
         .text-adventure-link:hover {
-            background: #e6f2ff;
+            filter: brightness(1.2);
+        }
+        
+        .text-adventure-link.accessible {
+            color: #88cc88;
         }
         
         .text-adventure-link.inaccessible {
-            color: #999;
-            cursor: not-allowed;
-            text-decoration: line-through;
+            color: #cc8888;
         }
         
         .item-name {
-            color: #ff6600;
+            color: #4da6ff;
             font-weight: bold;
         }
         
         .custom-data-select {
-            width: 200px;
-            padding: 4px;
-            border: 1px solid #ccc;
+            flex: 1;
+            padding: 4px 8px;
+            background-color: #4d4d4d;
+            color: #cecece;
+            border: 1px solid #666;
             border-radius: 3px;
+            font-size: 12px;
         }
     </style>
 </head>

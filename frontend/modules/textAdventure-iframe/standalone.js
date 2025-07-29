@@ -78,6 +78,13 @@ async function initializeStandalone() {
     try {
         log('info', 'Initializing standalone text adventure...');
         
+        // Check if we're running inside an iframe panel (parent has iframe status)
+        const isInIframePanel = window.self !== window.top;
+        if (isInIframePanel) {
+            // Add class to hide internal status bar since parent shows it
+            document.body.classList.add('iframe-embedded');
+        }
+        
         updateConnectionStatus('Connecting to main application...');
         
         // Create iframe client

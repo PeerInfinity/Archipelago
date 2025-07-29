@@ -200,9 +200,22 @@ export function evaluateRule(rule, snapshotInterface) {
     }
     
     if (typeof rule === 'object') {
-        // Object rules (function calls, etc.)
-        // This would need more complex handling in a full implementation
-        log('warn', 'Complex object rules not fully supported in iframe');
+        // Handle specific object rule types
+        if (rule.type === 'constant') {
+            // Handle constant rules
+            return Boolean(rule.value);
+        }
+        
+        if (rule.type === 'item') {
+            // Handle item rules
+            const itemName = rule.item;
+            const count = rule.count || 1;
+            return snapshotInterface.count(itemName) >= count;
+        }
+        
+        // For other complex rules, log a warning but don't automatically return false
+        // In a real implementation, these would be handled by the main rule engine
+        log('warn', 'Complex object rules not fully supported in iframe:', rule);
         return false;
     }
     

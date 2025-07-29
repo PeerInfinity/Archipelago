@@ -82,13 +82,20 @@ export class IframePanelUI {
 
     createPanelHTML() {
         return `
-            <div class="iframe-panel">
+            <div class="iframe-panel" style="
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+            ">
                 <div class="iframe-status" style="
                     padding: 10px;
                     background: #2d2d30;
                     border-bottom: 1px solid #3e3e42;
                     font-size: 12px;
                     color: #cccccc;
+                    flex-shrink: 0;
+                    box-sizing: border-box;
                 ">
                     Iframe Panel Ready - No content loaded
                 </div>
@@ -100,6 +107,8 @@ export class IframePanelUI {
                     border-bottom: 1px solid #f44336;
                     color: #ff6b6b;
                     font-size: 12px;
+                    flex-shrink: 0;
+                    box-sizing: border-box;
                 ">
                     <!-- Error messages will appear here -->
                 </div>
@@ -113,6 +122,8 @@ export class IframePanelUI {
                     justify-content: center;
                     color: #888;
                     font-style: italic;
+                    min-height: 0;
+                    box-sizing: border-box;
                 ">
                     <div class="empty-state">
                         No iframe content loaded.<br>
