@@ -1,6 +1,6 @@
 // frontend/modules/testCases/testCaseUI.js
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
 import eventBus from '../../app/core/eventBus.js';
 import * as commonUI from '../commonUI/index.js'; // Changed path for renderLogicTree

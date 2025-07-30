@@ -10,11 +10,11 @@ if (!isWorkerContext && window.logger) {
 // TODO: Import eventBus
 
 // Legacy imports removed - now using agnostic helpers
-import { evaluateRule } from './ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 // Legacy GameSnapshotHelpers import removed - using agnostic helpers directly
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js'; // Import shared commands
-import { helperFunctions as alttpLogic } from './logic/games/alttp/alttpLogic.js';
-import { helperFunctions as genericLogic } from './logic/games/generic/genericLogic.js';
+import { helperFunctions as alttpLogic } from '../shared/gameLogic/alttp/alttpLogic.js';
+import { helperFunctions as genericLogic } from '../shared/gameLogic/generic/genericLogic.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {

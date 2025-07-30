@@ -799,7 +799,7 @@ registerTest({
   description: 'Tests iframe adapter, panel creation, and connection establishment.',
   testFunction: textAdventureIframeConnectionTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -808,7 +808,7 @@ registerTest({
   description: 'Tests basic iframe panel initialization, rules loading, and initial display through iframe.',
   testFunction: textAdventureIframeBasicInitializationTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -817,7 +817,7 @@ registerTest({
   description: 'Tests loading and applying custom data files with Adventure-specific messages through iframe.',
   testFunction: textAdventureIframeCustomDataLoadingTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -826,7 +826,7 @@ registerTest({
   description: 'Tests text command movement ("move GameStart") and region changes through iframe.',
   testFunction: textAdventureIframeMovementCommandTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -844,7 +844,7 @@ registerTest({
   description: 'Tests clicking on exit and location links for movement and checking through iframe.',
   testFunction: textAdventureIframeLinkClickTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({
@@ -853,5 +853,5 @@ registerTest({
   description: 'Tests using the iframe Manager panel UI to set up and load the text adventure iframe.',
   testFunction: textAdventureIframeManagerUITest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });

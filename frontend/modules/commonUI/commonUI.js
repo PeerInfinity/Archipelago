@@ -1,6 +1,6 @@
 // commonUI.js - Common UI functions that can be shared between components
 
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 // Import the function directly from its source file
 import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';

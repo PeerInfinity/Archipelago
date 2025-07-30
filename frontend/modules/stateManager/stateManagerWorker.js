@@ -52,7 +52,7 @@ self.onerror = function (message, source, lineno, colno, error) {
 // Import the StateManager class
 import { StateManager } from './stateManager.js';
 // Import the actual rule evaluation function
-import { evaluateRule } from './ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 // Import shared commands instead of StateManagerProxy to avoid window references
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
 // Import LoggerService class for worker-local logging

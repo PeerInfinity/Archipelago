@@ -3,7 +3,7 @@ import {
   stateManagerProxySingleton as stateManager,
   // createStateSnapshotInterface, // Removed redundant import
 } from '../stateManager/index.js';
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js'; // Keep this one
 import commonUI, {
   debounce,

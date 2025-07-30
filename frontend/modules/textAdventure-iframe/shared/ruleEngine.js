@@ -1,4 +1,4 @@
-// frontend/modules/stateManager/ruleEngine.js
+// frontend/modules/shared/ruleEngine.js
 
 // Remove stateManagerSingleton import and getter
 // import stateManagerSingleton from './stateManagerSingleton.js';

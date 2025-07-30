@@ -1,6 +1,6 @@
 // pathAnalyzerUI.js
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 import { PathAnalyzerLogic } from './pathAnalyzerLogic.js';
 import commonUI from '../commonUI/index.js';
 import settingsManager from '../../app/core/settingsManager.js';

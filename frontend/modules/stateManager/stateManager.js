@@ -1,7 +1,7 @@
 // Refactored to use canonical inventory format and agnostic logic modules
-import * as alttpLogic from './logic/games/alttp/alttpLogic.js';
-import { alttpStateModule } from './logic/games/alttp/alttpLogic.js';
-import * as genericLogic from './logic/games/generic/genericLogic.js';
+import * as alttpLogic from '../shared/gameLogic/alttp/alttpLogic.js';
+import { alttpStateModule } from '../shared/gameLogic/alttp/alttpLogic.js';
+import * as genericLogic from '../shared/gameLogic/generic/genericLogic.js';
 
 // Helper function for logging with fallback
 // Note: This is only for module-level logging before StateManager instance is created

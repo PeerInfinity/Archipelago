@@ -1,5 +1,5 @@
 // pathAnalyzerLogic.js
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 // REMOVED: Global stateManager import
 // import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import loopState from '../loops/loopStateSingleton.js';
