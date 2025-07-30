@@ -42,7 +42,6 @@ These modules each correspond to a UI panel that the user can interact with in t
 - **[Presets](./presets.md):** Handles loading of pre-configured game files.
 - **[Regions](./regions.md):** Displays the game world organized by regions and their connections.
 - **[Settings](./settings.md):** Provides a UI for editing application settings.
-- **[Test Cases](./testCases.md):** UI for running validation tests against `rules.json`.
 - **[Test Playthroughs](./testPlaythroughs.md):** UI for stepping through and validating game playthrough logs.
 - **[Test Spoilers](./testSpoilers.md):** UI for validating game progression against spoiler logs.
 - **[Tests](./tests.md):** UI for the in-app automated feature testing framework.

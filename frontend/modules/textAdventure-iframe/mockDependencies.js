@@ -4,10 +4,10 @@
 // Using local shared module copies for iframe self-containment
 import { evaluateRule as sharedEvaluateRule } from './shared/ruleEngine.js';
 import { createStateSnapshotInterface as sharedCreateStateInterface } from './shared/stateInterface.js';
-import { createUniversalLogger } from './shared/universalLogger.js';
+import { createSharedLogger } from './shared/sharedLogger.js';
 
 // Create logger for this module
-const logger = createUniversalLogger('mockDependencies');
+const logger = createSharedLogger('mockDependencies');
 
 /**
  * Mock StateManager Proxy that communicates with main app

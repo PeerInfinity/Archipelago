@@ -1,10 +1,10 @@
 // Standalone version of TextAdventure adapted for iframe communication
 import { createStateSnapshotInterface, evaluateRule } from './mockDependencies.js';
 import { IframeStateAdapter } from './stateAdapter.js';
-import { createUniversalLogger } from './shared/universalLogger.js';
+import { createSharedLogger } from './shared/sharedLogger.js';
 
 // Create logger for this module
-const logger = createUniversalLogger('textAdventureStandalone');
+const logger = createSharedLogger('textAdventureStandalone');
 
 export class TextAdventureStandalone {
     constructor(container, dependencies) {

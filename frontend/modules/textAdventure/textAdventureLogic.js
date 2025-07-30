@@ -3,7 +3,7 @@ import { stateManagerProxySingleton as stateManager } from '../stateManager/inde
 import { getPlayerStateSingleton } from '../playerState/singleton.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { moduleDispatcher } from './index.js';
 // Instance registration is no longer needed
 

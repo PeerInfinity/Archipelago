@@ -4,10 +4,10 @@
 import { evaluateRule } from './ruleEngine.js';
 import { helperFunctions as alttpLogic } from './gameLogic/alttp/alttpLogic.js';
 import { helperFunctions as genericLogic } from './gameLogic/generic/genericLogic.js';
-import { createUniversalLogger } from './universalLogger.js';
+import { createSharedLogger } from './sharedLogger.js';
 
 // Create logger for this module
-const logger = createUniversalLogger('stateInterface');
+const logger = createSharedLogger('stateInterface');
 
 /**
  * Creates an interface object suitable for main-thread rule evaluation

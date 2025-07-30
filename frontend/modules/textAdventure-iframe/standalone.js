@@ -8,7 +8,7 @@ import {
     DiscoveryStateProxy 
 } from './mockDependencies.js';
 import { TextAdventureStandalone } from './textAdventureStandalone.js';
-import { createUniversalLogger, initializeIframeLogger } from './shared/universalLogger.js';
+import { createSharedLogger, initializeIframeLogger } from './shared/sharedLogger.js';
 
 // Initialize iframe logger with conservative defaults
 // The main thread will send the actual configuration via postMessage
@@ -20,7 +20,7 @@ initializeIframeLogger({
 });
 
 // Create logger for this module
-const logger = createUniversalLogger('standalone');
+const logger = createSharedLogger('standalone');
 
 /**
  * Update connection status in UI

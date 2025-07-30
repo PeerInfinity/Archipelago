@@ -3,7 +3,7 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 // REMOVED: Global stateManager import
 // import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import loopState from '../loops/loopStateSingleton.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {

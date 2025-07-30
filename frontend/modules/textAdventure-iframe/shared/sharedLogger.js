@@ -1,21 +1,24 @@
 /**
- * Universal Logger Factory (Shared Version)
+ * Shared Logger Factory (Iframe/Module Version)
  * 
- * Creates category-specific loggers that work across all execution contexts:
- * - Main thread: Uses window.logger (the global LoggerService instance)
- * - Worker thread: Uses a worker-local LoggerService instance  
- * - Iframe context: Uses iframe-local LoggerService or console fallback
+ * Creates category-specific loggers optimized for iframe and shared module contexts.
+ * This is a simplified version of the universal logger specifically designed for
+ * modules that run in isolated contexts (like iframes) where they cannot access
+ * the main application's core logging infrastructure.
  * 
- * This is the shared version that can be used by iframe modules.
- * For main thread modules, use the version in app/core/universalLogger.js
+ * Key differences from app/core/universalLogger.js:
+ * - Focuses specifically on iframe context
+ * - Uses simplified LoggerService implementation
+ * - Self-contained with no dependencies on main app core
+ * - Each iframe module gets its own copy
  * 
  * Usage:
- * import { createUniversalLogger } from '../shared/universalLogger.js';
- * const logger = createUniversalLogger('myCategory');
+ * import { createSharedLogger } from './shared/sharedLogger.js';
+ * const logger = createSharedLogger('myCategory');
  * logger.info('Hello world');
  */
 
-// Import LoggerService - should be available in shared folder
+// Import simplified LoggerService - should be available in shared folder
 import { LoggerService } from './loggerService.js';
 
 // Context-specific logger instances
@@ -34,7 +37,7 @@ export function initializeWorkerLogger(config = {}) {
   }
   
   if (!LoggerService) {
-    console.log('[universalLogger] LoggerService not available for worker logger');
+    console.log('[sharedLogger] LoggerService not available for worker logger');
     return;
   }
   
@@ -46,7 +49,7 @@ export function initializeWorkerLogger(config = {}) {
     ...config
   });
   
-  console.log('[universalLogger] Worker logger initialized');
+  console.log('[sharedLogger] Worker logger initialized');
 }
 
 /**
@@ -79,7 +82,7 @@ export function initializeIframeLogger(config = {}, iframeClient = null) {
   }
   
   if (!LoggerService) {
-    console.log('[universalLogger] LoggerService not available, iframe logger will use console fallback');
+    console.log('[sharedLogger] LoggerService not available, iframe logger will use console fallback');
     return;
   }
   
@@ -96,7 +99,7 @@ export function initializeIframeLogger(config = {}, iframeClient = null) {
     iframeLoggerInstance._iframeClient = iframeClient;
   }
   
-  console.log('[universalLogger] Iframe logger initialized');
+  console.log('[sharedLogger] Iframe logger initialized');
 }
 
 /**
@@ -130,34 +133,42 @@ export function getContextInfo() {
 }
 
 /**
- * Create a category-specific logger that works across all contexts
+ * Create a category-specific logger optimized for shared/iframe contexts
  * @param {string} categoryName - The category name for this logger
  * @returns {object} Logger with error, warn, info, debug, verbose methods
  */
-export function createUniversalLogger(categoryName) {
+export function createSharedLogger(categoryName) {
   return {
-    error: (message, ...data) => logUniversal('error', categoryName, message, ...data),
-    warn: (message, ...data) => logUniversal('warn', categoryName, message, ...data),
-    info: (message, ...data) => logUniversal('info', categoryName, message, ...data),
-    debug: (message, ...data) => logUniversal('debug', categoryName, message, ...data),
-    verbose: (message, ...data) => logUniversal('verbose', categoryName, message, ...data),
+    error: (message, ...data) => logShared('error', categoryName, message, ...data),
+    warn: (message, ...data) => logShared('warn', categoryName, message, ...data),
+    info: (message, ...data) => logShared('info', categoryName, message, ...data),
+    debug: (message, ...data) => logShared('debug', categoryName, message, ...data),
+    verbose: (message, ...data) => logShared('verbose', categoryName, message, ...data),
   };
 }
 
 /**
- * Internal logging function that routes to appropriate logger based on context
+ * Maintain backward compatibility - alias for createSharedLogger
+ * @deprecated Use createSharedLogger instead for clarity
+ */
+export function createUniversalLogger(categoryName) {
+  return createSharedLogger(categoryName);
+}
+
+/**
+ * Internal logging function optimized for iframe/shared contexts
  * @param {string} level - Log level
  * @param {string} categoryName - Category name
  * @param {string} message - Log message
  * @param {...any} data - Additional data
  */
-function logUniversal(level, categoryName, message, ...data) {
+function logShared(level, categoryName, message, ...data) {
   // Detect current context
   const isMainThread = typeof window !== 'undefined' && window.self === window.top;
   const isWorker = typeof window === 'undefined';
   const isIframe = typeof window !== 'undefined' && window.self !== window.top;
   
-  // Main thread: Use window.logger if available
+  // Main thread: Use window.logger if available (fallback case)
   if (isMainThread && typeof window !== 'undefined' && window.logger) {
     window.logger[level](categoryName, message, ...data);
     return;

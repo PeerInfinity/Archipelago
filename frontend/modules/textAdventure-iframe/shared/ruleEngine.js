@@ -6,10 +6,10 @@
 //   return stateManagerSingleton.instance;
 // }
 
-import { createUniversalLogger } from './universalLogger.js';
+import { createSharedLogger } from './sharedLogger.js';
 
 // Create logger for this module
-const logger = createUniversalLogger('ruleEngine');
+const logger = createSharedLogger('ruleEngine');
 
 // Evaluation trace object for capturing debug info
 

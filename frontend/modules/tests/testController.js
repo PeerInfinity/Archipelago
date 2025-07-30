@@ -1,6 +1,6 @@
 // frontend/modules/tests/testController.js
 import { stateManagerProxySingleton } from '../stateManager/index.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 
 // --- TestController Class ---
 export class TestController {

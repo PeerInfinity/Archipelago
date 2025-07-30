@@ -1,7 +1,7 @@
 ### Module: `Tests`
 
 - **ID:** `tests`
-- **Purpose:** Provides a comprehensive in-app framework for automated feature and integration testing. This system is distinct from the `TestCases` module (which validates game logic against Python) and is used to verify the behavior of the JavaScript application itself, including UI interactions, state management, and module communication. It is the core of the project's Playwright-based end-to-end testing.
+- **Purpose:** Provides a comprehensive in-app framework for automated feature and integration testing. It is the core of the project's Playwright-based end-to-end testing.
 
 ---
 

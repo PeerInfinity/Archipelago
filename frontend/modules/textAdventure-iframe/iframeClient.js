@@ -5,10 +5,10 @@ import {
     validateMessage,
     generateIframeId 
 } from '../iframeAdapter/communicationProtocol.js';
-import { createUniversalLogger, updateIframeLoggerConfig } from './shared/universalLogger.js';
+import { createSharedLogger, updateIframeLoggerConfig } from './shared/sharedLogger.js';
 
 // Create logger for this module  
-const logger = createUniversalLogger('iframeClient');
+const logger = createSharedLogger('iframeClient');
 
 export class IframeClient {
     constructor() {
