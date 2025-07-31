@@ -139,8 +139,12 @@ export function createErrorMessage(iframeId, errorType, errorMessage) {
 
 /**
  * Generate a unique iframe ID
+ * @param {string} [customName] - Optional custom name to use instead of random string
  * @returns {string} Unique identifier
  */
-export function generateIframeId() {
-    return `iframe_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+export function generateIframeId(customName) {
+    if (customName) {
+        return `${customName}`;
+    }
+    return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }

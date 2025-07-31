@@ -18,9 +18,10 @@ function log(level, message, ...data) {
 }
 
 export class IframeAdapterCore {
-    constructor(eventBus, dispatcher) {
+    constructor(eventBus, dispatcher, registerDynamicPublisher) {
         this.eventBus = eventBus;
         this.dispatcher = dispatcher;
+        this.registerDynamicPublisher = registerDynamicPublisher;
         
         // Registry of connected iframes
         this.iframes = new Map(); // iframeId -> { window, subscriptions, lastHeartbeat }
@@ -124,6 +125,14 @@ export class IframeAdapterCore {
         this.dispatcherSubscriptions.set(iframeId, new Set());
         
         log('info', `Iframe registered: ${iframeId}`);
+        
+        // Register iframe-specific publisher for common events that iframes might publish
+        if (this.registerDynamicPublisher) {
+            const publisherId = `${iframeId}`;
+            // Register for common events that iframes typically publish
+            this.registerDynamicPublisher(publisherId, 'playerState:regionChanged');
+            log('debug', `Registered dynamic publisher ${publisherId} for iframe events`);
+        }
         
         // Publish connection event
         if (this.eventBus) {
@@ -289,6 +298,11 @@ export class IframeAdapterCore {
         if (!this.iframes.has(iframeId)) {
             this.sendErrorToIframe(source, iframeId, 'NOT_REGISTERED', 'Iframe not registered');
             return;
+        }
+        
+        // Register publisher just before publishing (in case it wasn't registered during connection)
+        if (this.registerDynamicPublisher) {
+            this.registerDynamicPublisher(`iframe_${iframeId}`, eventName);
         }
         
         // Publish to main app's event bus

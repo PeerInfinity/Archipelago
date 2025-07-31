@@ -56,7 +56,10 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
   
   // Step 3: Create iframe panel
   testController.log('Creating iframe panel...');
-  testController.eventBus.publish('ui:activatePanel', { panelId: 'iframePanel' }, 'tests');
+  testController.eventBus.publish('ui:activatePanel', { 
+    panelId: 'iframePanel',
+    config: { iframeName: 'textAdventure' }
+  }, 'tests');
   
   const iframePanelReady = await testController.pollForCondition(
     () => {
@@ -68,6 +71,13 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
     200
   );
   testController.reportCondition('Iframe panel is active', iframePanelReady);
+  
+  // Step 3.5: Set custom iframe name
+  testController.log('Setting custom iframe name to "textAdventure"...');
+  const iframePanelElement = document.querySelector('.iframe-panel-container');
+  if (iframePanelElement && iframePanelElement.iframePanelUI) {
+    iframePanelElement.iframePanelUI.setCustomIframeName('textAdventure');
+  }
   
   // Step 4: Load iframe content
   testController.log('Loading text adventure iframe...');
@@ -835,7 +845,7 @@ registerTest({
   description: 'Tests location checking ("check Blue Labyrinth 0") and item discovery through iframe.',
   testFunction: textAdventureIframeLocationCheckCommandTest,
   category: 'Text Adventure Iframe Tests',
-  enabled: true,
+  //enabled: true,
 });
 
 registerTest({

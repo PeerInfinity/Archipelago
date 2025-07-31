@@ -32,7 +32,7 @@ export class IframePanelUI {
         
         // Iframe state
         this.currentUrl = null;
-        this.iframeId = generateIframeId();
+        this.iframeId = generateIframeId(componentState?.iframeName);
         this.isLoaded = false;
         this.isConnected = false;
         this.connectionTimeout = null;
@@ -74,6 +74,9 @@ export class IframePanelUI {
         this.rootElement.style.display = 'flex';
         this.rootElement.style.flexDirection = 'column';
         this.rootElement.innerHTML = this.createPanelHTML();
+        
+        // Attach UI instance to DOM element for access by tests
+        this.rootElement.iframePanelUI = this;
         
         // Get references to UI elements
         this.statusElement = this.rootElement.querySelector('.iframe-status');
@@ -292,8 +295,8 @@ export class IframePanelUI {
             this.hideError();
         }
         
-        // Generate new iframe ID for next load
-        this.iframeId = generateIframeId();
+        // Generate new iframe ID for next load (use custom name if available)
+        this.iframeId = generateIframeId(this.customIframeName);
         
         // Publish unload event
         if (moduleEventBus) {
@@ -496,6 +499,15 @@ export class IframePanelUI {
         if (this.iframe) {
             this.iframe.focus();
         }
+    }
+
+    /**
+     * Set a custom iframe name for future iframe ID generation
+     * @param {string} name - Custom name to use
+     */
+    setCustomIframeName(name) {
+        this.customIframeName = name;
+        log('info', `IframePanel custom iframe name set to: ${name}`);
     }
 
     // Cleanup
