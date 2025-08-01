@@ -37,7 +37,7 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
     const regionChangePromise = testController.waitForEvent('playerState:regionChanged', 5000);
     
     testController.log(`Publishing user:regionMove event to move to ${targetRegion}...`);
-    window.eventDispatcher.publish('user:regionMove', {
+    window.eventDispatcher.publish('tests', 'user:regionMove', {
       exitName: 'Initial',
       targetRegion: targetRegion,
       sourceRegion: null,
@@ -597,7 +597,7 @@ export async function textAdventureIframeManagerUITest(testController) {
       const regionChangePromise = testController.waitForEvent('playerState:regionChanged', 5000);
       
       testController.log('Publishing user:regionMove event to move to Menu...');
-      window.eventDispatcher.publish('user:regionMove', {
+      window.eventDispatcher.publish('tests', 'user:regionMove', {
         exitName: 'Initial',
         targetRegion: 'Menu',
         sourceRegion: null,

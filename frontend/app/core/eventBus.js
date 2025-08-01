@@ -16,6 +16,7 @@ export class EventBus {
   constructor() {
     this.events = {}; // eventName -> Array<{moduleName, callback, enabled}>
     this.publishers = {}; // eventName -> Map<moduleName, {enabled}>
+    this.publishCounts = {}; // eventName -> Map<publisherModuleName, count>
   }
 
   subscribe(event, callback, moduleName) {
@@ -97,6 +98,14 @@ export class EventBus {
       this.publishers[event] = new Map();
     }
 
+    // Initialize publish count for this event/publisher combination
+    if (!this.publishCounts[event]) {
+      this.publishCounts[event] = new Map();
+    }
+    if (!this.publishCounts[event].has(publisherModuleName)) {
+      this.publishCounts[event].set(publisherModuleName, 0);
+    }
+
     // Register publisher with enabled state
     this.publishers[event].set(publisherModuleName, { enabled: true });
     
@@ -122,6 +131,11 @@ export class EventBus {
     if (!publisherInfo.enabled) {
       log('debug', `Publisher ${publisherModuleName} is disabled for event ${event}. Ignoring publish.`);
       return;
+    }
+
+    // Increment publish count for this event/publisher combination
+    if (this.publishCounts[event] && this.publishCounts[event].has(publisherModuleName)) {
+      this.publishCounts[event].set(publisherModuleName, this.publishCounts[event].get(publisherModuleName) + 1);
     }
 
     // Execute enabled subscriber callbacks
@@ -196,6 +210,10 @@ export class EventBus {
       }));
     });
     return subscribers;
+  }
+
+  getAllPublishCounts() {
+    return this.publishCounts;
   }
 }
 

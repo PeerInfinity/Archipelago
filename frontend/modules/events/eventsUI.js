@@ -270,6 +270,56 @@ class EventsUI {
     this.expandCollapseAllButton = expandCollapseAllButton;
     this.expandCollapseCategoriesButton = expandCollapseCategoriesButton;
 
+    // 2.5. Create and append search/filter input
+    const searchContainer = document.createElement('div');
+    searchContainer.style.marginBottom = '10px';
+    searchContainer.style.padding = '0 10px';
+    
+    const searchInput = document.createElement('input');
+    searchInput.type = 'search';
+    searchInput.id = 'event-search';
+    searchInput.placeholder = 'Search events...';
+    searchInput.style.width = 'calc(100% - 10px)';
+    searchInput.style.padding = '8px 12px';
+    searchInput.style.marginBottom = '5px';
+    searchInput.style.border = '1px solid #4b5263';
+    searchInput.style.borderRadius = '4px';
+    searchInput.style.backgroundColor = '#323842';
+    searchInput.style.color = '#dcdfe4';
+    searchInput.style.fontSize = '14px';
+    searchInput.style.outline = 'none';
+    searchInput.style.transition = 'border-color 0.2s';
+    
+    // Focus and blur styles
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.borderColor = '#61afef';
+    });
+    searchInput.addEventListener('blur', () => {
+      searchInput.style.borderColor = '#4b5263';
+    });
+    
+    // Add search input event listener with debouncing
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        this._filterEvents();
+      }, 300); // 300ms debounce
+    });
+    
+    // Clear search when pressing Escape
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        this._filterEvents();
+        searchInput.blur();
+      }
+    });
+    
+    searchContainer.appendChild(searchInput);
+    this.rootElement.appendChild(searchContainer);
+    this.searchInput = searchInput;
+
     // 3. Create and append structural elements - Dispatcher first
     const dispatcherDetails = document.createElement('details');
     dispatcherDetails.open = true;
@@ -323,20 +373,36 @@ class EventsUI {
       const allEventBusPublishers = eventBus.getAllPublishers();
       const allEventBusSubscribers = eventBus.getAllSubscribers();
 
+      // Get counter data from both EventBus and EventDispatcher
+      const eventBusPublishCounts = eventBus.getAllPublishCounts();
+      const eventDispatcherPublishCounts = window.eventDispatcher ? window.eventDispatcher.getAllPublishCounts() : {};
+      const eventDispatcherPropagationCounts = window.eventDispatcher ? window.eventDispatcher.getAllPropagationCounts() : {};
+
       this._renderEventBus(
         eventBusPublishers,
         eventBusSubscribers,
         allEventBusPublishers,
         allEventBusSubscribers,
         loadPriority,
-        moduleStates
+        moduleStates,
+        eventBusPublishCounts
       );
       this._renderDispatcherEvents(
         dispatcherSenders,
         dispatcherHandlers,
         loadPriority,
-        moduleStates
+        moduleStates,
+        eventDispatcherPublishCounts,
+        eventDispatcherPropagationCounts
       );
+
+      // Apply current search filter after rendering data
+      if (this.searchInput && this.searchInput.value.trim()) {
+        this._filterEvents();
+      }
+
+      // Start periodic counter updates (1 second interval)
+      this._startCounterUpdates();
     } catch (error) {
       log('error', '[EventsUI] Error loading or rendering event data:', error);
       this.eventBusSection.textContent = `Error loading data: ${error.message}`;
@@ -344,7 +410,7 @@ class EventsUI {
     }
   }
 
-  _renderEventBus(publishersMap, subscribersMap, allPublishersMap, allSubscribersMap, loadPriority, moduleStates) {
+  _renderEventBus(publishersMap, subscribersMap, allPublishersMap, allSubscribersMap, loadPriority, moduleStates, publishCounts) {
     this.eventBusSection.innerHTML = ''; // Clear loading indicator
 
     const allEventNames = new Set([
@@ -392,7 +458,7 @@ class EventsUI {
 
           // Determine relevant modules for this event
           const relevantModuleIds = new Set();
-          // Iterate publisher map keys correctly
+          // Include all registered publishers (they should be shown even with 0 count)
           for (const pubModuleId of publishers.keys()) {
             relevantModuleIds.add(pubModuleId);
           }
@@ -452,7 +518,9 @@ class EventsUI {
             const publisherCol = document.createElement('div');
             publisherCol.classList.add('symbols-column', 'publisher-symbol');
             if (isPublisher) {
-              publisherCol.textContent = '[P]';
+              // Get publish count for this publisher/event combination
+              const count = publishCounts[eventName]?.get(moduleId) || 0;
+              publisherCol.textContent = `[P] ${count}`;
               const checkbox = this._createToggleCheckbox(
                 eventName,
                 moduleId,
@@ -710,7 +778,7 @@ class EventsUI {
     // that was appended to this.rootElement earlier
   }
 
-  _renderDispatcherEvents(sendersMap, handlersMap, loadPriority, moduleStates) {
+  _renderDispatcherEvents(sendersMap, handlersMap, loadPriority, moduleStates, publishCounts, propagationCounts) {
     this.dispatcherSection.innerHTML = ''; // Clear loading indicator
 
     const allEventNames = new Set([
@@ -851,7 +919,9 @@ class EventsUI {
                 eventContainer,
                 entry,
                 eventName,
-                moduleStates
+                moduleStates,
+                publishCounts,
+                propagationCounts
               );
               // Add connector within the section
               if (index < topSenders.length - 1) {
@@ -875,7 +945,9 @@ class EventsUI {
                 eventContainer,
                 entry,
                 eventName,
-                moduleStates
+                moduleStates,
+                publishCounts,
+                propagationCounts
               );
               // Add connector within the section
               if (index < middleEntries.length - 1) {
@@ -899,7 +971,9 @@ class EventsUI {
                 eventContainer,
                 entry,
                 eventName,
-                moduleStates
+                moduleStates,
+                publishCounts,
+                propagationCounts
               );
               // Add connector within the section
               if (index < bottomSenders.length - 1) {
@@ -1029,8 +1103,86 @@ class EventsUI {
     }
   }
 
+  _filterEvents() {
+    const searchTerm = this.searchInput.value.toLowerCase().trim();
+    log('debug', `[EventsUI] Filtering events with search term: "${searchTerm}"`);
+    
+    // Get all event elements in both dispatcher and event bus sections
+    const dispatcherEvents = this.dispatcherSection.querySelectorAll('.dispatcher-event');
+    const eventBusEvents = this.eventBusSection.querySelectorAll('.event-bus-event');
+    const additionalParticipantEvents = this.rootElement.querySelectorAll('.additional-participants-section .event-bus-event');
+
+    let visibleDispatcherCount = 0;
+    let visibleEventBusCount = 0;
+    let visibleAdditionalCount = 0;
+
+    // Filter dispatcher events
+    dispatcherEvents.forEach(eventElement => {
+      const eventNameElement = eventElement.querySelector('h4');
+      if (eventNameElement) {
+        const eventName = eventNameElement.textContent.toLowerCase();
+        const isVisible = !searchTerm || eventName.includes(searchTerm);
+        eventElement.style.display = isVisible ? 'block' : 'none';
+        if (isVisible) visibleDispatcherCount++;
+      }
+    });
+
+    // Filter event bus events
+    eventBusEvents.forEach(eventElement => {
+      const eventNameElement = eventElement.querySelector('h4');
+      if (eventNameElement) {
+        const eventName = eventNameElement.textContent.toLowerCase();
+        const isVisible = !searchTerm || eventName.includes(searchTerm);
+        eventElement.style.display = isVisible ? 'block' : 'none';
+        if (isVisible) visibleEventBusCount++;
+      }
+    });
+
+    // Filter additional participant events
+    additionalParticipantEvents.forEach(eventElement => {
+      const eventNameElement = eventElement.querySelector('h4');
+      if (eventNameElement) {
+        const eventName = eventNameElement.textContent.toLowerCase();
+        const isVisible = !searchTerm || eventName.includes(searchTerm);
+        eventElement.style.display = isVisible ? 'block' : 'none';
+        if (isVisible) visibleAdditionalCount++;
+      }
+    });
+
+    // Hide/show categories that have no visible events
+    this._updateCategoryVisibility();
+
+    log('debug', `[EventsUI] Filtered events - Dispatcher: ${visibleDispatcherCount}, EventBus: ${visibleEventBusCount}, Additional: ${visibleAdditionalCount}`);
+  }
+
+  _updateCategoryVisibility() {
+    // Update category visibility in dispatcher section
+    const dispatcherCategories = this.dispatcherSection.querySelectorAll('.category-block');
+    dispatcherCategories.forEach(category => {
+      const visibleEvents = category.querySelectorAll('.dispatcher-event:not([style*="display: none"])');
+      category.style.display = visibleEvents.length > 0 ? 'block' : 'none';
+    });
+
+    // Update category visibility in event bus section
+    const eventBusCategories = this.eventBusSection.querySelectorAll('.category-block');
+    eventBusCategories.forEach(category => {
+      const visibleEvents = category.querySelectorAll('.event-bus-event:not([style*="display: none"])');
+      category.style.display = visibleEvents.length > 0 ? 'block' : 'none';
+    });
+
+    // Update visibility of additional participants section
+    const additionalSection = this.rootElement.querySelector('.additional-participants-section');
+    if (additionalSection) {
+      const visibleAdditionalEvents = additionalSection.querySelectorAll('.event-bus-event:not([style*="display: none"])');
+      const additionalParentSection = additionalSection.closest('details');
+      if (additionalParentSection) {
+        additionalParentSection.style.display = visibleAdditionalEvents.length > 0 ? 'block' : 'none';
+      }
+    }
+  }
+
   // ADDED: Helper to render a single module entry for the dispatcher view
-  _renderDispatcherModuleEntry(eventContainer, entry, eventName, moduleStates) {
+  _renderDispatcherModuleEntry(eventContainer, entry, eventName, moduleStates, publishCounts, propagationCounts) {
     const {
       moduleId,
       isTopSender,
@@ -1065,7 +1217,10 @@ class EventsUI {
         senderSymbolText = '⬆️';
         title = 'Initiates event (targets bottom priority first)';
       } // Generic sender keeps default symbol and title
-      senderCol.textContent = senderSymbolText;
+      
+      // Add publish count if available
+      const count = publishCounts[eventName]?.get(moduleId) || 0;
+      senderCol.textContent = `${senderSymbolText} ${count}`;
       senderCol.title = title;
 
       // Ensure senderInfo is present before accessing its 'enabled' property
@@ -1102,7 +1257,10 @@ class EventsUI {
           details.timing || 'N/A'
         }, Condition: ${details.condition || 'N/A'})`;
       }
-      handlerCol.textContent = symbolsText;
+      
+      // Add propagation count if available
+      const propagationCount = propagationCounts[eventName]?.get(moduleId) || 0;
+      handlerCol.textContent = `${symbolsText} ${propagationCount}`;
       handlerCol.title = title;
 
       const checkbox = this._createToggleCheckbox(
@@ -1120,6 +1278,87 @@ class EventsUI {
     moduleDiv.appendChild(senderCol);
     moduleDiv.appendChild(handlerCol);
     eventContainer.appendChild(moduleDiv);
+  }
+
+  // Counter update methods
+  _startCounterUpdates() {
+    // Stop any existing timer
+    this._stopCounterUpdates();
+    
+    // Start new timer for 1-second updates
+    this.counterUpdateTimer = setInterval(() => {
+      this._updateCounterDisplay();
+    }, 1000);
+    
+    log('debug', '[EventsUI] Started counter update timer');
+  }
+
+  _stopCounterUpdates() {
+    if (this.counterUpdateTimer) {
+      clearInterval(this.counterUpdateTimer);
+      this.counterUpdateTimer = null;
+      log('debug', '[EventsUI] Stopped counter update timer');
+    }
+  }
+
+  _updateCounterDisplay() {
+    try {
+      // Get fresh counter data
+      const eventBusPublishCounts = eventBus.getAllPublishCounts();
+      const eventDispatcherPublishCounts = window.eventDispatcher ? window.eventDispatcher.getAllPublishCounts() : {};
+      const eventDispatcherPropagationCounts = window.eventDispatcher ? window.eventDispatcher.getAllPropagationCounts() : {};
+
+      // Update EventBus publisher counts
+      const publisherElements = this.eventBusSection.querySelectorAll('.publisher-symbol');
+      publisherElements.forEach(element => {
+        // Only update if this element already has content (is an actual publisher)
+        if (element.textContent && element.textContent.trim()) {
+          const eventName = element.closest('.event-bus-event').querySelector('h4').textContent;
+          const moduleId = element.closest('.module-block').querySelector('.module-name').textContent;
+          const count = eventBusPublishCounts[eventName]?.get(moduleId) || 0;
+          element.textContent = `[P] ${count}`;
+        }
+      });
+
+      // Update EventDispatcher sender counts
+      const senderElements = this.dispatcherSection.querySelectorAll('.sender-symbol');
+      senderElements.forEach(element => {
+        // Only update if this element already has content (is an actual sender)
+        if (element.textContent && element.textContent.trim()) {
+          // Get the event name and module ID from the DOM structure
+          const eventName = element.closest('.dispatcher-event').querySelector('h4').textContent;
+          const moduleId = element.closest('.module-block').querySelector('.module-name').textContent;
+          const count = eventDispatcherPublishCounts[eventName]?.get(moduleId) || 0;
+          
+          // Preserve the original symbol but update the count
+          const currentText = element.textContent || '';
+          const symbolMatch = currentText.match(/^([⬇️⬆️]|\[S\])/);
+          const symbol = symbolMatch ? symbolMatch[1] : '[S]';
+          element.textContent = `${symbol} ${count}`;
+        }
+      });
+
+      // Update EventDispatcher handler counts (propagation counts)
+      const handlerElements = this.dispatcherSection.querySelectorAll('.handler-symbol');
+      handlerElements.forEach(element => {
+        // Only update if this element already has content (is an actual handler)
+        if (element.textContent && element.textContent.trim()) {
+          // Get the event name and module ID from the DOM structure
+          const eventName = element.closest('.dispatcher-event').querySelector('h4').textContent;
+          const moduleId = element.closest('.module-block').querySelector('.module-name').textContent;
+          const count = eventDispatcherPropagationCounts[eventName]?.get(moduleId) || 0;
+          
+          // Preserve the original symbol but update the count
+          const currentText = element.textContent || '';
+          const symbolMatch = currentText.match(/^([●↑↓⏳❓]+)/);
+          const symbol = symbolMatch ? symbolMatch[1] : '●';
+          element.textContent = `${symbol} ${count}`;
+        }
+      });
+
+    } catch (error) {
+      log('error', '[EventsUI] Error updating counter display:', error);
+    }
   }
 
   // Handler for module state changes
@@ -1143,6 +1382,10 @@ class EventsUI {
       this.unsubscribeModuleState = null;
       log('info', '[EventsUI] Unsubscribed from module:stateChanged.');
     }
+
+    // Stop counter update timer
+    this._stopCounterUpdates();
+    
     // Add any other cleanup needed
   }
 }
