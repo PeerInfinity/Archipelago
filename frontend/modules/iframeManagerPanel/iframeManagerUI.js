@@ -35,6 +35,11 @@ export class IframeManagerUI {
                 name: "Text Adventure (Standalone)",
                 url: "./modules/textAdventure-iframe/index.html",
                 description: "Interactive text adventure running in iframe"
+            },
+            {
+                name: "Iframe Base",
+                url: "./modules/iframe-base/index.html",
+                description: "Basic iframe module showing connection status and heartbeat"
             }
         ];
         

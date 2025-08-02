@@ -241,7 +241,12 @@ export class IframePanelUI {
             };
             
             // Set URL with iframe ID parameter and append to content area
-            const urlWithId = `${url}?iframeId=${this.iframeId}`;
+            let urlWithId;
+            if (url.includes('?')) {
+                urlWithId = `${url}&iframeId=${this.iframeId}`;
+            } else {
+                urlWithId = `${url}?iframeId=${this.iframeId}`;
+            }
             this.iframe.src = urlWithId;
             log('debug', `Setting iframe src to: ${urlWithId}`);
             
@@ -373,6 +378,12 @@ export class IframePanelUI {
         // Check if message is for our iframe ID
         if (message.iframeId !== this.iframeId) {
             log('warn', `Received message for different iframe ID. Expected: ${this.iframeId}, Got: ${message.iframeId}`, message);
+            // For IFRAME_READY messages, also try to handle them if they seem reasonable
+            // This helps with cases where there might be minor ID mismatches
+            if (message.type === MessageTypes.IFRAME_READY && message.iframeId && this.currentUrl) {
+                log('info', 'Attempting to handle IFRAME_READY despite ID mismatch...');
+                this.handleIframeReady(message);
+            }
             return;
         }
         

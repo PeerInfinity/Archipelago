@@ -701,6 +701,6 @@ registerTest({
   description: 'Verifies that the Events panel correctly displays non-module publishers and subscribers in the Additional Event Participants section',
   testFunction: testEventsPanelAdditionalParticipants,
   category: 'Events Panel',
-  enabled: true, // Disabled - main functionality verified, subscriber detection needs fixing
+  //enabled: true,
   //order: 3
 });

@@ -36,6 +36,7 @@ const TEST_CASE_FILES = [
   './testCases/metaGamePanelTests.js',
   './testCases/textAdventurePanelTests.js',
   './testCases/textAdventure-iframeTests.js',
+  './testCases/iframe-baseTests.js',
   './testCases/testSpoilersPanelTests.js',
 ];
 
