@@ -141,6 +141,20 @@
       "path": "./modules/iframeManagerPanel/index.js",
       "enabled": true,
       "requires": ["iframeAdapter", "iframePanel"]
+    },
+    "windowAdapter": {
+      "path": "./modules/windowAdapter/index.js",
+      "enabled": true
+    },
+    "windowPanel": {
+      "path": "./modules/windowPanel/index.js",
+      "enabled": true,
+      "requires": ["windowAdapter"]
+    },
+    "windowManagerPanel": {
+      "path": "./modules/windowManagerPanel/index.js",
+      "enabled": true,
+      "requires": ["windowAdapter", "windowPanel"]
     }
   },
   "loadPriority": [
@@ -176,6 +190,9 @@
     "metaGamePanel",
     "iframeAdapter",
     "iframePanel",
-    "iframeManagerPanel"
+    "iframeManagerPanel",
+    "windowAdapter",
+    "windowPanel",
+    "windowManagerPanel"
   ]
 }

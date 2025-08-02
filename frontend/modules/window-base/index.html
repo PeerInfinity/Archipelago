@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Window Base (Standalone)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            overflow: hidden;
+            background: #9a9a9a;
+            color: #cecece;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .connection-status {
+            background: #2d2d2d;
+            border-bottom: 1px solid #555;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #cecece;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Note: No longer used since we're in a separate window */
+        .window-embedded .connection-status {
+            display: none;
+        }
+        
+        .connection-status.connected {
+            background: #0a3318;
+            border-bottom-color: #3c7a3c;
+            color: #c8f7c8;
+        }
+        
+        .connection-status.error {
+            background: #5d2a2a;
+            border-bottom-color: #8c3c3c;
+            color: #f7c8c8;
+        }
+        
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #2d2d2d;
+            box-sizing: border-box;
+            min-height: 0;
+        }
+        
+        .error-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            background: #2d2d2d;
+        }
+        
+        .error-message {
+            max-width: 400px;
+        }
+        
+        .error-message h2 {
+            color: #cc8888;
+            margin-bottom: 10px;
+        }
+        
+        .error-message p {
+            color: #cecece;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .error-message a {
+            color: #88cc88;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .error-message a:hover {
+            text-decoration: underline;
+            filter: brightness(1.2);
+        }
+        
+        /* Simple status display styles */
+        .status-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d2d2d;
+            color: #cecece;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .status-content {
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .status-content h2 {
+            color: #88cc88;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .status-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .status-label {
+            color: #aaa;
+            font-weight: bold;
+        }
+        
+        .status-value {
+            color: #cecece;
+        }
+        
+        .heartbeat-count {
+            color: #4da6ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="connection-status" id="connectionStatus">
+            Connecting to main application...
+        </div>
+        
+        <div class="app-container" id="appContainer">
+            <!-- Status display will be inserted here once connected -->
+        </div>
+        
+        <div class="error-container" id="errorContainer" style="display: none;">
+            <div class="error-message">
+                <h2>Connection Failed</h2>
+                <p>This window module is designed to communicate with the main Archipelago frontend application.</p>
+                <p>It cannot operate standalone because it needs to be opened by the main application.</p>
+                <p><a href="../../index.html" target="_blank">Click here to open the main frontend</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the standalone application -->
+    <script type="module" src="./standalone.js"></script>
+</body>
+</html>

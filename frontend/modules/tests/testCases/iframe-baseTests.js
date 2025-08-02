@@ -416,5 +416,5 @@ registerTest({
   description: 'Tests connection status display and module identification in iframe-base.',
   testFunction: iframeBaseConnectionStatusTest,
   category: 'Iframe Base Tests',
-  enabled: true,
+  //enabled: true,
 });

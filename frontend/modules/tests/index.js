@@ -48,6 +48,7 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('tests:categoriesUpdated');
   registrationApi.registerEventBusPublisher('tests:allCategoriesChanged');
   registrationApi.registerEventBusPublisher('tests:testEventAfterDelay');
+  registrationApi.registerEventBusPublisher('window:loadUrl'); // For window-base tests
   registrationApi.registerEventBusPublisher('tests:allTestsChanged');
   
   // Progress bar test events
