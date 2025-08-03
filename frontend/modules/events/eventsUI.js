@@ -518,9 +518,13 @@ class EventsUI {
             const publisherCol = document.createElement('div');
             publisherCol.classList.add('symbols-column', 'publisher-symbol');
             if (isPublisher) {
-              // Get publish count for this publisher/event combination
+              // Create separate text span and checkbox
               const count = publishCounts[eventName]?.get(moduleId) || 0;
-              publisherCol.textContent = `[P] ${count}`;
+              const textSpan = document.createElement('span');
+              textSpan.classList.add('symbol-text');
+              textSpan.textContent = `[P] ${count}`;
+              publisherCol.appendChild(textSpan);
+              
               const checkbox = this._createToggleCheckbox(
                 eventName,
                 moduleId,
@@ -536,7 +540,12 @@ class EventsUI {
             const subscriberCol = document.createElement('div');
             subscriberCol.classList.add('symbols-column', 'subscriber-symbol');
             if (isSubscriber) {
-              subscriberCol.textContent = '[S]';
+              // Create separate text span and checkbox
+              const textSpan = document.createElement('span');
+              textSpan.classList.add('symbol-text');
+              textSpan.textContent = '[S]';
+              subscriberCol.appendChild(textSpan);
+              
               const checkbox = this._createToggleCheckbox(
                 eventName,
                 moduleId,
@@ -1044,9 +1053,10 @@ class EventsUI {
             `Successfully toggled ${type} for ${moduleId} on ${eventName} to ${newState}`
           );
           // Update visual style immediately
-          event.target
-            .closest('.symbols-column')
-            .classList.toggle('disabled-interaction', !newState);
+          const symbolsColumn = event.target.closest('.symbols-column');
+          if (symbolsColumn) {
+            symbolsColumn.classList.toggle('disabled-interaction', !newState);
+          }
           // Potentially update parent module-block style too
         } else {
           log('error', `Failed to toggle ${type} state in registry.`);
@@ -1218,9 +1228,12 @@ class EventsUI {
         title = 'Initiates event (targets bottom priority first)';
       } // Generic sender keeps default symbol and title
       
-      // Add publish count if available
+      // Add publish count with separate text span
       const count = publishCounts[eventName]?.get(moduleId) || 0;
-      senderCol.textContent = `${senderSymbolText} ${count}`;
+      const textSpan = document.createElement('span');
+      textSpan.classList.add('symbol-text');
+      textSpan.textContent = `${senderSymbolText} ${count}`;
+      senderCol.appendChild(textSpan);
       senderCol.title = title;
 
       // Ensure senderInfo is present before accessing its 'enabled' property
@@ -1258,9 +1271,12 @@ class EventsUI {
         }, Condition: ${details.condition || 'N/A'})`;
       }
       
-      // Add propagation count if available
+      // Add propagation count with separate text span
       const propagationCount = propagationCounts[eventName]?.get(moduleId) || 0;
-      handlerCol.textContent = `${symbolsText} ${propagationCount}`;
+      const textSpan = document.createElement('span');
+      textSpan.classList.add('symbol-text');
+      textSpan.textContent = `${symbolsText} ${propagationCount}`;
+      handlerCol.appendChild(textSpan);
       handlerCol.title = title;
 
       const checkbox = this._createToggleCheckbox(
@@ -1309,50 +1325,50 @@ class EventsUI {
       const eventDispatcherPropagationCounts = window.eventDispatcher ? window.eventDispatcher.getAllPropagationCounts() : {};
 
       // Update EventBus publisher counts
-      const publisherElements = this.eventBusSection.querySelectorAll('.publisher-symbol');
-      publisherElements.forEach(element => {
-        // Only update if this element already has content (is an actual publisher)
-        if (element.textContent && element.textContent.trim()) {
-          const eventName = element.closest('.event-bus-event').querySelector('h4').textContent;
-          const moduleId = element.closest('.module-block').querySelector('.module-name').textContent;
+      const publisherElements = this.eventBusSection.querySelectorAll('.publisher-symbol .symbol-text');
+      publisherElements.forEach(textSpan => {
+        // Only update if this text span already has content (is an actual publisher)
+        if (textSpan.textContent && textSpan.textContent.trim()) {
+          const eventName = textSpan.closest('.event-bus-event').querySelector('h4').textContent;
+          const moduleId = textSpan.closest('.module-block').querySelector('.module-name').textContent;
           const count = eventBusPublishCounts[eventName]?.get(moduleId) || 0;
-          element.textContent = `[P] ${count}`;
+          textSpan.textContent = `[P] ${count}`;
         }
       });
 
       // Update EventDispatcher sender counts
-      const senderElements = this.dispatcherSection.querySelectorAll('.sender-symbol');
-      senderElements.forEach(element => {
-        // Only update if this element already has content (is an actual sender)
-        if (element.textContent && element.textContent.trim()) {
+      const senderElements = this.dispatcherSection.querySelectorAll('.sender-symbol .symbol-text');
+      senderElements.forEach(textSpan => {
+        // Only update if this text span already has content (is an actual sender)
+        if (textSpan.textContent && textSpan.textContent.trim()) {
           // Get the event name and module ID from the DOM structure
-          const eventName = element.closest('.dispatcher-event').querySelector('h4').textContent;
-          const moduleId = element.closest('.module-block').querySelector('.module-name').textContent;
+          const eventName = textSpan.closest('.dispatcher-event').querySelector('h4').textContent;
+          const moduleId = textSpan.closest('.module-block').querySelector('.module-name').textContent;
           const count = eventDispatcherPublishCounts[eventName]?.get(moduleId) || 0;
           
           // Preserve the original symbol but update the count
-          const currentText = element.textContent || '';
+          const currentText = textSpan.textContent || '';
           const symbolMatch = currentText.match(/^([⬇️⬆️]|\[S\])/);
           const symbol = symbolMatch ? symbolMatch[1] : '[S]';
-          element.textContent = `${symbol} ${count}`;
+          textSpan.textContent = `${symbol} ${count}`;
         }
       });
 
       // Update EventDispatcher handler counts (propagation counts)
-      const handlerElements = this.dispatcherSection.querySelectorAll('.handler-symbol');
-      handlerElements.forEach(element => {
-        // Only update if this element already has content (is an actual handler)
-        if (element.textContent && element.textContent.trim()) {
+      const handlerElements = this.dispatcherSection.querySelectorAll('.handler-symbol .symbol-text');
+      handlerElements.forEach(textSpan => {
+        // Only update if this text span already has content (is an actual handler)
+        if (textSpan.textContent && textSpan.textContent.trim()) {
           // Get the event name and module ID from the DOM structure
-          const eventName = element.closest('.dispatcher-event').querySelector('h4').textContent;
-          const moduleId = element.closest('.module-block').querySelector('.module-name').textContent;
+          const eventName = textSpan.closest('.dispatcher-event').querySelector('h4').textContent;
+          const moduleId = textSpan.closest('.module-block').querySelector('.module-name').textContent;
           const count = eventDispatcherPropagationCounts[eventName]?.get(moduleId) || 0;
           
           // Preserve the original symbol but update the count
-          const currentText = element.textContent || '';
+          const currentText = textSpan.textContent || '';
           const symbolMatch = currentText.match(/^([●↑↓⏳❓]+)/);
           const symbol = symbolMatch ? symbolMatch[1] : '●';
-          element.textContent = `${symbol} ${count}`;
+          textSpan.textContent = `${symbol} ${count}`;
         }
       });
 

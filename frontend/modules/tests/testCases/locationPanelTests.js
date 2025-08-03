@@ -36,8 +36,8 @@ export async function testLibraryLocationAccessibility(testController) {
           return locationsPanelElement !== null;
         },
         'Locations panel DOM element',
-        5000,
-        250
+        500,
+        50
       ))
     ) {
       throw new Error('Locations panel not found in DOM');
@@ -54,7 +54,7 @@ export async function testLibraryLocationAccessibility(testController) {
         },
         'Locations grid populated with locations',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Locations grid not populated with locations');
@@ -78,7 +78,7 @@ export async function testLibraryLocationAccessibility(testController) {
         },
         'Library location card found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Library location card not found');
@@ -216,10 +216,14 @@ export async function testLocationPanelBasicFunctionality(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // 2. Check panel exists
-    const locationsPanelElement = document.querySelector('.locations-panel-container');
+    // 2. Wait for panel to appear and check it exists
+    const locationsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.locations-panel-container'),
+      'Locations panel exists in DOM',
+      5000,
+      50
+    );
     if (!locationsPanelElement) {
       throw new Error('Locations panel not found in DOM');
     }
@@ -238,12 +242,19 @@ export async function testLocationPanelBasicFunctionality(testController) {
       overallResult = false;
     }
 
-    // 4. Check if locations are loaded
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for data to load
-    const locationCards = locationsGrid.querySelectorAll('.location-card');
-    const hasLocations = locationCards.length > 0;
+    // 4. Wait for locations to be loaded
+    const hasLocations = await testController.pollForCondition(
+      () => {
+        const locationCards = locationsGrid.querySelectorAll('.location-card');
+        return locationCards.length > 0;
+      },
+      'Locations are loaded',
+      MAX_WAIT_TIME,
+      50
+    );
     
     testController.reportCondition('Locations are loaded', hasLocations);
+    const locationCards = locationsGrid.querySelectorAll('.location-card');
     testController.log(`[${testRunId}] Found ${locationCards.length} location cards`);
 
     if (!hasLocations) {

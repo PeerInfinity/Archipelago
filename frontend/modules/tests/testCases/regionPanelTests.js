@@ -26,48 +26,41 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
 
     // 2. Wait for the regions panel to appear in DOM
-    let regionsPanelElement = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          regionsPanelElement = document.querySelector('.regions-panel-container');
-          return regionsPanelElement !== null;
-        },
-        'Regions panel DOM element',
-        5000,
-        250
-      ))
-    ) {
+    const regionsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel DOM element',
+      5000,
+      50
+    );
+    if (!regionsPanelElement) {
       throw new Error('Regions panel not found in DOM');
     }
     testController.reportCondition('Regions panel found in DOM', true);
 
     // 3. Wait for regions to be loaded and displayed
-    let regionsContainer = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          regionsContainer = regionsPanelElement.querySelector('#region-details-container');
-          if (!regionsContainer) return false;
-          
-          // Check if container has content - might be in different layouts
-          const hasAccessibilitySections = regionsContainer.querySelector('#accessibility-sorted-sections');
-          const hasGeneralSections = regionsContainer.querySelector('#general-sorted-list-section');
-          const hasDirectChildren = regionsContainer.children.length > 0;
-          
-          return hasAccessibilitySections || hasGeneralSections || hasDirectChildren;
-        },
-        'Regions container populated with regions',
-        MAX_WAIT_TIME,
-        500
-      ))
-    ) {
+    const regionsContainerFound = await testController.pollForCondition(
+      () => {
+        const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
+        if (!regionsContainer) return false;
+        
+        // Check if container has content - might be in different layouts
+        const hasAccessibilitySections = regionsContainer.querySelector('#accessibility-sorted-sections');
+        const hasGeneralSections = regionsContainer.querySelector('#general-sorted-list-section');
+        const hasDirectChildren = regionsContainer.children.length > 0;
+        
+        return hasAccessibilitySections || hasGeneralSections || hasDirectChildren;
+      },
+      'Regions container populated with regions',
+      MAX_WAIT_TIME,
+      50
+    );
+    if (!regionsContainerFound) {
       throw new Error('Regions container not populated with regions');
     }
     testController.reportCondition('Regions container populated', true);
+    const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
 
     // 3.5. Enable "Show All Regions" mode to see all regions
     const showAllRegionsCheckbox = regionsPanelElement.querySelector('#show-all-regions');
@@ -78,7 +71,13 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     if (!showAllRegionsCheckbox.checked) {
       testController.log(`[${testRunId}] Enabling "Show All Regions" mode...`);
       showAllRegionsCheckbox.click();
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for UI update
+      // Wait for UI update using polling instead of fixed delay
+      await testController.pollForCondition(
+        () => showAllRegionsCheckbox.checked,
+        '"Show All Regions" checkbox state updated',
+        3000,
+        50
+      );
       testController.reportCondition('"Show All Regions" enabled', true);
     } else {
       testController.log(`[${testRunId}] "Show All Regions" already enabled`);
@@ -86,28 +85,36 @@ export async function testLibraryRegionAccessibilityShowAll(testController) {
     }
 
     // 4. Look for the Library region specifically
-    let libraryRegionBlock = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          const regionBlocks = regionsContainer.querySelectorAll('.region-block');
-          for (const block of regionBlocks) {
-            const regionNameElement = block.querySelector('.region-name');
-            if (regionNameElement && regionNameElement.textContent.trim() === 'Library') {
-              libraryRegionBlock = block;
-              return true;
-            }
+    const libraryRegionFound = await testController.pollForCondition(
+      () => {
+        const regionBlocks = regionsContainer.querySelectorAll('.region-block');
+        for (const block of regionBlocks) {
+          const regionNameElement = block.querySelector('.region-name');
+          if (regionNameElement && regionNameElement.textContent.trim() === 'Library') {
+            return true;
           }
-          return false;
-        },
-        'Library region block found',
-        MAX_WAIT_TIME,
-        500
-      ))
-    ) {
+        }
+        return false;
+      },
+      'Library region block found',
+      MAX_WAIT_TIME,
+      50
+    );
+    if (!libraryRegionFound) {
       throw new Error('Library region block not found');
     }
     testController.reportCondition('Library region block found', true);
+    
+    // Get the library region block after confirming it exists
+    let libraryRegionBlock = null;
+    const regionBlocks = regionsContainer.querySelectorAll('.region-block');
+    for (const block of regionBlocks) {
+      const regionNameElement = block.querySelector('.region-name');
+      if (regionNameElement && regionNameElement.textContent.trim() === 'Library') {
+        libraryRegionBlock = block;
+        break;
+      }
+    }
 
     // 5. Get the current state snapshot to check region and location accessibility
     const stateManager = testController.stateManager;
@@ -262,48 +269,41 @@ export async function testLibraryRegionAccessibilityNavigation(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
 
     // 2. Wait for the regions panel to appear in DOM
-    let regionsPanelElement = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          regionsPanelElement = document.querySelector('.regions-panel-container');
-          return regionsPanelElement !== null;
-        },
-        'Regions panel DOM element',
-        5000,
-        250
-      ))
-    ) {
+    const regionsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel DOM element',
+      5000,
+      50
+    );
+    if (!regionsPanelElement) {
       throw new Error('Regions panel not found in DOM');
     }
     testController.reportCondition('Regions panel found in DOM', true);
 
     // 3. Wait for regions container to be populated
-    let regionsContainer = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          regionsContainer = regionsPanelElement.querySelector('#region-details-container');
-          if (!regionsContainer) return false;
-          
-          // Check if container has content - might be in different layouts
-          const hasAccessibilitySections = regionsContainer.querySelector('#accessibility-sorted-sections');
-          const hasGeneralSections = regionsContainer.querySelector('#general-sorted-list-section');
-          const hasDirectChildren = regionsContainer.children.length > 0;
-          
-          return hasAccessibilitySections || hasGeneralSections || hasDirectChildren;
-        },
-        'Regions container populated with regions',
-        MAX_WAIT_TIME,
-        500
-      ))
-    ) {
+    const regionsContainerFound = await testController.pollForCondition(
+      () => {
+        const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
+        if (!regionsContainer) return false;
+        
+        // Check if container has content - might be in different layouts
+        const hasAccessibilitySections = regionsContainer.querySelector('#accessibility-sorted-sections');
+        const hasGeneralSections = regionsContainer.querySelector('#general-sorted-list-section');
+        const hasDirectChildren = regionsContainer.children.length > 0;
+        
+        return hasAccessibilitySections || hasGeneralSections || hasDirectChildren;
+      },
+      'Regions container populated with regions',
+      MAX_WAIT_TIME,
+      50
+    );
+    if (!regionsContainerFound) {
       throw new Error('Regions container not populated with regions');
     }
     testController.reportCondition('Regions container populated', true);
+    const regionsContainer = regionsPanelElement.querySelector('#region-details-container');
 
     // 4. Ensure "Show All Regions" is unchecked for navigation test
     const showAllRegionsCheckbox = regionsPanelElement.querySelector('#show-all-regions');
@@ -314,7 +314,13 @@ export async function testLibraryRegionAccessibilityNavigation(testController) {
     if (showAllRegionsCheckbox.checked) {
       testController.log(`[${testRunId}] Unchecking "Show All Regions" for navigation test...`);
       showAllRegionsCheckbox.click();
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for UI update
+      // Wait for UI update using polling instead of fixed delay
+      await testController.pollForCondition(
+        () => !showAllRegionsCheckbox.checked,
+        '"Show All Regions" checkbox unchecked',
+        3000,
+        50
+      );
       testController.reportCondition('"Show All Regions" unchecked for navigation', true);
     } else {
       testController.log(`[${testRunId}] "Show All Regions" already unchecked`);
@@ -383,7 +389,6 @@ export async function testLibraryRegionAccessibilityNavigation(testController) {
       
       // Click the move button
       targetMoveButton.click();
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Wait for navigation
       
       // Wait for the new region to appear (if specified)
       if (step.newRegion) {
@@ -400,7 +405,7 @@ export async function testLibraryRegionAccessibilityNavigation(testController) {
           },
           `New region "${step.newRegion}" appears after navigation`,
           5000,
-          250
+          50
         );
         
         if (!newRegionAppeared) {
@@ -422,28 +427,36 @@ export async function testLibraryRegionAccessibilityNavigation(testController) {
     }
 
     // 6. Now look for the Library region block
-    let libraryRegionBlock = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          const regionBlocks = regionsContainer.querySelectorAll('.region-block');
-          for (const block of regionBlocks) {
-            const regionNameElement = block.querySelector('.region-name');
-            if (regionNameElement && regionNameElement.textContent.trim() === 'Library') {
-              libraryRegionBlock = block;
-              return true;
-            }
+    const libraryRegionFound = await testController.pollForCondition(
+      () => {
+        const regionBlocks = regionsContainer.querySelectorAll('.region-block');
+        for (const block of regionBlocks) {
+          const regionNameElement = block.querySelector('.region-name');
+          if (regionNameElement && regionNameElement.textContent.trim() === 'Library') {
+            return true;
           }
-          return false;
-        },
-        'Library region block found after navigation',
-        MAX_WAIT_TIME,
-        500
-      ))
-    ) {
+        }
+        return false;
+      },
+      'Library region block found after navigation',
+      MAX_WAIT_TIME,
+      50
+    );
+    if (!libraryRegionFound) {
       throw new Error('Library region block not found after navigation');
     }
     testController.reportCondition('Library region block found after navigation', true);
+    
+    // Get the library region block after confirming it exists
+    let libraryRegionBlock = null;
+    const regionBlocks = regionsContainer.querySelectorAll('.region-block');
+    for (const block of regionBlocks) {
+      const regionNameElement = block.querySelector('.region-name');
+      if (regionNameElement && regionNameElement.textContent.trim() === 'Library') {
+        libraryRegionBlock = block;
+        break;
+      }
+    }
 
     // 7. Get the current state snapshot to check region and location accessibility
     const stateManager = testController.stateManager;
@@ -569,10 +582,14 @@ export async function testRegionPanelBasicFunctionality(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // 2. Check panel exists
-    const regionsPanelElement = document.querySelector('.regions-panel-container');
+    // 2. Wait for panel to appear and check it exists
+    const regionsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel exists in DOM',
+      5000,
+      50
+    );
     if (!regionsPanelElement) {
       throw new Error('Regions panel not found in DOM');
     }
@@ -591,12 +608,19 @@ export async function testRegionPanelBasicFunctionality(testController) {
       overallResult = false;
     }
 
-    // 4. Check if regions are loaded
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for data to load
-    const regionBlocks = regionsContainer.querySelectorAll('.region-block');
-    const hasRegions = regionBlocks.length > 0;
+    // 4. Wait for regions to be loaded using polling
+    const hasRegions = await testController.pollForCondition(
+      () => {
+        const regionBlocks = regionsContainer.querySelectorAll('.region-block');
+        return regionBlocks.length > 0;
+      },
+      'Regions are loaded',
+      MAX_WAIT_TIME,
+      50
+    );
     
     testController.reportCondition('Regions are loaded', hasRegions);
+    const regionBlocks = regionsContainer.querySelectorAll('.region-block');
     testController.log(`[${testRunId}] Found ${regionBlocks.length} region blocks`);
 
     if (!hasRegions) {
@@ -657,9 +681,13 @@ export async function testShowPathsCheckbox(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const regionsPanelElement = document.querySelector('.regions-panel-container');
+    const regionsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel found',
+      5000,
+      50
+    );
     if (!regionsPanelElement) {
       throw new Error('Regions panel not found');
     }
@@ -686,7 +714,30 @@ export async function testShowPathsCheckbox(testController) {
     // Uncheck Show Paths
     showPathsCheckbox.checked = false;
     showPathsCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Wait for UI update - if there's more than 1 region initially, wait for count change
+    if (initialCount > 1) {
+      await testController.pollForCondition(
+        () => {
+          const currentBlocks = regionsPanelElement.querySelectorAll('.region-block');
+          return currentBlocks.length === 1;
+        },
+        'Region count reduced to 1 when Show Paths unchecked',
+        3000,
+        50
+      );
+    } else {
+      // If only 1 region initially, just wait for any potential UI changes to complete
+      await testController.pollForCondition(
+        () => {
+          const currentBlocks = regionsPanelElement.querySelectorAll('.region-block');
+          return currentBlocks.length >= 1; // Always true, just a brief wait for UI stability
+        },
+        'UI update completed after unchecking Show Paths',
+        500,
+        50
+      );
+    }
     
     // Check that only last region is visible (if not in Show All mode)
     const showAllCheckbox = regionsPanelElement.querySelector('#show-all-regions');
@@ -717,7 +768,30 @@ export async function testShowPathsCheckbox(testController) {
     // Re-check Show Paths
     showPathsCheckbox.checked = true;
     showPathsCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Wait for UI update - if initial count was > 1, wait for restoration
+    if (initialCount > 1) {
+      await testController.pollForCondition(
+        () => {
+          const currentBlocks = regionsPanelElement.querySelectorAll('.region-block');
+          return currentBlocks.length >= initialCount;
+        },
+        'Region count restored when Show Paths re-checked',
+        3000,
+        50
+      );
+    } else {
+      // If only 1 region initially, just wait for any potential UI changes to complete
+      await testController.pollForCondition(
+        () => {
+          const currentBlocks = regionsPanelElement.querySelectorAll('.region-block');
+          return currentBlocks.length >= 1; // Always true, just a brief wait for UI stability
+        },
+        'UI update completed after checking Show Paths',
+        500,
+        50
+      );
+    }
     
     // Verify full path is shown again
     regionBlocks = regionsPanelElement.querySelectorAll('.region-block');
@@ -791,14 +865,28 @@ export async function testRegionMoveEventDispatch(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise(resolve => setTimeout(resolve, 1500));
     
-    const regionsPanelElement = document.querySelector('.regions-panel-container');
+    const regionsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel found',
+      5000,
+      50
+    );
     if (!regionsPanelElement) {
       throw new Error('Regions panel not found');
     }
     
-    // Find a Move button
+    // Wait for Move buttons to appear and find them
+    const moveButtonsFound = await testController.pollForCondition(
+      () => {
+        const buttons = regionsPanelElement.querySelectorAll('.move-btn:not([disabled])');
+        return buttons.length > 0;
+      },
+      'Move buttons loaded',
+      MAX_WAIT_TIME,
+      50
+    );
+    
     const moveButtons = regionsPanelElement.querySelectorAll('.move-btn:not([disabled])');
     testController.reportCondition('Move buttons exist', moveButtons.length > 0);
     
@@ -812,7 +900,13 @@ export async function testRegionMoveEventDispatch(testController) {
       firstMoveBtn.click();
       testController.log(`[${testRunId}] Move button clicked`);
       
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Wait for event to be dispatched using polling
+      await testController.pollForCondition(
+        () => eventReceived,
+        'Event dispatched after button click',
+        3000,
+        50
+      );
       
       testController.reportCondition('user:regionMove event dispatched', eventReceived);
       testController.reportCondition(
@@ -858,14 +952,28 @@ export async function testEntranceDisplay(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise(resolve => setTimeout(resolve, 1500));
     
-    const regionsPanelElement = document.querySelector('.regions-panel-container');
+    const regionsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel found',
+      5000,
+      50
+    );
     if (!regionsPanelElement) {
       throw new Error('Regions panel not found');
     }
     
-    // Find expanded region blocks
+    // Wait for expanded region blocks to appear
+    const regionsLoaded = await testController.pollForCondition(
+      () => {
+        const regions = regionsPanelElement.querySelectorAll('.region-block.expanded');
+        return regions.length > 0;
+      },
+      'Expanded regions loaded',
+      MAX_WAIT_TIME,
+      50
+    );
+    
     const expandedRegions = regionsPanelElement.querySelectorAll('.region-block.expanded');
     testController.reportCondition('Expanded regions exist', expandedRegions.length > 0);
     
@@ -1005,10 +1113,10 @@ export async function testRegionMoveComplete(testController) {
   try {
     testController.log(`[${testRunId}] Starting comprehensive region move test...`);
     
-    // Reset state by reloading current rules
-    testController.log(`[${testRunId}] Reloading current rules to reset state...`);
-    await testController.reloadCurrentRules();
-    testController.log(`[${testRunId}] Rules reloaded successfully`);
+    // Reset state by loading default rules
+    testController.log(`[${testRunId}] Loading default rules to reset state...`);
+    await testController.loadDefaultRules();
+    testController.log(`[${testRunId}] Default rules loaded successfully`);
     
     // Import modules we'll need
     const eventBusModule = await import('../../../app/core/eventBus.js');
@@ -1052,7 +1160,7 @@ export async function testRegionMoveComplete(testController) {
       },
       'Regions container populated',
       MAX_WAIT_TIME,
-      500
+      50
     ))) {
       throw new Error('Regions container not populated');
     }
@@ -1205,7 +1313,7 @@ export async function testRegionMoveComplete(testController) {
       },
       'Events panel DOM element',
       5000,
-      250
+      50
     ))) {
       throw new Error('Events panel not found in DOM');
     }
@@ -1220,7 +1328,7 @@ export async function testRegionMoveComplete(testController) {
       },
       'Dispatcher section loaded',
       MAX_WAIT_TIME,
-      500
+      50
     ))) {
       throw new Error('Dispatcher section not loaded');
     }
@@ -1241,7 +1349,7 @@ export async function testRegionMoveComplete(testController) {
       },
       'user:regionMove event found',
       MAX_WAIT_TIME,
-      500
+      50
     ))) {
       throw new Error('user:regionMove event not found in dispatcher section');
     }
@@ -1289,7 +1397,7 @@ export async function testRegionMoveComplete(testController) {
     // Uncheck sender checkbox
     regionsSenderCheckbox.checked = false;
     regionsSenderCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // Reset event monitoring
     userRegionMoveDispatched = false;
@@ -1316,7 +1424,7 @@ export async function testRegionMoveComplete(testController) {
     testController.log(`[${testRunId}] Re-enabling sender checkbox...`);
     regionsSenderCheckbox.checked = true;
     regionsSenderCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // 21. Test receiver checkbox functionality
     testController.log(`[${testRunId}] Testing receiver checkbox - unchecking...`);
@@ -1326,7 +1434,7 @@ export async function testRegionMoveComplete(testController) {
     testController.log(`[${testRunId}] Receiver checkbox parent classes: ${regionsReceiverCheckbox.parentElement?.className}`);
     regionsReceiverCheckbox.checked = false;
     regionsReceiverCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 100));
     testController.log(`[${testRunId}] Receiver checkbox after unchecking: ${regionsReceiverCheckbox.checked}`);
     
     // Reset event monitoring
@@ -1356,7 +1464,7 @@ export async function testRegionMoveComplete(testController) {
     testController.log(`[${testRunId}] Re-enabling receiver checkbox...`);
     regionsReceiverCheckbox.checked = true;
     regionsReceiverCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // 23. Test with both sender and receiver enabled
     testController.log(`[${testRunId}] Testing with both sender and receiver enabled...`);
@@ -1406,10 +1514,10 @@ export async function testRegionMoveEventHandlerToggle(testController) {
   try {
     testController.log(`[${testRunId}] Starting region move event handler toggle test...`);
     
-    // Reset state by reloading current rules
-    testController.log(`[${testRunId}] Reloading current rules to reset state...`);
-    await testController.reloadCurrentRules();
-    testController.log(`[${testRunId}] Rules reloaded successfully`);
+    // Reset state by loading default rules
+    testController.log(`[${testRunId}] Loading default rules to reset state...`);
+    await testController.loadDefaultRules();
+    testController.log(`[${testRunId}] Default rules loaded successfully`);
     
     // Import modules we'll need
     const eventBusModule = await import('../../../app/core/eventBus.js');
@@ -1419,7 +1527,6 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     // 1. Activate the Regions panel
     testController.log(`[${testRunId}] Activating regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise(resolve => setTimeout(resolve, 1500));
     
     const regionsPanelElement = document.querySelector('.regions-panel-container');
     if (!regionsPanelElement) {
@@ -1453,7 +1560,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
       },
       'Regions container populated',
       MAX_WAIT_TIME,
-      500
+      50
     ))) {
       throw new Error('Regions container not populated');
     }
@@ -1489,7 +1596,6 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     // 6. Activate the Events panel
     testController.log(`[${testRunId}] Activating Events panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'eventsPanel' }, 'tests');
-    await new Promise(resolve => setTimeout(resolve, 2000));
     
     // 7. Wait for Events panel to appear
     let eventsPanelElement = null;
@@ -1500,7 +1606,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
       },
       'Events panel DOM element',
       5000,
-      250
+      50
     ))) {
       throw new Error('Events panel not found in DOM');
     }
@@ -1515,7 +1621,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
       },
       'Dispatcher section loaded',
       MAX_WAIT_TIME,
-      500
+      50
     ))) {
       throw new Error('Dispatcher section not loaded');
     }
@@ -1536,7 +1642,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
       },
       'user:regionMove event found',
       MAX_WAIT_TIME,
-      500
+      50
     ))) {
       throw new Error('user:regionMove event not found in dispatcher section');
     }
@@ -1568,12 +1674,12 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     testController.log(`[${testRunId}] Unchecking regions receiver checkbox...`);
     regionsReceiverCheckbox.checked = false;
     regionsReceiverCheckbox.dispatchEvent(new Event('change'));
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // 12. Click the Move button - event should be sent but Links House region should NOT appear
     testController.log(`[${testRunId}] Clicking Move button with receiver disabled...`);
     targetMoveButton.click();
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     // 13. Verify user:regionMove event was sent
     testController.reportCondition('user:regionMove event sent', true); // We assume this works based on the click
@@ -1592,7 +1698,7 @@ export async function testRegionMoveEventHandlerToggle(testController) {
     if (regionsReceiverCheckbox) {
       regionsReceiverCheckbox.checked = true;
       regionsReceiverCheckbox.dispatchEvent(new Event('change'));
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 100));
       testController.log(`[${testRunId}] Regions receiver checkbox re-enabled`);
     } else {
       testController.log(`[${testRunId}] WARNING: regionsReceiverCheckbox not available for re-enabling`);

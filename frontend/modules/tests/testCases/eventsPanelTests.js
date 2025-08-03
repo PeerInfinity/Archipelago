@@ -23,9 +23,6 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
-    
-    // Wait for panel to fully initialize
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // 2. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -37,7 +34,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         },
         'Events panel DOM element',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Events panel not found in DOM');
@@ -54,7 +51,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         },
         'Dispatcher section loaded',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Dispatcher section not loaded');
@@ -78,7 +75,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         },
         'user:regionMove event found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('user:regionMove event not found in dispatcher section');
@@ -236,15 +233,17 @@ export async function testEventsPanelModuleNameTracking(testController) {
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
     
-    // Wait for regions panel to initialize and subscribe to events
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Wait for regions panel to initialize using polling
+    await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel loaded',
+      5000,
+      50
+    );
     
     // 2. Now activate the Events panel  
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
     eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
-    
-    // Wait for events panel to fully initialize
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // 2. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -256,7 +255,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'Events panel DOM element',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Events panel not found in DOM');
@@ -273,7 +272,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'Event bus section loaded',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Event bus section not loaded');
@@ -297,7 +296,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'ui:navigateToRegion event found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('ui:navigateToRegion event not found in event bus section');
@@ -352,7 +351,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // 6. Activate the Regions panel to test the functionality
     testController.log(`[${testRunId}] Activating regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // 7. Wait for regions panel to show Menu region
     let regionsPanel = null;
@@ -364,7 +362,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'Regions panel found',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Regions panel not found');
@@ -377,7 +375,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // Uncheck the commonUI publisher checkbox
     if (commonUIPublisherCheckbox.checked) {
       commonUIPublisherCheckbox.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
     // Click on "Links House" link in Menu region - look for region link spans
@@ -387,7 +384,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     }
     
     linksHouseLink.click();
-    await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
     // Look specifically for the "Show All Regions" checkbox with correct ID
@@ -407,7 +403,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // 9. Re-enable commonUI publisher
     testController.log(`[${testRunId}] Re-enabling commonUI publisher...`);
     commonUIPublisherCheckbox.click();
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // 10. Test disabling regions subscriber
     testController.log(`[${testRunId}] Testing regions subscriber disable...`);
@@ -415,12 +410,10 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // Uncheck the regions subscriber checkbox
     if (regionsSubscriberCheckbox.checked) {
       regionsSubscriberCheckbox.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
     // Click on "Links House" link again (reuse the element found earlier)
     linksHouseLink.click();
-    await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
     testController.log(`[${testRunId}] After subscriber disable test - checkbox checked=${showAllRegionsCheckbox.checked}`);
@@ -432,14 +425,12 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // 11. Re-enable regions subscriber
     testController.log(`[${testRunId}] Re-enabling regions subscriber...`);
     regionsSubscriberCheckbox.click();
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // 12. Test that navigation works when both are enabled
     testController.log(`[${testRunId}] Testing navigation with both enabled...`);
     testController.log(`[${testRunId}] Before final test - checkbox checked=${showAllRegionsCheckbox.checked}`);
     
     linksHouseLink.click();
-    await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation happened (Show All Regions should now be checked)
     testController.log(`[${testRunId}] After final test - checkbox checked=${showAllRegionsCheckbox.checked}`);
@@ -503,17 +494,11 @@ export async function testEventsPanelAdditionalParticipants(testController) {
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
     eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
     
-    // Wait for panel to fully initialize
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
     // 5.5. Trigger a refresh of the Events panel data to pick up our newly registered participants
     testController.log(`[${testRunId}] Triggering Events panel refresh...`);
     // First register as publisher for the refresh event, then publish it
     eventBus.registerPublisher('module:stateChanged', 'tests');
     eventBus.publish('module:stateChanged', { moduleId: 'tests' }, 'tests');
-    
-    // Wait for the refresh to complete
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // 6. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -525,7 +510,7 @@ export async function testEventsPanelAdditionalParticipants(testController) {
         },
         'Events panel DOM element',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Events panel not found in DOM');
@@ -542,7 +527,7 @@ export async function testEventsPanelAdditionalParticipants(testController) {
         },
         'Event bus section loaded',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Event bus section not loaded');
@@ -566,7 +551,7 @@ export async function testEventsPanelAdditionalParticipants(testController) {
         },
         'Additional Event Participants section found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Additional Event Participants section not found');
@@ -590,7 +575,7 @@ export async function testEventsPanelAdditionalParticipants(testController) {
         },
         `Test event ${testEventName} found in additional participants`,
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error(`Test event ${testEventName} not found in additional participants section`);

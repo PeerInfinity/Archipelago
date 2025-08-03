@@ -39,8 +39,6 @@ export async function testPathAnalyzerPanel(testController) {
       'Path Analyzer panel activation event published',
       true
     );
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Increased pause to 1000ms
-
     // Step 4: Wait for the Path Analyzer panel, its input field, and analyze button to render
     testController.log(
       `[${testRunId}] Step 4: Waiting for Path Analyzer panel to render...`
@@ -50,15 +48,15 @@ export async function testPathAnalyzerPanel(testController) {
     let regionInput = null;
     let analyzeButton = null;
 
-    // Preliminary check for the panel root
+    // Poll for the panel root to appear (replacing the removed fixed delay)
     testController.log(
-      'Step 4.1: Preliminary poll for panel root #path-analyzer-panel-container...'
+      'Step 4.1: Polling for panel root #path-analyzer-panel-container...'
     );
     await testController.pollForCondition(
       () => document.querySelector('#path-analyzer-panel-container'),
       'Path Analyzer panel root (#path-analyzer-panel-container) to exist',
       5000,
-      250
+      50
     );
 
     // Main poll for panel and its children
@@ -90,7 +88,7 @@ export async function testPathAnalyzerPanel(testController) {
       },
       'Path Analyzer panel, input, and button to exist',
       10000,
-      250
+      50
     );
 
     const allElementsFound =
@@ -203,7 +201,7 @@ export async function testPathAnalyzerPanel(testController) {
           return false;
         },
         10000, // Timeout for analysis to complete and save
-        500,
+        50,
         `localStorage key "${localStorageKey}" to be populated with paths array`
       ))
     ) {

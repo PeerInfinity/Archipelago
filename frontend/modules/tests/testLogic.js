@@ -625,7 +625,7 @@ export const testLogic = {
     if (test && (test.status === 'passed' || test.status === 'failed') && 
         testId !== currentRunningTestId && !currentRunningTestId &&
         type !== 'error' && type !== 'warn' && type !== 'debug') {
-      log('warn', `[TestLogic] Ignoring log addition for completed test '${testId}' (current status: ${test.status}): ${message}`);
+      log('info', `[TestLogic] Ignoring log addition for completed test '${testId}' (current status: ${test.status}): ${message}`);
       return;
     }
     

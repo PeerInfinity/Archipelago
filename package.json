@@ -1,0 +1,47 @@
+{
+  "name": "archipelago-json",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Archipelago JSON Export Tools - A frontend-focused fork that exports Archipelago game logic to JSON and provides a web-based client with advanced tracking.",
+  "main": "playwright.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "TEST_MODE=test playwright test",
+    "test:headed": "TEST_MODE=test playwright test --headed",
+    "test:debug": "TEST_MODE=test playwright test --debug",
+    "test:ui": "TEST_MODE=test playwright test --ui",
+    "test:custom": "TEST_MODE=test-custom playwright test",
+    "test:custom:headed": "TEST_MODE=test-custom playwright test --headed",
+    "test:custom:debug": "TEST_MODE=test-custom playwright test --debug",
+    "test:custom:ui": "TEST_MODE=test-custom playwright test --ui",
+    "test:full": "TEST_MODE=test-full playwright test",
+    "test:full:headed": "TEST_MODE=test-full playwright test --headed",
+    "test:full:debug": "TEST_MODE=test-full playwright test --debug",
+    "test:full:ui": "TEST_MODE=test-full playwright test --ui",
+    "test:random": "TEST_MODE=test-full-random playwright test",
+    "test:random:headed": "TEST_MODE=test-full-random playwright test --headed",
+    "test:random:debug": "TEST_MODE=test-full-random playwright test --debug",
+    "test:random:ui": "TEST_MODE=test-full-random playwright test --ui",
+    "test:health": "node scripts/test-health-check.js",
+    "test:analyze": "node scripts/analyze-test-results.js",
+    "test:full-suite": "npm run test:health && npm test && npm run test:analyze"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeerInfinity/Archipelago.git",
+    "directory": "JSONExport"
+  },
+  "keywords": ["archipelago", "json", "multiworld", "web-client", "game-tracking"],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PeerInfinity/Archipelago/issues"
+  },
+  "homepage": "https://github.com/PeerInfinity/Archipelago/tree/JSONExport#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
