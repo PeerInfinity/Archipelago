@@ -24,21 +24,15 @@ export async function testLibraryExitAccessibility(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for panel to fully init
 
     // 2. Wait for the exits panel to appear in DOM
-    let exitsPanelElement = null;
-    if (
-      !(await testController.pollForCondition(
-        () => {
-          exitsPanelElement = document.querySelector('.exits-panel-container');
-          return exitsPanelElement !== null;
-        },
-        'Exits panel DOM element',
-        5000,
-        250
-      ))
-    ) {
+    const exitsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.exits-panel-container'),
+      'Exits panel found in DOM',
+      5000,
+      50
+    );
+    if (!exitsPanelElement) {
       throw new Error('Exits panel not found in DOM');
     }
     testController.reportCondition('Exits panel found in DOM', true);
@@ -53,7 +47,7 @@ export async function testLibraryExitAccessibility(testController) {
         },
         'Exits grid populated with exits',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Exits grid not populated with exits');
@@ -77,7 +71,7 @@ export async function testLibraryExitAccessibility(testController) {
         },
         'Library exit card found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Library exit card not found');
@@ -181,10 +175,14 @@ export async function testExitPanelBasicFunctionality(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // 2. Check panel exists
-    const exitsPanelElement = document.querySelector('.exits-panel-container');
+    // 2. Wait for panel to appear and check it exists
+    const exitsPanelElement = await testController.pollForValue(
+      () => document.querySelector('.exits-panel-container'),
+      'Exits panel exists in DOM',
+      5000,
+      50
+    );
     if (!exitsPanelElement) {
       throw new Error('Exits panel not found in DOM');
     }
@@ -203,12 +201,19 @@ export async function testExitPanelBasicFunctionality(testController) {
       overallResult = false;
     }
 
-    // 4. Check if exits are loaded
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for data to load
-    const exitCards = exitsGrid.querySelectorAll('.exit-card');
-    const hasExits = exitCards.length > 0;
+    // 4. Wait for exits to be loaded
+    const hasExits = await testController.pollForCondition(
+      () => {
+        const exitCards = exitsGrid.querySelectorAll('.exit-card');
+        return exitCards.length > 0;
+      },
+      'Exits are loaded',
+      MAX_WAIT_TIME,
+      50
+    );
     
     testController.reportCondition('Exits are loaded', hasExits);
+    const exitCards = exitsGrid.querySelectorAll('.exit-card');
     testController.log(`[${testRunId}] Found ${exitCards.length} exit cards`);
 
     if (!hasExits) {

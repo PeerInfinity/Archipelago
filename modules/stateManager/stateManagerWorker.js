@@ -52,16 +52,14 @@ self.onerror = function (message, source, lineno, colno, error) {
 // Import the StateManager class
 import { StateManager } from './stateManager.js';
 // Import the actual rule evaluation function
-import { evaluateRule } from './ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 // Import shared commands instead of StateManagerProxy to avoid window references
 import { STATE_MANAGER_COMMANDS } from './stateManagerCommands.js';
-// Import LoggerService class for worker-local logging
-import { LoggerService } from '../../app/core/loggerService.js';
+// Import universal logger
+import { initializeWorkerLogger, updateWorkerLoggerConfig, createUniversalLogger, workerLoggerInstance } from '../../app/core/universalLogger.js';
 
-// Create worker-local logger instance
-const workerLogger = new LoggerService();
-// Configure with basic settings initially
-workerLogger.configure({
+// Initialize worker logger with basic settings
+initializeWorkerLogger({
   defaultLevel: 'WARN',
   categoryLevels: {
     stateManagerWorker: 'WARN',
@@ -72,23 +70,12 @@ workerLogger.configure({
   enabled: true,
 });
 
-// Helper function for logging with fallback - now uses workerLogger
+// Create logger for this worker module
+const logger = createUniversalLogger('stateManagerWorker');
+
+// Legacy log function for backward compatibility (can be removed once all calls are updated)
 function log(level, message, ...data) {
-  // Check if workerLogger exists and is initialized
-  if (
-    typeof workerLogger !== 'undefined' &&
-    workerLogger &&
-    workerLogger.initialized
-  ) {
-    workerLogger[level]('stateManagerWorker', message, ...data);
-  } else {
-    // Fallback to console if workerLogger not ready
-    if (level === 'error' || level === 'warn') {
-      const consoleMethod =
-        console[level === 'info' ? 'log' : level] || console.log;
-      consoleMethod(`[stateManagerWorker] ${message}`, ...data);
-    }
-  }
+  logger[level](message, ...data);
 }
 
 // NOTE: ALTTPState and game-specific helpers are imported
@@ -187,19 +174,18 @@ async function handleMessage(message) {
 
         // Configure worker logger with settings from main thread
         if (workerConfig.loggingConfig) {
-          workerLogger.configure(workerConfig.loggingConfig);
-          log(
-            'info',
+          updateWorkerLoggerConfig(workerConfig.loggingConfig);
+          logger.info(
             `Worker logger configured. Default: ${
-              workerLogger.config.defaultLevel
+              workerConfig.loggingConfig.defaultLevel || 'N/A'
             }, StateManager: ${
-              workerLogger.config.categoryLevels?.StateManager || 'N/A'
+              workerConfig.loggingConfig.categoryLevels?.StateManager || 'N/A'
             }`
           );
         }
 
         // Pass the configured logger to StateManager
-        stateManagerInstance = new StateManager(evaluateRule, workerLogger);
+        stateManagerInstance = new StateManager(evaluateRule, workerLoggerInstance);
         setupCommunicationChannel(stateManagerInstance);
         // Pass initial settings if available in workerConfig
         if (workerConfig.settings) {
@@ -252,13 +238,12 @@ async function handleMessage(message) {
 
       case 'updateLogConfig':
         if (message.payload) {
-          workerLogger.configure(message.payload);
-          log(
-            'info',
+          updateWorkerLoggerConfig(message.payload);
+          logger.info(
             `Worker logging configuration updated. Default: ${
-              workerLogger.config.defaultLevel
+              message.payload.defaultLevel || 'N/A'
             }, StateManager: ${
-              workerLogger.config.categoryLevels?.StateManager || 'N/A'
+              message.payload.categoryLevels?.StateManager || 'N/A'
             }`
           );
         }

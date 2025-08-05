@@ -16,6 +16,7 @@ export class EventBus {
   constructor() {
     this.events = {}; // eventName -> Array<{moduleName, callback, enabled}>
     this.publishers = {}; // eventName -> Map<moduleName, {enabled}>
+    this.publishCounts = {}; // eventName -> Map<publisherModuleName, count>
   }
 
   subscribe(event, callback, moduleName) {
@@ -36,9 +37,50 @@ export class EventBus {
 
     this.events[event].push(subscriber);
 
-    // Auto-register subscriber intent in centralRegistry
+    // Auto-register subscriber intent in centralRegistry only if the subscriber is a legitimate module
     if (typeof window !== 'undefined' && window.centralRegistry) {
-      window.centralRegistry.registerEventBusSubscriberIntent(moduleName, event);
+      // Check multiple ways to determine if this is a legitimate module:
+      // 1. Has a registered panel component
+      const hasComponent = window.centralRegistry.getComponentTypeForModule(moduleName) !== null;
+      
+      // 2. Check if it's in the module manager's loaded modules list
+      let isInModuleManager = false;  
+      if (window.moduleManagerApi && typeof window.moduleManagerApi.getAllModuleStates === 'function') {
+        try {
+          const moduleStates = window.moduleManagerApi.getAllModuleStates();
+          // Check if it's a Promise and handle accordingly
+          if (moduleStates && typeof moduleStates.then === 'function') {
+            // If it's a Promise, we can't wait for it here, so we'll be conservative
+            isInModuleManager = false;
+          } else {
+            // It's synchronous, check if module exists
+            isInModuleManager = moduleStates && moduleStates[moduleName] !== undefined;
+          }
+        } catch (error) {
+          // If there's an error accessing module states, be conservative
+          isInModuleManager = false;
+        }
+      }
+      
+      // 3. Check against known core module names that might not have components
+      const knownModuleNames = [
+        'stateManager', 'modules', 'events', 'client', 'timer', 'timerPanel', 'inventory', 'editor', 'settings',
+        'commonUI', 'locations', 'exits', 'regions', 'loops', 'tests', 'json', 'pathAnalyzer',
+        'pathAnalyzerPanel', 'discovery', 'presets', 'testCases', 'testPlaythroughs', 'dungeons',
+        'textAdventure', 'textAdventureUI', 'iframePanel', 'panelManager', 'messageHandler',
+        'locationManager', 'playerState', 'playerStatePanel', 'testSpoilers', 'progressBarPanel',
+        'progressBar', 'ProgressBar', 'iframeAdapter', 'core', 'metaGame', 'metaGamePanel',
+        'iframeManagerPanel'
+      ];
+      const isKnownModule = knownModuleNames.includes(moduleName);
+      
+      const isLegitimateModule = hasComponent || isInModuleManager || isKnownModule;
+      
+      if (isLegitimateModule) {
+        window.centralRegistry.registerEventBusSubscriberIntent(moduleName, event);
+      } else {
+        log('debug', `Subscriber ${moduleName} is not a registered module (component: ${hasComponent}, moduleManager: ${isInModuleManager}, known: ${isKnownModule}), skipping centralRegistry registration for event ${event}`);
+      }
     }
 
     // Return unsubscribe function
@@ -54,6 +96,14 @@ export class EventBus {
 
     if (!this.publishers[event]) {
       this.publishers[event] = new Map();
+    }
+
+    // Initialize publish count for this event/publisher combination
+    if (!this.publishCounts[event]) {
+      this.publishCounts[event] = new Map();
+    }
+    if (!this.publishCounts[event].has(publisherModuleName)) {
+      this.publishCounts[event].set(publisherModuleName, 0);
     }
 
     // Register publisher with enabled state
@@ -81,6 +131,11 @@ export class EventBus {
     if (!publisherInfo.enabled) {
       log('debug', `Publisher ${publisherModuleName} is disabled for event ${event}. Ignoring publish.`);
       return;
+    }
+
+    // Increment publish count for this event/publisher combination
+    if (this.publishCounts[event] && this.publishCounts[event].has(publisherModuleName)) {
+      this.publishCounts[event].set(publisherModuleName, this.publishCounts[event].get(publisherModuleName) + 1);
     }
 
     // Execute enabled subscriber callbacks
@@ -155,6 +210,10 @@ export class EventBus {
       }));
     });
     return subscribers;
+  }
+
+  getAllPublishCounts() {
+    return this.publishCounts;
   }
 }
 

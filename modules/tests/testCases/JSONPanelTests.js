@@ -598,7 +598,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
       },
       'Mushroom location found',
       10000,
-      500
+      50
     );
     
     if (!mushroomLocation) {
@@ -789,7 +789,7 @@ export async function testJSONPanelGameStateImportExport(testController) {
       },
       'Bottle Merchant location found',
       10000,
-      500
+      50
     );
     
     if (!bottleMerchantLocation) {
@@ -1075,6 +1075,6 @@ registerTest({
   name: 'JSON Panel - Game State Import/Export',
   description: 'Tests the game state import/export functionality covering inventory and checked locations',
   category: 'JSON Panel',
-  enabled: true,
+  //enabled: false,
   testFunction: testJSONPanelGameStateImportExport
 });

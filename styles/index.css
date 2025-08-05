@@ -1,6 +1,131 @@
 /* Consolidated CSS file combining old-index.css, index.css, and gameUI.css
    Priority order: old-index.css → index.css → gameUI.css */
 
+/* Text Adventure Panel Styles */
+.text-adventure-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #2d2d2d;
+  color: #cecece;
+}
+
+.text-adventure-header {
+  padding: 8px;
+  background-color: #3d3d3d;
+  border-bottom: 1px solid #555;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-adventure-header label {
+  font-size: 12px;
+  color: #cecece;
+}
+
+.custom-data-select {
+  flex: 1;
+  padding: 4px 8px;
+  background-color: #4d4d4d;
+  color: #cecece;
+  border: 1px solid #666;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.text-adventure-display {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  background-color: #1e1e1e;
+  border: 1px solid #555;
+  margin: 8px;
+  margin-bottom: 0;
+}
+
+.text-adventure-message {
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+}
+
+.text-adventure-message.user-input {
+  color: #88cc88;
+  font-weight: bold;
+}
+
+.text-adventure-message.system {
+  color: #8888cc;
+  font-style: italic;
+}
+
+.text-adventure-message.error {
+  color: #cc8888;
+}
+
+.text-adventure-message.item-discovery {
+  color: #4da6ff;
+  font-weight: bold;
+}
+
+.item-name {
+  color: #4da6ff;
+  font-weight: bold;
+}
+
+.text-adventure-separator {
+  height: 8px;
+}
+
+.text-adventure-link {
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.text-adventure-link:hover {
+  filter: brightness(1.2);
+}
+
+.text-adventure-link.accessible {
+  color: #88cc88;
+}
+
+.text-adventure-link.inaccessible {
+  color: #cc8888;
+}
+
+.text-adventure-input-container {
+  padding: 8px;
+  background-color: #3d3d3d;
+  border-top: 1px solid #555;
+}
+
+.text-adventure-input {
+  width: 100%;
+  padding: 8px;
+  background-color: #4d4d4d;
+  color: #cecece;
+  border: 1px solid #666;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.text-adventure-input:focus {
+  outline: none;
+  border-color: #88cc88;
+  box-shadow: 0 0 3px rgba(136, 204, 136, 0.3);
+}
+
+.text-adventure-input::placeholder {
+  color: #888;
+}
+
 /* Base layout */
 html,
 body {

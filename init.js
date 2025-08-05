@@ -214,7 +214,7 @@ function createInitializationApi(moduleId) {
           return;
         }
         
-        return dispatcher.publish(eventName, data, options);
+        return dispatcher.publish(moduleId, eventName, data, options);
       },
       publishToNextModule: dispatcher.publishToNextModule.bind(dispatcher),
     }),
@@ -1478,6 +1478,8 @@ async function main() {
       getLoadPriorityFunc,
       isModuleEnabledFunc
     );
+    // Make dispatcher globally available for counter access
+    window.eventDispatcher = dispatcher;
     logger.info('init', 'Event Dispatcher initialized successfully.');
   } catch (error) {
     logger.error(
@@ -1826,6 +1828,7 @@ async function main() {
       );
       setTimeout(() => {
         dispatcher.publish(
+          'core',
           'system:rehomeTimerUI',
           {},
           { initialTarget: 'top' }
@@ -1921,6 +1924,7 @@ async function main() {
         );
         setTimeout(() => {
           dispatcher.publish(
+            'core',
             'system:rehomeTimerUI',
             {},
             { initialTarget: 'top' }
@@ -2038,6 +2042,7 @@ async function main() {
       // Ensure dispatcher is initialized (should be by now)
       logger.debug('init', 'Dispatching initial system:rehomeTimerUI event.');
       dispatcher.publish(
+        'core', // Origin module ID
         'system:rehomeTimerUI', // Event name
         {}, // Event data (empty for now, can be extended if needed)
         { initialTarget: 'top' } // Dispatch options: start from highest priority module

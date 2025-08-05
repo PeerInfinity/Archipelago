@@ -8,6 +8,7 @@ import {
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
   setEventBus,
+  setupCrossBrowserDropdown,
 } from './commonUI.js';
 import { stateManagerProxySingleton } from '../stateManager/index.js';
 
@@ -59,6 +60,7 @@ export {
   applyColorblindClass,
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
+  setupCrossBrowserDropdown,
 };
 
 // Provide a default export object containing all functions for convenience,
@@ -79,4 +81,5 @@ export default {
   applyColorblindClass,
   resetUnknownEvaluationCounter,
   logAndGetUnknownEvaluationCounter,
+  setupCrossBrowserDropdown,
 };

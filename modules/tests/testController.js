@@ -1,6 +1,6 @@
 // frontend/modules/tests/testController.js
 import { stateManagerProxySingleton } from '../stateManager/index.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 
 // --- TestController Class ---
 export class TestController {
@@ -491,6 +491,56 @@ export class TestController {
         }
         return; // This action is for setup
 
+      case 'LOAD_DEFAULT_RULES':
+        if (this.stateManager) {
+          // Always load the specific default rules file for test consistency
+          const defaultRulesPath = './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json';
+          
+          this.log(`Loading default rules from: ${defaultRulesPath}`);
+          
+          try {
+            let rulesData;
+            let playerInfo = {
+              playerId: actionDetails.playerId || '1',
+              playerName: actionDetails.playerName || `TestPlayer${actionDetails.playerId || '1'}`,
+            };
+
+            // Fetch the default rules data
+            this.log(`Fetching default rules data from file: ${defaultRulesPath}`);
+            const response = await fetch(defaultRulesPath);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch default rules: ${response.status} ${response.statusText}`);
+            }
+            rulesData = await response.json();
+
+            // Set up the event listener BEFORE calling loadRules to avoid race condition
+            const rulesLoadedPromise = this.waitForEvent(
+              'stateManager:rulesLoaded',
+              8000 // Longer timeout for loading
+            );
+
+            // Load the default rules
+            await this.stateManager.loadRules(rulesData, playerInfo, defaultRulesPath);
+            this.log('StateManager.loadRules command sent for default rules.');
+
+            // Wait for the worker to process and confirm
+            await rulesLoadedPromise;
+            this.log('stateManager:rulesLoaded event received after LOAD_DEFAULT_RULES.');
+            
+          } catch (error) {
+            this.log(
+              `Error loading default rules: ${error.message}`,
+              'error'
+            );
+            throw error;
+          }
+        } else {
+          const errMsg = 'StateManager proxy not available for LOAD_DEFAULT_RULES.';
+          this.log(errMsg, 'error');
+          throw new Error(errMsg);
+        }
+        return; // This action is for setup
+
       default:
         this.log(`Unknown action type: ${actionDetails.type}`, 'warn');
         return Promise.resolve();
@@ -522,6 +572,13 @@ export class TestController {
       
       let timeoutId;
       const handler = (data) => {
+        // FIRST: Check if test is completed - return immediately without any processing
+        if (this.isCompleted) {
+          // Event received for completed test - this is normal and not an error
+          // Don't log at all to reduce noise
+          return;
+        }
+        
         clearTimeout(timeoutId);
         
         // Remove from tracking before unsubscribing
@@ -530,13 +587,6 @@ export class TestController {
         // Ensure eventBus and unsubscribe are still valid before calling
         if (this.eventBus && typeof this.eventBus.unsubscribe === 'function') {
           this.eventBus.unsubscribe(eventName, handler);
-        }
-        
-        // Check if test has already completed - don't update status if so
-        if (this.isCompleted) {
-          this.log(`Event received for completed test, ignoring: ${eventName}`, 'warn');
-          resolve(data);
-          return;
         }
         
         this.log(`Event received: ${eventName}`);
@@ -688,6 +738,24 @@ export class TestController {
   async reloadCurrentRules(options = {}) {
     return await this.performAction({
       type: 'RELOAD_CURRENT_RULES',
+      playerId: options.playerId || '1',
+      playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
+    });
+  }
+
+  /**
+   * Loads the default rules.json file for consistent test setup.
+   * This always loads the same default file regardless of what was previously loaded,
+   * ensuring test isolation and consistent starting state.
+   * 
+   * @param {Object} options - Optional configuration
+   * @param {string} options.playerId - Player ID to use (defaults to '1')
+   * @param {string} options.playerName - Player name to use (defaults to 'TestPlayer1')
+   * @returns {Promise<void>} - Resolves when default rules are loaded and ready
+   */
+  async loadDefaultRules(options = {}) {
+    return await this.performAction({
+      type: 'LOAD_DEFAULT_RULES',
       playerId: options.playerId || '1',
       playerName: options.playerName || `TestPlayer${options.playerId || '1'}`
     });

@@ -1,8 +1,8 @@
 // exitUI.js
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 import commonUI from '../commonUI/index.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import {
   debounce,
   renderLogicTree,

@@ -256,6 +256,17 @@ export const testLogic = {
         hideDisabledToApply
       );
     }
+    
+    // Store the randomizeOrder value
+    let randomizeOrderToApply = false;
+    if (data && typeof data.randomizeOrder === 'boolean') {
+      randomizeOrderToApply = data.randomizeOrder;
+      log(
+        'info',
+        '[TestLogic applyLoadedState] randomizeOrderToApply:',
+        randomizeOrderToApply
+      );
+    }
 
     // Ensure discovery is complete before applying loaded state
     await initializeTestDiscovery();
@@ -302,6 +313,24 @@ export const testLogic = {
         'info',
         '[TestLogic applyLoadedState] Set hideDisabledTests to:',
         hideDisabledToApply
+      );
+    }
+    
+    // Apply the randomizeOrder setting
+    let randomizeOrderChanged = false;
+    const oldRandomizeOrderValue = TestState.shouldRandomizeOrder();
+    log(
+      'info',
+      '[TestLogic applyLoadedState] oldRandomizeOrderValue after discovery:',
+      oldRandomizeOrderValue
+    );
+    if (randomizeOrderToApply !== oldRandomizeOrderValue) {
+      TestState.setRandomizeOrder(randomizeOrderToApply);
+      randomizeOrderChanged = true;
+      log(
+        'info',
+        '[TestLogic applyLoadedState] Set randomizeOrder to:',
+        randomizeOrderToApply
       );
     }
     if (data && typeof data.defaultEnabledState === 'boolean') {
@@ -400,6 +429,11 @@ export const testLogic = {
       if (hideDisabledChanged) {
         eventBusInstance.publish('tests:hideDisabledConfigChanged', {
           hideDisabledEnabled: TestState.shouldHideDisabledTests(),
+        }, 'tests');
+      }
+      if (randomizeOrderChanged) {
+        eventBusInstance.publish('tests:randomizeOrderConfigChanged', {
+          randomizeOrderEnabled: TestState.shouldRandomizeOrder(),
         }, 'tests');
       }
     }
@@ -502,6 +536,19 @@ export const testLogic = {
     }
   },
 
+  shouldRandomizeOrder() {
+    return TestState.shouldRandomizeOrder();
+  },
+
+  setRandomizeOrder(shouldRandomize) {
+    TestState.setRandomizeOrder(shouldRandomize);
+    if (eventBusInstance) {
+      eventBusInstance.publish('tests:randomizeOrderConfigChanged', {
+        randomizeOrderEnabled: shouldRandomize,
+      }, 'tests');
+    }
+  },
+
   async toggleTestEnabled(testId, isEnabled) {
     await initializeTestDiscovery();
     TestState.toggleTestEnabled(testId, isEnabled);
@@ -578,7 +625,7 @@ export const testLogic = {
     if (test && (test.status === 'passed' || test.status === 'failed') && 
         testId !== currentRunningTestId && !currentRunningTestId &&
         type !== 'error' && type !== 'warn' && type !== 'debug') {
-      log('warn', `[TestLogic] Ignoring log addition for completed test '${testId}' (current status: ${test.status}): ${message}`);
+      log('info', `[TestLogic] Ignoring log addition for completed test '${testId}' (current status: ${test.status}): ${message}`);
       return;
     }
     
@@ -754,7 +801,7 @@ export const testLogic = {
   async runAllEnabledTests() {
     await initializeTestDiscovery();
 
-    const tests = TestState.getTests();
+    const tests = TestState.getTestsForExecution();
     const enabledTests = tests.filter((t) => t.isEnabled);
 
     if (enabledTests.length === 0) {
@@ -781,6 +828,9 @@ export const testLogic = {
     }
 
     log('info', `[TestLogic] Running ${enabledTests.length} enabled tests...`);
+    if (TestState.shouldRandomizeOrder()) {
+      log('info', '[TestLogic] Test order randomization is enabled - tests will run in random order');
+    }
 
     if (eventBusInstance)
       eventBusInstance.publish('tests:allRunsStarted', {

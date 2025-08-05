@@ -1,0 +1,530 @@
+{
+  "autoStartTestsOnLoad": true,
+  "hideDisabledTests": true,
+  "randomizeOrder": false,
+  "defaultEnabledState": false,
+  "tests": [
+    {
+      "id": "test_core_super_quick",
+      "name": "Super Quick Test",
+      "description": "A test that completes almost instantly.",
+      "functionName": "superQuickTest",
+      "isEnabled": false,
+      "order": 0,
+      "category": "Core"
+    },
+    {
+      "id": "test_core_simple_event",
+      "name": "Test Simple Event Wait",
+      "description": "Checks if waitForEvent correctly pauses and resumes on a custom event.",
+      "functionName": "simpleEventTest",
+      "isEnabled": false,
+      "order": 1,
+      "category": "Core"
+    },
+    {
+      "id": "test_core_rules_reload",
+      "name": "Rules Reload Test",
+      "description": "Tests the loadDefaultRules() function to ensure it properly loads the default rules.json file and waits for completion.",
+      "functionName": "rulesReloadTest",
+      "isEnabled": false,
+      "order": 2,
+      "category": "Core"
+    },
+    {
+      "id": "test_library_location_accessibility",
+      "name": "Library Location Accessibility Test",
+      "description": "Verifies that Library region and location accessibility are properly separated. Expected: Library region reachable, Library location unreachable.",
+      "functionName": "testLibraryLocationAccessibility",
+      "isEnabled": false,
+      "order": 3,
+      "category": "Location Panel"
+    },
+    {
+      "id": "test_location_panel_basic",
+      "name": "Location Panel Basic Functionality",
+      "description": "Tests basic functionality of the Location Panel including UI elements and data loading.",
+      "functionName": "testLocationPanelBasicFunctionality",
+      "isEnabled": false,
+      "order": 4,
+      "category": "Location Panel"
+    },
+    {
+      "id": "test_library_exit_accessibility",
+      "name": "Library Exit Accessibility Test",
+      "description": "Verifies that the Library exit shows correct accessibility status, specifically testing the fix for region/location name conflicts.",
+      "functionName": "testLibraryExitAccessibility",
+      "isEnabled": false,
+      "order": 5,
+      "category": "Exit Panel"
+    },
+    {
+      "id": "test_exit_panel_basic",
+      "name": "Exit Panel Basic Functionality",
+      "description": "Tests basic functionality of the Exit Panel including UI elements and data loading.",
+      "functionName": "testExitPanelBasicFunctionality",
+      "isEnabled": false,
+      "order": 6,
+      "category": "Exit Panel"
+    },
+    {
+      "id": "test_library_region_accessibility_show_all",
+      "name": "Library Region Accessibility Test (Show All)",
+      "description": "Verifies that Library region shows as accessible while Library location shows as inaccessible using \"Show All Regions\" mode.",
+      "functionName": "testLibraryRegionAccessibilityShowAll",
+      "isEnabled": false,
+      "order": 7,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_library_region_accessibility_navigation",
+      "name": "Library Region Accessibility Test (Navigation)",
+      "description": "Verifies that Library region shows as accessible while Library location shows as inaccessible using Move button navigation.",
+      "functionName": "testLibraryRegionAccessibilityNavigation",
+      "isEnabled": false,
+      "order": 8,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_region_panel_basic",
+      "name": "Region Panel Basic Functionality",
+      "description": "Tests basic functionality of the Region Panel including UI elements and data loading.",
+      "functionName": "testRegionPanelBasicFunctionality",
+      "isEnabled": false,
+      "order": 9,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_show_paths_checkbox",
+      "name": "Show Paths Checkbox",
+      "description": "Tests the Show Paths checkbox functionality for hiding/showing the full region path.",
+      "functionName": "testShowPathsCheckbox",
+      "isEnabled": false,
+      "order": 10,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_region_move_event",
+      "name": "Region Move Event Dispatch",
+      "description": "Tests that clicking Move buttons dispatches user:regionMove events.",
+      "functionName": "testRegionMoveEventDispatch",
+      "isEnabled": false,
+      "order": 11,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_entrance_display",
+      "name": "Entrance Display",
+      "description": "Tests that region entrances are displayed with proper formatting and accessibility.",
+      "functionName": "testEntranceDisplay",
+      "isEnabled": false,
+      "order": 12,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_region_move_event_handler_toggle",
+      "name": "Region Move Event Handler Toggle",
+      "description": "Tests the ability to toggle the regions module event handler for user:regionMove events through the Events panel.",
+      "functionName": "testRegionMoveEventHandlerToggle",
+      "isEnabled": false,
+      "order": 13,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_region_move_complete",
+      "name": "Region Move Complete Flow",
+      "description": "Comprehensive test of region move functionality including event dispatch, state updates, and UI changes.",
+      "functionName": "testRegionMoveComplete",
+      "isEnabled": false,
+      "order": 14,
+      "category": "Region Panel"
+    },
+    {
+      "id": "test_events_panel_sender_receiver",
+      "name": "Events Panel Sender/Receiver Display",
+      "description": "Verifies that modules appearing as both senders and receivers are correctly displayed in the Events panel",
+      "functionName": "testEventsPanelSenderReceiverDisplay",
+      "isEnabled": false,
+      "order": 15,
+      "category": "Events Panel"
+    },
+    {
+      "id": "test_events_panel_module_names",
+      "name": "Events Panel Module Name Tracking",
+      "description": "Verifies that the Events panel correctly tracks module names and enable/disable functionality works",
+      "functionName": "testEventsPanelModuleNameTracking",
+      "isEnabled": false,
+      "order": 16,
+      "category": "Events Panel"
+    },
+    {
+      "id": "test_events_panel_additional_participants",
+      "name": "Events Panel Additional Participants",
+      "description": "Verifies that the Events panel correctly displays non-module publishers and subscribers in the Additional Event Participants section",
+      "functionName": "testEventsPanelAdditionalParticipants",
+      "isEnabled": false,
+      "order": 17,
+      "category": "Events Panel"
+    },
+    {
+      "id": "simple_path_analyzer",
+      "name": "Simple Path Analyzer",
+      "description": "Very simple test to isolate Path Analyzer issues without state manager.",
+      "functionName": "simplePathAnalyzerTest",
+      "isEnabled": false,
+      "order": 18,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "debug_path_analyzer",
+      "name": "Debug Path Analyzer",
+      "description": "Simple debug test to isolate Path Analyzer issues.",
+      "functionName": "debugPathAnalyzerTest",
+      "isEnabled": false,
+      "order": 19,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_panel",
+      "name": "Path Analyzer - Panel Test",
+      "description": "Opens the Path Analyzer panel and selects a region to analyze.",
+      "functionName": "testPathAnalyzerPanel",
+      "isEnabled": false,
+      "order": 20,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_library",
+      "name": "Path Analyzer - Library Test",
+      "description": "Tests Path Analyzer with Library region (no parentheses).",
+      "functionName": "testPathAnalyzerLibrary",
+      "isEnabled": false,
+      "order": 21,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_misery_mire_entrance",
+      "name": "Path Analyzer - Misery Mire (Entrance) Test",
+      "description": "Tests Path Analyzer with Misery Mire (Entrance) region (with parentheses).",
+      "functionName": "testPathAnalyzerMiseryMireEntrance",
+      "isEnabled": false,
+      "order": 22,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_ui_library",
+      "name": "Path Analyzer UI - Library Test",
+      "description": "Tests Path Analyzer UI interaction with Library region (no parentheses).",
+      "functionName": "testPathAnalyzerUILibrary",
+      "isEnabled": false,
+      "order": 23,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "debug_path_analyzer_library_paths",
+      "name": "Debug Path Analyzer Library Paths",
+      "description": "Debug test to check actual DOM structure for Library paths",
+      "functionName": "debugPathAnalyzerLibraryPaths",
+      "isEnabled": false,
+      "order": 24,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_path_analyzer_ui_misery_mire_entrance",
+      "name": "Path Analyzer UI - Misery Mire (Entrance) Test",
+      "description": "Tests Path Analyzer UI interaction with Misery Mire (Entrance) region (with parentheses).",
+      "functionName": "testPathAnalyzerUIMiseryMireEntrance",
+      "isEnabled": false,
+      "order": 25,
+      "category": "Path Analysis"
+    },
+    {
+      "id": "test_settings_colorblind_mode_toggle",
+      "name": "Settings Panel - Colorblind Mode Toggle",
+      "description": "Tests enabling and disabling colorblind mode for regions via the Settings panel",
+      "functionName": "testColorblindModeToggleInRegionsViaSettings",
+      "isEnabled": false,
+      "order": 26,
+      "category": "Settings Panel"
+    },
+    {
+      "id": "test_settings_panel_loads_current_settings",
+      "name": "Settings Panel - Load Current Settings",
+      "description": "Verifies that the Settings panel loads and displays current settings correctly",
+      "functionName": "testSettingsPanelLoadsCurrentSettings",
+      "isEnabled": false,
+      "order": 27,
+      "category": "Settings Panel"
+    },
+    {
+      "id": "test_json_panel_import_from_text",
+      "name": "JSON Panel - Import from Text",
+      "description": "Tests the Import from Text functionality of the JSON panel by exporting settings, modifying them, and importing them back",
+      "functionName": "testJSONPanelImportFromText",
+      "isEnabled": false,
+      "order": 28,
+      "category": "JSON Panel"
+    },
+    {
+      "id": "test_json_panel_layout_import_export",
+      "name": "JSON Panel - Layout Import/Export",
+      "description": "Tests the layout import/export functionality of the JSON panel",
+      "functionName": "testJSONPanelLayoutImportExport",
+      "isEnabled": false,
+      "order": 29,
+      "category": "JSON Panel"
+    },
+    {
+      "id": "test_json_panel_gamestate_import_export",
+      "name": "JSON Panel - Game State Import/Export",
+      "description": "Tests the game state import/export functionality covering inventory and checked locations",
+      "functionName": "testJSONPanelGameStateImportExport",
+      "isEnabled": false,
+      "order": 30,
+      "category": "JSON Panel"
+    },
+    {
+      "id": "test_progress_bar_timer",
+      "name": "Progress Bar Timer Test",
+      "description": "Tests 5-second timer progress bar with start event and completion event validation",
+      "functionName": "testProgressBarTimer",
+      "isEnabled": false,
+      "order": 31,
+      "category": "Progress Bar"
+    },
+    {
+      "id": "test_progress_bar_event_mode",
+      "name": "Progress Bar Event Mode Test",
+      "description": "Tests event-driven progress bar with manual progress updates",
+      "functionName": "testProgressBarEventMode",
+      "isEnabled": false,
+      "order": 32,
+      "category": "Progress Bar"
+    },
+    {
+      "id": "test_progress_bar_commands",
+      "name": "Progress Bar Commands Test",
+      "description": "Tests show, hide, and destroy commands for progress bars",
+      "functionName": "testProgressBarCommands",
+      "isEnabled": false,
+      "order": 33,
+      "category": "Progress Bar"
+    },
+    {
+      "id": "test_meta_game_progress_bar_integration",
+      "name": "Meta Game Progress Bar Integration Test",
+      "description": "Tests the metaGame module with progress bar integration using progressBarTest.js configuration",
+      "functionName": "testMetaGameProgressBarIntegration",
+      "isEnabled": true,
+      "order": 34,
+      "category": "Meta Game"
+    },
+    {
+      "id": "test_meta_game_panel_ui",
+      "name": "Meta Game Panel UI Test",
+      "description": "Tests the metaGame panel UI elements including dropdown selection, configuration loading, and JSON editing",
+      "functionName": "testMetaGamePanelUI",
+      "isEnabled": true,
+      "order": 35,
+      "category": "Meta Game"
+    },
+    {
+      "id": "test_textadventure_basic_initialization",
+      "name": "Text Adventure Basic Initialization",
+      "description": "Tests basic panel initialization, rules loading, and initial display.",
+      "functionName": "textAdventureBasicInitializationTest",
+      "isEnabled": false,
+      "order": 36,
+      "category": "Text Adventure Tests"
+    },
+    {
+      "id": "test_textadventure_custom_data_loading",
+      "name": "Text Adventure Custom Data Loading",
+      "description": "Tests loading and applying custom data files with Adventure-specific messages.",
+      "functionName": "textAdventureCustomDataLoadingTest",
+      "isEnabled": false,
+      "order": 37,
+      "category": "Text Adventure Tests"
+    },
+    {
+      "id": "test_textadventure_movement_command",
+      "name": "Text Adventure Movement Command",
+      "description": "Tests text command movement (\"move GameStart\") and region changes.",
+      "functionName": "textAdventureMovementCommandTest",
+      "isEnabled": false,
+      "order": 38,
+      "category": "Text Adventure Tests"
+    },
+    {
+      "id": "test_textadventure_location_check_command",
+      "name": "Text Adventure Location Check Command",
+      "description": "Tests location checking (\"check Blue Labyrinth 0\") and item discovery.",
+      "functionName": "textAdventureLocationCheckCommandTest",
+      "isEnabled": false,
+      "order": 39,
+      "category": "Text Adventure Tests"
+    },
+    {
+      "id": "test_textadventure_link_click",
+      "name": "Text Adventure Link Click",
+      "description": "Tests clicking on exit and location links for movement and checking.",
+      "functionName": "textAdventureLinkClickTest",
+      "isEnabled": false,
+      "order": 40,
+      "category": "Text Adventure Tests"
+    },
+    {
+      "id": "test_textadventure_error_handling",
+      "name": "Text Adventure Error Handling",
+      "description": "Tests error handling for invalid commands and inaccessible targets.",
+      "functionName": "textAdventureErrorHandlingTest",
+      "isEnabled": false,
+      "order": 41,
+      "category": "Text Adventure Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_connection",
+      "name": "Text Adventure Iframe Connection",
+      "description": "Tests iframe adapter, panel creation, and connection establishment.",
+      "functionName": "textAdventureIframeConnectionTest",
+      "isEnabled": false,
+      "order": 42,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_basic_initialization",
+      "name": "Text Adventure Iframe Basic Initialization",
+      "description": "Tests basic iframe panel initialization, rules loading, and initial display through iframe.",
+      "functionName": "textAdventureIframeBasicInitializationTest",
+      "isEnabled": false,
+      "order": 43,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_custom_data_loading",
+      "name": "Text Adventure Iframe Custom Data Loading",
+      "description": "Tests loading and applying custom data files with Adventure-specific messages through iframe.",
+      "functionName": "textAdventureIframeCustomDataLoadingTest",
+      "isEnabled": false,
+      "order": 44,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_movement_command",
+      "name": "Text Adventure Iframe Movement Command",
+      "description": "Tests text command movement (\"move GameStart\") and region changes through iframe.",
+      "functionName": "textAdventureIframeMovementCommandTest",
+      "isEnabled": false,
+      "order": 45,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_location_check_command",
+      "name": "Text Adventure Iframe Location Check Command",
+      "description": "Tests location checking (\"check Blue Labyrinth 0\") and item discovery through iframe.",
+      "functionName": "textAdventureIframeLocationCheckCommandTest",
+      "isEnabled": false,
+      "order": 46,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_link_click",
+      "name": "Text Adventure Iframe Link Click",
+      "description": "Tests clicking on exit and location links for movement and checking through iframe.",
+      "functionName": "textAdventureIframeLinkClickTest",
+      "isEnabled": false,
+      "order": 47,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_textadventure_iframe_manager_ui",
+      "name": "Text Adventure Iframe Manager UI Test",
+      "description": "Tests using the iframe Manager panel UI to set up and load the text adventure iframe.",
+      "functionName": "textAdventureIframeManagerUITest",
+      "isEnabled": false,
+      "order": 48,
+      "category": "Text Adventure Iframe Tests"
+    },
+    {
+      "id": "test_iframe_base_connection",
+      "name": "Iframe Base Connection",
+      "description": "Tests iframe adapter, panel creation, and connection establishment for iframe-base module.",
+      "functionName": "iframeBaseConnectionTest",
+      "isEnabled": false,
+      "order": 49,
+      "category": "Iframe Base Tests"
+    },
+    {
+      "id": "test_iframe_base_basic_initialization",
+      "name": "Iframe Base Basic Initialization",
+      "description": "Tests basic iframe-base panel initialization and status display.",
+      "functionName": "iframeBaseBasicInitializationTest",
+      "isEnabled": false,
+      "order": 50,
+      "category": "Iframe Base Tests"
+    },
+    {
+      "id": "test_iframe_base_heartbeat",
+      "name": "Iframe Base Heartbeat Test",
+      "description": "Tests heartbeat counter functionality in iframe-base module.",
+      "functionName": "iframeBaseHeartbeatTest",
+      "isEnabled": false,
+      "order": 51,
+      "category": "Iframe Base Tests"
+    },
+    {
+      "id": "test_iframe_base_connection_status",
+      "name": "Iframe Base Connection Status",
+      "description": "Tests connection status display and module identification in iframe-base.",
+      "functionName": "iframeBaseConnectionStatusTest",
+      "isEnabled": false,
+      "order": 52,
+      "category": "Iframe Base Tests"
+    },
+    {
+      "id": "test_window_base_connection",
+      "name": "Window Base Connection",
+      "description": "Tests window adapter, panel creation, and connection establishment for window-base module.",
+      "functionName": "windowBaseConnectionTest",
+      "isEnabled": false,
+      "order": 53,
+      "category": "Window Base Tests"
+    },
+    {
+      "id": "test_window_base_basic_initialization",
+      "name": "Window Base Basic Initialization",
+      "description": "Tests basic window-base panel initialization and status display.",
+      "functionName": "windowBaseBasicInitializationTest",
+      "isEnabled": false,
+      "order": 54,
+      "category": "Window Base Tests"
+    },
+    {
+      "id": "test_window_base_heartbeat",
+      "name": "Window Base Heartbeat Test",
+      "description": "Tests heartbeat counter functionality in window-base module.",
+      "functionName": "windowBaseHeartbeatTest",
+      "isEnabled": false,
+      "order": 55,
+      "category": "Window Base Tests"
+    },
+    {
+      "id": "test_window_base_connection_status",
+      "name": "Window Base Connection Status",
+      "description": "Tests connection status display and module identification in window-base.",
+      "functionName": "windowBaseConnectionStatusTest",
+      "isEnabled": false,
+      "order": 56,
+      "category": "Window Base Tests"
+    },
+    {
+      "id": "test_spoiler_full_run",
+      "name": "Test Spoilers Panel - Full Run",
+      "description": "Activates the Test Spoilers panel, loads the suggested log, runs the full test, and reports the result.",
+      "functionName": "testSpoilersPanelFullRun",
+      "isEnabled": false,
+      "order": 57,
+      "category": "Test Spoilers Panel"
+    }
+  ]
+}

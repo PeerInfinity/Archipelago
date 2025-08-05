@@ -29,8 +29,15 @@ const TEST_CASE_FILES = [
   './testCases/regionPanelTests.js',
   './testCases/eventsPanelTests.js',
   './testCases/pathAnalyzerTests.js',
+  //'./testCases/playerStatePanelTests.js',
   './testCases/settingsPanelTests.js',
   './testCases/JSONPanelTests.js',
+  './testCases/progressBarTests.js',
+  './testCases/metaGamePanelTests.js',
+  './testCases/textAdventurePanelTests.js',
+  './testCases/textAdventure-iframeTests.js',
+  './testCases/iframe-baseTests.js',
+  //'./testCases/window-baseTests.js',
   './testCases/testSpoilersPanelTests.js',
 ];
 

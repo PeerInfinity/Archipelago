@@ -13,6 +13,11 @@ export async function testPathAnalyzerPanel(testController) {
   try {
     testController.reportCondition('Test started', true);
 
+    // Load default rules to reset state
+    testController.log(`[${testRunId}] Loading default rules to reset state...`);
+    await testController.loadDefaultRules();
+    testController.log(`[${testRunId}] Default rules loaded successfully`);
+
     // Step 1: Verify state manager availability (still good to have)
     testController.log('Step 1: Verifying state manager availability...');
     const stateManager = testController.stateManager;
@@ -39,8 +44,6 @@ export async function testPathAnalyzerPanel(testController) {
       'Path Analyzer panel activation event published',
       true
     );
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Increased pause to 1000ms
-
     // Step 4: Wait for the Path Analyzer panel, its input field, and analyze button to render
     testController.log(
       `[${testRunId}] Step 4: Waiting for Path Analyzer panel to render...`
@@ -50,15 +53,15 @@ export async function testPathAnalyzerPanel(testController) {
     let regionInput = null;
     let analyzeButton = null;
 
-    // Preliminary check for the panel root
+    // Poll for the panel root to appear (replacing the removed fixed delay)
     testController.log(
-      'Step 4.1: Preliminary poll for panel root #path-analyzer-panel-container...'
+      'Step 4.1: Polling for panel root #path-analyzer-panel-container...'
     );
     await testController.pollForCondition(
       () => document.querySelector('#path-analyzer-panel-container'),
       'Path Analyzer panel root (#path-analyzer-panel-container) to exist',
       5000,
-      250
+      50
     );
 
     // Main poll for panel and its children
@@ -90,7 +93,7 @@ export async function testPathAnalyzerPanel(testController) {
       },
       'Path Analyzer panel, input, and button to exist',
       10000,
-      250
+      50
     );
 
     const allElementsFound =
@@ -170,47 +173,96 @@ export async function testPathAnalyzerPanel(testController) {
 
     // Step 6: Click the analyze button
     testController.log(`[${testRunId}] Step 6: Clicking analyze button...`);
+    
+    // Debug: Check localStorage and button state before clicking
+    const beforeKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
+    testController.log(`[${testRunId}] localStorage keys before click: ${beforeKeys.length ? beforeKeys.join(', ') : 'none'}`);
+    testController.log(`[${testRunId}] Button disabled: ${pathAnalyzerAnalyzeButton.disabled}, text: "${pathAnalyzerAnalyzeButton.textContent}"`);
+    
     pathAnalyzerAnalyzeButton.click();
     testController.reportCondition('Clicked "Analyze Paths" button', true);
+    
+    // Debug: Check immediate changes after click
+    await new Promise(resolve => setTimeout(resolve, 200));
+    const afterKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
+    testController.log(`[${testRunId}] localStorage keys 200ms after click: ${afterKeys.length ? afterKeys.join(', ') : 'none'}`);
+    testController.log(`[${testRunId}] Button state after click - disabled: ${pathAnalyzerAnalyzeButton.disabled}, text: "${pathAnalyzerAnalyzeButton.textContent}"`);
 
-    // Step 7: Poll localStorage for the analysis results
-    const localStorageKey = '__pathAnalysis_Kings Grave__';
+    // Step 7: Wait for analysis to complete
     testController.log(
-      `[${testRunId}] Step 7: Waiting for analysis results (path count > 0 or error message)...`
+      `[${testRunId}] Step 7: Waiting for analysis to complete...`
     );
-    let analysisData = null;
-    if (
-      !(await testController.pollForCondition(
+    
+    // Analysis might complete very quickly, so we check for either:
+    // 1. "Analyzing..." state (if we catch it in time)
+    // 2. "Hide Paths" state (if analysis already completed)
+    // 3. Or wait for "Hide Paths" if still in original state
+    
+    let analysisStartedOrCompleted = false;
+    
+    // Quick check - did analysis already complete?
+    const currentButtonText = pathAnalyzerAnalyzeButton.textContent;
+    const currentButtonDisabled = pathAnalyzerAnalyzeButton.disabled;
+    
+    if (currentButtonText === 'Hide Paths' && currentButtonDisabled === false) {
+      testController.log(`[${testRunId}] Analysis already completed - button shows "Hide Paths"`);
+      analysisStartedOrCompleted = true;
+    } else if (currentButtonText === 'Analyzing...' && currentButtonDisabled === true) {
+      testController.log(`[${testRunId}] Analysis in progress - button shows "Analyzing..."`);
+      // Wait for completion
+      if (!(await testController.pollForCondition(
         () => {
-          const rawData = localStorage.getItem(localStorageKey);
-          if (rawData) {
-            try {
-              analysisData = JSON.parse(rawData);
-              // More specific check: ensure paths array is present and is an array
-              return (
-                analysisData &&
-                analysisData.paths &&
-                Array.isArray(analysisData.paths)
-              );
-            } catch (e) {
-              testController.log(
-                `[${testRunId}] Error parsing localStorage data for ${localStorageKey}: ${e.message}`,
-                'warn'
-              );
-              return false;
-            }
-          }
-          return false;
+          const buttonText = pathAnalyzerAnalyzeButton.textContent;
+          const buttonDisabled = pathAnalyzerAnalyzeButton.disabled;
+          return buttonText === 'Hide Paths' && buttonDisabled === false;
         },
-        10000, // Timeout for analysis to complete and save
-        500,
-        `localStorage key "${localStorageKey}" to be populated with paths array`
-      ))
-    ) {
-      throw new Error(
-        `Analysis results for "Kings Grave" not found in localStorage within timeout.`
-      );
+        15000,
+        50,
+        'Analysis to complete (button shows "Hide Paths")'
+      ))) {
+        throw new Error('Analysis did not complete - button did not change to "Hide Paths" state');
+      }
+      testController.log(`[${testRunId}] Analysis completed - button shows "Hide Paths"`);
+      analysisStartedOrCompleted = true;
+    } else {
+      // Still in original state, wait for completion
+      if (!(await testController.pollForCondition(
+        () => {
+          const buttonText = pathAnalyzerAnalyzeButton.textContent;
+          const buttonDisabled = pathAnalyzerAnalyzeButton.disabled;
+          return buttonText === 'Hide Paths' && buttonDisabled === false;
+        },
+        15000,
+        10, // Faster polling for quick analysis
+        'Analysis to complete (button shows "Hide Paths")'
+      ))) {
+        throw new Error('Analysis did not complete - button did not change to "Hide Paths" state');
+      }
+      testController.log(`[${testRunId}] Analysis completed - button shows "Hide Paths"`);
+      analysisStartedOrCompleted = true;
     }
+    
+    if (!analysisStartedOrCompleted) {
+      throw new Error('Analysis state could not be determined');
+    }
+    
+    // Finally, verify localStorage was populated
+    const localStorageKey = '__pathAnalysis_Kings Grave__';
+    const rawData = localStorage.getItem(localStorageKey);
+    let analysisData = null;
+    if (rawData) {
+      try {
+        analysisData = JSON.parse(rawData);
+        if (!(analysisData && analysisData.paths && Array.isArray(analysisData.paths))) {
+          throw new Error('localStorage data missing paths array');
+        }
+      } catch (e) {
+        throw new Error(`Error parsing localStorage data: ${e.message}`);
+      }
+    } else {
+      throw new Error('No localStorage data found after analysis completion');
+    }
+    
     testController.reportCondition(
       `Analysis results for "Kings Grave" found in localStorage`,
       true
@@ -467,7 +519,7 @@ export async function testPathAnalyzerLibrary(testController) {
     logic.setDebugMode(true); // Enable debug logging
 
     const snapshot = stateManager.getSnapshot();
-    const { createStateSnapshotInterface } = await import('../../stateManager/stateManagerProxy.js');
+    const { createStateSnapshotInterface } = await import('../../shared/stateInterface.js');
     const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
 
     const result = logic.analyzeDirectConnections('Library', staticData, snapshotInterface);
@@ -525,7 +577,7 @@ export async function testPathAnalyzerMiseryMireEntrance(testController) {
     logic.setDebugMode(true); // Enable debug logging
 
     const snapshot = stateManager.getSnapshot();
-    const { createStateSnapshotInterface } = await import('../../stateManager/stateManagerProxy.js');
+    const { createStateSnapshotInterface } = await import('../../shared/stateInterface.js');
     const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
 
     const result = logic.analyzeDirectConnections(regionName, staticData, snapshotInterface);
@@ -589,7 +641,7 @@ export async function testPathAnalyzerUILibrary(testController) {
       eventName: 'ui:activatePanel',
       payload: { panelId: 'pathAnalyzerPanel' },
     });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Removed fixed delay - use dynamic polling instead
 
     // Step 3: Wait for panel elements to be available
     testController.log(`[${testRunId}] Waiting for Path Analyzer panel elements...`);
@@ -609,7 +661,7 @@ export async function testPathAnalyzerUILibrary(testController) {
       },
       'Path Analyzer panel elements to exist',
       10000,
-      250
+      50
     );
 
     if (!panelElements) {
@@ -628,8 +680,20 @@ export async function testPathAnalyzerUILibrary(testController) {
 
     // Step 5: Click the analyze button
     testController.log(`[${testRunId}] Clicking analyze button...`);
+    
+    // Debug: Check localStorage and button state before clicking
+    const beforeKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
+    testController.log(`[${testRunId}] localStorage keys before click: ${beforeKeys.length ? beforeKeys.join(', ') : 'none'}`);
+    testController.log(`[${testRunId}] Button disabled: ${analyzeButton.disabled}, text: "${analyzeButton.textContent}"`);
+    
     analyzeButton.click();
     testController.reportCondition('Analyze button clicked', true);
+    
+    // Debug: Check immediate changes after click
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const afterKeys = Object.keys(localStorage).filter(key => key.startsWith('__pathAnalysis'));
+    testController.log(`[${testRunId}] localStorage keys after click: ${afterKeys.length ? afterKeys.join(', ') : 'none'}`);
+    testController.log(`[${testRunId}] Button state after click - disabled: ${analyzeButton.disabled}, text: "${analyzeButton.textContent}"`);
 
     // Step 6: Wait for analysis results
     testController.log(`[${testRunId}] Waiting for analysis results...`);
@@ -737,7 +801,7 @@ export async function testPathAnalyzerUIMiseryMireEntrance(testController) {
       },
       'Path Analyzer panel elements to exist',
       10000,
-      250
+      50
     );
 
     if (!panelElements) {
@@ -926,7 +990,7 @@ export async function debugPathAnalyzerLibraryPaths(testController) {
       },
       'Path Analyzer panel elements to exist',
       10000,
-      250
+      50
     );
 
     if (!panelElements) {

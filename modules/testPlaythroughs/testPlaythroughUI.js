@@ -1,7 +1,7 @@
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import eventBus from '../../app/core/eventBus.js'; // ADDED: Static import
-import { evaluateRule } from '../stateManager/ruleEngine.js'; // ADDED
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js'; // ADDED
+import { evaluateRule } from '../shared/ruleEngine.js'; // ADDED
+import { createStateSnapshotInterface } from '../shared/stateInterface.js'; // ADDED
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {

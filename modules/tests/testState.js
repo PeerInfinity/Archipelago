@@ -7,6 +7,7 @@ export const testLogicState = {
   tests: [], // Initialize as empty; will be populated by testDiscovery and testLogic
   autoStartTestsOnLoad: false,
   hideDisabledTests: false, // Default to false - show all tests
+  randomizeOrder: false, // Default to false - maintain order
   defaultEnabledState: false, // Default for newly discovered tests
   currentRunningTestId: null,
   fromDiscovery: false, // Flag to indicate if state was initialized from discovery
@@ -35,6 +36,7 @@ export function getSavableTestConfig() {
   return {
     autoStartTestsOnLoad: testLogicState.autoStartTestsOnLoad,
     hideDisabledTests: testLogicState.hideDisabledTests,
+    randomizeOrder: testLogicState.randomizeOrder,
     defaultEnabledState: testLogicState.defaultEnabledState,
     tests: testLogicState.tests.map((t) => ({
       // Save only config, not runtime state
@@ -67,6 +69,36 @@ export function setHideDisabledTests(shouldHide) {
 
 export function shouldHideDisabledTests() {
   return testLogicState.hideDisabledTests;
+}
+
+export function setRandomizeOrder(shouldRandomize) {
+  if (typeof shouldRandomize === 'boolean') {
+    testLogicState.randomizeOrder = shouldRandomize;
+  }
+}
+
+export function shouldRandomizeOrder() {
+  return testLogicState.randomizeOrder;
+}
+
+// Shuffle array using Fisher-Yates algorithm
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+export function getTestsForExecution() {
+  const sortedTests = [...testLogicState.tests.sort((a, b) => a.order - b.order)];
+  
+  if (testLogicState.randomizeOrder) {
+    return shuffleArray(sortedTests);
+  }
+  
+  return sortedTests;
 }
 
 export function toggleTestEnabled(testId, isEnabled) {

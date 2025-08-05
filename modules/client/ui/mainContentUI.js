@@ -1052,6 +1052,7 @@ class MainContentUI {
       // Use setTimeout to ensure this dispatch happens after current call stack (including GL destroy) unwinds
       setTimeout(() => {
         dispatcher.publish(
+          'client', // Origin module ID
           'system:rehomeTimerUI', // Event name
           {}, // Event data
           { initialTarget: 'top' } // Dispatch options

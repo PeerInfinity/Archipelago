@@ -44,6 +44,10 @@ class EventDispatcher {
     this.getLoadPriority = getLoadPriorityFunc;
     this.isModuleEnabled = isModuleEnabledFunc;
 
+    // Store dispatch counts: eventName -> Map<senderModuleId, count>
+    this.publishCounts = {}; // Counts from publish() method
+    this.propagationCounts = {}; // Counts from publishToNextModule() method
+
     log('info', 'EventDispatcher instance created (dynamic data fetching).');
   }
 
@@ -59,12 +63,13 @@ class EventDispatcher {
 
   /**
    * Publishes an event to the highest (or lowest) priority enabled module that handles it.
+   * @param {string} originModuleId - ID of the module sending the event (for tracking).
    * @param {string} eventName - The name of the event to publish.
    * @param {any} data - The data payload associated with the event.
    * @param {object} [options={}] - Optional parameters.
    * @param {'top'|'bottom'} [options.initialTarget='bottom'] - Order to check handlers.
    */
-  publish(eventName, data, options = {}) {
+  publish(originModuleId, eventName, data, options = {}) {
     const { initialTarget = 'bottom' } = options;
 
     const allHandlers = this.getHandlers(); // Get current handlers
@@ -129,6 +134,16 @@ class EventDispatcher {
       'info',
       `[Dispatcher] Dispatching ${eventName} to module: ${handlerEntry.moduleId} (initialTarget: ${initialTarget})`
     );
+
+    // Increment publish count for this event/sender combination
+    if (!this.publishCounts[eventName]) {
+      this.publishCounts[eventName] = new Map();
+    }
+    if (!this.publishCounts[eventName].has(originModuleId)) {
+      this.publishCounts[eventName].set(originModuleId, 0);
+    }
+    this.publishCounts[eventName].set(originModuleId, this.publishCounts[eventName].get(originModuleId) + 1);
+
     try {
       // Execute the handler
       // Ensure the handler function reference is correct
@@ -223,6 +238,16 @@ class EventDispatcher {
       'info',
       `[Dispatcher] Dispatching ${eventName} (propagated from ${originModuleId}) to module: ${handlerEntry.moduleId} (Direction: ${direction})`
     );
+
+    // Increment propagation count for this event/sender combination (sender is originModuleId)
+    if (!this.propagationCounts[eventName]) {
+      this.propagationCounts[eventName] = new Map();
+    }
+    if (!this.propagationCounts[eventName].has(originModuleId)) {
+      this.propagationCounts[eventName].set(originModuleId, 0);
+    }
+    this.propagationCounts[eventName].set(originModuleId, this.propagationCounts[eventName].get(originModuleId) + 1);
+
     try {
       // Execute the handler
       if (typeof handlerEntry.handlerFunction === 'function') {
@@ -245,6 +270,22 @@ class EventDispatcher {
         error
       );
     }
+  }
+
+  /**
+   * Gets all publish counts for tracking purposes.
+   * @returns {Object} eventName -> Map<senderModuleId, count>
+   */
+  getAllPublishCounts() {
+    return this.publishCounts;
+  }
+
+  /**
+   * Gets all propagation counts for tracking purposes.
+   * @returns {Object} eventName -> Map<senderModuleId, count>
+   */
+  getAllPropagationCounts() {
+    return this.propagationCounts;
   }
 }
 

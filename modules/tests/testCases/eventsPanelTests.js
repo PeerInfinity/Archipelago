@@ -18,14 +18,16 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
     testController.log(`[${testRunId}] Starting Events panel sender/receiver display test...`);
     testController.reportCondition('Test started', true);
 
+    // Reset state by loading default rules to ensure clean test environment
+    testController.log(`[${testRunId}] Loading default rules to reset state...`);
+    await testController.loadDefaultRules();
+    testController.log(`[${testRunId}] Default rules loaded successfully`);
+
     // 1. Activate the Events panel
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
-    
-    // Wait for panel to fully initialize
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // 2. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -37,7 +39,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         },
         'Events panel DOM element',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Events panel not found in DOM');
@@ -54,7 +56,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         },
         'Dispatcher section loaded',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Dispatcher section not loaded');
@@ -78,7 +80,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         },
         'user:regionMove event found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('user:regionMove event not found in dispatcher section');
@@ -117,7 +119,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
 
       // Check that the sender column has content (indicating it's a sender)
       const senderSymbol = senderColumn.textContent.trim();
-      const hasSenderSymbol = senderSymbol.includes('⬆️') || senderSymbol.includes('[S]');
+      const hasSenderSymbol = senderSymbol.includes('⬆') || senderSymbol.includes('[S]');
       
       if (!hasSenderSymbol) {
         throw new Error(`Expected sender symbol in sender column, found: "${senderSymbol}"`);
@@ -156,7 +158,7 @@ export async function testEventsPanelSenderReceiverDisplay(testController) {
         // Check if this entry has sender functionality
         if (senderColumn) {
           const senderSymbol = senderColumn.textContent.trim();
-          const hasSenderSymbol = senderSymbol.includes('⬆️') || senderSymbol.includes('[S]');
+          const hasSenderSymbol = senderSymbol.includes('⬆') || senderSymbol.includes('[S]');
           if (hasSenderSymbol) {
             senderEntryFound = true;
           }
@@ -230,21 +232,28 @@ export async function testEventsPanelModuleNameTracking(testController) {
     testController.log(`[${testRunId}] Starting Events panel module name tracking test...`);
     testController.reportCondition('Test started', true);
 
+    // Reset state by loading default rules to ensure clean test environment
+    testController.log(`[${testRunId}] Loading default rules to reset state...`);
+    await testController.loadDefaultRules();
+    testController.log(`[${testRunId}] Default rules loaded successfully`);
+
     // 1. First activate the Regions panel to trigger subscription to ui:navigateToRegion
     testController.log(`[${testRunId}] Activating regions panel to trigger event subscriptions...`);
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
     
-    // Wait for regions panel to initialize and subscribe to events
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Wait for regions panel to initialize using polling
+    await testController.pollForValue(
+      () => document.querySelector('.regions-panel-container'),
+      'Regions panel loaded',
+      5000,
+      50
+    );
     
     // 2. Now activate the Events panel  
     testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
     eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
-    
-    // Wait for events panel to fully initialize
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // 2. Wait for the events panel to appear in DOM
     let eventsPanelElement = null;
@@ -256,7 +265,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'Events panel DOM element',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Events panel not found in DOM');
@@ -273,7 +282,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'Event bus section loaded',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('Event bus section not loaded');
@@ -297,7 +306,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'ui:navigateToRegion event found',
         MAX_WAIT_TIME,
-        500
+        50
       ))
     ) {
       throw new Error('ui:navigateToRegion event not found in event bus section');
@@ -352,7 +361,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // 6. Activate the Regions panel to test the functionality
     testController.log(`[${testRunId}] Activating regions panel...`);
     eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // 7. Wait for regions panel to show Menu region
     let regionsPanel = null;
@@ -364,7 +372,7 @@ export async function testEventsPanelModuleNameTracking(testController) {
         },
         'Regions panel found',
         5000,
-        250
+        50
       ))
     ) {
       throw new Error('Regions panel not found');
@@ -377,7 +385,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // Uncheck the commonUI publisher checkbox
     if (commonUIPublisherCheckbox.checked) {
       commonUIPublisherCheckbox.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
     // Click on "Links House" link in Menu region - look for region link spans
@@ -387,7 +394,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     }
     
     linksHouseLink.click();
-    await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
     // Look specifically for the "Show All Regions" checkbox with correct ID
@@ -407,7 +413,6 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // 9. Re-enable commonUI publisher
     testController.log(`[${testRunId}] Re-enabling commonUI publisher...`);
     commonUIPublisherCheckbox.click();
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // 10. Test disabling regions subscriber
     testController.log(`[${testRunId}] Testing regions subscriber disable...`);
@@ -415,12 +420,10 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // Uncheck the regions subscriber checkbox
     if (regionsSubscriberCheckbox.checked) {
       regionsSubscriberCheckbox.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
     // Click on "Links House" link again (reuse the element found earlier)
     linksHouseLink.click();
-    await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation did not happen (Show All Regions should still be unchecked)
     testController.log(`[${testRunId}] After subscriber disable test - checkbox checked=${showAllRegionsCheckbox.checked}`);
@@ -432,14 +435,12 @@ export async function testEventsPanelModuleNameTracking(testController) {
     // 11. Re-enable regions subscriber
     testController.log(`[${testRunId}] Re-enabling regions subscriber...`);
     regionsSubscriberCheckbox.click();
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // 12. Test that navigation works when both are enabled
     testController.log(`[${testRunId}] Testing navigation with both enabled...`);
     testController.log(`[${testRunId}] Before final test - checkbox checked=${showAllRegionsCheckbox.checked}`);
     
     linksHouseLink.click();
-    await new Promise((resolve) => setTimeout(resolve, 500));
     
     // Verify that the navigation happened (Show All Regions should now be checked)
     testController.log(`[${testRunId}] After final test - checkbox checked=${showAllRegionsCheckbox.checked}`);
@@ -449,6 +450,214 @@ export async function testEventsPanelModuleNameTracking(testController) {
     testController.reportCondition('Both enabled allows navigation', true);
 
     testController.log(`[${testRunId}] Events panel module name tracking test completed successfully`);
+    testController.reportCondition('Test completed successfully', true);
+
+    return true;
+
+  } catch (error) {
+    testController.log(`[${testRunId}] Test failed: ${error.message}`);
+    testController.reportCondition(`Test failed: ${error.message}`, false);
+    return false;
+  }
+}
+
+/**
+ * Test case for verifying that the Events panel correctly displays non-module publishers
+ * and subscribers in the "Additional Event Participants" section.
+ * @param {object} testController - The test controller object provided by the test runner.
+ * @returns {Promise<boolean>} - True if the test passed, false otherwise.
+ */
+export async function testEventsPanelAdditionalParticipants(testController) {
+  const testRunId = `events-panel-additional-participants-${Date.now()}`;
+
+  try {
+    testController.log(`[${testRunId}] Starting Events panel additional participants test...`);
+    testController.reportCondition('Test started', true);
+
+    // 1. Get access to eventBus directly to register a test publisher
+    testController.log(`[${testRunId}] Getting eventBus instance...`);
+    const eventBusModule = await import('../../../app/core/eventBus.js');
+    const eventBus = eventBusModule.default;
+
+    // 2. Register a fake iframe-like publisher directly with eventBus (bypassing centralRegistry)
+    const testPublisherId = 'iframe_testFrame';
+    const testEventName = 'test:fakeEvent';
+    
+    testController.log(`[${testRunId}] Registering test publisher ${testPublisherId} for event ${testEventName}...`);
+    eventBus.registerPublisher(testEventName, testPublisherId);
+    testController.reportCondition('Test publisher registered', true);
+
+    // 3. Also subscribe to the event with a fake subscriber
+    const testSubscriberId = 'externalSystem';
+    testController.log(`[${testRunId}] Subscribing ${testSubscriberId} to event ${testEventName}...`);
+    const unsubscribe = eventBus.subscribe(testEventName, (data) => {
+      testController.log(`[${testRunId}] Received test event: ${JSON.stringify(data)}`);
+    }, testSubscriberId);
+    testController.reportCondition('Test subscriber registered', true);
+
+    // 4. Publish the test event to ensure it's working
+    testController.log(`[${testRunId}] Publishing test event...`);
+    eventBus.publish(testEventName, { message: 'test data' }, testPublisherId);
+    testController.reportCondition('Test event published', true);
+
+    // 5. Activate the Events panel
+    testController.log(`[${testRunId}] Activating ${EVENTS_PANEL_ID} panel...`);
+    eventBus.publish('ui:activatePanel', { panelId: EVENTS_PANEL_ID }, 'tests');
+    
+    // 5.5. Trigger a refresh of the Events panel data to pick up our newly registered participants
+    testController.log(`[${testRunId}] Triggering Events panel refresh...`);
+    // First register as publisher for the refresh event, then publish it
+    eventBus.registerPublisher('module:stateChanged', 'tests');
+    eventBus.publish('module:stateChanged', { moduleId: 'tests' }, 'tests');
+
+    // 6. Wait for the events panel to appear in DOM
+    let eventsPanelElement = null;
+    if (
+      !(await testController.pollForCondition(
+        () => {
+          eventsPanelElement = document.querySelector('.events-inspector');
+          return eventsPanelElement !== null;
+        },
+        'Events panel DOM element',
+        5000,
+        50
+      ))
+    ) {
+      throw new Error('Events panel not found in DOM');
+    }
+    testController.reportCondition('Events panel found in DOM', true);
+
+    // 7. Wait for the event bus section to load
+    let eventBusSection = null;
+    if (
+      !(await testController.pollForCondition(
+        () => {
+          eventBusSection = eventsPanelElement.querySelector('.event-bus-section');
+          return eventBusSection && eventBusSection.textContent !== 'Loading...';
+        },
+        'Event bus section loaded',
+        MAX_WAIT_TIME,
+        50
+      ))
+    ) {
+      throw new Error('Event bus section not loaded');
+    }
+    testController.reportCondition('Event bus section loaded', true);
+
+    // 8. Look for the "Additional Event Participants" section (now a top-level section)
+    let additionalParticipantsSection = null;
+    if (
+      !(await testController.pollForCondition(
+        () => {
+          // Look for the section header in the entire events panel, not just event bus section
+          const sectionHeaders = eventsPanelElement.querySelectorAll('h2');
+          for (const header of sectionHeaders) {
+            if (header.textContent.includes('Additional Event Participants')) {
+              additionalParticipantsSection = header.closest('details');
+              return true;
+            }
+          }
+          return false;
+        },
+        'Additional Event Participants section found',
+        MAX_WAIT_TIME,
+        50
+      ))
+    ) {
+      throw new Error('Additional Event Participants section not found');
+    }
+    testController.reportCondition('Additional Event Participants section found', true);
+
+    // 9. Look for our test event in the additional participants section
+    let testEventContainer = null;
+    if (
+      !(await testController.pollForCondition(
+        () => {
+          const eventContainers = additionalParticipantsSection.querySelectorAll('.event-bus-event');
+          for (const container of eventContainers) {
+            const eventTitle = container.querySelector('h4');
+            if (eventTitle && eventTitle.textContent.trim() === testEventName) {
+              testEventContainer = container;
+              return true;
+            }
+          }
+          return false;
+        },
+        `Test event ${testEventName} found in additional participants`,
+        MAX_WAIT_TIME,
+        50
+      ))
+    ) {
+      throw new Error(`Test event ${testEventName} not found in additional participants section`);
+    }
+    testController.reportCondition('Test event found in additional participants section', true);
+
+    // 10. Verify the iframe publisher is listed
+    const moduleBlocks = testEventContainer.querySelectorAll('.module-block');
+    let iframePublisherFound = false;
+    let externalSubscriberFound = false;
+
+    for (const block of moduleBlocks) {
+      const moduleName = block.querySelector('.module-name');
+      if (moduleName && moduleName.textContent.includes(testPublisherId)) {
+        // Check that it has [iframe] label
+        const hasIframeLabel = moduleName.textContent.includes('[iframe]');
+        if (!hasIframeLabel) {
+          throw new Error(`Expected [iframe] label for ${testPublisherId}`);
+        }
+        
+        // Check that it shows as publisher
+        const publisherColumn = block.querySelector('.publisher-symbol');
+        if (publisherColumn && publisherColumn.textContent.includes('[P]')) {
+          iframePublisherFound = true;
+        }
+      }
+      
+      if (moduleName && moduleName.textContent.trim() === testSubscriberId) {
+        // Check that it shows as subscriber
+        const subscriberColumn = block.querySelector('.subscriber-symbol');
+        if (subscriberColumn && subscriberColumn.textContent.includes('[S]')) {
+          externalSubscriberFound = true;
+        }
+      }
+    }
+
+    if (!iframePublisherFound) {
+      throw new Error(`Test iframe publisher ${testPublisherId} not found in additional participants`);
+    }
+    testController.reportCondition('Test iframe publisher found with [iframe] label', true);
+
+    if (!externalSubscriberFound) {
+      throw new Error(`Test external subscriber ${testSubscriberId} not found in additional participants`);
+    }
+    testController.reportCondition('Test external subscriber found', true);
+
+    // 11. Verify that regular module events are still in the main section (not in additional participants)
+    testController.log(`[${testRunId}] Verifying module events are not in additional participants section...`);
+    
+    // Look for a known module event that should NOT be in additional participants
+    const moduleEventContainers = additionalParticipantsSection.querySelectorAll('.event-bus-event');
+    let moduleEventInAdditional = false;
+    
+    for (const container of moduleEventContainers) {
+      const eventTitle = container.querySelector('h4');
+      if (eventTitle && (eventTitle.textContent.includes('stateManager:') || eventTitle.textContent.includes('ui:activatePanel'))) {
+        moduleEventInAdditional = true;
+        break;
+      }
+    }
+    
+    if (moduleEventInAdditional) {
+      throw new Error('Found module event in additional participants section - should only contain non-module participants');
+    }
+    testController.reportCondition('Module events correctly excluded from additional participants', true);
+
+    // Clean up - unsubscribe our test subscriber
+    testController.log(`[${testRunId}] Cleaning up test subscriber...`);
+    unsubscribe();
+    testController.reportCondition('Test cleanup completed', true);
+
+    testController.log(`[${testRunId}] Events panel additional participants test completed successfully`);
     testController.reportCondition('Test completed successfully', true);
 
     return true;
@@ -479,4 +688,14 @@ registerTest({
   category: 'Events Panel',
   //enabled: false,
   //order: 2
+});
+
+registerTest({
+  id: 'test_events_panel_additional_participants',
+  name: 'Events Panel Additional Participants',
+  description: 'Verifies that the Events panel correctly displays non-module publishers and subscribers in the Additional Event Participants section',
+  testFunction: testEventsPanelAdditionalParticipants,
+  category: 'Events Panel',
+  //enabled: true,
+  //order: 3
 });

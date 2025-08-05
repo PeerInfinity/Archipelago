@@ -1,0 +1,128 @@
+/* Progress Bar Component Styles */
+
+.progress-bar-container {
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.progress-bar-text {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.progress-bar-element {
+  width: 100%;
+  height: 20px;
+  border-radius: 3px;
+  /* Remove default browser styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-color: #e0e0e0;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.progress-bar-element::-webkit-progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 3px;
+}
+
+.progress-bar-element::-webkit-progress-value {
+  background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
+  border-radius: 3px;
+  transition: width 0.1s ease;
+}
+
+/* Firefox */
+.progress-bar-element::-moz-progress-bar {
+  background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
+  border-radius: 3px;
+  transition: width 0.1s ease;
+}
+
+/* Edge/IE */
+.progress-bar-element::-ms-fill {
+  background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
+  border-radius: 3px;
+  transition: width 0.1s ease;
+}
+
+/* Hidden state */
+.progress-bar-container[style*="display: none"] {
+  display: none !important;
+}
+
+/* Different themes (for future use) */
+.progress-bar-container.theme-success .progress-bar-element::-webkit-progress-value,
+.progress-bar-container.theme-success .progress-bar-element::-moz-progress-bar,
+.progress-bar-container.theme-success .progress-bar-element::-ms-fill {
+  background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
+}
+
+.progress-bar-container.theme-warning .progress-bar-element::-webkit-progress-value,
+.progress-bar-container.theme-warning .progress-bar-element::-moz-progress-bar,
+.progress-bar-container.theme-warning .progress-bar-element::-ms-fill {
+  background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
+}
+
+.progress-bar-container.theme-error .progress-bar-element::-webkit-progress-value,
+.progress-bar-container.theme-error .progress-bar-element::-moz-progress-bar,
+.progress-bar-container.theme-error .progress-bar-element::-ms-fill {
+  background: linear-gradient(90deg, #f44336 0%, #d32f2f 100%);
+}
+
+/* Small variant */
+.progress-bar-container.size-small {
+  margin: 4px 0;
+  padding: 4px;
+}
+
+.progress-bar-container.size-small .progress-bar-text {
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.progress-bar-container.size-small .progress-bar-element {
+  height: 12px;
+}
+
+/* Large variant */
+.progress-bar-container.size-large {
+  margin: 12px 0;
+  padding: 12px;
+}
+
+.progress-bar-container.size-large .progress-bar-text {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.progress-bar-container.size-large .progress-bar-element {
+  height: 28px;
+}
+
+/* Integration with existing panel styles */
+.panel-container .progress-bar-container {
+  margin: 4px 8px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-container .progress-bar-text {
+  color: #fff;
+}
+
+.panel-container .progress-bar-element {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.panel-container .progress-bar-element::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.1);
+}

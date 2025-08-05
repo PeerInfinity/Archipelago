@@ -1,6 +1,6 @@
 // frontend/modules/timer/timerLogic.js
 import { Config } from '../client/core/config.js'; // Assuming Config might be needed for defaults
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js'; // For evaluating rules
+import { createStateSnapshotInterface } from '../shared/stateInterface.js'; // For evaluating rules
 
 
 // Helper function for logging with fallback

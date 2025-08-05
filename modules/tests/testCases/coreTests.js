@@ -102,7 +102,7 @@ export async function rulesReloadTest(testController) {
       },
       'Locations panel ready',
       5000,
-      250
+      50
     );
     testController.reportCondition('Locations panel activated', locationsReady);
 
@@ -121,8 +121,8 @@ export async function rulesReloadTest(testController) {
         return null;
       },
       'Mushroom location found',
-      10000,
-      500
+      5000,
+      50
     );
     
     if (mushroomLocation) {
@@ -151,7 +151,7 @@ export async function rulesReloadTest(testController) {
       },
       'Mushroom location is checked',
       5000,
-      250
+      50
     );
     testController.reportCondition('Mushroom location confirmed checked', mushroomLocationChecked);
 
@@ -167,7 +167,7 @@ export async function rulesReloadTest(testController) {
       },
       'Inventory panel ready',
       5000,
-      250
+      50
     );
     testController.reportCondition('Inventory panel activated', inventoryReady);
 
@@ -199,7 +199,7 @@ export async function rulesReloadTest(testController) {
       },
       'Rupees (20) found in inventory',
       5000,
-      250
+      50
     );
     testController.reportCondition('Rupees (20) appears in inventory', rupeesFound);
 
@@ -231,7 +231,7 @@ export async function rulesReloadTest(testController) {
       },
       'Bow not found in inventory',
       3000,
-      250
+      50
     );
     testController.reportCondition('Bow does not appear in inventory', bowNotFound);
 
@@ -247,7 +247,7 @@ export async function rulesReloadTest(testController) {
       },
       'Regions panel ready',
       5000,
-      250
+      50
     );
     testController.reportCondition('Regions panel activated', regionsReady);
 
@@ -266,8 +266,8 @@ export async function rulesReloadTest(testController) {
         return null;
       },
       'Links House S&Q move button found',
-      10000,
-      500
+      5000,
+      50
     );
     
     if (moveButton) {
@@ -304,20 +304,20 @@ export async function rulesReloadTest(testController) {
       },
       'Links House region block appears',
       5000,
-      250
+      50
     );
     testController.reportCondition('Links House region block confirmed added', linksHouseAdded);
 
-    // Step 10: Run reloadCurrentRules
-    testController.log('Step 10: Calling reloadCurrentRules()...');
+    // Step 10: Run loadDefaultRules
+    testController.log('Step 10: Calling loadDefaultRules()...');
     
     // Set up a promise to wait for the stateManager:rulesLoaded event
     const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 10000);
     
     // Start the reload (this will fire the event)
-    await testController.reloadCurrentRules();
+    await testController.loadDefaultRules();
     
-    testController.reportCondition('reloadCurrentRules() completed successfully', true);
+    testController.reportCondition('loadDefaultRules() completed successfully', true);
     testController.log('Rules reload completed successfully');
     
     // Wait for the event to be received
@@ -385,7 +385,7 @@ export async function rulesReloadTest(testController) {
       },
       'Rupees (20) removed from inventory',
       3000,
-      250
+      50
     );
     testController.reportCondition('Rupees (20) removed from inventory after reload', rupeesRemovedAfterReload);
 
@@ -412,7 +412,7 @@ export async function rulesReloadTest(testController) {
       },
       'Links House region block removed',
       3000,
-      250
+      50
     );
     testController.reportCondition('Links House region block removed after reload', linksHouseRemovedAfterReload);
     
@@ -481,7 +481,7 @@ registerTest({
   id: 'test_core_rules_reload',
   name: 'Rules Reload Test',
   description:
-    'Tests the reloadCurrentRules() function to ensure it properly reloads the current rules.json file and waits for completion.',
+    'Tests the loadDefaultRules() function to ensure it properly loads the default rules.json file and waits for completion.',
   testFunction: rulesReloadTest,
   category: 'Core',
   //enabled: true,

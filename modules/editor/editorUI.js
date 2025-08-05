@@ -49,6 +49,11 @@ class EditorUI {
         loaded: false,
         name: 'Data for Export',
       },
+      metaGameJsFile: {
+        text: '// No metaGame JavaScript file loaded yet',
+        loaded: false,
+        name: 'metaGame js file',
+      },
     };
     this.currentSourceKey = 'rules'; // Default source
     this.editorDropdown = null;
@@ -306,6 +311,56 @@ class EditorUI {
             this.contentSources.dataForExport.text = 'Error: Could not display export data.';
             this.contentSources.dataForExport.loaded = true;
           }
+        }
+      }
+    , 'editor');
+
+    // Subscribe to metaGame JS file content events
+    if (this.unsubscribeHandles['metaGameJsFile']) {
+      log('warn', 
+        'EditorUI already subscribed to metaGameJsFile. Unsubscribing previous first.'
+      );
+      this.unsubscribeHandles['metaGameJsFile']();
+    }
+    
+    log('info', "EditorUI subscribing to 'metaGame:jsFileContent'");
+    this.unsubscribeHandles['metaGameJsFile'] = eventBus.subscribe(
+      'metaGame:jsFileContent',
+      (eventData) => {
+        log('info', '[EditorUI] Received metaGame:jsFileContent event:', eventData);
+        
+        if (!eventData || !eventData.content) {
+          log('warn', 
+            "EditorUI received invalid payload for 'metaGame:jsFileContent'",
+            eventData
+          );
+          this.contentSources.metaGameJsFile.text = '// Error: Invalid JS file content received';
+          this.contentSources.metaGameJsFile.loaded = true;
+        } else {
+          log('info', 
+            `EditorUI received metaGame JS file content from: ${eventData.filePath || 'unknown'}`
+          );
+          this.contentSources.metaGameJsFile.text = eventData.content;
+          this.contentSources.metaGameJsFile.loaded = true;
+          
+          // Switch to the metaGame JS file view and activate Editor panel
+          this.currentSourceKey = 'metaGameJsFile';
+          if (this.editorDropdown) {
+            this.editorDropdown.value = 'metaGameJsFile';
+            log('info', '[EditorUI] Set dropdown to metaGameJsFile');
+          }
+          this._displayCurrentSourceContent();
+          log('info', '[EditorUI] Called _displayCurrentSourceContent()');
+          
+          // Activate the Editor panel
+          if (eventData.activatePanel !== false) {
+            eventBus.publish('ui:activatePanel', { panelId: 'editorPanel' }, 'editor');
+            log('info', '[EditorUI] Published ui:activatePanel event');
+          }
+        }
+        
+        if (this.currentSourceKey === 'metaGameJsFile') {
+          this._displayCurrentSourceContent();
         }
       }
     , 'editor');

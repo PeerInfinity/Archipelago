@@ -92,10 +92,6 @@
       "path": "./modules/presets/index.js",
       "enabled": true
     },
-    "testCases": {
-      "path": "./modules/testCases/index.js",
-      "enabled": false
-    },
     "testPlaythroughs": {
       "path": "./modules/testPlaythroughs/index.js",
       "enabled": false
@@ -104,9 +100,61 @@
       "path": "./modules/testSpoilers/index.js",
       "enabled": true
     },
+    "textAdventure": {
+      "path": "./modules/textAdventure/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "playerState", "discovery"]
+    },
     "tests": {
       "path": "./modules/tests/index.js",
       "enabled": true
+    },
+    "progressBar": {
+      "path": "./modules/progressBar/index.js",
+      "enabled": true
+    },
+    "progressBarPanel": {
+      "path": "./modules/progressBarPanel/index.js",
+      "enabled": true,
+      "requires": ["progressBar"]
+    },
+    "metaGame": {
+      "path": "./modules/metaGame/index.js",
+      "enabled": true,
+      "requires": ["progressBar", "progressBarPanel"]
+    },
+    "metaGamePanel": {
+      "path": "./modules/metaGamePanel/index.js",
+      "enabled": true,
+      "requires": ["metaGame"]
+    },
+    "iframeAdapter": {
+      "path": "./modules/iframeAdapter/index.js",
+      "enabled": true
+    },
+    "iframePanel": {
+      "path": "./modules/iframePanel/index.js", 
+      "enabled": true,
+      "requires": ["iframeAdapter"]
+    },
+    "iframeManagerPanel": {
+      "path": "./modules/iframeManagerPanel/index.js",
+      "enabled": true,
+      "requires": ["iframeAdapter", "iframePanel"]
+    },
+    "windowAdapter": {
+      "path": "./modules/windowAdapter/index.js",
+      "enabled": false
+    },
+    "windowPanel": {
+      "path": "./modules/windowPanel/index.js",
+      "enabled": false,
+      "requires": ["windowAdapter"]
+    },
+    "windowManagerPanel": {
+      "path": "./modules/windowManagerPanel/index.js",
+      "enabled": false,
+      "requires": ["windowAdapter", "windowPanel"]
     }
   },
   "loadPriority": [
@@ -132,9 +180,19 @@
     "playerStatePanel",
     "loops",
     "presets",
-    "testCases",
     "testPlaythroughs",
     "testSpoilers",
-    "tests"
+    "textAdventure",
+    "tests",
+    "progressBar",
+    "progressBarPanel",
+    "metaGame",
+    "metaGamePanel",
+    "iframeAdapter",
+    "iframePanel",
+    "iframeManagerPanel",
+    "windowAdapter",
+    "windowPanel",
+    "windowManagerPanel"
   ]
 }

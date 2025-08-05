@@ -66,6 +66,15 @@ class LoggerService {
         enabled: this.config.enabled,
       });
     }
+
+    // Publish configuration update event for iframe synchronization
+    if (typeof window !== 'undefined' && window.eventBus) {
+      window.eventBus.publish('logger:configurationUpdated', {
+        defaultLevel: this.config.defaultLevel,
+        categoryLevels: this.config.categoryLevels,
+        enabled: this.config.enabled
+      }, 'loggerService');
+    }
   }
 
   /**
@@ -405,6 +414,21 @@ class LoggerService {
     console.log('[LoggerService] Current Status:', status);
     return status;
   }
+
+  /**
+   * Create a category-specific logger that automatically includes the category name
+   * @param {string} categoryName - The category name for this logger
+   * @returns {object} Category-specific logger with error, warn, info, debug, verbose methods
+   */
+  createLogger(categoryName) {
+    return {
+      error: (message, ...data) => this.error(categoryName, message, ...data),
+      warn: (message, ...data) => this.warn(categoryName, message, ...data),
+      info: (message, ...data) => this.info(categoryName, message, ...data),
+      debug: (message, ...data) => this.debug(categoryName, message, ...data),
+      verbose: (message, ...data) => this.verbose(categoryName, message, ...data),
+    };
+  }
 }
 
 // Create and export singleton instance
@@ -418,3 +442,6 @@ if (typeof window !== 'undefined') {
 // Export both the class and the singleton instance
 export { LoggerService };
 export default logger;
+
+// Export convenience function for creating category-specific loggers
+export const createLogger = (categoryName) => logger.createLogger(categoryName);

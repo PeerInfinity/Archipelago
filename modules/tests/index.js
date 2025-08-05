@@ -36,7 +36,9 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('tests:listUpdated');
   registrationApi.registerEventBusPublisher('tests:autoStartConfigChanged');
   registrationApi.registerEventBusPublisher('tests:hideDisabledConfigChanged');
+  registrationApi.registerEventBusPublisher('tests:randomizeOrderConfigChanged');
   registrationApi.registerEventBusPublisher('tests:loadedStateApplied');
+  registrationApi.registerEventBusPublisher('files:jsonLoaded'); // For loading rules in tests
   registrationApi.registerEventBusPublisher('tests:statusChanged');
   registrationApi.registerEventBusPublisher('tests:conditionReported');
   registrationApi.registerEventBusPublisher('tests:logAdded');
@@ -47,7 +49,23 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('tests:categoriesUpdated');
   registrationApi.registerEventBusPublisher('tests:allCategoriesChanged');
   registrationApi.registerEventBusPublisher('tests:testEventAfterDelay');
+  registrationApi.registerEventBusPublisher('window:loadUrl'); // For window-base tests
   registrationApi.registerEventBusPublisher('tests:allTestsChanged');
+  
+  // Progress bar test events
+  registrationApi.registerEventBusPublisher('test:progressBarStart');
+  registrationApi.registerEventBusPublisher('test:progressBarComplete');
+  registrationApi.registerEventBusPublisher('test:eventProgressStart');
+  registrationApi.registerEventBusPublisher('test:eventProgressComplete');
+  registrationApi.registerEventBusPublisher('test:progressUpdate');
+  registrationApi.registerEventBusPublisher('test:commandsStart');
+
+  registrationApi.registerEventBusPublisher('progressBar:create');
+  registrationApi.registerEventBusPublisher('progressBar:destroy');
+  registrationApi.registerEventBusPublisher('progressBar:show');
+  registrationApi.registerEventBusPublisher('progressBar:hide');
+
+  registrationApi.registerEventBusPublisher('iframe:loadUrl');
 
   registrationApi.registerJsonDataHandler('testsConfig', {
     displayName: 'Tests Configuration',

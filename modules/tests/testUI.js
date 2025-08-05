@@ -27,6 +27,7 @@ export class TestUI {
 
     this.autoStartCheckbox = null; // Placeholder for the checkbox element
     this.hideDisabledCheckbox = null; // Placeholder for the hide disabled checkbox
+    this.randomizeOrderCheckbox = null; // Placeholder for the randomize order checkbox
 
     this.unsubscribeHandles = [];
 
@@ -126,6 +127,20 @@ export class TestUI {
     );
     controlsContainer.appendChild(hideDisabledLabel);
 
+    // Randomize Order checkbox
+    const randomizeOrderLabel = document.createElement('label');
+    randomizeOrderLabel.style.display = 'block';
+    this.randomizeOrderCheckbox = document.createElement('input');
+    this.randomizeOrderCheckbox.type = 'checkbox';
+    this.randomizeOrderCheckbox.id = 'randomize-order-tests-checkbox';
+    this.randomizeOrderCheckbox.style.marginRight = '5px';
+    this.randomizeOrderCheckbox.checked = testLogic.shouldRandomizeOrder(); // Set initial state
+    randomizeOrderLabel.appendChild(this.randomizeOrderCheckbox);
+    randomizeOrderLabel.appendChild(
+      document.createTextNode('Randomize Test Order')
+    );
+    controlsContainer.appendChild(randomizeOrderLabel);
+
     this.overallStatusElement = document.createElement('div');
     this.overallStatusElement.className = 'overall-test-status';
     this.overallStatusElement.style.display = 'block';
@@ -171,6 +186,13 @@ export class TestUI {
     if (this.hideDisabledCheckbox) {
       this.hideDisabledCheckbox.addEventListener('change', (event) => {
         testLogic.setHideDisabledTests(event.target.checked);
+      });
+    }
+
+    // Listener for the randomize order checkbox
+    if (this.randomizeOrderCheckbox) {
+      this.randomizeOrderCheckbox.addEventListener('change', (event) => {
+        testLogic.setRandomizeOrder(event.target.checked);
       });
     }
 
@@ -240,6 +262,8 @@ export class TestUI {
         this.updateAutoStartCheckbox(data.autoStartEnabled),
       'tests:hideDisabledConfigChanged': (data) =>
         this.updateHideDisabledCheckbox(data.hideDisabledEnabled),
+      'tests:randomizeOrderConfigChanged': (data) =>
+        this.updateRandomizeOrderCheckbox(data.randomizeOrderEnabled),
       'tests:allTestsChanged': (data) =>
         this.renderTestList().catch(console.error),
       'tests:testChanged': (data) =>
@@ -536,6 +560,12 @@ export class TestUI {
     }
     // Trigger re-render to apply filtering
     this.renderTestList().catch(console.error);
+  }
+
+  updateRandomizeOrderCheckbox(isEnabled) {
+    if (this.randomizeOrderCheckbox) {
+      this.randomizeOrderCheckbox.checked = isEnabled;
+    }
   }
 
   async updateEnableAllCheckbox() {

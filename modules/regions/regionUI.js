@@ -1,6 +1,6 @@
 // regionUI.js
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 import { PathAnalyzerUI } from '../pathAnalyzer/index.js';
 import commonUI from '../commonUI/index.js';
 import messageHandler from '../client/core/messageHandler.js';
@@ -10,7 +10,7 @@ import eventBus from '../../app/core/eventBus.js';
 import { debounce } from '../commonUI/index.js';
 // Import the exported dispatcher from the module's index
 import { moduleDispatcher } from './index.js';
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import {
   renderLogicTree,
   resetUnknownEvaluationCounter,
@@ -1594,6 +1594,10 @@ export class RegionUI {
     contentEl.appendChild(exitsList);
 
     // Locations List
+    const locationsHeader = document.createElement('h4');
+    locationsHeader.textContent = 'Locations:';
+    contentEl.appendChild(locationsHeader);
+    
     const locationsList = document.createElement('ul');
     locationsList.classList.add('region-locations-list');
     if (regionStaticData.locations && regionStaticData.locations.length > 0) {
@@ -1653,24 +1657,31 @@ export class RegionUI {
 
         checkBtn.addEventListener('click', async () => {
           if (locAccessible && !locChecked) {
-            // Mirror logic from LocationUI.handleLocationClick
+            // Use same pattern as LocationUI.handleLocationClick
             try {
-              if (loopStateSingleton.isLoopModeActive) {
-                log(
-                  'info',
-                  `[RegionUI CheckBtn] Loop mode active, dispatching check request for ${locationDef.name}`
-                );
-                // Use eventBus for consistency with LocationUI
-                eventBus.publish('user:checkLocationRequest', {
-                  locationData: locationDef,
-                }, 'regions');
+              log(
+                'info',
+                `[RegionUI CheckBtn] Clicked on location: ${locationDef.name}, Region: ${locationDef.region}`
+              );
+
+              // Use dispatcher to publish user:locationCheck event (same as LocationUI)
+              const payload = {
+                locationName: locationDef.name,
+                regionName: locationDef.region || regionName, // Ensure regionName is correctly passed
+                originator: 'RegionPanelCheck',
+                originalDOMEvent: true, // This is a direct user click
+              };
+
+              if (moduleDispatcher) {
+                moduleDispatcher.publish('user:locationCheck', payload, {
+                  initialTarget: 'bottom',
+                });
+                log('info', '[RegionUI] Dispatched user:locationCheck', payload);
               } else {
                 log(
-                  'info',
-                  `[RegionUI CheckBtn] Sending checkLocation command for ${locationDef.name}`
+                  'error',
+                  '[RegionUI] Dispatcher not available to handle location check.'
                 );
-                await stateManager.checkLocation(locationDef.name);
-                // Snapshot update should handle the visual change
               }
             } catch (error) {
               log(
@@ -1680,15 +1691,6 @@ export class RegionUI {
               );
               // Optionally show user feedback
             }
-            /* // OLD logic using dispatcher:
-                if (moduleDispatcher) {
-                    moduleDispatcher.publish('user:checkLocationRequest', {
-                        locationData: locationDef, // Pass the static location data
-                    });
-                } else {
-                    log('error', '[RegionUI] Cannot publish checkLocationRequest: moduleDispatcher unavailable.');
-                }
-                */
           }
         });
         li.appendChild(checkBtn);

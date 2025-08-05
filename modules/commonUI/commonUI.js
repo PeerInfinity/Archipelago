@@ -1,8 +1,8 @@
 // commonUI.js - Common UI functions that can be shared between components
 
-import { evaluateRule } from '../stateManager/ruleEngine.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
 // Import the function directly from its source file
-import { createStateSnapshotInterface } from '../stateManager/stateManagerProxy.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 // eventBus will be injected during module initialization
 let eventBus = null;
@@ -911,6 +911,165 @@ export const logAndGetUnknownEvaluationCounter =
 export default commonUIInstance;
 
 // --- Utility Functions ---
+
+/**
+ * Setup cross-browser dropdown event handling
+ * This fixes Firefox issues where dropdown selection doesn't fire standard events
+ * Further testing reveals that this fix is only necessary when running in Firefox in WSL.
+ * @param {HTMLSelectElement} selectElement - The dropdown element
+ * @param {Function} onSelectionChange - Callback when selection changes (receives the selected value)
+ */
+export function setupCrossBrowserDropdown(selectElement, onSelectionChange) {
+  let lastValue = selectElement.value;
+  
+  log('info', 'Setting up cross-browser dropdown event handling');
+  
+  // Check if we're in Firefox
+  const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+  
+  if (isFirefox) {
+    log('info', 'Firefox detected - using alternative dropdown handling');
+    
+    // For Firefox, replace the problematic select with click-based option handling
+    const createFirefoxDropdownWorkaround = () => {
+      // Create a custom dropdown that works reliably in Firefox
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'relative';
+      wrapper.style.display = 'inline-block';
+      wrapper.style.width = '100%';
+      
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = selectElement.options[selectElement.selectedIndex]?.textContent || 'Select...';
+      button.style.width = '100%';
+      button.style.padding = '8px';
+      button.style.border = '1px solid #555';
+      button.style.borderRadius = '4px';
+      button.style.background = '#2d2d30';
+      button.style.color = '#cccccc';
+      button.style.textAlign = 'left';
+      button.style.cursor = 'pointer';
+      
+      const dropdown = document.createElement('div');
+      dropdown.style.position = 'absolute';
+      dropdown.style.top = '100%';
+      dropdown.style.left = '0';
+      dropdown.style.right = '0';
+      dropdown.style.background = '#2d2d30';
+      dropdown.style.border = '1px solid #555';
+      dropdown.style.borderTop = 'none';
+      dropdown.style.borderRadius = '0 0 4px 4px';
+      dropdown.style.display = 'none';
+      dropdown.style.zIndex = '1000';
+      dropdown.style.maxHeight = '200px';
+      dropdown.style.overflowY = 'auto';
+      
+      // Function to rebuild dropdown options
+      const rebuildOptions = () => {
+        dropdown.innerHTML = ''; // Clear existing options
+        
+        Array.from(selectElement.options).forEach((option, index) => {
+          const optionDiv = document.createElement('div');
+          optionDiv.textContent = option.textContent;
+          optionDiv.style.padding = '8px';
+          optionDiv.style.cursor = 'pointer';
+          optionDiv.style.borderBottom = '1px solid #444';
+          
+          optionDiv.addEventListener('mouseover', () => {
+            optionDiv.style.background = '#404040';
+          });
+          
+          optionDiv.addEventListener('mouseout', () => {
+            optionDiv.style.background = 'transparent';
+          });
+          
+          optionDiv.addEventListener('click', () => {
+            // Update the original select element
+            selectElement.selectedIndex = index;
+            selectElement.value = option.value;
+            
+            // Update button text
+            button.textContent = option.textContent;
+            
+            // Hide dropdown
+            dropdown.style.display = 'none';
+            
+            // Trigger callback
+            if (option.value !== lastValue) {
+              lastValue = option.value;
+              log('info', `Firefox workaround: Selected "${option.value}"`);
+              onSelectionChange(option.value);
+            }
+          });
+          
+          dropdown.appendChild(optionDiv);
+        });
+        
+        // Update button text to reflect current selection
+        if (selectElement.selectedIndex >= 0) {
+          button.textContent = selectElement.options[selectElement.selectedIndex].textContent;
+        }
+      };
+      
+      // Initial population
+      rebuildOptions();
+      
+      // Watch for changes to the original select element
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'childList') {
+            log('info', 'Firefox: Detected changes to select options, rebuilding dropdown');
+            rebuildOptions();
+          }
+        });
+      });
+      
+      observer.observe(selectElement, {
+        childList: true,
+        subtree: true
+      });
+      
+      button.addEventListener('click', () => {
+        const isVisible = dropdown.style.display === 'block';
+        dropdown.style.display = isVisible ? 'none' : 'block';
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+          dropdown.style.display = 'none';
+        }
+      });
+      
+      wrapper.appendChild(button);
+      wrapper.appendChild(dropdown);
+      
+      // Replace the original select
+      selectElement.style.display = 'none';
+      selectElement.parentNode.insertBefore(wrapper, selectElement);
+    };
+    
+    createFirefoxDropdownWorkaround();
+    
+  } else {
+    // Standard events for non-Firefox browsers
+    selectElement.addEventListener('change', (e) => {
+      log('info', `Dropdown change event: "${e.target.value}" (was "${lastValue}")`);
+      if (e.target.value !== lastValue) {
+        lastValue = e.target.value;
+        onSelectionChange(e.target.value);
+      }
+    });
+    
+    selectElement.addEventListener('input', (e) => {
+      log('info', `Dropdown input event: "${e.target.value}" (was "${lastValue}")`);
+      if (e.target.value !== lastValue) {
+        lastValue = e.target.value;
+        onSelectionChange(e.target.value);
+      }
+    });
+  }
+}
 
 /**
  * Debounce function: Limits the rate at which a function can fire.
