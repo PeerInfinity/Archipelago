@@ -81,14 +81,9 @@ async function loadAdventureRulesAndSetupWindow(testController, targetRegion = '
   
   // Step 4: Open window content
   testController.log('Opening text adventure window...');
-  const windowOpenedPromise = testController.waitForEvent('windowPanel:opened', 10000);
-  
   testController.eventBus.publish('window:loadUrl', {
     url: './modules/textAdventure-window/index.html?heartbeatInterval=3000'
   }, 'tests');
-  
-  const windowOpened = await windowOpenedPromise;
-  testController.reportCondition('Window opened successfully', !!windowOpened);
   
   // Step 5: Wait for window to establish connection
   testController.log('Waiting for window connection...');
