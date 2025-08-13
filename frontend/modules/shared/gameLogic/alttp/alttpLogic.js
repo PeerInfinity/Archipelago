@@ -194,32 +194,36 @@ export function can_defeat_ganon(state, world, itemName, staticData) {
 // Additional commonly used helpers
 
 export function can_use_bombs(state, world, itemName, staticData) {
-  const quantity = parseInt(itemName, 10) || 1;
-  
-  // Start with base bombs (10 unless bombless start)
-  let bombs = 0;
-  const bomblessStart = state.settings?.bombless_start || 
-                       (state.flags && state.flags.includes('bombless_start'));
-  if (!bomblessStart) {
-    bombs = 10;
-  }
-  
-  // Add bomb upgrades
-  bombs += count(state, 'Bomb Upgrade (+5)', staticData) * 5;
-  bombs += count(state, 'Bomb Upgrade (+10)', staticData) * 10;
-  bombs += count(state, 'Bomb Upgrade (50)', staticData) * 50;
-  
-  // Bomb Upgrade (+5) beyond the 6th gives +10
-  const upgrade5Count = count(state, 'Bomb Upgrade (+5)', staticData);
-  bombs += Math.max(0, (upgrade5Count - 6) * 10);
-  
-  // If capacity upgrades are NOT shuffled and we have Capacity Upgrade Shop, add 40
-  const shuffleUpgrades = state.settings?.shuffle_capacity_upgrades;
-  if (!shuffleUpgrades && has(state, 'Capacity Upgrade Shop', staticData)) {
-    bombs += 40;
-  }
-  
-  return bombs >= Math.min(quantity, 50);
+	const quantity = parseInt(itemName, 10) || 1;
+	
+	// Determine if player actually has access to bombs
+	// Prefer explicit bombs item or equivalent inventory indicators
+	const hasBombsItem = has(state, 'Bombs', staticData) || has(state, 'Bomb', staticData);
+	
+	// Capacity upgrades or special shop can only help if bombs are actually available
+	// Start from 0; only add base and upgrades if bombs are present
+	let bombs = 0;
+	if (hasBombsItem) {
+		// Base capacity when bombs are available
+		bombs = 10;
+		
+		// Add bomb upgrades
+		bombs += count(state, 'Bomb Upgrade (+5)', staticData) * 5;
+		bombs += count(state, 'Bomb Upgrade (+10)', staticData) * 10;
+		bombs += count(state, 'Bomb Upgrade (50)', staticData) * 50;
+		
+		// Bomb Upgrade (+5) beyond the 6th gives +10
+		const upgrade5Count = count(state, 'Bomb Upgrade (+5)', staticData);
+		bombs += Math.max(0, (upgrade5Count - 6) * 10);
+		
+		// If capacity upgrades are NOT shuffled and we have Capacity Upgrade Shop, add 40
+		const shuffleUpgrades = state.settings?.shuffle_capacity_upgrades;
+		if (!shuffleUpgrades && has(state, 'Capacity Upgrade Shop', staticData)) {
+			bombs += 40;
+		}
+	}
+	
+	return bombs >= Math.min(quantity, 50);
 }
 
 export function can_bomb_or_bonk(state, world, itemName, staticData) {
