@@ -244,27 +244,27 @@ export async function textAdventureWindowErrorHandlingTest(testController) {
 registerTest({
   id: 'test_textadventure_window_basic_initialization',
   name: 'Text Adventure Window Basic Initialization',
-  functionName: 'textAdventureWindowBasicInitializationTest',
+  testFunction: textAdventureWindowBasicInitializationTest,
   category: 'Text Adventure Window Tests'
 });
 
 registerTest({
   id: 'test_textadventure_window_movement_command',
   name: 'Text Adventure Window Movement Command',
-  functionName: 'textAdventureWindowMovementCommandTest',
+  testFunction: textAdventureWindowMovementCommandTest,
   category: 'Text Adventure Window Tests'
 });
 
 registerTest({
   id: 'test_textadventure_window_location_check_command',
   name: 'Text Adventure Window Location Check Command',
-  functionName: 'textAdventureWindowLocationCheckCommandTest',
+  testFunction: textAdventureWindowLocationCheckCommandTest,
   category: 'Text Adventure Window Tests'
 });
 
 registerTest({
   id: 'test_textadventure_window_error_handling',
   name: 'Text Adventure Window Error Handling',
-  functionName: 'textAdventureWindowErrorHandlingTest',
+  testFunction: textAdventureWindowErrorHandlingTest,
   category: 'Text Adventure Window Tests'
 });
