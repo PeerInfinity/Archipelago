@@ -46,6 +46,11 @@ export async function register(registrationApi) {
                     description: "Interactive text adventure running in separate window"
                 },
                 {
+                    name: "Text Adventure (Window)",
+                    url: "./modules/textAdventure-window/index.html",
+                    description: "Interactive text adventure running in separate window via Window Adapter"
+                },
+                {
                     name: "Window Base",
                     url: "./modules/window-base/index.html",
                     description: "Basic window module showing connection status and heartbeat"
