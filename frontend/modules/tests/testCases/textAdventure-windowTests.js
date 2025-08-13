@@ -169,9 +169,24 @@ export async function textAdventureWindowMovementCommandTest(testController) {
     testController.log('Starting textAdventureWindowMovementCommandTest...');
     testController.reportCondition('Test started', true);
 
+    // Setup window and load rules
     await loadAdventureRulesAndSetupWindow(testController, 'Menu');
 
-    // Simulate move command by publishing dispatcher event
+    // Wait for window opened event explicitly if not already handled
+    const windowOpenedPromise = testController.waitForEvent('windowPanel:opened', 10000);
+    // Trigger open again to ensure the event fires in this test scope (idempotent if already open)
+    testController.eventBus.publish('window:loadUrl', {
+      url: './modules/textAdventure-window/index.html?heartbeatInterval=3000'
+    }, 'tests');
+    await windowOpenedPromise;
+    testController.reportCondition('Window opened (movement test)', true);
+
+    // Wait for connection
+    const windowConnectedPromise = testController.waitForEvent('window:connected', 5000);
+    const windowConnected = await windowConnectedPromise;
+    testController.reportCondition('Window connected (movement test)', !!windowConnected);
+
+    // Simulate move command by publishing dispatcher event after window is ready
     const movePublished = sendCommandToWindow('move North');
     testController.reportCondition('Move command published to dispatcher', movePublished);
 
@@ -215,7 +230,20 @@ export async function textAdventureWindowErrorHandlingTest(testController) {
     testController.log('Starting textAdventureWindowErrorHandlingTest...');
     testController.reportCondition('Test started', true);
 
+    // Setup window and load rules
     await loadAdventureRulesAndSetupWindow(testController, 'Menu');
+
+    // Ensure window is opened and connected
+    const windowOpenedPromise = testController.waitForEvent('windowPanel:opened', 10000);
+    testController.eventBus.publish('window:loadUrl', {
+      url: './modules/textAdventure-window/index.html?heartbeatInterval=3000'
+    }, 'tests');
+    await windowOpenedPromise;
+    testController.reportCondition('Window opened (error test)', true);
+
+    const windowConnectedPromise = testController.waitForEvent('window:connected', 5000);
+    const windowConnected = await windowConnectedPromise;
+    testController.reportCondition('Window connected (error test)', !!windowConnected);
 
     // Publish an invalid move to ensure no crash and no regionChanged
     const movePublished = sendCommandToWindow('move NonexistentExit');
