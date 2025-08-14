@@ -34,7 +34,7 @@ The console in the center panel accepts a few client-specific commands, even whe
 
 - **Rearranging Panels:** The entire interface is customizable. You can click and drag panel tabs to move them, drop them on top of each other to create stacks, or drag them to the edges of other panels to create new columns and rows.
 
-- **Closing and Reopening Modules:** Clicking the X button in the top right of any panel will close that panel and disable its module.  To reopen the module and its panel, open the Modules panel, find the checkbox for the module that you want to reopen, and check it.  You might need to manually move the reopened panel to the location that yo u want it to be.
+- **Closing and Reopening Modules:** Clicking the X button in the top right of any panel will close that panel and disable its module.  To reopen the module and its panel, open the Modules panel, find the checkbox for the module that you want to reopen, and check it.  You might need to manually move the reopened panel to the location that you want it to be.
 
 - **Additional Tabs:** If several panels are in the same stack of tabs, there might not be enough room for the UI to display the tabs for all of the panels.  If this happens, then there will be a down arrow in the top right of the panel, labeled "additional tabs".  Clicking on this arrow will show the tabs that were hidden because there wasn't enough room for them.
 

@@ -17,38 +17,41 @@ The `eventBus` is a simple publish-subscribe (pub/sub) system. It allows modules
 
 Use the Event Bus for **one-to-many** or **many-to-many** communication, typically for broadcasting state changes or general UI notifications.
 
-- A module's state has changed, and other modules might need to react and update their UI (e.g., `stateManager:snapshotUpdated`, `settings:changed`).
-- A user action has occurred that multiple, unrelated panels might be interested in (e.g., `ui:activatePanel`).
-- A notification needs to be displayed to the user (e.g., `ui:notification`).
+-   A core service's state has changed, and multiple UI panels need to react and update their display (e.g., `stateManager:snapshotUpdated`, `settings:changed`).
+-   A user action has occurred that multiple, unrelated panels might be interested in (e.g., `ui:activatePanel`).
+-   A general notification needs to be displayed to the user (e.g., `ui:notification`).
 
 ### How to Use the Event Bus
 
 ```javascript
 // --- Publishing an event ---
-// Module A wants to announce something.
+// Module A (e.g., the StateManager proxy) wants to announce a state update.
 import eventBus from '../../app/core/eventBus.js';
 
-eventBus.publish('myModule:dataUpdated', { newData: 'hello world' });
+eventBus.publish('stateManager:snapshotUpdated', { snapshot: newSnapshotData }, 'stateManager');
 ```
 
 ```javascript
 // --- Subscribing to an event ---
-// Module B wants to listen for Module A's announcement.
+// Module B (e.g., a UI panel) wants to listen for state updates.
 import eventBus from '../../app/core/eventBus.js';
 
 class ModuleB_UI {
   constructor() {
-    // It's best practice to subscribe in postInitialize or when the component mounts.
+    // It's best practice to subscribe in the constructor or onMount.
+    // The module's ID ('moduleB') is passed for tracking and debugging.
     this.unsubscribeHandle = eventBus.subscribe(
-      'myModule:dataUpdated',
+      'stateManager:snapshotUpdated',
       (data) => {
-        console.log('Module B received update:', data.newData);
-        this.updateMyUI();
-      }
+        console.log('Module B received snapshot:', data.snapshot);
+        this.render(); // Re-render the UI with the new data
+      },
+      'moduleB' 
     );
   }
 
   // It's critical to unsubscribe when the component is destroyed to prevent memory leaks.
+  // Golden Layout will call this method when the panel is closed.
   destroy() {
     if (this.unsubscribeHandle) {
       this.unsubscribeHandle();
@@ -67,15 +70,15 @@ The `eventDispatcher` is a more sophisticated system designed for handling event
 
 Use the Event Dispatcher for user actions or system commands that require a **single, authoritative handler**.
 
-- A user clicks a location to check it (`user:locationCheck`). This event needs to be routed correctly:
-  1.  Should the `Loops` module handle it and queue an action?
-  2.  If not, should the `Client` module handle it and send it to the server?
-  3.  If not, should the `StateManager` handle it locally for offline tracking?
-- The dispatcher ensures that only one of these modules acts on the event, based on their load priority.
+-   A user clicks a location to check it (`user:locationCheck`). This event needs to be routed correctly:
+    1.  Should the `Loops` module handle it and queue an action?
+    2.  If not, should the `Client` module handle it and send the check to the server?
+    3.  If not, should the `StateManager` handle it locally for offline tracking?
+-   The dispatcher ensures that only one of these modules acts on the event, based on their `loadPriority` defined in `modules.json`.
 
 ### How to Use the Event Dispatcher
 
-Modules must register their intent to handle a dispatched event. The dispatcher uses the `loadPriority` from `modules.json` to determine the order.
+Modules must register their intent to handle a dispatched event during the [registration phase](./module-system.md). The dispatcher uses the `loadPriority` to determine the order.
 
 1.  **Registering a Handler (in `module/index.js` `register()` function):**
 
@@ -94,8 +97,9 @@ Modules must register their intent to handle a dispatched event. The dispatcher 
     ```javascript
     // In locationsUI.js, when a location card is clicked
     // The dispatcher instance is retrieved via the module's initialization API.
-    const dispatcher = getDispatcher();
+    const dispatcher = getDispatcher(); 
     dispatcher.publish(
+      'locations', // Originating Module ID
       'user:locationCheck',
       { locationName: "Link's House" },
       { initialTarget: 'bottom' } // Start with the last-loaded, highest-priority module
@@ -106,10 +110,7 @@ Modules must register their intent to handle a dispatched event. The dispatcher 
 
     ```javascript
     // In loops/loopEvents.js
-    export function handleUserLocationCheckForLoops(
-      eventData,
-      propagationOptions
-    ) {
+    export function handleUserLocationCheckForLoops(eventData, propagationOptions) {
       const dispatcher = getLoopsModuleDispatcher();
 
       if (loopStateSingleton.isLoopModeActive) {

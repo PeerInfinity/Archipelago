@@ -43,16 +43,15 @@ export class GreeterUI {
     this.container.element.appendChild(this.rootElement);
 
     // 4. Set up internal state and event listeners
-    this.lastNotificationElement =
-      this.rootElement.querySelector('#last-notification');
+    this.lastNotificationElement = this.rootElement.querySelector('#last-notification');
     this.unsubscribeHandle = null;
 
     // 5. Attach listeners for Golden Layout lifecycle events
     this.container.on('show', () => this.onPanelShow());
     this.container.on('destroy', () => this.destroy());
 
-    // Initial subscription
-    this.subscribeToEvents();
+    // It's best practice to subscribe to events in a dedicated method.
+    this._subscribeToEvents();
   }
 
   // Called when the panel's tab is selected
@@ -61,17 +60,16 @@ export class GreeterUI {
   }
 
   // Subscribe to events from the eventBus
-  subscribeToEvents() {
-    // Unsubscribe from previous listener if it exists
+  _subscribeToEvents() {
+    // Unsubscribe from previous listener if it exists to prevent duplicates
     if (this.unsubscribeHandle) this.unsubscribeHandle();
 
     // Listen for system-wide notifications
     this.unsubscribeHandle = eventBus.subscribe('ui:notification', (data) => {
       if (this.lastNotificationElement) {
-        this.lastNotificationElement.textContent =
-          data.message || 'Unknown notification';
+        this.lastNotificationElement.textContent = data.message || 'Unknown notification';
       }
-    });
+    }, 'greeter'); // Pass module ID for tracking
   }
 
   // Clean up when the panel is closed
@@ -93,25 +91,22 @@ This file is the main entry point for your module. Its job is to register the mo
 
 import { GreeterUI } from './greeterUI.js';
 
-// Define metadata for the module
+// Define metadata for the module (optional but good practice)
 export const moduleInfo = {
   name: 'Greeter',
   description: 'A simple example module that displays a welcome message.',
 };
 
-// The registration function called by init.js
+// The registration function called by init.js during Phase 1
 export function register(registrationApi) {
   console.log('[Greeter Module] Registering...');
 
   // Register our UI class as a panel component that Golden Layout can use.
   // The first argument is the 'componentType' used in layout configurations.
   registrationApi.registerPanelComponent('greeterPanel', GreeterUI);
-
-  // We are subscribing to 'ui:notification', so we should declare it.
-  registrationApi.registerEventBusSubscriberIntent('ui:notification');
 }
 
-// (Optional) The initialize function for more complex setup.
+// (Optional) The initialize function for more complex setup, called in Phase 3.
 export function initialize(moduleId, priorityIndex, initializationApi) {
   console.log(`[Greeter Module] Initializing with ID: ${moduleId}`);
   // This is where you would get settings or the dispatcher if needed.
@@ -131,7 +126,7 @@ Now, we need to tell the application about our new module.
         "greeter": {
           "path": "./modules/greeter/index.js",
           "enabled": true
-        }
+        },
         // ... other modules
       },
       "loadPriority": [
@@ -146,8 +141,6 @@ Now, we need to tell the application about our new module.
     {
       // ... moduleDefinitions
       "loadPriority": [
-        "modules",
-        "json",
         // ... other modules
         "tests",
         "greeter" // Add our new module here
@@ -191,8 +184,8 @@ Finally, we need to tell Golden Layout where to put our new panel.
 3.  You should now see a "Welcome" tab in the same stack as the "Inventory" panel.
 4.  To test the event subscription, you can publish a notification event from the browser's developer console:
     ```javascript
-    eventBus.publish('ui:notification', { message: 'Hello from the console!' });
+    eventBus.publish('ui:notification', { message: 'Hello from the console!' }, 'console');
     ```
     The text in your Greeter panel should update to "Hello from the console!".
 
-You have successfully created and integrated a new frontend module
+You have successfully created and integrated a new frontend module.

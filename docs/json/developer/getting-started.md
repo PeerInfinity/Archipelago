@@ -70,9 +70,9 @@ Once the application is running in your browser, you can begin development. Here
 
 ### 1. Explore the Running Application
 
-- Interact with the different panels (Inventory, Locations, Regions, etc.) to get a feel for the UI.
-- Open your browser's developer tools (usually by pressing `F12`) and inspect the **Console** tab. You should see log messages from the application's initialization process.
-- The application uses a structured logger. To see more detailed logs, you can type commands like `log_level INIT_STEP INFO` or `log_override DEBUG` directly into the browser console. For more details, see the [Logging System Reference](./reference/logging-system.md).
+-   Interact with the different panels (Inventory, Locations, Regions, etc.) to get a feel for the UI.
+-   Open your browser's developer tools (usually by pressing `F12`) and inspect the **Console** tab. You should see log messages from the application's initialization process.
+-   The application uses a structured logger. To see more detailed logs, you can type commands like `log_level stateManager DEBUG` or `log_status` directly into the browser console. For more details, see the [Logging System Reference](./reference/logging-system.md).
 
 ### 2. Make a Simple Change
 
@@ -88,23 +88,29 @@ You should see the title of the Inventory panel change to "My Inventory".
 
 ### 3. Run Automated Tests
 
-This project includes an end-to-end test suite using Playwright. To run it:
+This project includes an end-to-end test suite using Playwright that validates the entire frontend system, including the crucial `testSpoilers` logic validation. To run it:
 
 1.  Make sure you have Node.js and npm installed.
 2.  In the project's root directory, run `npm install` to get the testing dependencies.
 3.  Ensure the local server is still running (`python -m http.server 8000` in the `frontend` directory).
-4.  In a **new terminal**, run the tests from the project root:
+4.  In a **new terminal**, run the primary test command from the project root:
     ```bash
     npm test
     ```
-5.  The test runner will launch a headless browser, run through the application's internal test suite, and report the results to the console.
+5.  The test runner will launch a headless browser, run through the application's internal test suite, and report the results to the console. For a more detailed, human-readable report, you can run `npm run test:analyze` after the test completes.
 
-**Note:** If you are using the Cursor editor, there is a known issue where Playwright commands may fail on the first attempt. If `npm test` fails, simply run it a second time.
+#### Other Test Commands
+
+-   `npm run test:headed`: Runs tests in a visible browser, which is useful for observing the test execution.
+-   `npm run test:debug`: Runs tests in Playwright's debug mode for step-by-step execution.
+-   `npm run test:ui`: Opens Playwright's interactive UI for managing and running tests.
+
+**Note on Cursor Editor:** If you are using the Cursor editor, there is a known issue where Playwright commands may fail on the first attempt. If `npm test` fails, simply run it a second time.
 
 ## Next Steps
 
 You are now ready to start developing! Refer to the following documents for more detailed information:
 
-- **[System Architecture](./architecture.md)**: For a high-level understanding of how the project is structured.
-- **[Creating Modules](./guides/creating-modules.md)**: For a practical guide on adding new features.
-- **[Testing Pipeline](./guides/testing-pipeline.md)**: To understand how game logic is tested and validated.
+-   **[System Architecture](./architecture.md)**: For a high-level understanding of how the project is structured.
+-   **[Creating Modules](./guides/creating-modules.md)**: For a practical guide on adding new features.
+-   **[Testing Pipeline](./guides/testing-pipeline.md)**: To understand how game logic is tested and validated using spoiler logs.

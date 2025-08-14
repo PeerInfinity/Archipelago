@@ -4,12 +4,12 @@ This guide provides a detailed walkthrough of the JSON Web Client when used as a
 
 ## Core Concepts
 
-- **Logic-Aware Tracking:** Unlike a simple item tracker, this client understands your game's rules. When you add an item to your inventory, it instantly re-evaluates the entire game world to show you exactly which locations and exits are now accessible.
-- **Customizable Layout:** The interface is built on Golden Layout, a system that allows you to drag, drop, resize, and re-order panels to create a workspace that suits your playstyle.
+-   **Logic-Aware Tracking:** Unlike a simple item tracker, this client understands your game's rules. When you receive an item, it instantly re-evaluates the entire game world to show you exactly which locations and exits are now accessible.
+-   **Customizable Layout:** The interface is built on Golden Layout, a system that allows you to drag, drop, resize, and stack panels to create a workspace that suits your playstyle.
 
 ## Getting Started
 
-1.  **Generate Your Game:** When generating your seed, ensure you receive both your `.archipelago` file (for your in-game client) and the corresponding `rules.json` file (for this web client).  You will need to generate the seed using a version of the Archipelago code that contains the json exporter tool.  You can download this from [Archipelago JSONExport branch](https://github.com/PeerInfinity/Archipelago/tree/JSONExport).  Make sure you specifically download the JSONExport branch, not the main branch.
+1.  **Generate Your Game:** When generating your seed, ensure you receive both your `.archipelago` file (for your in-game client) and the corresponding `rules.json` file (for this web client). You must use a version of the Archipelago source code that contains the JSON exporter tool, which can be downloaded from the [Archipelago JSONExport branch](https://github.com/PeerInfinity/Archipelago/tree/JSONExport).  Make sure you specifically download the JSONExport branch, not the main branch.
 
 2.  **Open the Web Client:** Visit the [JSON Web Client](https://peerinfinity.github.io/Archipelago/).
 
@@ -36,7 +36,7 @@ This is your primary tool for tracking items.
 - **Adding Items:** Click an item's button to add it to your inventory. If connected to a server, this may send a `!getitem` command.
 - **Removing Items:** Hold **SHIFT** and click an item to remove it (this only affects your local tracker state).
 - **Progressive Items:** The client correctly handles progressive items (like Swords or Gloves), automatically tracking which version you have.
-- **Controls:** Use the checkboxes to hide items you don't own or collapse the category view into a single alphabetical list.
+- **Controls:** Use the checkboxes to hide items you don't own or collapse the category view into a single alphabetized list.
 
 ### Center Panel Stack
 
@@ -57,15 +57,15 @@ This stack contains several tabbed views for exploring the game world.
 
 This view displays a grid of every location in your game. Each card shows:
 
-- **Name & Region:** The location's name and the region it's in. The region name is a clickable link.
-- **Accessibility Status:** The card's color indicates its status:
-  - **Green:** You can reach the location and have the items to access it.
-  - **Red:** The location is completely inaccessible.
-  - **Yellow/Orange:** You can reach the region, but lack the items to access the location (or vice-versa).
-  - **Blue:** You have clicked this location to check it, but the tracker is waiting for the state to update (this is usually very brief).
-  - **Black:** You have already checked this location.
-  - **Gray:** The web client can't evaluate the logic for this location as either true or false.
-- **Access Rule:** A visual tree shows the exact logic required, with conditions you meet highlighted in green and unmet ones in red.
+-   **Name & Region:** The location's name and the region it's in. The region name is a clickable link.
+-   **Accessibility Status:** The card's color instantly communicates its status:
+    -   **Green:** You can reach the location and have the items to access it.
+    -   **Red:** The location is completely inaccessible.
+    -   **Yellow/Orange:** You can either reach the region but lack items for the location, or you have the items for the location but cannot yet reach its region.
+    -   **Blue:** The check for this location is "pending" and awaiting a state update.
+    -   **Black:** You have already checked this location.
+    -   **Gray:** The client cannot evaluate the logic for this location as either true or false.
+-   **Access Rule:** A visual tree shows the exact logic required, with conditions you meet highlighted in green and unmet ones in red.
 
 #### Exits View
 
@@ -88,7 +88,7 @@ This view organizes the game world by its regions.
 ## Common Questions
 
 **Q: Do I need both the `.archipelago` file and `rules.json`?**
-A: Yes. The Archipelago server uses the `.archipelago` file. This web client uses the `rules.json` file for its logic-aware tracking. You need both for the full experience.
+A: Yes. The Archipelago server uses the `.archipelago` file to manage the multiworld session. This web client uses the `rules.json` file for its logic-aware tracking. You need both for the full online experience.
 
 **Q: Can I use this without connecting to a server?**
 A: Yes. You can load your `rules.json` file and use the client as an offline tracker. You can manually add items to your inventory and see how accessibility changes.
@@ -98,10 +98,9 @@ A: It performs a search algorithm to find all sequences of connected regions fro
 
 **Q: What do the different colors on location cards mean?**
 A:
-
-- **Green:** Fully accessible. You can get to the location's region, and you have the items to clear the location itself.
-- **Red:** Fully inaccessible. You can't get to the region, and/or you don't have items for a key part of the path.
-- **Yellow/Orange:** Partially blocked. You can get to the region, but you're missing the specific item(s) to access the location (e.g., you are at the dungeon entrance but don't have the key).
-- **Blue:** Location check is "pending" and waiting for state update.
-- **Black:** Location has been checked.
-- **Gray:** Location can't be evaluated as either accessible or inaccessible.
+-   **Green:** Fully accessible. You can get to the location's region, and you have the items to clear the location itself.
+-   **Red:** Fully inaccessible. You can't get to the region, and/or you don't have items for a key part of the path.
+-   **Yellow/Orange:** Partially blocked. For example, you can get to the region, but you're missing the specific item(s) to access the location (like being at a dungeon entrance but not having the key).
+-   **Blue:** The location check is "pending" and awaiting a state update.
+-   **Black:** The location has been checked.
+-   **Gray:** The location can't be evaluated as either accessible or inaccessible.

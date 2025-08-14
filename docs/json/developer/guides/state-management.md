@@ -36,7 +36,7 @@ The system is built on a **proxy pattern** that separates the main UI thread fro
 
 Interaction with the state is a one-way data flow designed for performance and consistency.
 
-1.  **Command:** A UI module (e.g., Inventory) needs to change the state. It calls a method on the `StateManagerProxySingleton`, for example, `addItemToInventory('Bow')`.
+1.  **Command:** A UI module (e.g., Inventory) needs to change the state. It calls a method on the `stateManagerProxySingleton`, for example, `addItemToInventory('Bow')`.
 2.  **Message Passing:** The proxy packages this into a command object and sends it to the worker using `worker.postMessage()`.
 3.  **Worker Processing:** The worker's `onmessage` listener receives the command. It calls the corresponding method on its internal `StateManager` instance (e.g., `stateManagerInstance.addItemToInventory('Bow')`).
 4.  **State Mutation & Re-computation:** The `StateManager` updates its internal state (adds 'Bow' to the inventory). This action invalidates its cache, so it re-runs its expensive computations (like the BFS for region reachability).
@@ -63,17 +63,17 @@ For a full breakdown, see the [State Snapshots Documentation](./reference/state-
 
 While the worker handles the primary state computation, UI components often need to evaluate simple rules for display purposes (e.g., showing the logic tree for a location). To do this without asking the worker and waiting for a response, they use a **State Snapshot Interface**.
 
-- `createStateSnapshotInterface()`: A method on the proxy that takes the latest snapshot and creates a temporary interface object.
-- This interface has the same methods as the real `StateManager` (e.g., `hasItem`, `countGroup`, `executeHelper`) but operates _synchronously_ on the cached snapshot data.
-- This allows `commonUI.renderLogicTree()` to instantly evaluate and display a rule's status on the main thread.
+-   **`createStateSnapshotInterface()`**: A function in `frontend/modules/shared/stateInterface.js` that takes the latest snapshot and static data to create a temporary interface object.
+-   This interface has methods similar to the real `StateManager` (e.g., `hasItem`, `countGroup`, `executeHelper`) but operates _synchronously_ on the cached snapshot data.
+-   This allows `commonUI.renderLogicTree()` to instantly evaluate and display a rule's status on the main thread.
 
 ## Game-Specific Logic
 
 The state management system is designed to be game-agnostic. It achieves this by dynamically loading game-specific logic modules.
 
-- **Location:** `frontend/modules/stateManager/logic/games/`
-- **Structure:** Each game has its own logic file (e.g., `alttpLogic.js`).
-- **Content:** This file exports helper functions (`helperFunctions`) and a state module (`alttpStateModule`) that handles game-specific state properties (like flags, events, and dungeon states) and settings.
-- **Dynamic Loading:** The `StateManager` detects the game type from the loaded `rules.json` and uses the appropriate logic module. A `genericLogic.js` is used as a fallback for unsupported games.
+-   **Location:** `frontend/modules/shared/gameLogic/`
+-   **Structure:** Each game has its own logic file (e.g., `alttpLogic.js`). A `genericLogic.js` file is used as a fallback for unsupported games.
+-   **Content:** Each file exports a set of `helperFunctions` and a `stateModule` that handles game-specific state properties (like flags, events, and dungeon states) and settings.
+-   **Dynamic Loading:** The `StateManager` detects the game type from the loaded `rules.json` and uses the appropriate logic module.
 
 This separation ensures the core `StateManager` and `RuleEngine` remain generic, while game-specific intricacies are handled in a modular and extensible way.
