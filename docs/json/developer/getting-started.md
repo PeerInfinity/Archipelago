@@ -18,16 +18,46 @@ This guide provides the necessary steps to set up a local development environmen
 
 ## Project Setup
 
-### 1. Clone the Repository
+You can set up your development environment either automatically using the provided setup script or manually by following the individual steps.
+
+### Option 1: Automated Setup (Recommended)
+
+For a quick and automated setup, use the provided setup script:
+
+```bash
+# First, clone the repository
+git clone -b JSONExport https://github.com/PeerInfinity/Archipelago.git archipelago-json
+cd archipelago-json
+
+# Run the automated setup script
+python scripts/setup_dev_environment.py
+```
+
+The script will automatically:
+- Check prerequisites (Python, Node.js)
+- Create and configure the Python virtual environment
+- Install all required dependencies (base + game-specific)
+- Generate game template files
+- Set up host configuration for testing
+- Install Node.js dependencies
+- Verify the complete setup
+
+After the script completes, you can skip to the [Basic Workflow & Verification](#basic-workflow--verification) section.
+
+### Option 2: Manual Setup
+
+If you prefer to set up your environment manually or need to understand each step, follow the sections below.
+
+#### 1. Clone the Repository
 
 First, clone the project repository from GitHub to your local machine.
 
 ```bash
-git clone -b JSONExport https://github.com/PeerInfinity/Archipelago.git archipelago-json-export-tools
-cd archipelago-json-export-tools
+git clone -b JSONExport https://github.com/PeerInfinity/Archipelago.git archipelago-json
+cd archipelago-json
 ```
 
-### 2. Set Up the Python Environment
+#### 2. Set Up the Python Environment
 
 The backend tools for exporting game logic are written in Python. It's best practice to create a virtual environment to handle the dependencies.
 
@@ -47,7 +77,7 @@ pip install -r requirements.txt
 
 **Note:** The virtual environment only stays active for the current terminal session. You'll need to reactivate it in new terminal windows by running `source .venv/bin/activate` (or `.venv\Scripts\activate` on Windows) from the project directory. However, the virtual environment is primarily needed for Python backend tools and running the HTTP server - frontend development and testing mostly relies on Node.js.
 
-### 3. Run the Frontend Locally
+#### 3. Run the Frontend Locally
 
 The frontend application must be served by an HTTP server because modern browser security policies prevent Web Workers (a core part of the architecture) from running on pages loaded directly from the local filesystem (`file://`).
 
@@ -153,8 +183,19 @@ source .venv/bin/activate
 python Launcher.py --update_settings
 ```
 
-This creates a `host.yaml` file in the project root. For testing purposes, you need to edit this file to set:
+This creates a `host.yaml` file in the project root. For testing purposes, you can either:
 
+**Option 1: Use the convenience script (recommended)**
+```bash
+# Enable testing settings automatically
+python scripts/update_host_settings.py testing
+
+# Later, disable testing settings
+python scripts/update_host_settings.py normal
+```
+
+**Option 2: Manual editing**
+Edit the `host.yaml` file to set:
 ```yaml
 general_options:
   skip_required_files: true
