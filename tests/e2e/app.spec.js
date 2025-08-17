@@ -2,7 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Application End-to-End Tests', () => {
   const testMode = process.env.TEST_MODE || 'test'; // Default to 'test' if not specified
-  const APP_URL = `http://localhost:8000/frontend/?mode=${testMode}`;
+  const rulesOverride = process.env.RULES_OVERRIDE; // Optional rules file override
+  
+  // Build URL with optional rules parameter
+  let APP_URL = `http://localhost:8000/frontend/?mode=${testMode}`;
+  if (rulesOverride) {
+    APP_URL += `&rules=${encodeURIComponent(rulesOverride)}`;
+  }
 
   test('run in-app tests and check results', async ({ page }) => {
     // Listen for console logs from the page and relay them to Playwright's output
@@ -16,6 +22,9 @@ test.describe('Application End-to-End Tests', () => {
     });
 
     console.log(`PW DEBUG: Navigating to application using mode: ${testMode}`);
+    if (rulesOverride) {
+      console.log(`PW DEBUG: Using rules override: ${rulesOverride}`);
+    }
     console.log(`PW DEBUG: URL: ${APP_URL}`);
     // Wait until network activity has ceased, giving SPA more time to initialize
     await page.goto(APP_URL, { waitUntil: 'networkidle', timeout: 60000 });

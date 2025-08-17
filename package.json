@@ -29,6 +29,8 @@
     "test:spoilers:headed": "TEST_MODE=test-spoilers playwright test --headed",
     "test:spoilers:debug": "TEST_MODE=test-spoilers playwright test --debug",
     "test:spoilers:ui": "TEST_MODE=test-spoilers playwright test --ui",
+    "test:spoilers:rules": "TEST_MODE=test-spoilers RULES_OVERRIDE=./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json playwright test",
+    "test:spoilers:rules:headed": "TEST_MODE=test-spoilers RULES_OVERRIDE=./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json playwright test --headed",
     "test:health": "node scripts/test-health-check.js",
     "test:analyze": "node scripts/analyze-test-results.js",
     "test:full-suite": "npm run test:health && npm test && npm run test:analyze"
@@ -38,7 +40,13 @@
     "url": "git+https://github.com/PeerInfinity/Archipelago.git",
     "directory": "JSONExport"
   },
-  "keywords": ["archipelago", "json", "multiworld", "web-client", "game-tracking"],
+  "keywords": [
+    "archipelago",
+    "json",
+    "multiworld",
+    "web-client",
+    "game-tracking"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {

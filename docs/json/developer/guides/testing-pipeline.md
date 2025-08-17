@@ -123,7 +123,44 @@ To test a new game implementation, follow these steps:
    - `AP_[seed]_spheres_log.jsonl` (the expected progression)
    - `AP_[seed]_Spoiler.txt`
 
-4. **Configure Test Mode:** Update the "test-spoilers" mode in `frontend/modes.json`:
+4. **Run the Test:** Execute the spoiler validation using the `rules` URL parameter to specify your rules file:
+   
+   **Basic Usage:**
+   ```bash
+   # Test with your specific rules file using the rules parameter
+   RULES_OVERRIDE=./presets/a_hat_in_time/AP_14089154938208861744/AP_14089154938208861744_rules.json npm run test:spoilers
+   
+   # Or use the pre-configured script for rules override
+   npm run test:spoilers:rules
+   ```
+   
+   **Available Test Variants:**
+   ```bash
+   # Basic test with rules override
+   RULES_OVERRIDE=./presets/[game]/AP_[seed]/AP_[seed]_rules.json npm run test:spoilers
+   
+   # With visible browser (useful for debugging)
+   RULES_OVERRIDE=./presets/[game]/AP_[seed]/AP_[seed]_rules.json npm run test:spoilers:headed
+   
+   # With debug mode
+   RULES_OVERRIDE=./presets/[game]/AP_[seed]/AP_[seed]_rules.json npm run test:spoilers:debug
+   
+   # With Playwright UI
+   RULES_OVERRIDE=./presets/[game]/AP_[seed]/AP_[seed]_rules.json npm run test:spoilers:ui
+   
+   # Using the pre-configured Adventure rules script
+   npm run test:spoilers:rules
+   npm run test:spoilers:rules:headed
+   ```
+   
+   **Advantages of URL Parameter Approach:**
+   - No need to modify configuration files for temporary testing
+   - Easy to test multiple rule sets without file conflicts
+   - Cleaner git history (no configuration file changes)
+   - Command-line friendly for automation and scripting
+   - Preserves original modes.json configuration
+   
+   **Alternative Method (not recommended):** You can also configure the test by editing `frontend/modes.json`, but using the URL parameter is preferred:
    ```json
    "test-spoilers": {
      "rulesConfig": {
@@ -136,15 +173,6 @@ To test a new game implementation, follow these steps:
      }
    }
    ```
-
-5. **Run the Test:** Execute the spoiler validation:
-   ```bash
-   npm run test:spoilers
-   ```
-   Available variants:
-   - `npm run test:spoilers:headed` - Run with visible browser
-   - `npm run test:spoilers:debug` - Run in debug mode
-   - `npm run test:spoilers:ui` - Run with Playwright UI
    
    **Result Analysis:** You can also run `npm run test:analyze` after testing to generate an easier-to-read analysis in `playwright-analysis.txt`.
 
