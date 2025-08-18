@@ -582,6 +582,22 @@ export const evaluateRule = (rule, context, depth = 0) => {
         const itemName = evaluateRule(rule.item, context, depth + 1);
         if (itemName === undefined) {
           result = undefined;
+        } else if (rule.count !== undefined) {
+          // If there's a count field, use count-based checking
+          const requiredCount = evaluateRule(rule.count, context, depth + 1);
+          if (requiredCount === undefined) {
+            result = undefined;
+          } else if (typeof context.countItem === 'function') {
+            const currentCount = context.countItem(itemName);
+            if (currentCount === undefined) {
+              result = undefined;
+            } else {
+              result = currentCount >= requiredCount;
+            }
+          } else {
+            log('warn', '[evaluateRule SnapshotIF] context.countItem is not a function for item_check with count.');
+            result = undefined;
+          }
         } else if (typeof context.hasItem === 'function') {
           result = context.hasItem(itemName); // hasItem should return true/false/undefined
         } else {

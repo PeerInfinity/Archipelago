@@ -504,6 +504,7 @@ export class PresetUI {
         fileName: fileName,
         jsonData: rulesData,
         selectedPlayerId: playerId,
+        source: fileName, // Use fileName as source for manually loaded files
       }, 'presets');
 
       eventBus.publish('ui:notification', {
@@ -737,6 +738,7 @@ export class PresetUI {
         fileName: rulesFile,
         jsonData: rulesData,
         selectedPlayerId: playerId, // Ensure playerId is passed
+        source: fullPath, // Include the full path as source
       }, 'presets');
 
       // Publish success notification

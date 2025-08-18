@@ -192,7 +192,11 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    }
    ```
    
-   **Result Analysis:** You can also run `npm run test:analyze` after testing to generate an easier-to-read analysis in `playwright-analysis.txt`.
+   **Result Analysis:** After testing, run `npm run test:analyze` to generate a comprehensive, easier-to-read analysis saved to `playwright-analysis.txt`. This analysis includes:
+   - Structured test failure details with clear error messages
+   - Performance metrics and timing information
+   - Organized error logs grouped by category
+   - Specific mismatch details for failed spoiler tests
 
 ### Understanding Test Results
 
@@ -217,6 +221,17 @@ REGION MISMATCH: Regions accessible in LOG but NOT in STATE: Badge Seller, Mafia
 ```
 **Solution:** Check region access rules and implement missing helper functions.
 
+#### Issue: Location Accessibility Mismatches
+```
+> Locations accessible in STATE (and unchecked) but NOT in LOG: Collect 15 Seashells
+```
+**Solution:** The JavaScript rule engine is making a location accessible that shouldn't be at this sphere. Check the corresponding rule in `worlds/[game]/Rules.py`. For example, "Collect 15 Seashells" might have a rule like:
+```python
+add_rule(multiworld.get_location("Collect 15 Seashells", player),
+    lambda state: state.has("Seashell", player, 15))
+```
+This indicates the location requires collecting 15 Seashells before being accessible.
+
 #### Issue: Players Directory Conflicts
 If Generate.py picks up the wrong game, ensure no `.yaml` files exist in the main `Players/` directory.
 
@@ -226,15 +241,145 @@ When tests fail, create game-specific helper functions:
 
 1. **Create Game Directory:** In `frontend/modules/shared/gameLogic/`, create a subdirectory for your game (e.g., `a_hat_in_time/`) based on the contents of the "generic" subdirectory
 
-2. **Implement Helpers:** Base your JavaScript implementations on the Python functions found in `worlds/[game]/` directory. The spoiler test will report missing helper functions or logic mismatches.
+2. **Implement Helpers:** Base your JavaScript implementations on the Python functions found in `worlds/[game]/` directory. Key files to examine:
+   - **`worlds/[game]/Rules.py`**: Contains the main location access rules and helper function calls
+   - **`worlds/[game]/Regions.py`**: Defines region connections and exit rules  
+   - **`worlds/[game]/Items.py`**: Item definitions and properties
+   - **`worlds/[game]/Options.py`**: Game-specific settings that affect rule logic
+   
+   Look for `add_rule()` calls in `Rules.py` that reference your failing location name. The spoiler test will report missing helper functions or logic mismatches.
 
 3. **Test Iteratively:** Re-run `npm run test:spoilers` after each fix until all mismatches are resolved
 
 ### Debugging Tips
 
+**Recommended Debugging Workflow:**
+1. **Run Analysis**: Always run `npm run test:analyze` after a failed test for cleaner error reporting
+2. **Identify Root Cause**: Look for the specific location name in the mismatch details
+3. **Find Python Rule**: Search for the location name in `worlds/[game]/Rules.py` using grep or your editor
+4. **Understand Requirements**: Examine the `add_rule()` call to understand what items/conditions are needed
+5. **Check Item Names**: Verify that item names in the Python rules match those in your JavaScript implementation
+6. **Test Incrementally**: Make one fix at a time and re-run tests to isolate issues
+
+**Interactive Debugging:**
 - Use `npm run test:spoilers:headed` to see the test running in a visible browser
 - Check browser console for detailed rule evaluation logs
 - Use the "Regions" panel to manually verify accessibility logic
 - Compare failing locations between the spoiler log and current state output
+
+**Example Debugging Session:**
+```bash
+# 1. Run test and get failure
+RULES_OVERRIDE=./presets/a_short_hike/AP_[seed]/AP_[seed]_rules.json npm run test:spoilers
+
+# 2. Generate readable analysis
+npm run test:analyze
+
+# 3. Examine the analysis file
+cat playwright-analysis.txt
+
+# 4. Look up the failing location rule
+grep -n "Collect 15 Seashells" worlds/shorthike/Rules.py
+
+# 5. Implement fix in exporter and retry
+```
+
+### Advanced Debugging Patterns
+
+**Pattern 1: Multiple Location Failures → Variable Resolution Issue**
+
+If you see many locations failing simultaneously that should require different counts of the same item:
+```
+> Locations accessible in STATE but NOT in LOG: Secret Island Peak, Lighthouse Golden Chest, North Cliff Golden Chest...
+```
+
+**Root Cause**: Lambda default parameters with variable references aren't being resolved.
+```python
+# Python uses closure variables
+lambda state, min_feathers=min_feathers: state.has("Golden Feather", player, min_feathers)
+```
+
+**Solution**: Implement variable resolution in the analyzer to access function `__defaults__`.
+
+**Pattern 2: Single Location with Count Requirements → Rule Engine Bug**
+
+If one specific location fails that should require a certain quantity:
+```
+> Locations accessible in STATE but NOT in LOG: Collect 15 Seashells
+```
+
+**Root Cause**: Rule engine not properly handling count fields in `item_check` rules.
+```json
+// Generated rule has count field
+{"type": "item_check", "item": "Seashell", "count": {"type": "constant", "value": 15}}
+```
+
+**Solution**: Enhance JavaScript rule engine to check `rule.count` in `item_check` cases.
+
+**Pattern 3: Progressive Test Improvement**
+
+Good debugging shows **progressive sphere advancement**:
+1. **Initial**: Fails at Sphere 1.1 with 8 locations (major issue)
+2. **After fix**: Fails at Sphere 1.2 with 1 location (minor issue)  
+3. **After final fix**: All 37 spheres pass (success)
+
+This indicates you're systematically resolving issues from major to minor.
+
+**Pattern 4: Systematic Issue Classification**
+
+| Error Type | Typical Cause | Fix Location |
+|------------|---------------|--------------|
+| 8+ locations failing | Variable resolution | `exporter/analyzer.py` |
+| 1-2 locations failing | Rule engine logic | `frontend/modules/shared/ruleEngine.js` |
+| Helper function errors | Missing game helpers | `exporter/games/[game].py` |
+| Region mismatches | Area access logic | Game-specific helpers |
+
+### Common Anti-Patterns to Avoid
+
+**❌ Location-Specific Hardcoding**
+```python
+# Don't do this
+if location_name == "Secret Island Peak":
+    return {"type": "item_check", "item": "Golden Feather", "count": 5}
+```
+
+**✅ General Pattern Recognition**
+```python
+# Do this instead - resolve variables generically
+if rule.count and rule.count.type == 'name':
+    resolved_value = self.resolve_variable(rule.count.name)
+    if resolved_value is not None:
+        rule.count = {'type': 'constant', 'value': resolved_value}
+```
+
+**❌ Game-Specific Rule Engine Changes**
+Don't modify the rule engine for specific games - make it handle patterns generically.
+
+**✅ Universal Rule Engine Enhancements**
+```javascript
+// Enhance item_check to handle count universally
+if (rule.count !== undefined) {
+  // Use count-based checking for any game
+  result = currentCount >= requiredCount;
+}
+```
+
+### Recognizing Systemic vs Game-Specific Issues
+
+**🔧 Systemic Issues (Fix in Core Code)**
+- **Multiple games affected**: If the same pattern fails across different games
+- **Fundamental rule types**: Issues with `item_check`, `count_check`, `and`, `or` logic
+- **Variable resolution**: Lambda default parameters not being resolved
+- **Count handling**: Any item quantity requirement failures
+
+**🎮 Game-Specific Issues (Fix in Game Exporter)**  
+- **Unknown helper functions**: `can_fly`, `has_sword`, `can_melt_things`
+- **Custom rule types**: Game-specific logic patterns
+- **Unique mechanics**: Special item interactions or requirements
+- **Single game failures**: Only one game shows the issue
+
+**💡 Key Insight**: Our A Short Hike debugging revealed **two systemic issues** that benefit all games:
+1. **Variable resolution in analyzer** - helps any game using lambda defaults
+2. **Count support in rule engine** - fixes item quantity checks universally
 
 This systematic approach ensures the JavaScript client faithfully replicates the authoritative Python game logic for accurate progression tracking.

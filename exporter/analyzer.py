@@ -277,10 +277,11 @@ class RuleAnalyzer(ast.NodeVisitor):
     - Helper functions
     - Nested expressions
     """
-    def __init__(self, closure_vars=None, seen_funcs=None, game_handler=None):
+    def __init__(self, closure_vars=None, seen_funcs=None, game_handler=None, rule_func=None):
         self.closure_vars = closure_vars or {}  # Helper functions available in closure
         self.seen_funcs = seen_funcs or {}  # Track analyzed helper functions
         self.game_handler = game_handler  # Game-specific handler for name replacements
+        self.rule_func = rule_func  # Original function for accessing defaults
         self.debug_log = []
         self.error_log = []
 
@@ -297,6 +298,31 @@ class RuleAnalyzer(ast.NodeVisitor):
         }
         logging.error(message)
         self.error_log.append(error_entry)
+
+    def resolve_variable(self, var_name):
+        """Resolve variable name using function defaults or closure variables."""
+        # First check closure variables
+        if var_name in self.closure_vars:
+            return self.closure_vars[var_name]
+        
+        # Then check function defaults if available
+        if self.rule_func and hasattr(self.rule_func, '__defaults__') and self.rule_func.__defaults__:
+            # Get parameter names from function code
+            if hasattr(self.rule_func, '__code__'):
+                arg_names = self.rule_func.__code__.co_varnames[:self.rule_func.__code__.co_argcount]
+                defaults = self.rule_func.__defaults__
+                
+                # Map default values to parameter names (defaults apply to last N parameters)
+                if len(defaults) > 0:
+                    default_start = len(arg_names) - len(defaults)
+                    for i, default_value in enumerate(defaults):
+                        param_name = arg_names[default_start + i]
+                        if param_name == var_name:
+                            logging.debug(f"Resolved variable '{var_name}' to default value: {default_value}")
+                            return default_value
+        
+        logging.debug(f"Could not resolve variable '{var_name}'")
+        return None
 
     def visit_Module(self, node):
         try:
@@ -455,7 +481,33 @@ class RuleAnalyzer(ast.NodeVisitor):
                 
                 # Simplify handling based on method name
                 if method == 'has' and len(processed_args) >= 1:
+                    logging.debug(f"Processing state.has with {len(processed_args)} args: {processed_args}")
                     result = {'type': 'item_check', 'item': processed_args[0]}
+                    # Check for count parameter - could be 2nd or 3rd argument depending on if player is filtered
+                    if len(processed_args) >= 2:
+                        # If 2nd argument is numeric constant or variable name, it's likely the count
+                        second_arg = processed_args[1]
+                        if isinstance(second_arg, dict):
+                            # Handle constant integer (like 15)
+                            if second_arg.get('type') == 'constant' and isinstance(second_arg.get('value'), int):
+                                logging.debug(f"Found count parameter in position 1: {second_arg}")
+                                result['count'] = second_arg
+                            # Handle variable name (like min_feathers)
+                            elif second_arg.get('type') == 'name' and second_arg.get('name'):
+                                var_name = second_arg.get('name')
+                                resolved_value = self.resolve_variable(var_name)
+                                if resolved_value is not None:
+                                    # Successfully resolved variable to a concrete value
+                                    logging.debug(f"Found variable count parameter in position 1: {second_arg} -> {resolved_value}")
+                                    result['count'] = {'type': 'constant', 'value': resolved_value}
+                                else:
+                                    # Could not resolve, keep as variable reference
+                                    logging.debug(f"Found unresolved variable count parameter in position 1: {second_arg}")
+                                    result['count'] = second_arg
+                    elif len(processed_args) >= 3:
+                        # Traditional 3-argument case (item, player, count)
+                        logging.debug(f"Found count parameter in position 2: {processed_args[2]}")
+                        result['count'] = processed_args[2]
                 elif method == 'has_group' and len(processed_args) >= 1:
                     result = {'type': 'group_check', 'group': processed_args[0]}
                 elif method == 'has_any' and len(processed_args) >= 1 and isinstance(processed_args[0], list):
@@ -1119,7 +1171,7 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
                 logging.debug(f"analyze_rule: Incremented func_id {func_id} count in seen_funcs: {seen_funcs}")
 
                 # Pass the LOCAL copy to the RuleAnalyzer instance
-                analyzer = RuleAnalyzer(closure_vars=local_closure_vars, seen_funcs=seen_funcs, game_handler=game_handler)
+                analyzer = RuleAnalyzer(closure_vars=local_closure_vars, seen_funcs=seen_funcs, game_handler=game_handler, rule_func=rule_func)
 
                 # Check if cleaned_source contains "Bridge"
                 if cleaned_source and "Bridge" in cleaned_source:
