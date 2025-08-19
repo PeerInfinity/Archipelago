@@ -9,6 +9,103 @@ logger = logging.getLogger(__name__)
 class AHitGameExportHandler(BaseGameExportHandler):
     """A Hat in Time specific rule expander with game-specific helper functions."""
     
+    def get_chapter_costs(self, world):
+        """Extract A Hat in Time chapter costs for telescope access rules."""
+        try:
+            chapter_costs = {}
+            if hasattr(world, 'chapter_timepiece_costs'):
+                # Map ChapterIndex to chapter names (correct mapping from Types.py)
+                chapter_names = {
+                    0: 'Spaceship',  # SPACESHIP = 0 (not a telescope)
+                    1: 'Mafia Town',  # MAFIA = 1 
+                    2: 'Battle of the Birds',  # BIRDS = 2
+                    3: 'Subcon Forest',  # SUBCON = 3
+                    4: 'Alpine Skyline',  # ALPINE = 4
+                    5: 'Time\'s End',  # FINALE = 5
+                    6: 'Arctic Cruise',  # CRUISE = 6
+                    7: 'Nyakuza Metro'  # METRO = 7
+                }
+                
+                for chapter_index, cost in world.chapter_timepiece_costs.items():
+                    chapter_name = chapter_names.get(int(chapter_index), f'Chapter_{chapter_index}')
+                    chapter_costs[chapter_name] = cost
+                    
+                logger.info(f"A Hat in Time chapter costs: {chapter_costs}")
+                return chapter_costs
+            else:
+                logger.warning("World object has no chapter_timepiece_costs attribute")
+                return {}
+        except Exception as e:
+            logger.error(f"Error extracting chapter costs: {e}")
+            return {}
+
+    def apply_chapter_costs_to_rule(self, rule, exit_name, world):
+        """Apply chapter costs to telescope exit rules during export."""
+        try:
+            # Only modify telescope rules
+            if not exit_name or not exit_name.startswith("Telescope -> "):
+                return rule
+                
+            # Get chapter costs
+            chapter_costs = self.get_chapter_costs(world)
+            if not chapter_costs:
+                logger.warning("No chapter costs available for telescope rule modification")
+                return rule
+                
+            # Map telescope names to chapter names
+            telescope_to_chapter = {
+                "Telescope -> Mafia Town": "Mafia Town",
+                "Telescope -> Battle of the Birds": "Battle of the Birds", 
+                "Telescope -> Subcon Forest": "Subcon Forest",
+                "Telescope -> Alpine Skyline": "Alpine Skyline",
+                "Telescope -> Time's End": "Time's End"
+            }
+            
+            chapter_name = telescope_to_chapter.get(exit_name)
+            if not chapter_name or chapter_name not in chapter_costs:
+                logger.warning(f"No chapter cost found for {exit_name}")
+                return rule
+                
+            cost = chapter_costs[chapter_name]
+            logger.info(f"Applying chapter cost {cost} to {exit_name}")
+            
+            if cost == 0:
+                # Free access
+                return {
+                    'type': 'constant',
+                    'value': True
+                }
+            else:
+                # Requires Time Pieces
+                return {
+                    'type': 'count_check',
+                    'item': 'Time Piece',
+                    'count': cost
+                }
+                
+        except Exception as e:
+            logger.error(f"Error applying chapter costs to {exit_name}: {e}")
+            return rule
+
+    def get_game_info(self, world):
+        """Get A Hat in Time specific game information including chapter costs."""
+        try:
+            game_info = {
+                "name": "A Hat in Time",
+                "rule_format": {
+                    "version": "1.0"
+                },
+                "chapter_costs": self.get_chapter_costs(world)
+            }
+            return game_info
+        except Exception as e:
+            logger.error(f"Error getting A Hat in Time game info: {e}")
+            return {
+                "name": "A Hat in Time", 
+                "rule_format": {"version": "1.0"},
+                "chapter_costs": {}
+            }
+
     def expand_helper(self, helper_name: str):
         """Expand A Hat in Time specific helper functions."""
         

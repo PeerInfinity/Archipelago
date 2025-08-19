@@ -199,6 +199,35 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'generic_helper': {
+        // Handle generic helper functions that couldn't be converted to specific rule types
+        // Try to call the game-specific helper function, fall back to true if not available
+        const args = rule.args
+          ? rule.args.map((arg) => evaluateRule(arg, context, depth + 1))
+          : [];
+        if (args.some((arg) => arg === undefined)) {
+          result = undefined;
+        } else if (isValidContext) {
+          if (typeof context.executeHelper === 'function') {
+            result = context.executeHelper(rule.name, ...args);
+          } else {
+            log(
+              'warn',
+              `[evaluateRule] context.executeHelper is not a function for generic helper '${rule.name}'. Falling back to true.`
+            );
+            result = true;
+          }
+        } else {
+          log(
+            'warn',
+            `[evaluateRule] Generic helper '${rule.name}' called without valid context - falling back to true`,
+            { rule }
+          );
+          result = true;
+        }
+        break;
+      }
+
       case 'state_method': {
         const args = rule.args
           ? rule.args.map((arg) => evaluateRule(arg, context, depth + 1))
@@ -908,6 +937,24 @@ export function debugRule(rule, indent = 0) {
 
     case 'helper':
       log('info', `${prefix}Helper: ${rule.name}`);
+      if (rule.args && rule.args.length > 0) {
+        log('info', `${prefix}Args:`);
+        rule.args.forEach((arg, i) => {
+          if (typeof arg === 'string' || typeof arg === 'number') {
+            log('info', `${prefix}  Arg ${i + 1}: ${arg}`);
+          } else {
+            log('info', `${prefix}  Arg ${i + 1} (complex):`);
+            debugRule(arg, indent + 4);
+          }
+        });
+      }
+      break;
+
+    case 'generic_helper':
+      log('info', `${prefix}Generic Helper: ${rule.name}`);
+      if (rule.description) {
+        log('info', `${prefix}Description: ${rule.description}`);
+      }
       if (rule.args && rule.args.length > 0) {
         log('info', `${prefix}Args:`);
         rule.args.forEach((arg, i) => {

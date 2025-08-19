@@ -356,7 +356,8 @@ def process_regions(multiworld, player: int) -> tuple:
     
     def safe_expand_rule(game_handler, rule_func,
                          rule_target_name: Optional[str] = None,
-                         target_type: Optional[str] = None):
+                         target_type: Optional[str] = None,
+                         world=None):
         """Analyzes rule using runtime analysis (analyze_rule)."""
         try:
             if not rule_func:
@@ -368,6 +369,12 @@ def process_regions(multiworld, player: int) -> tuple:
             
             if analysis_result and analysis_result.get('type') != 'error':
                 logger.debug(f"safe_expand_rule: Runtime analysis successful for '{rule_target_name or 'unknown'}'")
+                
+                # Set context for A Hat In Time telescope rule processing
+                if hasattr(game_handler, 'apply_chapter_costs_to_rule') and rule_target_name and rule_target_name.startswith("Telescope -> "):
+                    logger.debug(f"Applying A Hat In Time chapter costs to {rule_target_name}")
+                    analysis_result = game_handler.apply_chapter_costs_to_rule(analysis_result, rule_target_name, world)
+                
                 expanded = game_handler.expand_rule(analysis_result)
                 logger.debug(f"Successfully expanded rule for {target_type} '{rule_target_name or 'unknown'}'")
                 return expanded
@@ -451,7 +458,8 @@ def process_regions(multiworld, player: int) -> tuple:
                                 game_handler,
                                 getattr(region.dungeon.boss, 'defeat_rule', None),
                                 getattr(region.dungeon.boss, 'name', None),
-                                target_type='Boss'
+                                target_type='Boss',
+                                world=world
                             )
                         }
                     
@@ -460,7 +468,8 @@ def process_regions(multiworld, player: int) -> tuple:
                             game_handler,
                             region.dungeon.medallion_check,
                             f"{dungeon_name} Medallion Check",
-                            target_type='DungeonMedallion'
+                            target_type='DungeonMedallion',
+                            world=world
                         )
                     
                     dungeons_data[dungeon_name] = dungeon_data
@@ -538,7 +547,8 @@ def process_regions(multiworld, player: int) -> tuple:
                                     game_handler,
                                     entrance.access_rule,
                                     entrance_name,
-                                    target_type='Entrance'
+                                    target_type='Entrance',
+                                    world=world
                                 )
                             
                             entrance_data = {
@@ -567,7 +577,8 @@ def process_regions(multiworld, player: int) -> tuple:
                                     game_handler,
                                     exit.access_rule,
                                     exit_name,
-                                    target_type='Exit'
+                                    target_type='Exit',
+                                    world=world
                                 )
                             
                             exit_data = {
@@ -597,7 +608,8 @@ def process_regions(multiworld, player: int) -> tuple:
                                     game_handler,
                                     location.access_rule,
                                     location_name,
-                                    target_type='Location'
+                                    target_type='Location',
+                                    world=world
                                 )
                                 
                             if hasattr(location, 'item_rule') and location.item_rule:
@@ -605,7 +617,8 @@ def process_regions(multiworld, player: int) -> tuple:
                                     game_handler,
                                     location.item_rule,
                                     f"{location_name} Item Rule",
-                                    target_type='LocationItemRule'
+                                    target_type='LocationItemRule',
+                                    world=world
                                 )
                             
                             location_data = {
@@ -644,7 +657,8 @@ def process_regions(multiworld, player: int) -> tuple:
                                 game_handler,
                                 rule,
                                 rule_target_name,
-                                target_type='RegionRule'
+                                target_type='RegionRule',
+                                world=world
                             )
                             if expanded_rule:
                                 region_data['region_rules'].append(expanded_rule)

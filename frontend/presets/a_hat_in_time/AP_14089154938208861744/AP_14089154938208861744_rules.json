@@ -56,15 +56,8 @@
             "name": "Telescope -> Mafia Town",
             "connected_region": "Mafia Town",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              },
-              "count": {
-                "type": "constant",
-                "value": 0
-              }
+              "type": "constant",
+              "value": true
             },
             "type": "Exit"
           },
@@ -72,15 +65,9 @@
             "name": "Telescope -> Battle of the Birds",
             "connected_region": "Battle of the Birds",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              },
-              "count": {
-                "type": "constant",
-                "value": 0
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 17
             },
             "type": "Exit"
           },
@@ -88,15 +75,9 @@
             "name": "Telescope -> Subcon Forest",
             "connected_region": "Subcon Forest",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              },
-              "count": {
-                "type": "constant",
-                "value": 0
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 12
             },
             "type": "Exit"
           },
@@ -104,11 +85,9 @@
             "name": "Telescope -> Alpine Skyline",
             "connected_region": "Alpine Skyline",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 8
             },
             "type": "Exit"
           },
@@ -116,11 +95,9 @@
             "name": "Telescope -> Time's End",
             "connected_region": "Time's End",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 35
             },
             "type": "Exit"
           },
@@ -499,18 +476,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 1",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -518,18 +486,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 1",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           }
@@ -623,18 +582,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 2",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -642,18 +592,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 2",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -755,18 +696,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 3",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -774,18 +706,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 3",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -870,18 +793,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 4",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -889,18 +803,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 4",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1155,18 +1060,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 6",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1174,18 +1070,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 6",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1288,18 +1175,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 5",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1307,18 +1185,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 5",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           }
@@ -1420,18 +1289,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 7",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 6"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1439,18 +1299,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 7",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Mafia Town - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1758,32 +1609,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
+                  "type": "generic_helper",
                   "name": "can_clear_required_act",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 3"
-                    }
-                  ]
+                  "description": "Checks if a specific act can be completed"
                 },
                 {
-                  "type": "helper",
+                  "type": "generic_helper",
                   "name": "can_clear_required_act",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 2"
-                    }
-                  ]
+                  "description": "Checks if a specific act can be completed"
                 }
               ]
             },
@@ -1971,32 +1804,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
+                  "type": "generic_helper",
                   "name": "can_clear_required_act",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 5"
-                    }
-                  ]
+                  "description": "Checks if a specific act can be completed"
                 },
                 {
-                  "type": "helper",
+                  "type": "generic_helper",
                   "name": "can_clear_required_act",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 4"
-                    }
-                  ]
+                  "description": "Checks if a specific act can be completed"
                 }
               ]
             },
@@ -2269,32 +2084,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
+                  "type": "generic_helper",
                   "name": "can_clear_required_act",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 5"
-                    }
-                  ]
+                  "description": "Checks if a specific act can be completed"
                 },
                 {
-                  "type": "helper",
+                  "type": "generic_helper",
                   "name": "can_clear_required_act",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Battle of the Birds - Act 4"
-                    }
-                  ]
+                  "description": "Checks if a specific act can be completed"
                 }
               ]
             },
@@ -3597,18 +3394,9 @@
             "name": "Time Rift - Village Portal - Entrance 1",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3616,18 +3404,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 1",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 2"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3756,18 +3535,9 @@
             "name": "Time Rift - Village Portal - Entrance 2",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3775,18 +3545,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 2",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 2"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           }
@@ -3946,18 +3707,9 @@
             "name": "Time Rift - Village Portal - Entrance 3",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3965,18 +3717,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 3",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 2"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -4151,18 +3894,9 @@
             "name": "Time Rift - Village Portal - Entrance 4",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -4170,18 +3904,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 4",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 2"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -4427,18 +4152,9 @@
             "name": "Time Rift - Village Portal - Entrance 5",
             "connected_region": "Time Rift - Pipe",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 4"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -4446,18 +4162,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 5",
             "connected_region": "Time Rift - Bazaar",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "can_clear_required_act",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": "Subcon Forest - Act 2"
-                }
-              ]
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -7709,22 +7416,9 @@
             "name": "SF Area -> SF Behind Boss Firewall",
             "connected_region": "Subcon Forest Behind Boss Firewall",
             "access_rule": {
-              "type": "helper",
+              "type": "generic_helper",
               "name": "has_paintings",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "world"
-                },
-                {
-                  "type": "constant",
-                  "value": 1
-                },
-                {
-                  "type": "constant",
-                  "value": false
-                }
-              ]
+              "description": "Checks if player has enough painting unlocks"
             },
             "type": "Exit"
           },
@@ -10249,6 +9943,15 @@
       "name": "A Hat in Time",
       "rule_format": {
         "version": "1.0"
+      },
+      "chapter_costs": {
+        "Mafia Town": 0,
+        "Battle of the Birds": 17,
+        "Subcon Forest": 12,
+        "Alpine Skyline": 8,
+        "Time's End": 35,
+        "Arctic Cruise": -1,
+        "Nyakuza Metro": -1
       }
     }
   }

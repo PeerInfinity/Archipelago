@@ -129,15 +129,13 @@ export function get_difficulty(state, world, itemName, staticData) {
  * @param {Object} staticData - Static game data
  * @returns {boolean}
  */
+
 export function can_clear_required_act(state, world, actEntrance, staticData) {
-  // This is a complex function that checks:
-  // 1. If the act's region is reachable
-  // 2. If the act completion location is accessible
+  // This function checks if a required act can be cleared by:
+  // 1. Checking if the act's region is reachable
+  // 2. Checking if the "Act Completion" location for that region is accessible
   
-  // For now, implement a simplified version that assumes acts are clearable
-  // if their regions are accessible
-  
-  // Map some common act entrances to their regions
+  // Map act entrances to their connected regions
   const actToRegion = {
     'Mafia Town - Act 1': 'Welcome to Mafia Town',
     'Mafia Town - Act 2': 'Barrel Battle', 
@@ -164,13 +162,30 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
     return true;
   }
 
-  // Check if the region is reachable (from regionReachability state)
+  // First check if the region is reachable
   if (state.regionReachability && state.regionReachability[regionName] !== undefined) {
-    return state.regionReachability[regionName] === true;
+    const regionReachable = state.regionReachability[regionName] === true;
+    if (!regionReachable) {
+      return false;
+    }
   }
 
-  // Fallback: assume accessible if we can't determine reachability
-  return true;
+  // Check if it's a "Free Roam" area (these are always clearable if reachable)
+  if (regionName.includes('Free Roam')) {
+    return true;
+  }
+
+  // For act regions, check if the "Act Completion" location is accessible
+  const actCompletionLocationName = `Act Completion (${regionName})`;
+  
+  // Check if the location is accessible (marked as reachable in state)
+  if (state.locationReachability && state.locationReachability[actCompletionLocationName] !== undefined) {
+    return state.locationReachability[actCompletionLocationName] === true;
+  }
+
+  // If we don't have location reachability data, fall back to basic region check
+  // This is better than always returning true as we did before
+  return state.regionReachability && state.regionReachability[regionName] === true;
 }
 
 // Movement and abilities
