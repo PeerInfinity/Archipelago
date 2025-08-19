@@ -22,10 +22,10 @@ def load_test_results(results_file: str) -> Dict[str, Any]:
         return {}
 
 
-def extract_chart_data(results: Dict[str, Any]) -> List[Tuple[str, str, int, float, float]]:
+def extract_chart_data(results: Dict[str, Any]) -> List[Tuple[str, str, int, float, float, bool, bool]]:
     """
     Extract chart data from results.
-    Returns list of tuples: (game_name, pass_fail, gen_error_count, sphere_reached, max_spheres)
+    Returns list of tuples: (game_name, pass_fail, gen_error_count, sphere_reached, max_spheres, has_custom_exporter, has_custom_game_logic)
     """
     chart_data = []
     
@@ -49,6 +49,17 @@ def extract_chart_data(results: Dict[str, Any]) -> List[Tuple[str, str, int, flo
         # Extract max spheres (total spheres available)
         max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
         
+        # Extract world info for custom exporter/gameLogic status
+        world_info = template_data.get('world_info', {})
+        has_custom_exporter = world_info.get('has_custom_exporter', False)
+        has_custom_game_logic = world_info.get('has_custom_game_logic', False)
+        
+        # Fallback: if world_info is missing, try to look up from template name
+        if not world_info and template_name:
+            # This is a simplified fallback - in a complete implementation,
+            # we'd load the world mapping and template file to get accurate info
+            pass
+        
         # Apply stricter pass criteria: must have 0 generation errors AND max_spheres > 0
         if original_pass_fail.lower() == 'passed' and gen_error_count == 0 and max_spheres > 0:
             pass_fail = 'Passed'
@@ -58,7 +69,7 @@ def extract_chart_data(results: Dict[str, Any]) -> List[Tuple[str, str, int, flo
             # Mark as failed if it doesn't meet strict criteria, even if spoiler test "passed"
             pass_fail = 'Failed'
         
-        chart_data.append((game_name, pass_fail, gen_error_count, sphere_reached, max_spheres))
+        chart_data.append((game_name, pass_fail, gen_error_count, sphere_reached, max_spheres, has_custom_exporter, has_custom_game_logic))
     
     # Sort by game name for consistent ordering
     chart_data.sort(key=lambda x: x[0])
@@ -66,7 +77,7 @@ def extract_chart_data(results: Dict[str, Any]) -> List[Tuple[str, str, int, flo
     return chart_data
 
 
-def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float]], 
+def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float, bool, bool]], 
                            metadata: Dict[str, Any]) -> str:
     """Generate a markdown table with the chart data."""
     
@@ -87,8 +98,8 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float]]
     # Summary statistics
     if chart_data:
         total_games = len(chart_data)
-        passed = sum(1 for _, pass_fail, _, _, _ in chart_data if pass_fail.lower() == 'passed')
-        failed = sum(1 for _, pass_fail, _, _, _ in chart_data if pass_fail.lower() == 'failed')
+        passed = sum(1 for _, pass_fail, _, _, _, _, _ in chart_data if pass_fail.lower() == 'passed')
+        failed = sum(1 for _, pass_fail, _, _, _, _, _ in chart_data if pass_fail.lower() == 'failed')
         unknown = total_games - passed - failed
         
         md_content += "## Summary\n\n"
@@ -101,22 +112,22 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float]]
     
     # Table header
     md_content += "## Test Results\n\n"
-    md_content += "| Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress |\n"
-    md_content += "|-----------|-------------|------------|----------------|-------------|----------|\n"
+    md_content += "| Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |\n"
+    md_content += "|-----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|\n"
     
     # Table rows
-    for game_name, pass_fail, gen_error_count, sphere_reached, max_spheres in chart_data:
-        # Create a progress indicator
-        if max_spheres > 0:
-            progress_pct = (sphere_reached / max_spheres) * 100
-            if progress_pct >= 100:
-                progress = "✅ 100%"
-            elif progress_pct >= 75:
-                progress = f"🟡 {progress_pct:.1f}%"
-            elif progress_pct >= 50:
-                progress = f"🟠 {progress_pct:.1f}%"
-            else:
-                progress = f"🔴 {progress_pct:.1f}%"
+    for game_name, pass_fail, gen_error_count, sphere_reached, max_spheres, has_custom_exporter, has_custom_game_logic in chart_data:
+        # Create a progress indicator based on highest sphere reached
+        if pass_fail.lower() == 'passed':
+            progress = "🟢 Complete"
+        elif sphere_reached >= 1.0:
+            progress_pct = (sphere_reached / max_spheres) * 100 if max_spheres > 0 else 0
+            progress = f"🟡 {progress_pct:.1f}%"
+        elif sphere_reached > 0:
+            progress_pct = (sphere_reached / max_spheres) * 100 if max_spheres > 0 else 0
+            progress = f"🟠 {progress_pct:.1f}%"
+        elif sphere_reached == 0:
+            progress = "🔴 0.0%"
         else:
             progress = "❓ N/A"
         
@@ -132,10 +143,14 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float]]
         sphere_reached_str = f"{sphere_reached:g}"  # g format removes trailing zeros
         max_spheres_str = f"{max_spheres:g}"
         
-        md_content += f"| {game_name} | {result_display} | {gen_error_count} | {sphere_reached_str} | {max_spheres_str} | {progress} |\n"
+        # Format custom exporter/gameLogic indicators
+        exporter_indicator = "✅" if has_custom_exporter else "❌"
+        game_logic_indicator = "✅" if has_custom_game_logic else "❌"
+        
+        md_content += f"| {game_name} | {result_display} | {gen_error_count} | {sphere_reached_str} | {max_spheres_str} | {progress} | {exporter_indicator} | {game_logic_indicator} |\n"
     
     if not chart_data:
-        md_content += "| No data available | - | - | - | - | - |\n"
+        md_content += "| No data available | - | - | - | - | - | - | - |\n"
     
     # Footer notes
     md_content += "\n## Notes\n\n"
@@ -143,6 +158,8 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float]]
     md_content += "- **Sphere Reached:** The logical sphere the test reached before completion/failure\n"
     md_content += "- **Max Spheres:** Total logical spheres available in the game\n"
     md_content += "- **Progress:** Percentage of logical spheres completed\n"
+    md_content += "- **Custom Exporter:** ✅ Has custom Python exporter script, ❌ Uses generic exporter\n"
+    md_content += "- **Custom GameLogic:** ✅ Has custom JavaScript game logic, ❌ Uses generic logic\n"
     md_content += "\n"
     md_content += "**Pass Criteria:** A test is marked as ✅ Passed only if:\n"
     md_content += "- Generation errors = 0 (no errors during world generation)\n"
@@ -150,10 +167,10 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float]]
     md_content += "- Spoiler test completed successfully\n"
     md_content += "\n"
     md_content += "Progress indicators:\n"
-    md_content += "- ✅ 100% - Completed all spheres\n"
-    md_content += "- 🟡 75%+ - Most spheres completed\n"
-    md_content += "- 🟠 50%+ - Half spheres completed\n"
-    md_content += "- 🔴 <50% - Less than half completed\n"
+    md_content += "- 🟢 Complete - Test completely passed (all criteria met)\n"
+    md_content += "- 🟡 Yellow - Highest sphere reached ≥ 1.0\n"
+    md_content += "- 🟠 Orange - Highest sphere reached > 0 but < 1.0\n"
+    md_content += "- 🔴 Red - Highest sphere reached = 0\n"
     md_content += "- ❓ N/A - No sphere data available\n"
     
     return md_content

@@ -23,6 +23,74 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 
+def build_and_load_world_mapping(project_root: str) -> Dict[str, Dict]:
+    """Build world mapping and load it."""
+    mapping_file = os.path.join(project_root, 'scripts', 'data', 'world-mapping.json')
+    build_script = os.path.join(project_root, 'scripts', 'build-world-mapping.py')
+    
+    # Always build the mapping to ensure it's current
+    try:
+        print("Building world mapping...")
+        result = subprocess.run([sys.executable, build_script], 
+                              cwd=project_root, 
+                              capture_output=True, 
+                              text=True)
+        if result.returncode != 0:
+            print(f"Warning: Failed to build world mapping: {result.stderr}")
+            return {}
+        else:
+            print("World mapping built successfully")
+    except Exception as e:
+        print(f"Warning: Failed to build world mapping: {e}")
+        return {}
+    
+    # Load the mapping
+    try:
+        with open(mapping_file, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("Warning: Could not load world mapping, using empty mapping")
+        return {}
+
+
+def extract_game_name_from_template(template_path: str) -> Optional[str]:
+    """Extract the game name from a template YAML file."""
+    try:
+        import yaml
+        with open(template_path, 'r', encoding='utf-8') as f:
+            data = yaml.safe_load(f)
+            return data.get('game')
+    except (ImportError, yaml.YAMLError, FileNotFoundError, UnicodeDecodeError):
+        # Fall back to normalized template name if YAML parsing fails
+        return None
+
+
+def get_world_info(template_file: str, templates_dir: str, world_mapping: Dict[str, Dict]) -> Dict:
+    """Get world information including custom exporter/gameLogic status."""
+    template_path = os.path.join(templates_dir, template_file)
+    
+    # Try to extract game name from YAML file
+    game_name = extract_game_name_from_template(template_path)
+    
+    if game_name and game_name in world_mapping:
+        world_info = world_mapping[game_name].copy()
+        world_info['game_name_from_yaml'] = game_name
+        world_info['normalized_name'] = normalize_game_name(template_file)
+        return world_info
+    else:
+        # Fallback to normalized name
+        normalized_name = normalize_game_name(template_file)
+        return {
+            'game_name_from_yaml': game_name,
+            'normalized_name': normalized_name,
+            'world_directory': None,
+            'has_custom_exporter': False,
+            'has_custom_game_logic': False,
+            'exporter_path': None,
+            'game_logic_path': None
+        }
+
+
 def check_virtual_environment() -> bool:
     """
     Check if the virtual environment is properly activated.
@@ -244,12 +312,15 @@ def save_results(results: Dict, results_file: str):
         print(f"Error saving results: {e}")
 
 
-def test_template(template_file: str, templates_dir: str, project_root: str) -> Dict:
+def test_template(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict]) -> Dict:
     """Test a single template file and return results."""
     template_name = os.path.basename(template_file)
     game_name = normalize_game_name(template_name)
     seed = "1"
     seed_id = "AP_14089154938208861744"
+    
+    # Get world info using the provided world mapping
+    world_info = get_world_info(template_file, templates_dir, world_mapping)
     
     print(f"\n=== Testing {template_name} ===")
     
@@ -259,6 +330,7 @@ def test_template(template_file: str, templates_dir: str, project_root: str) -> 
         'seed': seed,
         'seed_id': seed_id,
         'timestamp': datetime.now().isoformat(),
+        'world_info': world_info,
         'generation': {
             'success': False,
             'error_count': 0,
@@ -559,13 +631,16 @@ def main():
     print(f"Results will be saved to: {results_file}")
     print(f"Testing templates from: {templates_dir}")
     
+    # Build world mapping once at startup
+    world_mapping = build_and_load_world_mapping(project_root)
+    
     # Test each template
     total_files = len(yaml_files)
     for i, yaml_file in enumerate(yaml_files, 1):
         print(f"\n[{i}/{total_files}] Processing {yaml_file}")
         
         try:
-            template_result = test_template(yaml_file, templates_dir, project_root)
+            template_result = test_template(yaml_file, templates_dir, project_root, world_mapping)
             results['results'][yaml_file] = template_result
             
             # Save results after each template (incremental updates)
