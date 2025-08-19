@@ -72,7 +72,47 @@ The entire pipeline can be run automatically from the command line using Playwri
 
 This end-to-end pipeline ensures a high degree of confidence that the frontend client is a faithful and accurate implementation of Archipelago's game progression logic.
 
-## Running the Complete Testing Pipeline
+## Automated Testing Across All Templates
+
+For testing multiple games efficiently, use the automated testing script that handles the complete pipeline for all templates:
+
+### Quick Start with Automation
+
+**⚠️ IMPORTANT: Activate Virtual Environment First**
+
+```bash
+# Activate your virtual environment (REQUIRED)
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Test all templates in the default Templates directory
+python scripts/test-all-templates.py
+
+# Test templates from a custom directory
+python scripts/test-all-templates.py --templates-dir /path/to/templates
+
+# Custom output file location
+python scripts/test-all-templates.py --output-file custom-results.json
+```
+
+**Note:** The script will freeze during `Generate.py` execution if the virtual environment is not activated, as it cannot access the required Python dependencies.
+
+The automation script (`scripts/test-all-templates.py`) provides:
+
+- **Complete Pipeline Automation**: Runs Generate.py, spoiler tests, and analysis for each template
+- **Comprehensive Metrics**: Captures error/warning counts, sphere progression, and pass/fail status
+- **Incremental Updates**: Results saved after each template to prevent data loss
+- **Detailed JSON Output**: Structured results with timestamps and diagnostic information
+- **Progress Tracking**: Real-time feedback and summary statistics
+
+**Output Location**: Results are saved to `scripts/output/template-test-results.json` with complete metrics for each game including:
+- Generation success/failure with error and warning counts
+- Spoiler test results with sphere progression details  
+- First error/warning lines for quick debugging
+- Execution timestamps and performance data
+
+This automated approach is ideal for regression testing, validating multiple games simultaneously, or generating comprehensive test reports across the entire game catalog.
+
+## Running the Complete Testing Pipeline (Manual Process)
 
 To test a new game implementation, follow these steps:
 
@@ -128,6 +168,20 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    # Then run the generation command
    python Generate.py --weights_file_path "Templates/A Hat in Time.yaml" --multi 1 --seed 1 > generate_output.txt
    ```
+   
+   **Understanding Seeds and Output Filenames:**
+   
+   When you specify `--seed 1`, the output filename will always be predictable and consistent: `AP_14089154938208861744`. This makes automation and testing easier because you know exactly what files will be generated.
+   
+   The output directory structure follows this pattern:
+   - **Template file:** `Templates/A Hat in Time.yaml`
+   - **Output directory:** `frontend/presets/a_hat_in_time/` (lowercase, spaces → underscores)
+   - **Generated files:** All prefixed with `AP_14089154938208861744`
+   
+   Examples of the directory naming convention:
+   - `"A Hat in Time.yaml"` → `a_hat_in_time/`
+   - `"A Short Hike.yaml"` → `a_short_hike/`  
+   - `"Adventure.yaml"` → `adventure/`
    
    **Important:** Use `"Templates/[GameName].yaml"` as the path, **not** `"Players/Templates/[GameName].yaml"`. The `--weights_file_path` is relative to the `player_files_path` setting in `host.yaml` (which defaults to "Players"), so the full path becomes `Players/Templates/[GameName].yaml` automatically.
    
