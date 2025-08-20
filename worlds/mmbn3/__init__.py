@@ -460,14 +460,6 @@ class MMBN3World(World):
             lambda state: state.has(ItemName.Victory, self.player)
 
     def generate_output(self, output_directory: str) -> None:
-        # Check if ROM exists and skip ROM-dependent steps if not
-        rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
-            import logging
-            mmbn3_logger = logging.getLogger("MegaMan Battle Network 3")
-            mmbn3_logger.warning("ROM file not found. Skipping ROM generation for player %d.", self.player)
-            return
-
         rompath: str = ""
 
         try:
@@ -537,11 +529,8 @@ class MMBN3World(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
-        # Import the skip_required_files flag
-        from settings import skip_required_files
         rom_file = get_base_rom_path()
-        # Only raise the error if we're not skipping required files
-        if not skip_required_files and not os.path.exists(rom_file):
+        if not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def create_item(self, name: str) -> "Item":

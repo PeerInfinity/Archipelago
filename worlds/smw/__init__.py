@@ -4,7 +4,6 @@ import typing
 import math
 import settings
 import threading
-import logging
 
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
@@ -78,12 +77,8 @@ class SMWWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
-        # Import the skip_required_files flag
-        from settings import skip_required_files
-        
         rom_file = get_base_rom_path()
-        # Only check for ROM file if we're not skipping required files
-        if not skip_required_files and not os.path.exists(rom_file):
+        if not os.path.exists(rom_file):
             raise FileNotFoundError(rom_file)
 
     def fill_slot_data(self) -> dict:
@@ -219,26 +214,12 @@ class SMWWorld(World):
 
 
     def generate_output(self, output_directory: str):
-        # Check if ROM file exists
-        rom_file = get_base_rom_path()
-        if not os.path.exists(rom_file):
-            smw_logger = logging.getLogger("Super Mario World")
-            from settings import skip_required_files
-            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
-            smw_logger.warning("Super Mario World ROM file not found at %s (%s). Skipping ROM generation for player %d.", 
-                              rom_file, reason, self.player)
-            # Set a placeholder ROM name to indicate ROM wasn't generated
-            self.rom_name = "SMW_ROM_NOT_GENERATED"
-            # Make sure the event is set so the process can continue
-            self.rom_name_available_event.set()
-            return
-            
         rompath = ""  # if variable is not declared finally clause may fail
         try:
             multiworld = self.multiworld
             player = self.player
 
-            rom = LocalRom(rom_file)
+            rom = LocalRom(get_base_rom_path())
             patch_rom(self, rom, self.player, self.active_level_dict)
 
             rompath = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.sfc")
@@ -261,7 +242,7 @@ class SMWWorld(World):
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)
         # we skip in case of error, so that the original error in the output thread is the one that gets raised
-        if rom_name and rom_name != "SMW_ROM_NOT_GENERATED":
+        if rom_name:
             new_name = base64.b64encode(bytes(self.rom_name)).decode()
             multidata["connect_names"][new_name] = multidata["connect_names"][self.multiworld.player_name[self.player]]
 
