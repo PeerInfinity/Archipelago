@@ -215,7 +215,7 @@ item_table = {'Bow': ItemData(IC.progression, None, 0x0B, 'You have\nchosen the\
               'Blue Potion': ItemData(IC.filler, None, 0x30, 'Delicious blue goop!', 'and the blue goo', 'the liquid kid', 'potion for sale', 'free samples', 'bottle boy has blue goo again', 'a blue potion'),
               'Bee': ItemData(IC.trap, None, 0x0E, 'I will sting your foes a few times', 'and the sting buddy', 'the beekeeper kid', 'insect for sale', 'shroom pollenation', 'bottle boy has mad bee again', 'a bee'),
               'Small Heart': ItemData(IC.filler, None, 0x42, 'Just a little\npiece of love!', 'and the heart', 'the life-giving kid', 'little love for sale', 'fungus for life', 'life boy feels some love again', 'a heart'),
-              'Activated Flute': ItemData(IC.progression, None, 0x4A, 'Save the duck\nand fly to\nfreedom!', 'and the duck call', 'the duck-call kid', 'duck call for sale', 'duck-calls for trade', 'flute boy plays again', 'the Flute'),
+              'Activated Flute': ItemData(IC.progression, 'Event', None, None, None, None, None, None, None, None),
               'Beat Agahnim 1': ItemData(IC.progression, 'Event', None, None, None, None, None, None, None, None),
               'Beat Agahnim 2': ItemData(IC.progression, 'Event', None, None, None, None, None, None, None, None),
               'Get Frog': ItemData(IC.progression, 'Event', None, None, None, None, None, None, None, None),

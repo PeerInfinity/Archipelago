@@ -59,8 +59,6 @@ See the [Project Roadmap](/docs/json/project-roadmap.md) for the latest status, 
 - Based on the original [Archipelago](https://github.com/ArchipelagoMW/Archipelago) multiworld system.
 - Web client interface derived from [ArchipIDLE](https://github.com/LegendaryLinux/archipidle-client).
 - Loop mode inspired by games like [Idle Loops](https://github.com/dmchurch/omsi-loops/), Increlution, and Stuck In Time.
-- Uses [Slow Release Client](https://github.com/gjgfuj/AP-SlowRelease/releases/tag/slowreleasev0.2.0)
-- Uses [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases/tag/Tracker_v0.2.4)
 - Uses [Golden Layout](https://github.com/golden-layout/golden-layout) for panel management.
 - Uses [vanilla-jsoneditor](https://github.com/josdejong/svelte-jsoneditor)
 - Uses [json-editor](https://github.com/json-editor/json-editor)

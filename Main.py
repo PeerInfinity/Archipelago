@@ -380,7 +380,9 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
             multiworld.spoiler.to_file(os.path.join(temp_dir, '%s_Spoiler.txt' % outfilebase))
 
         # New: export the rules data to a json file
-        export_game_rules(multiworld, temp_dir, outfilebase, True)
+        settings = get_settings()
+        if settings.general_options.save_rules_json:
+            export_game_rules(multiworld, temp_dir, outfilebase, settings.general_options.update_frontend_presets)
 
         zipfilename = output_path(f"AP_{multiworld.seed_name}.zip")
         logger.info(f"Creating final archive at {zipfilename}")

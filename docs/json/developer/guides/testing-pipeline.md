@@ -185,9 +185,11 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
 3. **Configure Settings:** In `host.yaml`, verify:
    ```yaml
    skip_required_files: true
+   save_rules_json: true
    save_sphere_log: true
    log_fractional_sphere_details: true
    log_integer_sphere_details: false
+   update_frontend_presets: true
    ```
    (Use the `scripts/update_host_settings.py` script for easy configuration)
 

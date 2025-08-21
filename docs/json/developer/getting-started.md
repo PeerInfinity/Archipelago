@@ -226,12 +226,20 @@ Edit the `host.yaml` file to set:
 ```yaml
 general_options:
   skip_required_files: true
+  save_rules_json: true
   save_sphere_log: true
+  log_fractional_sphere_details: true
+  log_integer_sphere_details: false
+  update_frontend_presets: true
 ```
 
 These settings allow:
-- `skip_required_files: true` - The generation process to work without requiring all optional game files to be present
-- `save_sphere_log: true` - Creation of spheres_log.jsonl files needed for testing the JavaScript implementation against Python logic
+- `skip_required_files: true` – Allows the generation process to run without requiring all optional game files to be present.
+- `save_rules_json: true` – Enables saving the rules logic as a JSON file for use by the frontend and for debugging.
+- `save_sphere_log: true` – Creates `spheres_log.jsonl` files needed for testing the JavaScript implementation against Python logic.
+- `log_fractional_sphere_details: true` – Logs detailed information about fractional spheres, which helps in analyzing complex progression logic.
+- `log_integer_sphere_details: false` – Disables logging of integer sphere details, reducing log verbosity unless needed.
+- `update_frontend_presets: true` – Automatically updates frontend preset files when the backend configuration changes.
 
 ## Next Steps
 

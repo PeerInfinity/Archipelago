@@ -6,7 +6,7 @@ import yaml
 import sys
 import os
 
-def update_host_yaml(skip_required_files=None, save_sphere_log=None):
+def update_host_yaml(settings=None):
     """Update specific settings in host.yaml"""
     # Get the project root directory (parent of scripts directory)
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -22,13 +22,10 @@ def update_host_yaml(skip_required_files=None, save_sphere_log=None):
         data = yaml.safe_load(f)
     
     # Update settings if provided
-    if skip_required_files is not None:
-        data['general_options']['skip_required_files'] = skip_required_files
-        print(f"Set skip_required_files = {skip_required_files}")
-    
-    if save_sphere_log is not None:
-        data['general_options']['save_sphere_log'] = save_sphere_log
-        print(f"Set save_sphere_log = {save_sphere_log}")
+    if settings:
+        for key, value in settings.items():
+            data['general_options'][key] = value
+            print(f"Set {key} = {value}")
     
     # Write back to file
     with open(host_yaml_path, 'w') as f:
@@ -41,26 +38,29 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
         print("  python update_host_settings.py testing    # Enable testing settings")
-        print("  python update_host_settings.py normal     # Disable testing settings")
-        print("  python update_host_settings.py skip=true save_log=false  # Set specific values")
+        print("  python update_host_settings.py normal     # Enable normal settings")
         sys.exit(1)
     
     if sys.argv[1] == "testing":
-        update_host_yaml(skip_required_files=True, save_sphere_log=True)
+        testing_settings = {
+            'skip_required_files': True,
+            'save_rules_json': True,
+            'save_sphere_log': True,
+            'log_fractional_sphere_details': True,
+            'log_integer_sphere_details': False,
+            'update_frontend_presets': True
+        }
+        update_host_yaml(testing_settings)
     elif sys.argv[1] == "normal":
-        update_host_yaml(skip_required_files=False, save_sphere_log=False)
+        normal_settings = {
+            'skip_required_files': False,
+            'save_rules_json': False,
+            'save_sphere_log': False,
+            'log_fractional_sphere_details': True,
+            'log_integer_sphere_details': False,
+            'update_frontend_presets': False
+        }
+        update_host_yaml(normal_settings)
     else:
-        # Parse individual settings
-        skip = None
-        save_log = None
-        for arg in sys.argv[1:]:
-            if arg.startswith("skip="):
-                skip = arg.split("=")[1].lower() == "true"
-            elif arg.startswith("save_log="):
-                save_log = arg.split("=")[1].lower() == "true"
-        
-        if skip is None and save_log is None:
-            print("Invalid arguments. Use 'testing', 'normal', or 'skip=true/false save_log=true/false'")
-            sys.exit(1)
-        
-        update_host_yaml(skip_required_files=skip, save_sphere_log=save_log)
+        print("Invalid arguments. Use 'testing' or 'normal'")
+        sys.exit(1)
