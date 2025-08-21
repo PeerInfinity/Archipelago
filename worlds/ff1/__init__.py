@@ -60,9 +60,13 @@ class FF1World(World):
         # Fail generation if there are no items in the pool
         for player in multiworld.get_game_players(cls.game):
             items = multiworld.worlds[player].options.items.value
-            assert items, \
-                f"FFR settings submitted with no key items ({multiworld.get_player_name(player)}). Please ensure you " \
-                f"generated the settings using finalfantasyrandomizer.com AND enabled the AP flag"
+            if not items:
+                from settings import skip_required_files
+                if not skip_required_files:
+                    raise AssertionError(f"FFR settings submitted with no key items ({multiworld.get_player_name(player)}). Please ensure you " \
+                        f"generated the settings using finalfantasyrandomizer.com AND enabled the AP flag")
+                import logging
+                logging.getLogger("FF1").warning("FF1 has no key items configured for player %s but skip_required_files is set. Generation will continue with limited functionality.", multiworld.get_player_name(player))
 
     def create_regions(self):
         locations = self.options.locations.value

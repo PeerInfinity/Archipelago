@@ -203,7 +203,14 @@ class OOTWorld(World):
     @classmethod
     def stage_assert_generate(cls, multiworld: MultiWorld):
         oot_settings = OOTWorld.settings
-        rom = Rom(file=oot_settings.rom_file)
+        try:
+            rom = Rom(file=oot_settings.rom_file)
+        except FileNotFoundError:
+            from settings import skip_required_files
+            if not skip_required_files:
+                raise
+            import logging
+            logging.getLogger("OOT").warning("OOT ROM file not found at %s but skip_required_files is set. ROM validation will be skipped, but other generation steps will continue.", oot_settings.rom_file)
 
 
     # Option parsing, handling incompatible options, building useful-item table
@@ -1090,7 +1097,21 @@ class OOTWorld(World):
 
             outfile_name = self.multiworld.get_out_file_name_base(self.player)
             oot_settings = OOTWorld.settings
-            rom = Rom(file=oot_settings.rom_file)
+            try:
+                rom = Rom(file=oot_settings.rom_file)
+            except FileNotFoundError:
+                from settings import skip_required_files
+                if not skip_required_files:
+                    raise
+                import logging
+                logging.getLogger("OOT").warning("OOT ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
+                                    oot_settings.rom_file, self.player)
+                # Set default values for attributes that would normally be set during ROM patching
+                self.collectible_override_flags = 0
+                self.collectible_flag_offsets = []
+                # Set the collectible_flags_available event and return to skip ROM generation
+                self.collectible_flags_available.set()
+                return
             try:
                 if self.hints != 'none':
                     buildWorldGossipHints(self)

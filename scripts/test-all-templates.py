@@ -312,7 +312,7 @@ def save_results(results: Dict, results_file: str):
         print(f"Error saving results: {e}")
 
 
-def test_template(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict]) -> Dict:
+def test_template(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], export_only: bool = False, spoiler_only: bool = False) -> Dict:
     """Test a single template file and return results."""
     template_name = os.path.basename(template_file)
     game_name = normalize_game_name(template_name)
@@ -366,43 +366,57 @@ def test_template(template_file: str, templates_dir: str, project_root: str, wor
         }
     }
     
-    # Step 1: Run Generate.py
-    print(f"Running Generate.py for {template_name}...")
-    template_path = f"Templates/{template_name}"
-    generate_cmd = [
-        "python", "Generate.py", 
-        "--weights_file_path", template_path,
-        "--multi", "1",
-        "--seed", seed
-    ]
+    # Step 1: Run Generate.py (skip if spoiler_only mode)
+    if not spoiler_only:
+        print(f"Running Generate.py for {template_name}...")
+        template_path = f"Templates/{template_name}"
+        generate_cmd = [
+            "python", "Generate.py", 
+            "--weights_file_path", template_path,
+            "--multi", "1",
+            "--seed", seed
+        ]
+        
+        # Time the generation process
+        gen_start_time = time.time()
+        gen_return_code, gen_stdout, gen_stderr = run_command(generate_cmd, cwd=project_root, timeout=600)
+        gen_end_time = time.time()
+        gen_processing_time = round(gen_end_time - gen_start_time, 2)
+        
+        # Write generate output to file
+        generate_output_file = os.path.join(project_root, "generate_output.txt")
+        with open(generate_output_file, 'w') as f:
+            f.write(f"STDOUT:\n{gen_stdout}\n\nSTDERR:\n{gen_stderr}\n")
+        
+        # Analyze generation output
+        full_output = gen_stdout + "\n" + gen_stderr
+        gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
+        
+        result['generation'].update({
+            'success': gen_return_code == 0,
+            'return_code': gen_return_code,
+            'error_count': gen_error_count,
+            'warning_count': gen_warning_count,
+            'first_error_line': gen_first_error,
+            'first_warning_line': gen_first_warning,
+            'processing_time_seconds': gen_processing_time
+        })
+        
+        if gen_return_code != 0:
+            print(f"Generation failed with return code {gen_return_code}")
+            return result
+    else:
+        print(f"Skipping generation for {template_name} (spoiler-only mode)")
+        result['generation'].update({
+            'success': True,  # Assume success since we're skipping
+            'return_code': 0,
+            'processing_time_seconds': 0,
+            'note': 'Skipped in spoiler-only mode'
+        })
     
-    # Time the generation process
-    gen_start_time = time.time()
-    gen_return_code, gen_stdout, gen_stderr = run_command(generate_cmd, cwd=project_root, timeout=600)
-    gen_end_time = time.time()
-    gen_processing_time = round(gen_end_time - gen_start_time, 2)
-    
-    # Write generate output to file
-    generate_output_file = os.path.join(project_root, "generate_output.txt")
-    with open(generate_output_file, 'w') as f:
-        f.write(f"STDOUT:\n{gen_stdout}\n\nSTDERR:\n{gen_stderr}\n")
-    
-    # Analyze generation output
-    full_output = gen_stdout + "\n" + gen_stderr
-    gen_error_count, gen_warning_count, gen_first_error, gen_first_warning = count_errors_and_warnings(full_output)
-    
-    result['generation'].update({
-        'success': gen_return_code == 0,
-        'return_code': gen_return_code,
-        'error_count': gen_error_count,
-        'warning_count': gen_warning_count,
-        'first_error_line': gen_first_error,
-        'first_warning_line': gen_first_warning,
-        'processing_time_seconds': gen_processing_time
-    })
-    
-    if gen_return_code != 0:
-        print(f"Generation failed with return code {gen_return_code}")
+    # Return early if export_only mode
+    if export_only:
+        print(f"Export completed for {template_name} (export-only mode)")
         return result
     
     # Step 2: Run spoiler test
@@ -515,8 +529,8 @@ def main():
         '--skip-list',
         type=str,
         nargs='*',
-        default=['Archipelago.yaml', 'Universal Tracker.yaml'],
-        help='List of template files to skip (default: Archipelago.yaml Universal Tracker.yaml)'
+        default=['Archipelago.yaml', 'Universal Tracker.yaml', 'Sudoku.yaml'],
+        help='List of template files to skip (default: Archipelago.yaml Universal Tracker.yaml Sudoku.yaml)'
     )
     parser.add_argument(
         '--include-list',
@@ -524,8 +538,28 @@ def main():
         nargs='*',
         help='List of template files to test (if specified, only these files will be tested, overrides skip-list)'
     )
+    parser.add_argument(
+        '--export-only',
+        action='store_true',
+        help='Only run the generation (export) step, skip spoiler tests'
+    )
+    parser.add_argument(
+        '--spoiler-only',
+        action='store_true',
+        help='Only run the spoiler test step, skip generation (requires existing rules files)'
+    )
+    parser.add_argument(
+        '--start-from',
+        type=str,
+        help='Start processing from the specified template file (alphabetically ordered), skipping all files before it'
+    )
     
     args = parser.parse_args()
+    
+    # Validate mutually exclusive options
+    if args.export_only and args.spoiler_only:
+        print("Error: --export-only and --spoiler-only are mutually exclusive")
+        sys.exit(1)
     
     # Check virtual environment before proceeding
     venv_active = 'VIRTUAL_ENV' in os.environ
@@ -550,8 +584,8 @@ def main():
         print("Continuing anyway...")
         print("")
     
-    # Check if HTTP server is running (required for spoiler tests)
-    if not check_http_server():
+    # Check if HTTP server is running (required for spoiler tests, but not for export-only)
+    if not args.export_only and not check_http_server():
         print("❌ ERROR: HTTP development server not running!")
         print("")
         print("The spoiler tests require a local development server.")
@@ -560,6 +594,8 @@ def main():
         print("")
         print("Then access the frontend at: http://localhost:8000/frontend/")
         print("Once the server is running, run this script again.")
+        print("")
+        print("Alternatively, use --export-only to skip spoiler tests.")
         sys.exit(1)
     
     # Determine project root and templates directory
@@ -611,7 +647,23 @@ def main():
         filter_description = f"skip list ({len(args.skip_list)} excluded)"
     
     yaml_files.sort()
-    print(f"Found {len(all_yaml_files)} template files ({len(yaml_files)} testable, {len(skipped_files)} filtered by {filter_description})")
+    
+    # Handle --start-from option
+    if args.start_from:
+        if args.start_from not in yaml_files:
+            print(f"Error: Start file '{args.start_from}' not found in testable files")
+            print(f"Available testable files: {', '.join(yaml_files)}")
+            sys.exit(1)
+        
+        # Find the index and slice from there
+        start_index = yaml_files.index(args.start_from)
+        before_start = yaml_files[:start_index]
+        yaml_files = yaml_files[start_index:]
+        
+        print(f"Found {len(all_yaml_files)} template files ({len(yaml_files)} will be tested, {len(skipped_files) + len(before_start)} filtered)")
+        print(f"Starting from: {args.start_from} (skipping {len(before_start)} files before it)")
+    else:
+        print(f"Found {len(all_yaml_files)} template files ({len(yaml_files)} testable, {len(skipped_files)} filtered by {filter_description})")
     
     if skipped_files and len(skipped_files) <= 10:  # Only show if reasonable number
         if args.include_list is not None:
@@ -640,7 +692,8 @@ def main():
         print(f"\n[{i}/{total_files}] Processing {yaml_file}")
         
         try:
-            template_result = test_template(yaml_file, templates_dir, project_root, world_mapping)
+            template_result = test_template(yaml_file, templates_dir, project_root, world_mapping, 
+                                          export_only=args.export_only, spoiler_only=args.spoiler_only)
             results['results'][yaml_file] = template_result
             
             # Save results after each template (incremental updates)
@@ -662,17 +715,29 @@ def main():
             save_results(results, results_file)
     
     print(f"\n=== Testing Complete ===")
-    print(f"Tested {len(yaml_files)} templates")
+    print(f"Processed {len(yaml_files)} templates")
     print(f"Results saved to: {results_file}")
     
-    # Print summary
-    passed = sum(1 for r in results['results'].values() 
-                if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
-    failed = sum(1 for r in results['results'].values() 
-                if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
-    errors = len(yaml_files) - passed - failed
-    
-    print(f"Summary: {passed} passed, {failed} failed, {errors} errors")
+    # Print summary based on mode
+    if args.export_only:
+        successful_exports = sum(1 for r in results['results'].values() 
+                               if r.get('generation', {}).get('success', False))
+        failed_exports = len(yaml_files) - successful_exports
+        print(f"Export Summary: {successful_exports} successful, {failed_exports} failed")
+    elif args.spoiler_only:
+        passed = sum(1 for r in results['results'].values() 
+                    if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+        failed = sum(1 for r in results['results'].values() 
+                    if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+        errors = len(yaml_files) - passed - failed
+        print(f"Spoiler Test Summary: {passed} passed, {failed} failed, {errors} errors")
+    else:
+        passed = sum(1 for r in results['results'].values() 
+                    if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+        failed = sum(1 for r in results['results'].values() 
+                    if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+        errors = len(yaml_files) - passed - failed
+        print(f"Full Test Summary: {passed} passed, {failed} failed, {errors} errors")
 
 
 if __name__ == '__main__':

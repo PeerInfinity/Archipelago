@@ -462,6 +462,21 @@ class MMBN3World(World):
     def generate_output(self, output_directory: str) -> None:
         rompath: str = ""
 
+        # Check if ROM exists and skip ROM-dependent steps if not
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            from settings import skip_required_files
+            if not skip_required_files:
+                # This should not happen if stage_assert_generate worked correctly,
+                # but preserve original behavior just in case
+                raise FileNotFoundError(rom_file)
+            import logging
+            logging.getLogger("MMBN3").warning("MMBN3 ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
+                                rom_file, self.player)
+            # Set a placeholder ROM name to indicate ROM wasn't generated
+            self.rom_name = "MMBN3_ROM_NOT_GENERATED"
+            return
+
         try:
             world = self.multiworld
             player = self.player
@@ -531,7 +546,11 @@ class MMBN3World(World):
     def stage_assert_generate(cls, multiworld: "MultiWorld") -> None:
         rom_file = get_base_rom_path()
         if not os.path.exists(rom_file):
-            raise FileNotFoundError(rom_file)
+            from settings import skip_required_files
+            if not skip_required_files:
+                raise FileNotFoundError(rom_file)
+            import logging
+            logging.getLogger("MMBN3").warning("MMBN3 ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
 
     def create_item(self, name: str) -> "Item":
         item = item_table[name]

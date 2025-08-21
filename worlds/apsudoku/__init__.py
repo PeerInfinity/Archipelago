@@ -30,5 +30,9 @@ class AP_SudokuWorld(World):
 
     @classmethod
     def stage_assert_generate(cls, multiworld):
-        raise Exception("APSudoku cannot be used for generating worlds, the client can instead connect to any slot from any world")
+        from settings import skip_required_files
+        if not skip_required_files:
+            raise Exception("APSudoku cannot be used for generating worlds, the client can instead connect to any slot from any world")
+        import logging
+        logging.getLogger("APSudoku").warning("APSudoku normally cannot be used for generating worlds, but skip_required_files is set. Generation will continue for testing purposes.")
 

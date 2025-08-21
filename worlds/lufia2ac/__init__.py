@@ -75,7 +75,11 @@ class L2ACWorld(World):
     def stage_assert_generate(cls, multiworld: MultiWorld) -> None:
         rom_file: str = get_base_rom_path()
         if not os.path.exists(rom_file):
-            raise FileNotFoundError(f"Could not find base ROM for {cls.game}: {rom_file}")
+            from settings import skip_required_files
+            if not skip_required_files:
+                raise FileNotFoundError(f"Could not find base ROM for {cls.game}: {rom_file}")
+            import logging
+            logging.getLogger("Lufia2AC").warning("Lufia2AC ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
 
         # # uncomment this section to recreate the basepatch
         # # (you will need to provide "asar.py" as well as an Asar library in the basepatch directory)
@@ -192,6 +196,21 @@ class L2ACWorld(World):
 
     def generate_output(self, output_directory: str) -> None:
         rom_path: str = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.sfc")
+
+        # Check if ROM exists and skip ROM-dependent steps if not
+        rom_file = get_base_rom_path()
+        if not os.path.exists(rom_file):
+            from settings import skip_required_files
+            if not skip_required_files:
+                # This should not happen if stage_assert_generate worked correctly,
+                # but preserve original behavior just in case
+                raise FileNotFoundError(rom_file)
+            import logging
+            logging.getLogger("Lufia2AC").warning("Lufia2AC ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
+                                rom_file, self.player)
+            # Set a placeholder ROM name to indicate ROM wasn't generated
+            self.rom_name = bytearray(b"LUFIA2AC_ROM_NOT_GENERATED")
+            return
 
         try:
             rom_bytearray = bytearray(apply_basepatch(get_base_rom_bytes()))

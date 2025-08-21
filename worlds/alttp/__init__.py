@@ -321,7 +321,7 @@ class ALTTPWorld(World):
             if skip_required_files:
                 lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. ROM generation will be skipped, but other generation steps will continue.", rom_file)
             else:
-                lttp_logger.warning("ALTTP ROM file not found at %s. ROM generation will be skipped, but other generation steps will continue.", rom_file)
+                raise FileNotFoundError(rom_file)
         elif multiworld.is_race:
             import xxtea  # noqa
         
@@ -590,9 +590,12 @@ class ALTTPWorld(World):
         rom_file = get_base_rom_path()
         if not os.path.exists(rom_file):
             from settings import skip_required_files
-            reason = "skip_required_files flag is set" if skip_required_files else "file not found"
-            lttp_logger.warning("ALTTP ROM file not found at %s (%s). Skipping ROM generation for player %s.", 
-                                rom_file, reason, player)
+            if not skip_required_files:
+                # This should not happen if stage_assert_generate worked correctly,
+                # but preserve original behavior just in case
+                raise FileNotFoundError(rom_file)
+            lttp_logger.warning("ALTTP ROM file not found at %s but skip_required_files is set. Skipping ROM generation for player %s.", 
+                                rom_file, player)
             # Set a placeholder ROM name to indicate ROM wasn't generated
             self.rom_name = "ALTTP_ROM_NOT_GENERATED"
             # Make sure the event is set so the process can continue
