@@ -113,32 +113,92 @@ def update_preset_files_with_test_data(preset_files: Dict[str, Any], test_result
     missing_games = []
     
     for template_name, template_data in test_results['results'].items():
-        # Convert template name to game directory format
-        game_dir = normalize_game_name(template_name)
+        # Extract expected game name from template filename
+        expected_game_name = template_name.replace('.yaml', '')
         
-        # Find the corresponding game in preset_files
-        if game_dir in updated_preset_files:
+        # Find the corresponding game in preset_files by searching the "name" field
+        found_game_id = None
+        for game_id, game_data in updated_preset_files.items():
+            # Skip metadata entry
+            if game_id == 'metadata':
+                continue
+                
+            # Check if the name matches
+            preset_game_name = game_data.get('name', '')
+            if preset_game_name == expected_game_name:
+                found_game_id = game_id
+                break
+        
+        if found_game_id:
             # Extract test data
             test_data = extract_test_data_for_game(template_name, template_data)
             
             # Add test data to the game entry
-            updated_preset_files[game_dir].update(test_data)
-            updated_games.append(game_dir)
+            updated_preset_files[found_game_id].update(test_data)
+            updated_games.append(found_game_id)
             
-            print(f"Updated test data for: {updated_preset_files[game_dir].get('name', game_dir)} ({template_name})")
+            print(f"Updated test data for: {expected_game_name} ({template_name})")
         else:
-            missing_games.append(f"{game_dir} (from {template_name})")
+            # Try case-insensitive fuzzy matching as fallback
+            found_game_id = None
+            for game_id, game_data in updated_preset_files.items():
+                if game_id == 'metadata':
+                    continue
+                    
+                preset_game_name = game_data.get('name', '')
+                # Compare case-insensitive and handle common variations
+                if (preset_game_name.lower() == expected_game_name.lower() or
+                    preset_game_name.lower().replace(':', '').replace(' ', '') == 
+                    expected_game_name.lower().replace(':', '').replace(' ', '')):
+                    found_game_id = game_id
+                    print(f"Fuzzy matched: '{expected_game_name}' -> '{preset_game_name}'")
+                    break
+            
+            if found_game_id:
+                # Extract test data
+                test_data = extract_test_data_for_game(template_name, template_data)
+                
+                # Add test data to the game entry
+                updated_preset_files[found_game_id].update(test_data)
+                updated_games.append(found_game_id)
+                
+                print(f"Updated test data for: {expected_game_name} ({template_name}) [fuzzy match]")
+            else:
+                print(f"No match found for: '{expected_game_name}' (from {template_name})")
+                # Show available names for debugging
+                available_names = [data.get('name', '') for data in updated_preset_files.values() 
+                                 if isinstance(data, dict) and data.get('name')]
+                similar_names = [name for name in available_names if 'jak' in name.lower()]
+                if similar_names:
+                    print(f"  Similar names available: {similar_names}")
+                missing_games.append(f"{expected_game_name} (from {template_name})")
     
     # Add metadata about the update
     if 'metadata' not in updated_preset_files:
         updated_preset_files['metadata'] = {}
     
+    # Find games in preset_files that didn't get test data
+    # Exclude 'metadata' and 'multiworld' (multiworld is a configuration, not a testable game)
+    all_game_ids = [game_id for game_id in updated_preset_files.keys() 
+                    if game_id not in ['metadata', 'multiworld']]
+    games_without_test_data = [game_id for game_id in all_game_ids if game_id not in updated_games]
+    
     updated_preset_files['metadata'].update({
         'test_data_updated': datetime.now().isoformat(),
         'test_data_source': test_results.get('metadata', {}),
         'games_with_test_data': len(updated_games),
-        'total_games': len(updated_preset_files) - 1  # Subtract 1 for metadata
+        'total_games': len([k for k in updated_preset_files.keys() if k not in ['metadata', 'multiworld']]),
+        'games_without_test_data': len(games_without_test_data)
     })
+    
+    # Report games without test data
+    if games_without_test_data:
+        print(f"\nGames in preset_files.json without test data ({len(games_without_test_data)}):")
+        for game_id in games_without_test_data:
+            game_name = updated_preset_files[game_id].get('name', game_id)
+            print(f"  - {game_name} (id: {game_id})")
+    else:
+        print(f"\nAll games in preset_files.json have test data!")
     
     print(f"\nSummary:")
     print(f"- Updated {len(updated_games)} games with test data")
