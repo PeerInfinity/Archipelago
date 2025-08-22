@@ -5802,15 +5802,82 @@
             "id": 60169,
             "crystal": false,
             "access_rule": {
-              "type": "count_check",
-              "item": {
-                "type": "constant",
-                "value": "Small Key (Hyrule Castle)"
-              },
-              "count": {
-                "type": "constant",
-                "value": 4
-              }
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "count_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Small Key (Hyrule Castle)"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 4
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Big Key (Hyrule Castle)"
+                  }
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "compare",
+                      "left": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "subscript",
+                            "value": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "name",
+                                "name": "world"
+                              },
+                              "attr": "worlds"
+                            },
+                            "index": {
+                              "type": "name",
+                              "name": "player"
+                            }
+                          },
+                          "attr": "options"
+                        },
+                        "attr": "enemy_health"
+                      },
+                      "op": "in",
+                      "right": {
+                        "type": "list",
+                        "value": [
+                          {
+                            "type": "constant",
+                            "value": "easy"
+                          },
+                          {
+                            "type": "constant",
+                            "value": "default"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_kill_most_things",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -17397,14 +17464,114 @@
                   }
                 },
                 {
-                  "type": "count_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Small Key (Misery Mire)"
+                  "type": "conditional",
+                  "test": {
+                    "type": "or",
+                    "conditions": [
+                      {
+                        "type": "compare",
+                        "left": {
+                          "type": "helper",
+                          "name": "location_item_name",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": "Misery Mire - Compass Chest"
+                            }
+                          ]
+                        },
+                        "op": "==",
+                        "right": {
+                          "type": "list",
+                          "value": [
+                            {
+                              "type": "constant",
+                              "value": "Big Key (Misery Mire)"
+                            },
+                            {
+                              "type": "name",
+                              "name": "player"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "compare",
+                        "left": {
+                          "type": "helper",
+                          "name": "location_item_name",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": "Misery Mire - Big Key Chest"
+                            }
+                          ]
+                        },
+                        "op": "==",
+                        "right": {
+                          "type": "list",
+                          "value": [
+                            {
+                              "type": "constant",
+                              "value": "Big Key (Misery Mire)"
+                            },
+                            {
+                              "type": "name",
+                              "name": "player"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "compare",
+                        "left": {
+                          "type": "helper",
+                          "name": "location_item_name",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": "Misery Mire - Conveyor Crystal Key Drop"
+                            }
+                          ]
+                        },
+                        "op": "==",
+                        "right": {
+                          "type": "list",
+                          "value": [
+                            {
+                              "type": "constant",
+                              "value": "Big Key (Misery Mire)"
+                            },
+                            {
+                              "type": "name",
+                              "name": "player"
+                            }
+                          ]
+                        }
+                      }
+                    ]
                   },
-                  "count": {
-                    "type": "constant",
-                    "value": 4
+                  "if_true": {
+                    "type": "count_check",
+                    "item": {
+                      "type": "constant",
+                      "value": "Small Key (Misery Mire)"
+                    },
+                    "count": {
+                      "type": "constant",
+                      "value": 4
+                    }
+                  },
+                  "if_false": {
+                    "type": "count_check",
+                    "item": {
+                      "type": "constant",
+                      "value": "Small Key (Misery Mire)"
+                    },
+                    "count": {
+                      "type": "constant",
+                      "value": 5
+                    }
                   }
                 }
               ]

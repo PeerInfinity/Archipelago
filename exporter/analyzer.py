@@ -38,16 +38,83 @@ from typing import Any, Dict, Optional, Set, Callable, List
 import traceback
 import json
 import logging
+import astunparse
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     filename='rule_analysis_debug.log')
 
-file_content_cache: Dict[str, List[str]] = {}
+# Caching for performance
+file_content_cache: Dict[str, str] = {}  # Raw file content as strings
+ast_cache: Dict[str, ast.AST] = {}  # Parsed AST objects
 
 # Regex definitions
 REGEX_LAMBDA_BODY = re.compile(r'lambda\s+([\w\s,()=]*):\s*(.*)', re.DOTALL)
+
+class LambdaLineFinder(ast.NodeVisitor):
+    """An AST visitor to find a lambda function at a specific line number."""
+    def __init__(self, target_line):
+        self.target_line = target_line
+        self.found_node = None
+
+    def visit_Lambda(self, node):
+        if self.found_node is None and hasattr(node, 'lineno') and node.lineno == self.target_line:
+            self.found_node = node
+        # No need to visit children of the lambda itself
+
+    def visit(self, node):
+        # Override visit to stop searching once the node is found
+        if self.found_node:
+            return
+        super().visit(node)
+
+def get_multiline_lambda_source(func):
+    """
+    Robustly gets the full source code of a lambda function using full-file AST parsing.
+    Includes caching for both file content and the parsed AST to improve performance.
+    """
+    try:
+        filename = inspect.getfile(func)
+        start_line = func.__code__.co_firstlineno
+
+        # 1. Check for a cached AST first (most performant)
+        if filename in ast_cache:
+            tree = ast_cache[filename]
+        else:
+            # 2. Check for cached file content
+            if filename in file_content_cache:
+                source_code = file_content_cache[filename]
+            else:
+                # 3. Read from disk as a last resort
+                with open(filename, 'r', encoding='utf-8') as f:
+                    source_code = f.read()
+                file_content_cache[filename] = source_code
+
+            # 4. Parse the source and populate the AST cache
+            tree = ast.parse(source_code, filename=filename)
+            ast_cache[filename] = tree
+
+        # Find the lambda node at the target line within the (possibly cached) AST
+        finder = LambdaLineFinder(start_line)
+        finder.visit(tree)
+
+        lambda_node = finder.found_node
+
+        if lambda_node:
+            # "Un-parse" the found AST node back into a source string
+            return astunparse.unparse(lambda_node).strip()
+        else:
+            logging.warning(f"Could not find lambda AST node at {filename}:{start_line}")
+            return inspect.getsource(func) # Fallback
+
+    except Exception as e:
+        logging.error(f"Failed to get multiline lambda source for {func}: {e}")
+        try:
+            return inspect.getsource(func) # Fallback
+        except Exception as fallback_e:
+            logging.error(f"Fallback getsource also failed: {fallback_e}")
+            return None
 
 # Helper functions
 def _read_multiline_lambda(func):
@@ -131,21 +198,19 @@ def _read_multiline_lambda(func):
         return None
 
 def _clean_source(func):
-    """Retrieve and clean the source code of a function, handling lambdas with better multiline support."""
+    """
+    A new version of _clean_source that uses the robust lambda finder.
+    """
     try:
-        # Try using getsourcelines instead of getsource for better multiline support
-        try:
-            source_lines, start_line = inspect.getsourcelines(func)
-            source = ''.join(source_lines)
-            logging.debug(f"_clean_source: Got {len(source_lines)} lines from line {start_line}")
-        except Exception as line_err:
-            logging.warning(f"Could not get source lines for {func}: {line_err}")
-            source = inspect.getsource(func)
-            
-        # Remove comments
+        # Use the new robust function to get the full lambda source
+        source = get_multiline_lambda_source(func)
+        if source is None:
+            return None
+
+        # Remove comments from the source
         source = re.sub(r'#.*$', '', source, flags=re.MULTILINE)
         source = source.strip()
-        logging.debug(f"_clean_source: Original source = {repr(source)}")
+        logging.debug(f"_clean_source: Got source from AST = {repr(source)}")
     except (TypeError, OSError) as e:
         logging.error(f"Unexpected error getting source for {func}: {e}")
         return None
@@ -195,76 +260,17 @@ def _clean_source(func):
         logging.warning("_clean_source: Could not robustly confirm staticmethod wraps lambda:True. Returning None.")
         return None
 
-    # Handle lambda functions specifically
-    match = REGEX_LAMBDA_BODY.match(source)
+    # The source from astunparse is already a clean, complete lambda expression.
+    # We just need to wrap it in a 'def' for the RuleAnalyzer to visit.
+    match = re.compile(r'lambda\s+([^:]*):\s*(.*)', re.DOTALL).match(source)
     if match:
-        param = match.group(1).strip()
+        params = match.group(1).strip()
         body = match.group(2).strip()
-        
-        # Remove trailing comma potentially left by source inspection
-        if body.endswith(','):
-            body = body[:-1].rstrip()
-
-        # Refined Truncation/Multiline Handling
-        # Define operators that might indicate truncation if at the very end
-        truncated_operators = [' and', ' or', '+', '-', '*', '/', '%', '==', '!=', '<', '>', '<=', '>=', 'not', 'is']
-        # Check initial source for signs of truncation/imbalance
-        is_potentially_incomplete = any(body.endswith(op) for op in truncated_operators)
-        is_unbalanced = body.count('(') != body.count(')') # Simple balance check
-
-        if is_potentially_incomplete or is_unbalanced:
-            logging.debug(f"_clean_source: Initial lambda source seems incomplete or unbalanced. Trying _read_multiline_lambda.")
-            full_lambda = _read_multiline_lambda(func)
-            if full_lambda:
-                # Re-extract body from the potentially more complete source
-                full_match = REGEX_LAMBDA_BODY.match(full_lambda)
-                if full_match:
-                    body = full_match.group(2).strip()
-                    if body.endswith(','):
-                        body = body[:-1].rstrip()
-                    logging.debug(f"_clean_source: Re-extracted body from full lambda: {repr(body)}")
-                else:
-                     logging.warning(f"WARNING: Could not parse body from _read_multiline_lambda result: {repr(full_lambda)}")
-                     # Continue with the potentially flawed body from initial parse
-            else:
-                 logging.warning(f"WARNING: _read_multiline_lambda failed. Proceeding with potentially incomplete body.")
-                 # Continue with the potentially flawed body from initial parse
-
-        # Flatten the body: joins lines, removes leading/trailing whitespace per line
-        body_lines = body.splitlines()
-        body = ' '.join(line.strip() for line in body_lines)
-
-        # Safer Parenthesis Balancing: Only remove excess *trailing* closing parentheses
-        open_count = body.count('(')
-        close_count = body.count(')')
-        if close_count > open_count:
-            excess = close_count - open_count
-            original_body = body # Keep for logging
-            removed_count = 0
-            # Repeatedly strip trailing ')' only if it reduces excess
-            while excess > 0 and body.endswith(')'):
-                 body = body[:-1].strip()
-                 excess -= 1
-                 removed_count += 1
-
-            #if removed_count > 0:
-            #     logging.warning(f"WARNING: Removed {removed_count} excess trailing ')' from body. Original: {repr(original_body)}, Final: {repr(body)}")
-
-        # Optional: Validate if the cleaned body is a valid expression
-        try:
-            ast.parse(body, mode='eval')
-        except SyntaxError as body_parse_err:
-            logging.error(f"ERROR: Final cleaned lambda body failed to parse as expression: {body_parse_err}")
-            logging.error(f"Final Body: {repr(body)}")
-            # If the body MUST be valid, returning None is safer:
-            # return None
-            # For now, let's allow it to proceed and potentially fail later in RuleAnalyzer
-
         logging.debug(f"_clean_source: Final body for lambda = {repr(body)}")
-        return f"def __analyzed_func__({param}):\n    return {body}"
-
-    # If source wasn't recognized as a lambda by the initial regex
-    return source
+        return f"def __analyzed_func__({params}):\n    return {body}"
+    else:
+        # If it's not a lambda (e.g., a regular 'def' function), return as is
+        return source
 
 class RuleAnalyzer(ast.NodeVisitor):
     """
