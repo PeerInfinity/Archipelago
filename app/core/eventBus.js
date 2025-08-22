@@ -66,7 +66,7 @@ export class EventBus {
       const knownModuleNames = [
         'stateManager', 'modules', 'events', 'client', 'timer', 'timerPanel', 'inventory', 'editor', 'settings',
         'commonUI', 'locations', 'exits', 'regions', 'loops', 'tests', 'json', 'pathAnalyzer',
-        'pathAnalyzerPanel', 'discovery', 'presets', 'testCases', 'testPlaythroughs', 'dungeons',
+        'pathAnalyzerPanel', 'discovery', 'presets', 'testCases', 'dungeons',
         'textAdventure', 'textAdventureUI', 'iframePanel', 'panelManager', 'messageHandler',
         'locationManager', 'playerState', 'playerStatePanel', 'testSpoilers', 'progressBarPanel',
         'progressBar', 'ProgressBar', 'iframeAdapter', 'core', 'metaGame', 'metaGamePanel',

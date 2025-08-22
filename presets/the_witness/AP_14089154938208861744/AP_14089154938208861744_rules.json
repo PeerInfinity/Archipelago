@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "The Witness",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -759,32 +759,6 @@
         ],
         "locations": [
           {
-            "name": "Tutorial Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Tutorial Front Left",
             "id": 158004,
             "crystal": null,
@@ -831,7 +805,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -878,7 +852,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -983,32 +957,6 @@
         ],
         "locations": [
           {
-            "name": "Outside Tutorial Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+4 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Outside Tutorial Shed Row 5",
             "id": 158017,
             "crystal": null,
@@ -1020,6 +968,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -1046,6 +998,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -1091,6 +1047,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 }
               ]
@@ -1142,32 +1102,6 @@
         ],
         "locations": [
           {
-            "name": "Outside Tutorial Path To Outpost Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Outside Tutorial Outpost Entry Panel",
             "id": 158011,
             "crystal": null,
@@ -1179,6 +1113,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 }
               ]
@@ -1186,9 +1124,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Negative Shapers",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -1235,32 +1173,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Outside Tutorial Outpost Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Outside Tutorial Outpost Exit Panel",
             "id": 158012,
@@ -1348,77 +1260,8 @@
             "type": "Entrance"
           }
         ],
-        "exits": [
-          {
-            "name": "Orchard Beyond First Gate to Orchard End",
-            "connected_region": "Orchard End",
-            "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "subscript",
-                "value": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "state"
-                  },
-                  "attr": "stale"
-                },
-                "index": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              },
-              "if_true": {
-                "type": "state_method",
-                "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
-              },
-              "if_false": null
-            },
-            "type": "Exit"
-          }
-        ],
+        "exits": [],
         "locations": [
-          {
-            "name": "Orchard Beyond First Gate Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Orchard Apple Tree 5",
             "id": 158075,
@@ -1463,54 +1306,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
-      "Orchard End": {
-        "name": "Orchard End",
-        "type": "Region",
-        "player": 1,
-        "entrances": [
-          {
-            "name": "Orchard Beyond First Gate to Orchard End",
-            "parent_region": "Orchard Beyond First Gate",
-            "connected_region": "Orchard End",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [],
-        "locations": [
-          {
-            "name": "Orchard End Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
+              "name": "Sound Dots",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -1875,6 +1671,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -1882,7 +1682,38 @@
             "type": "Exit"
           }
         ],
-        "locations": [],
+        "locations": [
+          {
+            "name": "Glass Factory Entry Panel",
+            "id": 158027,
+            "crystal": null,
+            "access_rule": {
+              "type": "list",
+              "value": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "name",
+                    "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Progressive Stars",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -1913,6 +1744,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -1921,32 +1756,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Inside Glass Factory Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Glass Factory Back Wall 5",
             "id": 158032,
@@ -1959,6 +1768,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -1966,7 +1779,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1985,6 +1798,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -2011,6 +1828,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -2018,7 +1839,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2064,6 +1885,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -2166,7 +1991,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Bonk",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2216,32 +2041,6 @@
         ],
         "locations": [
           {
-            "name": "Symmetry Island Lower Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Symmetry Island Right 5",
             "id": 158045,
             "crystal": null,
@@ -2263,7 +2062,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2340,6 +2139,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -2405,32 +2208,6 @@
         "exits": [],
         "locations": [
           {
-            "name": "Symmetry Island Upper Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Symmetry Island Laser Yellow 3",
             "id": 158067,
             "crystal": null,
@@ -2442,6 +2219,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 }
               ]
@@ -2468,6 +2249,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 }
               ]
@@ -2475,7 +2260,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2494,6 +2279,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 }
               ]
@@ -2501,7 +2290,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2578,32 +2367,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Desert Outside Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+6 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Desert Surface 8",
             "id": 158084,
@@ -2783,32 +2546,6 @@
         ],
         "locations": [
           {
-            "name": "Desert Pond Room Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Desert Pond Room 5",
             "id": 158095,
             "crystal": null,
@@ -2877,9 +2614,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Triangles",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -2904,34 +2641,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Desert Flood Room Underwater Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -2996,32 +2706,6 @@
         ],
         "locations": [
           {
-            "name": "Desert Elevator Room Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Desert Elevator Room Hexagonal",
             "id": 158113,
             "crystal": null,
@@ -3032,9 +2716,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Colored Squares",
+              "name": "Puzzle Skip",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -3163,6 +2847,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -3181,32 +2869,6 @@
         ],
         "locations": [
           {
-            "name": "Outside Quarry Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Quarry Entry 1 Panel",
             "id": 158118,
             "crystal": null,
@@ -3218,6 +2880,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -3225,9 +2891,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Shapers",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -3407,6 +3073,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -3427,6 +3097,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -3534,32 +3208,6 @@
         ],
         "locations": [
           {
-            "name": "Quarry Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+5 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Quarry Stoneworks Entry Left Panel",
             "id": 158121,
             "crystal": null,
@@ -3571,6 +3219,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -3578,7 +3230,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3597,6 +3249,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -3748,7 +3404,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3917,32 +3573,6 @@
         ],
         "locations": [
           {
-            "name": "Quarry Stoneworks Upper Floor Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Quarry Stoneworks Upper Row 8",
             "id": 158141,
             "crystal": null,
@@ -4051,7 +3681,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Power Surge",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4118,6 +3748,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -4126,32 +3760,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Quarry Boathouse Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Quarry Boathouse Intro Left",
             "id": 158146,
@@ -4164,6 +3772,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -4171,7 +3783,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Bonk",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4200,7 +3812,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4331,7 +3943,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4440,7 +4052,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4574,32 +4186,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Shadows Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Shadows Intro 8",
             "id": 158173,
@@ -4792,34 +4378,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Shadows Ledge Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -4840,32 +4399,6 @@
         ],
         "exits": [],
         "locations": [
-          {
-            "name": "Shadows Laser Room Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Shadows Laser Panel",
             "id": 158703,
@@ -4899,7 +4432,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -5026,6 +4559,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -5119,32 +4656,6 @@
         ],
         "locations": [
           {
-            "name": "Keep Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Keep Hedge Maze 1",
             "id": 158193,
             "crystal": null,
@@ -5174,6 +4685,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -5319,32 +4834,6 @@
         ],
         "locations": [
           {
-            "name": "Keep 3rd Maze Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+3 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Keep Hedge Maze 3",
             "id": 158195,
             "crystal": null,
@@ -5355,7 +4844,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -5454,7 +4943,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Bonk",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -5500,32 +4989,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Keep 2nd Pressure Plate Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Keep Pressure Plates 2",
             "id": 158200,
@@ -5624,32 +5087,6 @@
         ],
         "locations": [
           {
-            "name": "Keep 3rd Pressure Plate Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Keep Pressure Plates 3",
             "id": 158202,
             "crystal": null,
@@ -5730,32 +5167,6 @@
         ],
         "locations": [
           {
-            "name": "Keep 4th Pressure Plate Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Keep Pressure Plates 4",
             "id": 158204,
             "crystal": null,
@@ -5777,7 +5188,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -5823,32 +5234,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Keep Tower Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Keep Laser Panel Hedges",
             "id": 158704,
@@ -5959,34 +5344,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Shipwreck Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+5 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -6053,37 +5411,6 @@
               "value": true
             },
             "type": "Exit"
-          },
-          {
-            "name": "Outside Monastery to Monastery Garden",
-            "connected_region": "Monastery Garden",
-            "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "helper",
-                "name": "condition",
-                "args": []
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "condition"
-                },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "fully_converted_rules"
-                  },
-                  "index": {
-                    "type": "constant",
-                    "value": 0
-                  }
-                }
-              }
-            },
-            "type": "Exit"
           }
         ],
         "locations": [
@@ -6120,9 +5447,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Symmetry",
+              "name": "Slowness",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -6198,6 +5525,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -6206,32 +5537,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Inside Monastery Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Monastery Inside 4",
             "id": 158217,
@@ -6265,64 +5570,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
-      "Monastery Garden": {
-        "name": "Monastery Garden",
-        "type": "Region",
-        "player": 1,
-        "entrances": [
-          {
-            "name": "Outside Monastery to Monastery Garden",
-            "parent_region": "Outside Monastery",
-            "connected_region": "Monastery Garden",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "Outside Jungle River to Monastery Garden",
-            "parent_region": "Outside Jungle River",
-            "connected_region": "Monastery Garden",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [],
-        "locations": [
-          {
-            "name": "Monastery Garden Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -6347,34 +5597,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Monastery North Shutters Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -6476,6 +5699,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -6560,32 +5787,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Town Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+5 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Town Cargo Box Entry Panel",
             "id": 158219,
@@ -6684,9 +5885,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Progressive Dots",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -6742,7 +5943,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -6798,6 +5999,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -6848,7 +6053,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -6888,7 +6093,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -6916,32 +6121,6 @@
         ],
         "exits": [],
         "locations": [
-          {
-            "name": "Town Wooden Rooftop Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Town Wooden Rooftop",
             "id": 158240,
@@ -6975,9 +6154,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Boat",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -7046,7 +6225,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -7084,6 +6263,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -7092,32 +6275,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Town RGB House Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Town RGB House Sound Room Right",
             "id": 158243,
@@ -7130,6 +6287,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -7216,9 +6377,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Negative Shapers",
+              "name": "Puzzle Skip",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -7619,32 +6780,6 @@
         ],
         "locations": [
           {
-            "name": "Town Tower Top Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Town Laser Panel",
             "id": 158708,
             "crystal": null,
@@ -7693,6 +6828,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -7722,6 +6861,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -7729,7 +6872,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -7767,6 +6910,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -7775,32 +6922,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Windmill Interior Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Windmill Theater Entry Panel",
             "id": 158248,
@@ -7813,6 +6934,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -7820,9 +6945,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Eraser",
+              "name": "Puzzle Skip",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -7893,32 +7018,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Theater Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Theater Exit Left Panel",
             "id": 158249,
@@ -8007,34 +7106,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Southern Peninsula Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+5 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -8074,6 +7146,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -8092,32 +7168,6 @@
         ],
         "locations": [
           {
-            "name": "Jungle Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Jungle First Row 3",
             "id": 158254,
             "crystal": null,
@@ -8128,7 +7178,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Rotated Shapers",
+              "name": "Progressive Dots",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -8146,7 +7196,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -8186,7 +7236,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -8253,34 +7303,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Jungle Under Popup Wall Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -8303,15 +7326,6 @@
           {
             "name": "Outside Jungle River to Main Island",
             "connected_region": "Main Island",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "type": "Exit"
-          },
-          {
-            "name": "Outside Jungle River to Monastery Garden",
-            "connected_region": "Monastery Garden",
             "access_rule": {
               "type": "constant",
               "value": true
@@ -8386,6 +7400,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -8394,32 +7412,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Outside Bunker Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+3 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Bunker Entry Panel",
             "id": 158268,
@@ -8432,6 +7424,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -8439,7 +7435,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -8539,7 +7535,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -8599,32 +7595,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Bunker Glass Room Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Bunker Glass Room 3",
             "id": 158281,
@@ -8729,9 +7699,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Sound Dots",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -8891,34 +7861,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Bunker Under Elevator Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -9123,34 +8066,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Bunker Green Room Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -9192,7 +8108,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Stars",
+              "name": "Progressive Symmetry",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -9238,6 +8154,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9256,32 +8176,6 @@
         ],
         "locations": [
           {
-            "name": "Outside Swamp Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Swamp Entry Panel",
             "id": 158287,
             "crystal": null,
@@ -9293,6 +8187,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9300,9 +8198,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Rotated Shapers",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -9347,32 +8245,6 @@
         ],
         "locations": [
           {
-            "name": "Swamp Entry Area Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Swamp Intro Front 6",
             "id": 158293,
             "crystal": null,
@@ -9384,6 +8256,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9391,7 +8267,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -9410,6 +8286,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9417,9 +8297,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Symmetry",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -9463,6 +8343,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9480,6 +8364,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9557,6 +8445,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9574,6 +8466,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9592,32 +8488,6 @@
         ],
         "locations": [
           {
-            "name": "Swamp Platform Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Swamp Platform Row 4",
             "id": 158316,
             "crystal": null,
@@ -9629,6 +8499,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9655,6 +8529,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -9723,32 +8601,6 @@
         ],
         "locations": [
           {
-            "name": "Swamp Cyan Underwater Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Swamp Cyan Underwater 5",
             "id": 158311,
             "crystal": null,
@@ -9770,7 +8622,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -9863,9 +8715,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Dots",
+              "name": "Power Surge",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -10083,9 +8935,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Bonk",
+              "name": "Eraser",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -10324,6 +9176,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -10332,32 +9188,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Swamp Near Boat Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Swamp Beyond Rotating Bridge 4",
             "id": 158332,
@@ -10561,6 +9391,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -10568,7 +9402,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -10618,9 +9452,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Boat",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -10709,32 +9543,6 @@
         ],
         "locations": [
           {
-            "name": "Swamp Laser Area Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Swamp Laser Panel",
             "id": 158711,
             "crystal": null,
@@ -10774,9 +9582,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Colored Squares",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -10841,34 +9649,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Treehouse Beach Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -10899,6 +9680,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -10916,6 +9701,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -10936,6 +9725,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -10943,7 +9736,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Functioning Brain",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -10981,6 +9774,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11001,6 +9798,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11008,9 +9809,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Progressive Symmetry",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -11046,6 +9847,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11054,32 +9859,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Treehouse Yellow Bridge Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Treehouse Yellow Bridge 9",
             "id": 158354,
@@ -11092,6 +9871,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11137,6 +9920,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11157,6 +9944,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11243,34 +10034,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Treehouse Junction Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -11381,6 +10145,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11410,6 +10178,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11417,7 +10189,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Power Surge",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -11455,6 +10227,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11463,32 +10239,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Treehouse Drawbridge Platform Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Treehouse Drawbridge Panel",
             "id": 158404,
@@ -11501,6 +10251,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -11508,7 +10262,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Power Surge",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -11557,32 +10311,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Treehouse Second Purple Bridge Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Treehouse Second Purple Bridge 7",
             "id": 158368,
@@ -11716,7 +10444,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -11816,7 +10544,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -11863,34 +10591,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Treehouse Green Bridge Left House Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -11970,34 +10671,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Treehouse Laser Room Back Platform Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -12017,34 +10691,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Treehouse Burned House Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -12170,34 +10817,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "Mountainside Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+4 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -12236,6 +10856,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -12253,32 +10877,6 @@
           }
         ],
         "locations": [
-          {
-            "name": "Mountaintop Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Mountaintop River Shape",
             "id": 158405,
@@ -12428,6 +11026,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -12565,7 +11167,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Puzzle Skip",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -12594,9 +11196,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Triangles",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -12621,34 +11223,7 @@
           }
         ],
         "exits": [],
-        "locations": [
-          {
-            "name": "Mountain Floor 1 Trash Pillar Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -12669,32 +11244,6 @@
         ],
         "exits": [],
         "locations": [
-          {
-            "name": "Mountain Floor 1 Back Section Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
           {
             "name": "Mountain Floor 1 Back Row 3",
             "id": 158423,
@@ -12717,7 +11266,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Power Surge",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -12936,32 +11485,6 @@
         ],
         "locations": [
           {
-            "name": "Mountain Floor 2 Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Mountain Floor 2 Near Row 5",
             "id": 158430,
             "crystal": null,
@@ -12983,7 +11506,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -13102,7 +11625,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Power Surge",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -13226,7 +11749,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -13276,7 +11799,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Speed Boost",
+              "name": "Slowness",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -13391,6 +11914,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -13408,6 +11935,10 @@
                   "item": {
                     "type": "name",
                     "name": "item"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
               ]
@@ -13568,9 +12099,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Dots",
+              "name": "Speed Boost",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -13597,7 +12128,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Puzzle Skip",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -13647,32 +12178,6 @@
         ],
         "locations": [
           {
-            "name": "Mountain Bottom Floor Pillars Room Easter Egg",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+1 Easter Egg",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Mountain Bottom Floor Right Pillar 4",
             "id": 158525,
             "crystal": null,
@@ -13694,7 +12199,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slowness",
+              "name": "Speed Boost",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -13938,34 +12443,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "The Ocean Easter Eggs",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "region"
-                },
-                "attr": "can_reach"
-              },
-              "args": []
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "+2 Easter Eggs",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -13995,944 +12473,7 @@
             "type": "Exit"
           }
         ],
-        "locations": [
-          {
-            "name": "3 Easter Eggs Collected",
-            "id": 160002,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Shapers",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "6 Easter Eggs Collected",
-            "id": 160005,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "9 Easter Eggs Collected",
-            "id": 160008,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "12 Easter Eggs Collected",
-            "id": 160011,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "15 Easter Eggs Collected",
-            "id": 160014,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Slowness",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "18 Easter Eggs Collected",
-            "id": 160017,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Power Surge",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "21 Easter Eggs Collected",
-            "id": 160020,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "24 Easter Eggs Collected",
-            "id": 160023,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "27 Easter Eggs Collected",
-            "id": 160026,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "30 Easter Eggs Collected",
-            "id": 160029,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Puzzle Skip",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "33 Easter Eggs Collected",
-            "id": 160032,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "36 Easter Eggs Collected",
-            "id": 160035,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "39 Easter Eggs Collected",
-            "id": 160038,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Slowness",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "42 Easter Eggs Collected",
-            "id": 160041,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Puzzle Skip",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "45 Easter Eggs Collected",
-            "id": 160044,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Power Surge",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "48 Easter Eggs Collected",
-            "id": 160047,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "51 Easter Eggs Collected",
-            "id": 160050,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Bonk",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "54 Easter Eggs Collected",
-            "id": 160053,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Puzzle Skip",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "57 Easter Eggs Collected",
-            "id": 160056,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "60 Easter Eggs Collected",
-            "id": 160059,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "63 Easter Eggs Collected",
-            "id": 160062,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "66 Easter Eggs Collected",
-            "id": 160065,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "69 Easter Eggs Collected",
-            "id": 160068,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "72 Easter Eggs Collected",
-            "id": 160071,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "75 Easter Eggs Collected",
-            "id": 160074,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "78 Easter Eggs Collected",
-            "id": 160077,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "81 Easter Eggs Collected",
-            "id": 160080,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Slowness",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "84 Easter Eggs Collected",
-            "id": 160083,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "87 Easter Eggs Collected",
-            "id": 160086,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "90 Easter Eggs Collected",
-            "id": 160089,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "93 Easter Eggs Collected",
-            "id": 160092,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Slowness",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "96 Easter Eggs Collected",
-            "id": 160095,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "99 Easter Eggs Collected",
-            "id": 160098,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Slowness",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "102 Easter Eggs Collected",
-            "id": 160101,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Functioning Brain",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "105 Easter Eggs Collected",
-            "id": 160104,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Slowness",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "108 Easter Eggs Collected",
-            "id": 160107,
-            "crystal": null,
-            "access_rule": {
-              "type": "list",
-              "value": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "name",
-                    "name": "item"
-                  }
-                }
-              ]
-            },
-            "progress_type": 3,
-            "locked": false,
-            "item": {
-              "name": "Speed Boost",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
+        "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
@@ -15022,7 +12563,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Symmetry": {
         "name": "Symmetry",
@@ -15052,7 +12593,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Eraser": {
         "name": "Eraser",
@@ -15067,7 +12608,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Shapers": {
         "name": "Shapers",
@@ -15082,7 +12623,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Rotated Shapers": {
         "name": "Rotated Shapers",
@@ -15097,7 +12638,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Negative Shapers": {
         "name": "Negative Shapers",
@@ -15112,7 +12653,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Stars": {
         "name": "Stars",
@@ -15172,7 +12713,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Arrows": {
         "name": "Arrows",
@@ -15202,7 +12743,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 4
       },
       "Progressive Symmetry": {
         "name": "Progressive Symmetry",
@@ -15217,7 +12758,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 4
       },
       "Progressive Stars": {
         "name": "Progressive Stars",
@@ -15232,7 +12773,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 4
       },
       "Puzzle Skip": {
         "name": "Puzzle Skip",
@@ -15246,7 +12787,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 21
       },
       "Speed Boost": {
         "name": "Speed Boost",
@@ -15260,7 +12801,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 168
       },
       "Slowness": {
         "name": "Slowness",
@@ -15274,7 +12815,7 @@
         "trap": true,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 28
       },
       "Power Surge": {
         "name": "Power Surge",
@@ -15288,7 +12829,7 @@
         "trap": true,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 10
       },
       "Bonk": {
         "name": "Bonk",
@@ -15302,7 +12843,7 @@
         "trap": true,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 4
       },
       "Functioning Brain": {
         "name": "Functioning Brain",
@@ -15316,7 +12857,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Glass Factory Entry (Panel)": {
         "name": "Glass Factory Entry (Panel)",
@@ -16381,7 +13922,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Caves Mountain Shortcut (Door)": {
         "name": "Caves Mountain Shortcut (Door)",
@@ -18962,34 +16503,28 @@
   },
   "itempool_counts": {
     "1": {
-      "+1 Easter Egg": 40,
       "+1 Laser": 10,
       "+1 Laser (Redirected)": 1,
       "+1 Laser (Unredirected)": 1,
-      "+2 Easter Eggs": 15,
-      "+3 Easter Eggs": 2,
-      "+4 Easter Eggs": 2,
-      "+5 Easter Eggs": 4,
-      "+6 Easter Eggs": 1,
       "Black/White Squares": 1,
       "Boat": 2,
-      "Bonk": 6,
+      "Bonk": 4,
       "Colored Squares": 2,
       "Desert Laser Redirection": 1,
       "Eraser": 2,
       "Functioning Brain": 2,
       "Mountain Entry": 1,
       "Negative Shapers": 2,
-      "Power Surge": 12,
+      "Power Surge": 10,
       "Progressive Dots": 4,
       "Progressive Stars": 4,
       "Progressive Symmetry": 4,
       "Puzzle Skip": 21,
       "Rotated Shapers": 2,
       "Shapers": 2,
-      "Slowness": 38,
+      "Slowness": 28,
       "Sound Dots": 2,
-      "Speed Boost": 224,
+      "Speed Boost": 168,
       "Triangles": 2,
       "Victory": 1
     }
@@ -19002,8 +16537,7 @@
   },
   "settings": {
     "1": {
-      "game": "The Witness",
-      "accessibility": "items"
+      "game": "The Witness"
     }
   },
   "game_info": {

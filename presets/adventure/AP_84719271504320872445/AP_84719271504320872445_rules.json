@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "Adventure",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 3,
   "player_names": {
     "1": "Player1"
@@ -1037,7 +1037,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "White Key": {
         "name": "White Key",
@@ -1051,7 +1051,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Black Key": {
         "name": "Black Key",
@@ -1065,7 +1065,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Bridge": {
         "name": "Bridge",
@@ -1079,7 +1079,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Magnet": {
         "name": "Magnet",
@@ -1093,7 +1093,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Sword": {
         "name": "Sword",
@@ -1107,7 +1107,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Chalice": {
         "name": "Chalice",
@@ -1121,7 +1121,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Left Difficulty Switch": {
         "name": "Left Difficulty Switch",
@@ -1135,7 +1135,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Right Difficulty Switch": {
         "name": "Right Difficulty Switch",
@@ -1149,7 +1149,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Freeincarnate": {
         "name": "Freeincarnate",
@@ -1163,7 +1163,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 24
       },
       "Slow Yorgle": {
         "name": "Slow Yorgle",
@@ -1177,7 +1177,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Slow Grundle": {
         "name": "Slow Grundle",
@@ -1191,7 +1191,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Slow Rhindle": {
         "name": "Slow Rhindle",
@@ -1205,7 +1205,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Revive Dragons": {
         "name": "Revive Dragons",
@@ -1216,7 +1216,7 @@
         "advancement": false,
         "priority": false,
         "useful": false,
-        "trap": false,
+        "trap": true,
         "event": false,
         "type": null,
         "max_count": 1
@@ -1233,6 +1233,20 @@
         "trap": false,
         "event": false,
         "type": null,
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
         "max_count": 1
       }
     }
@@ -1268,8 +1282,7 @@
   },
   "settings": {
     "1": {
-      "game": "Adventure",
-      "accessibility": "items"
+      "game": "Adventure"
     }
   },
   "game_info": {

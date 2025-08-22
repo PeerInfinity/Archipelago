@@ -1,7 +1,10 @@
 // Refactored to use canonical inventory format and agnostic logic modules
-import * as alttpLogic from '../shared/gameLogic/alttp/alttpLogic.js';
-import { alttpStateModule } from '../shared/gameLogic/alttp/alttpLogic.js';
-import * as genericLogic from '../shared/gameLogic/generic/genericLogic.js';
+import { 
+  initializeGameLogic, 
+  determineGameName, 
+  getGameLogic,
+  detectGameFromWorldClass 
+} from '../shared/gameLogic/gameLogicRegistry.js';
 
 // Import universal logger for consistent logging across contexts
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
@@ -295,19 +298,16 @@ export class StateManager {
     // Re-initialize game-specific state using dynamic logic modules
     if (this.settings) {
       const gameSettings = this.settings;
-      const determinedGameName = gameSettings.game || this.gameId;
       
-      // Re-select logic module for state clearing
-      switch (determinedGameName) {
-        case 'A Link to the Past':
-          this.logicModule = alttpLogic.alttpStateModule;
-          this.helperFunctions = alttpLogic.helperFunctions;
-          break;
-        default: 
-          this.logicModule = genericLogic.genericStateModule;
-          this.helperFunctions = genericLogic.helperFunctions;
-          break;
-      }
+      // Use centralized game logic selection
+      const logic = initializeGameLogic({
+        gameId: this.gameId,
+        settings: gameSettings,
+        worldClass: null // Not available in this context
+      });
+      
+      this.logicModule = logic.logicModule;
+      this.helperFunctions = logic.helperFunctions;
       
       // Re-initialize using selected logic module
       this.gameStateModule = this.logicModule.initializeState();
@@ -525,25 +525,11 @@ export class StateManager {
         `[StateManager loadFromJSON] game_name is generic or missing. Player world_class: "${playerWorldClass}"`
       );
       if (playerWorldClass) {
-        if (
-          playerWorldClass === 'ALTTPWorld' ||
-          playerWorldClass.includes('A Link to the Past')
-        ) {
-          // Make it more resilient
-          determinedGameId = 'A Link to the Past';
-        } else if (
-          playerWorldClass === 'SMZ3World' ||
-          playerWorldClass.includes(
-            'Super Metroid and A Link to the Past Combo Randomizer'
-          )
-        ) {
-          determinedGameId = 'SMZ3'; // Example, adjust as needed
-        }
-        // Add other game mappings here based on their World class names
-        // else if (playerWorldClass === 'TimespinnerWorld') {
-        //     determinedGameId = 'Timespinner';
-        // }
-        else {
+        // Use centralized game detection
+        determinedGameId = detectGameFromWorldClass(playerWorldClass);
+        if (determinedGameId !== 'Generic') {
+          // Successfully detected a specific game
+        } else {
           // Fallback if world_class is present but not specifically mapped
           log(
             'warn',
@@ -648,17 +634,10 @@ export class StateManager {
       `[StateManager loadFromJSON] Selecting logic module for game: "${gameName}" (derived from settings.game or this.gameId)`
     );
 
-    switch (gameName) {
-      case 'A Link to the Past':
-        this.logicModule = alttpLogic.alttpStateModule;
-        this.helperFunctions = alttpLogic.helperFunctions;
-        break;
-      // "Adventure" and any other simple game will use the default.
-      default: 
-        this.logicModule = genericLogic.genericStateModule;
-        this.helperFunctions = genericLogic.helperFunctions;
-        break;
-    }
+    // Use centralized game logic selection
+    const logic = getGameLogic(gameName);
+    this.logicModule = logic.logicModule;
+    this.helperFunctions = logic.helperFunctions;
 
     // Initialize the state using the selected module
     this.gameStateModule = this.logicModule.initializeState();
@@ -3123,17 +3102,10 @@ export class StateManager {
       const gameSettings = this.settings;
       const determinedGameName = gameSettings.game || this.gameId;
       
-      // Re-select logic module for runtime state reset
-      switch (determinedGameName) {
-        case 'A Link to the Past':
-          this.logicModule = alttpLogic.alttpStateModule;
-          this.helperFunctions = alttpLogic.helperFunctions;
-          break;
-        default: 
-          this.logicModule = genericLogic.genericStateModule;
-          this.helperFunctions = genericLogic.helperFunctions;
-          break;
-      }
+      // Use centralized game logic selection for runtime state reset
+      const logic = getGameLogic(determinedGameName);
+      this.logicModule = logic.logicModule;
+      this.helperFunctions = logic.helperFunctions;
       
       // Re-initialize using selected logic module
       this.gameStateModule = this.logicModule.initializeState();

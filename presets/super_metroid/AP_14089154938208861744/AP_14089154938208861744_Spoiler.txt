@@ -1,4 +1,4 @@
-﻿Archipelago Version 0.6.1  -  Seed: 1
+﻿Archipelago Version 0.6.4  -  Seed: 1
 
 Filling Algorithm:               balanced
 Players:                         1
@@ -14,12 +14,13 @@ Start Location Hints:
 Excluded Locations:              
 Priority Locations:              
 Item Links:                      
+Plando Items:                    
 StartItems Removes From Item Pool:No
 Preset:                          Regular
+Maximum Difficulty:              Hardcore
 Start Location:                  Landing Site
 Remote Items:                    No
 Death Link:                      Disable
-Maximum Difficulty:              Hardcore
 Morph Placement:                 Early
 Hide half the items:             No
 Strict Minors:                   No
@@ -197,8 +198,8 @@ Playthrough:
 5: {
   Charge Beam: Ice Beam
   Energy Tank, Brinstar Gate: Grappling Beam
-  Energy Tank, Etecoons: Energy Tank
   Kraid: Kraid
+  Missile (Hi-Jump Boots): Energy Tank
   Missile (blue Brinstar top): Missile
   Power Bomb (Crateria surface): Varia Suit
   Reserve Tank, Brinstar: Charge Beam
@@ -272,13 +273,6 @@ Energy Tank, Brinstar Gate
    =>   Green Brinstar Elevator -> Green Brinstar Elevator->Big Pink
    =>   Big Pink -> Big Pink->Energy Tank, Brinstar Gate
    =>   Energy Tank, Brinstar Gate
-Energy Tank, Etecoons
-        Menu -> StartAP
-   =>   Landing Site -> Landing Site->Lower Mushrooms Left
-   =>   Lower Mushrooms Left -> Lower Mushrooms Left->Green Brinstar Elevator
-   =>   Green Brinstar Elevator -> Green Brinstar Elevator->Etecoons Bottom
-   =>   Etecoons Bottom -> Etecoons Bottom->Energy Tank, Etecoons
-   =>   Energy Tank, Etecoons
 Energy Tank, Gauntlet
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Energy Tank, Gauntlet
@@ -318,6 +312,16 @@ Missile (Crateria gauntlet right)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Missile (Crateria gauntlet right)
    =>   Missile (Crateria gauntlet right)
+Missile (Hi-Jump Boots)
+        Menu -> StartAP
+   =>   Landing Site -> Landing Site->Keyhunter Room Bottom
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Red Brinstar Elevator
+   =>   Red Brinstar Elevator -> Red Brinstar Elevator->Red Tower Top Left
+   =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
+   =>   East Tunnel Right -> East Tunnel Right->Warehouse Entrance Left
+   =>   Warehouse Entrance Left -> Warehouse Entrance Left->Business Center
+   =>   Business Center -> Business Center->Missile (Hi-Jump Boots)
+   =>   Missile (Hi-Jump Boots)
 Missile (Speed Booster)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
@@ -348,8 +352,7 @@ Missile (blue Brinstar top)
 Missile (outside Wrecked Ship bottom)
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
-   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
-   =>   Moat Left -> Moat Left->Moat Right
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Right
    =>   Moat Right -> Moat Right->West Ocean Left
    =>   West Ocean Left -> West Ocean Left->Missile (outside Wrecked Ship bottom)
    =>   Missile (outside Wrecked Ship bottom)
@@ -368,8 +371,7 @@ Mother Brain
 Phantoon
         Menu -> StartAP
    =>   Landing Site -> Landing Site->Keyhunter Room Bottom
-   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Left
-   =>   Moat Left -> Moat Left->Moat Right
+   =>   Keyhunter Room Bottom -> Keyhunter Room Bottom->Moat Right
    =>   Moat Right -> Moat Right->West Ocean Left
    =>   West Ocean Left -> West Ocean Left->Wrecked Ship Main
    =>   Wrecked Ship Main -> Wrecked Ship Main->PhantoonRoomOut
@@ -430,6 +432,7 @@ Spring Ball
    =>   Red Tower Top Left -> Red Tower Top Left->East Tunnel Right
    =>   East Tunnel Right -> East Tunnel Right->Glass Tunnel Top
    =>   Glass Tunnel Top -> Glass Tunnel Top->Main Street Bottom
-   =>   Main Street Bottom -> Main Street Bottom->Oasis Bottom
+   =>   Main Street Bottom -> Main Street Bottom->Crab Hole Bottom Left
+   =>   Crab Hole Bottom Left -> Crab Hole Bottom Left->Oasis Bottom
    =>   Oasis Bottom -> Oasis Bottom->Spring Ball
    =>   Spring Ball

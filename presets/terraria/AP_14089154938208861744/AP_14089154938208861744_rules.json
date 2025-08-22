@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "Terraria",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -88,7 +88,231 @@
             }
           },
           {
+            "name": "Squire Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Squire Slime",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Traveling Merchant",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Traveling Merchant",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lifeform Analyzer",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Lifeform Analyzer",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "DPS Meter",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "DPS Meter",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stopwatch",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Stopwatch",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Timber!!",
+            "id": 8257724,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Rod of Discord",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Benched",
+            "id": 8257725,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Flipper",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stop! Hammer Time!",
             "id": 8257726,
             "crystal": null,
             "access_rule": {
@@ -112,7 +336,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Titan Glove",
+              "name": "Reward: DPS Meter",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -120,7 +344,7 @@
             }
           },
           {
-            "name": "Benched",
+            "name": "Matching Attire",
             "id": 8257727,
             "crystal": null,
             "access_rule": {
@@ -144,7 +368,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Obsidian Rose",
+              "name": "Reward: Torch God's Favor",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -152,7 +376,7 @@
             }
           },
           {
-            "name": "Stop! Hammer Time!",
+            "name": "Fashion Statement",
             "id": 8257728,
             "crystal": null,
             "access_rule": {
@@ -176,7 +400,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Neptune's Shell",
+              "name": "Reward: Ice Skates",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -184,7 +408,7 @@
             }
           },
           {
-            "name": "Matching Attire",
+            "name": "Ooo! Shiny!",
             "id": 8257729,
             "crystal": null,
             "access_rule": {
@@ -208,7 +432,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Yoyo Glove",
+              "name": "Reward: Armor Polish",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -216,7 +440,7 @@
             }
           },
           {
-            "name": "Fashion Statement",
+            "name": "No Hobo",
             "id": 8257730,
             "crystal": null,
             "access_rule": {
@@ -240,71 +464,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Black Belt",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Ooo! Shiny!",
-            "id": 8257731,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Post-Queen Bee",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "No Hobo",
-            "id": 8257732,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Reward: Gold Ring",
+              "name": "Reward: Celestial Magnet",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -377,7 +537,7 @@
           },
           {
             "name": "Heavy Metal",
-            "id": 8257733,
+            "id": 8257731,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -400,7 +560,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Hermes Boots",
+              "name": "Post-King Slime",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -408,7 +568,7 @@
             }
           },
           {
-            "name": "Nurse",
+            "name": "Dye Trader",
             "id": null,
             "crystal": null,
             "access_rule": {
@@ -432,7 +592,7 @@
             "progress_type": 1,
             "locked": true,
             "item": {
-              "name": "Nurse",
+              "name": "Dye Trader",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -440,8 +600,8 @@
             }
           },
           {
-            "name": "The Frequent Flyer",
-            "id": 8257734,
+            "name": "Dye Hard",
+            "id": 8257732,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -464,7 +624,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Demon Conch",
+              "name": "Reward: Lucky Coin",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -504,8 +664,8 @@
             }
           },
           {
-            "name": "Dye Trader",
-            "id": null,
+            "name": "Lucky Break",
+            "id": 8257733,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -526,17 +686,49 @@
               }
             },
             "progress_type": 1,
-            "locked": true,
+            "locked": false,
             "item": {
-              "name": "Dye Trader",
+              "name": "Reward: Weather Radio",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
           },
           {
-            "name": "Dye Hard",
+            "name": "Star Power",
+            "id": 8257734,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Hermes Boots",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "You Can Do It!",
             "id": 8257735,
             "crystal": null,
             "access_rule": {
@@ -560,7 +752,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Shoe Spikes",
+              "name": "Reward: Gold Ring",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -568,7 +760,39 @@
             }
           },
           {
-            "name": "Lucky Break",
+            "name": "Cactus",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cactus",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Unusual Survival Strategies",
             "id": 8257736,
             "crystal": null,
             "access_rule": {
@@ -592,73 +816,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: DPS Meter",
+              "name": "Post-Old One's Army Tier 1",
               "player": 1,
               "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Star Power",
-            "id": 8257737,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Post-Deerclops",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "You Can Do It!",
-            "id": 8257738,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Post-Goblin Army",
-              "player": 1,
-              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -696,8 +856,72 @@
             }
           },
           {
+            "name": "Radar",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Radar",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Wand of Sparking",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Wand of Sparking",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Heliophobia",
-            "id": 8257739,
+            "id": 8257737,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -720,9 +944,41 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Celestial Magnet",
+              "name": "Reward: Feral Claws",
               "player": 1,
               "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Evil Powder",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Evil Powder",
+              "player": 1,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -793,7 +1049,7 @@
           },
           {
             "name": "Feeling Petty",
-            "id": 8257741,
+            "id": 8257739,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -849,6 +1105,38 @@
             "locked": true,
             "item": {
               "name": "Dog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Painter",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Painter",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -920,6 +1208,102 @@
             }
           },
           {
+            "name": "Fisherman's Pocket Guide",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Fisherman's Pocket Guide",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Weather Radio",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Weather Radio",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sextant",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Sextant",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Water Walking Boots",
             "id": null,
             "crystal": null,
@@ -952,40 +1336,8 @@
             }
           },
           {
-            "name": "Painter",
-            "id": null,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": true,
-            "item": {
-              "name": "Painter",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
             "name": "Into Orbit",
-            "id": 8257751,
+            "id": 8257749,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -1008,7 +1360,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Feral Claws",
+              "name": "Reward: Stopwatch",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1048,7 +1400,135 @@
             }
           },
           {
+            "name": "Celestial Magnet",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Celestial Magnet",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Clumsy Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Clumsy Slime",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Watch Your Step!",
+            "id": 8257750,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Climbing Claws",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Throwing Lines",
+            "id": 8257751,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Sextant",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Torch God",
             "id": 8257752,
             "crystal": null,
             "access_rule": {
@@ -1072,7 +1552,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-Evil Boss",
+              "name": "Post-Eye of Cthulhu",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -1080,7 +1560,7 @@
             }
           },
           {
-            "name": "Throwing Lines",
+            "name": "Vehicular Manslaughter",
             "id": 8257753,
             "crystal": null,
             "access_rule": {
@@ -1104,15 +1584,79 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Grappling Hook",
+              "name": "Post-Pirate Invasion",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
           },
           {
-            "name": "Torch God",
+            "name": "Depth Meter",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Depth Meter",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Compass",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Compass",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hey! Listen!",
             "id": 8257754,
             "crystal": null,
             "access_rule": {
@@ -1136,7 +1680,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Rifle Scope",
+              "name": "Reward: Fledgling Wings",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1144,7 +1688,7 @@
             }
           },
           {
-            "name": "Vehicular Manslaughter",
+            "name": "I Am Loot!",
             "id": 8257755,
             "crystal": null,
             "access_rule": {
@@ -1168,7 +1712,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Flipper",
+              "name": "Reward: Lavaproof Fishing Hook",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1176,7 +1720,39 @@
             }
           },
           {
-            "name": "Hey! Listen!",
+            "name": "Magic Mirror",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Magic Mirror",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Heart Breaker",
             "id": 8257756,
             "crystal": null,
             "access_rule": {
@@ -1200,7 +1776,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Ancient Chisel",
+              "name": "Post-Deerclops",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1208,7 +1784,39 @@
             }
           },
           {
-            "name": "I Am Loot!",
+            "name": "Nurse",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Nurse",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Frequent Flyer",
             "id": 8257757,
             "crystal": null,
             "access_rule": {
@@ -1232,15 +1840,15 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-King Slime",
+              "name": "Post-Goblin Army",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
           },
           {
-            "name": "Heart Breaker",
+            "name": "Feast of Midas",
             "id": 8257758,
             "crystal": null,
             "access_rule": {
@@ -1264,7 +1872,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Megaphone",
+              "name": "Reward: Moon Charm",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1296,7 +1904,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Fisherman's Pocket Guide",
+              "name": "Reward: Titan Glove",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1368,6 +1976,38 @@
             }
           },
           {
+            "name": "Gold Watch",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Gold Watch",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Like a Boss",
             "id": 8257760,
             "crystal": null,
@@ -1392,7 +2032,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Moon Charm",
+              "name": "Reward: Star Cloak",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1456,7 +2096,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Star Cloak",
+              "name": "Reward: Demon Conch",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -1520,7 +2160,39 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-Pirate Invasion",
+              "name": "Reward: Fast Clock",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Metal Detector",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Metal Detector",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -1552,9 +2224,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-Skeletron",
+              "name": "Reward: Treasure Magnet",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -1848,6 +2520,70 @@
             }
           },
           {
+            "name": "Party Girl",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Party Girl",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cool Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cool Slime",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Anklet of the Wind",
             "id": null,
             "crystal": null,
@@ -1873,6 +2609,38 @@
             "locked": true,
             "item": {
               "name": "Anklet of the Wind",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Feral Claws",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Feral Claws",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -2008,6 +2776,70 @@
             }
           },
           {
+            "name": "Nature's Gift",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Nature's Gift",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bezoar",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Bezoar",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Summoning Potion",
             "id": null,
             "crystal": null,
@@ -2040,39 +2872,7 @@
             }
           },
           {
-            "name": "It's Getting Hot in Here",
-            "id": 8257767,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Reward: Ice Skates",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Rock Bottom",
+            "name": "A Shimmer In The Dark",
             "id": 8257768,
             "crystal": null,
             "access_rule": {
@@ -2096,7 +2896,71 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Paint Sprayer",
+              "name": "Reward: Shoe Spikes",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "It's Getting Hot in Here",
+            "id": 8257769,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Ancient Chisel",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rock Bottom",
+            "id": 8257770,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Post-Queen Slime",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2136,8 +3000,40 @@
             }
           },
           {
+            "name": "Magma Stone",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Magma Stone",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Smashing, Poppet!",
-            "id": 8257769,
+            "id": 8257771,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -2160,7 +3056,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Climbing Claws",
+              "name": "Reward: Putrid Scent",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2201,70 +3097,6 @@
           },
           {
             "name": "Leading Landlord",
-            "id": 8257770,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Reward: Magic Mirror",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Completely Awesome",
-            "id": 8257771,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Reward: Trifold Map",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "King Slime",
             "id": 8257772,
             "crystal": null,
             "access_rule": {
@@ -2288,7 +3120,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Putrid Scent",
+              "name": "Reward: Cloud in a Bottle",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2296,7 +3128,71 @@
             }
           },
           {
-            "name": "The Cavalry",
+            "name": "Completely Awesome",
+            "id": 8257773,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Post-Skeletron",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Illegal Gun Parts",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Illegal Gun Parts",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "King Slime",
             "id": 8257774,
             "crystal": null,
             "access_rule": {
@@ -2320,9 +3216,41 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Hardmode",
+              "name": "Reward: Nazar",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Cavalry",
+            "id": 8257776,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Red Counterweight",
+              "player": 1,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -2353,6 +3281,38 @@
             "locked": true,
             "item": {
               "name": "Solidifier",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nerdy Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Nerdy Slime",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -2392,8 +3352,40 @@
             }
           },
           {
+            "name": "Shark Tooth Necklace",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Shark Tooth Necklace",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Quiet Neighborhood",
-            "id": 8257779,
+            "id": 8257781,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -2416,7 +3408,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Armor Polish",
+              "name": "Reward: Black Belt",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2424,8 +3416,40 @@
             }
           },
           {
+            "name": "Surly Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Surly Slime",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Eye of Cthulhu",
-            "id": 8257780,
+            "id": 8257782,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -2448,7 +3472,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Rod of Discord",
+              "name": "Reward: Paint Sprayer",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2584,7 +3608,7 @@
             }
           },
           {
-            "name": "Party Girl",
+            "name": "Mystic Slime",
             "id": null,
             "crystal": null,
             "access_rule": {
@@ -2608,7 +3632,7 @@
             "progress_type": 1,
             "locked": true,
             "item": {
-              "name": "Party Girl",
+              "name": "Mystic Slime",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -2617,7 +3641,7 @@
           },
           {
             "name": "Evil Boss",
-            "id": 8257784,
+            "id": 8257786,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -2640,7 +3664,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Magic Conch",
+              "name": "Reward: Megaphone",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -2777,7 +3801,7 @@
           },
           {
             "name": "Old One's Army Tier 1",
-            "id": 8257785,
+            "id": 8257787,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -2800,7 +3824,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Flying Carpet",
+              "name": "Reward: Nature's Gift",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3097,70 +4121,6 @@
           },
           {
             "name": "Miner for Fire",
-            "id": 8257786,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Reward: Stopwatch",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Hot Reels!",
-            "id": 8257787,
-            "crystal": null,
-            "access_rule": {
-              "type": "subscript",
-              "value": {
-                "type": "name",
-                "name": "rules"
-              },
-              "index": {
-                "type": "subscript",
-                "value": {
-                  "type": "name",
-                  "name": "rule_indices"
-                },
-                "index": {
-                  "type": "name",
-                  "name": "location"
-                }
-              }
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Reward: Red Counterweight",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Goblin Army",
             "id": 8257788,
             "crystal": null,
             "access_rule": {
@@ -3184,9 +4144,73 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-Eye of Cthulhu",
+              "name": "Hardmode",
               "player": 1,
               "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hot Reels!",
+            "id": 8257789,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Flying Carpet",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Goblin Army",
+            "id": 8257790,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Rifle Scope",
+              "player": 1,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -3249,6 +4273,38 @@
             "locked": true,
             "item": {
               "name": "Tinkerer's Workshop",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mana Flower",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Mana Flower",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -3448,8 +4504,136 @@
             }
           },
           {
+            "name": "GPS",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "GPS",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Goblin Tech",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Goblin Tech",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Finder",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Fish Finder",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Diving Gear",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Diving Gear",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Where's My Honey?",
-            "id": 8257790,
+            "id": 8257792,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -3472,7 +4656,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-Old One's Army Tier 1",
+              "name": "Reward: Brick Layer",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3481,7 +4665,7 @@
           },
           {
             "name": "Queen Bee",
-            "id": 8257791,
+            "id": 8257793,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -3504,7 +4688,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Fledgling Wings",
+              "name": "Reward: Step Stool",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3609,7 +4793,7 @@
           },
           {
             "name": "Not the Bees!",
-            "id": 8257792,
+            "id": 8257794,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -3632,7 +4816,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Nature's Gift",
+              "name": "Reward: Neptune's Shell",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3705,7 +4889,7 @@
           },
           {
             "name": "Skeletron",
-            "id": 8257794,
+            "id": 8257797,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -3728,7 +4912,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Tally Counter",
+              "name": "Reward: Yoyo Glove",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3801,7 +4985,7 @@
           },
           {
             "name": "Dungeon Heist",
-            "id": 8257795,
+            "id": 8257798,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -3824,7 +5008,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Weather Radio",
+              "name": "Reward: Magic Mirror",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -3864,6 +5048,134 @@
             }
           },
           {
+            "name": "Tally Counter",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Tally Counter",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "R.E.K. 3000",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "R.E.K. 3000",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "PDA",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "PDA",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Cell Phone",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cell Phone",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Bewitching Table",
             "id": null,
             "crystal": null,
@@ -3889,6 +5201,38 @@
             "locked": true,
             "item": {
               "name": "Bewitching Table",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Alchemy Table",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Alchemy Table",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -4024,8 +5368,104 @@
             }
           },
           {
+            "name": "Cobalt Shield",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Cobalt Shield",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Obsidian Shield",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Obsidian Shield",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Elder Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Elder Slime",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Deerclops",
-            "id": 8257796,
+            "id": 8257800,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4048,7 +5488,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Lavaproof Fishing Hook",
+              "name": "Reward: Magic Conch",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4089,7 +5529,7 @@
           },
           {
             "name": "Wall of Flesh",
-            "id": 8257798,
+            "id": 8257802,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4112,7 +5552,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Sextant",
+              "name": "Reward: Shark Tooth Necklace",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4152,6 +5592,70 @@
             }
           },
           {
+            "name": "Emblem",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Emblem",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fast Clock",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Fast Clock",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Wizard",
             "id": null,
             "crystal": null,
@@ -4177,6 +5681,358 @@
             "locked": true,
             "item": {
               "name": "Wizard",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Titan Glove",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Titan Glove",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Power Glove",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Power Glove",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Magic Quiver",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Magic Quiver",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Hallowed Seeds",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Hallowed Seeds",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Armor Polish",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Armor Polish",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Adhesive Bandage",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Adhesive Bandage",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Medicated Bandage",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Medicated Bandage",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Megaphone",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Megaphone",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pocket Mirror",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Pocket Mirror",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Trifold Map",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Trifold Map",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Plan",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "The Plan",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -4345,7 +6201,7 @@
           },
           {
             "name": "Begone, Evil!",
-            "id": 8257799,
+            "id": 8257803,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4368,7 +6224,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Step Stool",
+              "name": "Reward: Obsidian Rose",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4409,7 +6265,7 @@
           },
           {
             "name": "Extra Shiny!",
-            "id": 8257800,
+            "id": 8257804,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4432,7 +6288,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Cloud in a Bottle",
+              "name": "Reward: Water Walking Boots",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4497,6 +6353,262 @@
             "locked": true,
             "item": {
               "name": "Cobalt Pickaxe",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blindfold",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Blindfold",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Reflective Shades",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Reflective Shades",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Vitamins",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Vitamins",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Armor Bracing",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Armor Bracing",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Nazar",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Nazar",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Countercurse Mantra",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Countercurse Mantra",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ankh Charm",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Ankh Charm",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ankh Shield",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Ankh Shield",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -4600,6 +6712,38 @@
             }
           },
           {
+            "name": "Holy Water",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Holy Water",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "Unicorn Horn",
             "id": null,
             "crystal": null,
@@ -4689,6 +6833,38 @@
             "locked": true,
             "item": {
               "name": "Soul of Light",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Meteor Staff",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Meteor Staff",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -4793,7 +6969,7 @@
           },
           {
             "name": "Head in the Clouds",
-            "id": 8257802,
+            "id": 8257807,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4816,7 +6992,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Fast Clock",
+              "name": "Reward: Fisherman's Pocket Guide",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4889,7 +7065,7 @@
           },
           {
             "name": "Don't Dread on Me",
-            "id": 8257803,
+            "id": 8257809,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4912,7 +7088,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Post-Queen Slime",
+              "name": "Reward: Trifold Map",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4953,7 +7129,7 @@
           },
           {
             "name": "It Can Talk?!",
-            "id": 8257806,
+            "id": 8257811,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -4976,7 +7152,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Lucky Coin",
+              "name": "Reward: Tally Counter",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -4985,7 +7161,7 @@
           },
           {
             "name": "Pirate Invasion",
-            "id": 8257807,
+            "id": 8257812,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -5008,9 +7184,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Water Walking Boots",
+              "name": "Post-Evil Boss",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -5049,7 +7225,7 @@
           },
           {
             "name": "Queen Slime",
-            "id": 8257808,
+            "id": 8257813,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -5072,7 +7248,103 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Reward: Torch God's Favor",
+              "name": "Post-Queen Bee",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sparkle Slime Balloon",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Sparkle Slime Balloon",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Diva Slime",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Diva Slime",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "The Great Slime Mitosis",
+            "id": 8257814,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Reward: Grappling Hook",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -5368,8 +7640,104 @@
             }
           },
           {
+            "name": "Mechanical Eye",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Mechanical Eye",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mechanical Worm",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Mechanical Worm",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mechanical Skull",
+            "id": null,
+            "crystal": null,
+            "access_rule": {
+              "type": "subscript",
+              "value": {
+                "type": "name",
+                "name": "rules"
+              },
+              "index": {
+                "type": "subscript",
+                "value": {
+                  "type": "name",
+                  "name": "rule_indices"
+                },
+                "index": {
+                  "type": "name",
+                  "name": "location"
+                }
+              }
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Mechanical Skull",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
             "name": "The Twins",
-            "id": 8257810,
+            "id": 8257818,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -5401,7 +7769,7 @@
           },
           {
             "name": "The Destroyer",
-            "id": 8257812,
+            "id": 8257820,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -5433,7 +7801,7 @@
           },
           {
             "name": "Skeletron Prime",
-            "id": 8257814,
+            "id": 8257822,
             "crystal": null,
             "access_rule": {
               "type": "subscript",
@@ -5492,7 +7860,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-King Slime": {
         "name": "Post-King Slime",
@@ -5506,7 +7874,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Desert Scourge": {
         "name": "Post-Desert Scourge",
@@ -5548,7 +7916,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Acid Rain Tier 1": {
         "name": "Post-Acid Rain Tier 1",
@@ -5590,7 +7958,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Old One's Army Tier 1": {
         "name": "Post-Old One's Army Tier 1",
@@ -5604,7 +7972,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Goblin Army": {
         "name": "Post-Goblin Army",
@@ -5618,7 +7986,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Queen Bee": {
         "name": "Post-Queen Bee",
@@ -5632,11 +8000,25 @@
         "trap": false,
         "event": false,
         "type": null,
+        "max_count": 2
+      },
+      "Post-The Hive Mind": {
+        "name": "Post-The Hive Mind",
+        "id": 8257547,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
         "max_count": 1
       },
-      "Post-Calamity Evil Boss": {
-        "name": "Post-Calamity Evil Boss",
-        "id": 8257547,
+      "Post-The Perforators": {
+        "name": "Post-The Perforators",
+        "id": 8257548,
         "groups": [
           "Everything"
         ],
@@ -5650,7 +8032,7 @@
       },
       "Post-Skeletron": {
         "name": "Post-Skeletron",
-        "id": 8257548,
+        "id": 8257549,
         "groups": [
           "Everything"
         ],
@@ -5660,11 +8042,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Deerclops": {
         "name": "Post-Deerclops",
-        "id": 8257549,
+        "id": 8257550,
         "groups": [
           "Everything"
         ],
@@ -5674,11 +8056,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-The Slime God": {
         "name": "Post-The Slime God",
-        "id": 8257550,
+        "id": 8257551,
         "groups": [
           "Everything"
         ],
@@ -5692,7 +8074,7 @@
       },
       "Hardmode": {
         "name": "Hardmode",
-        "id": 8257551,
+        "id": 8257552,
         "groups": [
           "Everything"
         ],
@@ -5702,11 +8084,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
-      "Post-Earth Elemental": {
-        "name": "Post-Earth Elemental",
-        "id": 8257552,
+      "Post-Dreadnautilus": {
+        "name": "Post-Dreadnautilus",
+        "id": 8257553,
         "groups": [
           "Everything"
         ],
@@ -5718,9 +8100,9 @@
         "type": null,
         "max_count": 1
       },
-      "Post-Cloud Elemental": {
-        "name": "Post-Cloud Elemental",
-        "id": 8257553,
+      "Post-Hardmode Giant Clam": {
+        "name": "Post-Hardmode Giant Clam",
+        "id": 8257554,
         "groups": [
           "Everything"
         ],
@@ -5734,7 +8116,7 @@
       },
       "Post-Pirate Invasion": {
         "name": "Post-Pirate Invasion",
-        "id": 8257554,
+        "id": 8257555,
         "groups": [
           "Everything"
         ],
@@ -5744,24 +8126,10 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Post-Queen Slime": {
         "name": "Post-Queen Slime",
-        "id": 8257555,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Aquatic Scourge": {
-        "name": "Post-Aquatic Scourge",
         "id": 8257556,
         "groups": [
           "Everything"
@@ -5772,71 +8140,15 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
-      "Post-The Twins": {
-        "name": "Post-The Twins",
+      "Post-Aquatic Scourge": {
+        "name": "Post-Aquatic Scourge",
         "id": 8257557,
         "groups": [
           "Everything"
         ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Brimstone Elemental": {
-        "name": "Post-Brimstone Elemental",
-        "id": 8257558,
-        "groups": [
-          "Everything"
-        ],
         "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-The Destroyer": {
-        "name": "Post-The Destroyer",
-        "id": 8257559,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Cryogen": {
-        "name": "Post-Cryogen",
-        "id": 8257560,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Skeletron Prime": {
-        "name": "Post-Skeletron Prime",
-        "id": 8257561,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -5846,7 +8158,7 @@
       },
       "Post-Cragmaw Mire": {
         "name": "Post-Cragmaw Mire",
-        "id": 8257562,
+        "id": 8257558,
         "groups": [
           "Everything"
         ],
@@ -5860,6 +8172,62 @@
       },
       "Post-Acid Rain Tier 2": {
         "name": "Post-Acid Rain Tier 2",
+        "id": 8257559,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Post-The Twins": {
+        "name": "Post-The Twins",
+        "id": 8257560,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Post-Brimstone Elemental": {
+        "name": "Post-Brimstone Elemental",
+        "id": 8257561,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Post-The Destroyer": {
+        "name": "Post-The Destroyer",
+        "id": 8257562,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Post-Cryogen": {
+        "name": "Post-Cryogen",
         "id": 8257563,
         "groups": [
           "Everything"
@@ -5872,9 +8240,23 @@
         "type": null,
         "max_count": 1
       },
+      "Post-Skeletron Prime": {
+        "name": "Post-Skeletron Prime",
+        "id": 8257564,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
       "Post-Old One's Army Tier 2": {
         "name": "Post-Old One's Army Tier 2",
-        "id": 8257564,
+        "id": 8257565,
         "groups": [
           "Everything"
         ],
@@ -5888,7 +8270,7 @@
       },
       "Post-Calamitas Clone": {
         "name": "Post-Calamitas Clone",
-        "id": 8257565,
+        "id": 8257566,
         "groups": [
           "Everything"
         ],
@@ -5902,20 +8284,6 @@
       },
       "Post-Plantera": {
         "name": "Post-Plantera",
-        "id": 8257566,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Armored Digger": {
-        "name": "Post-Armored Digger",
         "id": 8257567,
         "groups": [
           "Everything"
@@ -6012,23 +8380,9 @@
         "type": null,
         "max_count": 1
       },
-      "Post-Plaguebringer": {
-        "name": "Post-Plaguebringer",
-        "id": 8257574,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
       "Post-The Plaguebringer Goliath": {
         "name": "Post-The Plaguebringer Goliath",
-        "id": 8257575,
+        "id": 8257574,
         "groups": [
           "Everything"
         ],
@@ -6042,7 +8396,7 @@
       },
       "Post-Duke Fishron": {
         "name": "Post-Duke Fishron",
-        "id": 8257576,
+        "id": 8257575,
         "groups": [
           "Everything"
         ],
@@ -6056,7 +8410,7 @@
       },
       "Post-Mourning Wood": {
         "name": "Post-Mourning Wood",
-        "id": 8257577,
+        "id": 8257576,
         "groups": [
           "Everything"
         ],
@@ -6070,7 +8424,7 @@
       },
       "Post-Pumpking": {
         "name": "Post-Pumpking",
-        "id": 8257578,
+        "id": 8257577,
         "groups": [
           "Everything"
         ],
@@ -6084,7 +8438,7 @@
       },
       "Post-Everscream": {
         "name": "Post-Everscream",
-        "id": 8257579,
+        "id": 8257578,
         "groups": [
           "Everything"
         ],
@@ -6098,7 +8452,7 @@
       },
       "Post-Santa-NK1": {
         "name": "Post-Santa-NK1",
-        "id": 8257580,
+        "id": 8257579,
         "groups": [
           "Everything"
         ],
@@ -6112,7 +8466,7 @@
       },
       "Post-Ice Queen": {
         "name": "Post-Ice Queen",
-        "id": 8257581,
+        "id": 8257580,
         "groups": [
           "Everything"
         ],
@@ -6126,7 +8480,7 @@
       },
       "Post-Frost Legion": {
         "name": "Post-Frost Legion",
-        "id": 8257582,
+        "id": 8257581,
         "groups": [
           "Everything"
         ],
@@ -6140,7 +8494,7 @@
       },
       "Post-Ravager": {
         "name": "Post-Ravager",
-        "id": 8257583,
+        "id": 8257582,
         "groups": [
           "Everything"
         ],
@@ -6154,7 +8508,7 @@
       },
       "Post-Empress of Light": {
         "name": "Post-Empress of Light",
-        "id": 8257584,
+        "id": 8257583,
         "groups": [
           "Everything"
         ],
@@ -6168,7 +8522,7 @@
       },
       "Post-Lunatic Cultist": {
         "name": "Post-Lunatic Cultist",
-        "id": 8257585,
+        "id": 8257584,
         "groups": [
           "Everything"
         ],
@@ -6182,7 +8536,7 @@
       },
       "Post-Astrum Deus": {
         "name": "Post-Astrum Deus",
-        "id": 8257586,
+        "id": 8257585,
         "groups": [
           "Everything"
         ],
@@ -6196,7 +8550,7 @@
       },
       "Post-Lunar Events": {
         "name": "Post-Lunar Events",
-        "id": 8257587,
+        "id": 8257586,
         "groups": [
           "Everything"
         ],
@@ -6210,7 +8564,7 @@
       },
       "Post-Moon Lord": {
         "name": "Post-Moon Lord",
-        "id": 8257588,
+        "id": 8257587,
         "groups": [
           "Everything"
         ],
@@ -6224,7 +8578,7 @@
       },
       "Post-Profaned Guardians": {
         "name": "Post-Profaned Guardians",
-        "id": 8257589,
+        "id": 8257588,
         "groups": [
           "Everything"
         ],
@@ -6238,7 +8592,7 @@
       },
       "Post-The Dragonfolly": {
         "name": "Post-The Dragonfolly",
-        "id": 8257590,
+        "id": 8257589,
         "groups": [
           "Everything"
         ],
@@ -6252,7 +8606,7 @@
       },
       "Post-Providence, the Profaned Goddess": {
         "name": "Post-Providence, the Profaned Goddess",
-        "id": 8257591,
+        "id": 8257590,
         "groups": [
           "Everything"
         ],
@@ -6266,7 +8620,7 @@
       },
       "Post-Storm Weaver": {
         "name": "Post-Storm Weaver",
-        "id": 8257592,
+        "id": 8257591,
         "groups": [
           "Everything"
         ],
@@ -6280,7 +8634,7 @@
       },
       "Post-Ceaseless Void": {
         "name": "Post-Ceaseless Void",
-        "id": 8257593,
+        "id": 8257592,
         "groups": [
           "Everything"
         ],
@@ -6294,7 +8648,7 @@
       },
       "Post-Signus, Envoy of the Devourer": {
         "name": "Post-Signus, Envoy of the Devourer",
-        "id": 8257594,
+        "id": 8257593,
         "groups": [
           "Everything"
         ],
@@ -6308,49 +8662,7 @@
       },
       "Post-Polterghast": {
         "name": "Post-Polterghast",
-        "id": 8257595,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Colossal Squid": {
-        "name": "Post-Colossal Squid",
-        "id": 8257596,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Reaper Shark": {
-        "name": "Post-Reaper Shark",
-        "id": 8257597,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Eidolon Wyrm": {
-        "name": "Post-Eidolon Wyrm",
-        "id": 8257598,
+        "id": 8257594,
         "groups": [
           "Everything"
         ],
@@ -6364,7 +8676,7 @@
       },
       "Post-Mauler": {
         "name": "Post-Mauler",
-        "id": 8257599,
+        "id": 8257595,
         "groups": [
           "Everything"
         ],
@@ -6378,21 +8690,7 @@
       },
       "Post-Nuclear Terror": {
         "name": "Post-Nuclear Terror",
-        "id": 8257600,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Post-Acid Rain Tier 3": {
-        "name": "Post-Acid Rain Tier 3",
-        "id": 8257601,
+        "id": 8257596,
         "groups": [
           "Everything"
         ],
@@ -6406,7 +8704,7 @@
       },
       "Post-The Old Duke": {
         "name": "Post-The Old Duke",
-        "id": 8257602,
+        "id": 8257597,
         "groups": [
           "Everything"
         ],
@@ -6420,7 +8718,7 @@
       },
       "Post-The Devourer of Gods": {
         "name": "Post-The Devourer of Gods",
-        "id": 8257603,
+        "id": 8257598,
         "groups": [
           "Everything"
         ],
@@ -6434,7 +8732,7 @@
       },
       "Post-Yharon, Dragon of Rebirth": {
         "name": "Post-Yharon, Dragon of Rebirth",
-        "id": 8257604,
+        "id": 8257599,
         "groups": [
           "Everything"
         ],
@@ -6448,7 +8746,7 @@
       },
       "Has Zenith": {
         "name": "Has Zenith",
-        "id": 8257605,
+        "id": 8257600,
         "groups": [
           "Everything"
         ],
@@ -6462,7 +8760,7 @@
       },
       "Post-Exo Mechs": {
         "name": "Post-Exo Mechs",
-        "id": 8257606,
+        "id": 8257601,
         "groups": [
           "Everything"
         ],
@@ -6476,7 +8774,7 @@
       },
       "Post-Supreme Witch, Calamitas": {
         "name": "Post-Supreme Witch, Calamitas",
-        "id": 8257607,
+        "id": 8257602,
         "groups": [
           "Everything"
         ],
@@ -6488,9 +8786,23 @@
         "type": null,
         "max_count": 1
       },
-      "Post-Adult Eidolon Wyrm": {
-        "name": "Post-Adult Eidolon Wyrm",
-        "id": 8257608,
+      "Post-Primordial Wyrm": {
+        "name": "Post-Primordial Wyrm",
+        "id": 8257603,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Post-Boss Rush": {
+        "name": "Post-Boss Rush",
+        "id": 8257604,
         "groups": [
           "Everything"
         ],
@@ -6504,7 +8816,7 @@
       },
       "Reward: Hermes Boots": {
         "name": "Reward: Hermes Boots",
-        "id": 8257609,
+        "id": 8257605,
         "groups": [
           "Everything"
         ],
@@ -6514,11 +8826,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Magic Mirror": {
         "name": "Reward: Magic Mirror",
-        "id": 8257610,
+        "id": 8257606,
         "groups": [
           "Everything"
         ],
@@ -6528,11 +8840,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Demon Conch": {
         "name": "Reward: Demon Conch",
-        "id": 8257611,
+        "id": 8257607,
         "groups": [
           "Everything"
         ],
@@ -6542,11 +8854,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Magic Conch": {
         "name": "Reward: Magic Conch",
-        "id": 8257612,
+        "id": 8257608,
         "groups": [
           "Everything"
         ],
@@ -6556,11 +8868,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Cosmolight": {
         "name": "Reward: Cosmolight",
-        "id": 8257613,
+        "id": 8257609,
         "groups": [
           "Everything"
         ],
@@ -6574,6 +8886,62 @@
       },
       "Reward: Grappling Hook": {
         "name": "Reward: Grappling Hook",
+        "id": 8257610,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Reward: Cloud in a Bottle": {
+        "name": "Reward: Cloud in a Bottle",
+        "id": 8257611,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Reward: Climbing Claws": {
+        "name": "Reward: Climbing Claws",
+        "id": 8257612,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Reward: Ancient Chisel": {
+        "name": "Reward: Ancient Chisel",
+        "id": 8257613,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Reward: Fledgling Wings": {
+        "name": "Reward: Fledgling Wings",
         "id": 8257614,
         "groups": [
           "Everything"
@@ -6584,10 +8952,10 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
-      "Reward: Cloud in a Bottle": {
-        "name": "Reward: Cloud in a Bottle",
+      "Reward: Rod of Discord": {
+        "name": "Reward: Rod of Discord",
         "id": 8257615,
         "groups": [
           "Everything"
@@ -6598,67 +8966,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
-      },
-      "Reward: Climbing Claws": {
-        "name": "Reward: Climbing Claws",
-        "id": 8257616,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Reward: Ancient Chisel": {
-        "name": "Reward: Ancient Chisel",
-        "id": 8257617,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Reward: Fledgling Wings": {
-        "name": "Reward: Fledgling Wings",
-        "id": 8257618,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Reward: Rod of Discord": {
-        "name": "Reward: Rod of Discord",
-        "id": 8257619,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Aglet": {
         "name": "Reward: Aglet",
-        "id": 8257620,
+        "id": 8257616,
         "groups": [
           "Everything"
         ],
@@ -6672,7 +8984,7 @@
       },
       "Reward: Anklet of the Wind": {
         "name": "Reward: Anklet of the Wind",
-        "id": 8257621,
+        "id": 8257617,
         "groups": [
           "Everything"
         ],
@@ -6686,7 +8998,7 @@
       },
       "Reward: Ice Skates": {
         "name": "Reward: Ice Skates",
-        "id": 8257622,
+        "id": 8257618,
         "groups": [
           "Everything"
         ],
@@ -6696,11 +9008,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Lava Charm": {
         "name": "Reward: Lava Charm",
-        "id": 8257623,
+        "id": 8257619,
         "groups": [
           "Everything"
         ],
@@ -6710,11 +9022,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Water Walking Boots": {
         "name": "Reward: Water Walking Boots",
-        "id": 8257624,
+        "id": 8257620,
         "groups": [
           "Everything"
         ],
@@ -6724,11 +9036,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Flipper": {
         "name": "Reward: Flipper",
-        "id": 8257625,
+        "id": 8257621,
         "groups": [
           "Everything"
         ],
@@ -6738,11 +9050,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Frog Leg": {
         "name": "Reward: Frog Leg",
-        "id": 8257626,
+        "id": 8257622,
         "groups": [
           "Everything"
         ],
@@ -6756,7 +9068,7 @@
       },
       "Reward: Shoe Spikes": {
         "name": "Reward: Shoe Spikes",
-        "id": 8257627,
+        "id": 8257623,
         "groups": [
           "Everything"
         ],
@@ -6766,11 +9078,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Tabi": {
         "name": "Reward: Tabi",
-        "id": 8257628,
+        "id": 8257624,
         "groups": [
           "Everything"
         ],
@@ -6784,7 +9096,7 @@
       },
       "Reward: Black Belt": {
         "name": "Reward: Black Belt",
-        "id": 8257629,
+        "id": 8257625,
         "groups": [
           "Everything"
         ],
@@ -6794,11 +9106,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Flying Carpet": {
         "name": "Reward: Flying Carpet",
-        "id": 8257630,
+        "id": 8257626,
         "groups": [
           "Everything"
         ],
@@ -6808,11 +9120,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Moon Charm": {
         "name": "Reward: Moon Charm",
-        "id": 8257631,
+        "id": 8257627,
         "groups": [
           "Everything"
         ],
@@ -6822,11 +9134,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Neptune's Shell": {
         "name": "Reward: Neptune's Shell",
-        "id": 8257632,
+        "id": 8257628,
         "groups": [
           "Everything"
         ],
@@ -6836,11 +9148,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Compass": {
         "name": "Reward: Compass",
-        "id": 8257633,
+        "id": 8257629,
         "groups": [
           "Everything"
         ],
@@ -6854,7 +9166,7 @@
       },
       "Reward: Depth Meter": {
         "name": "Reward: Depth Meter",
-        "id": 8257634,
+        "id": 8257630,
         "groups": [
           "Everything"
         ],
@@ -6868,7 +9180,7 @@
       },
       "Reward: Radar": {
         "name": "Reward: Radar",
-        "id": 8257635,
+        "id": 8257631,
         "groups": [
           "Everything"
         ],
@@ -6882,7 +9194,7 @@
       },
       "Reward: Tally Counter": {
         "name": "Reward: Tally Counter",
-        "id": 8257636,
+        "id": 8257632,
         "groups": [
           "Everything"
         ],
@@ -6892,11 +9204,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Lifeform Analyzer": {
         "name": "Reward: Lifeform Analyzer",
-        "id": 8257637,
+        "id": 8257633,
         "groups": [
           "Everything"
         ],
@@ -6910,7 +9222,7 @@
       },
       "Reward: DPS Meter": {
         "name": "Reward: DPS Meter",
-        "id": 8257638,
+        "id": 8257634,
         "groups": [
           "Everything"
         ],
@@ -6920,11 +9232,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Stopwatch": {
         "name": "Reward: Stopwatch",
-        "id": 8257639,
+        "id": 8257635,
         "groups": [
           "Everything"
         ],
@@ -6934,11 +9246,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Metal Detector": {
         "name": "Reward: Metal Detector",
-        "id": 8257640,
+        "id": 8257636,
         "groups": [
           "Everything"
         ],
@@ -6952,7 +9264,7 @@
       },
       "Reward: Fisherman's Pocket Guide": {
         "name": "Reward: Fisherman's Pocket Guide",
-        "id": 8257641,
+        "id": 8257637,
         "groups": [
           "Everything"
         ],
@@ -6962,11 +9274,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Weather Radio": {
         "name": "Reward: Weather Radio",
-        "id": 8257642,
+        "id": 8257638,
         "groups": [
           "Everything"
         ],
@@ -6976,11 +9288,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Sextant": {
         "name": "Reward: Sextant",
-        "id": 8257643,
+        "id": 8257639,
         "groups": [
           "Everything"
         ],
@@ -6990,11 +9302,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Band of Regeneration": {
         "name": "Reward: Band of Regeneration",
-        "id": 8257644,
+        "id": 8257640,
         "groups": [
           "Everything"
         ],
@@ -7008,7 +9320,7 @@
       },
       "Reward: Celestial Magnet": {
         "name": "Reward: Celestial Magnet",
-        "id": 8257645,
+        "id": 8257641,
         "groups": [
           "Everything"
         ],
@@ -7018,11 +9330,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Nature's Gift": {
         "name": "Reward: Nature's Gift",
-        "id": 8257646,
+        "id": 8257642,
         "groups": [
           "Everything"
         ],
@@ -7032,11 +9344,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Philosopher's Stone": {
         "name": "Reward: Philosopher's Stone",
-        "id": 8257647,
+        "id": 8257643,
         "groups": [
           "Everything"
         ],
@@ -7050,7 +9362,7 @@
       },
       "Reward: Cobalt Shield": {
         "name": "Reward: Cobalt Shield",
-        "id": 8257648,
+        "id": 8257644,
         "groups": [
           "Everything"
         ],
@@ -7064,7 +9376,7 @@
       },
       "Reward: Armor Polish": {
         "name": "Reward: Armor Polish",
-        "id": 8257649,
+        "id": 8257645,
         "groups": [
           "Everything"
         ],
@@ -7074,11 +9386,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Vitamins": {
         "name": "Reward: Vitamins",
-        "id": 8257650,
+        "id": 8257646,
         "groups": [
           "Everything"
         ],
@@ -7092,7 +9404,7 @@
       },
       "Reward: Bezoar": {
         "name": "Reward: Bezoar",
-        "id": 8257651,
+        "id": 8257647,
         "groups": [
           "Everything"
         ],
@@ -7106,7 +9418,7 @@
       },
       "Reward: Adhesive Bandage": {
         "name": "Reward: Adhesive Bandage",
-        "id": 8257652,
+        "id": 8257648,
         "groups": [
           "Everything"
         ],
@@ -7120,7 +9432,7 @@
       },
       "Reward: Megaphone": {
         "name": "Reward: Megaphone",
-        "id": 8257653,
+        "id": 8257649,
         "groups": [
           "Everything"
         ],
@@ -7130,11 +9442,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Nazar": {
         "name": "Reward: Nazar",
-        "id": 8257654,
+        "id": 8257650,
         "groups": [
           "Everything"
         ],
@@ -7144,11 +9456,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Fast Clock": {
         "name": "Reward: Fast Clock",
-        "id": 8257655,
+        "id": 8257651,
         "groups": [
           "Everything"
         ],
@@ -7158,11 +9470,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Trifold Map": {
         "name": "Reward: Trifold Map",
-        "id": 8257656,
+        "id": 8257652,
         "groups": [
           "Everything"
         ],
@@ -7172,11 +9484,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Blindfold": {
         "name": "Reward: Blindfold",
-        "id": 8257657,
+        "id": 8257653,
         "groups": [
           "Everything"
         ],
@@ -7190,7 +9502,7 @@
       },
       "Reward: Pocket Mirror": {
         "name": "Reward: Pocket Mirror",
-        "id": 8257658,
+        "id": 8257654,
         "groups": [
           "Everything"
         ],
@@ -7204,7 +9516,7 @@
       },
       "Reward: Paladin's Shield": {
         "name": "Reward: Paladin's Shield",
-        "id": 8257659,
+        "id": 8257655,
         "groups": [
           "Everything"
         ],
@@ -7218,7 +9530,7 @@
       },
       "Reward: Frozen Turtle Shell": {
         "name": "Reward: Frozen Turtle Shell",
-        "id": 8257660,
+        "id": 8257656,
         "groups": [
           "Everything"
         ],
@@ -7232,7 +9544,7 @@
       },
       "Reward: Flesh Knuckles": {
         "name": "Reward: Flesh Knuckles",
-        "id": 8257661,
+        "id": 8257657,
         "groups": [
           "Everything"
         ],
@@ -7246,7 +9558,7 @@
       },
       "Reward: Putrid Scent": {
         "name": "Reward: Putrid Scent",
-        "id": 8257662,
+        "id": 8257658,
         "groups": [
           "Everything"
         ],
@@ -7256,11 +9568,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Feral Claws": {
         "name": "Reward: Feral Claws",
-        "id": 8257663,
+        "id": 8257659,
         "groups": [
           "Everything"
         ],
@@ -7270,11 +9582,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Cross Necklace": {
         "name": "Reward: Cross Necklace",
-        "id": 8257664,
+        "id": 8257660,
         "groups": [
           "Everything"
         ],
@@ -7288,7 +9600,7 @@
       },
       "Reward: Star Cloak": {
         "name": "Reward: Star Cloak",
-        "id": 8257665,
+        "id": 8257661,
         "groups": [
           "Everything"
         ],
@@ -7298,11 +9610,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Titan Glove": {
         "name": "Reward: Titan Glove",
-        "id": 8257666,
+        "id": 8257662,
         "groups": [
           "Everything"
         ],
@@ -7312,11 +9624,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Obsidian Rose": {
         "name": "Reward: Obsidian Rose",
-        "id": 8257667,
+        "id": 8257663,
         "groups": [
           "Everything"
         ],
@@ -7326,11 +9638,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Magma Stone": {
         "name": "Reward: Magma Stone",
-        "id": 8257668,
+        "id": 8257664,
         "groups": [
           "Everything"
         ],
@@ -7344,7 +9656,7 @@
       },
       "Reward: Shark Tooth Necklace": {
         "name": "Reward: Shark Tooth Necklace",
-        "id": 8257669,
+        "id": 8257665,
         "groups": [
           "Everything"
         ],
@@ -7354,11 +9666,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Magic Quiver": {
         "name": "Reward: Magic Quiver",
-        "id": 8257670,
+        "id": 8257666,
         "groups": [
           "Everything"
         ],
@@ -7372,7 +9684,7 @@
       },
       "Reward: Rifle Scope": {
         "name": "Reward: Rifle Scope",
-        "id": 8257671,
+        "id": 8257667,
         "groups": [
           "Everything"
         ],
@@ -7382,11 +9694,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Brick Layer": {
         "name": "Reward: Brick Layer",
-        "id": 8257672,
+        "id": 8257668,
         "groups": [
           "Everything"
         ],
@@ -7396,11 +9708,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Extendo Grip": {
         "name": "Reward: Extendo Grip",
-        "id": 8257673,
+        "id": 8257669,
         "groups": [
           "Everything"
         ],
@@ -7414,7 +9726,7 @@
       },
       "Reward: Paint Sprayer": {
         "name": "Reward: Paint Sprayer",
-        "id": 8257674,
+        "id": 8257670,
         "groups": [
           "Everything"
         ],
@@ -7424,11 +9736,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Portable Cement Mixer": {
         "name": "Reward: Portable Cement Mixer",
-        "id": 8257675,
+        "id": 8257671,
         "groups": [
           "Everything"
         ],
@@ -7442,7 +9754,7 @@
       },
       "Reward: Treasure Magnet": {
         "name": "Reward: Treasure Magnet",
-        "id": 8257676,
+        "id": 8257672,
         "groups": [
           "Everything"
         ],
@@ -7452,11 +9764,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Step Stool": {
         "name": "Reward: Step Stool",
-        "id": 8257677,
+        "id": 8257673,
         "groups": [
           "Everything"
         ],
@@ -7466,11 +9778,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Discount Card": {
         "name": "Reward: Discount Card",
-        "id": 8257678,
+        "id": 8257674,
         "groups": [
           "Everything"
         ],
@@ -7484,7 +9796,7 @@
       },
       "Reward: Gold Ring": {
         "name": "Reward: Gold Ring",
-        "id": 8257679,
+        "id": 8257675,
         "groups": [
           "Everything"
         ],
@@ -7494,11 +9806,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Lucky Coin": {
         "name": "Reward: Lucky Coin",
-        "id": 8257680,
+        "id": 8257676,
         "groups": [
           "Everything"
         ],
@@ -7508,11 +9820,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: High Test Fishing Line": {
         "name": "Reward: High Test Fishing Line",
-        "id": 8257681,
+        "id": 8257677,
         "groups": [
           "Everything"
         ],
@@ -7526,7 +9838,7 @@
       },
       "Reward: Angler Earring": {
         "name": "Reward: Angler Earring",
-        "id": 8257682,
+        "id": 8257678,
         "groups": [
           "Everything"
         ],
@@ -7540,7 +9852,7 @@
       },
       "Reward: Tackle Box": {
         "name": "Reward: Tackle Box",
-        "id": 8257683,
+        "id": 8257679,
         "groups": [
           "Everything"
         ],
@@ -7554,7 +9866,7 @@
       },
       "Reward: Lavaproof Fishing Hook": {
         "name": "Reward: Lavaproof Fishing Hook",
-        "id": 8257684,
+        "id": 8257680,
         "groups": [
           "Everything"
         ],
@@ -7564,11 +9876,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Red Counterweight": {
         "name": "Reward: Red Counterweight",
-        "id": 8257685,
+        "id": 8257681,
         "groups": [
           "Everything"
         ],
@@ -7578,11 +9890,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Yoyo Glove": {
         "name": "Reward: Yoyo Glove",
-        "id": 8257686,
+        "id": 8257682,
         "groups": [
           "Everything"
         ],
@@ -7592,11 +9904,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Reward: Diving Helmet": {
         "name": "Reward: Diving Helmet",
-        "id": 8257687,
+        "id": 8257683,
         "groups": [
           "Everything"
         ],
@@ -7610,7 +9922,7 @@
       },
       "Reward: Jellyfish Necklace": {
         "name": "Reward: Jellyfish Necklace",
-        "id": 8257688,
+        "id": 8257684,
         "groups": [
           "Everything"
         ],
@@ -7624,7 +9936,7 @@
       },
       "Reward: Corrupt Flask": {
         "name": "Reward: Corrupt Flask",
-        "id": 8257689,
+        "id": 8257685,
         "groups": [
           "Everything"
         ],
@@ -7638,7 +9950,7 @@
       },
       "Reward: Crimson Flask": {
         "name": "Reward: Crimson Flask",
-        "id": 8257690,
+        "id": 8257686,
         "groups": [
           "Everything"
         ],
@@ -7652,7 +9964,7 @@
       },
       "Reward: Craw Carapace": {
         "name": "Reward: Craw Carapace",
-        "id": 8257691,
+        "id": 8257687,
         "groups": [
           "Everything"
         ],
@@ -7666,21 +9978,7 @@
       },
       "Reward: Giant Shell": {
         "name": "Reward: Giant Shell",
-        "id": 8257692,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Reward: Fungal Carapace": {
-        "name": "Reward: Fungal Carapace",
-        "id": 8257693,
+        "id": 8257688,
         "groups": [
           "Everything"
         ],
@@ -7694,7 +9992,7 @@
       },
       "Reward: Life Jelly": {
         "name": "Reward: Life Jelly",
-        "id": 8257694,
+        "id": 8257689,
         "groups": [
           "Everything"
         ],
@@ -7708,7 +10006,7 @@
       },
       "Reward: Vital Jelly": {
         "name": "Reward: Vital Jelly",
-        "id": 8257695,
+        "id": 8257690,
         "groups": [
           "Everything"
         ],
@@ -7720,9 +10018,9 @@
         "type": null,
         "max_count": 1
       },
-      "Reward: Mana Jelly": {
-        "name": "Reward: Mana Jelly",
-        "id": 8257696,
+      "Reward: Cleansing Jelly": {
+        "name": "Reward: Cleansing Jelly",
+        "id": 8257691,
         "groups": [
           "Everything"
         ],
@@ -7736,7 +10034,7 @@
       },
       "Reward: Giant Tortoise Shell": {
         "name": "Reward: Giant Tortoise Shell",
-        "id": 8257697,
+        "id": 8257692,
         "groups": [
           "Everything"
         ],
@@ -7750,7 +10048,7 @@
       },
       "Reward: Coin of Deceit": {
         "name": "Reward: Coin of Deceit",
-        "id": 8257698,
+        "id": 8257693,
         "groups": [
           "Everything"
         ],
@@ -7764,7 +10062,7 @@
       },
       "Reward: Ink Bomb": {
         "name": "Reward: Ink Bomb",
-        "id": 8257699,
+        "id": 8257694,
         "groups": [
           "Everything"
         ],
@@ -7778,7 +10076,7 @@
       },
       "Reward: Voltaic Jelly": {
         "name": "Reward: Voltaic Jelly",
-        "id": 8257700,
+        "id": 8257695,
         "groups": [
           "Everything"
         ],
@@ -7792,7 +10090,7 @@
       },
       "Reward: Wulfrum Battery": {
         "name": "Reward: Wulfrum Battery",
-        "id": 8257701,
+        "id": 8257696,
         "groups": [
           "Everything"
         ],
@@ -7806,7 +10104,7 @@
       },
       "Reward: Luxor's Gift": {
         "name": "Reward: Luxor's Gift",
-        "id": 8257702,
+        "id": 8257697,
         "groups": [
           "Everything"
         ],
@@ -7820,7 +10118,7 @@
       },
       "Reward: Raider's Talisman": {
         "name": "Reward: Raider's Talisman",
-        "id": 8257703,
+        "id": 8257698,
         "groups": [
           "Everything"
         ],
@@ -7834,7 +10132,7 @@
       },
       "Reward: Rotten Dogtooth": {
         "name": "Reward: Rotten Dogtooth",
-        "id": 8257704,
+        "id": 8257699,
         "groups": [
           "Everything"
         ],
@@ -7848,7 +10146,7 @@
       },
       "Reward: Scuttler's Jewel": {
         "name": "Reward: Scuttler's Jewel",
-        "id": 8257705,
+        "id": 8257700,
         "groups": [
           "Everything"
         ],
@@ -7862,7 +10160,7 @@
       },
       "Reward: Unstable Granite Core": {
         "name": "Reward: Unstable Granite Core",
-        "id": 8257706,
+        "id": 8257701,
         "groups": [
           "Everything"
         ],
@@ -7876,7 +10174,7 @@
       },
       "Reward: Amidias' Spark": {
         "name": "Reward: Amidias' Spark",
-        "id": 8257707,
+        "id": 8257702,
         "groups": [
           "Everything"
         ],
@@ -7890,7 +10188,7 @@
       },
       "Reward: Ursa Sergeant": {
         "name": "Reward: Ursa Sergeant",
-        "id": 8257708,
+        "id": 8257703,
         "groups": [
           "Everything"
         ],
@@ -7904,7 +10202,7 @@
       },
       "Reward: Trinket of Chi": {
         "name": "Reward: Trinket of Chi",
-        "id": 8257709,
+        "id": 8257704,
         "groups": [
           "Everything"
         ],
@@ -7918,7 +10216,7 @@
       },
       "Reward: The Transformer": {
         "name": "Reward: The Transformer",
-        "id": 8257710,
+        "id": 8257705,
         "groups": [
           "Everything"
         ],
@@ -7932,7 +10230,7 @@
       },
       "Reward: Rover Drive": {
         "name": "Reward: Rover Drive",
-        "id": 8257711,
+        "id": 8257706,
         "groups": [
           "Everything"
         ],
@@ -7946,7 +10244,7 @@
       },
       "Reward: Marnite Repulsion Shield": {
         "name": "Reward: Marnite Repulsion Shield",
-        "id": 8257712,
+        "id": 8257707,
         "groups": [
           "Everything"
         ],
@@ -7960,7 +10258,7 @@
       },
       "Reward: Frost Barrier": {
         "name": "Reward: Frost Barrier",
-        "id": 8257713,
+        "id": 8257708,
         "groups": [
           "Everything"
         ],
@@ -7974,7 +10272,7 @@
       },
       "Reward: Ancient Fossil": {
         "name": "Reward: Ancient Fossil",
-        "id": 8257714,
+        "id": 8257709,
         "groups": [
           "Everything"
         ],
@@ -7988,7 +10286,7 @@
       },
       "Reward: Spelunker's Amulet": {
         "name": "Reward: Spelunker's Amulet",
-        "id": 8257715,
+        "id": 8257710,
         "groups": [
           "Everything"
         ],
@@ -8002,7 +10300,7 @@
       },
       "Reward: Fungal Symbiote": {
         "name": "Reward: Fungal Symbiote",
-        "id": 8257716,
+        "id": 8257711,
         "groups": [
           "Everything"
         ],
@@ -8016,7 +10314,7 @@
       },
       "Reward: Gladiator's Locket": {
         "name": "Reward: Gladiator's Locket",
-        "id": 8257717,
+        "id": 8257712,
         "groups": [
           "Everything"
         ],
@@ -8030,7 +10328,7 @@
       },
       "Reward: Wulfrum Acrobatics Pack": {
         "name": "Reward: Wulfrum Acrobatics Pack",
-        "id": 8257718,
+        "id": 8257713,
         "groups": [
           "Everything"
         ],
@@ -8044,7 +10342,7 @@
       },
       "Reward: Depths Charm": {
         "name": "Reward: Depths Charm",
-        "id": 8257719,
+        "id": 8257714,
         "groups": [
           "Everything"
         ],
@@ -8058,7 +10356,7 @@
       },
       "Reward: Anechoic Plating": {
         "name": "Reward: Anechoic Plating",
-        "id": 8257720,
+        "id": 8257715,
         "groups": [
           "Everything"
         ],
@@ -8072,7 +10370,7 @@
       },
       "Reward: Iron Boots": {
         "name": "Reward: Iron Boots",
-        "id": 8257721,
+        "id": 8257716,
         "groups": [
           "Everything"
         ],
@@ -8086,7 +10384,7 @@
       },
       "Reward: Sprit Glyph": {
         "name": "Reward: Sprit Glyph",
-        "id": 8257722,
+        "id": 8257717,
         "groups": [
           "Everything"
         ],
@@ -8100,7 +10398,63 @@
       },
       "Reward: Abyssal Amulet": {
         "name": "Reward: Abyssal Amulet",
-        "id": 8257723,
+        "id": 8257718,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Life Crystal": {
+        "name": "Reward: Life Crystal",
+        "id": 8257719,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Enchanted Sword": {
+        "name": "Reward: Enchanted Sword",
+        "id": 8257720,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Starfury": {
+        "name": "Reward: Starfury",
+        "id": 8257721,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Reward: Defender Medal": {
+        "name": "Reward: Defender Medal",
+        "id": 8257722,
         "groups": [
           "Everything"
         ],
@@ -8114,21 +10468,7 @@
       },
       "Reward: Coins": {
         "name": "Reward: Coins",
-        "id": 8257724,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Victory": {
-        "name": "Victory",
-        "id": 8257725,
+        "id": 8257723,
         "groups": [
           "Everything"
         ],
@@ -8153,50 +10493,81 @@
       "Adamantite Bar": 1,
       "Adamantite Ore": 1,
       "Adamantite Pickaxe": 1,
+      "Adhesive Bandage": 1,
       "Aglet": 1,
+      "Alchemy Table": 1,
       "Altar": 1,
       "Angler": 1,
+      "Ankh Charm": 1,
+      "Ankh Shield": 1,
       "Anklet of the Wind": 1,
+      "Armor Bracing": 1,
+      "Armor Polish": 1,
       "Arms Dealer": 1,
       "Bee Armor": 1,
       "Bee Keeper": 1,
       "Bee Wax": 1,
       "Bewitching Table": 1,
+      "Bezoar": 1,
       "Blade of Grass": 1,
       "Blessed Apple": 1,
+      "Blindfold": 1,
       "Bone": 1,
       "Bug Net": 1,
       "Bunny": 1,
+      "Cactus": 1,
       "Cat": 1,
+      "Celestial Magnet": 1,
+      "Cell Phone": 1,
       "Clothier": 1,
+      "Clumsy Slime": 1,
       "Cobalt Bar": 1,
       "Cobalt Ore": 1,
       "Cobalt Pickaxe": 1,
+      "Cobalt Shield": 1,
+      "Compass": 1,
+      "Cool Slime": 1,
       "Copper Shortsword": 1,
+      "Countercurse Mantra": 1,
       "Cross Necklace": 1,
       "Crystal Shard": 1,
+      "DPS Meter": 1,
       "Demolitionist": 1,
       "Demonite Bar": 1,
       "Demonite Ore": 1,
+      "Depth Meter": 1,
+      "Diva Slime": 1,
+      "Diving Gear": 1,
       "Dog": 1,
       "Dryad": 1,
       "Dungeon": 1,
       "Dye Trader": 1,
+      "Elder Slime": 1,
+      "Emblem": 1,
       "Enchanted Sword": 1,
       "Evil Boss Part": 1,
       "Evil Pickaxe": 1,
+      "Evil Powder": 1,
       "Evil Sword": 1,
+      "Fast Clock": 1,
+      "Feral Claws": 1,
       "Fiery Greatsword": 1,
+      "Fish Finder": 1,
+      "Fisherman's Pocket Guide": 1,
       "Flinx Fur Coat": 1,
       "Forbidden Armor": 1,
       "Forbidden Fragment": 1,
       "Frostspark Boots": 1,
+      "GPS": 1,
+      "Goblin Tech": 1,
       "Goblin Tinkerer": 1,
       "Gold Hammer": 1,
       "Gold Pickaxe": 1,
+      "Gold Watch": 1,
       "Golfer": 1,
       "Guide": 1,
       "Hallow": 1,
+      "Hallowed Seeds": 1,
       "Hardmode": 2,
       "Hardmode Anvil": 1,
       "Hardmode Forge": 1,
@@ -8204,32 +10575,53 @@
       "Hellstone": 1,
       "Hellstone Bar": 1,
       "Hermes Boots": 1,
+      "Holy Water": 1,
       "Ice Skates": 1,
+      "Illegal Gun Parts": 1,
       "Jungle Spores": 1,
       "Lava Charm": 1,
       "Lava Waders": 1,
+      "Lifeform Analyzer": 1,
       "Lightning Boots": 1,
+      "Magic Mirror": 1,
+      "Magic Quiver": 1,
+      "Magma Stone": 1,
+      "Mana Flower": 1,
       "Mechanic": 1,
+      "Mechanical Eye": 1,
+      "Mechanical Skull": 1,
+      "Mechanical Worm": 1,
+      "Medicated Bandage": 1,
+      "Megaphone": 1,
       "Merchant": 1,
+      "Metal Detector": 1,
       "Meteor Hamaxe": 1,
+      "Meteor Staff": 1,
       "Meteorite": 1,
       "Meteorite Bar": 1,
       "Molten Hamaxe": 1,
       "Molten Pickaxe": 1,
       "Muramasa": 1,
+      "Mystic Slime": 1,
       "Mythril Bar": 1,
       "Mythril Ore": 1,
       "Mythril Pickaxe": 1,
+      "Nature's Gift": 1,
+      "Nazar": 1,
+      "Nerdy Slime": 1,
       "Night's Edge": 1,
       "Nurse": 1,
       "Obsidian": 1,
       "Obsidian Armor": 1,
       "Obsidian Rose": 1,
+      "Obsidian Shield": 1,
       "Obsidian Skull": 1,
+      "PDA": 1,
       "Painter": 1,
       "Party Girl": 1,
       "Pirate": 1,
       "Pixie Dust": 1,
+      "Pocket Mirror": 1,
       "Post-Deerclops": 2,
       "Post-Evil Boss": 2,
       "Post-Eye of Cthulhu": 2,
@@ -8243,14 +10635,19 @@
       "Post-Skeletron Prime": 1,
       "Post-The Destroyer": 1,
       "Post-The Twins": 1,
+      "Power Glove": 1,
       "Pumpkin": 1,
       "Pumpkin Seeds": 1,
       "Purification Powder": 1,
       "Pwnhammer": 1,
       "Pygmy Necklace": 1,
+      "R.E.K. 3000": 1,
+      "Radar": 1,
+      "Reflective Shades": 1,
       "Reward: Ancient Chisel": 2,
       "Reward: Armor Polish": 2,
       "Reward: Black Belt": 2,
+      "Reward: Brick Layer": 2,
       "Reward: Celestial Magnet": 2,
       "Reward: Climbing Claws": 2,
       "Reward: Cloud in a Bottle": 2,
@@ -8274,6 +10671,7 @@
       "Reward: Megaphone": 2,
       "Reward: Moon Charm": 2,
       "Reward: Nature's Gift": 2,
+      "Reward: Nazar": 2,
       "Reward: Neptune's Shell": 2,
       "Reward: Obsidian Rose": 2,
       "Reward: Paint Sprayer": 2,
@@ -8282,6 +10680,7 @@
       "Reward: Rifle Scope": 2,
       "Reward: Rod of Discord": 2,
       "Reward: Sextant": 2,
+      "Reward: Shark Tooth Necklace": 2,
       "Reward: Shoe Spikes": 2,
       "Reward: Star Cloak": 2,
       "Reward: Step Stool": 2,
@@ -8289,6 +10688,7 @@
       "Reward: Tally Counter": 2,
       "Reward: Titan Glove": 2,
       "Reward: Torch God's Favor": 2,
+      "Reward: Treasure Magnet": 2,
       "Reward: Trifold Map": 2,
       "Reward: Water Walking Boots": 2,
       "Reward: Weather Radio": 2,
@@ -8296,25 +10696,39 @@
       "Rocket Boots": 1,
       "Rod of Discord": 1,
       "Sandstorm": 1,
+      "Sextant": 1,
+      "Shark Tooth Necklace": 1,
       "Solidifier": 1,
       "Soul of Flight": 1,
       "Soul of Light": 1,
       "Soul of Night": 1,
+      "Sparkle Slime Balloon": 1,
       "Spectre Boots": 1,
       "Spider Armor": 1,
       "Spider Fangs": 1,
+      "Squire Slime": 1,
       "Starfury": 1,
       "Stinger": 1,
+      "Stopwatch": 1,
       "Stylist": 1,
       "Summoning Potion": 1,
+      "Surly Slime": 1,
+      "Tally Counter": 1,
       "Tavernkeep": 1,
       "Tax Collector": 1,
       "Terraspark Boots": 1,
+      "The Plan": 1,
       "Tinkerer's Workshop": 1,
+      "Titan Glove": 1,
+      "Traveling Merchant": 1,
+      "Trifold Map": 1,
       "Truffle": 1,
       "Unicorn Horn": 1,
       "Vine": 1,
+      "Vitamins": 1,
+      "Wand of Sparking": 1,
       "Water Walking Boots": 1,
+      "Weather Radio": 1,
       "Wire": 1,
       "Witch Doctor": 1,
       "Wizard": 1,
@@ -8329,8 +10743,7 @@
   },
   "settings": {
     "1": {
-      "game": "Terraria",
-      "accessibility": "items"
+      "game": "Terraria"
     }
   },
   "game_info": {

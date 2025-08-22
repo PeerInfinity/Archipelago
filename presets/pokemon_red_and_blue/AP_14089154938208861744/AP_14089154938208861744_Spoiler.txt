@@ -1,4 +1,4 @@
-﻿Archipelago Version 0.6.1  -  Seed: 1
+﻿Archipelago Version 0.6.4  -  Seed: 1
 
 Filling Algorithm:               balanced
 Players:                         1
@@ -14,6 +14,7 @@ Start Location Hints:
 Excluded Locations:              
 Priority Locations:              
 Item Links:                      
+Plando Items:                    
 Game Version:                    Blue
 Trainer Name:                    Choose In Game
 Rival's Name:                    Choose In Game
@@ -1025,51 +1026,28 @@ Playthrough:
 }
 1: {
   Route 1 - Wild Pokemon - 1: Pidgey
-  Route 1 - Wild Pokemon - 2: Rattata
-  Route 22 - Wild Pokemon - 2: Nidoran F
-  Route 22 - Wild Pokemon - 7: Spearow
-  Route 22 - Wild Pokemon - 9: Nidoran M
   Viridian Pokemart - Item for Oak: Oak's Parcel
 }
 2: {
-  Oak's Lab - Oak's Parcel Reward: Pokedex
   Pewter Gym - Brock Prize: Thunder Badge
   Pewter Gym - Defeat Brock: Defeat Brock
-  Route 2 - Wild Pokemon - 6: Caterpie
   Viridian Forest - East Item: Old Amber
-  Viridian Forest - Wild Pokemon - 2: Metapod
-  Viridian Forest - Wild Pokemon - 7: Kakuna
-  Viridian Forest - Wild Pokemon - 8: Weedle
   Viridian Forest - Wild Pokemon - 9: Pikachu
 }
 3: {
   Bill's House - Help Bill: Help Bill
-  Cerulean Gym - Defeat Misty: Defeat Misty
   Cerulean Gym - Misty Prize: Volcano Badge
   Mt Moon 1F - South Item: Lift Key
   Mt Moon 1F - Southwest Item: Silph Scope
-  Mt Moon 1F - Wild Pokemon - 1: Zubat
-  Mt Moon 1F - Wild Pokemon - 10: Clefairy
-  Mt Moon 1F - Wild Pokemon - 4: Geodude
-  Mt Moon 1F - Wild Pokemon - 8: Paras
   Mt Moon B2F - North Item: S.S. Ticket
-  Route 24 - Wild Pokemon - 4: Bellsprout
-  Route 24 - Wild Pokemon - 6: Abra
-  Route 3 - Wild Pokemon - 8: Jigglypuff
-  Route 4 - Wild Pokemon - 4: Sandshrew
-  Route 4 Pokemon Center - Pokemon For Sale: Static Magikarp
 }
 4: {
   Cerulean City - Rocket Thief: Moon Stone
-  Diglett's Cave - Wild Pokemon - 1: Diglett
-  Evolution - Beedrill: Beedrill
-  Route 11 - Wild Pokemon - 4: Drowzee
-  Route 5 - Wild Pokemon - 4: Meowth
   S.S. Anne 1F Rooms - Item: Poke Flute
-  Vermilion Trade House - Dux Trade: Static Farfetchd
 }
 5: {
-  Celadon Department Store 4F - Buy Thunder Stone: Thunder Stone
+  Celadon Department Store 4F - Buy Fire Stone: Fire Stone
+  Celadon Department Store 4F - Buy Leaf Stone: Leaf Stone
   Celadon Department Store 4F - Buy Water Stone: Water Stone
   Celadon Department Store Roof - Vending Machines: Vending Machine Drinks
   Fuchsia Gym - Koga Prize: Soul Badge
@@ -1078,7 +1056,6 @@ Playthrough:
   Safari Zone East - Wild Pokemon - 9: Kangaskhan
 }
 6: {
-  Route 11 Gate 2F - Oak's Aide: Bike Voucher
   Silph Co 11F - Silph Co Liberated: Silph Co Liberated
   Silph Co 3F - Item: HM03 Surf
 }
@@ -1129,7 +1106,57 @@ Bill's House - Help Bill
    =>   Route 24 -> Route 24 to Route 25
    =>   Route 25 -> Route 25 to Bill's House
    =>   Bill's House
-Celadon Department Store 4F - Buy Thunder Stone
+Celadon Department Store 4F - Buy Fire Stone
+        Menu -> Menu to Pallet Town
+   =>   Pallet Town -> Pallet Town to Route 1
+   =>   Route 1 -> Route 1 to Viridian City
+   =>   Viridian City -> Viridian City to Viridian City-N
+   =>   Viridian City-N -> Viridian City-N to Route 2-SW
+   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
+   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
+   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
+   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
+   =>   Route 2-NW -> Route 2-NW to Pewter City
+   =>   Pewter City -> Pewter City to Pewter City-E
+   =>   Pewter City-E -> Pewter City-E to Route 3
+   =>   Route 3 -> Route 3 to Route 4-W
+   =>   Route 4-W -> Route 4-W to Mt Moon 1F
+   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
+   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
+   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
+   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
+   =>   Route 4-C -> Route 4-C to Route 4-E
+   =>   Route 4-E -> Route 4-E to Cerulean City
+   =>   Cerulean City -> Cerulean City to Cerulean City-T
+   =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
+   =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
+   =>   Cerulean City-Outskirts -> Cerulean City-Outskirts to Route 5
+   =>   Route 5 -> Route 5 to Underground Path Route 5
+   =>   Underground Path Route 5 -> Underground Path Route 5 to Underground Path North South
+   =>   Underground Path North South -> Underground Path North South to Underground Path Route 6
+   =>   Underground Path Route 6 -> Underground Path Route 6 to Route 6
+   =>   Route 6 -> Route 6 to Vermilion City
+   =>   Vermilion City -> Vermilion City to Route 11
+   =>   Route 11 -> Route 11 to Route 11-C
+   =>   Route 11-C -> Route 11-C to Route 11 Gate 1F
+   =>   Route 11 Gate 1F -> Route 11 Gate 1F to Route 11-E
+   =>   Route 11-E -> Route 11-E to Route 12-W
+   =>   Route 12-W -> Route 12-W to Route 12-N
+   =>   Route 12-N -> Route 12-N to Route 12 Gate 1F
+   =>   Route 12 Gate 1F -> Route 12 Gate 1F to Route 12-L
+   =>   Route 12-L -> Route 12-L to Lavender Town
+   =>   Lavender Town -> Lavender Town to Route 8
+   =>   Route 8 -> Route 8 to Underground Path Route 8
+   =>   Underground Path Route 8 -> Underground Path Route 8 to Underground Path West East
+   =>   Underground Path West East -> Underground Path West East to Underground Path Route 7
+   =>   Underground Path Route 7 -> Underground Path Route 7 to Route 7
+   =>   Route 7 -> Route 7 to Celadon City
+   =>   Celadon City -> Celadon City to Celadon Department Store 1F W
+   =>   Celadon Department Store 1F -> Celadon Department Store 1F to Celadon Department Store 2F
+   =>   Celadon Department Store 2F -> Celadon Department Store 2F to Celadon Department Store 3F
+   =>   Celadon Department Store 3F -> Celadon Department Store 3F to Celadon Department Store 4F
+   =>   Celadon Department Store 4F
+Celadon Department Store 4F - Buy Leaf Stone
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
    =>   Route 1 -> Route 1 to Viridian City
@@ -1384,29 +1411,6 @@ Cerulean City - Rocket Thief
    =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
    =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
    =>   Cerulean City-Outskirts
-Cerulean Gym - Defeat Misty
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Cerulean Gym
-   =>   Cerulean Gym
 Cerulean Gym - Misty Prize
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
@@ -1437,43 +1441,6 @@ Cinnabar Gym - Blaine Prize
    =>   Cinnabar Island -> Cinnabar Island to Cinnabar Island-G
    =>   Cinnabar Island-G -> Cinnabar Island-G to Cinnabar Gym
    =>   Cinnabar Gym
-Diglett's Cave - Wild Pokemon - 1
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Cerulean City-T
-   =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
-   =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
-   =>   Cerulean City-Outskirts -> Cerulean City-Outskirts to Route 5
-   =>   Route 5 -> Route 5 to Underground Path Route 5
-   =>   Underground Path Route 5 -> Underground Path Route 5 to Underground Path North South
-   =>   Underground Path North South -> Underground Path North South to Underground Path Route 6
-   =>   Underground Path Route 6 -> Underground Path Route 6 to Route 6
-   =>   Route 6 -> Route 6 to Vermilion City
-   =>   Vermilion City -> Vermilion City to Route 11
-   =>   Route 11 -> Route 11 to Diglett's Cave Route 11
-   =>   Diglett's Cave Route 11 -> Diglett's Cave Route 11 to Diglett's Cave
-   =>   Diglett's Cave
-Evolution - Beedrill
-        Menu -> Menu to Evolution
-   =>   Evolution
 Fuchsia Gym - Koga Prize
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
@@ -1561,70 +1528,6 @@ Mt Moon 1F - Southwest Item
    =>   Route 3 -> Route 3 to Route 4-W
    =>   Route 4-W -> Route 4-W to Mt Moon 1F
    =>   Mt Moon 1F
-Mt Moon 1F - Wild Pokemon - 1
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F
-Mt Moon 1F - Wild Pokemon - 10
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F
-Mt Moon 1F - Wild Pokemon - 4
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F
-Mt Moon 1F - Wild Pokemon - 8
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F
 Mt Moon B2F - North Item
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
@@ -1643,10 +1546,6 @@ Mt Moon B2F - North Item
    =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-C
    =>   Mt Moon B1F-C -> Mt Moon B1F-C to Mt Moon B2F-NE
    =>   Mt Moon B2F-NE
-Oak's Lab - Oak's Parcel Reward
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Oak's Lab
-   =>   Oak's Lab
 Pewter Gym - Brock Prize
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
@@ -1744,226 +1643,6 @@ Route 1 - Wild Pokemon - 1
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
    =>   Route 1
-Route 1 - Wild Pokemon - 2
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1
-Route 11 - Wild Pokemon - 4
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Cerulean City-T
-   =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
-   =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
-   =>   Cerulean City-Outskirts -> Cerulean City-Outskirts to Route 5
-   =>   Route 5 -> Route 5 to Underground Path Route 5
-   =>   Underground Path Route 5 -> Underground Path Route 5 to Underground Path North South
-   =>   Underground Path North South -> Underground Path North South to Underground Path Route 6
-   =>   Underground Path Route 6 -> Underground Path Route 6 to Route 6
-   =>   Route 6 -> Route 6 to Vermilion City
-   =>   Vermilion City -> Vermilion City to Route 11
-   =>   Route 11
-Route 11 Gate 2F - Oak's Aide
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Cerulean City-T
-   =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
-   =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
-   =>   Cerulean City-Outskirts -> Cerulean City-Outskirts to Route 5
-   =>   Route 5 -> Route 5 to Underground Path Route 5
-   =>   Underground Path Route 5 -> Underground Path Route 5 to Underground Path North South
-   =>   Underground Path North South -> Underground Path North South to Underground Path Route 6
-   =>   Underground Path Route 6 -> Underground Path Route 6 to Route 6
-   =>   Route 6 -> Route 6 to Vermilion City
-   =>   Vermilion City -> Vermilion City to Route 11
-   =>   Route 11 -> Route 11 to Route 11-C
-   =>   Route 11-C -> Route 11-C to Route 11 Gate 1F
-   =>   Route 11 Gate 1F -> Route 11 Gate 1F to Route 11 Gate 2F
-   =>   Route 11 Gate 2F
-Route 2 - Wild Pokemon - 6
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Route 2-Grass
-   =>   Route 2-Grass
-Route 22 - Wild Pokemon - 2
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Route 22
-   =>   Route 22
-Route 22 - Wild Pokemon - 7
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Route 22
-   =>   Route 22
-Route 22 - Wild Pokemon - 9
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Route 22
-   =>   Route 22
-Route 24 - Wild Pokemon - 4
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Route 24
-   =>   Route 24
-Route 24 - Wild Pokemon - 6
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Route 24
-   =>   Route 24
-Route 3 - Wild Pokemon - 8
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3
-Route 4 - Wild Pokemon - 4
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E
-Route 4 Pokemon Center - Pokemon For Sale
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Route 4 Pokemon Center
-   =>   Route 4 Pokemon Center
-Route 5 - Wild Pokemon - 4
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Cerulean City-T
-   =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
-   =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
-   =>   Cerulean City-Outskirts -> Cerulean City-Outskirts to Route 5
-   =>   Route 5
 S.S. Anne 1F Rooms - Item
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
@@ -2238,66 +1917,7 @@ Vermilion Gym - Lt. Surge Prize
    =>   Vermilion City -> Vermilion City to Vermilion City-G
    =>   Vermilion City-G -> Vermilion City-G to Vermilion Gym
    =>   Vermilion Gym
-Vermilion Trade House - Dux Trade
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest -> Viridian Forest to Viridian Forest North Gate
-   =>   Viridian Forest North Gate -> Viridian Forest North Gate to Route 2-NW
-   =>   Route 2-NW -> Route 2-NW to Pewter City
-   =>   Pewter City -> Pewter City to Pewter City-E
-   =>   Pewter City-E -> Pewter City-E to Route 3
-   =>   Route 3 -> Route 3 to Route 4-W
-   =>   Route 4-W -> Route 4-W to Mt Moon 1F
-   =>   Mt Moon 1F -> Mt Moon 1F to Mt Moon B1F-W
-   =>   Mt Moon B1F-W -> Mt Moon B1F-W to Mt Moon B2F
-   =>   Mt Moon B2F -> Mt Moon B2F to Mt Moon B1F-NE
-   =>   Mt Moon B1F-NE -> Mt Moon B1F-NE to Route 4-C
-   =>   Route 4-C -> Route 4-C to Route 4-E
-   =>   Route 4-E -> Route 4-E to Cerulean City
-   =>   Cerulean City -> Cerulean City to Cerulean City-T
-   =>   Cerulean City-T -> Cerulean City-T to Cerulean Trashed House
-   =>   Cerulean Trashed House -> Cerulean Trashed House to Cerulean City-Outskirts
-   =>   Cerulean City-Outskirts -> Cerulean City-Outskirts to Route 5
-   =>   Route 5 -> Route 5 to Underground Path Route 5
-   =>   Underground Path Route 5 -> Underground Path Route 5 to Underground Path North South
-   =>   Underground Path North South -> Underground Path North South to Underground Path Route 6
-   =>   Underground Path Route 6 -> Underground Path Route 6 to Route 6
-   =>   Route 6 -> Route 6 to Vermilion City
-   =>   Vermilion City -> Vermilion City to Vermilion Trade House
-   =>   Vermilion Trade House
 Viridian Forest - East Item
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest
-Viridian Forest - Wild Pokemon - 2
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest
-Viridian Forest - Wild Pokemon - 7
-        Menu -> Menu to Pallet Town
-   =>   Pallet Town -> Pallet Town to Route 1
-   =>   Route 1 -> Route 1 to Viridian City
-   =>   Viridian City -> Viridian City to Viridian City-N
-   =>   Viridian City-N -> Viridian City-N to Route 2-SW
-   =>   Route 2-SW -> Route 2-SW to Viridian Forest South Gate
-   =>   Viridian Forest South Gate -> Viridian Forest South Gate to Viridian Forest
-   =>   Viridian Forest
-Viridian Forest - Wild Pokemon - 8
         Menu -> Menu to Pallet Town
    =>   Pallet Town -> Pallet Town to Route 1
    =>   Route 1 -> Route 1 to Viridian City

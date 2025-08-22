@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "Lingo",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -13834,6 +13834,14 @@
             "type": "Entrance"
           },
           {
+            "name": "The Bearer (West) to The Bearer (through The Bearer (West) - Side Area Shortcut)",
+            "parent_region": "The Bearer (West)",
+            "connected_region": "The Bearer",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
             "name": "Roof to The Bearer",
             "parent_region": "Roof",
             "connected_region": "The Bearer",
@@ -13900,6 +13908,33 @@
           {
             "name": "The Bearer to Outside The Bold (through The Bearer - Entrance)",
             "connected_region": "Outside The Bold",
+            "access_rule": {
+              "type": "helper",
+              "name": "lingo_can_use_entrance",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "target_region"
+                  },
+                  "attr": "name"
+                },
+                {
+                  "type": "name",
+                  "name": "door"
+                },
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "The Bearer to The Bearer (West) (through The Bearer (West) - Side Area Shortcut)",
+            "connected_region": "The Bearer (West)",
             "access_rule": {
               "type": "helper",
               "name": "lingo_can_use_entrance",
@@ -14166,8 +14201,8 @@
         "player": 1,
         "entrances": [
           {
-            "name": "Cross Tower (East) to The Bearer (North)",
-            "parent_region": "Cross Tower (East)",
+            "name": "Cross Tower (North) to The Bearer (North)",
+            "parent_region": "Cross Tower (North)",
             "connected_region": "The Bearer (North)",
             "reverse": null,
             "assumed": false,
@@ -14249,8 +14284,8 @@
         "player": 1,
         "entrances": [
           {
-            "name": "Cross Tower (North) to The Bearer (South)",
-            "parent_region": "Cross Tower (North)",
+            "name": "Cross Tower (South) to The Bearer (South)",
+            "parent_region": "Cross Tower (South)",
             "connected_region": "The Bearer (South)",
             "reverse": null,
             "assumed": false,
@@ -14348,6 +14383,14 @@
             "type": "Entrance"
           },
           {
+            "name": "The Bearer to The Bearer (West) (through The Bearer (West) - Side Area Shortcut)",
+            "parent_region": "The Bearer",
+            "connected_region": "The Bearer (West)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
             "name": "Bearer Side Area to The Bearer (West) (through The Bearer (West) - Side Area Shortcut)",
             "parent_region": "Bearer Side Area",
             "connected_region": "The Bearer (West)",
@@ -14367,6 +14410,33 @@
         "exits": [
           {
             "name": "The Bearer (West) to The Bearer",
+            "connected_region": "The Bearer",
+            "access_rule": {
+              "type": "helper",
+              "name": "lingo_can_use_entrance",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "target_region"
+                  },
+                  "attr": "name"
+                },
+                {
+                  "type": "name",
+                  "name": "door"
+                },
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
+            "name": "The Bearer (West) to The Bearer (through The Bearer (West) - Side Area Shortcut)",
             "connected_region": "The Bearer",
             "access_rule": {
               "type": "helper",
@@ -14691,33 +14761,6 @@
               ]
             },
             "type": "Exit"
-          },
-          {
-            "name": "Cross Tower (East) to The Bearer (North)",
-            "connected_region": "The Bearer (North)",
-            "access_rule": {
-              "type": "helper",
-              "name": "lingo_can_use_entrance",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "target_region"
-                  },
-                  "attr": "name"
-                },
-                {
-                  "type": "name",
-                  "name": "door"
-                },
-                {
-                  "type": "name",
-                  "name": "world"
-                }
-              ]
-            },
-            "type": "Exit"
           }
         ],
         "locations": [],
@@ -14749,8 +14792,8 @@
         ],
         "exits": [
           {
-            "name": "Cross Tower (North) to The Bearer (South)",
-            "connected_region": "The Bearer (South)",
+            "name": "Cross Tower (North) to The Bearer (North)",
+            "connected_region": "The Bearer (North)",
             "access_rule": {
               "type": "helper",
               "name": "lingo_can_use_entrance",
@@ -14795,7 +14838,35 @@
             "type": "Entrance"
           }
         ],
-        "exits": [],
+        "exits": [
+          {
+            "name": "Cross Tower (South) to The Bearer (South)",
+            "connected_region": "The Bearer (South)",
+            "access_rule": {
+              "type": "helper",
+              "name": "lingo_can_use_entrance",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "target_region"
+                  },
+                  "attr": "name"
+                },
+                {
+                  "type": "name",
+                  "name": "door"
+                },
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
         "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
@@ -20122,6 +20193,14 @@
             "type": "Entrance"
           },
           {
+            "name": "Art Gallery (First Floor) to Art Gallery",
+            "parent_region": "Art Gallery (First Floor)",
+            "connected_region": "Art Gallery",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          },
+          {
             "name": "Art Gallery (Second Floor) to Art Gallery",
             "parent_region": "Art Gallery (Second Floor)",
             "connected_region": "Art Gallery",
@@ -20264,6 +20343,33 @@
             "type": "Exit"
           },
           {
+            "name": "Art Gallery to Art Gallery (First Floor)",
+            "connected_region": "Art Gallery (First Floor)",
+            "access_rule": {
+              "type": "helper",
+              "name": "lingo_can_use_entrance",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "target_region"
+                  },
+                  "attr": "name"
+                },
+                {
+                  "type": "name",
+                  "name": "door"
+                },
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
+            },
+            "type": "Exit"
+          },
+          {
             "name": "Art Gallery to Art Gallery (Second Floor) (through Art Gallery - Second Floor)",
             "connected_region": "Art Gallery (Second Floor)",
             "access_rule": {
@@ -20373,7 +20479,56 @@
               "priority": null,
               "type": "None"
             }
-          },
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Art Gallery (First Floor)": {
+        "name": "Art Gallery (First Floor)",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Art Gallery to Art Gallery (First Floor)",
+            "parent_region": "Art Gallery",
+            "connected_region": "Art Gallery (First Floor)",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Art Gallery (First Floor) to Art Gallery",
+            "connected_region": "Art Gallery",
+            "access_rule": {
+              "type": "helper",
+              "name": "lingo_can_use_entrance",
+              "args": [
+                {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "target_region"
+                  },
+                  "attr": "name"
+                },
+                {
+                  "type": "name",
+                  "name": "door"
+                },
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [
           {
             "name": "Art Gallery - First Floor Puzzles",
             "id": 445256,
@@ -22190,11 +22345,11 @@
         ],
         "advancement": true,
         "priority": false,
-        "useful": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Red": {
         "name": "Red",
@@ -22205,11 +22360,11 @@
         ],
         "advancement": true,
         "priority": false,
-        "useful": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Blue": {
         "name": "Blue",
@@ -22220,11 +22375,11 @@
         ],
         "advancement": true,
         "priority": false,
-        "useful": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Yellow": {
         "name": "Yellow",
@@ -22235,11 +22390,11 @@
         ],
         "advancement": true,
         "priority": false,
-        "useful": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Green": {
         "name": "Green",
@@ -22254,7 +22409,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Orange": {
         "name": "Orange",
@@ -22269,7 +22424,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Gray": {
         "name": "Gray",
@@ -22284,7 +22439,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Brown": {
         "name": "Brown",
@@ -22299,7 +22454,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Purple": {
         "name": "Purple",
@@ -22310,11 +22465,11 @@
         ],
         "advancement": true,
         "priority": false,
-        "useful": false,
+        "useful": true,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Starting Room - Back Right Door": {
         "name": "Starting Room - Back Right Door",
@@ -22603,7 +22758,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Pilgrim Room - Shortcut to The Seeker": {
         "name": "Pilgrim Room - Shortcut to The Seeker",
@@ -24504,84 +24659,9 @@
         "type": null,
         "max_count": 1
       },
-      "Backside Doors": {
-        "name": "Backside Doors",
-        "id": 444473,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Dead End Area Access": {
-        "name": "Dead End Area Access",
-        "id": 444420,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Crossroads Doors": {
-        "name": "Crossroads Doors",
-        "id": 444444,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Sunwarps": {
-        "name": "Sunwarps",
-        "id": 444582,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Observant Doors": {
-        "name": "Observant Doors",
-        "id": 444467,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Fearless Doors": {
-        "name": "Fearless Doors",
-        "id": 444469,
+      "Entrance to The Traveled": {
+        "name": "Entrance to The Traveled",
+        "id": 444434,
         "groups": [
           "Doors",
           "Everything"
@@ -24597,36 +24677,6 @@
       "Entrances to The Tenacious": {
         "name": "Entrances to The Tenacious",
         "id": 444427,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Welcome Back Doors": {
-        "name": "Welcome Back Doors",
-        "id": 444492,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Rhyme Room Doors": {
-        "name": "Rhyme Room Doors",
-        "id": 444418,
         "groups": [
           "Doors",
           "Everything"
@@ -24684,36 +24734,6 @@
         "type": null,
         "max_count": 1
       },
-      "Entrance to The Traveled": {
-        "name": "Entrance to The Traveled",
-        "id": 444434,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Hedge Maze Doors": {
-        "name": "Hedge Maze Doors",
-        "id": 444431,
-        "groups": [
-          "Doors",
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
       "Color Hunt Barriers": {
         "name": "Color Hunt Barriers",
         "id": 444458,
@@ -24729,9 +24749,24 @@
         "type": null,
         "max_count": 1
       },
-      "Artistic Doors": {
-        "name": "Artistic Doors",
-        "id": 444545,
+      "Welcome Back Doors": {
+        "name": "Welcome Back Doors",
+        "id": 444492,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Rhyme Room Doors": {
+        "name": "Rhyme Room Doors",
+        "id": 444418,
         "groups": [
           "Doors",
           "Everything"
@@ -24759,9 +24794,39 @@
         "type": null,
         "max_count": 1
       },
-      "Directional Gallery Doors": {
-        "name": "Directional Gallery Doors",
-        "id": 444531,
+      "Observant Doors": {
+        "name": "Observant Doors",
+        "id": 444467,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Backside Doors": {
+        "name": "Backside Doors",
+        "id": 444473,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Fearless Doors": {
+        "name": "Fearless Doors",
+        "id": 444469,
         "groups": [
           "Doors",
           "Everything"
@@ -24777,6 +24842,96 @@
       "Orange Tower First Floor - Shortcuts": {
         "name": "Orange Tower First Floor - Shortcuts",
         "id": 444484,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Dead End Area Access": {
+        "name": "Dead End Area Access",
+        "id": 444420,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Artistic Doors": {
+        "name": "Artistic Doors",
+        "id": 444545,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crossroads Doors": {
+        "name": "Crossroads Doors",
+        "id": 444444,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Hedge Maze Doors": {
+        "name": "Hedge Maze Doors",
+        "id": 444431,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Sunwarps": {
+        "name": "Sunwarps",
+        "id": 444582,
+        "groups": [
+          "Doors",
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Directional Gallery Doors": {
+        "name": "Directional Gallery Doors",
+        "id": 444531,
         "groups": [
           "Doors",
           "Everything"
@@ -26019,9 +26174,9 @@
         "type": null,
         "max_count": 1
       },
-      "Color Hunt Panels": {
-        "name": "Color Hunt Panels",
-        "id": 444657,
+      "Backside Entrance Panels": {
+        "name": "Backside Entrance Panels",
+        "id": 444620,
         "groups": [
           "Everything",
           "Panels"
@@ -26034,9 +26189,9 @@
         "type": null,
         "max_count": 1
       },
-      "Hallway Room Panels": {
-        "name": "Hallway Room Panels",
-        "id": 444668,
+      "Color Hunt Panels": {
+        "name": "Color Hunt Panels",
+        "id": 444657,
         "groups": [
           "Everything",
           "Panels"
@@ -26064,9 +26219,9 @@
         "type": null,
         "max_count": 1
       },
-      "Backside Entrance Panels": {
-        "name": "Backside Entrance Panels",
-        "id": 444620,
+      "Symmetry Room Panels": {
+        "name": "Symmetry Room Panels",
+        "id": 444607,
         "groups": [
           "Everything",
           "Panels"
@@ -26079,9 +26234,9 @@
         "type": null,
         "max_count": 1
       },
-      "Symmetry Room Panels": {
-        "name": "Symmetry Room Panels",
-        "id": 444607,
+      "Hallway Room Panels": {
+        "name": "Hallway Room Panels",
+        "id": 444668,
         "groups": [
           "Everything",
           "Panels"
@@ -26107,7 +26262,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 52
       },
       "The Feeling of Being Lost": {
         "name": "The Feeling of Being Lost",
@@ -26122,7 +26277,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 44
       },
       "Wanderlust": {
         "name": "Wanderlust",
@@ -26137,7 +26292,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 58
       },
       "Empty White Hallways": {
         "name": "Empty White Hallways",
@@ -26152,7 +26307,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 32
       },
       "Speed Boost": {
         "name": "Speed Boost",
@@ -26182,7 +26337,7 @@
         "trap": true,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 20
       },
       "Iceland Trap": {
         "name": "Iceland Trap",
@@ -26197,7 +26352,7 @@
         "trap": true,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 20
       },
       "Atbash Trap": {
         "name": "Atbash Trap",
@@ -26212,7 +26367,7 @@
         "trap": true,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 18
       },
       "Puzzle Skip": {
         "name": "Puzzle Skip",
@@ -26226,25 +26381,11 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 46
       },
-      "Progressive Art Gallery": {
-        "name": "Progressive Art Gallery",
-        "id": 444563,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Number Hunt": {
-        "name": "Progressive Number Hunt",
-        "id": 444654,
+      "Progressive Orange Tower": {
+        "name": "Progressive Orange Tower",
+        "id": 444482,
         "groups": [
           "Everything"
         ],
@@ -26270,37 +26411,9 @@
         "type": null,
         "max_count": 1
       },
-      "Progressive Hallway Room": {
-        "name": "Progressive Hallway Room",
-        "id": 444461,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Symmetry Room": {
-        "name": "Progressive Symmetry Room",
-        "id": 444608,
-        "groups": [
-          "Everything"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Progressive Fearless": {
-        "name": "Progressive Fearless",
-        "id": 444470,
+      "Progressive Art Gallery": {
+        "name": "Progressive Art Gallery",
+        "id": 444563,
         "groups": [
           "Everything"
         ],
@@ -26340,9 +26453,51 @@
         "type": null,
         "max_count": 1
       },
-      "Progressive Orange Tower": {
-        "name": "Progressive Orange Tower",
-        "id": 444482,
+      "Progressive Symmetry Room": {
+        "name": "Progressive Symmetry Room",
+        "id": 444608,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Number Hunt": {
+        "name": "Progressive Number Hunt",
+        "id": 444654,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Hallway Room": {
+        "name": "Progressive Hallway Room",
+        "id": 444461,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Fearless": {
+        "name": "Progressive Fearless",
+        "id": 444470,
         "groups": [
           "Everything"
         ],
@@ -26400,8 +26555,7 @@
   },
   "settings": {
     "1": {
-      "game": "Lingo",
-      "accessibility": "items"
+      "game": "Lingo"
     }
   },
   "game_info": {

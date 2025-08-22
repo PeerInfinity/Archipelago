@@ -1,4 +1,4 @@
-﻿Archipelago Version 0.6.1  -  Seed: 1
+﻿Archipelago Version 0.6.4  -  Seed: 1
 
 Filling Algorithm:               balanced
 Players:                         1
@@ -14,6 +14,7 @@ Start Location Hints:            AP-1-031, AP-1-055, AP-1-076, AP-1-079, AP-1-08
 Excluded Locations:              
 Priority Locations:              
 Item Links:                      
+Plando Items:                    
 Maximum Required Science Pack:   Space Science Pack
 Goal:                            Rocket
 Technology Tree Layout:          Single
@@ -34,7 +35,7 @@ Recipe Time:                     Vanilla
 Random Recipe Ingredients Level: Rocket
 Randomized Recipe Ingredients Offset:0
 Blueprints:                      Yes
-World Generation:                basic: {'peaceful_mode': False, 'seed': 275665234, 'starting_area': None, 'autoplace_controls': {'coal': {'frequency': None, 'richness': None, 'size': None}, 'copper-ore': {'frequency': None, 'richness': None, 'size': None}, 'crude-oil': {'frequency': None, 'richness': None, 'size': None}, 'enemy-base': {'frequency': None, 'richness': None, 'size': None}, 'iron-ore': {'frequency': None, 'richness': None, 'size': None}, 'nauvis_cliff': {'frequency': None, 'richness': None, 'size': None}, 'starting_area_moisture': {'frequency': None, 'richness': None, 'size': None}, 'stone': {'frequency': None, 'richness': None, 'size': None}, 'trees': {'frequency': None, 'richness': None, 'size': None}, 'uranium-ore': {'frequency': None, 'richness': None, 'size': None}, 'water': {'frequency': None, 'richness': None, 'size': None}}, 'cliff_settings': {'cliff_elevation_0': None, 'cliff_elevation_interval': None, 'name': 'cliff', 'richness': None}, 'property_expression_names': {'control-setting:aux:bias': None, 'control-setting:aux:frequency:multiplier': None, 'control-setting:moisture:bias': None, 'control-setting:moisture:frequency:multiplier': None}}, advanced: {'enemy_evolution': {'destroy_factor': None, 'enabled': True, 'pollution_factor': None, 'time_factor': None}, 'enemy_expansion': {'enabled': True, 'max_expansion_cooldown': None, 'max_expansion_distance': None, 'min_expansion_cooldown': None, 'settler_group_max_size': None, 'settler_group_min_size': None}, 'pollution': {'ageing': None, 'diffusion_ratio': None, 'enabled': True, 'enemy_attack_pollution_consumption_modifier': None, 'min_pollution_to_damage_trees': None, 'pollution_restored_per_tree_damage': None}}
+World Generation:                basic: {'peaceful_mode': False, 'seed': 275665234, 'starting_area': 1.0, 'autoplace_controls': {'coal': {'frequency': 1.0, 'richness': 6.0, 'size': 3.0}, 'copper-ore': {'frequency': 1.0, 'richness': 6.0, 'size': 3.0}, 'crude-oil': {'frequency': 1.0, 'richness': 6.0, 'size': 3.0}, 'enemy-base': {'frequency': 1.0, 'richness': 1.0, 'size': 1.0}, 'iron-ore': {'frequency': 1.0, 'richness': 6.0, 'size': 3.0}, 'nauvis_cliff': {'frequency': 1.0, 'richness': 1.0, 'size': 1.0}, 'starting_area_moisture': {'frequency': 1.0, 'richness': 1.0, 'size': 1.0}, 'stone': {'frequency': 1.0, 'richness': 6.0, 'size': 3.0}, 'trees': {'frequency': 1.0, 'richness': 1.0, 'size': 1.0}, 'uranium-ore': {'frequency': 1.0, 'richness': 6.0, 'size': 3.0}, 'water': {'frequency': 1.0, 'richness': 1.0, 'size': 1.0}}, 'cliff_settings': {'cliff_elevation_0': 10.0, 'cliff_elevation_interval': 40.0, 'name': 'cliff', 'richness': 1.0}, 'property_expression_names': {'control-setting:aux:bias': 0.0, 'control-setting:aux:frequency:multiplier': 1.0, 'control-setting:moisture:bias': 0.0, 'control-setting:moisture:frequency:multiplier': 1.0}}, advanced: {'enemy_evolution': {'destroy_factor': 0.002, 'enabled': True, 'pollution_factor': 9e-07, 'time_factor': 4e-06}, 'enemy_expansion': {'enabled': True, 'max_expansion_cooldown': 216000.0, 'max_expansion_distance': 7.0, 'min_expansion_cooldown': 14400.0, 'settler_group_max_size': 20.0, 'settler_group_min_size': 5.0}, 'pollution': {'ageing': 1.0, 'diffusion_ratio': 0.02, 'enabled': True, 'enemy_attack_pollution_consumption_modifier': 1.0, 'min_pollution_to_damage_trees': 60.0, 'pollution_restored_per_tree_damage': 10.0}}
 Progressive Technologies:        On
 Teleport Traps:                  0
 Grenade Traps:                   0
@@ -296,7 +297,7 @@ Playthrough:
 }
 8: {
   AP-4-013: battery
-  AP-4-409: progressive-productivity-module
+  AP-4-849: progressive-productivity-module
   AP-4-972: progressive-science-pack
 }
 9: {

@@ -152,6 +152,9 @@ export class PresetUI {
 
     // Process each game
     Object.entries(this.presets).forEach(([gameId, gameData]) => {
+      // Skip metadata entry
+      if (gameId === 'metadata') return;
+      
       // Create a section for each game
       html += `
         <div class="game-row">
@@ -159,7 +162,9 @@ export class PresetUI {
       `;
 
       if (gameId === 'multiworld') {
-        // Special layout for multiworld
+        // Special layout for multiworld - block format
+        html += `</div>`; // Close the inline game-row
+        html += `<div class="multiworld-container">`;
         html += `<div class="multiworld-seeds">`;
         Object.entries(gameData.folders).forEach(([folderId, folderData]) => {
           html += `<div class="multiworld-seed-block">`;
@@ -188,6 +193,8 @@ export class PresetUI {
           html += `</div></div>`; // Close seed-players and multiworld-seed-block
         });
         html += `</div>`; // Close multiworld-seeds
+        html += `</div>`; // Close multiworld-container
+        // Don't add the closing </div> here since we already closed the game-row
       } else {
         // Standard layout for single-player games
         html += `<div class="game-presets">`;
@@ -204,12 +211,16 @@ export class PresetUI {
           `;
         });
         html += `</div>`; // Close game-presets
+        // Add test badge for single-player games
+        html += this.renderTestResultBadge(gameData);
       }
 
-      // Close the game section
-      html += `
-        </div>
-      `;
+      // Close the game section (only for non-multiworld)
+      if (gameId !== 'multiworld') {
+        html += `
+          </div>
+        `;
+      }
     });
 
     // Close the container
@@ -230,19 +241,65 @@ export class PresetUI {
           padding: 16px;
           margin-bottom: 16px;
           display: flex;
-          align-items: flex-start;
-          flex-wrap: wrap;
+          align-items: center;
           gap: 16px;
+          justify-content: space-between;
         }
         .game-name {
           margin: 0;
           color: #ddd;
           min-width: 200px;
+          flex-shrink: 0;
+        }
+        .test-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 0.85em;
+          font-weight: 500;
+          white-space: nowrap;
+          cursor: help;
+          flex-shrink: 0;
+        }
+        .test-badge-passed {
+          background-color: rgba(76, 175, 80, 0.2);
+          border: 1px solid rgba(76, 175, 80, 0.5);
+          color: #a5d6a7;
+        }
+        .test-badge-failed {
+          background-color: rgba(244, 67, 54, 0.2);
+          border: 1px solid rgba(244, 67, 54, 0.5);
+          color: #ef9a9a;
+        }
+        .test-badge-unknown {
+          background-color: rgba(158, 158, 158, 0.2);
+          border: 1px solid rgba(158, 158, 158, 0.5);
+          color: #bdbdbd;
+        }
+        .test-icon {
+          font-size: 1.1em;
+        }
+        .test-details {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          line-height: 1.2;
+        }
+        .test-status {
+          font-weight: 600;
+        }
+        .test-progress, .test-errors {
+          font-size: 0.9em;
+          opacity: 0.8;
         }
         .game-presets {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
+          flex: 1;
+          justify-content: center;
         }
         .preset-button {
           background-color: rgba(0, 0, 0, 0.3);
@@ -357,6 +414,12 @@ export class PresetUI {
         .player-details {
           font-size: 0.9em;
           color: #bbb;
+        }
+        .multiworld-container {
+          background-color: rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          padding: 16px;
+          margin-bottom: 16px;
         }
       </style>
     `;
@@ -504,6 +567,7 @@ export class PresetUI {
         fileName: fileName,
         jsonData: rulesData,
         selectedPlayerId: playerId,
+        source: fileName, // Use fileName as source for manually loaded files
       }, 'presets');
 
       eventBus.publish('ui:notification', {
@@ -737,6 +801,7 @@ export class PresetUI {
         fileName: rulesFile,
         jsonData: rulesData,
         selectedPlayerId: playerId, // Ensure playerId is passed
+        source: fullPath, // Include the full path as source
       }, 'presets');
 
       // Publish success notification
@@ -807,6 +872,69 @@ export class PresetUI {
         `;
       }
     }
+  }
+
+  renderTestResultBadge(gameData) {
+    const testResult = gameData.test_result;
+    if (!testResult) {
+      return '<div class="test-badge test-badge-unknown">No Test Data</div>';
+    }
+
+    const status = testResult.status || 'unknown';
+    let badgeClass = 'test-badge-unknown';
+    let statusText = 'Unknown';
+    let statusIcon = '❓';
+
+    switch (status.toLowerCase()) {
+      case 'passed':
+        badgeClass = 'test-badge-passed';
+        statusText = 'Passed';
+        statusIcon = '✅';
+        break;
+      case 'failed':
+        badgeClass = 'test-badge-failed';
+        statusText = 'Failed';
+        statusIcon = '❌';
+        break;
+      default:
+        statusText = 'Unknown';
+        statusIcon = '❓';
+    }
+
+    // Build detailed tooltip content
+    let tooltipContent = `Status: ${statusText}`;
+    if (testResult.generation_errors > 0) {
+      tooltipContent += `\nGeneration Errors: ${testResult.generation_errors}`;
+    }
+    if (testResult.generation_warnings > 0) {
+      tooltipContent += `\nGeneration Warnings: ${testResult.generation_warnings}`;
+    }
+    if (testResult.max_spheres > 0) {
+      tooltipContent += `\nProgress: ${testResult.sphere_reached}/${testResult.max_spheres} spheres (${testResult.progress_percent}%)`;
+    }
+    if (testResult.has_custom_exporter) {
+      tooltipContent += `\nCustom Exporter: Yes`;
+    }
+    if (testResult.has_custom_game_logic) {
+      tooltipContent += `\nCustom Game Logic: Yes`;
+    }
+
+    return `
+      <div class="test-badge ${badgeClass}" title="${this.escapeHtml(tooltipContent)}">
+        <span class="test-icon">${statusIcon}</span>
+        <div class="test-details">
+          <div class="test-status">${statusText}</div>
+          ${testResult.max_spheres > 0 ? 
+            `<div class="test-progress">${testResult.sphere_reached}/${testResult.max_spheres}</div>` 
+            : ''
+          }
+          ${testResult.generation_errors > 0 ? 
+            `<div class="test-errors">${testResult.generation_errors} errors</div>` 
+            : ''
+          }
+        </div>
+      </div>
+    `;
   }
 
   escapeHtml(unsafe) {

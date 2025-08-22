@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "A Hat in Time",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 2,
   "player_names": {
     "1": "Player1"
@@ -56,11 +56,8 @@
             "name": "Telescope -> Mafia Town",
             "connected_region": "Mafia Town",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "constant",
+              "value": true
             },
             "type": "Exit"
           },
@@ -68,11 +65,9 @@
             "name": "Telescope -> Battle of the Birds",
             "connected_region": "Battle of the Birds",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 5
             },
             "type": "Exit"
           },
@@ -80,11 +75,9 @@
             "name": "Telescope -> Subcon Forest",
             "connected_region": "Subcon Forest",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 17
             },
             "type": "Exit"
           },
@@ -92,11 +85,9 @@
             "name": "Telescope -> Alpine Skyline",
             "connected_region": "Alpine Skyline",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 13
             },
             "type": "Exit"
           },
@@ -104,11 +95,9 @@
             "name": "Telescope -> Time's End",
             "connected_region": "Time's End",
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Time Piece"
-              }
+              "type": "count_check",
+              "item": "Time Piece",
+              "count": 35
             },
             "type": "Exit"
           },
@@ -119,10 +108,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "DWELLER"
+                    }
+                  ]
                 },
                 {
                   "type": "item_check",
@@ -142,10 +143,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 },
                 {
                   "type": "item_check",
@@ -273,10 +286,18 @@
             "id": 2000312758,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -444,10 +465,18 @@
             "name": "Time Rift - Mafia of Cooks Portal - Entrance 1",
             "connected_region": "Time Rift - Mafia of Cooks",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Burger"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -455,10 +484,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 1",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -466,10 +494,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 1",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -570,10 +597,18 @@
             "name": "Time Rift - Mafia of Cooks Portal - Entrance 2",
             "connected_region": "Time Rift - Mafia of Cooks",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Burger"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -581,10 +616,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 2",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -592,10 +626,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 2",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -670,10 +703,18 @@
             "name": "Time Rift - Mafia of Cooks Portal - Entrance 3",
             "connected_region": "Time Rift - Mafia of Cooks",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Burger"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -681,10 +722,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 3",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -692,10 +732,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 3",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -778,10 +817,18 @@
             "name": "Time Rift - Mafia of Cooks Portal - Entrance 4",
             "connected_region": "Time Rift - Mafia of Cooks",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Burger"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -789,10 +836,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 4",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -800,10 +846,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 4",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -832,10 +877,18 @@
             "id": 2000305387,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -870,10 +923,18 @@
             "id": 2000304979,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -954,10 +1015,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 6",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -965,10 +1025,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 6",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -996,10 +1055,18 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "name",
+                              "name": "h"
+                            }
+                          ]
                         },
                         {
                           "type": "and",
@@ -1120,10 +1187,18 @@
             "name": "Time Rift - Mafia of Cooks Portal - Entrance 5",
             "connected_region": "Time Rift - Mafia of Cooks",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Burger"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -1131,10 +1206,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 5",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1142,10 +1216,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 5",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1173,10 +1246,18 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "name",
+                              "name": "h"
+                            }
+                          ]
                         },
                         {
                           "type": "and",
@@ -1233,10 +1314,18 @@
             "id": 2000312318,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -1297,10 +1386,18 @@
             "name": "Time Rift - Mafia of Cooks Portal - Entrance 6",
             "connected_region": "Time Rift - Mafia of Cooks",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Burger"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -1308,10 +1405,9 @@
             "name": "Time Rift - Bazaar Portal - Entrance 7",
             "connected_region": "Time Rift - The Twilight Bell",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -1319,10 +1415,9 @@
             "name": "Time Rift - Sewers Portal - Entrance 7",
             "connected_region": "Time Rift - Gallery",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           }
@@ -1497,10 +1592,18 @@
             "name": "Time Rift - Dead Bird Studio Portal - Entrance 1",
             "connected_region": "Time Rift - Alpine Skyline",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Train"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -1511,10 +1614,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
                   "type": "and",
@@ -1534,10 +1641,22 @@
                           }
                         },
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "attribute",
+                              "object": {
+                                "type": "name",
+                                "name": "HatType"
+                              },
+                              "attr": "BREWING"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -1564,10 +1683,22 @@
                   }
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 }
               ]
             },
@@ -1608,16 +1739,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "clear_required_act",
-                  "inferred": true,
-                  "description": "Requires ability to clear required act"
+                  "type": "generic_helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed"
                 },
                 {
-                  "type": "capability",
-                  "capability": "clear_required_act",
-                  "inferred": true,
-                  "description": "Requires ability to clear required act"
+                  "type": "generic_helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed"
                 }
               ]
             },
@@ -1647,10 +1776,18 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "name",
+                              "name": "h"
+                            }
+                          ]
                         },
                         {
                           "type": "and",
@@ -1761,10 +1898,18 @@
             "id": 2000305701,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -1866,16 +2011,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "clear_required_act",
-                  "inferred": true,
-                  "description": "Requires ability to clear required act"
+                  "type": "generic_helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed"
                 },
                 {
-                  "type": "capability",
-                  "capability": "clear_required_act",
-                  "inferred": true,
-                  "description": "Requires ability to clear required act"
+                  "type": "generic_helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed"
                 }
               ]
             },
@@ -1989,10 +2132,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
                   "type": "and",
@@ -2012,10 +2159,22 @@
                           }
                         },
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "attribute",
+                              "object": {
+                                "type": "name",
+                                "name": "HatType"
+                              },
+                              "attr": "BREWING"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -2032,10 +2191,14 @@
             "id": 2000312481,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2090,16 +2253,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "clear_required_act",
-                  "inferred": true,
-                  "description": "Requires ability to clear required act"
+                  "type": "generic_helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed"
                 },
                 {
-                  "type": "capability",
-                  "capability": "clear_required_act",
-                  "inferred": true,
-                  "description": "Requires ability to clear required act"
+                  "type": "generic_helper",
+                  "name": "can_clear_required_act",
+                  "description": "Checks if a specific act can be completed"
                 }
               ]
             },
@@ -2249,10 +2410,18 @@
             "name": "Time Rift - Dead Bird Studio Portal - Entrance 2",
             "connected_region": "Time Rift - Alpine Skyline",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Train"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -2274,10 +2443,14 @@
                       "value": true
                     },
                     {
-                      "type": "capability",
-                      "capability": "use_hookshot",
-                      "inferred": true,
-                      "description": "Requires ability to use hookshot"
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": [
+                        {
+                          "type": "name",
+                          "name": "world"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -2292,10 +2465,14 @@
             "id": 2000305432,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2312,10 +2489,14 @@
             "id": 2000305059,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2332,10 +2513,14 @@
             "id": 2000305057,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2370,10 +2555,14 @@
             "id": 2000305061,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2426,10 +2615,14 @@
             "id": 2000305058,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2446,10 +2639,14 @@
             "id": 2000305431,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2466,10 +2663,14 @@
             "id": 2000305819,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2486,10 +2687,14 @@
             "id": 2000312253,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -2995,10 +3200,22 @@
                   }
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 }
               ]
             },
@@ -3045,10 +3262,22 @@
                   }
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 }
               ]
             },
@@ -3077,10 +3306,22 @@
                   }
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 }
               ]
             },
@@ -3222,10 +3463,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 1",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3233,10 +3473,18 @@
             "name": "Time Rift - Sleepy Subcon Portal - Entrance 1",
             "connected_region": "Time Rift - Dead Bird Studio",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "UFO"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -3244,10 +3492,9 @@
             "name": "Time Rift - Village Portal - Entrance 1",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3269,10 +3516,14 @@
                       "value": true
                     },
                     {
-                      "type": "capability",
-                      "capability": "use_hookshot",
-                      "inferred": true,
-                      "description": "Requires ability to use hookshot"
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": [
+                        {
+                          "type": "name",
+                          "name": "world"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3377,10 +3628,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 2",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3388,10 +3638,18 @@
             "name": "Time Rift - Sleepy Subcon Portal - Entrance 2",
             "connected_region": "Time Rift - Dead Bird Studio",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "UFO"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -3399,10 +3657,9 @@
             "name": "Time Rift - Village Portal - Entrance 2",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3424,10 +3681,14 @@
                       "value": true
                     },
                     {
-                      "type": "capability",
-                      "capability": "use_hookshot",
-                      "inferred": true,
-                      "description": "Requires ability to use hookshot"
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": [
+                        {
+                          "type": "name",
+                          "name": "world"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3478,10 +3739,14 @@
             "id": 2000324311,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -3516,10 +3781,14 @@
             "id": 2000311160,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -3564,10 +3833,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 3",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3575,10 +3843,18 @@
             "name": "Time Rift - Sleepy Subcon Portal - Entrance 3",
             "connected_region": "Time Rift - Dead Bird Studio",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "UFO"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -3586,10 +3862,9 @@
             "name": "Time Rift - Village Portal - Entrance 3",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           }
@@ -3603,16 +3878,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "hit",
-                  "inferred": true,
-                  "description": "Requires ability to hit"
+                  "type": "helper",
+                  "name": "can_hit",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 }
               ]
             },
@@ -3685,10 +3968,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 4",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3696,10 +3978,18 @@
             "name": "Time Rift - Sleepy Subcon Portal - Entrance 4",
             "connected_region": "Time Rift - Dead Bird Studio",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "UFO"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -3707,10 +3997,9 @@
             "name": "Time Rift - Village Portal - Entrance 4",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3732,10 +4021,14 @@
                       "value": true
                     },
                     {
-                      "type": "capability",
-                      "capability": "use_hookshot",
-                      "inferred": true,
-                      "description": "Requires ability to use hookshot"
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": [
+                        {
+                          "type": "name",
+                          "name": "world"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3876,10 +4169,9 @@
             "name": "Time Rift - Pipe Portal - Entrance 5",
             "connected_region": "Time Rift - The Moon",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           },
@@ -3887,10 +4179,18 @@
             "name": "Time Rift - Sleepy Subcon Portal - Entrance 5",
             "connected_region": "Time Rift - Dead Bird Studio",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "UFO"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -3898,10 +4198,9 @@
             "name": "Time Rift - Village Portal - Entrance 5",
             "connected_region": "Time Rift - The Owl Express",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_required_act",
-              "inferred": true,
-              "description": "Requires ability to clear required act"
+              "type": "generic_helper",
+              "name": "can_clear_required_act",
+              "description": "Checks if a specific act can be completed"
             },
             "type": "Exit"
           }
@@ -3912,10 +4211,18 @@
             "id": 2000312032,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -3989,10 +4296,18 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "name",
+                              "name": "h"
+                            }
+                          ]
                         },
                         {
                           "type": "and",
@@ -4067,10 +4382,14 @@
             "name": "Alpine Skyline - Finale",
             "connected_region": "Toilet of Doom",
             "access_rule": {
-              "type": "capability",
-              "capability": "clear_alpine",
-              "inferred": true,
-              "description": "Requires ability to clear alpine"
+              "type": "helper",
+              "name": "can_clear_alpine",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -4108,10 +4427,14 @@
             "name": "AFR -> Alpine Skyline Area",
             "connected_region": "Alpine Skyline Area",
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -4137,24 +4460,40 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "capability",
-                      "capability": "use_hookshot",
-                      "inferred": true,
-                      "description": "Requires ability to use hookshot"
+                      "type": "helper",
+                      "name": "can_use_hookshot",
+                      "args": [
+                        {
+                          "type": "name",
+                          "name": "world"
+                        }
+                      ]
                     },
                     {
-                      "type": "capability",
-                      "capability": "hit",
-                      "inferred": true,
-                      "description": "Requires ability to hit"
+                      "type": "helper",
+                      "name": "can_hit",
+                      "args": [
+                        {
+                          "type": "name",
+                          "name": "world"
+                        }
+                      ]
                     }
                   ]
                 },
                 {
-                  "type": "item_check",
-                  "item": "Relic_Combo",
-                  "inferred": true,
-                  "description": "Requires having Relic Combo"
+                  "type": "helper",
+                  "name": "has_relic_combo",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Crayon"
+                    }
+                  ]
                 }
               ]
             },
@@ -4196,10 +4535,18 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "capability",
-                          "capability": "use_hat",
-                          "inferred": true,
-                          "description": "Requires ability to use hat"
+                          "type": "helper",
+                          "name": "can_use_hat",
+                          "args": [
+                            {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            {
+                              "type": "name",
+                              "name": "h"
+                            }
+                          ]
                         },
                         {
                           "type": "and",
@@ -4305,16 +4652,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 }
               ]
             },
@@ -4324,10 +4687,14 @@
             "name": "-> The Lava Cake",
             "connected_region": "The Lava Cake",
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -4335,10 +4702,14 @@
             "name": "-> The Windmill",
             "connected_region": "The Windmill",
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "type": "Exit"
           },
@@ -4349,16 +4720,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "DWELLER"
+                    }
+                  ]
                 }
               ]
             },
@@ -4410,16 +4797,40 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "SPRINT"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "TIME_STOP"
+                    }
+                  ]
                 }
               ]
             },
@@ -4456,10 +4867,18 @@
             "id": 2000334434,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -4561,10 +4980,14 @@
                   }
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 }
               ]
             },
@@ -4583,10 +5006,14 @@
             "id": 2000335911,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -4606,16 +5033,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "name",
+                      "name": "h"
+                    }
+                  ]
                 }
               ]
             },
@@ -4634,10 +5073,14 @@
             "id": 2000336311,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -4654,10 +5097,14 @@
             "id": 2000334760,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -4674,10 +5121,14 @@
             "id": 2000334776,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -4733,10 +5184,18 @@
             "id": 2000336497,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -5280,10 +5739,18 @@
             "name": "Time Rift - Alpine Skyline Portal - Entrance 2",
             "connected_region": "Time Rift - Sleepy Subcon",
             "access_rule": {
-              "type": "item_check",
-              "item": "Relic_Combo",
-              "inferred": true,
-              "description": "Requires having Relic Combo"
+              "type": "helper",
+              "name": "has_relic_combo",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "constant",
+                  "value": "Crayon"
+                }
+              ]
             },
             "type": "Exit"
           }
@@ -5294,10 +5761,14 @@
             "id": 2000312022,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -5538,10 +6009,18 @@
             "id": 2000312399,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -5579,10 +6058,18 @@
             "id": 2000313335,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -5805,10 +6292,18 @@
             "id": 2000305572,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -5933,10 +6428,18 @@
             "id": 2000304831,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -6208,10 +6711,18 @@
             "id": 2000304607,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -6228,10 +6739,18 @@
             "id": 2000304829,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -6321,10 +6840,18 @@
                   ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "name",
+                      "name": "h"
+                    }
+                  ]
                 }
               ]
             },
@@ -6380,10 +6907,14 @@
                   ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 }
               ]
             },
@@ -6438,10 +6969,14 @@
             "id": 2000303481,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -6458,10 +6993,14 @@
             "id": 2000304213,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -6874,10 +7413,9 @@
             "name": "SF Area -> SF Behind Boss Firewall",
             "connected_region": "Subcon Forest Behind Boss Firewall",
             "access_rule": {
-              "type": "item_check",
-              "item": "Paintings",
-              "inferred": true,
-              "description": "Requires having Paintings"
+              "type": "generic_helper",
+              "name": "has_paintings",
+              "description": "Checks if player has enough painting unlocks"
             },
             "type": "Exit"
           },
@@ -7023,10 +7561,18 @@
             "id": 2000326296,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7277,10 +7823,14 @@
             "id": 2000324856,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7297,10 +7847,18 @@
             "id": 2000323734,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7335,10 +7893,18 @@
             "id": 2000325478,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7355,10 +7921,18 @@
             "id": 2000325479,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7375,10 +7949,18 @@
             "id": 2000324767,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7395,10 +7977,18 @@
             "id": 2000324464,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7433,10 +8023,18 @@
             "id": 2000324855,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7507,10 +8105,18 @@
             "id": 2000324463,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hat",
-              "inferred": true,
-              "description": "Requires ability to use hat"
+              "type": "helper",
+              "name": "can_use_hat",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                },
+                {
+                  "type": "name",
+                  "name": "h"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7527,10 +8133,14 @@
             "id": 2000324766,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -7969,10 +8579,14 @@
             "id": 2000313069,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "use_hookshot",
-              "inferred": true,
-              "description": "Requires ability to use hookshot"
+              "type": "helper",
+              "name": "can_use_hookshot",
+              "args": [
+                {
+                  "type": "name",
+                  "name": "world"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -8013,10 +8627,22 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "HatType"
+                      },
+                      "attr": "BREWING"
+                    }
+                  ]
                 },
                 {
                   "type": "item_check",
@@ -8327,16 +8953,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "name",
+                      "name": "h"
+                    }
+                  ]
                 }
               ]
             },
@@ -8358,16 +8996,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "capability",
-                  "capability": "use_hookshot",
-                  "inferred": true,
-                  "description": "Requires ability to use hookshot"
+                  "type": "helper",
+                  "name": "can_use_hookshot",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
                 },
                 {
-                  "type": "capability",
-                  "capability": "use_hat",
-                  "inferred": true,
-                  "description": "Requires ability to use hat"
+                  "type": "helper",
+                  "name": "can_use_hat",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    {
+                      "type": "name",
+                      "name": "h"
+                    }
+                  ]
                 }
               ]
             },
@@ -8410,7 +9060,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 100
       },
       "Time Piece": {
         "name": "Time Piece",
@@ -8424,7 +9074,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 80
       },
       "Sprint Hat": {
         "name": "Sprint Hat",
@@ -8508,7 +9158,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Fast Hatter Badge": {
         "name": "Fast Hatter Badge",
@@ -8522,7 +9172,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Hover Badge": {
         "name": "Hover Badge",
@@ -8536,7 +9186,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Hookshot Badge": {
         "name": "Hookshot Badge",
@@ -8550,7 +9200,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Item Magnet Badge": {
         "name": "Item Magnet Badge",
@@ -8564,7 +9214,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "No Bonk Badge": {
         "name": "No Bonk Badge",
@@ -8578,7 +9228,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Compass Badge": {
         "name": "Compass Badge",
@@ -8606,7 +9256,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "One-Hit Hero Badge": {
         "name": "One-Hit Hero Badge",
@@ -8649,7 +9299,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Burger Cushion)": {
         "name": "Relic (Burger Cushion)",
@@ -8664,7 +9314,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Mountain Set)": {
         "name": "Relic (Mountain Set)",
@@ -8679,7 +9329,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Train)": {
         "name": "Relic (Train)",
@@ -8694,7 +9344,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (UFO)": {
         "name": "Relic (UFO)",
@@ -8709,7 +9359,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Cow)": {
         "name": "Relic (Cow)",
@@ -8724,7 +9374,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Cool Cow)": {
         "name": "Relic (Cool Cow)",
@@ -8739,7 +9389,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Tin-foil Hat Cow)": {
         "name": "Relic (Tin-foil Hat Cow)",
@@ -8754,7 +9404,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Crayon Box)": {
         "name": "Relic (Crayon Box)",
@@ -8769,7 +9419,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Red Crayon)": {
         "name": "Relic (Red Crayon)",
@@ -8784,7 +9434,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Blue Crayon)": {
         "name": "Relic (Blue Crayon)",
@@ -8799,7 +9449,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Green Crayon)": {
         "name": "Relic (Green Crayon)",
@@ -8814,7 +9464,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Relic (Cake Stand)": {
         "name": "Relic (Cake Stand)",
@@ -8918,7 +9568,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 78
       },
       "50 Pons": {
         "name": "50 Pons",
@@ -8932,7 +9582,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 24
       },
       "100 Pons": {
         "name": "100 Pons",
@@ -8946,7 +9596,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 10
       },
       "Health Pon": {
         "name": "Health Pon",
@@ -8960,7 +9610,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 62
       },
       "Random Cosmetic": {
         "name": "Random Cosmetic",
@@ -8974,7 +9624,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 48
       },
       "Baby Trap": {
         "name": "Baby Trap",
@@ -9030,7 +9680,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 4
       },
       "Umbrella": {
         "name": "Umbrella",
@@ -9044,7 +9694,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Progressive Painting Unlock": {
         "name": "Progressive Painting Unlock",
@@ -9128,7 +9778,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Snatcher's Contract - Toilet of Doom": {
         "name": "Snatcher's Contract - Toilet of Doom",
@@ -9142,7 +9792,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Snatcher's Contract - Queen Vanessa's Manor": {
         "name": "Snatcher's Contract - Queen Vanessa's Manor",
@@ -9156,7 +9806,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Snatcher's Contract - Mail Delivery Service": {
         "name": "Snatcher's Contract - Mail Delivery Service",
@@ -9170,7 +9820,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Zipline Unlock - The Birdhouse Path": {
         "name": "Zipline Unlock - The Birdhouse Path",
@@ -9297,8 +9947,7 @@
   },
   "settings": {
     "1": {
-      "game": "A Hat in Time",
-      "accessibility": "items"
+      "game": "A Hat in Time"
     }
   },
   "game_info": {
@@ -9306,6 +9955,15 @@
       "name": "A Hat in Time",
       "rule_format": {
         "version": "1.0"
+      },
+      "chapter_costs": {
+        "Mafia Town": 0,
+        "Battle of the Birds": 5,
+        "Subcon Forest": 17,
+        "Alpine Skyline": 13,
+        "Time's End": 35,
+        "Arctic Cruise": -1,
+        "Nyakuza Metro": -1
       }
     }
   }

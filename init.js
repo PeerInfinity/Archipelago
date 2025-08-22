@@ -377,11 +377,18 @@ async function _postInitializeSingleModule(moduleId) {
         if (
           window.G_combinedModeData.dataSources &&
           window.G_combinedModeData.dataSources.rulesConfig &&
-          window.G_combinedModeData.dataSources.rulesConfig.source === 'file' &&
+          (window.G_combinedModeData.dataSources.rulesConfig.source === 'file' ||
+           window.G_combinedModeData.dataSources.rulesConfig.source === 'urlOverride') &&
           typeof window.G_combinedModeData.dataSources.rulesConfig.details ===
             'string'
         ) {
-          const pathPrefix = 'Loaded from file: ';
+          let pathPrefix, sourceName;
+          if (window.G_combinedModeData.dataSources.rulesConfig.source === 'file') {
+            pathPrefix = 'Loaded from file: ';
+          } else if (window.G_combinedModeData.dataSources.rulesConfig.source === 'urlOverride') {
+            pathPrefix = 'Loaded from URL parameter override: ';
+          }
+          
           if (
             window.G_combinedModeData.dataSources.rulesConfig.details.startsWith(
               pathPrefix
@@ -391,6 +398,10 @@ async function _postInitializeSingleModule(moduleId) {
               window.G_combinedModeData.dataSources.rulesConfig.details.substring(
                 pathPrefix.length
               );
+            log(
+              'info',
+              `[Init _postInitializeSingleModule] Derived sourceName for StateManager: ${smConfig.sourceName} (source: ${window.G_combinedModeData.dataSources.rulesConfig.source})`
+            );
           } else {
             log(
               'warn',
@@ -427,11 +438,11 @@ async function _postInitializeSingleModule(moduleId) {
       logger.info('init', `Post-initializing module: ${moduleId}`);
       // Special handling for stateManager postInitialize to pass mode-specific data
       if (moduleId === 'stateManager') {
-        //log(
-        //  'info',
-        //  '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
-        //  JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
-        //);
+        log(
+          'info',
+          '[Init _postInitializeSingleModule] EXACT configForPostInitialize BEING PASSED to stateManager.postInitialize:',
+          JSON.parse(JSON.stringify(configForPostInitialize)) // Log the exact object being passed
+        );
         // Pass the prepared configForPostInitialize
         await moduleInstance.postInitialize(api, configForPostInitialize);
       } else if (moduleInstance.postInitialize) {
@@ -655,6 +666,10 @@ async function loadCombinedModeData() {
   // Ensure modeName is correctly set in baseCombinedData, prioritizing the current active mode
   baseCombinedData.modeName = G_currentActiveMode;
 
+  // Check for URL parameter override for rules file
+  const urlParams = new URLSearchParams(window.location.search);
+  const rulesOverride = urlParams.get('rules');
+
   // --- New logic to iterate over all config keys defined in modes.json for the current mode ---
   const currentModeFileConfigs = G_modesConfig?.[G_currentActiveMode];
   if (currentModeFileConfigs) {
@@ -670,37 +685,50 @@ async function loadCombinedModeData() {
           configEntry.path &&
           (typeof configEntry.enabled === 'undefined' || configEntry.enabled)
         ) {
+          // Apply rules URL parameter override if this is rulesConfig
+          let effectivePath = configEntry.path;
+          if (configKey === 'rulesConfig' && rulesOverride) {
+            effectivePath = rulesOverride;
+            logger.info(
+              'init',
+              `Rules file path overridden by URL parameter: ${rulesOverride}`
+            );
+          }
+
           // Only load from file if not present in baseCombinedData (from localStorage) or if localStorage load was skipped
           if (
             G_skipLocalStorageLoad ||
             !baseCombinedData.hasOwnProperty(configKey) ||
-            !baseCombinedData[configKey] // Also load if key exists but value is null/undefined/falsey from LS
+            !baseCombinedData[configKey] ||  // Also load if key exists but value is null/undefined/falsey from LS
+            (configKey === 'rulesConfig' && rulesOverride) // Always reload rulesConfig if URL override is present
           ) {
             logger.info(
               'init',
               `${configKey} for "${G_currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
             );
             const fetchedData = await fetchJson(
-              configEntry.path,
+              effectivePath,
               `Error loading ${configKey} from file`
             );
             if (fetchedData) {
               baseCombinedData[configKey] = fetchedData;
 
               dataSources[configKey] = {
-                source: 'file',
+                source: rulesOverride && configKey === 'rulesConfig' ? 'urlOverride' : 'file',
                 timestamp: new Date().toISOString(),
-                details: `Loaded from file: ${configEntry.path}`,
+                details: rulesOverride && configKey === 'rulesConfig' 
+                  ? `Loaded from URL parameter override: ${effectivePath}`
+                  : `Loaded from file: ${effectivePath}`,
               };
 
               logger.info(
                 'init',
-                `Loaded ${configKey} for "${G_currentActiveMode}" from file: ${configEntry.path}.`
+                `Loaded ${configKey} for "${G_currentActiveMode}" from file: ${effectivePath}.`
               );
             } else {
               logger.warn(
                 'init',
-                `Failed to load ${configKey} from ${configEntry.path}. It will be missing unless defaults are applied later.`
+                `Failed to load ${configKey} from ${effectivePath}. It will be missing unless defaults are applied later.`
               );
               // Ensure the key exists with null if fetch failed, to prevent re-attempts if not desired
               if (!baseCombinedData.hasOwnProperty(configKey)) {
@@ -708,7 +736,7 @@ async function loadCombinedModeData() {
                 dataSources[configKey] = {
                   source: 'error',
                   timestamp: new Date().toISOString(),
-                  details: `Failed to load from file: ${configEntry.path}`,
+                  details: `Failed to load from file: ${effectivePath}`,
                 };
               }
             }
@@ -785,41 +813,54 @@ async function loadCombinedModeData() {
   //);
 
   // Ensure StateManager gets the correct source name if its rulesConfig is being set by the mode
-  // and those rules are the default ones loaded from a file.
-  if (
-    dataSources.rulesConfig && // Check the local 'dataSources' variable, which is up-to-date
-    dataSources.rulesConfig.source === 'file' && // Make sure it was loaded from a file
-    dataSources.rulesConfig.details ===
-      'Loaded from file: ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json' // Check the path from details
-  ) {
-    // This means baseCombinedData.rulesConfig contains the content of ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json
-    if (!baseCombinedData.module_configs.stateManager) {
-      baseCombinedData.module_configs.stateManager = {
-        rulesConfig: baseCombinedData.rulesConfig, // Explicitly pass the top-level rules
-        sourceName:
-          './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json', // Correctly set the sourceName
-      };
-      //log(
-      //  'info',
-      //  '[Init] Created stateManager module_config with ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content and sourceName because rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
-      //);
-    } else if (
-      baseCombinedData.module_configs.stateManager.rulesConfig && // If stateManager already has rules defined in its module_config
-      !baseCombinedData.module_configs.stateManager.sourceName && // And no sourceName is set
-      !baseCombinedData.module_configs.stateManager.id // And no id is set (further indicating it's not from a specific preset for SM)
-    ) {
-      // This implies stateManager is configured to use *these specific rules* (which we know are ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json content).
-      // So, its sourceName should be './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json'.
-      baseCombinedData.module_configs.stateManager.sourceName =
-        './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json';
+  // Handle both file loads and URL parameter overrides
+  if (dataSources.rulesConfig) {
+    let sourcePath = null;
+    
+    // Extract the source path based on how the rules were loaded
+    if (dataSources.rulesConfig.source === 'file') {
+      // Extract path from "Loaded from file: <path>" format
+      const match = dataSources.rulesConfig.details.match(/^Loaded from file: (.+)$/);
+      if (match) {
+        sourcePath = match[1];
+      }
+    } else if (dataSources.rulesConfig.source === 'urlOverride') {
+      // Extract path from "Loaded from URL parameter override: <path>" format
+      const match = dataSources.rulesConfig.details.match(/^Loaded from URL parameter override: (.+)$/);
+      if (match) {
+        sourcePath = match[1];
+      }
+    }
+    
+    // Set up StateManager config if we have a valid source path
+    if (sourcePath) {
+      if (!baseCombinedData.module_configs.stateManager) {
+        baseCombinedData.module_configs.stateManager = {
+          rulesConfig: baseCombinedData.rulesConfig, // Explicitly pass the top-level rules
+          sourceName: sourcePath, // Set the correct sourceName from the actual path used
+        };
+        log(
+          'info',
+          `[Init] Created stateManager module_config with sourceName: ${sourcePath} (source: ${dataSources.rulesConfig.source})`
+        );
+      } else if (
+        baseCombinedData.module_configs.stateManager.rulesConfig && // If stateManager already has rules defined in its module_config
+        !baseCombinedData.module_configs.stateManager.sourceName && // And no sourceName is set
+        !baseCombinedData.module_configs.stateManager.id // And no id is set (further indicating it's not from a specific preset for SM)
+      ) {
+        // Update the existing StateManager config with the correct sourceName
+        baseCombinedData.module_configs.stateManager.sourceName = sourcePath;
+        log(
+          'info',
+          `[Init] Updated stateManager module_config with sourceName: ${sourcePath} (source: ${dataSources.rulesConfig.source})`
+        );
+      }
+    } else {
       log(
-        'info',
-        '[Init] Updated stateManager module_config (which already had rulesConfig content) with sourceName: ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json because the main rulesConfig was loaded from ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json file.'
+        'warn',
+        `[Init] Could not extract source path from rulesConfig dataSources details: ${dataSources.rulesConfig.details}`
       );
     }
-    // If baseCombinedData.module_configs.stateManager exists but WITHOUT .rulesConfig,
-    // then stateManager/index.js will fetch ./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json and assign its source name correctly.
-    // This case is implicitly handled as the condition above won't apply if module_configs.stateManager.rulesConfig is not set.
   }
 
   // ADDED LOGGING AFTER MODIFICATION ATTEMPT

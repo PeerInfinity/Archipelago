@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "Sonic Adventure 2 Battle",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 1,
   "player_names": {
     "1": "Player1"
@@ -4624,31 +4624,15 @@
             "id": 16712732,
             "crystal": null,
             "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "ItemName"
-                    },
-                    "attr": "eggman_mystic_melody"
-                  }
+              "type": "item_check",
+              "item": {
+                "type": "attribute",
+                "object": {
+                  "type": "name",
+                  "name": "ItemName"
                 },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "ItemName"
-                    },
-                    "attr": "eggman_jet_engine"
-                  }
-                }
-              ]
+                "attr": "eggman_jet_engine"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -6260,6 +6244,10 @@
                   "name": "ItemName"
                 },
                 "attr": "emblem"
+              },
+              "count": {
+                "type": "constant",
+                "value": 89
               }
             },
             "type": "Exit"
@@ -6951,7 +6939,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 276
       },
       "Chao Coin": {
         "name": "Chao Coin",
@@ -6979,7 +6967,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Sonic - Light Shoes": {
         "name": "Sonic - Light Shoes",
@@ -6993,7 +6981,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Sonic - Ancient Light": {
         "name": "Sonic - Ancient Light",
@@ -7007,7 +6995,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Sonic - Bounce Bracelet": {
         "name": "Sonic - Bounce Bracelet",
@@ -7021,7 +7009,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Sonic - Flame Ring": {
         "name": "Sonic - Flame Ring",
@@ -7035,7 +7023,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Sonic - Mystic Melody": {
         "name": "Sonic - Mystic Melody",
@@ -7049,7 +7037,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Tails - Laser Blaster": {
         "name": "Tails - Laser Blaster",
@@ -7063,7 +7051,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Tails - Booster": {
         "name": "Tails - Booster",
@@ -7077,7 +7065,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Tails - Mystic Melody": {
         "name": "Tails - Mystic Melody",
@@ -7091,7 +7079,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Tails - Bazooka": {
         "name": "Tails - Bazooka",
@@ -7105,7 +7093,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Knuckles - Mystic Melody": {
         "name": "Knuckles - Mystic Melody",
@@ -7119,7 +7107,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Knuckles - Shovel Claws": {
         "name": "Knuckles - Shovel Claws",
@@ -7133,7 +7121,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Knuckles - Air Necklace": {
         "name": "Knuckles - Air Necklace",
@@ -7147,7 +7135,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Knuckles - Hammer Gloves": {
         "name": "Knuckles - Hammer Gloves",
@@ -7161,7 +7149,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Knuckles - Sunglasses": {
         "name": "Knuckles - Sunglasses",
@@ -7175,7 +7163,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Shadow - Flame Ring": {
         "name": "Shadow - Flame Ring",
@@ -7189,7 +7177,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Shadow - Air Shoes": {
         "name": "Shadow - Air Shoes",
@@ -7203,7 +7191,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Shadow - Ancient Light": {
         "name": "Shadow - Ancient Light",
@@ -7217,7 +7205,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Shadow - Mystic Melody": {
         "name": "Shadow - Mystic Melody",
@@ -7231,7 +7219,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Eggman - Laser Blaster": {
         "name": "Eggman - Laser Blaster",
@@ -7245,7 +7233,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Eggman - Mystic Melody": {
         "name": "Eggman - Mystic Melody",
@@ -7259,7 +7247,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Eggman - Jet Engine": {
         "name": "Eggman - Jet Engine",
@@ -7273,7 +7261,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Eggman - Large Cannon": {
         "name": "Eggman - Large Cannon",
@@ -7287,7 +7275,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Eggman - Protective Armor": {
         "name": "Eggman - Protective Armor",
@@ -7301,7 +7289,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Rouge - Mystic Melody": {
         "name": "Rouge - Mystic Melody",
@@ -7315,7 +7303,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Rouge - Pick Nails": {
         "name": "Rouge - Pick Nails",
@@ -7329,7 +7317,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Rouge - Treasure Scope": {
         "name": "Rouge - Treasure Scope",
@@ -7343,7 +7331,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Rouge - Iron Boots": {
         "name": "Rouge - Iron Boots",
@@ -7357,7 +7345,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 2
       },
       "Five Rings": {
         "name": "Five Rings",
@@ -7371,7 +7359,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 14
       },
       "Ten Rings": {
         "name": "Ten Rings",
@@ -7385,7 +7373,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 12
       },
       "Twenty Rings": {
         "name": "Twenty Rings",
@@ -7399,7 +7387,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 8
       },
       "Extra Life": {
         "name": "Extra Life",
@@ -7413,7 +7401,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 12
       },
       "Shield": {
         "name": "Shield",
@@ -7427,7 +7415,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 8
       },
       "Magnetic Shield": {
         "name": "Magnetic Shield",
@@ -7441,7 +7429,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 18
       },
       "Invincibility": {
         "name": "Invincibility",
@@ -7455,7 +7443,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 8
       },
       "OmoTrap": {
         "name": "OmoTrap",
@@ -9670,8 +9658,7 @@
   },
   "settings": {
     "1": {
-      "game": "Sonic Adventure 2 Battle",
-      "accessibility": "items"
+      "game": "Sonic Adventure 2 Battle"
     }
   },
   "game_info": {

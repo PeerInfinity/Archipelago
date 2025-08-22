@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "A Link to the Past",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 2,
   "player_names": {
     "1": "Player1"
@@ -6054,19 +6054,16 @@
                     {
                       "type": "compare",
                       "left": {
-                        "type": "subscript",
-                        "value": {
+                        "type": "attribute",
+                        "object": {
                           "type": "attribute",
                           "object": {
                             "type": "name",
-                            "name": "multiworld"
+                            "name": "world"
                           },
-                          "attr": "small_key_shuffle"
+                          "attr": "options"
                         },
-                        "index": {
-                          "type": "name",
-                          "name": "player"
-                        }
+                        "attr": "small_key_shuffle"
                       },
                       "op": "==",
                       "right": {
@@ -6081,19 +6078,16 @@
                     {
                       "type": "compare",
                       "left": {
-                        "type": "subscript",
-                        "value": {
+                        "type": "attribute",
+                        "object": {
                           "type": "attribute",
                           "object": {
                             "type": "name",
-                            "name": "multiworld"
+                            "name": "world"
                           },
-                          "attr": "mode"
+                          "attr": "options"
                         },
-                        "index": {
-                          "type": "name",
-                          "name": "player"
-                        }
+                        "attr": "mode"
                       },
                       "op": "==",
                       "right": {
@@ -9348,19 +9342,27 @@
                   "function": {
                     "type": "attribute",
                     "object": {
-                      "type": "subscript",
-                      "value": {
+                      "type": "attribute",
+                      "object": {
                         "type": "attribute",
                         "object": {
-                          "type": "name",
-                          "name": "world"
+                          "type": "subscript",
+                          "value": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "name",
+                              "name": "world"
+                            },
+                            "attr": "worlds"
+                          },
+                          "index": {
+                            "type": "name",
+                            "name": "player"
+                          }
                         },
-                        "attr": "open_pyramid"
+                        "attr": "options"
                       },
-                      "index": {
-                        "type": "name",
-                        "name": "player"
-                      }
+                      "attr": "open_pyramid"
                     },
                     "attr": "to_bool"
                   },
@@ -12465,23 +12467,31 @@
               "name": "has_crystals",
               "args": [
                 {
-                  "type": "subscript",
-                  "value": {
+                  "type": "attribute",
+                  "object": {
                     "type": "attribute",
                     "object": {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "state"
+                      "type": "subscript",
+                      "value": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "name",
+                            "name": "state"
+                          },
+                          "attr": "multiworld"
+                        },
+                        "attr": "worlds"
                       },
-                      "attr": "multiworld"
+                      "index": {
+                        "type": "name",
+                        "name": "player"
+                      }
                     },
-                    "attr": "crystals_needed_for_gt"
+                    "attr": "options"
                   },
-                  "index": {
-                    "type": "name",
-                    "name": "player"
-                  }
+                  "attr": "crystals_needed_for_gt"
                 }
               ]
             },
@@ -13593,23 +13603,31 @@
                         {
                           "type": "compare",
                           "left": {
-                            "type": "subscript",
-                            "value": {
+                            "type": "attribute",
+                            "object": {
                               "type": "attribute",
                               "object": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "name",
-                                  "name": "state"
+                                "type": "subscript",
+                                "value": {
+                                  "type": "attribute",
+                                  "object": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "name",
+                                      "name": "state"
+                                    },
+                                    "attr": "multiworld"
+                                  },
+                                  "attr": "worlds"
                                 },
-                                "attr": "multiworld"
+                                "index": {
+                                  "type": "name",
+                                  "name": "player"
+                                }
                               },
-                              "attr": "enemy_health"
+                              "attr": "options"
                             },
-                            "index": {
-                              "type": "name",
-                              "name": "player"
-                            }
+                            "attr": "enemy_health"
                           },
                           "op": "in",
                           "right": {
@@ -13995,35 +14013,14 @@
             "name": "Swamp Palace (West)",
             "connected_region": "Swamp Palace (West)",
             "access_rule": {
-              "type": "conditional",
-              "test": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Hookshot"
-                }
+              "type": "count_check",
+              "item": {
+                "type": "constant",
+                "value": "Small Key (Swamp Palace)"
               },
-              "if_true": {
-                "type": "count_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Small Key (Swamp Palace)"
-                },
-                "count": {
-                  "type": "constant",
-                  "value": 6
-                }
-              },
-              "if_false": {
-                "type": "count_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Small Key (Swamp Palace)"
-                },
-                "count": {
-                  "type": "constant",
-                  "value": 4
-                }
+              "count": {
+                "type": "constant",
+                "value": 6
               }
             },
             "type": "Exit"
@@ -17115,15 +17112,41 @@
                   }
                 },
                 {
-                  "type": "count_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Small Key (Misery Mire)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "count_check",
+                          "item": {
+                            "type": "constant",
+                            "value": "Small Key (Misery Mire)"
+                          },
+                          "count": {
+                            "type": "constant",
+                            "value": 2
+                          }
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_activate_crystal_switch",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "count_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Small Key (Misery Mire)"
+                      },
+                      "count": {
+                        "type": "constant",
+                        "value": 4
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -17152,15 +17175,41 @@
                   }
                 },
                 {
-                  "type": "count_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Small Key (Misery Mire)"
-                  },
-                  "count": {
-                    "type": "constant",
-                    "value": 2
-                  }
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "count_check",
+                          "item": {
+                            "type": "constant",
+                            "value": "Small Key (Misery Mire)"
+                          },
+                          "count": {
+                            "type": "constant",
+                            "value": 3
+                          }
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_activate_crystal_switch",
+                          "args": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "count_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Small Key (Misery Mire)"
+                      },
+                      "count": {
+                        "type": "constant",
+                        "value": 5
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -21850,11 +21899,33 @@
             "id": 1310787,
             "crystal": false,
             "access_rule": {
-              "type": "item_check",
-              "item": {
-                "type": "constant",
-                "value": "Moon Pearl"
-              }
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Moon Pearl"
+                  }
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Cane of Somaria"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_bombs",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -23578,23 +23649,31 @@
                           "name": "has_crystals",
                           "args": [
                             {
-                              "type": "subscript",
-                              "value": {
+                              "type": "attribute",
+                              "object": {
                                 "type": "attribute",
                                 "object": {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "state"
+                                  "type": "subscript",
+                                  "value": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "attribute",
+                                      "object": {
+                                        "type": "name",
+                                        "name": "state"
+                                      },
+                                      "attr": "multiworld"
+                                    },
+                                    "attr": "worlds"
                                   },
-                                  "attr": "multiworld"
+                                  "index": {
+                                    "type": "name",
+                                    "name": "player"
+                                  }
                                 },
-                                "attr": "crystals_needed_for_ganon"
+                                "attr": "options"
                               },
-                              "index": {
-                                "type": "name",
-                                "name": "player"
-                              }
+                              "attr": "crystals_needed_for_ganon"
                             }
                           ]
                         },
@@ -24195,23 +24274,31 @@
                             "args": []
                           },
                           {
-                            "type": "subscript",
-                            "value": {
+                            "type": "attribute",
+                            "object": {
                               "type": "attribute",
                               "object": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "name",
-                                  "name": "state"
+                                "type": "subscript",
+                                "value": {
+                                  "type": "attribute",
+                                  "object": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "name",
+                                      "name": "state"
+                                    },
+                                    "attr": "multiworld"
+                                  },
+                                  "attr": "worlds"
                                 },
-                                "attr": "multiworld"
+                                "index": {
+                                  "type": "name",
+                                  "name": "player"
+                                }
                               },
-                              "attr": "swordless"
+                              "attr": "options"
                             },
-                            "index": {
-                              "type": "name",
-                              "name": "player"
-                            }
+                            "attr": "swordless"
                           }
                         ]
                       }
@@ -24267,23 +24354,31 @@
                         }
                       },
                       {
-                        "type": "subscript",
-                        "value": {
+                        "type": "attribute",
+                        "object": {
                           "type": "attribute",
                           "object": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "state"
+                            "type": "subscript",
+                            "value": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "attribute",
+                                "object": {
+                                  "type": "name",
+                                  "name": "state"
+                                },
+                                "attr": "multiworld"
+                              },
+                              "attr": "worlds"
                             },
-                            "attr": "multiworld"
+                            "index": {
+                              "type": "name",
+                              "name": "player"
+                            }
                           },
-                          "attr": "swordless"
+                          "attr": "options"
                         },
-                        "index": {
-                          "type": "name",
-                          "name": "player"
-                        }
+                        "attr": "swordless"
                       },
                       {
                         "type": "helper",
@@ -27291,19 +27386,19 @@
   "settings": {
     "1": {
       "game": "A Link to the Past",
-      "dark_room_logic": "lamp",
-      "retro_bow": false,
-      "swordless": false,
-      "enemy_shuffle": false,
-      "enemy_health": "easy",
-      "enemy_damage": "default",
-      "bombless_start": false,
-      "glitches_required": "none",
-      "pot_shuffle": "off",
-      "dungeon_counters": "on",
-      "glitch_boots": "on",
-      "accessibility": "locations",
-      "mode": "open",
+      "dark_room_logic": null,
+      "retro_bow": null,
+      "swordless": null,
+      "enemy_shuffle": null,
+      "enemy_health": null,
+      "enemy_damage": null,
+      "bombless_start": null,
+      "glitches_required": null,
+      "pot_shuffle": null,
+      "dungeon_counters": null,
+      "glitch_boots": null,
+      "accessibility": null,
+      "mode": null,
       "shuffle_capacity_upgrades": "off",
       "treasure_hunt_required": 0,
       "difficulty_requirements": {
