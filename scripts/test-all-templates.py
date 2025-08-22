@@ -128,12 +128,90 @@ def check_http_server(url: str = "http://localhost:8000", timeout: int = 5) -> b
         return False
 
 
+def get_world_directory_name_from_game_name(game_name: str) -> str:
+    """
+    Get the world directory name for a given game name by scanning worlds directory.
+    This replicates the logic from build-world-mapping.py and exporter.py.
+    """
+    try:
+        # Get path to worlds directory relative to this file (scripts/test-all-templates.py)
+        project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+        worlds_dir = os.path.join(project_root, 'worlds')
+        
+        if not os.path.exists(worlds_dir):
+            print(f"Warning: Worlds directory not found: {worlds_dir}")
+            return game_name.lower().replace(' ', '_').replace(':', '_')
+        
+        # Scan each world directory
+        for world_dir_name in os.listdir(worlds_dir):
+            world_path = os.path.join(worlds_dir, world_dir_name)
+            
+            # Skip non-directories and hidden/private directories
+            if not os.path.isdir(world_path) or world_dir_name.startswith('.') or world_dir_name.startswith('_'):
+                continue
+                
+            init_file = os.path.join(world_path, '__init__.py')
+            if not os.path.exists(init_file):
+                continue
+                
+            # Extract game name from __init__.py
+            try:
+                with open(init_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    
+                # Look for pattern: game: ClassVar[str] = "Game Name"
+                pattern = r'game:\s*ClassVar\[str\]\s*=\s*"([^"]*)"'
+                match = re.search(pattern, content, re.MULTILINE)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        return world_dir_name
+                
+                # Fallback pattern for single quotes
+                pattern = r'game:\s*ClassVar\[str\]\s*=\s*\'([^\']*)\''
+                match = re.search(pattern, content, re.MULTILINE)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        return world_dir_name
+                
+                # Fallback: look for simpler pattern: game = "Game Name"
+                pattern = r'game\s*=\s*"([^"]*)"'
+                match = re.search(pattern, content, re.MULTILINE)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        return world_dir_name
+                
+                # Fallback pattern for single quotes
+                pattern = r'game\s*=\s*\'([^\']*)\''
+                match = re.search(pattern, content, re.MULTILINE)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        return world_dir_name
+                        
+            except (IOError, UnicodeDecodeError):
+                continue
+        
+        # If no matching world found, fall back to old logic
+        return game_name.lower().replace(' ', '_').replace(':', '_')
+        
+    except Exception as e:
+        print(f"Error finding world directory for game '{game_name}': {e}")
+        return game_name.lower().replace(' ', '_').replace(':', '_')
+
+
 def normalize_game_name(template_name: str) -> str:
-    """Convert template filename to lowercase directory name format."""
-    # Remove .yaml extension
+    """Convert template filename to world directory name format."""
+    # Remove .yaml extension to get the game name
     game_name = template_name.replace('.yaml', '')
-    # Convert to lowercase and replace spaces with underscores
-    return game_name.lower().replace(' ', '_').replace('-', '_').replace('&', 'and').replace('!', '').replace("'", '')
+    # Use the same logic as the exporter to find the world directory name
+    return get_world_directory_name_from_game_name(game_name)
 
 
 def count_errors_and_warnings(text: str) -> Tuple[int, int, Optional[str], Optional[str]]:

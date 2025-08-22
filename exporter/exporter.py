@@ -17,6 +17,89 @@ from .games import get_game_export_handler
 
 logger = logging.getLogger(__name__)
 
+def get_world_directory_name(game_name: str) -> str:
+    """
+    Get the world directory name for a given game name by scanning worlds directory.
+    This replicates the logic from build-world-mapping.py but only returns the directory name.
+    Falls back to the old naming logic if no matching world is found.
+    """
+    try:
+        # Get path to worlds directory relative to this file (exporter/exporter.py)
+        worlds_dir = os.path.join(os.path.dirname(__file__), '..', 'worlds')
+        
+        if not os.path.exists(worlds_dir):
+            logger.warning(f"Worlds directory not found: {worlds_dir}")
+            return game_name.lower().replace(' ', '_').replace(':', '_')
+        
+        # Scan each world directory
+        for world_dir_name in os.listdir(worlds_dir):
+            world_path = os.path.join(worlds_dir, world_dir_name)
+            
+            # Skip non-directories and hidden/private directories
+            if not os.path.isdir(world_path) or world_dir_name.startswith('.') or world_dir_name.startswith('_'):
+                continue
+                
+            init_file = os.path.join(world_path, '__init__.py')
+            if not os.path.exists(init_file):
+                continue
+                
+            # Extract game name from __init__.py
+            try:
+                with open(init_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    
+                # Look for pattern: game: ClassVar[str] = "Game Name"
+                import re
+                pattern = r'game:\s*ClassVar\[str\]\s*=\s*"([^"]*)"'
+                match = re.search(pattern, content)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        logger.debug(f"Found world directory '{world_dir_name}' for game '{game_name}'")
+                        return world_dir_name
+                
+                # Fallback pattern for single quotes
+                pattern = r'game:\s*ClassVar\[str\]\s*=\s*\'([^\']*)\''
+                match = re.search(pattern, content)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        logger.debug(f"Found world directory '{world_dir_name}' for game '{game_name}' (ClassVar single quote)")
+                        return world_dir_name
+                
+                # Fallback: look for simpler pattern: game = "Game Name"
+                pattern = r'game\s*=\s*"([^"]*)"'
+                match = re.search(pattern, content)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        logger.debug(f"Found world directory '{world_dir_name}' for game '{game_name}' (simple pattern)")
+                        return world_dir_name
+                
+                # Fallback pattern for single quotes
+                pattern = r'game\s*=\s*\'([^\']*)\''
+                match = re.search(pattern, content)
+                
+                if match:
+                    found_game_name = match.group(1)
+                    if found_game_name == game_name:
+                        logger.debug(f"Found world directory '{world_dir_name}' for game '{game_name}' (simple single quote)")
+                        return world_dir_name
+                        
+            except (IOError, UnicodeDecodeError):
+                continue
+        
+        # If no matching world found, fall back to old logic
+        logger.debug(f"No world directory found for game '{game_name}', using fallback naming")
+        return game_name.lower().replace(' ', '_').replace(':', '_')
+        
+    except Exception as e:
+        logger.error(f"Error finding world directory for game '{game_name}': {e}")
+        return game_name.lower().replace(' ', '_').replace(':', '_')
+
 # --- Configuration for Excluded Fields --- 
 # Add keys here to exclude them from the final JSON output (e.g., to reduce size)
 # This applies recursively to nested structures.
@@ -1111,8 +1194,8 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
                 logger.warning(f"Could not determine valid game name for player {first_player}, skipping preset save")
                 return results
             
-            # Clean the single game name for use in a filename/folder
-            clean_game_name = game_name.lower().replace(' ', '_').replace(':', '_')
+            # Get the world directory name for use in a filename/folder
+            clean_game_name = get_world_directory_name(game_name)
             logger.info(f"Detected single game world ({game_name}), using '{clean_game_name}' preset folder.")
 
         # Determine preset directories

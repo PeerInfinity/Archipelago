@@ -22,14 +22,28 @@ def extract_game_name_from_world(world_init_path: str) -> Optional[str]:
             content = f.read()
             
         # Look for pattern: game: ClassVar[str] = "Game Name"
-        pattern = r'game:\s*ClassVar\[str\]\s*=\s*["\']([^"\']+)["\']'
+        pattern = r'game:\s*ClassVar\[str\]\s*=\s*"([^"]*)"'
+        match = re.search(pattern, content)
+        
+        if match:
+            return match.group(1)
+        
+        # Fallback pattern for single quotes
+        pattern = r'game:\s*ClassVar\[str\]\s*=\s*\'([^\']*)\''
         match = re.search(pattern, content)
         
         if match:
             return match.group(1)
         
         # Fallback: look for simpler pattern: game = "Game Name"
-        pattern = r'game\s*=\s*["\']([^"\']+)["\']'
+        pattern = r'game\s*=\s*"([^"]*)"'
+        match = re.search(pattern, content)
+        
+        if match:
+            return match.group(1)
+        
+        # Fallback pattern for single quotes
+        pattern = r'game\s*=\s*\'([^\']*)\''
         match = re.search(pattern, content)
         
         if match:
