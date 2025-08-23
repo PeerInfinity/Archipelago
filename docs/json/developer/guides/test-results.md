@@ -1,10 +1,10 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-08-23 09:13:18
+**Generated:** 2025-08-23 10:39:36
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-08-23T09:12:57.021579
+**Source Data Last Updated:** 2025-08-23T09:57:17.838263
 
 **Script Version:** 1.0.0
 
@@ -19,7 +19,7 @@
 | Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |
 |-----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|
 | A Hat in Time | ❌ Failed | 0 | 0 | 5.1 | 🔴 0.0% | ✅ | ✅ |
-| A Link to the Past | ❌ Failed | 0 | 14.2 | 22.1 | 🟡 64.3% | ✅ | ✅ |
+| A Link to the Past | ❌ Failed | 0 | 17.1 | 22.1 | 🟡 77.4% | ✅ | ✅ |
 | A Short Hike | ✅ Passed | 0 | 1.5 | 1.5 | 🟢 Complete | ✅ | ⚫ |
 | Adventure | ✅ Passed | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
 | Aquaria | ❌ Failed | 0 | 0.1 | 5.1 | 🟠 2.0% | ⚫ | ⚫ |
@@ -42,7 +42,7 @@
 | Final Fantasy | ❌ Failed | 1 | 0.1 | 0.1 | 🟠 100.0% | ⚫ | ⚫ |
 | Final Fantasy Mystic Quest | ❌ Failed | 0 | 0.1 | 18.1 | 🟠 0.6% | ⚫ | ⚫ |
 | Heretic | ✅ Passed | 0 | 24.1 | 24.1 | 🟢 Complete | ⚫ | ⚫ |
-| Hollow Knight | ❌ Failed | 0 | 0.3 | 87.1 | 🟠 0.3% | ⚫ | ⚫ |
+| Hollow Knight | ❌ Failed | 0 | 0.1 | 87.1 | 🟠 0.1% | ⚫ | ⚫ |
 | Hylics 2 | ❌ Failed | 0 | 0.2 | 7.1 | 🟠 2.8% | ⚫ | ⚫ |
 | Inscryption | ❌ Failed | 0 | 2.1 | 8.1 | 🟡 25.9% | ⚫ | ⚫ |
 | Jak and Daxter: The Precursor Legacy | ❌ Failed | 0 | 0 | 0 | 🔴 0.0% | ⚫ | ⚫ |
@@ -81,7 +81,7 @@
 | Super Metroid | ❌ Failed | 0 | 0 | 8.1 | 🔴 0.0% | ⚫ | ⚫ |
 | TUNIC | ❌ Failed | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |
 | Terraria | ❌ Failed | 0 | 0 | 9.3 | 🔴 0.0% | ⚫ | ⚫ |
-| The Legend of Zelda | ❌ Failed | 0 | 0.1 | 11.1 | 🟠 0.9% | ⚫ | ⚫ |
+| The Legend of Zelda | ❌ Failed | 0 | 0 | 11.1 | 🔴 0.0% | ⚫ | ⚫ |
 | The Messenger | ❌ Failed | 0 | 0.1 | 6.1 | 🟠 1.6% | ⚫ | ⚫ |
 | The Wind Waker | ❌ Failed | 1 | 0.1 | 17.1 | 🟠 0.6% | ⚫ | ⚫ |
 | The Witness | ❌ Failed | 1 | 0 | 9.1 | 🔴 0.0% | ⚫ | ⚫ |

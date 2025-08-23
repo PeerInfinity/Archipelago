@@ -34,6 +34,19 @@ class BaseGameExportHandler:
         """Replace a name with another name if needed for game-specific logic."""
         return name
         
+    def handle_special_function_call(self, func_name: str, processed_args: list) -> dict:
+        """
+        Handle game-specific special function calls that should be converted to helpers.
+        
+        Args:
+            func_name: The name of the function being called
+            processed_args: The processed arguments to the function
+            
+        Returns:
+            A dict with the rule structure, or None if this function should not be handled specially
+        """
+        return None
+        
     def expand_count_check(self, items: List[str], count: int = 1) -> Dict[str, Any]:
         """Create a count check rule for one or more items."""
         return {

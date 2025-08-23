@@ -429,6 +429,13 @@ class RuleAnalyzer(ast.NodeVisitor):
             func_name = func_info['name']
             logging.debug(f"Checking helper: {func_name}")
             
+            # Check for game-specific special function calls
+            if self.game_handler and hasattr(self.game_handler, 'handle_special_function_call'):
+                special_result = self.game_handler.handle_special_function_call(func_name, processed_args)
+                if special_result:
+                    logging.debug(f"Game handler processed special function {func_name}: {special_result}")
+                    return special_result
+            
             # Check if the function name is in closure vars
             if func_name in self.closure_vars:
                  logging.debug(f"Identified call to known closure variable: {func_name}")

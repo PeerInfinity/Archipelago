@@ -38,6 +38,8 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             'has_sword',
             'has_turtle_rock_medallion',
             'item_name_in_location_names',
+            'tr_big_key_chest_keys_needed',
+            'location_item_name',
             # If we encounter orig_rule, that means something is probably wrong.
             # Currently, it appears in the item_rule entries, which aren't included in the json file
             'orig_rule', 
@@ -82,6 +84,17 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             logger.debug(f"ALTTP: Replacing '{name}' with 'location'")
             return 'location'
         return name
+        
+    def handle_special_function_call(self, func_name: str, processed_args: list) -> dict:
+        """Handle ALTTP-specific special function calls."""
+        if func_name == 'tr_big_key_chest_keys_needed':
+            logger.debug(f"ALTTP: Converting local function {func_name} to helper call")
+            return {
+                'type': 'helper',
+                'name': func_name,
+                'args': processed_args
+            }
+        return None
 
     def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
         """Return ALTTP-specific item table data."""

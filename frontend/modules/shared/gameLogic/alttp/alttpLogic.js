@@ -538,6 +538,37 @@ export function location_item_name(state, world, itemName, staticData) {
   return null;
 }
 
+export function tr_big_key_chest_keys_needed(state, world, itemName, staticData) {
+  // This function handles the key requirements for the TR Big Chest
+  // Based on the Python function in worlds/alttp/Rules.py
+  const item = location_item_name(state, world, 'Turtle Rock - Big Key Chest', staticData);
+  
+  if (!item) {
+    // If we can't determine the item, use the default (6 keys)
+    return 6;
+  }
+  
+  const [locationItemName, locationPlayer] = item;
+  const currentPlayer = state.player?.slot || 1;
+  
+  // Only consider items for the current player
+  if (locationPlayer != currentPlayer) {
+    return 6;
+  }
+  
+  // Implement tr_big_key_chest_keys_needed logic:
+  // - Small Key (Turtle Rock): 0 keys needed
+  // - Big Key (Turtle Rock): 4 keys needed  
+  // - Anything else: 6 keys needed
+  if (locationItemName === 'Small Key (Turtle Rock)') {
+    return 0;
+  } else if (locationItemName === 'Big Key (Turtle Rock)') {
+    return 4;
+  } else {
+    return 6;
+  }
+}
+
 export function item_name_in_location_names(state, world, itemName, staticData) {
   // TODO: Implement multi-location item checking
   // Requires: Array of [locationName, playerNum] pairs as itemName parameter
@@ -878,6 +909,7 @@ export const helperFunctions = {
   has_sword,
   has_any,
   location_item_name,
+  tr_big_key_chest_keys_needed,
   item_name_in_location_names,
   GanonDefeatRule,
   can_get_glitched_speed_dw,
