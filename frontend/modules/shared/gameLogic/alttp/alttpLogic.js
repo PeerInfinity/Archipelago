@@ -570,24 +570,38 @@ export function tr_big_key_chest_keys_needed(state, world, itemName, staticData)
 }
 
 export function item_name_in_location_names(state, world, itemName, staticData) {
-  // TODO: Implement multi-location item checking
-  // Requires: Array of [locationName, playerNum] pairs as itemName parameter
-  // And: location item data in staticData
-  // This function checks if a specific item is placed in any of the given locations
+  // Check if a specific item is placed in any of the given locations
+  // itemName: can be a single value (for single-arg calls) or array [searchItem, locationPairs] (for multi-arg calls)
   
-  // Parse parameters - itemName should contain the item to search for
-  // and world should contain the location pairs array
-  const searchItem = itemName;
-  const locationPairs = Array.isArray(world) ? world : [];
-  const currentPlayer = state.player?.slot || 1;
+  let searchItem, locationPairs;
   
-  for (const [locationName, locationPlayer] of locationPairs) {
+  if (Array.isArray(itemName) && itemName.length >= 2) {
+    // Multi-argument call: [searchItem, locationPairs]
+    searchItem = itemName[0];
+    locationPairs = itemName[1];
+  } else {
+    // Single-argument call (backward compatibility)
+    searchItem = itemName;
+    locationPairs = Array.isArray(world) ? world : [];
+  }
+  
+  if (!Array.isArray(locationPairs)) {
+    return false;
+  }
+  
+  const currentPlayer = state.player?.slot || parseInt(state.player) || 1;
+  
+  for (const locationPair of locationPairs) {
+    if (!Array.isArray(locationPair) || locationPair.length < 2) continue;
+    
+    const [locationName, locationPlayer] = locationPair;
     if (typeof locationName !== 'string') continue;
     
-    const itemAtLocation = location_item_name(state, world, locationName, staticData);
+    const itemAtLocation = location_item_name(state, {}, locationName, staticData);
     if (itemAtLocation && Array.isArray(itemAtLocation)) {
       const [foundItem, foundPlayer] = itemAtLocation;
-      if (foundItem === searchItem && foundPlayer === currentPlayer) {
+      // Check if this is the item we're looking for and it belongs to the right player
+      if (foundItem === searchItem && parseInt(foundPlayer) === parseInt(locationPlayer)) {
         return true;
       }
     }
@@ -771,6 +785,40 @@ export function can_get_bottle(state, world, itemName, staticData) {
          can_reach_region(state, world, 'Magic Shop', staticData);
 }
 
+export function zip(state, world, itemName, staticData) {
+  // Python's zip function - combines multiple iterables element-wise
+  // Expected usage: zip([list1], [list2], ...) -> [[item1_from_list1, item1_from_list2], ...]
+  // itemName should be an array of arrays to zip together
+  
+  if (!Array.isArray(itemName) || itemName.length === 0) {
+    return [];
+  }
+  
+  // Get the shortest length among all arrays
+  const minLength = Math.min(...itemName.map(arr => Array.isArray(arr) ? arr.length : 0));
+  
+  // Create the zipped result
+  const result = [];
+  for (let i = 0; i < minLength; i++) {
+    const tuple = itemName.map(arr => arr[i]);
+    result.push(tuple);
+  }
+  
+  return result;
+}
+
+export function len(state, world, itemName, staticData) {
+  // Python's len function - returns the length of a collection
+  if (Array.isArray(itemName)) {
+    return itemName.length;
+  } else if (typeof itemName === 'string') {
+    return itemName.length;
+  } else if (itemName && typeof itemName === 'object') {
+    return Object.keys(itemName).length;
+  }
+  return 0;
+}
+
 // Additional utility functions that may be referenced in rules
 
 export function can_bomb_things(state, world, itemName, staticData) {
@@ -924,6 +972,8 @@ export const helperFunctions = {
   has_crystals_count,
   can_reach_region,
   can_get_bottle,
+  zip,
+  len,
   
   // Additional utility functions
   can_bomb_things,

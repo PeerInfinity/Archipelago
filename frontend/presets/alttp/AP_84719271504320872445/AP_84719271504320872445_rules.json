@@ -27556,19 +27556,21 @@
   "settings": {
     "1": {
       "game": "A Link to the Past",
-      "dark_room_logic": null,
-      "retro_bow": null,
-      "swordless": null,
-      "enemy_shuffle": null,
-      "enemy_health": null,
-      "enemy_damage": null,
-      "bombless_start": null,
-      "glitches_required": null,
-      "pot_shuffle": null,
-      "dungeon_counters": null,
-      "glitch_boots": null,
-      "accessibility": null,
-      "mode": null,
+      "dark_room_logic": "lamp",
+      "retro_bow": false,
+      "swordless": false,
+      "enemy_shuffle": false,
+      "enemy_health": "easy",
+      "enemy_damage": "default",
+      "bombless_start": false,
+      "glitches_required": "none",
+      "pot_shuffle": "off",
+      "dungeon_counters": "on",
+      "glitch_boots": "on",
+      "accessibility": "locations",
+      "mode": "open",
+      "crystals_needed_for_gt": 7,
+      "crystals_needed_for_ganon": 7,
       "shuffle_capacity_upgrades": "off",
       "treasure_hunt_required": 0,
       "difficulty_requirements": {
@@ -27581,7 +27583,29 @@
         "Quake"
       ],
       "misery_mire_medallion": "Ether",
-      "turtle_rock_medallion": "Quake"
+      "turtle_rock_medallion": "Quake",
+      "location_collections": {
+        "randomizer_room_chests": [
+          "Ganons Tower - Randomizer Room - Top Left",
+          "Ganons Tower - Randomizer Room - Top Right",
+          "Ganons Tower - Randomizer Room - Bottom Left",
+          "Ganons Tower - Randomizer Room - Bottom Right"
+        ],
+        "compass_room_chests": [
+          "Ganons Tower - Compass Room - Top Left",
+          "Ganons Tower - Compass Room - Top Right",
+          "Ganons Tower - Compass Room - Bottom Left",
+          "Ganons Tower - Compass Room - Bottom Right",
+          "Ganons Tower - Conveyor Star Pits Pot Key"
+        ],
+        "back_chests": [
+          "Ganons Tower - Bob's Chest",
+          "Ganons Tower - Big Chest",
+          "Ganons Tower - Big Key Room - Left",
+          "Ganons Tower - Big Key Room - Right",
+          "Ganons Tower - Big Key Chest"
+        ]
+      }
     }
   },
   "game_info": {

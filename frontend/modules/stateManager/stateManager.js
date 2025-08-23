@@ -649,6 +649,11 @@ export class StateManager {
     this.settings = gameSettingsFromFile;
     this.settings.game = gameName; // Ensure game name is correctly set
     
+    // For ALTTP, ensure location_collections are available in settings
+    if (gameName === 'A Link to the Past' && gameSettingsFromFile.location_collections) {
+      this.settings.location_collections = gameSettingsFromFile.location_collections;
+    }
+    
     log('info', `[StateManager] Loaded logic module for: "${gameName}"`);
 
     // All games now use gameStateModule - no legacy GameState needed
@@ -2256,7 +2261,10 @@ export class StateManager {
           groupData: this.groupData,
           itemData: this.itemData,
         };
-        return this.helperFunctions[name](snapshot, 'world', args[0], staticData);
+        // For helpers that need multiple arguments, pass them as an array in the itemName parameter
+        // Most helpers expect (state, world, itemName, staticData) but some need multiple args
+        const helperArgs = args.length > 1 ? args : args[0];
+        return this.helperFunctions[name](snapshot, 'world', helperArgs, staticData);
       }
       return false; // Default return if no helper is found
     } finally {
@@ -2780,9 +2788,23 @@ export class StateManager {
         if (name === 'inventory') return self.inventory; // The inventory instance
         // Return gameStateModule for ALTTP, state for others
         if (name === 'state') {
-          return self.gameStateModule && self.settings?.game === 'A Link to the Past'
-            ? self.gameStateModule
-            : self.state; // For other games, return the state instance
+          if (self.gameStateModule && self.settings?.game === 'A Link to the Past') {
+            // For ALTTP, return a state object that includes the multiworld structure for compatibility with Python rules
+            return {
+              ...self.gameStateModule,
+              multiworld: {
+                worlds: {
+                  [self.playerSlot]: {
+                    options: {
+                      ...self.settings // Include all settings as options (now properly exported from Python)
+                    }
+                  }
+                }
+              }
+            };
+          } else {
+            return self.state; // For other games, return the state instance
+          }
         }
         if (name === 'settings') return self.settings; // The settings object for the current game
         // Note: 'helpers' itself is usually not resolved by name directly in rules this way,
@@ -2798,6 +2820,19 @@ export class StateManager {
         if (name === 'locations') return self.locations; // The flat array of all location objects
         if (name === 'items') return self.itemData; // Item definitions
         if (name === 'groups') return self.groupData; // Item group definitions
+
+        // ALTTP-specific location collections for complex rules (now exported from Python)
+        if (self.settings?.game === 'A Link to the Past' && self.settings?.location_collections) {
+          if (name === 'randomizer_room_chests') {
+            return self.settings.location_collections.randomizer_room_chests || [];
+          }
+          if (name === 'back_chests') {
+            return self.settings.location_collections.back_chests || [];
+          }
+          if (name === 'compass_room_chests') {
+            return self.settings.location_collections.compass_room_chests || [];
+          }
+        }
 
         // Fallback: if 'name' is a direct method or property on the helpers object
         if (

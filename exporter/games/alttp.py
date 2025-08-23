@@ -222,7 +222,7 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
 
         # Helper to safely extract option values
         def extract_option(option_name):
-            option = getattr(multiworld, option_name, {}).get(player, None)
+            option = getattr(world.options, option_name, None)
             # Check if the option has a 'value' attribute (like Option objects)
             # Otherwise, return the option itself (might be a direct value like bool/int)
             return getattr(option, 'value', option)
@@ -233,6 +233,7 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             'enemy_health', 'enemy_damage', 'bombless_start', 'glitches_required',
             'pot_shuffle', 'dungeon_counters', 'glitch_boots', 'accessibility',
             'mode', # Mode is crucial
+            'crystals_needed_for_gt', 'crystals_needed_for_ganon', # Crystal requirements
         ]
         for setting in alttp_settings_mw:
              settings_dict[setting] = extract_option(setting)
@@ -280,6 +281,30 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
              settings_dict['required_medallions'] = []
              settings_dict['misery_mire_medallion'] = None
              settings_dict['turtle_rock_medallion'] = None
+
+        # Add ALTTP-specific location collections used in rule logic
+        settings_dict['location_collections'] = {
+            'randomizer_room_chests': [
+                'Ganons Tower - Randomizer Room - Top Left',
+                'Ganons Tower - Randomizer Room - Top Right', 
+                'Ganons Tower - Randomizer Room - Bottom Left',
+                'Ganons Tower - Randomizer Room - Bottom Right'
+            ],
+            'compass_room_chests': [
+                'Ganons Tower - Compass Room - Top Left',
+                'Ganons Tower - Compass Room - Top Right',
+                'Ganons Tower - Compass Room - Bottom Left',
+                'Ganons Tower - Compass Room - Bottom Right',
+                'Ganons Tower - Conveyor Star Pits Pot Key'
+            ],
+            'back_chests': [
+                'Ganons Tower - Bob\'s Chest',
+                'Ganons Tower - Big Chest', 
+                'Ganons Tower - Big Key Room - Left',
+                'Ganons Tower - Big Key Room - Right',
+                'Ganons Tower - Big Key Chest'
+            ]
+        }
 
         return settings_dict
 

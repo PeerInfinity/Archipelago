@@ -798,7 +798,15 @@ export const evaluateRule = (rule, context, depth = 0) => {
             result = left - right;
             break;
           case '*':
-            result = left * right;
+            // Handle Python-style list repetition: [item] * count = [item, item, ...]
+            if (Array.isArray(left) && typeof right === 'number') {
+              result = [];
+              for (let i = 0; i < right; i++) {
+                result.push(...left);
+              }
+            } else {
+              result = left * right;
+            }
             break;
           case '/':
             result = right !== 0 ? left / right : undefined;
