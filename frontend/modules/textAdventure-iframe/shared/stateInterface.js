@@ -94,7 +94,7 @@ export function createStateSnapshotInterface(
         case 'flags':
           return snapshot?.flags;
         case 'state':
-          return snapshot?.state;
+          return snapshot;
         case 'regions':
           return staticData?.regions;
         case 'locations':
@@ -205,8 +205,8 @@ export function createStateSnapshotInterface(
     },
     getPlayerSlot: () => snapshot?.player?.slot,
     getGameMode: () => snapshot?.gameMode,
-    getDifficultyRequirements: () => snapshot?.state?.difficultyRequirements,
-    getShops: () => snapshot?.state?.shops,
+    getDifficultyRequirements: () => snapshot?.difficultyRequirements,
+    getShops: () => snapshot?.shops,
     getRegionData: (regionName) => {
       if (!staticData || !staticData.regions) return undefined;
       for (const playerId in staticData.regions) {
@@ -228,11 +228,11 @@ export function createStateSnapshotInterface(
       dungeons: staticData.dungeonData || staticData.dungeons,
     }),
     getStateValue: (pathString) => {
-      if (!snapshot || !snapshot.state) return undefined;
+      if (!snapshot) return undefined;
       if (typeof pathString !== 'string' || pathString.trim() === '')
         return undefined;
       const keys = pathString.split('.');
-      let current = snapshot.state;
+      let current = snapshot;
       for (const key of keys) {
         if (current && typeof current === 'object' && key in current)
           current = current[key];
@@ -369,9 +369,6 @@ export function createStateSnapshotInterface(
       if (snapshot?.game === 'A Link to the Past') {
         // Map method names to helper names if needed
         let helperName = methodName;
-        if (methodName === '_lttp_has_key') {
-          helperName = '_has_specific_key_count';
-        }
         
         // Check if this is a helper function in alttpLogic
         if (alttpLogic[helperName]) {

@@ -518,8 +518,10 @@ class RuleAnalyzer(ast.NodeVisitor):
                     result = {'type': 'group_check', 'group': processed_args[0]}
                 elif method == 'has_any' and len(processed_args) >= 1 and isinstance(processed_args[0], list):
                     result = {'type': 'or', 'conditions': [{'type': 'item_check', 'item': item} for item in processed_args[0]]}
-                elif method == '_lttp_has_key' and len(processed_args) >= 2:
-                    result = {'type': 'count_check', 'item': processed_args[0], 'count': processed_args[1]}
+                elif method == '_lttp_has_key' and len(processed_args) >= 1:
+                    # Default count to 1 if not specified
+                    count = processed_args[1] if len(processed_args) >= 2 else {'type': 'constant', 'value': 1}
+                    result = {'type': 'count_check', 'item': processed_args[0], 'count': count}
                 # Add other state methods like can_reach if needed
                 # elif method == 'can_reach': ... 
                 else:

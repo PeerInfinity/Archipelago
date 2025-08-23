@@ -1,10 +1,10 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-08-22 11:54:43
+**Generated:** 2025-08-22 19:27:49
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-08-22T10:23:17.792159
+**Source Data Last Updated:** 2025-08-22T19:27:29.984361
 
 **Script Version:** 1.0.0
 
@@ -19,7 +19,7 @@
 | Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |
 |-----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|
 | A Hat in Time | ❌ Failed | 0 | 0 | 5.1 | 🔴 0.0% | ✅ | ✅ |
-| A Link to the Past | ❌ Failed | 0 | 8.3 | 22.1 | 🟡 37.6% | ✅ | ✅ |
+| A Link to the Past | ❌ Failed | 0 | 11.2 | 22.1 | 🟡 50.7% | ✅ | ✅ |
 | A Short Hike | ✅ Passed | 0 | 1.5 | 1.5 | 🟢 Complete | ✅ | ⚫ |
 | Adventure | ✅ Passed | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
 | Aquaria | ❌ Failed | 0 | 0.1 | 5.1 | 🟠 2.0% | ⚫ | ⚫ |

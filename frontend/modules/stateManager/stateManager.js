@@ -2168,8 +2168,22 @@ export class StateManager {
       return this.can_reach(targetName, targetType, player);
     }
 
-    // 3. Look in helpers - handle both underscore and non-underscore versions
-    // Some helper methods might be defined with leading underscores
+    // 3. Look in modern helperFunctions system
+    if (this.helperFunctions) {
+      // Try exact method name first
+      if (typeof this.helperFunctions[method] === 'function') {
+        const snapshot = this.getSnapshot();
+        const staticData = {
+          progressionMapping: this.progressionMapping,
+          groupData: this.groupData,
+          itemData: this.itemData,
+        };
+        return this.helperFunctions[method](snapshot, 'world', args[0], staticData);
+      }
+
+    }
+
+    // 4. Legacy helpers system (fallback)
     if (this.helpers) {
       // Try exact method name first
       if (typeof this.helpers[method] === 'function') {

@@ -378,9 +378,19 @@ def load_existing_results(results_file: str) -> Dict:
     }
 
 
-def save_results(results: Dict, results_file: str):
+def save_results(results: Dict, results_file: str, batch_processing_time: float = None):
     """Save results to JSON file."""
     results['metadata']['last_updated'] = datetime.now().isoformat()
+    
+    # Add batch processing time if provided
+    if batch_processing_time is not None:
+        results['metadata']['batch_processing_time_seconds'] = round(batch_processing_time, 1)
+        results['metadata']['batch_processing_time_minutes'] = round(batch_processing_time / 60, 1)
+        
+        # Calculate average time per template if we have results
+        if 'results' in results and len(results['results']) > 0:
+            avg_time = batch_processing_time / len(results['results'])
+            results['metadata']['average_time_per_template_seconds'] = round(avg_time, 1)
     
     try:
         with open(results_file, 'w') as f:
@@ -764,6 +774,10 @@ def main():
     # Build world mapping once at startup
     world_mapping = build_and_load_world_mapping(project_root)
     
+    # Start timing the batch processing
+    batch_start_time = time.time()
+    print(f"Starting batch processing of {len(yaml_files)} templates...")
+    
     # Test each template
     total_files = len(yaml_files)
     for i, yaml_file in enumerate(yaml_files, 1):
@@ -792,8 +806,19 @@ def main():
             results['results'][yaml_file] = error_result
             save_results(results, results_file)
     
+    # Calculate total batch processing time
+    batch_end_time = time.time()
+    total_batch_time = batch_end_time - batch_start_time
+    
+    # Save final results with batch processing time
+    save_results(results, results_file, total_batch_time)
+    
     print(f"\n=== Testing Complete ===")
     print(f"Processed {len(yaml_files)} templates")
+    print(f"Total batch processing time: {total_batch_time:.1f} seconds ({total_batch_time/60:.1f} minutes)")
+    if len(yaml_files) > 0:
+        avg_time_per_template = total_batch_time / len(yaml_files)
+        print(f"Average time per template: {avg_time_per_template:.1f} seconds")
     print(f"Results saved to: {results_file}")
     
     # Print summary based on mode
