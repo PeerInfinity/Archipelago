@@ -137,6 +137,27 @@ export class TestSpoilerRuleEvaluator {
                   this._analyzeItemHelper(helperName, snapshotInterface, indent);
                 }
               }
+              
+              // Add specific analysis for undefined results (common issue with complex helpers)
+              if (result === undefined) {
+                this.log('info', `${indent}  Helper function returned undefined - analyzing why:`);
+                this.log('info', `${indent}    Args evaluated to: ${args.map(a => `${typeof a}: ${JSON.stringify(a)}`).join(', ')}`);
+                
+                // Special analysis for item_name_in_location_names helper
+                if (helperName === 'item_name_in_location_names') {
+                  this._analyzeItemNameInLocationNamesHelper(args, snapshotInterface, indent);
+                }
+                
+                // Special analysis for zip helper
+                if (helperName === 'zip') {
+                  this._analyzeZipHelper(args, snapshotInterface, indent);
+                }
+                
+                // Special analysis for len helper
+                if (helperName === 'len') {
+                  this._analyzeLenHelper(args, snapshotInterface, indent);
+                }
+              }
             } else {
               this.log('error', `${indent}  Helper function "${helperName}" NOT FOUND in snapshotInterface`);
               this.log('info', `${indent}  Available helper functions: ${Object.keys(snapshotInterface).filter(k => typeof snapshotInterface[k] === 'function').join(', ')}`);
@@ -350,6 +371,95 @@ export class TestSpoilerRuleEvaluator {
       if (hasThis || count > 0) {
         this.log('info', `${indent}      Found item "${variation}": ${hasThis} (count: ${count})`);
       }
+    }
+  }
+
+  /**
+   * Analyzes item_name_in_location_names helper function
+   * @private
+   */
+  _analyzeItemNameInLocationNamesHelper(args, snapshotInterface, indent) {
+    this.log('info', `${indent}    This is an item_name_in_location_names helper`);
+    if (args.length >= 2) {
+      const [searchItem, locationPairs] = args;
+      this.log('info', `${indent}      Search Item: ${JSON.stringify(searchItem)}`);
+      this.log('info', `${indent}      Location Pairs: ${JSON.stringify(locationPairs)}`);
+      
+      if (Array.isArray(locationPairs)) {
+        this.log('info', `${indent}      Checking ${locationPairs.length} location pairs:`);
+        locationPairs.forEach((pair, idx) => {
+          if (Array.isArray(pair) && pair.length >= 2) {
+            const [locationName, playerId] = pair;
+            this.log('info', `${indent}        ${idx+1}. Location: "${locationName}", Player: ${playerId}`);
+            
+            // Try to get the item at this location
+            try {
+              if (snapshotInterface.location_item_name) {
+                const itemAtLocation = snapshotInterface.location_item_name(locationName);
+                this.log('info', `${indent}           Item at location: ${JSON.stringify(itemAtLocation)}`);
+                if (itemAtLocation && Array.isArray(itemAtLocation)) {
+                  const [foundItem, foundPlayer] = itemAtLocation;
+                  const matches = foundItem === searchItem && parseInt(foundPlayer) === parseInt(playerId);
+                  this.log('info', `${indent}           Match check: ${foundItem} === ${searchItem} && ${foundPlayer} === ${playerId} = ${matches}`);
+                }
+              } else {
+                this.log('info', `${indent}           location_item_name function not available`);
+              }
+            } catch (error) {
+              this.log('error', `${indent}           Error checking location: ${error.message}`);
+            }
+          } else {
+            this.log('info', `${indent}        ${idx+1}. Invalid pair format: ${JSON.stringify(pair)}`);
+          }
+        });
+      } else {
+        this.log('info', `${indent}      Location pairs is not an array: ${typeof locationPairs}`);
+      }
+    } else {
+      this.log('info', `${indent}      Insufficient arguments: expected 2, got ${args.length}`);
+    }
+  }
+
+  /**
+   * Analyzes zip helper function  
+   * @private
+   */
+  _analyzeZipHelper(args, snapshotInterface, indent) {
+    this.log('info', `${indent}    This is a zip helper`);
+    this.log('info', `${indent}      Args count: ${args.length}`);
+    args.forEach((arg, idx) => {
+      this.log('info', `${indent}        Arg ${idx+1}: ${typeof arg} = ${JSON.stringify(arg)}`);
+      if (Array.isArray(arg)) {
+        this.log('info', `${indent}          Array length: ${arg.length}`);
+        if (arg.length <= 10) { // Don't spam if array is too long
+          arg.forEach((item, i) => {
+            this.log('info', `${indent}            [${i}]: ${JSON.stringify(item)}`);
+          });
+        }
+      }
+    });
+  }
+
+  /**
+   * Analyzes len helper function
+   * @private  
+   */
+  _analyzeLenHelper(args, snapshotInterface, indent) {
+    this.log('info', `${indent}    This is a len helper`);
+    if (args.length >= 1) {
+      const [target] = args;
+      this.log('info', `${indent}      Target: ${typeof target} = ${JSON.stringify(target)}`);
+      if (Array.isArray(target)) {
+        this.log('info', `${indent}        Array length: ${target.length}`);
+      } else if (typeof target === 'string') {
+        this.log('info', `${indent}        String length: ${target.length}`);
+      } else if (target && typeof target === 'object') {
+        this.log('info', `${indent}        Object keys count: ${Object.keys(target).length}`);
+      } else {
+        this.log('info', `${indent}        Cannot determine length of this type`);
+      }
+    } else {
+      this.log('info', `${indent}      No arguments provided`);
     }
   }
 }

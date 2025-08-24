@@ -397,10 +397,6 @@ export class StateManagerProxy {
         break;
       }
       case 'stateSnapshot':
-        console.debug(
-          '[stateManagerProxy] Received stateSnapshot from worker.',
-          message.snapshot
-        );
         if (message.snapshot) {
           this.uiCache = message.snapshot;
           this.isPotentialStaleSnapshot = false; // <<< ADDED: Reset flag on snapshot arrival

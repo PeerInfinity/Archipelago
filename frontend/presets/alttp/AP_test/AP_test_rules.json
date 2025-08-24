@@ -1,0 +1,3060 @@
+{
+  "schema_version": 3,
+  "game_name": "A Link to the Past",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "ALTTPWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": 1,
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Test Exit",
+            "connected_region": "TestRegion",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "is_light_world": true,
+        "is_dark_world": false
+      },
+      "TestRegion": {
+        "name": "TestRegion",
+        "type": 1,
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Test Exit",
+            "parent_region": "Menu",
+            "connected_region": "TestRegion",
+            "reverse": null,
+            "assumed": false,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ganons Tower - Firesnake Room", 
+            "id": 999999,
+            "crystal": false,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Moon Pearl"
+                  }
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "count_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Small Key (Ganons Tower)"
+                      },
+                      "count": {
+                        "type": "constant",
+                        "value": 7
+                      }
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "or",
+                          "conditions": [
+                            {
+                              "type": "helper",
+                              "name": "item_name_in_location_names",
+                              "args": [
+                                {
+                                  "type": "constant",
+                                  "value": "Big Key (Ganons Tower)"
+                                },
+                                {
+                                  "type": "constant",
+                                  "value": [
+                                    ["Ganons Tower - Randomizer Room - Top Left", 1],
+                                    ["Ganons Tower - Randomizer Room - Top Right", 1],
+                                    ["Ganons Tower - Randomizer Room - Bottom Left", 1],
+                                    ["Ganons Tower - Randomizer Room - Bottom Right", 1]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "helper",
+                              "name": "item_name_in_location_names",
+                              "args": [
+                                {
+                                  "type": "constant",
+                                  "value": "Small Key (Ganons Tower)"
+                                },
+                                {
+                                  "type": "list",
+                                  "value": [
+                                    {
+                                      "type": "list",
+                                      "value": [
+                                        {
+                                          "type": "constant",
+                                          "value": "Ganons Tower - Firesnake Room"
+                                        },
+                                        {
+                                          "type": "name",
+                                          "name": "player"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "count_check",
+                          "item": {
+                            "type": "constant",
+                            "value": "Small Key (Ganons Tower)"
+                          },
+                          "count": {
+                            "type": "constant",
+                            "value": 5
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "item": {
+              "name": "Rupees (5)",
+              "player": 1
+            },
+            "progress_type": 1,
+            "locked": false,
+            "type": "Location"
+          },
+          {
+            "name": "Ganons Tower - Randomizer Room - Top Left",
+            "id": 1000001,
+            "crystal": false,
+            "access_rule": {
+              "type": "constant", 
+              "value": true
+            },
+            "item": {
+              "name": "Big Key (Ganons Tower)",
+              "player": 1
+            },
+            "type": "Location"
+          },
+          {
+            "name": "Ganons Tower - Randomizer Room - Top Right",
+            "id": 1000002,
+            "crystal": false,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Small Key (Ganons Tower)", 
+              "player": 1
+            },
+            "type": "Location"
+          },
+          {
+            "name": "Ganons Tower - Randomizer Room - Bottom Left",
+            "id": 1000003,
+            "crystal": false,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Red Rupee",
+              "player": 1
+            },
+            "type": "Location"
+          },
+          {
+            "name": "Ganons Tower - Randomizer Room - Bottom Right", 
+            "id": 1000004,
+            "crystal": false,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "item": {
+              "name": "Blue Rupee",
+              "player": 1
+            },
+            "type": "Location"
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "is_light_world": false,
+        "is_dark_world": true
+      }
+    }
+  },
+  "dungeons": {},
+  "start_regions": {
+    "1": [
+      "Menu"
+    ]
+  },
+  "items": {
+    "1": {
+      "Bow": {
+        "name": "Bow",
+        "id": 11,
+        "groups": [
+          "Bows",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Bow": {
+        "name": "Progressive Bow",
+        "id": 100,
+        "groups": [
+          "Bows",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Progressive Bow (Alt)": {
+        "name": "Progressive Bow (Alt)",
+        "id": 101,
+        "groups": [
+          "Bows",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Silver Arrows": {
+        "name": "Silver Arrows",
+        "id": 88,
+        "groups": [
+          "Bows",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Silver Bow": {
+        "name": "Silver Bow",
+        "id": 59,
+        "groups": [
+          "Bows",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Book of Mudora": {
+        "name": "Book of Mudora",
+        "id": 29,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Hammer": {
+        "name": "Hammer",
+        "id": 9,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Hookshot": {
+        "name": "Hookshot",
+        "id": 10,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Magic Mirror": {
+        "name": "Magic Mirror",
+        "id": 26,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Flute": {
+        "name": "Flute",
+        "id": 20,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Pegasus Boots": {
+        "name": "Pegasus Boots",
+        "id": 75,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Power Glove": {
+        "name": "Power Glove",
+        "id": 27,
+        "groups": [
+          "Everything",
+          "Gloves",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Cape": {
+        "name": "Cape",
+        "id": 25,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Mushroom": {
+        "name": "Mushroom",
+        "id": 41,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Shovel": {
+        "name": "Shovel",
+        "id": 19,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Lamp": {
+        "name": "Lamp",
+        "id": 18,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Magic Powder": {
+        "name": "Magic Powder",
+        "id": 13,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Moon Pearl": {
+        "name": "Moon Pearl",
+        "id": 31,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Cane of Somaria": {
+        "name": "Cane of Somaria",
+        "id": 21,
+        "groups": [
+          "Canes",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Fire Rod": {
+        "name": "Fire Rod",
+        "id": 7,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Rods"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Flippers": {
+        "name": "Flippers",
+        "id": 30,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Ice Rod": {
+        "name": "Ice Rod",
+        "id": 8,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Rods"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Titans Mitts": {
+        "name": "Titans Mitts",
+        "id": 28,
+        "groups": [
+          "Everything",
+          "Gloves",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bombos": {
+        "name": "Bombos",
+        "id": 15,
+        "groups": [
+          "Everything",
+          "Medallions",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Ether": {
+        "name": "Ether",
+        "id": 16,
+        "groups": [
+          "Everything",
+          "Medallions",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Quake": {
+        "name": "Quake",
+        "id": 17,
+        "groups": [
+          "Everything",
+          "Medallions",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Bottle": {
+        "name": "Bottle",
+        "id": 22,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Bottle (Red Potion)": {
+        "name": "Bottle (Red Potion)",
+        "id": 43,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Potions",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Bottle (Green Potion)": {
+        "name": "Bottle (Green Potion)",
+        "id": 44,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Potions",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Bottle (Blue Potion)": {
+        "name": "Bottle (Blue Potion)",
+        "id": 45,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Potions",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Bottle (Fairy)": {
+        "name": "Bottle (Fairy)",
+        "id": 61,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Bottle (Bee)": {
+        "name": "Bottle (Bee)",
+        "id": 60,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Bottle (Good Bee)": {
+        "name": "Bottle (Good Bee)",
+        "id": 72,
+        "groups": [
+          "Bottles",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Master Sword": {
+        "name": "Master Sword",
+        "id": 80,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Swords"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 1
+      },
+      "Tempered Sword": {
+        "name": "Tempered Sword",
+        "id": 2,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Swords"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 1
+      },
+      "Fighter Sword": {
+        "name": "Fighter Sword",
+        "id": 73,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Swords"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 1
+      },
+      "Golden Sword": {
+        "name": "Golden Sword",
+        "id": 3,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Swords"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 1
+      },
+      "Progressive Sword": {
+        "name": "Progressive Sword",
+        "id": 94,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Swords"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Sword",
+        "max_count": 4
+      },
+      "Progressive Glove": {
+        "name": "Progressive Glove",
+        "id": 97,
+        "groups": [
+          "Everything",
+          "Gloves",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Green Pendant": {
+        "name": "Green Pendant",
+        "id": null,
+        "groups": [
+          "Pendants"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Blue Pendant": {
+        "name": "Blue Pendant",
+        "id": null,
+        "groups": [
+          "Pendants"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Red Pendant": {
+        "name": "Red Pendant",
+        "id": null,
+        "groups": [
+          "Pendants"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Triforce": {
+        "name": "Triforce",
+        "id": 106,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Power Star": {
+        "name": "Power Star",
+        "id": 107,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Triforce Piece": {
+        "name": "Triforce Piece",
+        "id": 108,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Crystal 1": {
+        "name": "Crystal 1",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Crystal 2": {
+        "name": "Crystal 2",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Crystal 3": {
+        "name": "Crystal 3",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Crystal 4": {
+        "name": "Crystal 4",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Crystal 5": {
+        "name": "Crystal 5",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Crystal 6": {
+        "name": "Crystal 6",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Crystal 7": {
+        "name": "Crystal 7",
+        "id": null,
+        "groups": [
+          "Crystals"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Crystal",
+        "max_count": 1
+      },
+      "Single Arrow": {
+        "name": "Single Arrow",
+        "id": 67,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Arrows (10)": {
+        "name": "Arrows (10)",
+        "id": 68,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 24
+      },
+      "Arrow Upgrade (+10)": {
+        "name": "Arrow Upgrade (+10)",
+        "id": 84,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arrow Upgrade (+5)": {
+        "name": "Arrow Upgrade (+5)",
+        "id": 83,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Arrow Upgrade (70)": {
+        "name": "Arrow Upgrade (70)",
+        "id": 77,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Single Bomb": {
+        "name": "Single Bomb",
+        "id": 39,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bombs (3)": {
+        "name": "Bombs (3)",
+        "id": 40,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 32
+      },
+      "Bombs (10)": {
+        "name": "Bombs (10)",
+        "id": 49,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Bomb Upgrade (+10)": {
+        "name": "Bomb Upgrade (+10)",
+        "id": 82,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb Upgrade (+5)": {
+        "name": "Bomb Upgrade (+5)",
+        "id": 81,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bomb Upgrade (50)": {
+        "name": "Bomb Upgrade (50)",
+        "id": 76,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blue Mail": {
+        "name": "Blue Mail",
+        "id": 34,
+        "groups": [
+          "Everything",
+          "Mails",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Mail": {
+        "name": "Red Mail",
+        "id": 35,
+        "groups": [
+          "Everything",
+          "Mails",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Mail": {
+        "name": "Progressive Mail",
+        "id": 96,
+        "groups": [
+          "Everything",
+          "Mails",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Blue Boomerang": {
+        "name": "Blue Boomerang",
+        "id": 12,
+        "groups": [
+          "Boomerangs",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Red Boomerang": {
+        "name": "Red Boomerang",
+        "id": 42,
+        "groups": [
+          "Boomerangs",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Blue Shield": {
+        "name": "Blue Shield",
+        "id": 4,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Shields"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Shield": {
+        "name": "Red Shield",
+        "id": 5,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Shields"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Mirror Shield": {
+        "name": "Mirror Shield",
+        "id": 6,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Shields"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Progressive Shield": {
+        "name": "Progressive Shield",
+        "id": 95,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Shields"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 3
+      },
+      "Bug Catching Net": {
+        "name": "Bug Catching Net",
+        "id": 33,
+        "groups": [
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Cane of Byrna": {
+        "name": "Cane of Byrna",
+        "id": 24,
+        "groups": [
+          "Canes",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Boss Heart Container": {
+        "name": "Boss Heart Container",
+        "id": 62,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 10
+      },
+      "Sanctuary Heart Container": {
+        "name": "Sanctuary Heart Container",
+        "id": 63,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Piece of Heart": {
+        "name": "Piece of Heart",
+        "id": 23,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 24
+      },
+      "Rupee (1)": {
+        "name": "Rupee (1)",
+        "id": 52,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Rupees"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 4
+      },
+      "Rupees (5)": {
+        "name": "Rupees (5)",
+        "id": 53,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Rupees"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 8
+      },
+      "Rupees (20)": {
+        "name": "Rupees (20)",
+        "id": 54,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Rupees"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 56
+      },
+      "Rupees (50)": {
+        "name": "Rupees (50)",
+        "id": 65,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Rupees"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 14
+      },
+      "Rupees (100)": {
+        "name": "Rupees (100)",
+        "id": 64,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Rupees"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Rupees (300)": {
+        "name": "Rupees (300)",
+        "id": 70,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Rupees"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 10
+      },
+      "Rupoor": {
+        "name": "Rupoor",
+        "id": 89,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Clock": {
+        "name": "Red Clock",
+        "id": 91,
+        "groups": [
+          "Clocks",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blue Clock": {
+        "name": "Blue Clock",
+        "id": 92,
+        "groups": [
+          "Clocks",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Clock": {
+        "name": "Green Clock",
+        "id": 93,
+        "groups": [
+          "Clocks",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": true,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Single RNG": {
+        "name": "Single RNG",
+        "id": 98,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Multi RNG": {
+        "name": "Multi RNG",
+        "id": 99,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Upgrade (1/2)": {
+        "name": "Magic Upgrade (1/2)",
+        "id": 78,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2
+      },
+      "Magic Upgrade (1/4)": {
+        "name": "Magic Upgrade (1/4)",
+        "id": 79,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Upgrades"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Key (Eastern Palace)": {
+        "name": "Small Key (Eastern Palace)",
+        "id": 162,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 2
+      },
+      "Big Key (Eastern Palace)": {
+        "name": "Big Key (Eastern Palace)",
+        "id": 157,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Eastern Palace)": {
+        "name": "Compass (Eastern Palace)",
+        "id": 141,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Eastern Palace)": {
+        "name": "Map (Eastern Palace)",
+        "id": 125,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Desert Palace)": {
+        "name": "Small Key (Desert Palace)",
+        "id": 163,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 4
+      },
+      "Big Key (Desert Palace)": {
+        "name": "Big Key (Desert Palace)",
+        "id": 156,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Desert Palace)": {
+        "name": "Compass (Desert Palace)",
+        "id": 140,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Desert Palace)": {
+        "name": "Map (Desert Palace)",
+        "id": 124,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Tower of Hera)": {
+        "name": "Small Key (Tower of Hera)",
+        "id": 170,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 1
+      },
+      "Big Key (Tower of Hera)": {
+        "name": "Big Key (Tower of Hera)",
+        "id": 149,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Tower of Hera)": {
+        "name": "Compass (Tower of Hera)",
+        "id": 133,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Tower of Hera)": {
+        "name": "Map (Tower of Hera)",
+        "id": 117,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Hyrule Castle)": {
+        "name": "Small Key (Hyrule Castle)",
+        "id": 160,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 4
+      },
+      "Big Key (Hyrule Castle)": {
+        "name": "Big Key (Hyrule Castle)",
+        "id": 159,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Hyrule Castle)": {
+        "name": "Compass (Hyrule Castle)",
+        "id": 143,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Hyrule Castle)": {
+        "name": "Map (Hyrule Castle)",
+        "id": 127,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Agahnims Tower)": {
+        "name": "Small Key (Agahnims Tower)",
+        "id": 164,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 4
+      },
+      "Big Key (Agahnims Tower)": {
+        "name": "Big Key (Agahnims Tower)",
+        "id": 155,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Agahnims Tower)": {
+        "name": "Compass (Agahnims Tower)",
+        "id": 139,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Agahnims Tower)": {
+        "name": "Map (Agahnims Tower)",
+        "id": 123,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Palace of Darkness)": {
+        "name": "Small Key (Palace of Darkness)",
+        "id": 166,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 6
+      },
+      "Big Key (Palace of Darkness)": {
+        "name": "Big Key (Palace of Darkness)",
+        "id": 153,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Palace of Darkness)": {
+        "name": "Compass (Palace of Darkness)",
+        "id": 137,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Palace of Darkness)": {
+        "name": "Map (Palace of Darkness)",
+        "id": 121,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Thieves Town)": {
+        "name": "Small Key (Thieves Town)",
+        "id": 171,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 3
+      },
+      "Big Key (Thieves Town)": {
+        "name": "Big Key (Thieves Town)",
+        "id": 148,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Thieves Town)": {
+        "name": "Compass (Thieves Town)",
+        "id": 132,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Thieves Town)": {
+        "name": "Map (Thieves Town)",
+        "id": 116,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Skull Woods)": {
+        "name": "Small Key (Skull Woods)",
+        "id": 168,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 5
+      },
+      "Big Key (Skull Woods)": {
+        "name": "Big Key (Skull Woods)",
+        "id": 151,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Skull Woods)": {
+        "name": "Compass (Skull Woods)",
+        "id": 135,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Skull Woods)": {
+        "name": "Map (Skull Woods)",
+        "id": 119,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Swamp Palace)": {
+        "name": "Small Key (Swamp Palace)",
+        "id": 165,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 6
+      },
+      "Big Key (Swamp Palace)": {
+        "name": "Big Key (Swamp Palace)",
+        "id": 154,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Swamp Palace)": {
+        "name": "Compass (Swamp Palace)",
+        "id": 138,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Swamp Palace)": {
+        "name": "Map (Swamp Palace)",
+        "id": 122,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Ice Palace)": {
+        "name": "Small Key (Ice Palace)",
+        "id": 169,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 6
+      },
+      "Big Key (Ice Palace)": {
+        "name": "Big Key (Ice Palace)",
+        "id": 150,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Ice Palace)": {
+        "name": "Compass (Ice Palace)",
+        "id": 134,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Ice Palace)": {
+        "name": "Map (Ice Palace)",
+        "id": 118,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Misery Mire)": {
+        "name": "Small Key (Misery Mire)",
+        "id": 167,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 6
+      },
+      "Big Key (Misery Mire)": {
+        "name": "Big Key (Misery Mire)",
+        "id": 152,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Misery Mire)": {
+        "name": "Compass (Misery Mire)",
+        "id": 136,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Misery Mire)": {
+        "name": "Map (Misery Mire)",
+        "id": 120,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Turtle Rock)": {
+        "name": "Small Key (Turtle Rock)",
+        "id": 172,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 6
+      },
+      "Big Key (Turtle Rock)": {
+        "name": "Big Key (Turtle Rock)",
+        "id": 147,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Turtle Rock)": {
+        "name": "Compass (Turtle Rock)",
+        "id": 131,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Turtle Rock)": {
+        "name": "Map (Turtle Rock)",
+        "id": 115,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Ganons Tower)": {
+        "name": "Small Key (Ganons Tower)",
+        "id": 173,
+        "groups": [
+          "Everything",
+          "Progression Items",
+          "Small Keys"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "SmallKey",
+        "max_count": 8
+      },
+      "Big Key (Ganons Tower)": {
+        "name": "Big Key (Ganons Tower)",
+        "id": 146,
+        "groups": [
+          "Big Keys",
+          "Everything",
+          "Progression Items"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "BigKey",
+        "max_count": 1
+      },
+      "Compass (Ganons Tower)": {
+        "name": "Compass (Ganons Tower)",
+        "id": 130,
+        "groups": [
+          "Compasses",
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Compass",
+        "max_count": 1
+      },
+      "Map (Ganons Tower)": {
+        "name": "Map (Ganons Tower)",
+        "id": 114,
+        "groups": [
+          "Everything",
+          "Maps",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": "Map",
+        "max_count": 1
+      },
+      "Small Key (Universal)": {
+        "name": "Small Key (Universal)",
+        "id": 175,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Small Keys"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Nothing": {
+        "name": "Nothing",
+        "id": 90,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bee Trap": {
+        "name": "Bee Trap",
+        "id": 176,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Faerie": {
+        "name": "Faerie",
+        "id": 177,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Good Bee": {
+        "name": "Good Bee",
+        "id": 178,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Magic Jar": {
+        "name": "Magic Jar",
+        "id": 179,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Apple": {
+        "name": "Apple",
+        "id": 180,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Red Potion": {
+        "name": "Red Potion",
+        "id": 46,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Potions"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Green Potion": {
+        "name": "Green Potion",
+        "id": 47,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Potions"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Blue Potion": {
+        "name": "Blue Potion",
+        "id": 48,
+        "groups": [
+          "Everything",
+          "Non Progression Items",
+          "Potions"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Bee": {
+        "name": "Bee",
+        "id": 14,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": true,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Small Heart": {
+        "name": "Small Heart",
+        "id": 66,
+        "groups": [
+          "Everything",
+          "Non Progression Items"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Activated Flute": {
+        "name": "Activated Flute",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Beat Agahnim 1": {
+        "name": "Beat Agahnim 1",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Beat Agahnim 2": {
+        "name": "Beat Agahnim 2",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Get Frog": {
+        "name": "Get Frog",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Return Smith": {
+        "name": "Return Smith",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Pick Up Purple Chest": {
+        "name": "Pick Up Purple Chest",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Open Floodgate": {
+        "name": "Open Floodgate",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Capacity Upgrade Shop": {
+        "name": "Capacity Upgrade Shop",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Big Keys",
+      "Boomerangs",
+      "Bottles",
+      "Bows",
+      "Canes",
+      "Clocks",
+      "Compasses",
+      "Crystals",
+      "Everything",
+      "Gloves",
+      "Mails",
+      "Maps",
+      "Medallions",
+      "Non Progression Items",
+      "Pendants",
+      "Potions",
+      "Progression Items",
+      "Rods",
+      "Rupees",
+      "Shields",
+      "Small Keys",
+      "Swords",
+      "Upgrades"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Activated Flute": 1,
+      "Arrows (10)": 24,
+      "Beat Agahnim 1": 1,
+      "Beat Agahnim 2": 1,
+      "Big Key (Desert Palace)": 1,
+      "Big Key (Eastern Palace)": 1,
+      "Big Key (Ganons Tower)": 1,
+      "Big Key (Hyrule Castle)": 1,
+      "Big Key (Ice Palace)": 1,
+      "Big Key (Misery Mire)": 1,
+      "Big Key (Palace of Darkness)": 1,
+      "Big Key (Skull Woods)": 1,
+      "Big Key (Swamp Palace)": 1,
+      "Big Key (Thieves Town)": 1,
+      "Big Key (Tower of Hera)": 1,
+      "Big Key (Turtle Rock)": 1,
+      "Blue Boomerang": 2,
+      "Blue Pendant": 1,
+      "Bombos": 2,
+      "Bombs (10)": 2,
+      "Bombs (3)": 32,
+      "Book of Mudora": 2,
+      "Boss Heart Container": 20,
+      "Bottle (Bee)": 2,
+      "Bottle (Blue Potion)": 4,
+      "Bottle (Red Potion)": 2,
+      "Bug Catching Net": 2,
+      "Cane of Byrna": 2,
+      "Cane of Somaria": 2,
+      "Capacity Upgrade Shop": 1,
+      "Cape": 2,
+      "Compass (Desert Palace)": 1,
+      "Compass (Eastern Palace)": 1,
+      "Compass (Ganons Tower)": 1,
+      "Compass (Ice Palace)": 1,
+      "Compass (Misery Mire)": 1,
+      "Compass (Palace of Darkness)": 1,
+      "Compass (Skull Woods)": 1,
+      "Compass (Swamp Palace)": 1,
+      "Compass (Thieves Town)": 1,
+      "Compass (Tower of Hera)": 1,
+      "Compass (Turtle Rock)": 1,
+      "Crystal 1": 1,
+      "Crystal 2": 1,
+      "Crystal 3": 1,
+      "Crystal 4": 1,
+      "Crystal 5": 1,
+      "Crystal 6": 1,
+      "Crystal 7": 1,
+      "Ether": 2,
+      "Fire Rod": 2,
+      "Flippers": 2,
+      "Flute": 2,
+      "Get Frog": 1,
+      "Green Pendant": 1,
+      "Hammer": 2,
+      "Hookshot": 2,
+      "Ice Rod": 2,
+      "Lamp": 2,
+      "Magic Mirror": 2,
+      "Magic Powder": 2,
+      "Magic Upgrade (1/2)": 2,
+      "Map (Desert Palace)": 1,
+      "Map (Eastern Palace)": 1,
+      "Map (Ganons Tower)": 1,
+      "Map (Hyrule Castle)": 1,
+      "Map (Ice Palace)": 1,
+      "Map (Misery Mire)": 1,
+      "Map (Palace of Darkness)": 1,
+      "Map (Skull Woods)": 1,
+      "Map (Swamp Palace)": 1,
+      "Map (Thieves Town)": 1,
+      "Map (Tower of Hera)": 1,
+      "Map (Turtle Rock)": 1,
+      "Moon Pearl": 2,
+      "Mushroom": 2,
+      "Open Floodgate": 1,
+      "Pegasus Boots": 2,
+      "Pick Up Purple Chest": 1,
+      "Piece of Heart": 48,
+      "Progressive Bow": 4,
+      "Progressive Glove": 4,
+      "Progressive Mail": 4,
+      "Progressive Shield": 6,
+      "Progressive Sword": 8,
+      "Quake": 2,
+      "Red Boomerang": 2,
+      "Red Pendant": 1,
+      "Return Smith": 1,
+      "Rupee (1)": 4,
+      "Rupees (100)": 2,
+      "Rupees (20)": 56,
+      "Rupees (300)": 10,
+      "Rupees (5)": 8,
+      "Rupees (50)": 14,
+      "Sanctuary Heart Container": 2,
+      "Shovel": 2,
+      "Single Arrow": 2,
+      "Small Key (Agahnims Tower)": 4,
+      "Small Key (Desert Palace)": 4,
+      "Small Key (Eastern Palace)": 2,
+      "Small Key (Ganons Tower)": 8,
+      "Small Key (Hyrule Castle)": 4,
+      "Small Key (Ice Palace)": 6,
+      "Small Key (Misery Mire)": 6,
+      "Small Key (Palace of Darkness)": 6,
+      "Small Key (Skull Woods)": 5,
+      "Small Key (Swamp Palace)": 6,
+      "Small Key (Thieves Town)": 3,
+      "Small Key (Tower of Hera)": 1,
+      "Small Key (Turtle Rock)": 6,
+      "Triforce": 1,
+      "__max_boss_heart_container": 10,
+      "__max_heart_piece": 24,
+      "__max_progressive_bottle": 4
+    }
+  },
+  "progression_mapping": {
+    "1": {
+      "Progressive Sword": {
+        "items": [
+          {
+            "name": "Fighter Sword",
+            "level": 1
+          },
+          {
+            "name": "Master Sword",
+            "level": 2
+          },
+          {
+            "name": "Tempered Sword",
+            "level": 3
+          },
+          {
+            "name": "Golden Sword",
+            "level": 4
+          }
+        ],
+        "base_item": "Progressive Sword"
+      },
+      "Progressive Glove": {
+        "items": [
+          {
+            "name": "Power Glove",
+            "level": 1
+          },
+          {
+            "name": "Titans Mitts",
+            "level": 2
+          }
+        ],
+        "base_item": "Progressive Glove"
+      },
+      "Progressive Shield": {
+        "items": [
+          {
+            "name": "Blue Shield",
+            "level": 1
+          },
+          {
+            "name": "Red Shield",
+            "level": 2
+          },
+          {
+            "name": "Mirror Shield",
+            "level": 3
+          }
+        ],
+        "base_item": "Progressive Shield"
+      },
+      "Progressive Bow": {
+        "items": [
+          {
+            "name": "Bow",
+            "level": 1
+          },
+          {
+            "name": "Silver Bow",
+            "level": 2
+          }
+        ],
+        "base_item": "Progressive Bow"
+      }
+    }
+  },
+  "starting_items": {
+    "1": {}
+  },
+ "settings": {
+    "1": {
+      "game": "A Link to the Past",
+      "dark_room_logic": "lamp",
+      "retro_bow": false,
+      "swordless": false,
+      "enemy_shuffle": false,
+      "enemy_health": "easy",
+      "enemy_damage": "default",
+      "bombless_start": false,
+      "glitches_required": "none",
+      "pot_shuffle": "off",
+      "dungeon_counters": "on",
+      "glitch_boots": "on",
+      "accessibility": "locations",
+      "mode": "open",
+      "crystals_needed_for_gt": 7,
+      "crystals_needed_for_ganon": 7,
+      "shuffle_capacity_upgrades": "off",
+      "treasure_hunt_required": 0,
+      "difficulty_requirements": {
+        "progressive_bottle_limit": 4,
+        "boss_heart_container_limit": 10,
+        "heart_piece_limit": 24
+      },
+      "required_medallions": [
+        "Quake",
+        "Ether"
+      ],
+      "misery_mire_medallion": "Quake",
+      "turtle_rock_medallion": "Ether",
+      "location_collections": {
+        "randomizer_room_chests": [
+          "Ganons Tower - Randomizer Room - Top Left",
+          "Ganons Tower - Randomizer Room - Top Right",
+          "Ganons Tower - Randomizer Room - Bottom Left",
+          "Ganons Tower - Randomizer Room - Bottom Right"
+        ],
+        "compass_room_chests": [
+          "Ganons Tower - Compass Room - Top Left",
+          "Ganons Tower - Compass Room - Top Right",
+          "Ganons Tower - Compass Room - Bottom Left",
+          "Ganons Tower - Compass Room - Bottom Right",
+          "Ganons Tower - Conveyor Star Pits Pot Key"
+        ],
+        "back_chests": [
+          "Ganons Tower - Bob's Chest",
+          "Ganons Tower - Big Chest",
+          "Ganons Tower - Big Key Room - Left",
+          "Ganons Tower - Big Key Room - Right",
+          "Ganons Tower - Big Key Chest"
+        ]
+      }
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "A Link to the Past",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

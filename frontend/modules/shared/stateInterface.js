@@ -120,8 +120,15 @@ export function createStateSnapshotInterface(
         case 'dungeons':
           return staticData?.dungeons;
         case 'player':
-          return snapshot?.player?.slot;
+          return snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
+        case 'location_collections':
+          return snapshot?.settings?.location_collections;
         default:
+          // Check for ALTTP location collections by name
+          if (snapshot?.settings?.location_collections && 
+              snapshot.settings.location_collections[name]) {
+            return snapshot.settings.location_collections[name];
+          }
           return undefined;
       }
     },
@@ -345,7 +352,12 @@ export function createStateSnapshotInterface(
 
       if (selectedHelpers && selectedHelpers[helperName]) {
         // Call the agnostic helper, passing the snapshot as the state
-        return selectedHelpers[helperName](snapshot, 'world', args[0], staticData);
+        if (helperName === 'item_name_in_location_names' && args.length === 2) {
+          // Special handling for item_name_in_location_names with 2 args
+          return selectedHelpers[helperName](snapshot, args[1], args[0], staticData);
+        } else {
+          return selectedHelpers[helperName](snapshot, 'world', args[0], staticData);
+        }
       }
       
       return undefined; // Helper not found - all games should use agnostic helpers

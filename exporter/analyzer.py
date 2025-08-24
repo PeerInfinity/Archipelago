@@ -283,11 +283,12 @@ class RuleAnalyzer(ast.NodeVisitor):
     - Helper functions
     - Nested expressions
     """
-    def __init__(self, closure_vars=None, seen_funcs=None, game_handler=None, rule_func=None):
+    def __init__(self, closure_vars=None, seen_funcs=None, game_handler=None, rule_func=None, player_context=None):
         self.closure_vars = closure_vars or {}  # Helper functions available in closure
         self.seen_funcs = seen_funcs or {}  # Track analyzed helper functions
         self.game_handler = game_handler  # Game-specific handler for name replacements
         self.rule_func = rule_func  # Original function for accessing defaults
+        self.player_context = player_context  # Current player number context
         self.debug_log = []
         self.error_log = []
 
@@ -453,7 +454,8 @@ class RuleAnalyzer(ast.NodeVisitor):
                           recursive_result = analyze_rule(rule_func=actual_func, 
                                                           closure_vars=self.closure_vars.copy(), 
                                                           seen_funcs=self.seen_funcs, # Pass the dict
-                                                          game_handler=self.game_handler)
+                                                          game_handler=self.game_handler,
+                                                          player_context=self.player_context)
                           if recursive_result.get('type') != 'error':
                               logging.debug(f"Recursive analysis successful for {func_name}. Result: {recursive_result}")
                               return recursive_result # Return the detailed analysis result
@@ -477,6 +479,24 @@ class RuleAnalyzer(ast.NodeVisitor):
                 logging.debug(f"Created 'all_of' result: {result}")
                 return result
             # *** END ADDED ***
+
+            # *** Special handling for zip() function ***
+            if func_name == 'zip':
+                logging.debug(f"Detected zip() function call with {len(processed_args)} args")
+                processed_result = self._try_preprocess_zip(processed_args)
+                if processed_result is not None:
+                    logging.debug(f"Pre-processed zip() to: {processed_result}")
+                    return processed_result
+                # If can't pre-process, fall through to regular helper handling
+
+            # *** Special handling for len() function ***
+            if func_name == 'len' and len(processed_args) == 1:
+                logging.debug(f"Detected len() function call")
+                processed_result = self._try_preprocess_len(processed_args[0])
+                if processed_result is not None:
+                    logging.debug(f"Pre-processed len() to: {processed_result}")
+                    return processed_result
+                # If can't pre-process, fall through to regular helper handling
 
             result = {
                 'type': 'helper',
@@ -964,6 +984,12 @@ class RuleAnalyzer(ast.NodeVisitor):
             }
             op_symbol = op_map.get(op_name, op_name) # Use class name if no symbol
 
+            # Try to pre-process certain binary operations during export
+            processed_result = self._try_preprocess_binary_op(left_result, op_symbol, right_result)
+            if processed_result is not None:
+                logging.debug(f"Pre-processed binary operation to: {processed_result}")
+                return processed_result
+
             return {
                 'type': 'binary_op',
                 'left': left_result,
@@ -972,6 +998,288 @@ class RuleAnalyzer(ast.NodeVisitor):
             }
         except Exception as e:
             logging.error("Error in visit_BinOp", e)
+            return None
+
+    def _try_preprocess_binary_op(self, left_result, op_symbol, right_result):
+        """
+        Try to pre-process binary operations that can be computed during export.
+        Returns the processed result or None if it can't be pre-processed.
+        """
+        try:
+            # Handle list multiplication: [player] * constant_value
+            if (op_symbol == '*' and 
+                left_result and left_result.get('type') == 'list' and
+                right_result and right_result.get('type') == 'constant'):
+                
+                # Extract the list being multiplied
+                left_list = left_result.get('value', [])
+                
+                # Extract the constant value
+                multiplier = right_result.get('value')
+                if isinstance(multiplier, int) and multiplier > 0:
+                    # Compute [player] * length = [player, player, player, ...]
+                    result_list = left_list * multiplier
+                    logging.debug(f"Pre-processed list multiplication: {left_list} * {multiplier} = {result_list}")
+                    return {'type': 'list', 'value': result_list}
+            
+            # Handle list addition: list1 + list2
+            elif (op_symbol == '+' and 
+                  left_result and left_result.get('type') == 'name' and
+                  right_result and right_result.get('type') == 'name'):
+                
+                # Try to resolve both list references
+                left_data = self._try_resolve_list_data(left_result)
+                right_data = self._try_resolve_list_data(right_result)
+                
+                if left_data is not None and right_data is not None:
+                    combined_list = left_data + right_data
+                    logging.debug(f"Pre-processed list addition: {left_data} + {right_data} = {combined_list}")
+                    return {'type': 'constant', 'value': combined_list}
+            
+            # Handle list multiplication: [player] * len(some_list) (legacy case)
+            elif (op_symbol == '*' and 
+                  left_result and left_result.get('type') == 'list' and
+                  right_result and right_result.get('type') == 'helper' and 
+                  right_result.get('name') == 'len'):
+                
+                # Extract the list being multiplied
+                left_list = left_result.get('value', [])
+                
+                # Extract the argument to len() function
+                len_args = right_result.get('args', [])
+                if len(len_args) == 1:
+                    len_arg = len_args[0]
+                    
+                    # Check if we can resolve the length
+                    resolved_length = self._try_resolve_list_length(len_arg)
+                    if resolved_length is not None:
+                        # Compute [player] * length = [player, player, player, ...]
+                        result_list = left_list * resolved_length
+                        logging.debug(f"Pre-processed list multiplication: {left_list} * {resolved_length} = {result_list}")
+                        return {'type': 'list', 'value': result_list}
+            
+            return None  # Can't pre-process
+        except Exception as e:
+            logging.warning(f"Error during binary operation pre-processing: {e}")
+            return None
+
+    def _try_resolve_list_length(self, list_ref):
+        """
+        Try to resolve the length of a list reference during export.
+        Returns the length or None if it can't be resolved.
+        """
+        try:
+            # Handle direct name references to known collections
+            if list_ref and list_ref.get('type') == 'name':
+                name = list_ref.get('name')
+                
+                # Check if we have game handler with known collections
+                if self.game_handler and hasattr(self.game_handler, 'get_collection_length'):
+                    length = self.game_handler.get_collection_length(name)
+                    if length is not None:
+                        logging.debug(f"Resolved length of '{name}' to {length}")
+                        return length
+                
+                # Fallback to hardcoded known lengths for common ALTTP collections
+                known_lengths = {
+                    'randomizer_room_chests': 4,
+                    'compass_room_chests': 5,
+                    'back_chests': 5
+                }
+                
+                if name in known_lengths:
+                    logging.debug(f"Resolved length of '{name}' to {known_lengths[name]} (hardcoded)")
+                    return known_lengths[name]
+            
+            return None  # Can't resolve
+        except Exception as e:
+            logging.warning(f"Error resolving list length: {e}")
+            return None
+
+    def _try_preprocess_zip(self, args):
+        """
+        Try to pre-process zip() function calls during export.
+        zip(list1, list2) -> combined list of tuples as constants
+        """
+        try:
+            if len(args) != 2:
+                return None  # Only handle 2-argument zip for now
+            
+            list1_ref = args[0]
+            list2_ref = args[1]
+            
+            # Try to resolve both lists
+            list1_data = self._try_resolve_list_data(list1_ref)
+            list2_data = self._try_resolve_list_data(list2_ref)
+            
+            # Handle the case where list2 is a binary_op that needs resolving
+            if list1_data is not None and list2_data is None and list2_ref.get('type') == 'binary_op':
+                # Try to resolve the binary operation first
+                binary_op_result = self._try_resolve_binary_op_data(list2_ref)
+                if binary_op_result is not None:
+                    list2_data = binary_op_result
+            
+            if list1_data is not None and list2_data is not None:
+                # Compute zip result
+                zipped_result = []
+                for item1, item2 in zip(list1_data, list2_data):
+                    zipped_result.append([item1, item2])
+                
+                logging.debug(f"Pre-processed zip({list1_data}, {list2_data}) to {zipped_result}")
+                return {'type': 'constant', 'value': zipped_result}
+            
+            return None  # Can't pre-process
+        except Exception as e:
+            logging.warning(f"Error during zip pre-processing: {e}")
+            return None
+
+    def _try_preprocess_len(self, list_ref):
+        """
+        Try to pre-process len() function calls during export.
+        """
+        try:
+            # First try to resolve length via named references
+            resolved_length = self._try_resolve_list_length(list_ref)
+            if resolved_length is not None:
+                logging.debug(f"Pre-processed len() to {resolved_length}")
+                return {'type': 'constant', 'value': resolved_length}
+            
+            # Also handle constant lists directly
+            if list_ref and list_ref.get('type') == 'constant':
+                constant_list = list_ref.get('value')
+                if isinstance(constant_list, list):
+                    length = len(constant_list)
+                    logging.debug(f"Pre-processed len() of constant list to {length}")
+                    return {'type': 'constant', 'value': length}
+            
+            return None  # Can't pre-process
+        except Exception as e:
+            logging.warning(f"Error during len pre-processing: {e}")
+            return None
+
+    def _try_resolve_list_data(self, list_ref):
+        """
+        Try to resolve the actual data of a list reference during export.
+        Returns the list data or None if it can't be resolved.
+        """
+        try:
+            # Handle direct name references to known collections
+            if list_ref and list_ref.get('type') == 'name':
+                name = list_ref.get('name')
+                
+                # Check if we have game handler with known collections
+                if self.game_handler and hasattr(self.game_handler, 'get_collection_data'):
+                    data = self.game_handler.get_collection_data(name)
+                    if data is not None:
+                        logging.debug(f"Resolved data of '{name}' to {data}")
+                        return data
+            
+            # Handle constant lists and lists with name references
+            elif list_ref and list_ref.get('type') == 'list':
+                # Extract the actual values from the list structure
+                list_values = []
+                for item in list_ref.get('value', []):
+                    if item.get('type') == 'constant':
+                        list_values.append(item.get('value'))
+                    elif item.get('type') == 'name':
+                        # Try to resolve name references within the list
+                        name = item.get('name')
+                        if name == 'player':
+                            # Use the actual player number from context if available
+                            player_num = self._get_current_player_number()
+                            list_values.append(player_num)
+                        else:
+                            # Can't resolve, return None
+                            return None
+                    else:
+                        # Can't resolve complex items
+                        return None
+                return list_values
+            
+            # Handle constant values directly (for pre-processed constant lists)
+            elif list_ref and list_ref.get('type') == 'constant':
+                constant_value = list_ref.get('value')
+                if isinstance(constant_value, list):
+                    return constant_value
+            
+            return None  # Can't resolve
+        except Exception as e:
+            logging.warning(f"Error resolving list data: {e}")
+            return None
+
+    def _get_current_player_number(self):
+        """
+        Get the current player number for this rule analysis context.
+        Returns 1 as default if no context is available.
+        """
+        if self.player_context is not None:
+            return self.player_context
+        # For now, return 1 as the default player number
+        return 1
+
+    def _try_resolve_binary_op_data(self, binary_op_ref):
+        """
+        Try to resolve a binary operation to its computed result data.
+        Returns the computed list or None if it can't be resolved.
+        """
+        try:
+            if binary_op_ref.get('type') != 'binary_op':
+                return None
+            
+            op = binary_op_ref.get('op')
+            left = binary_op_ref.get('left')
+            right = binary_op_ref.get('right')
+            
+            # Handle list multiplication: [player] * constant_value
+            if (op == '*' and 
+                left and left.get('type') == 'list' and
+                right and right.get('type') == 'constant'):
+                
+                left_data = self._try_resolve_list_data(left)
+                multiplier = right.get('value')
+                
+                if left_data is not None and isinstance(multiplier, int) and multiplier > 0:
+                    result = left_data * multiplier
+                    logging.debug(f"Resolved binary_op: {left_data} * {multiplier} = {result}")
+                    return result
+            
+            # Handle list multiplication: [player] * len(constant_list)
+            elif (op == '*' and 
+                  left and left.get('type') == 'list' and
+                  right and right.get('type') == 'helper' and
+                  right.get('name') == 'len'):
+                
+                left_data = self._try_resolve_list_data(left)
+                len_args = right.get('args', [])
+                
+                if left_data is not None and len(len_args) == 1:
+                    len_arg = len_args[0]
+                    
+                    # Handle constant lists in len() argument
+                    if len_arg.get('type') == 'constant':
+                        constant_list = len_arg.get('value')
+                        if isinstance(constant_list, list):
+                            multiplier = len(constant_list)
+                            result = left_data * multiplier
+                            logging.debug(f"Resolved binary_op: {left_data} * len({len(constant_list)}) = {result}")
+                            return result
+            
+            # Handle list addition: list1 + list2
+            elif (op == '+' and 
+                  left and left.get('type') == 'name' and
+                  right and right.get('type') == 'name'):
+                
+                left_data = self._try_resolve_list_data(left)
+                right_data = self._try_resolve_list_data(right)
+                
+                if left_data is not None and right_data is not None:
+                    result = left_data + right_data
+                    logging.debug(f"Resolved binary_op: {left_data} + {right_data} = {result}")
+                    return result
+            
+            return None
+        except Exception as e:
+            logging.warning(f"Error resolving binary operation data: {e}")
             return None
 
 # --- AST Visitor to find specific lambda rules ---
@@ -1083,7 +1391,8 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
                  closure_vars: Optional[Dict[str, Any]] = None, 
                  seen_funcs: Optional[Dict[int, int]] = None,
                  ast_node: Optional[ast.AST] = None,
-                 game_handler=None) -> Dict[str, Any]:
+                 game_handler=None,
+                 player_context: Optional[int] = None) -> Dict[str, Any]:
     """
     Analyzes a rule function or an AST node representing a rule.
 
@@ -1112,7 +1421,7 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
         if ast_node:
             logging.debug(f"Analyzing provided AST node: {type(ast_node).__name__}")
             # Need an analyzer instance here too
-            analyzer = RuleAnalyzer(closure_vars=closure_vars, seen_funcs=seen_funcs, game_handler=game_handler)
+            analyzer = RuleAnalyzer(closure_vars=closure_vars, seen_funcs=seen_funcs, game_handler=game_handler, player_context=player_context)
             analysis_result = analyzer.visit(ast_node) 
 
         # --- Option 2: Analyze a function object (existing logic) --- 
@@ -1186,7 +1495,7 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
                 logging.debug(f"analyze_rule: Incremented func_id {func_id} count in seen_funcs: {seen_funcs}")
 
                 # Pass the LOCAL copy to the RuleAnalyzer instance
-                analyzer = RuleAnalyzer(closure_vars=local_closure_vars, seen_funcs=seen_funcs, game_handler=game_handler, rule_func=rule_func)
+                analyzer = RuleAnalyzer(closure_vars=local_closure_vars, seen_funcs=seen_funcs, game_handler=game_handler, rule_func=rule_func, player_context=player_context)
 
                 # Check if cleaned_source contains "Bridge"
                 if cleaned_source and "Bridge" in cleaned_source:

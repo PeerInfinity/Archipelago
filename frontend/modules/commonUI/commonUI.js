@@ -751,6 +751,48 @@ class CommonUI {
         break;
       }
 
+      case 'binary_op': {
+        const opText = rule.op || 'unknown';
+        root.appendChild(document.createTextNode(`Binary Operation: ${opText}`));
+        
+        const binaryDetails = document.createElement('div');
+        binaryDetails.classList.add('logic-binary-details');
+        binaryDetails.style.marginLeft = '10px';
+        
+        const leftLabel = document.createElement('div');
+        leftLabel.textContent = 'Left Operand:';
+        binaryDetails.appendChild(leftLabel);
+        
+        const leftNode = document.createElement('div');
+        leftNode.style.marginLeft = '10px';
+        leftNode.appendChild(
+          this.renderLogicTree(
+            rule.left,
+            useColorblind,
+            stateSnapshotInterface
+          )
+        );
+        binaryDetails.appendChild(leftNode);
+        
+        const rightLabel = document.createElement('div');
+        rightLabel.textContent = 'Right Operand:';
+        binaryDetails.appendChild(rightLabel);
+        
+        const rightNode = document.createElement('div');
+        rightNode.style.marginLeft = '10px';
+        rightNode.appendChild(
+          this.renderLogicTree(
+            rule.right,
+            useColorblind,
+            stateSnapshotInterface
+          )
+        );
+        binaryDetails.appendChild(rightNode);
+        
+        root.appendChild(binaryDetails);
+        break;
+      }
+
       default:
         root.appendChild(document.createTextNode(' [unhandled rule type] '));
         // For debugging, output the complete rule

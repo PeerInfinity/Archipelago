@@ -503,6 +503,15 @@ export function location_item_name(state, world, itemName, staticData) {
         return [locationData.item.name, locationData.item.player || 1];
       }
     }
+    
+    // If locations is an array, convert it to object mapping on-the-fly
+    if (Array.isArray(staticData.locations)) {
+      for (const location of staticData.locations) {
+        if (location && location.name === locationName && location.item) {
+          return [location.item.name, location.item.player || 1];
+        }
+      }
+    }
   }
   
   // Search through regions for the location
@@ -788,19 +797,29 @@ export function can_get_bottle(state, world, itemName, staticData) {
 export function zip(state, world, itemName, staticData) {
   // Python's zip function - combines multiple iterables element-wise
   // Expected usage: zip([list1], [list2], ...) -> [[item1_from_list1, item1_from_list2], ...]
-  // itemName should be an array of arrays to zip together
+  // When called from rule engine, itemName is an array of arguments: [arg1, arg2, ...]
   
   if (!Array.isArray(itemName) || itemName.length === 0) {
     return [];
   }
   
+  // itemName contains the arguments to zip together
+  const arrays = itemName;
+  
+  // Ensure we have valid arrays to work with
+  const validArrays = arrays.filter(arr => Array.isArray(arr));
+  
+  if (validArrays.length === 0) {
+    return [];
+  }
+  
   // Get the shortest length among all arrays
-  const minLength = Math.min(...itemName.map(arr => Array.isArray(arr) ? arr.length : 0));
+  const minLength = Math.min(...validArrays.map(arr => arr.length));
   
   // Create the zipped result
   const result = [];
   for (let i = 0; i < minLength; i++) {
-    const tuple = itemName.map(arr => arr[i]);
+    const tuple = validArrays.map(arr => arr[i]);
     result.push(tuple);
   }
   

@@ -110,7 +110,7 @@ export function createStateSnapshotInterface(
         case 'dungeons':
           return staticData?.dungeons;
         case 'player':
-          return snapshot?.player?.slot;
+          return snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
         default:
           return undefined;
       }

@@ -448,7 +448,7 @@ def process_regions(multiworld, player: int) -> tuple:
 
             logger.debug(f"safe_expand_rule: Analyzing {target_type} '{rule_target_name or 'unknown'}' using runtime analyze_rule")
             # Directly call analyze_rule, which handles recursion internally for combined rules
-            analysis_result = analyze_rule(rule_func=rule_func, game_handler=game_handler)
+            analysis_result = analyze_rule(rule_func=rule_func, game_handler=game_handler, player_context=player)
             
             if analysis_result and analysis_result.get('type') != 'error':
                 logger.debug(f"safe_expand_rule: Runtime analysis successful for '{rule_target_name or 'unknown'}'")

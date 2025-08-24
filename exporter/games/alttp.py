@@ -394,5 +394,43 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
         
         return attributes
 
+    def get_collection_data(self, name):
+        """
+        Return the actual data for known ALTTP collections.
+        Used during rule pre-processing to resolve zip() and other operations.
+        """
+        collections = {
+            'randomizer_room_chests': [
+                "Ganons Tower - Randomizer Room - Top Left",
+                "Ganons Tower - Randomizer Room - Top Right", 
+                "Ganons Tower - Randomizer Room - Bottom Left",
+                "Ganons Tower - Randomizer Room - Bottom Right"
+            ],
+            'compass_room_chests': [
+                "Ganons Tower - Compass Room - Top Left",
+                "Ganons Tower - Compass Room - Top Right",
+                "Ganons Tower - Compass Room - Bottom Left",
+                "Ganons Tower - Compass Room - Bottom Right",
+                "Ganons Tower - Conveyor Star Pits Pot Key"
+            ],
+            'back_chests': [
+                "Ganons Tower - Bob's Chest",
+                "Ganons Tower - Big Chest", 
+                "Ganons Tower - Big Key Room - Left",
+                "Ganons Tower - Big Key Room - Right",
+                "Ganons Tower - Big Key Chest"
+            ]
+        }
+        
+        return collections.get(name)
+
+    def get_collection_length(self, name):
+        """
+        Return the length of known ALTTP collections.
+        Used during rule pre-processing to resolve len() operations.
+        """
+        data = self.get_collection_data(name)
+        return len(data) if data is not None else None
+
 # Reminder: Ensure get_game_export_handler in exporter/games/__init__.py
 # returns an instance of ALttPGameExportHandler for the 'A Link to the Past' game.
