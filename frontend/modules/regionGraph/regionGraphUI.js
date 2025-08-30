@@ -1,5 +1,7 @@
 import eventBus from '../../app/core/eventBus.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import { evaluateRule } from '../shared/ruleEngine.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 
 export class RegionGraphUI {
   constructor(container, componentState) {
@@ -162,22 +164,22 @@ export class RegionGraphUI {
             'color': '#fff',
             'text-valign': 'center',
             'text-halign': 'center',
-            'font-size': '12px',
-            'width': 30,
-            'height': 30,
+            'font-size': '10px',
+            'width': 60,
+            'height': 45,
             'border-width': 2,
             'border-color': '#333',
             'text-wrap': 'wrap',
-            'text-max-width': '80px',
+            'text-max-width': '100px',
             'z-index': 10
           }
         },
         {
-          selector: 'node:selected',
+          selector: 'node.inaccessible',
           style: {
-            'background-color': '#ff6b6b',
-            'border-color': '#ff0000',
-            'border-width': 3
+            'background-color': '#8e8e8e',
+            'border-color': '#555',
+            'opacity': 0.6
           }
         },
         {
@@ -195,12 +197,27 @@ export class RegionGraphUI {
           }
         },
         {
+          selector: 'node.completed',
+          style: {
+            'background-color': '#000',
+            'border-color': '#52b845',
+            'border-width': 3
+          }
+        },
+        {
           selector: 'node.current',
           style: {
             'background-color': '#ffd93d',
             'border-color': '#f9c74f',
-            'width': 40,
-            'height': 40
+            'width': 70,
+            'height': 55
+          }
+        },
+        {
+          selector: 'node:selected',
+          style: {
+            'border-color': '#ff0000',
+            'border-width': 4
           }
         },
         {
@@ -211,7 +228,42 @@ export class RegionGraphUI {
             'target-arrow-color': '#666',
             'target-arrow-shape': 'triangle',
             'curve-style': 'bezier',
-            'z-index': 5
+            'z-index': 5,
+            'opacity': 0.6,
+            'label': 'data(label)',
+            'color': '#fff',
+            'text-background-color': '#000',
+            'text-background-opacity': 0.8,
+            'text-background-padding': '2px',
+            'text-background-shape': 'roundrectangle',
+            'font-size': '9px',
+            'font-weight': 'bold',
+            'text-wrap': 'wrap',
+            'text-max-width': '80px',
+            'edge-text-rotation': 'none',
+            'text-margin-y': '-2px'
+          }
+        },
+        {
+          selector: 'edge.bidirectional',
+          style: {
+            'source-arrow-shape': 'triangle',
+            'source-arrow-color': '#666'
+          }
+        },
+        {
+          selector: 'edge.inaccessible',
+          style: {
+            'line-color': '#8e8e8e',
+            'target-arrow-color': '#8e8e8e',
+            'width': 1,
+            'opacity': 0.3
+          }
+        },
+        {
+          selector: 'edge.inaccessible.bidirectional',
+          style: {
+            'source-arrow-color': '#8e8e8e'
           }
         },
         {
@@ -219,7 +271,14 @@ export class RegionGraphUI {
           style: {
             'line-color': '#4ecdc4',
             'target-arrow-color': '#4ecdc4',
-            'width': 3
+            'width': 3,
+            'opacity': 0.8
+          }
+        },
+        {
+          selector: 'edge.accessible.bidirectional',
+          style: {
+            'source-arrow-color': '#4ecdc4'
           }
         },
         {
@@ -227,7 +286,14 @@ export class RegionGraphUI {
           style: {
             'line-color': '#95e77e',
             'target-arrow-color': '#95e77e',
-            'width': 4
+            'width': 4,
+            'opacity': 1.0
+          }
+        },
+        {
+          selector: 'edge.traversed.bidirectional',
+          style: {
+            'source-arrow-color': '#95e77e'
           }
         }
       ],
@@ -250,6 +316,9 @@ export class RegionGraphUI {
     
     this.updateStatus('Graph initialized, waiting for data...');
     console.log('[RegionGraphUI] Graph initialized, waiting for StateManager events');
+    
+    // Check if data is already available (in case we missed the initial events)
+    this.checkAndLoadInitialData();
     } catch (error) {
       console.error('[RegionGraphUI] Error in initializeGraph:', error);
       this.updateStatus('Error initializing graph: ' + error.message);
@@ -259,12 +328,29 @@ export class RegionGraphUI {
   setupEventHandlers() {
     this.cy.on('tap', 'node', (evt) => {
       const node = evt.target;
-      this.selectedNode = node.id();
+      const regionName = node.id(); // Node ID is the region name
+      this.selectedNode = regionName;
       
+      console.log(`[RegionGraphUI] Node clicked: ${regionName}, implementing region link behavior`);
+      
+      // Update visual selection
+      this.cy.$('node').removeClass('selected');
+      node.addClass('selected');
+      
+      // Publish the custom regionGraph event for any other listeners
       eventBus.publish('regionGraph:nodeSelected', {
-        nodeId: node.id(),
+        nodeId: regionName,
         data: node.data()
       }, 'regionGraph');
+      
+      // Implement the same behavior as region links in commonUI.js:
+      // 1. Activate the regions panel
+      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'regionGraph');
+      console.log(`[RegionGraphUI] Published ui:activatePanel for regionsPanel`);
+      
+      // 2. Navigate to the region
+      eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'regionGraph');
+      console.log(`[RegionGraphUI] Published ui:navigateToRegion for ${regionName}`);
     });
 
     this.cy.on('layoutstop', () => {
@@ -295,6 +381,28 @@ export class RegionGraphUI {
     }
   }
 
+  checkAndLoadInitialData() {
+    console.log('[RegionGraphUI] Checking if initial data is already available...');
+    
+    // Small delay to ensure stateManager is fully initialized
+    setTimeout(() => {
+      try {
+        const staticData = stateManager.getStaticData();
+        const snapshot = stateManager.getLatestStateSnapshot();
+        
+        if (staticData && staticData.regions && snapshot && !this.graphInitialized) {
+          console.log('[RegionGraphUI] Data already available, loading graph immediately');
+          this.loadGraphData();
+        } else {
+          console.log('[RegionGraphUI] Data not yet available, will wait for events');
+        }
+      } catch (error) {
+        console.log('[RegionGraphUI] Error checking initial data:', error);
+        // Not a problem, will wait for events
+      }
+    }, 100);
+  }
+  
   subscribeToEvents() {
     console.log('[RegionGraphUI] Subscribing to events...');
     
@@ -355,6 +463,60 @@ export class RegionGraphUI {
     }
   }
 
+  calculateLocationCounts(regionName, regionData) {
+    const snapshot = stateManager.getLatestStateSnapshot();
+    const staticData = stateManager.getStaticData();
+    
+    if (!snapshot || !staticData) {
+      return { checked: 0, accessible: 0, inaccessible: 0, total: 0 };
+    }
+
+    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const locations = regionData.locations || [];
+    const checkedLocations = new Set(snapshot.checkedLocations || []);
+    
+    let checked = 0;
+    let accessible = 0;
+    let inaccessible = 0;
+    
+    const regionIsReachable = snapshot.regionReachability?.[regionName] === true ||
+                             snapshot.regionReachability?.[regionName] === 'reachable' ||
+                             snapshot.regionReachability?.[regionName] === 'checked';
+
+    for (const location of locations) {
+      const isChecked = checkedLocations.has(location.name);
+      
+      if (isChecked) {
+        checked++;
+      } else {
+        // Evaluate location accessibility
+        let locationAccessible = regionIsReachable; // Location needs region to be reachable first
+        
+        if (location.access_rule && regionIsReachable) {
+          try {
+            locationAccessible = evaluateRule(location.access_rule, snapshotInterface);
+          } catch (e) {
+            console.warn(`[RegionGraphUI] Error evaluating location rule for ${location.name}:`, e);
+            locationAccessible = false;
+          }
+        }
+        
+        if (locationAccessible) {
+          accessible++;
+        } else {
+          inaccessible++;
+        }
+      }
+    }
+    
+    return {
+      checked,
+      accessible, 
+      inaccessible,
+      total: locations.length
+    };
+  }
+
   buildGraphFromRegions(regions, exits) {
     console.log('[RegionGraphUI] buildGraphFromRegions called with:', Object.keys(regions || {}).length, 'regions');
     if (!regions || Object.keys(regions).length === 0) {
@@ -368,40 +530,133 @@ export class RegionGraphUI {
       edges: []
     };
 
-    const processedEdges = new Set();
+    // Check if bidirectional exits are assumed from game settings
+    const staticData = stateManager.getStaticData();
+    const assumeBidirectional = staticData?.options?.assume_bidirectional_exits === true;
+    console.log('[RegionGraphUI] assume_bidirectional_exits:', assumeBidirectional);
 
+    // Create nodes for each region with location counts
     for (const [regionName, regionData] of Object.entries(regions)) {
+      // Calculate location counts
+      const locationCounts = this.calculateLocationCounts(regionName, regionData);
+      
+      // Create label with region name and location counts
+      const regionLabel = regionName.replace(/_/g, ' ');
+      const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
+      const fullLabel = `${regionLabel}\n${countLabel}`;
+      
       elements.nodes.push({
         data: {
           id: regionName,
-          label: regionName.replace(/_/g, ' ')
+          label: fullLabel,
+          regionName: regionName,
+          locationCounts: locationCounts
         },
         position: this.nodePositions.get(regionName) || { x: Math.random() * 500, y: Math.random() * 500 }
       });
     }
 
+    // Track all exits for directionality analysis
+    const exitMap = new Map(); // key: "fromRegion->toRegion", value: exitData
+    const processedEdges = new Set();
+
+    // Collect all exits from region definitions
+    for (const [regionName, regionData] of Object.entries(regions)) {
+      if (regionData.exits && regionData.exits.length > 0) {
+        for (const exitDef of regionData.exits) {
+          const fromRegion = regionName;
+          const toRegion = exitDef.connected_region;
+          
+          if (fromRegion && toRegion && regions[fromRegion] && regions[toRegion]) {
+            const exitKey = `${fromRegion}->${toRegion}`;
+            exitMap.set(exitKey, {
+              fromRegion,
+              toRegion,
+              exitName: exitDef.name,
+              accessRule: exitDef.access_rule
+            });
+          }
+        }
+      }
+    }
+
+    // Also collect exits from static exits data if available (legacy support)
     if (exits) {
       for (const [exitName, exitData] of Object.entries(exits)) {
         const fromRegion = exitData.parentRegion;
         const toRegion = exitData.connectedRegion;
         
         if (fromRegion && toRegion && regions[fromRegion] && regions[toRegion]) {
-          const edgeId = `${fromRegion}-${toRegion}`;
-          const reverseEdgeId = `${toRegion}-${fromRegion}`;
-          
-          if (!processedEdges.has(edgeId) && !processedEdges.has(reverseEdgeId)) {
-            elements.edges.push({
-              data: {
-                id: edgeId,
-                source: fromRegion,
-                target: toRegion,
-                label: exitName
-              }
+          const exitKey = `${fromRegion}->${toRegion}`;
+          if (!exitMap.has(exitKey)) {
+            exitMap.set(exitKey, {
+              fromRegion,
+              toRegion,
+              exitName: exitName,
+              accessRule: exitData.access_rule
             });
-            processedEdges.add(edgeId);
           }
         }
       }
+    }
+
+    // Create edges with directionality analysis
+    for (const [exitKey, exitData] of exitMap.entries()) {
+      const { fromRegion, toRegion, exitName, accessRule } = exitData;
+      const reverseExitKey = `${toRegion}->${fromRegion}`;
+      const forwardEdgeId = `${fromRegion}-${toRegion}`;
+      const reverseEdgeId = `${toRegion}-${fromRegion}`;
+      
+      // Skip if we've already processed this edge pair
+      if (processedEdges.has(forwardEdgeId) || processedEdges.has(reverseEdgeId)) {
+        continue;
+      }
+
+      // Determine if the connection is bidirectional
+      const hasReverseExit = exitMap.has(reverseExitKey);
+      const isBidirectional = assumeBidirectional || hasReverseExit;
+
+      // Use the lexicographically smaller region as source for consistency
+      const isForwardDirection = fromRegion < toRegion;
+      const edgeSource = isForwardDirection ? fromRegion : toRegion;
+      const edgeTarget = isForwardDirection ? toRegion : fromRegion;
+      const edgeId = `${edgeSource}-${edgeTarget}`;
+
+      // Get the primary exit (in the direction of the edge)
+      const primaryExit = isForwardDirection ? exitData : exitMap.get(reverseExitKey);
+      const reverseExit = isForwardDirection ? exitMap.get(reverseExitKey) : exitData;
+
+      // Create label for edge - handle bidirectional edges with different exit names
+      let edgeLabel = '';
+      if (isBidirectional && primaryExit && reverseExit && primaryExit.exitName !== reverseExit.exitName) {
+        // Different exit names for each direction
+        edgeLabel = `${primaryExit.exitName} / ${reverseExit.exitName}`;
+      } else if (primaryExit) {
+        edgeLabel = primaryExit.exitName;
+      } else if (reverseExit) {
+        edgeLabel = reverseExit.exitName;
+      }
+
+      // Create edge data
+      const edgeData = {
+        id: edgeId,
+        source: edgeSource,
+        target: edgeTarget,
+        label: edgeLabel,
+        exitName: primaryExit ? primaryExit.exitName : (reverseExit ? reverseExit.exitName : ''),
+        accessRule: primaryExit ? primaryExit.accessRule : (reverseExit ? reverseExit.accessRule : null),
+        isBidirectional: isBidirectional,
+        hasForwardExit: isForwardDirection ? true : hasReverseExit,
+        hasReverseExit: isForwardDirection ? hasReverseExit : true,
+        forwardExitRule: isForwardDirection ? accessRule : (reverseExit ? reverseExit.accessRule : null),
+        reverseExitRule: isForwardDirection ? (reverseExit ? reverseExit.accessRule : null) : accessRule,
+        forwardExitName: isForwardDirection ? exitData.exitName : (reverseExit ? reverseExit.exitName : ''),
+        reverseExitName: isForwardDirection ? (reverseExit ? reverseExit.exitName : '') : exitData.exitName
+      };
+
+      elements.edges.push({ data: edgeData });
+      processedEdges.add(edgeId);
+      processedEdges.add(reverseEdgeId); // Mark both directions as processed
     }
 
     this.cy.elements().remove();
@@ -411,6 +666,12 @@ export class RegionGraphUI {
       this.runLayout(false);
     } else {
       this.cy.fit(30);
+    }
+
+    // Apply initial accessibility coloring
+    const snapshot = stateManager.getLatestStateSnapshot();
+    if (snapshot) {
+      this.onStateUpdate({ snapshot });
     }
 
     this.updateStatus(`Loaded ${elements.nodes.length} regions, ${elements.edges.length} connections`);
@@ -445,20 +706,20 @@ export class RegionGraphUI {
       animate: true,
       animationDuration: 1000,
       fit: true,
-      padding: 50,
+      padding: 70,
       nodeDimensionsIncludeLabels: true,
       uniformNodeDimensions: false,
       packComponents: true,
       
-      nodeRepulsion: 8500,
-      idealEdgeLength: 100,
+      nodeRepulsion: 15000,
+      idealEdgeLength: 150,
       edgeElasticity: 0.45,
       nestingFactor: 0.1,
       gravity: 0.25,
       numIter: 2500,
       tile: true,
-      tilingPaddingVertical: 10,
-      tilingPaddingHorizontal: 10,
+      tilingPaddingVertical: 20,
+      tilingPaddingHorizontal: 20,
       gravityRangeCompound: 1.5,
       gravityCompound: 1.0,
       gravityRange: 3.8,
@@ -506,41 +767,126 @@ export class RegionGraphUI {
     const snapshot = data.snapshot;
     if (!snapshot) return;
 
+    const staticData = stateManager.getStaticData();
+    if (!staticData) return;
+
+    // Create snapshot interface for rule evaluation
+    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    if (!snapshotInterface) return;
+
+    // Update node colors based on region accessibility and completion
     this.cy.nodes().forEach(node => {
       const regionName = node.id();
+      const regionData = staticData.regions[regionName];
+      
       const isReachable = snapshot.regionReachability?.[regionName] === true ||
                          snapshot.regionReachability?.[regionName] === 'reachable' ||
                          snapshot.regionReachability?.[regionName] === 'checked';
       const isVisited = snapshot.visitedRegions && 
                        snapshot.visitedRegions.includes(regionName);
       
-      node.removeClass('accessible visited');
-      if (isVisited) {
+      // Recalculate location counts for updated state
+      const locationCounts = this.calculateLocationCounts(regionName, regionData);
+      
+      // Update node label with new counts
+      const regionLabel = regionName.replace(/_/g, ' ');
+      const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
+      const fullLabel = `${regionLabel}\n${countLabel}`;
+      node.data('label', fullLabel);
+      node.data('locationCounts', locationCounts);
+      
+      // Check if region is completed (all locations checked and region is accessible)
+      const isCompleted = isReachable && locationCounts.total > 0 && 
+                         locationCounts.checked === locationCounts.total;
+      const isEmptyCompleted = isReachable && locationCounts.total === 0;
+      
+      // Clear all accessibility classes
+      node.removeClass('accessible visited inaccessible completed');
+      
+      if (isCompleted || isEmptyCompleted) {
+        node.addClass('completed');
+      } else if (isVisited) {
         node.addClass('visited');
       } else if (isReachable) {
         node.addClass('accessible');
+      } else {
+        node.addClass('inaccessible');
       }
     });
 
+    // Update edge colors based on exit accessibility and directionality
     this.cy.edges().forEach(edge => {
-      const sourceReachable = snapshot.regionReachability?.[edge.source().id()] === true ||
-                             snapshot.regionReachability?.[edge.source().id()] === 'reachable' ||
-                             snapshot.regionReachability?.[edge.source().id()] === 'checked';
-      const targetReachable = snapshot.regionReachability?.[edge.target().id()] === true ||
-                             snapshot.regionReachability?.[edge.target().id()] === 'reachable' ||
-                             snapshot.regionReachability?.[edge.target().id()] === 'checked';
+      const sourceRegion = edge.source().id();
+      const targetRegion = edge.target().id();
+      const edgeData = edge.data();
+      const isBidirectional = edgeData.isBidirectional;
+      const forwardExitRule = edgeData.forwardExitRule;
+      const reverseExitRule = edgeData.reverseExitRule;
       
-      edge.removeClass('accessible traversed');
-      if (sourceReachable && targetReachable) {
-        edge.addClass('accessible');
-        
-        const sourceVisited = snapshot.visitedRegions && 
-                            snapshot.visitedRegions.includes(edge.source().id());
-        const targetVisited = snapshot.visitedRegions && 
-                            snapshot.visitedRegions.includes(edge.target().id());
-        if (sourceVisited && targetVisited) {
-          edge.addClass('traversed');
+      // Check if regions are reachable
+      const sourceReachable = snapshot.regionReachability?.[sourceRegion] === true ||
+                             snapshot.regionReachability?.[sourceRegion] === 'reachable' ||
+                             snapshot.regionReachability?.[sourceRegion] === 'checked';
+
+      const targetReachable = snapshot.regionReachability?.[targetRegion] === true ||
+                             snapshot.regionReachability?.[targetRegion] === 'reachable' ||
+                             snapshot.regionReachability?.[targetRegion] === 'checked';
+      
+      // Evaluate exit accessibility for both directions
+      let forwardAccessible = true;
+      let reverseAccessible = true;
+      
+      if (forwardExitRule) {
+        try {
+          forwardAccessible = evaluateRule(forwardExitRule, snapshotInterface);
+        } catch (e) {
+          console.warn(`[RegionGraphUI] Error evaluating forward exit rule for edge ${edge.id()}:`, e);
+          forwardAccessible = false;
         }
+      }
+      
+      if (reverseExitRule && isBidirectional) {
+        try {
+          reverseAccessible = evaluateRule(reverseExitRule, snapshotInterface);
+        } catch (e) {
+          console.warn(`[RegionGraphUI] Error evaluating reverse exit rule for edge ${edge.id()}:`, e);
+          reverseAccessible = false;
+        }
+      }
+      
+      // Check if regions have been visited (for traversed state)
+      const sourceVisited = snapshot.visitedRegions && 
+                           snapshot.visitedRegions.includes(sourceRegion);
+      const targetVisited = snapshot.visitedRegions && 
+                           snapshot.visitedRegions.includes(targetRegion);
+      
+      // Clear all classes
+      edge.removeClass('accessible traversed inaccessible bidirectional');
+      
+      // Add bidirectional class if applicable
+      if (isBidirectional) {
+        edge.addClass('bidirectional');
+      }
+      
+      // Determine edge state based on accessibility
+      // For bidirectional edges, consider both directions
+      let isTraversable;
+      if (isBidirectional) {
+        // Bidirectional: accessible if either direction is traversable
+        const forwardTraversable = sourceReachable && forwardAccessible;
+        const reverseTraversable = targetReachable && reverseAccessible;
+        isTraversable = forwardTraversable || reverseTraversable;
+      } else {
+        // Unidirectional: only forward direction matters
+        isTraversable = sourceReachable && forwardAccessible;
+      }
+      
+      if (sourceVisited && targetVisited && isTraversable) {
+        edge.addClass('traversed');
+      } else if (isTraversable) {
+        edge.addClass('accessible');
+      } else {
+        edge.addClass('inaccessible');
       }
     });
   }
