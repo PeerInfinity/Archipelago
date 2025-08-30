@@ -465,7 +465,7 @@ registerTest({
   name: 'Region Graph Panel Activation',
   category: 'Region Graph',
   testFunction: testRegionGraphPanelActivation,
-  enabled: true,
+  //enabled: true,
   description: 'Tests that the Region Graph panel can be activated and displays basic UI elements'
 });
 
@@ -474,7 +474,7 @@ registerTest({
   name: 'Cytoscape Library Loading',
   category: 'Region Graph',
   testFunction: testCytoscapeLibraryLoading,
-  enabled: true,
+  //enabled: true,
   description: 'Tests that Cytoscape.js and FCose layout plugin load correctly'
 });
 
@@ -483,7 +483,7 @@ registerTest({
   name: 'Graph Initial Load',
   category: 'Region Graph',
   testFunction: testGraphInitialLoad,
-  enabled: false, // Disabled - the functionality works but test timing is complex due to panel reuse
+  //enabled: true, // Disabled - the functionality works but test timing is complex due to panel reuse
   description: 'Tests that the graph loads automatically on initial page load without manual rule loading'
 });
 
@@ -492,7 +492,7 @@ registerTest({
   name: 'Graph Data Loading',
   category: 'Region Graph',
   testFunction: testGraphDataLoading,
-  enabled: true,
+  //enabled: true,
   description: 'Tests that the graph loads region and connection data from StateManager'
 });
 

@@ -578,7 +578,15 @@ export class RegionUI {
     // 1. find the index of the specific region instance by UID (if provided) or by name (fallback)
     let oldIndex;
     if (sourceUID) {
-      oldIndex = this.visitedRegions.findIndex((r) => r.uid === sourceUID);
+      // Handle both string and number UIDs (dataset returns strings)
+      oldIndex = this.visitedRegions.findIndex((r) => {
+        // For "Show All" mode UIDs (strings like "all_RegionName")
+        if (typeof r.uid === 'string' && typeof sourceUID === 'string') {
+          return r.uid === sourceUID;
+        }
+        // For numeric UIDs (handle string/number comparison)
+        return r.uid == sourceUID; // Use loose equality to handle "2" == 2
+      });
     } else {
       // Fallback to name-based lookup for backward compatibility
       oldIndex = this.visitedRegions.findIndex((r) => r.name === oldRegionName);

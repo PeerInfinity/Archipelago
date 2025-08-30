@@ -2,6 +2,8 @@ import eventBus from '../../app/core/eventBus.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 import { evaluateRule } from '../shared/ruleEngine.js';
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
+import { getPlayerStateSingleton } from '../playerState/singleton.js';
+import { PathFinder } from './pathfinder.js';
 
 export class RegionGraphUI {
   constructor(container, componentState) {
@@ -14,6 +16,7 @@ export class RegionGraphUI {
     this.selectedNode = null;
     this.nodePositions = new Map();
     this.isLayoutRunning = false;
+    this.pathFinder = new PathFinder(stateManager);
     
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('region-graph-panel-container', 'panel-container');
@@ -46,10 +49,38 @@ export class RegionGraphUI {
     this.controlPanel.style.padding = '5px';
     this.controlPanel.style.borderRadius = '3px';
     this.controlPanel.style.zIndex = '1000';
+    this.controlPanel.style.color = 'white';
+    this.controlPanel.style.fontSize = '12px';
+    this.controlPanel.style.minWidth = '200px';
     this.controlPanel.innerHTML = `
-      <button id="resetView" style="margin: 2px; padding: 4px 8px;">Reset View</button>
-      <button id="relayout" style="margin: 2px; padding: 4px 8px;">Re-layout</button>
-      <button id="exportPositions" style="margin: 2px; padding: 4px 8px;">Export Positions</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+        <span style="font-weight: bold;">Controls</span>
+        <button id="toggleControls" style="background: none; border: 1px solid #555; color: white; padding: 2px 6px; font-size: 10px; cursor: pointer; border-radius: 2px;">−</button>
+      </div>
+      <div id="controlsContent">
+        <button id="resetView" style="margin: 2px; padding: 4px 8px;">Reset View</button>
+        <button id="relayout" style="margin: 2px; padding: 4px 8px;">Re-layout</button>
+        <button id="exportPositions" style="margin: 2px; padding: 4px 8px;">Export Positions</button>
+        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #555;">
+          <div style="font-weight: bold; margin-bottom: 5px;">On Region Node Click:</div>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="movePlayerOneStep" style="margin-right: 5px;">
+            Move player one step towards region
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="movePlayerDirectly" style="margin-right: 5px;" checked>
+            Move player directly to region
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="showRegionInPanel" style="margin-right: 5px;" checked>
+            Show region in Regions panel
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="setPathToRegion" style="margin-right: 5px;">
+            Set path to region
+          </label>
+        </div>
+      </div>
     `;
     
     this.rootElement.appendChild(this.statusBar);
@@ -235,8 +266,8 @@ export class RegionGraphUI {
         {
           selector: 'node.current',
           style: {
-            'background-color': '#ffd93d',
-            'border-color': '#f9c74f',
+            'border-color': '#ffd93d',
+            'border-width': 4,
             'width': 70,
             'height': 55
           }
@@ -357,9 +388,15 @@ export class RegionGraphUI {
     this.cy.on('tap', 'node', (evt) => {
       const node = evt.target;
       const regionName = node.id(); // Node ID is the region name
+      
+      // Skip if this is the player node
+      if (node.hasClass('player')) {
+        return;
+      }
+      
       this.selectedNode = regionName;
       
-      console.log(`[RegionGraphUI] Node clicked: ${regionName}, implementing region link behavior`);
+      console.log(`[RegionGraphUI] Node clicked: ${regionName}`);
       
       // Update visual selection
       this.cy.$('node').removeClass('selected');
@@ -371,14 +408,37 @@ export class RegionGraphUI {
         data: node.data()
       }, 'regionGraph');
       
-      // Implement the same behavior as region links in commonUI.js:
-      // 1. Activate the regions panel
-      eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'regionGraph');
-      console.log(`[RegionGraphUI] Published ui:activatePanel for regionsPanel`);
+      // Check which actions are enabled via checkboxes
+      const movePlayerOneStepCheckbox = this.controlPanel.querySelector('#movePlayerOneStep');
+      const movePlayerDirectlyCheckbox = this.controlPanel.querySelector('#movePlayerDirectly');
+      const showRegionCheckbox = this.controlPanel.querySelector('#showRegionInPanel');
+      const setPathCheckbox = this.controlPanel.querySelector('#setPathToRegion');
       
-      // 2. Navigate to the region
-      eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'regionGraph');
-      console.log(`[RegionGraphUI] Published ui:navigateToRegion for ${regionName}`);
+      // Move player one step towards region (if enabled)
+      if (movePlayerOneStepCheckbox && movePlayerOneStepCheckbox.checked) {
+        this.attemptMovePlayerOneStepToRegion(regionName);
+      }
+      
+      // Move player directly to region (if enabled)
+      if (movePlayerDirectlyCheckbox && movePlayerDirectlyCheckbox.checked) {
+        this.attemptMovePlayerDirectlyToRegion(regionName);
+      }
+      
+      // Show region in Regions panel (if enabled)
+      if (showRegionCheckbox && showRegionCheckbox.checked) {
+        // Activate the regions panel
+        eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'regionGraph');
+        console.log(`[RegionGraphUI] Published ui:activatePanel for regionsPanel`);
+        
+        // Navigate to the region
+        eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'regionGraph');
+        console.log(`[RegionGraphUI] Published ui:navigateToRegion for ${regionName}`);
+      }
+      
+      // Set path to region (if enabled - not implemented yet)
+      if (setPathCheckbox && setPathCheckbox.checked) {
+        this.setPathToRegion(regionName);
+      }
     });
 
     this.cy.on('layoutstop', () => {
@@ -405,6 +465,13 @@ export class RegionGraphUI {
     if (exportButton) {
       exportButton.addEventListener('click', () => {
         this.exportNodePositions();
+      });
+    }
+
+    const toggleButton = this.controlPanel.querySelector('#toggleControls');
+    if (toggleButton) {
+      toggleButton.addEventListener('click', () => {
+        this.toggleControlPanel();
       });
     }
   }
@@ -445,7 +512,7 @@ export class RegionGraphUI {
       (data) => this.onStateUpdate(data), 'regionGraph');
     
     this.unsubscribeRegionChange = eventBus.subscribe('playerState:regionChanged',
-      (data) => this.highlightCurrentRegion(data.region), 'regionGraph');
+      (data) => this.updatePlayerLocation(data.newRegion), 'regionGraph');
       
     // Subscribe to rules loaded event (like Regions module)
     this.unsubscribeRulesLoaded = eventBus.subscribe('stateManager:rulesLoaded', 
@@ -736,6 +803,12 @@ export class RegionGraphUI {
       this.onStateUpdate({ snapshot });
     }
 
+    // Initialize player location
+    const currentPlayerRegion = this.getCurrentPlayerLocation();
+    if (currentPlayerRegion) {
+      this.updatePlayerLocation(currentPlayerRegion);
+    }
+
     this.updateStatus(`Loaded ${elements.nodes.length} regions, ${elements.edges.length} connections`);
   }
 
@@ -970,13 +1043,248 @@ export class RegionGraphUI {
     const node = this.cy.getElementById(regionName);
     if (node && node.length > 0) {
       node.addClass('current');
-      
-      this.cy.animate({
-        center: { eles: node },
-        zoom: 1.5
-      }, {
-        duration: 500
-      });
+    }
+  }
+
+  updatePlayerLocation(regionName) {
+    if (!this.cy) return;
+    
+    console.log(`[RegionGraphUI] Updating player location to: ${regionName}`);
+    
+    // Remove existing player node
+    this.cy.remove('#player');
+    
+    // Find the target region node
+    const regionNode = this.cy.getElementById(regionName);
+    if (!regionNode || regionNode.length === 0) {
+      console.warn(`[RegionGraphUI] Region node not found: ${regionName}`);
+      return;
+    }
+    
+    // Get the position of the region node
+    const regionPos = regionNode.position();
+    
+    // Add player node at the region's position with a slight offset
+    this.cy.add({
+      data: {
+        id: 'player',
+        label: 'Player'
+      },
+      position: {
+        x: regionPos.x + 30,
+        y: regionPos.y - 30
+      },
+      classes: 'player'
+    });
+    
+    // Also highlight the current region
+    this.highlightCurrentRegion(regionName);
+  }
+
+  getCurrentPlayerLocation() {
+    try {
+      const playerState = getPlayerStateSingleton();
+      return playerState ? playerState.getCurrentRegion() : null;
+    } catch (error) {
+      console.warn('[RegionGraphUI] Error getting player location:', error);
+      return null;
+    }
+  }
+
+  attemptMovePlayerOneStepToRegion(targetRegion) {
+    const currentPlayerRegion = this.getCurrentPlayerLocation();
+    
+    if (!currentPlayerRegion) {
+      console.warn(`[RegionGraphUI] Cannot determine current player location`);
+      return;
+    }
+
+    if (currentPlayerRegion === targetRegion) {
+      console.log(`[RegionGraphUI] Player is already in target region: ${targetRegion}`);
+      return;
+    }
+
+    // Find path to target region
+    console.log(`[RegionGraphUI] Finding path from ${currentPlayerRegion} to ${targetRegion}`);
+    const path = this.pathFinder.findPath(currentPlayerRegion, targetRegion);
+    
+    if (!path || path.length === 0) {
+      console.warn(`[RegionGraphUI] No accessible path found from ${currentPlayerRegion} to ${targetRegion}`);
+      // Show a brief status message
+      this.updateStatus(`No path to ${targetRegion}`);
+      setTimeout(() => {
+        if (this.cy) {
+          const nodeCount = this.cy.nodes().length;
+          const edgeCount = this.cy.edges().length;
+          this.updateStatus(`Loaded ${nodeCount} regions, ${edgeCount} connections`);
+        }
+      }, 2000);
+      return;
+    }
+
+    if (!path.nextExit) {
+      console.warn(`[RegionGraphUI] Path found but no next exit determined`);
+      return;
+    }
+
+    console.log(`[RegionGraphUI] Moving player via path:`, path.steps, `using exit: ${path.nextExit}`);
+    
+    // Execute the first step of the path using moduleDispatcher
+    import('./index.js').then(({ moduleDispatcher }) => {
+      if (moduleDispatcher) {
+        moduleDispatcher.publish('user:regionMove', {
+          sourceRegion: currentPlayerRegion,
+          sourceUID: undefined, // No specific UID for graph-based moves
+          targetRegion: path.steps[1], // Next region in path
+          exitName: path.nextExit
+        }, 'bottom');
+        console.log(`[RegionGraphUI] Published user:regionMove via dispatcher from ${currentPlayerRegion} to ${path.steps[1]}`);
+      } else {
+        console.warn('[RegionGraphUI] moduleDispatcher not available for publishing user:regionMove');
+      }
+    });
+    
+    // Show path info in status
+    if (path.length === 1) {
+      this.updateStatus(`Moving to ${targetRegion}`);
+    } else {
+      this.updateStatus(`Moving to ${targetRegion} (${path.length} steps via ${path.steps[1]})`);
+    }
+  }
+
+  attemptMovePlayerDirectlyToRegion(targetRegion) {
+    const currentPlayerRegion = this.getCurrentPlayerLocation();
+    
+    if (!currentPlayerRegion) {
+      console.warn(`[RegionGraphUI] Cannot determine current player location`);
+      return;
+    }
+
+    if (currentPlayerRegion === targetRegion) {
+      console.log(`[RegionGraphUI] Player is already in target region: ${targetRegion}`);
+      return;
+    }
+
+    // Find path to target region
+    console.log(`[RegionGraphUI] Finding direct path from ${currentPlayerRegion} to ${targetRegion}`);
+    const path = this.pathFinder.findPath(currentPlayerRegion, targetRegion);
+    
+    if (!path || path.length === 0) {
+      console.warn(`[RegionGraphUI] No accessible path found from ${currentPlayerRegion} to ${targetRegion}`);
+      // Show a brief status message
+      this.updateStatus(`No path to ${targetRegion}`);
+      setTimeout(() => {
+        if (this.cy) {
+          const nodeCount = this.cy.nodes().length;
+          const edgeCount = this.cy.edges().length;
+          this.updateStatus(`Loaded ${nodeCount} regions, ${edgeCount} connections`);
+        }
+      }, 2000);
+      return;
+    }
+
+    // For direct movement, we want the final step of the path
+    const finalSourceRegion = path.steps[path.steps.length - 2]; // Second to last region
+    
+    // Get the adjacency map to find the final exit name
+    const staticData = this.pathFinder.stateManager.getStaticData();
+    const snapshot = this.pathFinder.stateManager.getLatestStateSnapshot();
+    const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+    const adjacencyMap = this.pathFinder.buildAccessibilityMap(staticData, snapshot, snapshotInterface);
+    
+    const finalExitName = this.pathFinder.findExitBetweenRegions(
+      finalSourceRegion, 
+      targetRegion, 
+      adjacencyMap
+    );
+
+    if (!finalExitName) {
+      console.warn(`[RegionGraphUI] Could not determine final exit name for direct move`);
+      return;
+    }
+
+    console.log(`[RegionGraphUI] Moving player directly to ${targetRegion} via final exit: ${finalExitName}`);
+    
+    // Execute the final step of the path directly
+    import('./index.js').then(({ moduleDispatcher }) => {
+      if (moduleDispatcher) {
+        moduleDispatcher.publish('user:regionMove', {
+          sourceRegion: finalSourceRegion,
+          sourceUID: undefined, // No specific UID for graph-based moves
+          targetRegion: targetRegion,
+          exitName: finalExitName
+        }, 'bottom');
+        console.log(`[RegionGraphUI] Published direct user:regionMove via dispatcher from ${finalSourceRegion} to ${targetRegion}`);
+      } else {
+        console.warn('[RegionGraphUI] moduleDispatcher not available for publishing user:regionMove');
+      }
+    });
+    
+    // Show path info in status
+    if (path.length === 1) {
+      this.updateStatus(`Moving directly to ${targetRegion}`);
+    } else {
+      this.updateStatus(`Moving directly to ${targetRegion} (skipping ${path.length - 1} steps)`);
+    }
+  }
+
+  setPathToRegion(targetRegion) {
+    const currentPlayerRegion = this.getCurrentPlayerLocation();
+    
+    if (!currentPlayerRegion) {
+      console.warn(`[RegionGraphUI] Cannot determine current player location for path setting`);
+      return;
+    }
+
+    // Find path to target region
+    console.log(`[RegionGraphUI] Calculating path from ${currentPlayerRegion} to ${targetRegion}`);
+    const path = this.pathFinder.findPath(currentPlayerRegion, targetRegion);
+    
+    if (!path || path.length === 0) {
+      console.warn(`[RegionGraphUI] No accessible path found from ${currentPlayerRegion} to ${targetRegion}`);
+      this.updateStatus(`No path to ${targetRegion}`);
+      return;
+    }
+
+    console.log(`[RegionGraphUI] Path to ${targetRegion}:`, path.steps);
+    
+    // TODO: Implement path visualization and storage
+    // This could involve:
+    // 1. Highlighting the path on the graph
+    // 2. Storing the path for later execution
+    // 3. Creating a path execution UI
+    // 4. Publishing events for other modules to react to the path
+    
+    // For now, just show the path in the status
+    if (path.length === 1) {
+      this.updateStatus(`Path set: Direct to ${targetRegion}`);
+    } else {
+      const pathString = path.steps.join(' → ');
+      this.updateStatus(`Path set: ${pathString} (${path.length} steps)`);
+    }
+    
+    // Placeholder for future implementation
+    console.log(`[RegionGraphUI] TODO: Implement path visualization and execution for path:`, path);
+  }
+
+  toggleControlPanel() {
+    const controlsContent = this.controlPanel.querySelector('#controlsContent');
+    const toggleButton = this.controlPanel.querySelector('#toggleControls');
+    
+    if (!controlsContent || !toggleButton) return;
+    
+    const isVisible = controlsContent.style.display !== 'none';
+    
+    if (isVisible) {
+      // Collapse
+      controlsContent.style.display = 'none';
+      toggleButton.textContent = '+';
+      toggleButton.title = 'Expand controls';
+    } else {
+      // Expand
+      controlsContent.style.display = 'block';
+      toggleButton.textContent = '−';
+      toggleButton.title = 'Collapse controls';
     }
   }
 
