@@ -86,14 +86,20 @@ const runtimeModuleStates = new Map(); // Map<moduleId, { initialized: boolean, 
 // --- Helper Functions ---
 
 async function fetchJson(url, errorMessage) {
+  // Extract filename from URL for display
+  const fileName = url.split('/').pop() || url;
+  
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    const result = await response.json();
+    incrementFileCounter(fileName); // Increment counter with filename on successful load
+    return result;
   } catch (error) {
     logger.error('init', `${errorMessage}: ${url}`, error);
+    addFileError(fileName); // Add error to file list
     return null; // Return null to indicate failure
   }
 }
@@ -883,6 +889,54 @@ async function loadCombinedModeData() {
   );
 }
 
+// --- File loading counter and list ---
+let filesLoadedCount = 0;
+const loadedFilesList = [];
+
+function updateFileCounter() {
+  const counterElement = document.getElementById('files-loaded-count');
+  if (counterElement) {
+    counterElement.textContent = filesLoadedCount;
+  }
+}
+
+function addFileToList(fileName, status = 'success') {
+  const fileListContainer = document.getElementById('file-list-container');
+  if (fileListContainer) {
+    const fileEntry = document.createElement('div');
+    fileEntry.className = `file-entry ${status}`;
+    fileEntry.textContent = fileName;
+    fileListContainer.appendChild(fileEntry);
+    
+    // Auto-scroll to bottom to show newest entries
+    fileListContainer.scrollTop = fileListContainer.scrollHeight;
+  }
+  
+  // Also track in array for potential future use
+  loadedFilesList.push({ fileName, status, timestamp: new Date() });
+}
+
+function incrementFileCounter(fileName = 'Unknown file') {
+  filesLoadedCount++;
+  updateFileCounter();
+  addFileToList(fileName, 'success');
+  logger.debug('init', `Files loaded: ${filesLoadedCount} - Latest: ${fileName}`);
+}
+
+function addFileError(fileName) {
+  addFileToList(`❌ ${fileName}`, 'error');
+  logger.debug('init', `File load error: ${fileName}`);
+}
+
+// --- Helper function to hide loading screen ---
+function hideLoadingScreen() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hidden');
+    logger.info('init', 'Loading screen hidden');
+  }
+}
+
 // --- Main Initialization Logic ---
 async function main() {
   logger.info('init', 'Starting main initialization...');
@@ -989,6 +1043,8 @@ async function main() {
       runtimeModuleStates.set(moduleId, { initialized: false, enabled: true });
       try {
         const moduleInstance = await import(moduleDefinition.path);
+        const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
+        incrementFileCounter(`${moduleId} (${moduleFileName})`); // Increment counter for module import
         importedModules.set(moduleId, moduleInstance.default || moduleInstance);
         logger.debug('init', `Dynamically imported module: ${moduleId}`);
 
@@ -1399,6 +1455,9 @@ async function main() {
       try {
         // Keep event listeners for diagnostics - Commenting out the verbose ones
         goldenLayoutInstance.on('started', () => {
+          // Hide loading screen when Golden Layout starts
+          hideLoadingScreen();
+          
           // log('info',
           //   '[Init DEBUG] GoldenLayout "started" EVENT HANDLER ENTERED (PanelManager init no longer solely relies on this)'
           // );
@@ -1640,6 +1699,8 @@ async function main() {
       );
       try {
         const moduleInstance = await import(moduleDefinition.path);
+        const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
+        incrementFileCounter(`${moduleId} (${moduleFileName})`); // Increment counter for dynamic module import
         actualModuleObject = moduleInstance.default || moduleInstance; // Assign here
         importedModules.set(moduleId, actualModuleObject);
         logger.debug(
@@ -2107,6 +2168,12 @@ async function main() {
 
   logger.info('init', 'Modular application initialization complete.');
 
+  // Fallback: Hide loading screen after initialization is complete if it's still visible
+  // This ensures the loading screen disappears even if Golden Layout events don't fire
+  setTimeout(() => {
+    hideLoadingScreen();
+  }, 500);
+
   // After all modules are ready and UI might be listening,
   // publish the final active mode.
   logger.info(
@@ -2152,6 +2219,7 @@ async function main() {
         const { stateManagerProxySingleton } = await import(
           './modules/stateManager/index.js'
         );
+        incrementFileCounter('stateManager (index.js)'); // Increment counter for state manager import
         await stateManagerProxySingleton.loadRules(
           eventData.jsonData,
           {

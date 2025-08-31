@@ -63,3 +63,4 @@ See the [Project Roadmap](/docs/json/project-roadmap.md) for the latest status, 
 - Uses [vanilla-jsoneditor](https://github.com/josdejong/svelte-jsoneditor)
 - Uses [json-editor](https://github.com/json-editor/json-editor)
 - Uses [CodeMirror](https://github.com/codemirror/codemirror5)
+- Uses [Cytoscape.js](https://github.com/cytoscape/cytoscape.js) for graph visualization

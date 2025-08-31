@@ -1,10 +1,10 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-08-29 18:55:56
+**Generated:** 2025-08-30 17:38:05
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-08-29T18:55:32.989598
+**Source Data Last Updated:** 2025-08-30T17:23:47.801816
 
 **Script Version:** 1.0.0
 
@@ -59,7 +59,7 @@
 | Meritous | ❌ Failed | 0 | 1.1 | 7.1 | 🟡 15.5% | ⚫ | ⚫ |
 | Muse Dash | ❌ Failed | 0 | 0.1 | 5.1 | 🟠 2.0% | ⚫ | ⚫ |
 | Noita | ✅ Passed | 0 | 0.1 | 0.1 | 🟢 Complete | ⚫ | ⚫ |
-| Ocarina of Time | ❌ Failed | 3118 | 0.1 | 22.1 | 🟠 0.5% | ⚫ | ⚫ |
+| Ocarina of Time | ❌ Failed | 2524 | 0.1 | 22.1 | 🟠 0.5% | ⚫ | ⚫ |
 | Old School Runescape | ❌ Failed | 0 | 0.1 | 7.1 | 🟠 1.4% | ⚫ | ⚫ |
 | Overcooked! 2 | ❌ Failed | 0 | 0 | 17.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Paint | ❌ Failed | 131 | 0.1 | 12.1 | 🟠 0.8% | ⚫ | ⚫ |
@@ -81,7 +81,7 @@
 | Super Metroid | ❌ Failed | 0 | 0 | 8.1 | 🔴 0.0% | ⚫ | ⚫ |
 | TUNIC | ❌ Failed | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |
 | Terraria | ❌ Failed | 0 | 0 | 9.3 | 🔴 0.0% | ⚫ | ⚫ |
-| The Legend of Zelda | ❌ Failed | 0 | 0 | 11.1 | 🔴 0.0% | ⚫ | ⚫ |
+| The Legend of Zelda | ❌ Failed | 0 | 0.1 | 11.1 | 🟠 0.9% | ⚫ | ⚫ |
 | The Messenger | ❌ Failed | 0 | 0.1 | 6.1 | 🟠 1.6% | ⚫ | ⚫ |
 | The Wind Waker | ❌ Failed | 1 | 0.1 | 17.1 | 🟠 0.6% | ⚫ | ⚫ |
 | The Witness | ❌ Failed | 1 | 0 | 9.1 | 🔴 0.0% | ⚫ | ⚫ |
