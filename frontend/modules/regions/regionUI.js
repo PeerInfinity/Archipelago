@@ -300,17 +300,18 @@ export class RegionUI {
     });
     // --- END ADDED ---
 
-    // Subscribe to playerState region changes
-    //const handlePlayerStateRegionChanged = (eventPayload) => {
-    //  if (eventPayload && eventPayload.oldRegion && eventPayload.newRegion) {
-    //    log(
-    //      'info',
-    //      `[RegionUI] Received playerState:regionChanged from ${eventPayload.oldRegion} to ${eventPayload.newRegion}. Calling moveToRegion.`
-    //    );
-    //    this.moveToRegion(eventPayload.oldRegion, eventPayload.newRegion);
-    //  }
-    //};
-    //subscribe('playerState:regionChanged', handlePlayerStateRegionChanged);
+    // Subscribe to playerState path updates
+    const handlePathUpdated = (eventPayload) => {
+      if (eventPayload && eventPayload.path) {
+        log(
+          'info',
+          `[RegionUI] Received playerState:pathUpdated with ${eventPayload.path.length} regions in path`
+        );
+        // Convert path data from playerState to visitedRegions format
+        this.updateFromPlayerStatePath(eventPayload.path, eventPayload.regionCounts);
+      }
+    };
+    subscribe('playerState:pathUpdated', handlePathUpdated);
 
     // Subscribe to region navigation requests
     const handleNavigateToRegion = (eventPayload) => {
@@ -528,6 +529,42 @@ export class RegionUI {
     this._updateSectionVisibility(); 
     */
   }
+  
+  /**
+   * Update visitedRegions from playerState path data
+   * @param {Array} path - Path array from playerState
+   * @param {Map} regionCounts - Region instance counts from playerState
+   */
+  updateFromPlayerStatePath(path, regionCounts) {
+    if (!path || path.length === 0) {
+      log('warn', '[RegionUI] Received empty path from playerState');
+      return;
+    }
+    
+    // Standard navigation behavior: only the last (current) region should be expanded
+    // Reset visitedRegions and rebuild from path
+    this.visitedRegions = [];
+    this.nextUID = 1;
+    
+    path.forEach((pathEntry, index) => {
+      const uid = this.nextUID++;
+      const isLastRegion = index === path.length - 1;
+      
+      // Only the last region (current region) should be expanded
+      const expanded = isLastRegion;
+      
+      this.visitedRegions.push({
+        name: pathEntry.region,
+        expanded: expanded,
+        uid: uid,
+        exitUsed: pathEntry.exitUsed,
+        instanceNumber: pathEntry.instanceNumber
+      });
+    });
+    
+    // Update the display
+    this.renderAllRegions();
+  }
 
   update() {
     // Renamed from renderAllRegions to update, to be consistent with other panels
@@ -575,46 +612,52 @@ export class RegionUI {
   }
 
   moveToRegion(oldRegionName, newRegionName, sourceUID) {
-    // 1. find the index of the specific region instance by UID (if provided) or by name (fallback)
-    let oldIndex;
-    if (sourceUID) {
-      // Handle both string and number UIDs (dataset returns strings)
-      oldIndex = this.visitedRegions.findIndex((r) => {
-        // For "Show All" mode UIDs (strings like "all_RegionName")
-        if (typeof r.uid === 'string' && typeof sourceUID === 'string') {
-          return r.uid === sourceUID;
+    // The Regions module no longer directly manages the path - it's handled by playerState
+    // This method is called when the module receives a user:regionMove event
+    // The actual path update happens in playerState, and we'll receive the update via playerState:pathUpdated
+    
+    log('info', `[RegionUI] moveToRegion called: ${oldRegionName} -> ${newRegionName} (UID: ${sourceUID})`);
+    
+    // If we clicked on a region in the path to navigate backwards
+    if (sourceUID && !this.showAll) {
+      // Find which instance of the region this is based on UID
+      let instanceNumber = 0;
+      let foundRegion = null;
+      
+      for (const vr of this.visitedRegions) {
+        if (vr.name === oldRegionName) {
+          instanceNumber++;
         }
-        // For numeric UIDs (handle string/number comparison)
-        return r.uid == sourceUID; // Use loose equality to handle "2" == 2
-      });
-    } else {
-      // Fallback to name-based lookup for backward compatibility
-      oldIndex = this.visitedRegions.findIndex((r) => r.name === oldRegionName);
+        if (vr.uid == sourceUID) {
+          foundRegion = vr;
+          break;
+        }
+      }
+      
+      if (foundRegion && foundRegion.instanceNumber) {
+        // Use the instance number from the visitedRegions entry if available
+        instanceNumber = foundRegion.instanceNumber;
+      }
+      
+      // Check if we're navigating backwards (clicking on an earlier region in the path)
+      const currentIndex = this.visitedRegions.findIndex(r => r.uid == sourceUID);
+      const isLastRegion = currentIndex === this.visitedRegions.length - 1;
+      
+      if (!isLastRegion && currentIndex >= 0) {
+        // Navigating backwards - trim the path at this region
+        log('info', `[RegionUI] Navigating backwards to ${oldRegionName} instance ${instanceNumber}`);
+        if (eventBus) {
+          eventBus.publish('playerState:trimPath', {
+            regionName: oldRegionName,
+            instanceNumber: instanceNumber
+          }, 'regions');
+        }
+        return;
+      }
     }
     
-    if (oldIndex < 0) {
-      log(
-        'warn',
-        `Can't find region ${oldRegionName} (UID: ${sourceUID}) in visited. Not removing anything.`
-      );
-      return;
-    }
-
-    // 2. remove everything after oldIndex
-    this.visitedRegions.splice(oldIndex + 1);
-
-    // 3. collapse the old region block
-    this.visitedRegions[oldIndex].expanded = false;
-
-    // 4. Add the new region block (expanded)
-    const newBlock = {
-      name: newRegionName,
-      expanded: true,
-      uid: this.nextUID++,
-    };
-    this.visitedRegions.push(newBlock);
-
-    this.renderAllRegions();
+    // For forward navigation or "Show All" mode, the playerState will handle the path update
+    // We'll receive the updated path via playerState:pathUpdated event
   }
 
   toggleRegionByUID(uid) {

@@ -17,6 +17,8 @@ export class RegionGraphUI {
     this.nodePositions = new Map();
     this.isLayoutRunning = false;
     this.pathFinder = new PathFinder(stateManager);
+    this.currentPath = [];
+    this.regionPathCounts = new Map();
     
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('region-graph-panel-container', 'panel-container');
@@ -253,6 +255,30 @@ export class RegionGraphUI {
           }
         },
         {
+          selector: 'node.in-path',
+          style: {
+            'background-color': '#6c5ce7',
+            'border-color': '#5f3dc4',
+            'border-width': 2
+          }
+        },
+        {
+          selector: 'node.path-single',
+          style: {
+            'background-color': '#74b9ff',
+            'border-color': '#0984e3'
+          }
+        },
+        {
+          selector: 'node.path-multiple',
+          style: {
+            'background-color': '#a29bfe',
+            'border-color': '#6c5ce7',
+            'border-width': 3,
+            'font-weight': 'bold'
+          }
+        },
+        {
           selector: 'node.player',
           style: {
             'background-color': '#4169e1',
@@ -353,6 +379,22 @@ export class RegionGraphUI {
           selector: 'edge.traversed.bidirectional',
           style: {
             'source-arrow-color': '#95e77e'
+          }
+        },
+        {
+          selector: 'edge.in-path',
+          style: {
+            'line-color': '#6c5ce7',
+            'target-arrow-color': '#6c5ce7',
+            'width': 5,
+            'opacity': 1.0,
+            'z-index': 10
+          }
+        },
+        {
+          selector: 'edge.in-path.bidirectional',
+          style: {
+            'source-arrow-color': '#6c5ce7'
           }
         }
       ],
@@ -513,6 +555,10 @@ export class RegionGraphUI {
     
     this.unsubscribeRegionChange = eventBus.subscribe('playerState:regionChanged',
       (data) => this.updatePlayerLocation(data.newRegion), 'regionGraph');
+    
+    // Subscribe to path updates to track the full path
+    this.unsubscribePathUpdate = eventBus.subscribe('playerState:pathUpdated',
+      (data) => this.onPathUpdate(data), 'regionGraph');
       
     // Subscribe to rules loaded event (like Regions module)
     this.unsubscribeRulesLoaded = eventBus.subscribe('stateManager:rulesLoaded', 
@@ -1046,6 +1092,64 @@ export class RegionGraphUI {
     }
   }
 
+  onPathUpdate(data) {
+    if (!data || !data.path) return;
+    
+    console.log(`[RegionGraphUI] Path updated with ${data.path.length} regions`);
+    
+    // Store the path data
+    this.currentPath = data.path;
+    this.regionPathCounts = data.regionCounts || new Map();
+    
+    // Update node labels to include path counts
+    if (this.cy) {
+      this.cy.nodes().forEach(node => {
+        const regionName = node.id();
+        const count = this.regionPathCounts.get(regionName) || 0;
+        
+        // Update the label to include count if region is in path
+        if (count > 0) {
+          node.data('label', `${regionName} (${count})`);
+          node.addClass('in-path');
+          
+          // Add different classes based on count for visual distinction
+          if (count === 1) {
+            node.removeClass('path-multiple');
+            node.addClass('path-single');
+          } else {
+            node.removeClass('path-single');
+            node.addClass('path-multiple');
+          }
+        } else {
+          node.data('label', regionName);
+          node.removeClass('in-path path-single path-multiple');
+        }
+      });
+      
+      // Highlight edges in the path
+      this.highlightPathEdges();
+    }
+  }
+  
+  highlightPathEdges() {
+    if (!this.cy || !this.currentPath || this.currentPath.length < 2) return;
+    
+    // Remove existing path highlighting from edges
+    this.cy.edges().removeClass('in-path');
+    
+    // Highlight edges between consecutive regions in the path
+    for (let i = 0; i < this.currentPath.length - 1; i++) {
+      const source = this.currentPath[i].region;
+      const target = this.currentPath[i + 1].region;
+      
+      // Find edge between source and target (consider both directions)
+      const edge = this.cy.edges(`[source="${source}"][target="${target}"], [source="${target}"][target="${source}"]`);
+      if (edge && edge.length > 0) {
+        edge.addClass('in-path');
+      }
+    }
+  }
+
   updatePlayerLocation(regionName) {
     if (!this.cy) return;
     
@@ -1327,6 +1431,9 @@ export class RegionGraphUI {
     }
     if (this.unsubscribeRegionChange) {
       this.unsubscribeRegionChange();
+    }
+    if (this.unsubscribePathUpdate) {
+      this.unsubscribePathUpdate();
     }
     if (this.unsubscribeRulesLoaded) {
       this.unsubscribeRulesLoaded();

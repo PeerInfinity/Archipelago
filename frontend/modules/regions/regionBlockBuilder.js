@@ -706,18 +706,29 @@ export class RegionBlockBuilder {
                 });
               } else {
                 // Normal mode - execute region move
-                import('./index.js').then(({ moduleDispatcher }) => {
+                // Import playerState to get current region instead of assuming regionName is current
+                Promise.all([
+                  import('./index.js'),
+                  import('../playerState/singleton.js')
+                ]).then(([{ moduleDispatcher }, { getPlayerStateSingleton }]) => {
                   if (moduleDispatcher) {
+                    // Get the actual current region from playerState
+                    const playerState = getPlayerStateSingleton();
+                    const currentRegion = playerState.getCurrentRegion();
+                    
                     moduleDispatcher.publish('user:regionMove', {
-                      sourceRegion: regionName,
+                      sourceRegion: currentRegion,
                       sourceUID: uid,
                       targetRegion: connectedRegionName,
-                      exitName: exitDef.name
+                      exitName: exitDef.name,
+                      source: 'regionBlockBuilder'
                     }, 'bottom');
-                    log('info', `[Exit Block] Moving from ${regionName} to ${connectedRegionName}`);
+                    log('info', `[Exit Block] Moving from ${currentRegion} to ${connectedRegionName} via ${exitDef.name} (exit click)`);
                   } else {
                     log('warn', 'moduleDispatcher not available for publishing user:regionMove');
                   }
+                }).catch(error => {
+                  log('error', 'Error importing modules for region move:', error);
                 });
               }
             }

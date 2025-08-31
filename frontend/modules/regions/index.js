@@ -48,6 +48,7 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('ui:navigateToLocation');
   registrationApi.registerEventBusPublisher('ui:navigateToDungeon');
   registrationApi.registerEventBusPublisher('ui:activatePanel');
+  registrationApi.registerEventBusPublisher('playerState:trimPath');
 
   // Register Dispatcher sender intentions (used by RegionUI)
   registrationApi.registerDispatcherSender(

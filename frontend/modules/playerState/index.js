@@ -23,8 +23,17 @@ export async function register(registrationApi) {
         handleRegionMove,
         { direction: 'up', condition: 'unconditional', timing: 'immediate' }
     );
+    
+    registrationApi.registerDispatcherReceiver(
+        moduleId,
+        'playerState:trimPath',
+        handleTrimPath,
+        { direction: 'up', condition: 'unconditional', timing: 'immediate' }
+    );
 
+    // Register event publishers
     registrationApi.registerEventBusPublisher('playerState:regionChanged');
+    registrationApi.registerEventBusPublisher('playerState:pathUpdated');
 
     // Export public functions
     registrationApi.registerPublicFunction(moduleId, 'getCurrentRegion', () => {
@@ -35,6 +44,26 @@ export async function register(registrationApi) {
     registrationApi.registerPublicFunction(moduleId, 'getState', () => {
         const playerState = getPlayerStateSingleton();
         return playerState;
+    });
+    
+    registrationApi.registerPublicFunction(moduleId, 'getPath', () => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.getPath();
+    });
+    
+    registrationApi.registerPublicFunction(moduleId, 'getRegionCounts', () => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.getRegionCounts();
+    });
+    
+    registrationApi.registerPublicFunction(moduleId, 'setAllowLoops', (allowLoops) => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.setAllowLoops(allowLoops);
+    });
+    
+    registrationApi.registerPublicFunction(moduleId, 'getAllowLoops', () => {
+        const playerState = getPlayerStateSingleton();
+        return playerState.getAllowLoops();
     });
 }
 
@@ -80,7 +109,19 @@ function handleRegionMove(data, propagationOptions) {
     log('info', `[${moduleId} Module] Received user:regionMove event`, data);
     
     const playerState = getPlayerStateSingleton();
+    const currentRegionBefore = playerState.getCurrentRegion();
+    log('info', `[${moduleId} Module] Current region before processing: ${currentRegionBefore}`);
+    
     if (data && data.targetRegion) {
+        // Update path with exit information BEFORE updating current region
+        // This allows updatePath to properly detect the current vs target region
+        playerState.updatePath(
+            data.targetRegion,
+            data.exitName || null,
+            data.sourceRegion || null
+        );
+        
+        // Then update current region
         playerState.setCurrentRegion(data.targetRegion);
     }
     
@@ -94,5 +135,27 @@ function handleRegionMove(data, propagationOptions) {
         );
     } else {
         log('error', `[${moduleId} Module] Dispatcher not available for propagation of user:regionMove event`);
+    }
+}
+
+function handleTrimPath(data, propagationOptions) {
+    log('info', `[${moduleId} Module] Received playerState:trimPath event`, data);
+    
+    const playerState = getPlayerStateSingleton();
+    const regionName = data?.regionName || 'Menu';
+    const instanceNumber = data?.instanceNumber || 1;
+    
+    playerState.trimPath(regionName, instanceNumber);
+    
+    // Propagate event to the next module (up direction)
+    if (moduleDispatcher) {
+        moduleDispatcher.publishToNextModule(
+            moduleId,
+            'playerState:trimPath',
+            data,
+            { direction: 'up' }
+        );
+    } else {
+        log('error', `[${moduleId} Module] Dispatcher not available for propagation of playerState:trimPath event`);
     }
 }
