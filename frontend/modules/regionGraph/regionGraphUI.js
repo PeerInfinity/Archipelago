@@ -4,6 +4,7 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { getPlayerStateSingleton } from '../playerState/singleton.js';
 import { PathFinder } from './pathfinder.js';
+import { RegionGraphLayoutEditor } from './regionGraphLayoutEditor.js';
 
 export class RegionGraphUI {
   constructor(container, componentState) {
@@ -19,6 +20,7 @@ export class RegionGraphUI {
     this.pathFinder = new PathFinder(stateManager);
     this.currentPath = [];
     this.regionPathCounts = new Map();
+    this.layoutEditor = null;
     
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('region-graph-panel-container', 'panel-container');
@@ -54,40 +56,8 @@ export class RegionGraphUI {
     this.controlPanel.style.color = 'white';
     this.controlPanel.style.fontSize = '12px';
     this.controlPanel.style.minWidth = '200px';
-    this.controlPanel.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-        <span style="font-weight: bold;">Controls</span>
-        <button id="toggleControls" style="background: none; border: 1px solid #555; color: white; padding: 2px 6px; font-size: 10px; cursor: pointer; border-radius: 2px;">−</button>
-      </div>
-      <div id="controlsContent">
-        <button id="resetView" style="margin: 2px; padding: 4px 8px;">Reset View</button>
-        <button id="relayout" style="margin: 2px; padding: 4px 8px;">Re-layout</button>
-        <button id="exportPositions" style="margin: 2px; padding: 4px 8px;">Export Positions</button>
-        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #555;">
-          <div style="font-weight: bold; margin-bottom: 5px;">On Region Node Click:</div>
-          <label style="display: block; margin: 3px 0; cursor: pointer;">
-            <input type="checkbox" id="movePlayerOneStep" style="margin-right: 5px;">
-            Move player one step towards region
-          </label>
-          <label style="display: block; margin: 3px 0; cursor: pointer;">
-            <input type="checkbox" id="movePlayerDirectly" style="margin-right: 5px;" checked>
-            Move player directly to region
-          </label>
-          <label style="display: block; margin: 3px 0; cursor: pointer;">
-            <input type="checkbox" id="showRegionInPanel" style="margin-right: 5px;" checked>
-            Show region in Regions panel
-          </label>
-          <label style="display: block; margin: 3px 0; cursor: pointer;">
-            <input type="checkbox" id="addToPath" style="margin-right: 5px;" checked>
-            Add to path
-          </label>
-          <label style="display: block; margin: 3px 0; cursor: pointer;">
-            <input type="checkbox" id="overwritePath" style="margin-right: 5px;">
-            Overwrite path
-          </label>
-        </div>
-      </div>
-    `;
+    this.controlPanel.style.maxWidth = '400px';
+    this.controlPanel.innerHTML = '';
     
     this.rootElement.appendChild(this.statusBar);
     this.rootElement.appendChild(this.controlPanel);
@@ -294,6 +264,16 @@ export class RegionGraphUI {
           }
         },
         {
+          selector: 'node.hub',
+          style: {
+            'width': 80,
+            'height': 60,
+            'font-size': '12px',
+            'border-width': 3,
+            'z-index': 5
+          }
+        },
+        {
           selector: 'node:selected',
           style: {
             'border-color': '#ff0000',
@@ -376,21 +356,47 @@ export class RegionGraphUI {
           style: {
             'source-arrow-color': '#6c5ce7'
           }
+        },
+        {
+          selector: 'edge.hub-edge',
+          style: {
+            'line-style': 'dotted',
+            'opacity': 0.3,
+            'width': 1,
+            'curve-style': 'unbundled-bezier',
+            'control-point-distances': [40],
+            'control-point-weights': [0.5],
+            'z-index': 1
+          }
+        },
+        {
+          selector: 'edge.hub-edge.hidden',
+          style: {
+            'display': 'none'
+          }
         }
       ],
       
       layout: {
-        name: 'grid',
+        name: 'cose',
+        randomize: false,
+        animate: true,
+        animationDuration: 1000,
         fit: true,
-        padding: 30
-      },
-
-      minZoom: 0.1,
-      maxZoom: 5,
-      wheelSensitivity: 0.2
+        padding: 50,
+        nodeRepulsion: 400000,
+        nodeOverlap: 10,
+        idealEdgeLength: 100,
+        edgeElasticity: 100,
+        nestingFactor: 5,
+        gravity: 80,
+        numIter: 1000,
+        componentSpacing: 100
+      }
     });
 
     console.log('[RegionGraphUI] Cytoscape instance created successfully');
+    this.setupControlPanel();
     this.setupEventHandlers();
     this.subscribeToEvents();
     this.graphInitialized = false; // Track if data has been loaded
@@ -403,6 +409,55 @@ export class RegionGraphUI {
     } catch (error) {
       console.error('[RegionGraphUI] Error in initializeGraph:', error);
       this.updateStatus('Error initializing graph: ' + error.message);
+    }
+  }
+
+  setupControlPanel() {
+    // Create hybrid control panel with both existing controls and layout editor
+    this.controlPanel.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+        <span style="font-weight: bold;">Controls</span>
+        <button id="toggleControls" style="background: none; border: 1px solid #555; color: white; padding: 2px 6px; font-size: 10px; cursor: pointer; border-radius: 2px;">−</button>
+      </div>
+      <div id="controlsContent">
+        <div style="margin-bottom: 10px;">
+          <button id="resetView" style="margin: 2px; padding: 4px 8px;">Reset View</button>
+          <button id="relayout" style="margin: 2px; padding: 4px 8px;">Re-layout</button>
+          <button id="exportPositions" style="margin: 2px; padding: 4px 8px;">Export Positions</button>
+        </div>
+        <div id="layoutEditorContainer"></div>
+        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #555;">
+          <div style="font-weight: bold; margin-bottom: 5px;">On Region Node Click:</div>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="movePlayerOneStep" style="margin-right: 5px;">
+            Move player one step towards region
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="movePlayerDirectly" style="margin-right: 5px;" checked>
+            Move player directly to region
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="showRegionInPanel" style="margin-right: 5px;" checked>
+            Show region in Regions panel
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="addToPath" style="margin-right: 5px;" checked>
+            Add to path
+          </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="overwritePath" style="margin-right: 5px;">
+            Overwrite path
+          </label>
+        </div>
+      </div>
+    `;
+    
+    // Initialize layout editor
+    const layoutEditorContainer = this.controlPanel.querySelector('#layoutEditorContainer');
+    if (layoutEditorContainer) {
+      this.layoutEditor = new RegionGraphLayoutEditor(this.cy, this.controlPanel);
+      layoutEditorContainer.innerHTML = this.layoutEditor.createEditorHTML();
+      this.layoutEditor.setupEventHandlers(this);
     }
   }
 
@@ -861,6 +916,9 @@ export class RegionGraphUI {
     this.cy.elements().remove();
     this.cy.add(elements);
 
+    // Auto-apply hub detection if enabled
+    this.autoApplyHubDetection();
+
     if (this.nodePositions.size === 0 || this.nodePositions.size !== elements.nodes.length) {
       this.runLayout(false);
     } else {
@@ -964,6 +1022,54 @@ export class RegionGraphUI {
     URL.revokeObjectURL(url);
     
     this.updateStatus('Positions exported to file');
+  }
+
+  identifyHubNodes(threshold = 8) {
+    const hubNodes = [];
+    
+    this.cy.nodes().forEach(node => {
+      // Skip player node
+      if (node.hasClass('player')) {
+        return;
+      }
+      
+      const degree = node.degree();
+      if (degree >= threshold) {
+        hubNodes.push({
+          id: node.id(),
+          degree: degree
+        });
+        node.addClass('hub');
+      } else {
+        node.removeClass('hub');
+      }
+    });
+    
+    // Mark edges connected to hubs
+    this.cy.edges().forEach(edge => {
+      const sourceIsHub = edge.source().hasClass('hub');
+      const targetIsHub = edge.target().hasClass('hub');
+      if (sourceIsHub || targetIsHub) {
+        edge.addClass('hub-edge');
+      } else {
+        edge.removeClass('hub-edge');
+      }
+    });
+    
+    console.log(`[RegionGraphUI] Identified ${hubNodes.length} hub nodes with degree >= ${threshold}`);
+    return hubNodes;
+  }
+
+  autoApplyHubDetection() {
+    if (!this.layoutEditor) return;
+    
+    const autoApplyCheckbox = this.controlPanel.querySelector('#autoApplyHubs');
+    if (autoApplyCheckbox && autoApplyCheckbox.checked) {
+      const thresholdInput = this.controlPanel.querySelector('#hubThreshold');
+      const threshold = parseInt(thresholdInput?.value || 8);
+      const hubNodes = this.identifyHubNodes(threshold);
+      console.log(`[RegionGraphUI] Auto-applied hub detection: ${hubNodes.length} hubs found with threshold ${threshold}`);
+    }
   }
 
   onStateUpdate(data) {
