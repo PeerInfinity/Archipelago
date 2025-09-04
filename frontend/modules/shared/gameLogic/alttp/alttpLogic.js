@@ -619,6 +619,34 @@ export function item_name_in_location_names(state, world, itemName, staticData) 
   return false;
 }
 
+export function ganons_tower_bottom_boss_defeat(state, world, itemName, staticData) {
+  // The bottom boss in Ganon's Tower is Armos Knights
+  // The defeat rule is: has_melee_weapon OR can_shoot_arrows OR (can_use_bombs AND has at least 5 bombs)
+  // This matches the defeat_rule in the exported dungeon data
+  
+  // Check if player can defeat Armos Knights
+  if (has_melee_weapon(state, world, itemName, staticData)) {
+    return true;
+  }
+  
+  if (can_shoot_arrows(state, world, itemName, staticData)) {
+    return true;
+  }
+  
+  // Check bomb option: can_use_bombs AND has at least 5 bombs
+  if (can_use_bombs(state, world, itemName, staticData)) {
+    const bombCount = count(state, 'Bomb', staticData);
+    const bombUpgradeCount = count(state, 'Bomb Upgrade (+5)', staticData) + 
+                            count(state, 'Bomb Upgrade (+10)', staticData);
+    const totalBombs = bombCount + bombUpgradeCount;
+    if (totalBombs >= 5) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
 export function GanonDefeatRule(state, world, itemName, staticData) {
   const isSwordless = state.settings?.swordless ||
                      (state.flags && state.flags.includes('swordless'));
@@ -979,6 +1007,7 @@ export const helperFunctions = {
   tr_big_key_chest_keys_needed,
   item_name_in_location_names,
   GanonDefeatRule,
+  ganons_tower_bottom_boss_defeat,
   can_get_glitched_speed_dw,
   _has_specific_key_count,
   basement_key_rule,

@@ -626,6 +626,7 @@ def process_regions(multiworld, player: int) -> tuple:
                     if hasattr(region.dungeon, 'regions'):
                         dungeon_data['regions'] = [r.name for r in region.dungeon.regions]
                     
+                    # Handle single boss
                     if hasattr(region.dungeon, 'boss') and region.dungeon.boss:
                         dungeon_data['boss'] = {
                             'name': getattr(region.dungeon.boss, 'name', None),
@@ -637,6 +638,22 @@ def process_regions(multiworld, player: int) -> tuple:
                                 world=world
                             )
                         }
+                    
+                    # Handle multiple bosses (e.g., Ganon's Tower has bosses['bottom'], bosses['middle'], bosses['top'])
+                    if hasattr(region.dungeon, 'bosses') and region.dungeon.bosses:
+                        dungeon_data['bosses'] = {}
+                        for boss_key, boss in region.dungeon.bosses.items():
+                            if boss:
+                                dungeon_data['bosses'][boss_key] = {
+                                    'name': getattr(boss, 'name', None),
+                                    'defeat_rule': safe_expand_rule(
+                                        game_handler,
+                                        getattr(boss, 'defeat_rule', None),
+                                        getattr(boss, 'name', None),
+                                        target_type='Boss',
+                                        world=world
+                                    )
+                                }
                     
                     if hasattr(region.dungeon, 'medallion_check'):
                         dungeon_data['medallion_check'] = safe_expand_rule(
@@ -795,14 +812,26 @@ def process_regions(multiworld, player: int) -> tuple:
                             access_rule_result = None
                             item_rule_result = None
                             
+                            # First check if game handler has special handling for this location
                             if hasattr(location, 'access_rule') and location.access_rule:
-                                access_rule_result = safe_expand_rule(
-                                    game_handler,
-                                    location.access_rule,
-                                    location_name,
-                                    target_type='Location',
-                                    world=world
-                                )
+                                # Try special handling first
+                                if game_handler and hasattr(game_handler, 'handle_complex_location_rule'):
+                                    special_rule = game_handler.handle_complex_location_rule(location_name, location.access_rule)
+                                    if special_rule:
+                                        logger.info(f"Got special rule for {location_name}: {special_rule}")
+                                        # Expand the special rule
+                                        access_rule_result = game_handler.expand_rule(special_rule)
+                                        logger.info(f"Expanded rule for {location_name}: {access_rule_result}")
+                                
+                                # If no special handling, use normal analysis
+                                if access_rule_result is None:
+                                    access_rule_result = safe_expand_rule(
+                                        game_handler,
+                                        location.access_rule,
+                                        location_name,
+                                        target_type='Location',
+                                        world=world
+                                    )
                                 
                             if hasattr(location, 'item_rule') and location.item_rule:
                                 item_rule_result = safe_expand_rule(
@@ -812,6 +841,9 @@ def process_regions(multiworld, player: int) -> tuple:
                                     target_type='LocationItemRule',
                                     world=world
                                 )
+                            
+                            if location_name and "Big Key" in location_name:
+                                logger.info(f"Building location_data for {location_name}, access_rule_result: {access_rule_result}")
                             
                             location_data = {
                                 'name': location_name,

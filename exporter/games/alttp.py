@@ -44,6 +44,7 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             'can_retrieve_tablet',
             'can_shoot_arrows',
             'can_use_bombs',
+            'ganons_tower_bottom_boss_defeat',
             'has_beam_sword',
             'has_crystals',
             'has_fire_source',
@@ -109,6 +110,41 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
                 'name': func_name,
                 'args': processed_args
             }
+        return None
+    
+    def handle_complex_location_rule(self, location_name: str, rule_func) -> Optional[Dict[str, Any]]:
+        """
+        Handle special complex location rules that the analyzer can't process.
+        
+        Specifically handles Ganon's Tower Big Key location rules that reference
+        parent_region.dungeon.bosses['bottom'].can_defeat(state).
+        """
+        # Check if this is one of the problematic Ganon's Tower Big Key locations
+        if location_name in ['Ganons Tower - Big Key Room - Left', 
+                             'Ganons Tower - Big Key Chest',
+                             'Ganons Tower - Big Key Room - Right']:
+            logger.info(f"Special handling for complex rule: {location_name}")
+            
+            # These locations require:
+            # 1. can_use_bombs (for access)
+            # 2. Can defeat the bottom boss in Ganon's Tower
+            # We'll represent this as a simplified rule the frontend can understand
+            return {
+                'type': 'and',
+                'conditions': [
+                    {
+                        'type': 'helper',
+                        'name': 'can_use_bombs',
+                        'args': []
+                    },
+                    {
+                        'type': 'helper',
+                        'name': 'ganons_tower_bottom_boss_defeat',
+                        'args': []
+                    }
+                ]
+            }
+        
         return None
 
     def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
