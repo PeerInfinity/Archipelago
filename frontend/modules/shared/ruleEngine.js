@@ -355,6 +355,39 @@ export const evaluateRule = (rule, context, depth = 0) => {
             return undefined;
           }
 
+          // Special handling for boss attribute - redirect to bosses["None"] if bosses exists
+          if (rule.attr === 'boss' && !baseObject.boss && baseObject.bosses) {
+            // Use the new bosses format - default to "None" entry
+            return baseObject.bosses["None"] || Object.values(baseObject.bosses)[0];
+          }
+          
+          // Special handling for dungeon attribute - resolve string to actual dungeon object
+          if (rule.attr === 'dungeon' && baseObject.dungeon) {
+            const dungeonValue = baseObject.dungeon;
+            
+            if (typeof dungeonValue === 'string') {
+              // Look up the actual dungeon object from staticData
+              const dungeonName = dungeonValue;
+              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+              const dungeons = context.dungeons || context.getAllDungeons?.() || context.staticData?.dungeons;
+              
+              if (dungeons) {
+                // Try player-specific dungeon first
+                if (dungeons[playerId] && dungeons[playerId][dungeonName]) {
+                  return dungeons[playerId][dungeonName];
+                }
+                // Fallback to direct dungeon lookup if not nested by player
+                if (dungeons[dungeonName]) {
+                  return dungeons[dungeonName];
+                }
+              }
+              // If we couldn't resolve, return the string (fallback)
+              return dungeonName;
+            }
+            // Already an object, return as-is
+            return dungeonValue;
+          }
+
           // First try direct property access
           let attrValue = baseObject[rule.attr];
 
@@ -388,6 +421,92 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'function_call': {
+        // Special handling for state.multiworld.get_location() calls
+        // These are used in location access rules to reference the location's parent_region
+        if (rule.function?.type === 'attribute' && 
+            rule.function.attr === 'get_location' &&
+            rule.function.object?.type === 'attribute' &&
+            rule.function.object.attr === 'multiworld') {
+          
+          const args = rule.args ? rule.args.map(arg => evaluateRule(arg, context, depth + 1)) : [];
+          const locationName = args[0];
+          
+          // If we're evaluating a rule for the same location, return the current location
+          // This avoids circular references when a location's access rule references itself
+          if (context.currentLocation && context.currentLocation.name === locationName) {
+            // Return an object that has the parent_region property properly set
+            return {
+              name: context.currentLocation.name,
+              parent_region: context.currentLocation.parent_region || 
+                           (context.currentLocation.region ? 
+                             context.getStaticData?.().regions?.[context.currentLocation.region] : 
+                             undefined),
+              parent_region_name: context.currentLocation.region
+            };
+          }
+          
+          // Otherwise, try to get the location from static data
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            // Search all regions for this location
+            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+              if (regionData.locations) {
+                const location = regionData.locations.find(loc => loc.name === locationName);
+                if (location) {
+                  return {
+                    name: location.name,
+                    parent_region: regionData,
+                    parent_region_name: regionName
+                  };
+                }
+              }
+            }
+          }
+          
+          return undefined;
+        }
+        
+        // Special handling for state.multiworld.get_entrance() calls
+        // These are used in exit access rules to reference the exit's parent_region
+        if (rule.function?.type === 'attribute' && 
+            rule.function.attr === 'get_entrance' &&
+            rule.function.object?.type === 'attribute' &&
+            rule.function.object.attr === 'multiworld') {
+          
+          const args = rule.args ? rule.args.map(arg => evaluateRule(arg, context, depth + 1)) : [];
+          const exitName = args[0];
+          
+          // When evaluating an exit rule, the context has parent_region set
+          // If this is a self-reference to the current exit, return the appropriate object
+          if (context.currentExit && context.currentExit === exitName) {
+            // For the current exit being evaluated, return an object with parent_region
+            return {
+              name: exitName,
+              parent_region: context.parent_region
+            };
+          }
+          
+          // Otherwise, try to find the exit in static data
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            // Search all regions for this exit
+            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+              if (regionData.exits) {
+                const exit = regionData.exits.find(ex => ex.name === exitName);
+                if (exit) {
+                  return {
+                    name: exit.name,
+                    parent_region: regionData,
+                    parent_region_name: regionName
+                  };
+                }
+              }
+            }
+          }
+          
+          return undefined;
+        }
+        
         // Special handling for boss.can_defeat function calls
         // These need to be redirected to use the boss's defeat_rule data
         if (
@@ -398,9 +517,26 @@ export const evaluateRule = (rule, context, depth = 0) => {
           let current = rule.function.object;
           let isDungeomBossDefeat = false;
 
-          // Look for the pattern: location.parent_region.dungeon.boss.can_defeat
+          // Look for patterns:
+          // 1. location.parent_region.dungeon.boss.can_defeat
+          // 2. location.parent_region.dungeon.bosses["index"].can_defeat (subscript pattern)
+          
+          // First check if immediate parent is a subscript accessing bosses
+          if (current && current.type === 'subscript') {
+            // Check if the subscript is accessing a bosses attribute
+            let subscriptValue = current.value;
+            while (subscriptValue && subscriptValue.type === 'attribute') {
+              if (subscriptValue.attr === 'bosses' || subscriptValue.attr === 'boss') {
+                isDungeomBossDefeat = true;
+                break;
+              }
+              subscriptValue = subscriptValue.object;
+            }
+          }
+          
+          // Also check the standard attribute chain
           while (current && current.type === 'attribute') {
-            if (current.attr === 'boss') {
+            if (current.attr === 'boss' || current.attr === 'bosses') {
               isDungeomBossDefeat = true;
               break;
             }

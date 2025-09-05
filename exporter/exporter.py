@@ -105,6 +105,7 @@ def get_world_directory_name(game_name: str) -> str:
 # This applies recursively to nested structures.
 EXCLUDED_FIELDS = {
     'item_rule',
+    'boss',
     #'entrances',
 }
 
@@ -824,24 +825,18 @@ def process_regions(multiworld, player: int) -> tuple:
                             
                             # First check if game handler has special handling for this location
                             if hasattr(location, 'access_rule') and location.access_rule:
-                                # Try special handling first
-                                if game_handler and hasattr(game_handler, 'handle_complex_location_rule'):
-                                    special_rule = game_handler.handle_complex_location_rule(location_name, location.access_rule)
-                                    if special_rule:
-                                        logger.info(f"Got special rule for {location_name}: {special_rule}")
-                                        # Expand the special rule
-                                        access_rule_result = game_handler.expand_rule(special_rule)
-                                        logger.info(f"Expanded rule for {location_name}: {access_rule_result}")
+                                # Use normal analysis
+                                access_rule_result = safe_expand_rule(
+                                    game_handler,
+                                    location.access_rule,
+                                    location_name,
+                                    target_type='Location',
+                                    world=world
+                                )
                                 
-                                # If no special handling, use normal analysis
-                                if access_rule_result is None:
-                                    access_rule_result = safe_expand_rule(
-                                        game_handler,
-                                        location.access_rule,
-                                        location_name,
-                                        target_type='Location',
-                                        world=world
-                                    )
+                                # Post-process the rule if the game handler supports it
+                                if access_rule_result and game_handler and hasattr(game_handler, 'postprocess_rule'):
+                                    access_rule_result = game_handler.postprocess_rule(access_rule_result)
                                 
                             if hasattr(location, 'item_rule') and location.item_rule:
                                 item_rule_result = safe_expand_rule(

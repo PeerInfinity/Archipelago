@@ -674,7 +674,16 @@ async function loadCombinedModeData() {
 
   // Check for URL parameter override for rules file
   const urlParams = new URLSearchParams(window.location.search);
-  const rulesOverride = urlParams.get('rules');
+  let rulesOverride = urlParams.get('rules');
+  
+  // If the rules parameter starts with "./frontend/", remove that prefix
+  if (rulesOverride && rulesOverride.startsWith('./frontend/')) {
+    rulesOverride = './' + rulesOverride.substring('./frontend/'.length);
+    logger.info(
+      'init',
+      `Removed './frontend/' prefix from rules parameter. New path: ${rulesOverride}`
+    );
+  }
 
   // --- New logic to iterate over all config keys defined in modes.json for the current mode ---
   const currentModeFileConfigs = G_modesConfig?.[G_currentActiveMode];

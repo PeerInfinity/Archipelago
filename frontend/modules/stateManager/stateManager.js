@@ -1520,6 +1520,10 @@ export class StateManager {
 
         // Check if exit is traversable using the *injected* evaluateRule engine
         const snapshotInterfaceContext = this._createSelfSnapshotInterface();
+        // Set parent_region context for exit evaluation - needs to be the region object, not just the name
+        snapshotInterfaceContext.parent_region = this.regions[fromRegion];
+        // Set currentExit so get_entrance can detect self-references
+        snapshotInterfaceContext.currentExit = exit.name;
         const ruleEvaluationResult = exit.access_rule
           ? this.evaluateRuleFromEngine(
               exit.access_rule,
@@ -2304,6 +2308,10 @@ export class StateManager {
           const exit = regionData.exits.find((e) => e.name === region);
           if (exit) {
             const snapshotInterface = this._createSelfSnapshotInterface();
+            // Set parent_region context for exit evaluation - needs to be the region object, not just the name
+            snapshotInterface.parent_region = this.regions[regionName];
+            // Set currentExit so get_entrance can detect self-references
+            snapshotInterface.currentExit = exit.name;
             return (
               this.isRegionReachable(regionName) &&
               (!exit.access_rule ||
@@ -2392,9 +2400,14 @@ export class StateManager {
           );
 
           connectingExits.forEach((exit) => {
-            const exitAccessible = this.evaluateRuleFromEngine(
-              exit.access_rule
-            );
+            const snapshotInterface = this._createSelfSnapshotInterface();
+            // Set parent_region context for exit evaluation - needs to be the region object, not just the name
+            snapshotInterface.parent_region = this.regions[sourceRegionName];
+            // Set currentExit so get_entrance can detect self-references
+            snapshotInterface.currentExit = exit.name;
+            const exitAccessible = exit.access_rule
+              ? this.evaluateRuleFromEngine(exit.access_rule, snapshotInterface)
+              : true;
             log(
               'info',
               `  - Exit: ${exit.name} (${
@@ -2781,6 +2794,9 @@ export class StateManager {
 
         // Current location being evaluated (for location access rules)
         if (name === 'location') return anInterface.currentLocation;
+        
+        // Parent region being evaluated (for exit access rules)
+        if (name === 'parent_region') return anInterface.parent_region;
 
         // Game-specific entities (e.g., 'old_man') from helpers.entities
         if (

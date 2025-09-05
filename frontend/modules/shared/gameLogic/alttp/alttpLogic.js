@@ -619,73 +619,6 @@ export function item_name_in_location_names(state, world, itemName, staticData) 
   return false;
 }
 
-export function ganons_tower_bottom_boss_defeat(state, world, itemName, staticData) {
-  // The bottom boss in Ganon's Tower is Armos Knights
-  // The defeat rule is: has_melee_weapon OR can_shoot_arrows OR (can_use_bombs AND has at least 5 bombs)
-  // This matches the defeat_rule in the exported dungeon data
-  
-  // Check if player can defeat Armos Knights
-  if (has_melee_weapon(state, world, itemName, staticData)) {
-    return true;
-  }
-  
-  if (can_shoot_arrows(state, world, itemName, staticData)) {
-    return true;
-  }
-  
-  // Check bomb option: can_use_bombs AND has at least 5 bombs
-  if (can_use_bombs(state, world, itemName, staticData)) {
-    const bombCount = count(state, 'Bomb', staticData);
-    const bombUpgradeCount = count(state, 'Bomb Upgrade (+5)', staticData) + 
-                            count(state, 'Bomb Upgrade (+10)', staticData);
-    const totalBombs = bombCount + bombUpgradeCount;
-    if (totalBombs >= 5) {
-      return true;
-    }
-  }
-  
-  return false;
-}
-
-export function ganons_tower_middle_boss_defeat(state, world, itemName, staticData) {
-  // The middle boss in Ganon's Tower is Lanmolas
-  // The defeat rule is: has_melee_weapon OR Fire Rod OR Ice Rod OR Cane of Somaria OR Cane of Byrna OR can_shoot_arrows
-  // This matches the defeat_rule in the exported dungeon data
-  
-  if (has_melee_weapon(state, world, itemName, staticData)) {
-    return true;
-  }
-  
-  if (has(state, 'Fire Rod', staticData)) {
-    return true;
-  }
-  
-  if (has(state, 'Ice Rod', staticData)) {
-    return true;
-  }
-  
-  if (has(state, 'Cane of Somaria', staticData)) {
-    return true;
-  }
-  
-  if (has(state, 'Cane of Byrna', staticData)) {
-    return true;
-  }
-  
-  if (can_shoot_arrows(state, world, itemName, staticData)) {
-    return true;
-  }
-  
-  return false;
-}
-
-export function ganons_tower_top_boss_defeat(state, world, itemName, staticData) {
-  // The top boss in Ganon's Tower is Moldorm
-  // The defeat rule is simply: has_melee_weapon
-  // This matches the defeat_rule in the exported dungeon data
-  
-  return has_melee_weapon(state, world, itemName, staticData);
-}
 
 export function has_crystals_for_ganon(state, world, itemName, staticData) {
   // Check if player has required number of crystals for Ganon
@@ -1056,9 +989,6 @@ export const helperFunctions = {
   tr_big_key_chest_keys_needed,
   item_name_in_location_names,
   GanonDefeatRule,
-  ganons_tower_bottom_boss_defeat,
-  ganons_tower_middle_boss_defeat,
-  ganons_tower_top_boss_defeat,
   has_crystals_for_ganon,
   can_get_glitched_speed_dw,
   _has_specific_key_count,

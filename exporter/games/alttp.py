@@ -44,9 +44,6 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             'can_retrieve_tablet',
             'can_shoot_arrows',
             'can_use_bombs',
-            'ganons_tower_bottom_boss_defeat',
-            'ganons_tower_middle_boss_defeat',
-            'ganons_tower_top_boss_defeat',
             'has_beam_sword',
             'has_crystals',
             'has_crystals_for_ganon',
@@ -115,134 +112,47 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
             }
         return None
     
-    def handle_complex_location_rule(self, location_name: str, rule_func) -> Optional[Dict[str, Any]]:
+    def postprocess_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Handle special complex location rules that the analyzer can't process.
+        Post-process rules to fix specific complex patterns that can't be handled by the frontend.
         
-        Specifically handles Ganon's Tower Big Key location rules that reference
-        parent_region.dungeon.bosses['bottom'].can_defeat(state).
+        Specifically replaces the complex has_crystals call that accesses 
+        state.multiworld.worlds[player].options.crystals_needed_for_ganon
+        with the simpler has_crystals_for_ganon helper.
         """
-        # Check for the Ganon location (has complex crystal requirement)
-        if location_name == 'Ganon':
-            logger.info(f"Special handling for complex rule: {location_name}")
+        if not isinstance(rule, dict):
+            return rule
             
-            # Ganon requires:
-            # 1. Moon Pearl
-            # 2. Beat Agahnim 2
-            # 3. Required number of crystals (from settings)
-            # 4. GanonDefeatRule
-            # Note: crystals_needed_for_ganon is handled in the frontend
-            return {
-                'type': 'and',
-                'conditions': [
-                    {
-                        'type': 'item_check',
-                        'item': {'type': 'constant', 'value': 'Moon Pearl'}
-                    },
-                    {
-                        'type': 'item_check',
-                        'item': {'type': 'constant', 'value': 'Beat Agahnim 2'}
-                    },
-                    {
+        # Check if this is a has_crystals helper with complex arguments
+        if (rule.get('type') == 'helper' and 
+            rule.get('name') == 'has_crystals' and 
+            rule.get('args')):
+            
+            # Check if the argument is trying to access crystals_needed_for_ganon
+            if len(rule['args']) == 1:
+                arg = rule['args'][0]
+                # Check for the complex chain: state.multiworld.worlds[player].options.crystals_needed_for_ganon
+                if (isinstance(arg, dict) and 
+                    arg.get('type') == 'attribute' and 
+                    arg.get('attr') == 'crystals_needed_for_ganon'):
+                    
+                    logger.info(f"Replacing complex has_crystals with has_crystals_for_ganon")
+                    # Replace with the simpler helper
+                    return {
                         'type': 'helper',
                         'name': 'has_crystals_for_ganon',
                         'args': []
-                    },
-                    {
-                        'type': 'helper',
-                        'name': 'GanonDefeatRule',
-                        'args': []
                     }
-                ]
-            }
         
-        # Check if this is one of the problematic Ganon's Tower Big Key locations
-        if location_name in ['Ganons Tower - Big Key Room - Left', 
-                             'Ganons Tower - Big Key Chest',
-                             'Ganons Tower - Big Key Room - Right']:
-            logger.info(f"Special handling for complex rule: {location_name}")
+        # Recursively process nested rules
+        if rule.get('type') == 'and' and rule.get('conditions'):
+            rule['conditions'] = [self.postprocess_rule(cond) for cond in rule['conditions']]
+        elif rule.get('type') == 'or' and rule.get('conditions'):
+            rule['conditions'] = [self.postprocess_rule(cond) for cond in rule['conditions']]
+        elif rule.get('type') == 'not' and rule.get('condition'):
+            rule['condition'] = self.postprocess_rule(rule['condition'])
             
-            # These locations require:
-            # 1. can_use_bombs (for access)
-            # 2. Can defeat the bottom boss in Ganon's Tower
-            # We'll represent this as a simplified rule the frontend can understand
-            return {
-                'type': 'and',
-                'conditions': [
-                    {
-                        'type': 'helper',
-                        'name': 'can_use_bombs',
-                        'args': []
-                    },
-                    {
-                        'type': 'helper',
-                        'name': 'ganons_tower_bottom_boss_defeat',
-                        'args': []
-                    }
-                ]
-            }
-        
-        return None
-    
-    def handle_complex_exit_rule(self, exit_name: str, rule_func) -> Optional[Dict[str, Any]]:
-        """
-        Handle special complex exit rules that the analyzer can't process.
-        
-        Specifically handles Ganon's Tower exit rules that reference
-        parent_region.dungeon.bosses['middle'] or ['top'].can_defeat(state).
-        """
-        # Check for the Torch Rooms exit (requires middle boss defeat)
-        if exit_name == 'Ganons Tower Torch Rooms':
-            logger.info(f"Special handling for complex exit rule: {exit_name}")
-            
-            # This exit requires:
-            # 1. can_kill_most_things(8)
-            # 2. has_fire_source
-            # 3. Can defeat the middle boss (Lanmolas) in Ganon's Tower
-            return {
-                'type': 'and',
-                'conditions': [
-                    {
-                        'type': 'helper',
-                        'name': 'can_kill_most_things',
-                        'args': [{'type': 'constant', 'value': 8}]
-                    },
-                    {
-                        'type': 'helper',
-                        'name': 'has_fire_source',
-                        'args': []
-                    },
-                    {
-                        'type': 'helper',
-                        'name': 'ganons_tower_middle_boss_defeat',
-                        'args': []
-                    }
-                ]
-            }
-        
-        # Check for the Moldorm Gap exit (requires top boss defeat)
-        if exit_name == 'Ganons Tower Moldorm Gap':
-            logger.info(f"Special handling for complex exit rule: {exit_name}")
-            
-            # This exit requires:
-            # 1. Hookshot
-            # 2. Can defeat the top boss (Moldorm) in Ganon's Tower
-            return {
-                'type': 'and',
-                'conditions': [
-                    {
-                        'type': 'item_check',
-                        'item': {'type': 'constant', 'value': 'Hookshot'}
-                    },
-                    {
-                        'type': 'helper',
-                        'name': 'ganons_tower_top_boss_defeat',
-                        'args': []
-                    }
-                ]
-            }
-        
-        return None
+        return rule
 
     def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
         """Return ALTTP-specific item table data."""
