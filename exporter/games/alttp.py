@@ -144,6 +144,81 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
                         'args': []
                     }
         
+        # Check for state.multiworld.get_region().can_reach() pattern
+        if (rule.get('type') == 'function_call' and 
+            isinstance(rule.get('function'), dict) and
+            rule['function'].get('type') == 'attribute' and
+            rule['function'].get('attr') == 'can_reach'):
+            
+            # Check if object is a get_region call
+            obj = rule['function'].get('object', {})
+            if (isinstance(obj, dict) and 
+                obj.get('type') == 'function_call' and
+                isinstance(obj.get('function'), dict) and
+                obj['function'].get('attr') == 'get_region'):
+                
+                # Extract region name from args
+                args = obj.get('args', [])
+                if args and isinstance(args[0], dict) and args[0].get('type') == 'constant':
+                    region_name = args[0].get('value')
+                    logger.info(f"Replacing state.multiworld.get_region('{region_name}').can_reach() with region_check")
+                    # Replace with a simpler region check
+                    return {
+                        'type': 'helper',
+                        'name': 'can_reach_region',
+                        'args': [{'type': 'constant', 'value': region_name}]
+                    }
+        
+        # Check for state.multiworld.get_location().parent_region.dungeon.boss.can_defeat() pattern
+        if (rule.get('type') == 'function_call' and 
+            isinstance(rule.get('function'), dict) and
+            rule['function'].get('type') == 'attribute' and
+            rule['function'].get('attr') == 'can_defeat'):
+            
+            # Check if this is accessing a boss through location
+            obj = rule['function'].get('object', {})
+            if (isinstance(obj, dict) and 
+                obj.get('type') == 'subscript' and
+                obj.get('index', {}).get('value') in ['bottom', 'middle', 'top']):
+                
+                boss_type = obj['index']['value']
+                # Try to extract location name from deeper in the chain
+                parent_obj = obj.get('value', {})
+                while parent_obj and isinstance(parent_obj, dict):
+                    if parent_obj.get('type') == 'function_call':
+                        func = parent_obj.get('function', {})
+                        if func.get('attr') == 'get_location':
+                            args = parent_obj.get('args', [])
+                            if args and isinstance(args[0], dict) and args[0].get('type') == 'constant':
+                                location_name = args[0].get('value')
+                                logger.info(f"Replacing boss.can_defeat() for {location_name} with helper")
+                                # Replace with a helper that checks boss defeat
+                                return {
+                                    'type': 'helper',
+                                    'name': 'can_defeat_boss',
+                                    'args': [
+                                        {'type': 'constant', 'value': location_name},
+                                        {'type': 'constant', 'value': boss_type}
+                                    ]
+                                }
+                            break
+                    parent_obj = parent_obj.get('object') or parent_obj.get('value')
+        
+        # Check for world.can_take_damage pattern
+        if (rule.get('type') == 'attribute' and 
+            rule.get('attr') == 'can_take_damage' and
+            isinstance(rule.get('object'), dict) and
+            rule['object'].get('type') == 'name' and
+            rule['object'].get('name') == 'world'):
+            
+            logger.info(f"Replacing world.can_take_damage with helper")
+            # Replace with a helper that checks if damage is allowed
+            return {
+                'type': 'helper',
+                'name': 'can_take_damage',
+                'args': []
+            }
+        
         # Recursively process nested rules
         if rule.get('type') == 'and' and rule.get('conditions'):
             rule['conditions'] = [self.postprocess_rule(cond) for cond in rule['conditions']]

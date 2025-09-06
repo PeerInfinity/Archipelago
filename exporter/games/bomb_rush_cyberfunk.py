@@ -10,6 +10,34 @@ logger = logging.getLogger(__name__)
 class BombRushCyberfunkGameExportHandler(BaseGameExportHandler):
     """Bomb Rush Cyberfunk expander that handles game-specific rules."""
     
+    def __init__(self, world=None):
+        """Initialize with world instance to access options."""
+        super().__init__()
+        self.world = world
+        self.current_location_name = None  # Track current location being processed
+        
+        # Extract option values if world is available
+        self.options = {}
+        if world:
+            try:
+                self.options = {
+                    'movestyle': int(world.options.starting_movestyle.value) if hasattr(world.options, 'starting_movestyle') else 2,
+                    'limit': bool(world.options.limited_graffiti.value) if hasattr(world.options, 'limited_graffiti') else False,
+                    'glitched': bool(world.options.logic.value) if hasattr(world.options, 'logic') else False,
+                }
+                logger.info(f"Bomb Rush Cyberfunk options: {self.options}")
+            except Exception as e:
+                logger.warning(f"Could not extract Bomb Rush Cyberfunk options: {e}")
+                self.options = {
+                    'movestyle': 2,
+                    'limit': False,
+                    'glitched': False,
+                }
+    
+    def set_context(self, location_name: str = None):
+        """Set context for rule expansion."""
+        self.current_location_name = location_name
+    
     def expand_helper(self, helper_name: str, args: List[Any] = None):
         """Expand Bomb Rush Cyberfunk specific helper functions."""
         if args is None:
@@ -25,6 +53,44 @@ class BombRushCyberfunkGameExportHandler(BaseGameExportHandler):
         if not rule:
             return rule
             
+        # Handle helper functions with variable resolution
+        if rule.get('type') == 'helper' and rule.get('name') == 'graffiti_spots':
+            # Resolve the arguments
+            resolved_args = []
+            for arg in rule.get('args', []):
+                if arg.get('type') == 'name':
+                    # Resolve variable names to actual values
+                    var_name = arg.get('name')
+                    if var_name == 'movestyle':
+                        resolved_args.append({'type': 'constant', 'value': self.options.get('movestyle', 2)})
+                    elif var_name == 'limit':
+                        resolved_args.append({'type': 'constant', 'value': self.options.get('limit', False)})
+                    elif var_name == 'glitched':
+                        resolved_args.append({'type': 'constant', 'value': self.options.get('glitched', False)})
+                    elif var_name == 'spot_count':
+                        # Try to extract the spot count from the location name if available
+                        # This is a workaround since lambda defaults aren't being captured properly
+                        if self.current_location_name and 'Tagged' in self.current_location_name:
+                            import re
+                            match = re.search(r'Tagged (\d+) Graffiti Spots', self.current_location_name)
+                            if match:
+                                spot_count = int(match.group(1))
+                                resolved_args.append({'type': 'constant', 'value': spot_count})
+                            else:
+                                resolved_args.append(arg)
+                        else:
+                            resolved_args.append(arg)
+                    else:
+                        resolved_args.append(arg)
+                else:
+                    resolved_args.append(arg)
+            
+            return {
+                'type': 'helper',
+                'name': rule['name'],
+                'args': resolved_args
+            }
+            
         # Special handling for __analyzed_func__ - try to extract meaningful information
         if rule.get('type') == 'state_method' and rule.get('method') == '__analyzed_func__':
             # Try to extract more detailed information from original rule if available
@@ -33,6 +99,16 @@ class BombRushCyberfunkGameExportHandler(BaseGameExportHandler):
                 
             # Attempt to infer rule type from any available information
             return self._infer_rule_type(rule)
+            
+        # Recursively process nested rules
+        if rule.get('type') in ['and', 'or']:
+            processed_rules = []
+            for sub_rule in rule.get('rules', []):
+                processed_rules.append(self.expand_rule(sub_rule))
+            return {
+                'type': rule['type'],
+                'rules': processed_rules
+            }
             
         # Standard processing from base class
         return super().expand_rule(rule)

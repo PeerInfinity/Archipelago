@@ -408,16 +408,24 @@
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -543,6 +551,189 @@
         "provides_chest_count": true,
         "region_rules": []
       },
+      "Home Waters, behind rock": {
+        "name": "Home Waters, behind rock",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Home Waters to Home Waters, behind rock",
+            "parent_region": "Home Waters",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Home Waters, Nautilus nest to Home Waters, behind rock",
+            "parent_region": "Home Waters, Nautilus nest",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Energy Temple first area to Home Waters, behind rock",
+            "parent_region": "Energy Temple first area",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Energy Temple bottom entrance to Home Waters, behind rock",
+            "parent_region": "Energy Temple bottom entrance",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Home Waters, behind rock to Home Waters",
+            "connected_region": "Home Waters",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bind Song"
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Home Waters, behind rock to Home Waters, Nautilus nest",
+            "connected_region": "Home Waters, Nautilus nest",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Home Waters, behind rock to Energy Temple first area",
+            "connected_region": "Energy Temple first area",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Home Waters, behind rock to Energy Temple bottom entrance",
+            "connected_region": "Energy Temple bottom entrance",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bind Song"
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Home Waters, bulb in the path below Nautilus Prime",
+            "id": 698059,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Rotten Meat",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Home Waters, bulb in the bottom left room",
+            "id": 698063,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Hand Roll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
       "Home Waters, Nautilus nest": {
         "name": "Home Waters, Nautilus nest",
         "type": "Region",
@@ -564,16 +755,24 @@
             "name": "Home Waters, Nautilus nest to Home Waters, behind rock",
             "connected_region": "Home Waters, behind rock",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -915,16 +1114,24 @@
             "id": 698119,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -1232,18 +1439,8 @@
             "name": "Energy Temple first area to Energy Temple second area",
             "connected_region": "Energy Temple second area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Energy Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -1276,18 +1473,8 @@
             "name": "Energy Temple first area to Energy Temple after boss path",
             "connected_region": "Energy Temple after boss path",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -1368,18 +1555,8 @@
             "name": "Energy Temple second area to Energy Temple first area",
             "connected_region": "Energy Temple first area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Energy Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -1463,16 +1640,24 @@
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1552,16 +1737,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1590,16 +1783,24 @@
             "name": "Energy Temple fallen God room to Energy Temple after boss path",
             "connected_region": "Energy Temple after boss path",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -1734,16 +1935,24 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2022,16 +2231,15 @@
             "name": "Open Waters top right area to Open Waters top right area, turtle room",
             "connected_region": "Open Waters top right area, turtle room",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form_or_arnassi_armor",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Arnassi Armor"
                 }
               ]
             },
@@ -2051,20 +2259,35 @@
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_damaging_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
                     },
                     {
-                      "type": "name",
-                      "name": "damaging_items_minus_nature_form"
+                      "type": "item_check",
+                      "item": "Nature Form"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Beast Form"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Baby Nautilus"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Baby Piranha"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Baby Blaster"
                     }
                   ]
                 }
@@ -2115,16 +2338,15 @@
             "name": "Open Waters top right area to The Veil bottom right area",
             "connected_region": "The Veil bottom right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form_or_arnassi_armor",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Arnassi Armor"
                 }
               ]
             },
@@ -2502,6 +2724,83 @@
         "provides_chest_count": true,
         "region_rules": []
       },
+      "Open Waters top right area, Mithalas entrance": {
+        "name": "Open Waters top right area, Mithalas entrance",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Open Waters top right area to Open Waters top right area, Mithalas entrance",
+            "parent_region": "Open Waters top right area",
+            "connected_region": "Open Waters top right area, Mithalas entrance",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Open Waters top right area, first urn in the Mithalas exit",
+            "id": 698148,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Plant Leaf x 2",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Open Waters top right area, second urn in the Mithalas exit",
+            "id": 698149,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zuuna's Perogi",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Open Waters top right area, third urn in the Mithalas exit",
+            "id": 698150,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Big Seed",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
       "Open Waters bottom left area": {
         "name": "Open Waters bottom left area",
         "type": "Region",
@@ -2589,16 +2888,15 @@
             "name": "Open Waters bottom left area to Abyss left area",
             "connected_region": "Abyss left area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -2735,16 +3033,15 @@
             "name": "Open Waters bottom right area to Abyss right area",
             "connected_region": "Abyss right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -2757,18 +3054,8 @@
             "name": "Open Waters bottom right area to Arnassi Ruins",
             "connected_region": "Arnassi Ruins",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -2824,18 +3111,8 @@
             "name": "Open Waters skeleton path to Open Waters skeleton path spirit crystal",
             "connected_region": "Open Waters skeleton path spirit crystal",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -2906,18 +3183,8 @@
             "name": "Open Waters skeleton path spirit crystal to Open Waters skeleton path",
             "connected_region": "Open Waters skeleton path",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -3061,16 +3328,15 @@
             "id": 698179,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form_or_arnassi_armor",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Arnassi Armor"
                 }
               ]
             },
@@ -3214,16 +3480,15 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form_or_arnassi_armor",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Beast Form"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Arnassi Armor"
                     }
                   ]
                 },
@@ -3231,16 +3496,24 @@
                   "type": "or",
                   "conditions": [
                     {
-                      "type": "helper",
-                      "name": "_has_energy_attack_item",
-                      "args": [
+                      "type": "or",
+                      "conditions": [
                         {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
+                          "type": "item_check",
+                          "item": "Energy Form"
+                        },
+                        {
+                          "type": "and",
+                          "conditions": [
+                            {
+                              "type": "item_check",
+                              "item": "Li and Li Song"
+                            },
+                            {
+                              "type": "item_check",
+                              "item": "Dual Form"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -3941,16 +4214,35 @@
             "name": "Mithalas City to Mithalas City urns",
             "connected_region": "Mithalas City urns",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_damaging_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Nature Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Nautilus"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Piranha"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Blaster"
                 }
               ]
             },
@@ -3963,16 +4255,15 @@
             "name": "Mithalas City to Mithalas City top path",
             "connected_region": "Mithalas City top path",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form_or_arnassi_armor",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Arnassi Armor"
                 }
               ]
             },
@@ -4202,6 +4493,119 @@
         "provides_chest_count": true,
         "region_rules": []
       },
+      "Mithalas City urns": {
+        "name": "Mithalas City urns",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Mithalas City to Mithalas City urns",
+            "parent_region": "Mithalas City",
+            "connected_region": "Mithalas City urns",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Mithalas City, first urn in one of the homes",
+            "id": 698123,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Healing Poultice",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, second urn in one of the homes",
+            "id": 698124,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Baby Dumbo",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, first urn in the city reserve",
+            "id": 698125,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Small Bone x 3",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, second urn in the city reserve",
+            "id": 698126,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Healing Poultice x 2",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, third urn in the city reserve",
+            "id": 698127,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Arcane Poultice",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
       "Mithalas City top path": {
         "name": "Mithalas City top path",
         "type": "Region",
@@ -4262,16 +4666,24 @@
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4361,16 +4773,35 @@
             "id": 698128,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_damaging_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Nature Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Nautilus"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Piranha"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Blaster"
                 }
               ]
             },
@@ -4453,16 +4884,35 @@
             "id": 698129,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_damaging_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Nature Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Nautilus"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Piranha"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Blaster"
                 }
               ]
             },
@@ -4554,16 +5004,35 @@
             "name": "Mithalas castle to Mithalas castle urns",
             "connected_region": "Mithalas castle urns",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_damaging_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Nature Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Nautilus"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Piranha"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Blaster"
                 }
               ]
             },
@@ -4576,18 +5045,8 @@
             "name": "Mithalas castle to Mithalas castle spirit crystal",
             "connected_region": "Mithalas castle spirit crystal",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -4598,18 +5057,8 @@
             "name": "Mithalas castle to Mithalas Cathedral, before Mithalan God",
             "connected_region": "Mithalas Cathedral, before Mithalan God",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -4620,18 +5069,8 @@
             "name": "Mithalas castle to Mithalas Cathedral underground",
             "connected_region": "Mithalas Cathedral underground",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -4693,6 +5132,137 @@
         "provides_chest_count": true,
         "region_rules": []
       },
+      "Mithalas castle urns": {
+        "name": "Mithalas castle urns",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Mithalas castle to Mithalas castle urns",
+            "parent_region": "Mithalas castle",
+            "connected_region": "Mithalas castle urns",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Mithalas City Castle, urn in the bedroom",
+            "id": 698130,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Red Berry",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, first urn of the single lamp path",
+            "id": 698131,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Volcano Roll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, second urn of the single lamp path",
+            "id": 698132,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Sea Cake",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, urn in the bottom room",
+            "id": 698133,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mithalas Banner",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, first urn on the entrance path",
+            "id": 698134,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Plump Perogi",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, second urn on the entrance path",
+            "id": 698135,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Rotten Meat",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
       "Mithalas castle, plant tube entrance": {
         "name": "Mithalas castle, plant tube entrance",
         "type": "Region",
@@ -4736,18 +5306,8 @@
             "name": "Mithalas castle, plant tube entrance to Mithalas castle spirit crystal",
             "connected_region": "Mithalas castle spirit crystal",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -4758,18 +5318,8 @@
             "name": "Mithalas castle, plant tube entrance to Mithalas castle",
             "connected_region": "Mithalas castle",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -4850,18 +5400,8 @@
             "name": "Mithalas castle spirit crystal to Mithalas castle",
             "connected_region": "Mithalas castle",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -4924,16 +5464,35 @@
             "name": "Mithalas Cathedral start to Mithalas Cathedral start urns",
             "connected_region": "Mithalas Cathedral start urns",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_damaging_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Nature Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Nautilus"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Piranha"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Baby Blaster"
                 }
               ]
             },
@@ -4946,16 +5505,24 @@
             "name": "Mithalas Cathedral start to Mithalas Cathedral end",
             "connected_region": "Mithalas Cathedral end",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -4989,18 +5556,8 @@
             "id": 698189,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "progress_type": 1,
             "locked": false,
@@ -5251,16 +5808,24 @@
             "name": "Mithalas Cathedral end to Mithalas Cathedral start",
             "connected_region": "Mithalas Cathedral start",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -5273,16 +5838,24 @@
             "name": "Mithalas Cathedral end to Mithalas Cathedral underground",
             "connected_region": "Mithalas Cathedral underground",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -5375,18 +5948,8 @@
             "name": "Mithalas Cathedral underground to Mithalas castle",
             "connected_region": "Mithalas castle",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5400,30 +5963,39 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Beast Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_damaging_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Nature Form"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Beast Form"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Baby Nautilus"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Baby Piranha"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Baby Blaster"
                     }
                   ]
                 }
@@ -5582,18 +6154,8 @@
             "name": "Mithalas Cathedral, after Mithalan God to Mithalas castle",
             "connected_region": "Mithalas castle",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5696,18 +6258,8 @@
             "name": "Mithalas Cathedral, before Mithalan God to Mithalas Cathedral underground",
             "connected_region": "Mithalas Cathedral underground",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5725,16 +6277,24 @@
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -5835,16 +6395,24 @@
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -5954,18 +6522,8 @@
             "id": 698185,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Beast Form"
             },
             "progress_type": 1,
             "locked": false,
@@ -6266,16 +6824,15 @@
             "id": 698167,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -6536,16 +7093,24 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -6815,18 +7380,8 @@
             "id": 698186,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "progress_type": 1,
             "locked": false,
@@ -6945,16 +7500,15 @@
             "id": 698168,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -7120,16 +7674,24 @@
             "name": "Kelp Forest Drunian God room entrance to Kelp Forest Drunian God room",
             "connected_region": "Kelp Forest Drunian God room",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -7377,30 +7939,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Beast Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -7460,30 +8020,28 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Beast Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -8438,44 +8996,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Beast Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -8562,16 +9108,15 @@
             "id": 698079,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "_has_beast_form_or_arnassi_armor",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Arnassi Armor"
                 }
               ]
             },
@@ -8714,18 +9259,8 @@
             "name": "The Veil bottom left area to The Veil bottom spirit crystal area",
             "connected_region": "The Veil bottom spirit crystal area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -8788,18 +9323,8 @@
             "name": "The Veil bottom spirit crystal area to The Veil bottom left area",
             "connected_region": "The Veil bottom left area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -8810,18 +9335,8 @@
             "name": "The Veil bottom spirit crystal area to The Veil bottom right area",
             "connected_region": "The Veil bottom right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -8979,18 +9494,8 @@
             "name": "The Veil bottom right area to The Veil bottom spirit crystal area",
             "connected_region": "The Veil bottom spirit crystal area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -9507,16 +10012,15 @@
             "name": "Sun Temple left area entrance to Sun Temple right area",
             "connected_region": "Sun Temple right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -9544,16 +10048,15 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_light",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Baby Dumbo"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Sun Form"
                     }
                   ]
                 },
@@ -9634,16 +10137,15 @@
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_light",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Baby Dumbo"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Sun Form"
                     }
                   ]
                 }
@@ -9785,16 +10287,15 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_light",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Baby Dumbo"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Sun Form"
                     }
                   ]
                 },
@@ -9823,16 +10324,24 @@
             "name": "Sun Temple before boss area to Sun Temple boss area",
             "connected_region": "Sun Temple boss area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -10017,16 +10526,24 @@
             "name": "Sun Temple boss area to Sun Temple before boss area",
             "connected_region": "Sun Temple before boss area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -10178,16 +10695,15 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_dual_form",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
                     }
                   ]
                 },
@@ -10195,32 +10711,12 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "helper",
-                      "name": "_has_energy_form",
-                      "args": [
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Energy Form"
                     },
                     {
-                      "type": "helper",
-                      "name": "_has_beast_form",
-                      "args": [
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Beast Form"
                     }
                   ]
                 }
@@ -10385,18 +10881,8 @@
             "name": "Abyss left bottom area to Sunken City right area",
             "connected_region": "Sunken City right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_li",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Li and Li Song"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -10558,32 +11044,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_spirit_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Spirit Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -10611,48 +11077,36 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_spirit_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Spirit Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 },
                 {
                   "type": "item_check",
                   "item": "Bind Song"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -10667,18 +11121,8 @@
             "name": "Abyss right area to Ice Cavern",
             "connected_region": "Ice Cavern",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -10780,32 +11224,12 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_spirit_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Spirit Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -10952,16 +11376,15 @@
             "name": "Abyss right area, transturtle to Abyss right area",
             "connected_region": "Abyss right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -11146,18 +11569,8 @@
             "name": "Ice Cavern to Abyss right area",
             "connected_region": "Abyss right area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -11655,18 +12068,8 @@
             "name": "Sunken City left area to Sunken City left area, bedroom",
             "connected_region": "Sunken City left area, bedroom",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -11677,16 +12080,24 @@
             "name": "Sunken City left area to Sunken City left area",
             "connected_region": "Sunken City left area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -11702,44 +12113,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Beast Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -11791,18 +12190,8 @@
             "name": "Sunken City right area to Abyss left bottom area",
             "connected_region": "Abyss left bottom area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_li",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Li and Li Song"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -11825,16 +12214,24 @@
             "name": "Sunken City right area to Sunken City right area crates",
             "connected_region": "Sunken City right area crates",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_attack_item",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
                 }
               ]
             },
@@ -11873,44 +12270,32 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_beast_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Beast Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_energy_attack_item",
-                  "args": [
+                  "type": "or",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -12007,18 +12392,8 @@
             "name": "Sunken City left area, bedroom to Sunken City left area",
             "connected_region": "Sunken City left area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_spirit_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Spirit Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -12111,16 +12486,15 @@
             "name": "The Body center area to Abyss left bottom area",
             "connected_region": "Abyss left bottom area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_light",
-              "args": [
+              "type": "or",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Baby Dumbo"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Sun Form"
                 }
               ]
             },
@@ -12133,18 +12507,8 @@
             "name": "The Body center area to The Body left area",
             "connected_region": "The Body left area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Energy Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -12167,18 +12531,8 @@
             "name": "The Body center area to The Body right area, bottom path",
             "connected_region": "The Body right area, bottom path",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_energy_form",
-              "args": [
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
+              "type": "item_check",
+              "item": "Energy Form"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -12189,16 +12543,15 @@
             "name": "The Body center area to The Body bottom area",
             "connected_region": "The Body bottom area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_dual_form",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Dual Form"
                 }
               ]
             },
@@ -12543,16 +12896,15 @@
             "name": "The Body bottom area to The Body center area",
             "connected_region": "The Body center area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_dual_form",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Dual Form"
                 }
               ]
             },
@@ -12565,16 +12917,15 @@
             "name": "The Body bottom area to The Body, before final boss",
             "connected_region": "The Body, before final boss",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_dual_form",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Dual Form"
                 }
               ]
             },
@@ -12675,16 +13026,15 @@
             "name": "The Body, before final boss to The Body bottom area",
             "connected_region": "The Body bottom area",
             "access_rule": {
-              "type": "helper",
-              "name": "_has_dual_form",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Li and Li Song"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Dual Form"
                 }
               ]
             },
@@ -12722,46 +13072,25 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "helper",
-                  "name": "_has_energy_form",
-                  "args": [
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
                     }
                   ]
                 },
                 {
-                  "type": "helper",
-                  "name": "_has_dual_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
-                },
-                {
-                  "type": "helper",
-                  "name": "_has_sun_form",
-                  "args": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Sun Form"
                 },
                 {
                   "type": "item_check",

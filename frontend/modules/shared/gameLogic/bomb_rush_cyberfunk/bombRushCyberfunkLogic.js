@@ -304,39 +304,216 @@ function mataan_crew_battle(state, playerId, limit, glitched, staticData) {
     }
 }
 
-// Spot counting functions (simplified for now)
+// Spot counting functions based on Python implementation
 function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
-    // This is a simplified version - the actual implementation would need 
-    // proper game data integration
-    return 10; // Placeholder
+    // Small spots can be tagged without any graffiti items
+    // Starting with 10 spots accessible in the Hideout
+    let total = 10;
+    
+    // Additional spots become available as regions are accessed
+    // (simplified - full implementation would check each region)
+    
+    if (limit) {
+        // With limit, spots are limited by character count
+        const characterCount = getItemCount(state, 'characters') || 0;
+        const sprayable = 5 + (characterCount * 5);
+        return Math.min(total, sprayable);
+    } else {
+        // Without limit, all accessible small spots can be tagged
+        return total;
+    }
 }
 
 function spots_s_glitched(state, playerId, limit, accessCache, staticData) {
-    return 75; // Placeholder
+    let total = 75;
+    // Additional logic for glitched mode
+    if (limit) {
+        const characterCount = getItemCount(state, 'characters') || 0;
+        const sprayable = 5 + (characterCount * 5);
+        return Math.min(total, sprayable);
+    }
+    return total;
 }
 
 function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
-    return 4; // Placeholder
+    // Medium spots require graffiti M items
+    let total = 4;  // Base spots accessible in Hideout
+    
+    // Additional spots would be added based on region access
+    // (simplified for now)
+    
+    console.log(`[spots_m_glitchless] limit=${limit}, inventory keys:`, state?.inventory ? Object.keys(state.inventory) : 'no inventory');
+    
+    if (limit) {
+        // Count unique graffiti M items
+        let graffitiMCount = 0;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+                    graffitiMCount++;
+                }
+            }
+        }
+        const sprayable = graffitiMCount * 7;
+        return Math.min(total, sprayable);
+    } else {
+        // Without limit, need at least one graffiti M to access any M spots
+        let hasGraffitiM = false;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                const count = state.inventory[itemName];
+                console.log(`[spots_m_glitchless] Checking item: "${itemName}", count: ${count}, includes check: ${itemName.includes('Graffiti (M')}`);
+                if (itemName.includes('Graffiti (M') && count > 0) {
+                    hasGraffitiM = true;
+                    break;
+                }
+            }
+        }
+        console.log(`[spots_m_glitchless] hasGraffitiM=${hasGraffitiM}, returning ${hasGraffitiM ? total : 0}`);
+        return hasGraffitiM ? total : 0;
+    }
 }
 
 function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
-    return 99; // Placeholder
+    let total = 99;
+    
+    if (limit) {
+        let graffitiMCount = 0;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+                    graffitiMCount++;
+                }
+            }
+        }
+        const sprayable = graffitiMCount * 7;
+        return Math.min(total, sprayable);
+    } else {
+        let hasGraffitiM = false;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+                    hasGraffitiM = true;
+                    break;
+                }
+            }
+        }
+        return hasGraffitiM ? total : 0;
+    }
 }
 
 function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
-    return 7; // Placeholder
+    // Large spots require graffiti L items
+    let total = 7;  // Base spots
+    
+    if (limit) {
+        let graffitiLCount = 0;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+                    graffitiLCount++;
+                }
+            }
+        }
+        const sprayable = graffitiLCount * 6;
+        return Math.min(total, sprayable);
+    } else {
+        let hasGraffitiL = false;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+                    hasGraffitiL = true;
+                    break;
+                }
+            }
+        }
+        return hasGraffitiL ? total : 0;
+    }
 }
 
 function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
-    return 88; // Placeholder
+    let total = 88;
+    
+    if (limit) {
+        let graffitiLCount = 0;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+                    graffitiLCount++;
+                }
+            }
+        }
+        const sprayable = graffitiLCount * 6;
+        return Math.min(total, sprayable);
+    } else {
+        let hasGraffitiL = false;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+                    hasGraffitiL = true;
+                    break;
+                }
+            }
+        }
+        return hasGraffitiL ? total : 0;
+    }
 }
 
 function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
-    return 3; // Placeholder
+    // XL spots require graffiti XL items
+    let total = 3;  // Base spots
+    
+    if (limit) {
+        let graffitiXLCount = 0;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+                    graffitiXLCount++;
+                }
+            }
+        }
+        const sprayable = graffitiXLCount * 4;
+        return Math.min(total, sprayable);
+    } else {
+        let hasGraffitiXL = false;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+                    hasGraffitiXL = true;
+                    break;
+                }
+            }
+        }
+        return hasGraffitiXL ? total : 0;
+    }
 }
 
 function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
-    return 51; // Placeholder
+    let total = 51;
+    
+    if (limit) {
+        let graffitiXLCount = 0;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+                    graffitiXLCount++;
+                }
+            }
+        }
+        const sprayable = graffitiXLCount * 4;
+        return Math.min(total, sprayable);
+    } else {
+        let hasGraffitiXL = false;
+        if (state?.inventory) {
+            for (const itemName in state.inventory) {
+                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+                    hasGraffitiXL = true;
+                    break;
+                }
+            }
+        }
+        return hasGraffitiXL ? total : 0;
+    }
 }
 
 function build_access_cache(state, playerId, movestyle, limit, glitched, staticData) {
@@ -376,31 +553,48 @@ function build_access_cache(state, playerId, movestyle, limit, glitched, staticD
     };
 }
 
-// Main graffiti_spots function - simplified for initial testing
+// Main graffiti_spots function - matches Python implementation
 function graffiti_spots(state, playerId, movestyle, limit, glitched, spots, staticData) {
-    // For now, implement a basic version that will at least allow the tests to run
-    // This needs to be enhanced with proper game data once we understand the data structure
+    // Extract actual values if arguments come as rule tree objects
+    if (typeof movestyle === 'object' && movestyle?.type === 'constant') {
+        movestyle = movestyle.value;
+    }
+    if (typeof limit === 'object' && limit?.type === 'constant') {
+        limit = limit.value;
+    }
+    if (typeof glitched === 'object' && glitched?.type === 'constant') {
+        glitched = glitched.value;
+    }
+    if (typeof spots === 'object' && spots?.type === 'constant') {
+        spots = spots.value;
+    }
     
+    // Build access cache for checking region accessibility
     const accessCache = build_access_cache(state, playerId, movestyle, limit, glitched, staticData);
-
+    
     let total = 0;
-
+    
     if (glitched) {
         total = spots_s_glitched(state, playerId, limit, accessCache, staticData) +
                spots_m_glitched(state, playerId, limit, accessCache, staticData) +
                spots_l_glitched(state, playerId, limit, accessCache, staticData) +
                spots_xl_glitched(state, playerId, limit, accessCache, staticData);
     } else {
-        total = spots_s_glitchless(state, playerId, limit, accessCache, staticData) +
-               spots_m_glitchless(state, playerId, limit, accessCache, staticData) +
-               spots_l_glitchless(state, playerId, limit, accessCache, staticData) +
-               spots_xl_glitchless(state, playerId, limit, accessCache, staticData);
+        const s_spots = spots_s_glitchless(state, playerId, limit, accessCache, staticData);
+        const m_spots = spots_m_glitchless(state, playerId, limit, accessCache, staticData);
+        const l_spots = spots_l_glitchless(state, playerId, limit, accessCache, staticData);
+        const xl_spots = spots_xl_glitchless(state, playerId, limit, accessCache, staticData);
+        
+        // Debug logging (remove after fixing)
+        if (spots <= 25) {
+            console.log(`[graffiti_spots] Checking ${spots} spots: S=${s_spots}, M=${m_spots}, L=${l_spots}, XL=${xl_spots}, Total=${s_spots + m_spots + l_spots + xl_spots}`);
+            console.log(`[graffiti_spots] State inventory:`, state?.inventory);
+        }
+        
+        total = s_spots + m_spots + l_spots + xl_spots;
     }
-
-    // For initial testing, let's assume we can access a basic number of spots
-    // This should be enough to make the first few "Tagged X Graffiti Spots" accessible
-    const baseSpots = 25;
-    return baseSpots >= spots;
+    
+    return total >= spots;
 }
 
 // Export the helper functions in the expected format

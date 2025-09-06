@@ -1436,15 +1436,29 @@ export class StateManager {
       }
 
       // Start BFS process
-      let newEventCollected = true;
+      let continueSearching = true;
+      let passCount = 0;
 
-      while (newEventCollected) {
-        newEventCollected = false;
+      while (continueSearching) {
+        continueSearching = false;
+        passCount++;
+        
+        // Debug logging for A Hat in Time
+        if (this.gameId === 'ahit' || this.gameId === 'A Hat in Time') {
+          console.log(`[BFS] Starting pass ${passCount}`);
+        }
 
         // Process reachability with BFS
         const newlyReachable = this.runBFSPass();
+        if (newlyReachable) {
+          continueSearching = true;
+          if (this.gameId === 'ahit' || this.gameId === 'A Hat in Time') {
+            console.log(`[BFS] Pass ${passCount} found new regions, will continue`);
+          }
+        }
 
         // Auto-collect events - MODIFIED: Make conditional
+        let newEventCollected = false;
         if (this.autoCollectEventsEnabled) {
           for (const loc of this.eventLocations.values()) {
             if (this.knownReachableRegions.has(loc.region)) {
@@ -1453,6 +1467,7 @@ export class StateManager {
                 this._addItemToInventory(loc.item.name, 1);
                 this.checkedLocations.add(loc.name);
                 newEventCollected = true;
+                continueSearching = true;
                 this._logDebug(
                   `Auto-collected event item: ${loc.item.name} from ${loc.name}`
                 );
@@ -1461,13 +1476,10 @@ export class StateManager {
           }
         }
 
-        // If any new regions or events were found, continue searching
-        if (newlyReachable || newEventCollected) {
-          continue;
+        // If no new regions or events were found, we're done
+        if (!continueSearching) {
+          break;
         }
-
-        // When no more progress is made, we're done
-        break;
       }
 
       // Finalize unreachable regions set
@@ -1491,6 +1503,7 @@ export class StateManager {
    */
   runBFSPass() {
     let newRegionsFound = false;
+    const passStartRegions = new Set(this.knownReachableRegions);
 
     // Exactly match Python's nested loop structure
     let newConnection = true;
@@ -1532,6 +1545,12 @@ export class StateManager {
           : true; // No rule means true
 
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
+        
+        // Debug Time Rift connections
+        if ((this.gameId === 'ahit' || this.gameId === 'A Hat in Time') && 
+            targetRegion && targetRegion.includes('Time Rift')) {
+          console.log(`[BFS] Evaluating ${fromRegion} -> ${targetRegion} (${exit.name}): canTraverse=${canTraverse}`);
+        }
 
         // +++ DETAILED LOGGING FOR RULE EVALUATION +++
         //if (exit.name === 'GameStart' || fromRegion === 'Menu') {
@@ -1551,6 +1570,12 @@ export class StateManager {
           this.knownReachableRegions.add(targetRegion);
           newRegionsFound = true;
           newConnection = true; // Signal that we found a new connection
+          
+          // Debug logging for A Hat in Time Time Rifts
+          if ((this.gameId === 'ahit' || this.gameId === 'A Hat in Time') && 
+              (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
+            console.log(`[BFS] NEW REGION: ${targetRegion} (from ${fromRegion} via ${exit.name})`);
+          }
 
           // Remove from blocked connections
           this.blockedConnections.delete(connection);
@@ -1628,6 +1653,7 @@ export class StateManager {
         );
       }
     }
+    
     return newRegionsFound;
   }
 
@@ -2791,6 +2817,9 @@ export class StateManager {
 
         // Player slot
         if (name === 'player') return self.playerSlot;
+        
+        // World object (commonly used in helper functions)
+        if (name === 'world') return 'world'; // Return a placeholder string for now
 
         // Current location being evaluated (for location access rules)
         if (name === 'location') return anInterface.currentLocation;
@@ -2970,9 +2999,12 @@ export class StateManager {
         } else if (!this._inHelperExecution && this.isLocationAccessible(loc)) {
           // Skip location accessibility check during helper execution to prevent recursion
           locationReachability[loc.name] = 'reachable';
-        } else {
+        } else if (!this._inHelperExecution) {
+          // Only mark as unreachable if we actually checked accessibility
           locationReachability[loc.name] = 'unreachable';
         }
+        // During helper execution, we don't set locationReachability for unchecked locations
+        // This prevents incorrect 'unreachable' status during rule evaluation
       });
     }
 

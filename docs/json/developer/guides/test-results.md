@@ -1,31 +1,31 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-08-30 17:38:05
+**Generated:** 2025-09-06 09:43:38
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-08-30T17:23:47.801816
+**Source Data Last Updated:** 2025-09-06T09:43:38.245082
 
 **Script Version:** 1.0.0
 
 ## Summary
 
 - **Total Games:** 76
-- **Passed:** 7 (9.2%)
-- **Failed:** 69 (90.8%)
+- **Passed:** 8 (10.5%)
+- **Failed:** 68 (89.5%)
 
 ## Test Results
 
 | Game Name | Test Result | Gen Errors | Sphere Reached | Max Spheres | Progress | Custom Exporter | Custom GameLogic |
 |-----------|-------------|------------|----------------|-------------|----------|-----------------|------------------|
 | A Hat in Time | ❌ Failed | 0 | 0 | 5.1 | 🔴 0.0% | ✅ | ✅ |
-| A Link to the Past | ❌ Failed | 0 | 18.6 | 22.1 | 🟡 84.2% | ✅ | ✅ |
+| A Link to the Past | ✅ Passed | 0 | 22.1 | 22.1 | 🟢 Complete | ✅ | ✅ |
 | A Short Hike | ✅ Passed | 0 | 1.5 | 1.5 | 🟢 Complete | ✅ | ⚫ |
 | Adventure | ✅ Passed | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
-| Aquaria | ❌ Failed | 0 | 0.1 | 5.1 | 🟠 2.0% | ✅ | ⚫ |
+| Aquaria | ❌ Failed | 0 | 1.1 | 5.1 | 🟡 21.6% | ✅ | ⚫ |
 | ArchipIDLE | ✅ Passed | 0 | 3.2 | 3.2 | 🟢 Complete | ✅ | ✅ |
 | Blasphemous | ❌ Failed | 0 | 0.1 | 5.1 | 🟠 2.0% | ✅ | ✅ |
-| Bomb Rush Cyberfunk | ❌ Failed | 0 | 0 | 9.1 | 🔴 0.0% | ✅ | ⚫ |
+| Bomb Rush Cyberfunk | ❌ Failed | 0 | 1.1 | 9.1 | 🟡 12.1% | ✅ | ⚫ |
 | Bumper Stickers | ❌ Failed | 0 | 0.1 | 8.1 | 🟠 1.2% | ✅ | ⚫ |
 | Castlevania - Circle of the Moon | ❌ Failed | 1 | 0 | 3.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Castlevania 64 | ❌ Failed | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |

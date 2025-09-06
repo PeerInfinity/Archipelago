@@ -9,6 +9,45 @@ logger = logging.getLogger(__name__)
 class AquariaGameExportHandler(BaseGameExportHandler):
     """Aquaria-specific expander for handling game-specific rules."""
     
+    def ensure_missing_regions_added(self, multiworld, player: int) -> None:
+        """
+        Ensure that all regions defined in AquariaRegions are added to the multiworld.
+        This fixes a bug where some regions were created but not added to multiworld.regions.
+        """
+        try:
+            # Get the AquariaRegions object from the world
+            if player not in multiworld.worlds:
+                return
+                
+            world = multiworld.worlds[player]
+            if not hasattr(world, 'regions'):
+                return
+                
+            regions_obj = world.regions
+            
+            # List of region attributes that should be in multiworld.regions
+            # These were found to be missing in the original code
+            missing_region_attrs = [
+                'home_water_behind_rocks',
+                'openwater_tr_urns', 
+                'mithalas_city_urns',
+                'mithalas_castle_urns'
+            ]
+            
+            # Get existing region names for quick lookup
+            existing_region_names = {r.name for r in multiworld.get_regions() if r.player == player}
+            
+            # Add any missing regions
+            for attr_name in missing_region_attrs:
+                if hasattr(regions_obj, attr_name):
+                    region = getattr(regions_obj, attr_name)
+                    if hasattr(region, 'name') and region.name not in existing_region_names:
+                        multiworld.regions.append(region)
+                        logger.debug(f"Added missing region {region.name} to multiworld for Aquaria player {player}")
+                        
+        except Exception as e:
+            logger.warning(f"Could not check for missing Aquaria regions: {e}")
+    
     def expand_helper(self, helper_name: str, args: List[Any] = None) -> Dict[str, Any]:
         """Expand Aquaria-specific helper functions."""
         if args is None:
@@ -37,6 +76,65 @@ class AquariaGameExportHandler(BaseGameExportHandler):
             return {'type': 'item_check', 'item': 'Spirit Form'}
         elif helper_name == "has_dual_form":
             return {'type': 'item_check', 'item': 'Dual Form'}
+        elif helper_name == "_has_energy_attack_item":
+            # _has_energy_form(state, player) or _has_dual_form(state, player)
+            return {
+                'type': 'or',
+                'conditions': [
+                    {'type': 'helper', 'name': '_has_energy_form'},
+                    {'type': 'helper', 'name': '_has_dual_form'}
+                ]
+            }
+        elif helper_name == "_has_energy_form":
+            return {'type': 'item_check', 'item': 'Energy Form'}
+        elif helper_name == "_has_dual_form":
+            # _has_li(state, player) and state.has(ItemNames.DUAL_FORM, player)
+            return {
+                'type': 'and',
+                'conditions': [
+                    {'type': 'helper', 'name': '_has_li'},
+                    {'type': 'item_check', 'item': 'Dual Form'}
+                ]
+            }
+        elif helper_name == "_has_li":
+            return {'type': 'item_check', 'item': 'Li and Li Song'}
+        elif helper_name == "_has_spirit_form":
+            return {'type': 'item_check', 'item': 'Spirit Form'}
+        elif helper_name == "_has_beast_form":
+            return {'type': 'item_check', 'item': 'Beast Form'}
+        elif helper_name == "_has_sun_form":
+            return {'type': 'item_check', 'item': 'Sun Form'}
+        elif helper_name == "_has_light":
+            # state.has(ItemNames.BABY_DUMBO, player) or _has_sun_form(state, player)
+            return {
+                'type': 'or',
+                'conditions': [
+                    {'type': 'item_check', 'item': 'Baby Dumbo'},
+                    {'type': 'helper', 'name': '_has_sun_form'}
+                ]
+            }
+        elif helper_name == "_has_beast_form_or_arnassi_armor":
+            # _has_beast_form(state, player) or state.has(ItemNames.ARNASSI_ARMOR, player)
+            return {
+                'type': 'or',
+                'conditions': [
+                    {'type': 'helper', 'name': '_has_beast_form'},
+                    {'type': 'item_check', 'item': 'Arnassi Armor'}
+                ]
+            }
+        elif helper_name == "_has_damaging_item":
+            # state.has_any(DAMAGING_ITEMS, player)
+            damaging_items = [
+                'Energy Form', 'Nature Form', 'Beast Form',
+                'Li and Li Song', 'Baby Nautilus', 'Baby Piranha',
+                'Baby Blaster'
+            ]
+            return {
+                'type': 'or',
+                'conditions': [
+                    {'type': 'item_check', 'item': item} for item in damaging_items
+                ]
+            }
         
         # Return None for unknown helpers - will be preserved as-is
         return None

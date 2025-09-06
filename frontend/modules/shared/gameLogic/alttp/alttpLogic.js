@@ -191,6 +191,21 @@ export function can_defeat_ganon(state, world, itemName, staticData) {
            (state.settings?.game_mode === 'swordless' || state.settings?.swordless)));
 }
 
+export function can_defeat_boss(state, world, locationName, bossType, staticData) {
+  // For Desert Palace and most other bosses, just need to be able to kill things
+  // The specific requirements are already checked in the location's access rules
+  // This is a simplified version - the actual boss defeat is handled by the dungeon's rules
+  return can_kill_most_things(state, world, 1, staticData);
+}
+
+export function can_take_damage(state, world, itemName, staticData) {
+  // Check if the game settings allow taking damage
+  // Default is true unless explicitly set to false in settings
+  const canTakeDamage = state.settings?.can_take_damage;
+  // If not explicitly set to false, assume true
+  return canTakeDamage !== false;
+}
+
 // Additional commonly used helpers
 
 export function can_use_bombs(state, world, itemName, staticData) {
@@ -940,9 +955,11 @@ export const helperFunctions = {
   can_kill_most_things,
   can_shoot_silver_arrows,
   can_defeat_ganon,
+  can_defeat_boss,
   has_beam_sword,
   has_melee_weapon,
   has_rod,
+  can_take_damage,
   
   // Magic and special abilities
   is_invincible,

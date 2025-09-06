@@ -56,6 +56,35 @@ class BumpStikGameExportHandler(BaseGameExportHandler):
             
         return rule
     
+    def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
+        """Return Bumper Stickers item definitions with classification flags."""
+        from worlds.bumpstik.Items import item_table, item_groups, LttPCreditsText
+        from BaseClasses import ItemClassification
+        
+        item_data = {}
+        
+        for item_name in item_table.keys():
+            # Determine classification based on item groups
+            if item_name in item_groups["Traps"]:
+                classification_str = "trap"
+                item_type = "Trap"
+            elif item_name in item_groups["Targets"]:
+                classification_str = "progression"
+                item_type = "Target"
+            elif item_name in item_groups["Helpers"]:
+                classification_str = "useful"
+                item_type = "Helper"
+            else:
+                classification_str = "filler"
+                item_type = "Other"
+            
+            item_data[item_name] = {
+                "classification": classification_str,
+                "type": item_type
+            }
+        
+        return item_data
+    
     def get_game_info(self, world) -> Dict[str, Any]:
         """Get Bumper Stickers specific game information."""
         try:

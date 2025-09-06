@@ -25631,36 +25631,8 @@
                       "conditions": [
                         {
                           "type": "helper",
-                          "name": "has_crystals",
-                          "args": [
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "subscript",
-                                  "value": {
-                                    "type": "attribute",
-                                    "object": {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "state"
-                                      },
-                                      "attr": "multiworld"
-                                    },
-                                    "attr": "worlds"
-                                  },
-                                  "index": {
-                                    "type": "name",
-                                    "name": "player"
-                                  }
-                                },
-                                "attr": "options"
-                              },
-                              "attr": "crystals_needed_for_ganon"
-                            }
-                          ]
+                          "name": "has_crystals_for_ganon",
+                          "args": []
                         },
                         {
                           "type": "helper",
@@ -25824,180 +25796,184 @@
           "Desert Palace Main (Outer)",
           "Desert Palace East"
         ],
-        "boss": {
-          "name": "Lanmolas",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "helper",
-                "name": "has_melee_weapon",
-                "args": []
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Fire Rod"
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Lanmolas",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Fire Rod"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Ice Rod"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Cane of Somaria"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Cane of Byrna"
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "can_shoot_arrows",
+                  "args": []
                 }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Ice Rod"
-                }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Cane of Somaria"
-                }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Cane of Byrna"
-                }
-              },
-              {
-                "type": "helper",
-                "name": "can_shoot_arrows",
-                "args": []
-              }
-            ]
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Eastern Palace": {
         "name": "Eastern Palace",
         "regions": [
           "Eastern Palace"
         ],
-        "boss": {
-          "name": "Armos Knights",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "helper",
-                "name": "has_melee_weapon",
-                "args": []
-              },
-              {
-                "type": "helper",
-                "name": "can_shoot_arrows",
-                "args": []
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Cane of Somaria"
-                    }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Armos Knights",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_shoot_arrows",
+                  "args": []
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 10
+                        "value": "Cane of Somaria"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Cane of Byrna"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 10
+                        }
+                      ]
                     }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 16
+                        "value": "Cane of Byrna"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Ice Rod"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 16
+                        }
+                      ]
                     }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 32
+                        "value": "Ice Rod"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Fire Rod"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 32
+                        }
+                      ]
                     }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 32
+                        "value": "Fire Rod"
                       }
-                    ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 32
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Blue Boomerang"
                   }
-                ]
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Blue Boomerang"
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Red Boomerang"
+                  }
                 }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Red Boomerang"
-                }
-              }
-            ]
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Hyrule Castle": {
         "name": "Hyrule Castle",
@@ -26008,8 +25984,8 @@
           "Sewers (Dark)",
           "Sanctuary"
         ],
-        "boss": null,
-        "medallion_check": null
+        "medallion_check": null,
+        "bosses": {}
       },
       "Agahnims Tower": {
         "name": "Agahnims Tower",
@@ -26017,34 +25993,36 @@
           "Agahnims Tower",
           "Agahnim 1"
         ],
-        "boss": {
-          "name": "Agahnim",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "helper",
-                "name": "has_sword",
-                "args": []
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Hammer"
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Agahnim",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_sword",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Hammer"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bug Catching Net"
+                  }
                 }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Bug Catching Net"
-                }
-              }
-            ]
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Tower of Hera": {
         "name": "Tower of Hera",
@@ -26053,15 +26031,17 @@
           "Tower of Hera (Basement)",
           "Tower of Hera (Top)"
         ],
-        "boss": {
-          "name": "Moldorm",
-          "defeat_rule": {
-            "type": "helper",
-            "name": "has_melee_weapon",
-            "args": []
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Moldorm",
+            "defeat_rule": {
+              "type": "helper",
+              "name": "has_melee_weapon",
+              "args": []
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Swamp Palace": {
         "name": "Swamp Palace",
@@ -26073,28 +26053,30 @@
           "Swamp Palace (Center)",
           "Swamp Palace (North)"
         ],
-        "boss": {
-          "name": "Arrghus",
-          "defeat_rule": {
-            "type": "conditional",
-            "test": {
-              "type": "not",
-              "condition": {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Hookshot"
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Arrghus",
+            "defeat_rule": {
+              "type": "conditional",
+              "test": {
+                "type": "not",
+                "condition": {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Hookshot"
+                  }
                 }
-              }
-            },
-            "if_true": {
-              "type": "constant",
-              "value": false
-            },
-            "if_false": null
+              },
+              "if_true": {
+                "type": "constant",
+                "value": false
+              },
+              "if_false": null
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Thieves Town": {
         "name": "Thieves Town",
@@ -26103,34 +26085,36 @@
           "Thieves Town (Deep)",
           "Blind Fight"
         ],
-        "boss": {
-          "name": "Blind",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "helper",
-                "name": "has_melee_weapon",
-                "args": []
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Cane of Somaria"
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Blind",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Cane of Somaria"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Cane of Byrna"
+                  }
                 }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Cane of Byrna"
-                }
-              }
-            ]
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Skull Woods": {
         "name": "Skull Woods",
@@ -26144,91 +26128,93 @@
           "Skull Woods First Section (Left)",
           "Skull Woods First Section (Top)"
         ],
-        "boss": {
-          "name": "Mothula",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "helper",
-                "name": "has_melee_weapon",
-                "args": []
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Fire Rod"
-                    }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Mothula",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 10
+                        "value": "Fire Rod"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Cane of Somaria"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 10
+                        }
+                      ]
                     }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 16
+                        "value": "Cane of Somaria"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Cane of Byrna"
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 16
+                        }
+                      ]
                     }
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_extend_magic",
-                    "args": [
-                      {
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 16
+                        "value": "Cane of Byrna"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "helper",
-                "name": "can_get_good_bee",
-                "args": []
-              }
-            ]
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 16
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_get_good_bee",
+                  "args": []
+                }
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Ice Palace": {
         "name": "Ice Palace",
@@ -26240,164 +26226,166 @@
           "Ice Palace (East Top)",
           "Ice Palace (Kholdstare)"
         ],
-        "boss": {
-          "name": "Kholdstare",
-          "defeat_rule": {
-            "type": "and",
-            "conditions": [
-              {
-                "type": "or",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Fire Rod"
-                    }
-                  },
-                  {
-                    "type": "and",
-                    "conditions": [
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Bombos"
-                        }
-                      },
-                      {
-                        "type": "or",
-                        "conditions": [
-                          {
-                            "type": "helper",
-                            "name": "has_sword",
-                            "args": []
-                          },
-                          {
-                            "type": "attribute",
-                            "object": {
-                              "type": "attribute",
-                              "object": {
-                                "type": "subscript",
-                                "value": {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "attribute",
-                                    "object": {
-                                      "type": "name",
-                                      "name": "state"
-                                    },
-                                    "attr": "multiworld"
-                                  },
-                                  "attr": "worlds"
-                                },
-                                "index": {
-                                  "type": "name",
-                                  "name": "player"
-                                }
-                              },
-                              "attr": "options"
-                            },
-                            "attr": "swordless"
-                          }
-                        ]
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Kholdstare",
+            "defeat_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Fire Rod"
                       }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "or",
-                "conditions": [
-                  {
-                    "type": "helper",
-                    "name": "has_melee_weapon",
-                    "args": []
-                  },
-                  {
-                    "type": "and",
-                    "conditions": [
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Fire Rod"
-                        }
-                      },
-                      {
-                        "type": "helper",
-                        "name": "can_extend_magic",
-                        "args": [
-                          {
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": {
                             "type": "constant",
-                            "value": 20
+                            "value": "Bombos"
                           }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "and",
-                    "conditions": [
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Fire Rod"
-                        }
-                      },
-                      {
-                        "type": "item_check",
-                        "item": {
-                          "type": "constant",
-                          "value": "Bombos"
-                        }
-                      },
-                      {
-                        "type": "attribute",
-                        "object": {
-                          "type": "attribute",
-                          "object": {
-                            "type": "subscript",
-                            "value": {
+                        },
+                        {
+                          "type": "or",
+                          "conditions": [
+                            {
+                              "type": "helper",
+                              "name": "has_sword",
+                              "args": []
+                            },
+                            {
                               "type": "attribute",
                               "object": {
                                 "type": "attribute",
                                 "object": {
-                                  "type": "name",
-                                  "name": "state"
+                                  "type": "subscript",
+                                  "value": {
+                                    "type": "attribute",
+                                    "object": {
+                                      "type": "attribute",
+                                      "object": {
+                                        "type": "name",
+                                        "name": "state"
+                                      },
+                                      "attr": "multiworld"
+                                    },
+                                    "attr": "worlds"
+                                  },
+                                  "index": {
+                                    "type": "name",
+                                    "name": "player"
+                                  }
                                 },
-                                "attr": "multiworld"
+                                "attr": "options"
                               },
-                              "attr": "worlds"
-                            },
-                            "index": {
-                              "type": "name",
-                              "name": "player"
+                              "attr": "swordless"
                             }
-                          },
-                          "attr": "options"
-                        },
-                        "attr": "swordless"
-                      },
-                      {
-                        "type": "helper",
-                        "name": "can_extend_magic",
-                        "args": [
-                          {
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_melee_weapon",
+                      "args": []
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": {
                             "type": "constant",
-                            "value": 16
+                            "value": "Fire Rod"
                           }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_extend_magic",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 20
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": {
+                            "type": "constant",
+                            "value": "Fire Rod"
+                          }
+                        },
+                        {
+                          "type": "item_check",
+                          "item": {
+                            "type": "constant",
+                            "value": "Bombos"
+                          }
+                        },
+                        {
+                          "type": "attribute",
+                          "object": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "subscript",
+                              "value": {
+                                "type": "attribute",
+                                "object": {
+                                  "type": "attribute",
+                                  "object": {
+                                    "type": "name",
+                                    "name": "state"
+                                  },
+                                  "attr": "multiworld"
+                                },
+                                "attr": "worlds"
+                              },
+                              "index": {
+                                "type": "name",
+                                "name": "player"
+                              }
+                            },
+                            "attr": "options"
+                          },
+                          "attr": "swordless"
+                        },
+                        {
+                          "type": "helper",
+                          "name": "can_extend_magic",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Misery Mire": {
         "name": "Misery Mire",
@@ -26408,57 +26396,59 @@
           "Misery Mire (Final Area)",
           "Misery Mire (Vitreous)"
         ],
-        "boss": {
-          "name": "Vitreous",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "helper",
-                    "name": "can_shoot_arrows",
-                    "args": []
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_use_bombs",
-                    "args": [
-                      {
-                        "type": "constant",
-                        "value": 10
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "helper",
-                "name": "can_shoot_arrows",
-                "args": [
-                  {
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Vitreous",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_shoot_arrows",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_use_bombs",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 10
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "can_shoot_arrows",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": 35
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
                     "type": "constant",
-                    "value": 35
+                    "value": "Silver Bow"
                   }
-                ]
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Silver Bow"
+                },
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
                 }
-              },
-              {
-                "type": "helper",
-                "name": "has_melee_weapon",
-                "args": []
-              }
-            ]
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Turtle Rock": {
         "name": "Turtle Rock",
@@ -26474,40 +26464,42 @@
           "Turtle Rock (Eye Bridge)",
           "Turtle Rock (Trinexx)"
         ],
-        "boss": {
-          "name": "Trinexx",
-          "defeat_rule": {
-            "type": "conditional",
-            "test": {
-              "type": "not",
-              "condition": {
-                "type": "and",
-                "conditions": [
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Fire Rod"
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Trinexx",
+            "defeat_rule": {
+              "type": "conditional",
+              "test": {
+                "type": "not",
+                "condition": {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Fire Rod"
+                      }
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Ice Rod"
+                      }
                     }
-                  },
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Ice Rod"
-                    }
-                  }
-                ]
-              }
-            },
-            "if_true": {
-              "type": "constant",
-              "value": false
-            },
-            "if_false": null
+                  ]
+                }
+              },
+              "if_true": {
+                "type": "constant",
+                "value": false
+              },
+              "if_false": null
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Palace of Darkness": {
         "name": "Palace of Darkness",
@@ -26521,52 +26513,54 @@
           "Palace of Darkness (Harmless Hellway)",
           "Palace of Darkness (Final Section)"
         ],
-        "boss": {
-          "name": "Helmasaur King",
-          "defeat_rule": {
-            "type": "and",
-            "conditions": [
-              {
-                "type": "or",
-                "conditions": [
-                  {
-                    "type": "helper",
-                    "name": "can_use_bombs",
-                    "args": [
-                      {
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Helmasaur King",
+            "defeat_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "can_use_bombs",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "item_check",
+                      "item": {
                         "type": "constant",
-                        "value": 5
+                        "value": "Hammer"
                       }
-                    ]
-                  },
-                  {
-                    "type": "item_check",
-                    "item": {
-                      "type": "constant",
-                      "value": "Hammer"
                     }
-                  }
-                ]
-              },
-              {
-                "type": "or",
-                "conditions": [
-                  {
-                    "type": "helper",
-                    "name": "has_sword",
-                    "args": []
-                  },
-                  {
-                    "type": "helper",
-                    "name": "can_shoot_arrows",
-                    "args": []
-                  }
-                ]
-              }
-            ]
+                  ]
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "helper",
+                      "name": "has_sword",
+                      "args": []
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_shoot_arrows",
+                      "args": []
+                    }
+                  ]
+                }
+              ]
+            }
           }
-        },
-        "medallion_check": null
+        }
       },
       "Ganons Tower": {
         "name": "Ganons Tower",
@@ -26584,34 +26578,210 @@
           "Ganons Tower (Moldorm)",
           "Agahnim 2"
         ],
-        "boss": {
-          "name": "Agahnim2",
-          "defeat_rule": {
-            "type": "or",
-            "conditions": [
-              {
-                "type": "helper",
-                "name": "has_sword",
-                "args": []
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Hammer"
+        "medallion_check": null,
+        "bosses": {
+          "None": {
+            "name": "Agahnim2",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_sword",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Hammer"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bug Catching Net"
+                  }
                 }
-              },
-              {
-                "type": "item_check",
-                "item": {
-                  "type": "constant",
-                  "value": "Bug Catching Net"
+              ]
+            }
+          },
+          "bottom": {
+            "name": "Armos Knights",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
+                },
+                {
+                  "type": "helper",
+                  "name": "can_shoot_arrows",
+                  "args": []
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Cane of Somaria"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 10
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Cane of Byrna"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 16
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Ice Rod"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 32
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": {
+                        "type": "constant",
+                        "value": "Fire Rod"
+                      }
+                    },
+                    {
+                      "type": "helper",
+                      "name": "can_extend_magic",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": 32
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Blue Boomerang"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Red Boomerang"
+                  }
                 }
-              }
-            ]
+              ]
+            }
+          },
+          "middle": {
+            "name": "Lanmolas",
+            "defeat_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "has_melee_weapon",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Fire Rod"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Ice Rod"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Cane of Somaria"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Cane of Byrna"
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "can_shoot_arrows",
+                  "args": []
+                }
+              ]
+            }
+          },
+          "top": {
+            "name": "Moldorm",
+            "defeat_rule": {
+              "type": "helper",
+              "name": "has_melee_weapon",
+              "args": []
+            }
           }
-        },
-        "medallion_check": null
+        }
       }
     }
   },

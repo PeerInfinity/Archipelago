@@ -28,7 +28,10 @@ GAME_HANDLERS: Dict[str, Type[BaseGameExportHandler]] = {
     'Bumper Stickers': BumpStikGameExportHandler,
 }
 
-def get_game_export_handler(game_name: str) -> BaseGameExportHandler:
+def get_game_export_handler(game_name: str, world=None) -> BaseGameExportHandler:
     """Get the appropriate helper expander for the game."""
     handler_class = GAME_HANDLERS.get(game_name, GenericGameExportHandler)
+    # Pass world to handlers that accept it (like Bomb Rush Cyberfunk)
+    if game_name == 'Bomb Rush Cyberfunk':
+        return handler_class(world)
     return handler_class()

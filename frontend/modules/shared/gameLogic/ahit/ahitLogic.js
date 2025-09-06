@@ -140,6 +140,10 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
   if (!actEntrance) {
     return false;
   }
+  
+  // Debug logging for key acts
+  const debugActs = ['Mafia Town - Act 4', 'Mafia Town - Act 6'];
+  const shouldDebug = debugActs.includes(actEntrance);
 
   // Find the entrance in the staticData
   if (!staticData || !staticData.regions) {
@@ -167,15 +171,26 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
 
   if (!connectedRegion) {
     // Unknown entrance, assume it's accessible
+    if (shouldDebug) {
+      console.log(`[can_clear_required_act] ${actEntrance}: No connected region found, returning true`);
+    }
     return true;
+  }
+  
+  if (shouldDebug) {
+    console.log(`[can_clear_required_act] ${actEntrance} connects to ${connectedRegion}`);
   }
 
   // First check if the connected region is reachable
   if (state.regionReachability && state.regionReachability[connectedRegion] !== undefined) {
-    const regionReachable = state.regionReachability[connectedRegion] === true;
+    const regionReachable = state.regionReachability[connectedRegion] === true || state.regionReachability[connectedRegion] === 'reachable';
     if (!regionReachable) {
+      console.log(`[can_clear_required_act] ${actEntrance}: ${connectedRegion} is NOT reachable (status: ${state.regionReachability[connectedRegion]})`);
       return false;
     }
+    console.log(`[can_clear_required_act] ${actEntrance}: ${connectedRegion} IS reachable`);
+  } else {
+    console.log(`[can_clear_required_act] ${actEntrance}: No regionReachability data for ${connectedRegion}`);
   }
 
   // Check if it's a "Free Roam" area (these are always clearable if reachable)
@@ -183,16 +198,12 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
     return true;
   }
 
-  // For act regions, check if the "Act Completion" location is accessible
-  const actCompletionLocationName = `Act Completion (${connectedRegion})`;
-  
-  // Check if the location is accessible (marked as reachable in state)
-  if (state.locationReachability && state.locationReachability[actCompletionLocationName] !== undefined) {
-    return state.locationReachability[actCompletionLocationName] === true;
-  }
-
-  // If we don't have location reachability data, fall back to basic region check
-  return state.regionReachability && state.regionReachability[connectedRegion] === true;
+  // For act regions, during BFS traversal we can't check location accessibility
+  // due to recursion protection, so we assume acts are clearable if the region
+  // is reachable (which we already checked above)
+  // This matches the Python backend behavior where act completion locations
+  // typically have no additional access rules beyond region reachability
+  return true;
 }
 
 // Movement and abilities

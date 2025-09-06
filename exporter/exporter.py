@@ -292,7 +292,11 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         # Get game name, world, and handler
         game_name = multiworld.game[player]
         world = multiworld.worlds[player]
-        game_handler = get_game_export_handler(game_name)
+        game_handler = get_game_export_handler(game_name, world)
+        
+        # Allow game-specific handlers to ensure all regions are properly added
+        if hasattr(game_handler, 'ensure_missing_regions_added'):
+            game_handler.ensure_missing_regions_added(multiworld, player)
         
         # Process all regions and their connections
         # Also extract dungeons to separate structure
@@ -592,7 +596,7 @@ def process_regions(multiworld, player: int) -> tuple:
         # Different games have different levels of rule analysis support
         # ALTTP has detailed helper expansion, while other games may preserve more helper nodes
         game_name = multiworld.game[player]
-        game_handler = get_game_export_handler(game_name)
+        game_handler = get_game_export_handler(game_name, multiworld.worlds[player])
         logger.debug("Successfully got game helpers")
         
         logger.debug("Getting player regions")
@@ -825,6 +829,9 @@ def process_regions(multiworld, player: int) -> tuple:
                             
                             # First check if game handler has special handling for this location
                             if hasattr(location, 'access_rule') and location.access_rule:
+                                # Set context for game handlers that need it (e.g., Bomb Rush Cyberfunk)
+                                if hasattr(game_handler, 'set_context'):
+                                    game_handler.set_context(location_name)
                                 # Use normal analysis
                                 access_rule_result = safe_expand_rule(
                                     game_handler,
@@ -920,7 +927,7 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
     items_data = {}
     world = multiworld.worlds[player]
     game_name = multiworld.game[player]
-    game_handler = get_game_export_handler(game_name) # Get game handler
+    game_handler = get_game_export_handler(game_name, world) # Get game handler
     
     # 1. Start with game-specific item data from the handler
     try:
@@ -1020,7 +1027,7 @@ def process_progression_mapping(multiworld, player: int) -> Dict[str, Any]:
     try:
         world = multiworld.worlds[player]
         game_name = multiworld.game[player]
-        game_handler = get_game_export_handler(game_name)
+        game_handler = get_game_export_handler(game_name, world)
         return game_handler.get_progression_mapping(world)
     except Exception as e:
         game_name = multiworld.game.get(player, "Unknown")
@@ -1068,7 +1075,7 @@ def cleanup_export_data(data):
             if not isinstance(settings, dict) or 'error' in settings: # Skip if not dict or already an error
                 continue
             game = player_games.get(player, "unknown") # Get game name retrieved earlier
-            game_handler = get_game_export_handler(game)
+            game_handler = get_game_export_handler(game)  # World not available during cleanup
             try:
                 # Delegate cleanup to the specific handler
                 # Pass a copy to avoid modifying the original dict used elsewhere if cleanup fails partially

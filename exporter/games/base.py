@@ -191,3 +191,18 @@ class BaseGameExportHandler:
         """
         # Base implementation returns no additional attributes
         return {}
+    
+    def ensure_missing_regions_added(self, multiworld, player: int) -> None:
+        """
+        Hook for game-specific handlers to ensure all regions are properly added to multiworld.
+        This is called before processing regions during export.
+        
+        Some games may create regions but forget to add them to multiworld.regions.
+        This method allows fixing such issues at export time without modifying the game's code.
+        
+        Args:
+            multiworld: The multiworld object
+            player: The player ID
+        """
+        # Base implementation does nothing
+        pass

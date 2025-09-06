@@ -21,6 +21,67 @@ import urllib.error
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+from seed_utils import get_seed_id as compute_seed_id
+
+
+def run_post_processing_scripts(project_root: str, results_file: str):
+    """Run post-processing scripts to update documentation and preset files."""
+    print("\n=== Running Post-Processing Scripts ===")
+    
+    # Script 1: Generate test chart
+    print("\nGenerating test results chart...")
+    chart_script = os.path.join(project_root, 'scripts', 'generate-test-chart.py')
+    try:
+        result = subprocess.run(
+            [sys.executable, chart_script, '--input-file', results_file],
+            cwd=project_root,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        if result.returncode == 0:
+            print("✓ Test chart generated successfully")
+            # Show where the chart was saved
+            if "Chart saved to:" in result.stdout:
+                for line in result.stdout.split('\n'):
+                    if "Chart saved to:" in line:
+                        print(f"  {line.strip()}")
+        else:
+            print(f"✗ Failed to generate test chart: {result.stderr}")
+    except subprocess.TimeoutExpired:
+        print("✗ Test chart generation timed out")
+    except Exception as e:
+        print(f"✗ Error running generate-test-chart.py: {e}")
+    
+    # Script 2: Update preset files
+    print("\nUpdating preset files with test data...")
+    preset_script = os.path.join(project_root, 'scripts', 'update-preset-files.py')
+    try:
+        result = subprocess.run(
+            [sys.executable, preset_script, '--test-results', results_file],
+            cwd=project_root,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        if result.returncode == 0:
+            print("✓ Preset files updated successfully")
+            # Show summary from output
+            if "Summary:" in result.stdout:
+                in_summary = False
+                for line in result.stdout.split('\n'):
+                    if "Summary:" in line:
+                        in_summary = True
+                    elif in_summary and line.strip().startswith('-'):
+                        print(f"  {line.strip()}")
+        else:
+            print(f"✗ Failed to update preset files: {result.stderr}")
+    except subprocess.TimeoutExpired:
+        print("✗ Preset files update timed out")
+    except Exception as e:
+        print(f"✗ Error running update-preset-files.py: {e}")
+    
+    print("\n=== Post-Processing Complete ===")
 
 
 def build_and_load_world_mapping(project_root: str) -> Dict[str, Dict]:
@@ -404,12 +465,17 @@ def save_results(results: Dict, results_file: str, batch_processing_time: float 
         print(f"Error saving results: {e}")
 
 
-def test_template(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], export_only: bool = False, spoiler_only: bool = False) -> Dict:
+def test_template(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, spoiler_only: bool = False) -> Dict:
     """Test a single template file and return results."""
     template_name = os.path.basename(template_file)
     game_name = normalize_game_name(template_name)
-    seed = "1"
-    seed_id = "AP_14089154938208861744"
+    
+    # Compute seed ID directly from seed number
+    try:
+        seed_id = compute_seed_id(int(seed))
+    except (ValueError, TypeError):
+        print(f"Error: Seed '{seed}' is not a valid number")
+        seed_id = None
     
     # Get world info using the provided world mapping
     world_info = get_world_info(template_file, templates_dir, world_mapping)
@@ -481,6 +547,8 @@ def test_template(template_file: str, templates_dir: str, project_root: str, wor
         generate_output_file = os.path.join(project_root, "generate_output.txt")
         with open(generate_output_file, 'w') as f:
             f.write(f"STDOUT:\n{gen_stdout}\n\nSTDERR:\n{gen_stderr}\n")
+        
+        # Seed ID is already computed, no need to extract or verify
         
         # Analyze generation output
         full_output = gen_stdout + "\n" + gen_stderr
@@ -650,6 +718,17 @@ def main():
         type=str,
         help='Start processing from the specified template file (alphabetically ordered), skipping all files before it'
     )
+    parser.add_argument(
+        '-s', '--seed',
+        type=str,
+        default='1',
+        help='Seed number to use for generation (default: 1)'
+    )
+    parser.add_argument(
+        '-p', '--post-process',
+        action='store_true',
+        help='Run post-processing scripts after testing (generate-test-chart.py and update-preset-files.py)'
+    )
     
     args = parser.parse_args()
     
@@ -808,6 +887,14 @@ def main():
     # Build world mapping once at startup
     world_mapping = build_and_load_world_mapping(project_root)
     
+    # Compute seed ID for display
+    try:
+        computed_seed_id = compute_seed_id(int(args.seed))
+        print(f"Using seed {args.seed} -> {computed_seed_id}")
+    except (ValueError, TypeError):
+        print(f"Error: Seed '{args.seed}' must be a number")
+        sys.exit(1)
+    
     # Start timing the batch processing
     batch_start_time = time.time()
     print(f"Starting batch processing of {len(yaml_files)} templates...")
@@ -819,6 +906,7 @@ def main():
         
         try:
             template_result = test_template(yaml_file, templates_dir, project_root, world_mapping, 
+                                          seed=args.seed,
                                           export_only=args.export_only, spoiler_only=args.spoiler_only)
             results['results'][yaml_file] = template_result
             
@@ -875,6 +963,10 @@ def main():
                     if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
         errors = len(yaml_files) - passed - failed
         print(f"Full Test Summary: {passed} passed, {failed} failed, {errors} errors")
+    
+    # Run post-processing scripts if requested
+    if args.post_process:
+        run_post_processing_scripts(project_root, results_file)
 
 
 if __name__ == '__main__':
