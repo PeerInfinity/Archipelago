@@ -48,7 +48,7 @@ export class LoopState {
     this.actionCompleted = new Set(); // Set of completed path indices
     this.currentAction = null; // Current action being processed
     this.isProcessing = false;
-    this.isPaused = false;
+    this.isPaused = true; // Start paused by default
     this.autoRestartQueue = false; // Flag to auto-restart queue when complete
     this.gameSpeed = 10; // Multiplier for processing speed
 
@@ -487,16 +487,35 @@ export class LoopState {
   startProcessing() {
     const queue = this.getActionQueue();
     
-    if (this.isPaused || this.isProcessing || queue.length === 0) {
+    if (this.isPaused || this.isProcessing) {
+      return;
+    }
+
+    // Check if we have any real actions to process (not just the initial Menu)
+    let firstActionIndex = 0;
+    if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+      // First entry is the initial Menu position, real actions start at index 1
+      firstActionIndex = 1;
+    }
+    
+    // If there are no real actions, don't start processing
+    if (firstActionIndex >= queue.length) {
+      log('info', 'No actions to process (only initial Menu in queue)');
       return;
     }
 
     this.isProcessing = true;
-    this.currentActionIndex = this.currentActionIndex || 0; // Default to 0 if not set
+    
+    // Set the current action index to the first real action if not already set
+    if (this.currentActionIndex === 0 || this.currentActionIndex === undefined) {
+      this.currentActionIndex = firstActionIndex;
+    }
 
     // Make sure the index is valid
     if (this.currentActionIndex >= queue.length) {
-      this.currentActionIndex = 0;
+      // No more actions to process
+      this.stopProcessing();
+      return;
     }
 
     this.currentAction = queue[this.currentActionIndex];
@@ -567,14 +586,17 @@ export class LoopState {
     if (isPaused) {
       this.stopProcessing();
       this.eventBus.publish('loopState:paused', { isPaused: true }, 'loops');
-    } else if (this.actionQueue.length > 0) {
-      this.startProcessing();
-      this.eventBus.publish('loopState:resumed', { isPaused: false }, 'loops');
     } else {
-      // Even if there are no actions, still publish the state change
-      this.eventBus.publish('loopState:pauseStateChanged', {
-        isPaused: this.isPaused,
-      }, 'loops');
+      const queue = this.getActionQueue();
+      if (queue.length > 0) {
+        this.startProcessing();
+        this.eventBus.publish('loopState:resumed', { isPaused: false }, 'loops');
+      } else {
+        // Even if there are no actions, still publish the state change
+        this.eventBus.publish('loopState:pauseStateChanged', {
+          isPaused: this.isPaused,
+        }, 'loops');
+      }
     }
   }
 
@@ -823,7 +845,11 @@ export class LoopState {
     if (this.currentActionIndex >= queue.length) {
       // Reset to beginning if auto-restart is enabled
       if (this.autoRestartQueue) {
+        // Skip initial Menu if present
         this.currentActionIndex = 0;
+        if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+          this.currentActionIndex = 1;
+        }
         this._resetActionsProgress();
       } else {
         // Queue completed
@@ -994,12 +1020,20 @@ export class LoopState {
     // Reset all action progress
     this._resetActionsProgress();
 
-    // Reset to first action
+    // Get queue to check for initial Menu
+    const queue = this.getActionQueue();
+    
+    // Reset to first real action (skip initial Menu if present)
     this.currentActionIndex = 0;
+    if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+      this.currentActionIndex = 1;
+    }
 
     // Update current action reference
-    if (this.actionQueue.length > 0) {
-      this.currentAction = this.actionQueue[this.currentActionIndex];
+    if (this.currentActionIndex < queue.length) {
+      this.currentAction = queue[this.currentActionIndex];
+    } else {
+      this.currentAction = null;
     }
 
     // Notify loop reset
@@ -1062,8 +1096,14 @@ export class LoopState {
       this.stopProcessing();
     }
 
-    // Reset to beginning
+    // Get queue to check for initial Menu
+    const queue = this.getActionQueue();
+    
+    // Reset to beginning, skipping initial Menu if present
     this.currentActionIndex = 0;
+    if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+      this.currentActionIndex = 1;
+    }
 
     // Reset progress on all actions
     this._resetActionsProgress();
@@ -1076,9 +1116,6 @@ export class LoopState {
       current: this.currentMana,
       max: this.maxMana,
     }, 'loops');
-
-    // Get queue from playerState
-    const queue = this.getActionQueue();
 
     // Notify about queue update (so UI can refresh)
     this.eventBus.publish('loopState:queueUpdated', {
