@@ -528,6 +528,8 @@ async function determineActiveMode() {
   // At this point, explicitMode is not "reset", and resetFlag is false.
   if (explicitMode) {
     logger.info('init', `Mode specified in URL: "${explicitMode}".`);
+    // Validate that the mode exists in modes.json (G_modesConfig will be loaded after this)
+    // We'll defer validation until after loadModesConfiguration() is called
     G_currentActiveMode = explicitMode;
   } else {
     try {
@@ -1051,6 +1053,34 @@ async function main() {
 
   // Load modes.json configuration
   await loadModesConfiguration();
+
+  // Validate that the current active mode exists in modes.json
+  if (!G_modesConfig[G_currentActiveMode]) {
+    logger.warn(
+      'init',
+      `Mode "${G_currentActiveMode}" not found in modes.json. Falling back to "default" mode.`
+    );
+    
+    // Check if the mode was from localStorage and clear it
+    if (!urlParams.get('mode')) {
+      try {
+        localStorage.removeItem(G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY);
+        logger.info('init', 'Cleared invalid mode from localStorage.');
+      } catch (e) {
+        logger.error('init', 'Error clearing invalid mode from localStorage:', e);
+      }
+    }
+    
+    G_currentActiveMode = 'default';
+    
+    // Save the corrected mode to localStorage
+    try {
+      localStorage.setItem(G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY, G_currentActiveMode);
+      logger.info('init', 'Saved corrected mode to localStorage: "default".');
+    } catch (e) {
+      logger.error('init', 'Error saving corrected mode to localStorage:', e);
+    }
+  }
 
   // Load all data for the current mode (from localStorage or defaults)
   await loadCombinedModeData(urlParams);

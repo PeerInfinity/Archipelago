@@ -493,9 +493,14 @@ export class LoopState {
 
     // Check if we have any real actions to process (not just the initial Menu)
     let firstActionIndex = 0;
-    if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
-      // First entry is the initial Menu position, real actions start at index 1
-      firstActionIndex = 1;
+    if (queue.length > 0) {
+      const firstEntry = queue[0];
+      log('info', 'First queue entry:', firstEntry);
+      if (firstEntry.type === 'regionMove' && firstEntry.region === 'Menu' && !firstEntry.exitUsed) {
+        // First entry is the initial Menu position, real actions start at index 1
+        firstActionIndex = 1;
+        log('info', 'First entry is initial Menu, skipping to index 1');
+      }
     }
     
     // If there are no real actions, don't start processing
@@ -509,16 +514,19 @@ export class LoopState {
     // Set the current action index to the first real action if not already set
     if (this.currentActionIndex === 0 || this.currentActionIndex === undefined) {
       this.currentActionIndex = firstActionIndex;
+      log('info', `Setting currentActionIndex to ${firstActionIndex} (skipping initial Menu: ${firstActionIndex === 1})`);
     }
 
     // Make sure the index is valid
     if (this.currentActionIndex >= queue.length) {
       // No more actions to process
+      log('info', 'No more actions to process, stopping');
       this.stopProcessing();
       return;
     }
 
     this.currentAction = queue[this.currentActionIndex];
+    log('info', `Starting to process action at index ${this.currentActionIndex}:`, this.currentAction);
 
     // Ensure we have a valid action
     if (!this.currentAction) {
@@ -654,8 +662,19 @@ export class LoopState {
 
         // Try to recover by finding a valid action
         if (queue.length > 0) {
+          // Skip initial Menu if present
           this.currentActionIndex = 0;
-          this.currentAction = queue[0];
+          if (queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+            this.currentActionIndex = 1;
+          }
+          
+          if (this.currentActionIndex < queue.length) {
+            this.currentAction = queue[this.currentActionIndex];
+          } else {
+            // Only Menu in queue, no real actions
+            this.stopProcessing();
+            return;
+          }
         } else {
           // No actions left, stop processing
           this.stopProcessing();
