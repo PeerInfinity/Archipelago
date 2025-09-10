@@ -1,7 +1,7 @@
 // Core state and UI for this module
 import loopStateSingleton from './loopStateSingleton.js';
 import { LoopUI } from './loopUI.js';
-import { handleUserLocationCheckForLoops, handleUserItemCheckForLoops } from './loopEvents.js'; // Import handlers
+import { handleUserLocationCheckForLoops, handleUserItemCheckForLoops, initializeLoopEvents } from './loopEvents.js'; // Import handlers
 
 // --- Module Info ---
 export const moduleInfo = {
@@ -18,10 +18,16 @@ export const moduleInfo = {
 let loopInstance = null;
 let _moduleEventBus = null;
 let moduleDispatcher = null; // To store the full dispatcher instance
+let _playerStateAPI = null; // Store playerState API for access by loopUI
 
 // Export dispatcher for use by other files in this module (e.g., loopEvents.js)
 export function getLoopsModuleDispatcher() {
   return moduleDispatcher;
+}
+
+// Export function to get playerState API for use by loopUI
+export function getPlayerStateAPI() {
+  return _playerStateAPI;
 }
 
 let loopUnsubscribeHandles = [];
@@ -106,6 +112,11 @@ export function register(registrationApi) {
         default: false,
         label: 'Auto-Restart Queue',
       },
+      loopModeEnabled: {
+        type: 'boolean',
+        default: false,
+        label: 'Auto-Enter Loop Mode',
+      },
       // Add other loop-specific settings here
     },
   });
@@ -127,16 +138,22 @@ export function register(registrationApi) {
   );
 
   // Register events that loops publishes
+  registrationApi.registerEventBusPublisher('loopState:actionCompleted');
   registrationApi.registerEventBusPublisher('loopState:autoRestartChanged');
   registrationApi.registerEventBusPublisher('loopState:paused');
+  registrationApi.registerEventBusPublisher('loopState:pauseStateChanged');
   registrationApi.registerEventBusPublisher('loopState:processingStopped');
   registrationApi.registerEventBusPublisher('loopState:progressUpdated');
   registrationApi.registerEventBusPublisher('loopState:queueCompleted');
+  registrationApi.registerEventBusPublisher('loopState:queueUpdated');
   registrationApi.registerEventBusPublisher('loopState:resumed');
   registrationApi.registerEventBusPublisher('loopState:speedChanged');
   registrationApi.registerEventBusPublisher('loopState:stateLoaded');
   registrationApi.registerEventBusPublisher('loopState:xpChanged');
   registrationApi.registerEventBusPublisher('loopState:manaChanged');
+  registrationApi.registerEventBusPublisher('loopState:loopReset');
+  registrationApi.registerEventBusPublisher('loopState:newActionStarted');
+  registrationApi.registerEventBusPublisher('loopState:exploreActionRepeated');
   registrationApi.registerEventBusPublisher('loopUI:modeChanged');
 }
 
@@ -153,6 +170,30 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
 
   const moduleSettings = await initializationApi.getModuleSettings(moduleId);
 
+  // Get playerState public API functions
+  const playerStateAPI = {
+    getPath: initializationApi.getModuleFunction('playerState', 'getPath'),
+    trimPath: initializationApi.getModuleFunction('playerState', 'trimPath'),
+    setAllowLoops: initializationApi.getModuleFunction('playerState', 'setAllowLoops'),
+    addLocationCheck: initializationApi.getModuleFunction('playerState', 'addLocationCheck'),
+    addCustomAction: initializationApi.getModuleFunction('playerState', 'addCustomAction'),
+    insertLocationCheckAt: initializationApi.getModuleFunction('playerState', 'insertLocationCheckAt'),
+    insertCustomActionAt: initializationApi.getModuleFunction('playerState', 'insertCustomActionAt'),
+    removeLocationCheckAt: initializationApi.getModuleFunction('playerState', 'removeLocationCheckAt'),
+    removeCustomActionAt: initializationApi.getModuleFunction('playerState', 'removeCustomActionAt'),
+    clearActionsAt: initializationApi.getModuleFunction('playerState', 'clearActionsAt'),
+    removeAllActionsOfType: initializationApi.getModuleFunction('playerState', 'removeAllActionsOfType'),
+    getCurrentRegion: initializationApi.getModuleFunction('playerState', 'getCurrentRegion'),
+    getRegionCounts: initializationApi.getModuleFunction('playerState', 'getRegionCounts')
+  };
+  
+  // Store the API for access by loopUI
+  _playerStateAPI = playerStateAPI;
+  
+  if (!playerStateAPI.getPath) {
+    log('error', '[Loops Module] Could not get playerState API functions');
+  }
+
   // Initialize LoopState singleton (which might load from storage)
   log('info', '[Loops Module] Initializing LoopState singleton...');
   if (loopStateSingleton) {
@@ -162,6 +203,7 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
         eventBus: _moduleEventBus,
         stateManager: stateManager,
         dispatcher: moduleDispatcher, // Pass dispatcher to loopStateSingleton if needed
+        playerState: playerStateAPI.getPath ? playerStateAPI : null
       });
 
       loopStateSingleton.initialize();
@@ -185,6 +227,9 @@ export async function initialize(moduleId, priorityIndex, initializationApi) {
       '[Loops Module] LoopState singleton not available during initialization.'
     );
   }
+
+  // Initialize loop events handlers
+  initializeLoopEvents(_moduleEventBus);
 
   // Clean up previous subscriptions before adding new ones
   loopUnsubscribeHandles.forEach((unsubscribe) => unsubscribe());

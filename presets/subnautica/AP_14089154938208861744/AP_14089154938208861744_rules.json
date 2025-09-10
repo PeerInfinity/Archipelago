@@ -2647,7 +2647,85 @@
             "name": "Neptune Launch",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "compare",
+                  "left": {
+                    "type": "helper",
+                    "name": "get_max_depth",
+                    "args": []
+                  },
+                  "op": ">=",
+                  "right": {
+                    "type": "constant",
+                    "value": 1444
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Mobile_Vehicle_Bay",
+                  "inferred": true,
+                  "description": "Requires having Mobile Vehicle Bay"
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Neptune Launch Platform"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Neptune Gantry"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Neptune Boosters"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Neptune Fuel Reserve"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Neptune Cockpit"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Ion Power Cell"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Ion Battery"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Cyclops_Shield",
+                  "inferred": true,
+                  "description": "Requires having Cyclops Shield"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -4210,6 +4288,62 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Disable Quarantine": {
+        "name": "Disable Quarantine",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Full Infection": {
+        "name": "Full Infection",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Repair Aurora Drive": {
+        "name": "Repair Aurora Drive",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -4304,7 +4438,8 @@
   },
   "settings": {
     "1": {
-      "game": "Subnautica"
+      "game": "Subnautica",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

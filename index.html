@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="styles/index.css" />
     <link rel="stylesheet" type="text/css" href="styles/loop.css" />
+    <link rel="stylesheet" type="text/css" href="styles/loading-screen.css" />
     <link rel="stylesheet" type="text/css" href="modules/progressBar/progressBar.css" />
 
     <!-- Golden Layout CSS -->
@@ -32,7 +33,10 @@
     <!-- Add JSON Editor library -->
     <script src="libs/json-editor/jsoneditor.js"></script>
 
-    <script type="module" src="init.js"></script>
+    <script type="module">
+      // Load the main initialization
+      import('./init.js');
+    </script>
 
     <link rel="icon" href="data:," type="image/x-icon" />
 
@@ -43,6 +47,24 @@
     />
   </head>
   <body>
+    <!-- Simple static loading screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <h1>Archipelago JSON Tool</h1>
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+        <div class="loading-counter">
+          <span id="files-loaded-count">0</span> files loaded
+        </div>
+        <div class="loading-file-list">
+          <div class="file-list-header">Files loaded:</div>
+          <div id="file-list-container" class="file-list-scroll">
+            <!-- File names will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div
       id="goldenlayout-container"
       style="width: 100%; height: 100vh; position: relative"

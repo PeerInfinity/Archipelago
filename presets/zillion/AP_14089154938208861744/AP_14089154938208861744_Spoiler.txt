@@ -207,15 +207,15 @@ Playthrough:
   G-7 top far left: Opa-Opa
 }
 3: {
+  E-2 bottom left-center: Floppy Disk
   G-2 mid left: Floppy Disk
-  L-2 top far left: Floppy Disk
+  H-5 bottom left: Opa-Opa
   M-2 bottom far left: Floppy Disk
-  M-6 bottom right-center: Opa-Opa
-  N-3 mid right: Opa-Opa
-  N-4 mid left: Opa-Opa
+  N-2 bottom left: Opa-Opa
+  P-3 top far left: Opa-Opa
 }
 4: {
-  J-2 mid center: Red ID Card
+  J-2 bottom right-center: Red ID Card
 }
 5: {
   J-6 bottom far left: Win
@@ -264,6 +264,23 @@ C-3 mid far right
    =>   C-5  -> C-5  to C-4 
    =>   C-4  -> C-4  to C-3 
    =>   C-3 
+E-2 bottom left-center
+        Menu -> Menu to C-6 
+   =>   C-6  -> C-6  to C-5 
+   =>   C-5  -> C-5  to C-4 
+   =>   C-4  -> C-4  to C-3 
+   =>   C-3  -> C-3  to D-3 
+   =>   D-3  -> D-3  to D-5 
+   =>   D-5  -> D-5  to D-6 
+   =>   D-6  -> D-6  to between_blue_red
+   =>   between_blue_red -> between_blue_red to E-8 
+   =>   E-8  -> E-8  to F-8 
+   =>   F-8  -> F-8  to F-7 
+   =>   F-7  -> F-7  to F-5 
+   =>   F-5  -> F-5  to F-4 
+   =>   F-4  -> F-4  to red_elevator
+   =>   red_elevator -> red_elevator to E-2 
+   =>   E-2 
 E-8 top right
         Menu -> Menu to C-6 
    =>   C-6  -> C-6  to C-5 
@@ -308,7 +325,25 @@ G-7 top far left
    =>   F-8  -> F-8  to F-7 
    =>   F-7  -> F-7  to G-7 
    =>   G-7 
-J-2 mid center
+H-5 bottom left
+        Menu -> Menu to C-6 
+   =>   C-6  -> C-6  to C-5 
+   =>   C-5  -> C-5  to C-4 
+   =>   C-4  -> C-4  to C-3 
+   =>   C-3  -> C-3  to D-3 
+   =>   D-3  -> D-3  to D-5 
+   =>   D-5  -> D-5  to D-6 
+   =>   D-6  -> D-6  to between_blue_red
+   =>   between_blue_red -> between_blue_red to E-8 
+   =>   E-8  -> E-8  to F-8 
+   =>   F-8  -> F-8  to F-7 
+   =>   F-7  -> F-7  to F-5 
+   =>   F-5  -> F-5  to F-4 
+   =>   F-4  -> F-4  to red_elevator
+   =>   red_elevator -> red_elevator to H-4 
+   =>   H-4  -> H-4  to H-5 SW
+   =>   H-5 SW
+J-2 bottom right-center
         Menu -> Menu to C-6 
    =>   C-6  -> C-6  to C-5 
    =>   C-5  -> C-5  to C-4 
@@ -371,35 +406,6 @@ J-6 bottom far left
    =>   N-7 S -> N-7 S to final_elevator
    =>   final_elevator -> final_elevator to J-6 
    =>   J-6 
-L-2 top far left
-        Menu -> Menu to C-6 
-   =>   C-6  -> C-6  to C-5 
-   =>   C-5  -> C-5  to C-4 
-   =>   C-4  -> C-4  to C-3 
-   =>   C-3  -> C-3  to D-3 
-   =>   D-3  -> D-3  to D-5 
-   =>   D-5  -> D-5  to D-6 
-   =>   D-6  -> D-6  to between_blue_red
-   =>   between_blue_red -> between_blue_red to E-8 
-   =>   E-8  -> E-8  to F-8 
-   =>   F-8  -> F-8  to F-7 
-   =>   F-7  -> F-7  to F-5 
-   =>   F-5  -> F-5  to F-4 
-   =>   F-4  -> F-4  to red_elevator
-   =>   red_elevator -> red_elevator to E-2 
-   =>   E-2  -> E-2  to F-2 
-   =>   F-2  -> F-2  to G-2 
-   =>   G-2  -> G-2  to big_elevator
-   =>   big_elevator -> big_elevator to O-3 NW
-   =>   O-3 NW -> O-3 NW to N-3 
-   =>   N-3  -> N-3  to N-4 
-   =>   N-4  -> N-4  to N-5 
-   =>   N-5  -> N-5  to M-5 
-   =>   M-5  -> M-5  to M-4 N
-   =>   M-4 N -> M-4 N to M-3 
-   =>   M-3  -> M-3  to M-2 E
-   =>   M-2 E -> M-2 E to L-2 
-   =>   L-2 
 M-2 bottom far left
         Menu -> Menu to C-6 
    =>   C-6  -> C-6  to C-5 
@@ -421,7 +427,7 @@ M-2 bottom far left
    =>   G-2  -> G-2  to big_elevator
    =>   big_elevator -> big_elevator to M-2 W
    =>   M-2 W
-M-6 bottom right-center
+N-2 bottom left
         Menu -> Menu to C-6 
    =>   C-6  -> C-6  to C-5 
    =>   C-5  -> C-5  to C-4 
@@ -440,15 +446,9 @@ M-6 bottom right-center
    =>   E-2  -> E-2  to F-2 
    =>   F-2  -> F-2  to G-2 
    =>   G-2  -> G-2  to big_elevator
-   =>   big_elevator -> big_elevator to O-3 NW
-   =>   O-3 NW -> O-3 NW to N-3 
-   =>   N-3  -> N-3  to N-4 
-   =>   N-4  -> N-4  to N-5 
-   =>   N-5  -> N-5  to M-5 
-   =>   M-5  -> M-5  to M-6 NW
-   =>   M-6 NW -> M-6 NW to M-6 SE
-   =>   M-6 SE
-N-3 mid right
+   =>   big_elevator -> big_elevator to N-2 SW
+   =>   N-2 SW
+P-3 top far left
         Menu -> Menu to C-6 
    =>   C-6  -> C-6  to C-5 
    =>   C-5  -> C-5  to C-4 
@@ -467,29 +467,5 @@ N-3 mid right
    =>   E-2  -> E-2  to F-2 
    =>   F-2  -> F-2  to G-2 
    =>   G-2  -> G-2  to big_elevator
-   =>   big_elevator -> big_elevator to O-3 NW
-   =>   O-3 NW -> O-3 NW to N-3 
-   =>   N-3 
-N-4 mid left
-        Menu -> Menu to C-6 
-   =>   C-6  -> C-6  to C-5 
-   =>   C-5  -> C-5  to C-4 
-   =>   C-4  -> C-4  to C-3 
-   =>   C-3  -> C-3  to D-3 
-   =>   D-3  -> D-3  to D-5 
-   =>   D-5  -> D-5  to D-6 
-   =>   D-6  -> D-6  to between_blue_red
-   =>   between_blue_red -> between_blue_red to E-8 
-   =>   E-8  -> E-8  to F-8 
-   =>   F-8  -> F-8  to F-7 
-   =>   F-7  -> F-7  to F-5 
-   =>   F-5  -> F-5  to F-4 
-   =>   F-4  -> F-4  to red_elevator
-   =>   red_elevator -> red_elevator to E-2 
-   =>   E-2  -> E-2  to F-2 
-   =>   F-2  -> F-2  to G-2 
-   =>   G-2  -> G-2  to big_elevator
-   =>   big_elevator -> big_elevator to O-3 NW
-   =>   O-3 NW -> O-3 NW to N-3 
-   =>   N-3  -> N-3  to N-4 
-   =>   N-4 
+   =>   big_elevator -> big_elevator to P-3 W
+   =>   P-3 W

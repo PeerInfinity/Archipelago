@@ -675,10 +675,10 @@ export const evaluateRule = (rule, context, depth = 0) => {
           } else if (testResult) {
             result = evaluateRule(rule.if_true, context, depth + 1);
           } else {
-            // Handle null if_false as false (can't defeat boss if condition not met)
+            // Handle null if_false as true (no additional requirements)
             result =
               rule.if_false === null
-                ? false
+                ? true
                 : evaluateRule(rule.if_false, context, depth + 1);
           }
         }

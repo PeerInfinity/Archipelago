@@ -492,10 +492,10 @@ Playthrough:
   Bonooru from Lake Hylia: Bonooru
   DMT Freestanding PoH: Bow
   Deku Tree Basement Subrule 1: Deku Tree Basement Subrule 1
-  Deku Tree GS Compass Room: Gold Skulltula Token
   Dodongos Cavern Beginning Subrule 1: Dodongos Cavern Beginning Subrule 1
-  HC GS Tree: Gold Skulltula Token
+  GC GS Center Platform: Gold Skulltula Token
   HC Zeldas Letter: Zeldas Letter
+  KF GS Know It All House: Gold Skulltula Token
   Song from Windmill: Zeldas Lullaby
   Stop GC Rolling Goron as Adult from Goron City: Stop GC Rolling Goron as Adult
   ZR GS Tree: Gold Skulltula Token
@@ -509,13 +509,13 @@ Playthrough:
   Song from Royal Familys Tomb: Sarias Song
 }
 4: {
+  DMT Chest: Slingshot
   Deku Theater Skull Mask: Rutos Letter
   Dodongos Cavern Bomb Flower Platform Chest: Magic Meter
   Dodongos Cavern Boss Room Chest: Stone of Agony
   Dodongos Cavern King Dodongo Heart: Progressive Strength Upgrade
   Fire Temple Near Boss Chest: Small Key (Fire Temple)
   King Dodongo: Spirit Medallion
-  ZD Chest: Slingshot
 }
 5: {
   Deku Tree Basement Subrule 2: Deku Tree Basement Subrule 2
@@ -631,6 +631,19 @@ DMT Biggoron
    =>   DMC Ladder Area Nearby -> DMC Ladder Area Nearby -> DMC Upper Nearby
    =>   DMC Upper Nearby -> DMC Upper Nearby -> Death Mountain Summit
    =>   Death Mountain Summit
+DMT Chest
+        Menu -> New Game
+   =>   Root -> Root -> Root Exits
+   =>   Root Exits -> Root Exits -> Child Spawn
+   =>   Child Spawn -> Child Spawn -> KF Links House
+   =>   KF Links House -> KF Links House -> Kokiri Forest
+   =>   Kokiri Forest -> Kokiri Forest -> LW Bridge From Forest
+   =>   LW Bridge From Forest -> LW Bridge From Forest -> LW Bridge
+   =>   LW Bridge -> LW Bridge -> Hyrule Field
+   =>   Hyrule Field -> Hyrule Field -> Kakariko Village
+   =>   Kakariko Village -> Kakariko Village -> Kak Behind Gate
+   =>   Kak Behind Gate -> Kak Behind Gate -> Death Mountain
+   =>   Death Mountain
 DMT Freestanding PoH
         Menu -> New Game
    =>   Root -> Root -> Root Exits
@@ -714,15 +727,6 @@ Deku Tree Clear from Queen Gohma Boss Room
    =>   Deku Tree Before Boss -> Deku Tree Before Boss -> Deku Tree Boss Door
    =>   Deku Tree Boss Door -> Deku Tree Boss Door -> Queen Gohma Boss Room
    =>   Queen Gohma Boss Room
-Deku Tree GS Compass Room
-        Menu -> New Game
-   =>   Root -> Root -> Root Exits
-   =>   Root Exits -> Root Exits -> Child Spawn
-   =>   Child Spawn -> Child Spawn -> KF Links House
-   =>   KF Links House -> KF Links House -> Kokiri Forest
-   =>   Kokiri Forest -> Kokiri Forest -> KF Outside Deku Tree
-   =>   KF Outside Deku Tree -> KF Outside Deku Tree -> Deku Tree Lobby
-   =>   Deku Tree Lobby
 Deku Tree Map Chest
         Menu -> New Game
    =>   Root -> Root -> Root Exits
@@ -1139,6 +1143,20 @@ Forest Temple Red Poe Chest
    =>   Forest Temple Central Area -> Forest Temple Central Area -> Forest Temple Block Push Room
    =>   Forest Temple Block Push Room -> Forest Temple Block Push Room -> Forest Temple Bow Region
    =>   Forest Temple Bow Region
+GC GS Center Platform
+        Menu -> New Game
+   =>   Root -> Root -> Root Exits
+   =>   Root Exits -> Root Exits -> Child Spawn
+   =>   Child Spawn -> Child Spawn -> KF Links House
+   =>   KF Links House -> KF Links House -> Kokiri Forest
+   =>   Kokiri Forest -> Kokiri Forest -> LW Bridge From Forest
+   =>   LW Bridge From Forest -> LW Bridge From Forest -> LW Bridge
+   =>   LW Bridge -> LW Bridge -> Hyrule Field
+   =>   Hyrule Field -> Hyrule Field -> Kakariko Village
+   =>   Kakariko Village -> Kakariko Village -> Kak Behind Gate
+   =>   Kak Behind Gate -> Kak Behind Gate -> Death Mountain
+   =>   Death Mountain -> Death Mountain -> Goron City
+   =>   Goron City
 GC Shop Item 5
         Menu -> New Game
    =>   Root -> Root -> Root Exits
@@ -1172,20 +1190,6 @@ Ganon
    =>   Ganons Castle Tower -> Ganons Castle Tower -> Ganons Castle Tower Below Boss
    =>   Ganons Castle Tower Below Boss -> Ganons Castle Tower Below Boss -> Ganondorf Boss Room
    =>   Ganondorf Boss Room
-HC GS Tree
-        Menu -> New Game
-   =>   Root -> Root -> Root Exits
-   =>   Root Exits -> Root Exits -> Child Spawn
-   =>   Child Spawn -> Child Spawn -> KF Links House
-   =>   KF Links House -> KF Links House -> Kokiri Forest
-   =>   Kokiri Forest -> Kokiri Forest -> LW Bridge From Forest
-   =>   LW Bridge From Forest -> LW Bridge From Forest -> LW Bridge
-   =>   LW Bridge -> LW Bridge -> Hyrule Field
-   =>   Hyrule Field -> Hyrule Field -> Market Entrance
-   =>   Market Entrance -> Market Entrance -> Market
-   =>   Market -> Market -> Castle Grounds
-   =>   Castle Grounds -> Castle Grounds -> Hyrule Castle Grounds
-   =>   Hyrule Castle Grounds
 HC Malon Egg
         Menu -> New Game
    =>   Root -> Root -> Root Exits
@@ -1304,6 +1308,18 @@ Ice Cavern Spinning Blades Subrule 1
    =>   ZF Ice Ledge -> ZF Ice Ledge -> Ice Cavern Beginning
    =>   Ice Cavern Beginning -> Ice Cavern Beginning -> Ice Cavern Spinning Blades
    =>   Ice Cavern Spinning Blades
+KF GS Know It All House
+        Menu -> New Game
+   =>   Root -> Root -> Root Exits
+   =>   Root Exits -> Root Exits -> Adult Spawn
+   =>   Adult Spawn -> Adult Spawn -> Temple of Time
+   =>   Temple of Time -> Temple of Time -> ToT Entrance
+   =>   ToT Entrance -> ToT Entrance -> Market
+   =>   Market -> Market -> Market Entrance
+   =>   Market Entrance -> Market Entrance -> Hyrule Field
+   =>   Hyrule Field -> Hyrule Field -> LW Bridge
+   =>   LW Bridge -> LW Bridge -> Kokiri Forest
+   =>   Kokiri Forest
 KF Midos Bottom Left Chest
         Menu -> New Game
    =>   Root -> Root -> Root Exits
@@ -1724,20 +1740,6 @@ Water Temple Map Chest
    =>   Lake Hylia -> Lake Hylia -> Water Temple Lobby
    =>   Water Temple Lobby -> Water Temple Lobby -> Water Temple Dive
    =>   Water Temple Dive
-ZD Chest
-        Menu -> New Game
-   =>   Root -> Root -> Root Exits
-   =>   Root Exits -> Root Exits -> Child Spawn
-   =>   Child Spawn -> Child Spawn -> KF Links House
-   =>   KF Links House -> KF Links House -> Kokiri Forest
-   =>   Kokiri Forest -> Kokiri Forest -> LW Bridge From Forest
-   =>   LW Bridge From Forest -> LW Bridge From Forest -> LW Bridge
-   =>   LW Bridge -> LW Bridge -> Hyrule Field
-   =>   Hyrule Field -> Hyrule Field -> ZR Front
-   =>   ZR Front -> ZR Front -> Zora River
-   =>   Zora River -> Zora River -> ZR Behind Waterfall
-   =>   ZR Behind Waterfall -> ZR Behind Waterfall -> Zoras Domain
-   =>   Zoras Domain
 ZF Iceberg Freestanding PoH
         Menu -> New Game
    =>   Root -> Root -> Root Exits

@@ -843,12 +843,58 @@ export class PresetUI {
       // This should now be handled internally by the StateManager worker after processing new rules.
       // stateManager.computeReachableRegions();
 
-      // Display success message
+      // Count game elements for display
+      let regionCount = 0;
+      let locationCount = 0;
+      let exitCount = 0;
+      let itemCount = 0;
+      
+      // Count regions, their exits, and locations (data is organized by player ID)
+      if (rulesData.regions) {
+        // Iterate through each player's regions
+        for (const playerRegions of Object.values(rulesData.regions)) {
+          if (typeof playerRegions === 'object') {
+            regionCount += Object.keys(playerRegions).length;
+            // Count exits and locations within each region
+            for (const region of Object.values(playerRegions)) {
+              if (region.exits && Array.isArray(region.exits)) {
+                exitCount += region.exits.length;
+              }
+              if (region.locations && Array.isArray(region.locations)) {
+                locationCount += region.locations.length;
+              }
+            }
+          }
+        }
+      }
+      
+      // Count items (organized by player ID)
+      if (rulesData.items) {
+        for (const playerItems of Object.values(rulesData.items)) {
+          if (typeof playerItems === 'object') {
+            itemCount += Object.keys(playerItems).length;
+          }
+        }
+      }
+      
+      // Count progressive items if they exist (also organized by player ID)
+      if (rulesData.progressive_items) {
+        for (const playerProgItems of Object.values(rulesData.progressive_items)) {
+          if (typeof playerProgItems === 'object') {
+            itemCount += Object.keys(playerProgItems).length;
+          }
+        }
+      }
+
+      // Display success message with counts
       const statusElement = document.getElementById('preset-status');
       if (statusElement) {
         statusElement.innerHTML = `
           <div class="success-message">
             <p>✓ Preset rules loaded successfully!</p>
+            <p style="margin: 8px 0; font-size: 0.9em; color: #a0a0a0;">
+              Loaded: ${regionCount} regions, ${locationCount} locations, ${exitCount} exits, ${itemCount} items
+            </p>
             <p>You can now go to the Locations or Regions view to explore the game.</p>
           </div>
         `;

@@ -72,6 +72,11 @@
       "enabled": true,
       "requires": ["stateManager", "commonUI"]
     },
+    "regionGraph": {
+      "path": "./modules/regionGraph/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "playerState"]
+    },
     "discovery": {
       "path": "./modules/discovery/index.js",
       "enabled": true
@@ -140,16 +145,16 @@
     },
     "windowAdapter": {
       "path": "./modules/windowAdapter/index.js",
-      "enabled": false
+      "enabled": true
     },
     "windowPanel": {
       "path": "./modules/windowPanel/index.js",
-      "enabled": false,
+      "enabled": true,
       "requires": ["windowAdapter"]
     },
     "windowManagerPanel": {
       "path": "./modules/windowManagerPanel/index.js",
-      "enabled": false,
+      "enabled": true,
       "requires": ["windowAdapter", "windowPanel"]
     }
   },
@@ -171,6 +176,7 @@
     "pathAnalyzerPanel",
     "regions",
     "dungeons",
+    "regionGraph",
     "discovery",
     "playerState",
     "playerStatePanel",

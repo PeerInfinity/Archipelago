@@ -29,6 +29,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -48,6 +51,8 @@
             "connected_region": "Registry",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -59,6 +64,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -78,6 +86,8 @@
             "connected_region": "Outside",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -86,6 +96,8 @@
             "connected_region": "Outside",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -94,6 +106,8 @@
             "connected_region": "Outside",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -105,12 +119,24 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Lobby From Outside",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Front Door"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -173,7 +199,43 @@
             "name": "Puzzle Solved Office Elevator",
             "id": 27110,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "can_reach_region",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Underground Lake"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "can_reach_region",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Office"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Key for Office Elevator"
+                  }
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -188,7 +250,43 @@
             "name": "Puzzle Solved Three Floor Elevator",
             "id": 27112,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "state_method",
+                      "method": "can_reach_region",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Maintenance Tunnels"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "state_method",
+                      "method": "can_reach_region",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": "Blue Maze"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Key for Three Floor Elevator"
+                  }
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -341,6 +439,8 @@
             "connected_region": "Underground Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -349,6 +449,8 @@
             "connected_region": "Underground Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -356,7 +458,16 @@
           {
             "name": "To Underground Lake From Underground Tunnels",
             "connected_region": "Underground Lake",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Underground Lake"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -366,6 +477,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -385,6 +499,8 @@
             "connected_region": "Underground Lake",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -393,6 +509,8 @@
             "connected_region": "Underground Lake",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -401,6 +519,8 @@
             "connected_region": "Underground Lake",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -408,7 +528,16 @@
           {
             "name": "To Underground Tunnels From Underground Lake",
             "connected_region": "Underground Tunnels",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Underground Lake"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -418,6 +547,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -427,6 +559,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -465,6 +600,8 @@
             "connected_region": "Windlenot's Body",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -476,6 +613,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -532,6 +672,8 @@
             "connected_region": "Underground Blue Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -540,6 +682,8 @@
             "connected_region": "Underground Blue Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -551,12 +695,24 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Office Elevator From Underground Blue Tunnels",
             "connected_region": "Office Elevator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Office Elevator"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -576,6 +732,8 @@
             "connected_region": "Office Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -584,6 +742,8 @@
             "connected_region": "Office Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -595,6 +755,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -604,6 +767,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -623,6 +789,8 @@
             "connected_region": "Office",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -631,6 +799,8 @@
             "connected_region": "Office",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -639,6 +809,8 @@
             "connected_region": "Office",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -647,6 +819,8 @@
             "connected_region": "Office",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -654,25 +828,73 @@
           {
             "name": "To Office Elevator From Office",
             "connected_region": "Office Elevator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Office Elevator"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Workshop",
             "connected_region": "Workshop",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Workshop"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Lobby From Office",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Office"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Bedroom Elevator From Office",
             "connected_region": "Bedroom Elevator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Key for Bedroom Elevator"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Crawling"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -682,6 +904,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -762,7 +987,25 @@
             "name": "Puzzle Solved Bedroom Elevator",
             "id": 27111,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Key for Bedroom Elevator"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Crawling"
+                    }
+                  ]
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -789,6 +1032,8 @@
             "connected_region": "Workshop",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -800,6 +1045,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -809,6 +1057,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -883,6 +1134,8 @@
             "connected_region": "Bedroom Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -891,6 +1144,8 @@
             "connected_region": "Bedroom Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -898,13 +1153,43 @@
           {
             "name": "To Office From Bedroom Elevator",
             "connected_region": "Office",
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Key for Bedroom Elevator"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Crawling"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Bedroom",
             "connected_region": "Bedroom",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Bedroom"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -924,6 +1209,8 @@
             "connected_region": "Bedroom",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -935,6 +1222,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -944,6 +1234,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -982,6 +1275,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -990,6 +1285,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -998,6 +1295,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1006,6 +1305,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1014,6 +1315,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1022,6 +1325,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1030,6 +1335,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1038,6 +1345,8 @@
             "connected_region": "Lobby",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1045,13 +1354,31 @@
           {
             "name": "To Office From Lobby",
             "connected_region": "Office",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Office"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Library From Lobby",
             "connected_region": "Library",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Library"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1064,30 +1391,89 @@
                 "value": "Viewed Egyptian Hieroglyphics Explained"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Prehistoric From Lobby",
             "connected_region": "Prehistoric",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Prehistoric Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Egypt From Lobby",
             "connected_region": "Egypt",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Egypt Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Tar River From Lobby",
             "connected_region": "Tar River",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Crawling"
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "oil_capturable",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Tar River"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Outside From Lobby",
             "connected_region": "Outside",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Front Door"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1097,6 +1483,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1106,12 +1495,128 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Victory",
             "connected_region": "Victory",
-            "access_rule": null,
+            "access_rule": {
+              "type": "compare",
+              "left": {
+                "type": "binary_op",
+                "left": {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "binary_op",
+                      "left": {
+                        "type": "binary_op",
+                        "left": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "binary_op",
+                            "left": {
+                              "type": "binary_op",
+                              "left": {
+                                "type": "binary_op",
+                                "left": {
+                                  "type": "helper",
+                                  "name": "water_capturable",
+                                  "args": []
+                                },
+                                "op": "+",
+                                "right": {
+                                  "type": "helper",
+                                  "name": "wax_capturable",
+                                  "args": []
+                                }
+                              },
+                              "op": "+",
+                              "right": {
+                                "type": "helper",
+                                "name": "ash_capturable",
+                                "args": []
+                              }
+                            },
+                            "op": "+",
+                            "right": {
+                              "type": "helper",
+                              "name": "oil_capturable",
+                              "args": []
+                            }
+                          },
+                          "op": "+",
+                          "right": {
+                            "type": "helper",
+                            "name": "cloth_capturable",
+                            "args": []
+                          }
+                        },
+                        "op": "+",
+                        "right": {
+                          "type": "helper",
+                          "name": "wood_capturable",
+                          "args": []
+                        }
+                      },
+                      "op": "+",
+                      "right": {
+                        "type": "helper",
+                        "name": "crystal_capturable",
+                        "args": []
+                      }
+                    },
+                    "op": "+",
+                    "right": {
+                      "type": "helper",
+                      "name": "sand_capturable",
+                      "args": []
+                    }
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "helper",
+                    "name": "metal_capturable",
+                    "args": []
+                  }
+                },
+                "op": "+",
+                "right": {
+                  "type": "helper",
+                  "name": "lightning_capturable",
+                  "args": [
+                    {
+                      "type": "name",
+                      "name": "world"
+                    }
+                  ]
+                }
+              },
+              "op": ">=",
+              "right": {
+                "type": "attribute",
+                "object": {
+                  "type": "attribute",
+                  "object": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "world"
+                    },
+                    "attr": "options"
+                  },
+                  "attr": "ixupi_captures_needed"
+                },
+                "attr": "value"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1120,7 +1625,13 @@
             "name": "Puzzle Solved Theater Door",
             "id": 27004,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Viewed Egyptian Hieroglyphics Explained"
+              }
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1153,7 +1664,28 @@
             "name": "Storage: Slide",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Lost Your Head"
+                  }
+                },
+                {
+                  "type": "state_method",
+                  "method": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Slide Room"
+                    }
+                  ]
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -1198,6 +1730,8 @@
             "connected_region": "Library",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1206,6 +1740,8 @@
             "connected_region": "Library",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1213,7 +1749,16 @@
           {
             "name": "To Lobby From Library",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Library"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1223,6 +1768,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1232,6 +1780,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1378,6 +1929,8 @@
             "connected_region": "Maintenance Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1386,6 +1939,8 @@
             "connected_region": "Maintenance Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1394,6 +1949,8 @@
             "connected_region": "Maintenance Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1402,6 +1959,8 @@
             "connected_region": "Maintenance Tunnels",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1413,18 +1972,39 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Three Floor Elevator From Maintenance Tunnels",
             "connected_region": "Three Floor Elevator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Three Floor Elevator"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Generator From Maintenance Tunnels",
             "connected_region": "Generator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Generator Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1463,6 +2043,8 @@
             "connected_region": "Generator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1471,6 +2053,8 @@
             "connected_region": "Generator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1482,6 +2066,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1547,6 +2134,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1566,6 +2156,8 @@
             "connected_region": "Beth's Body",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1577,6 +2169,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1633,6 +2228,8 @@
             "connected_region": "Theater",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1641,6 +2238,8 @@
             "connected_region": "Theater",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1652,6 +2251,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1661,6 +2263,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1669,7 +2274,13 @@
             "name": "Storage: Theater",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Viewed Theater Movie"
+              }
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -1714,6 +2325,8 @@
             "connected_region": "Theater Back Hallway",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1722,6 +2335,8 @@
             "connected_region": "Theater Back Hallway",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1730,6 +2345,8 @@
             "connected_region": "Theater Back Hallway",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1741,6 +2358,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1756,18 +2376,39 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Maintenance Tunnels From Theater Back Hallway",
             "connected_region": "Maintenance Tunnels",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Crawling"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Projector Room",
             "connected_region": "Projector Room",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Projector Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1776,7 +2417,16 @@
             "name": "Puzzle Solved Clock Tower Door",
             "id": 27005,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Three Floor Elevator"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1803,6 +2453,8 @@
             "connected_region": "Clock Tower Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1811,6 +2463,8 @@
             "connected_region": "Clock Tower Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -1819,6 +2473,8 @@
             "connected_region": "Clock Tower Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1830,6 +2486,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1839,6 +2498,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -1877,6 +2539,9 @@
                 "value": true
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1896,6 +2561,8 @@
             "connected_region": "Clock Chains",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1907,6 +2574,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1963,6 +2633,8 @@
             "connected_region": "Clock Tower",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1974,6 +2646,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2000,7 +2675,13 @@
             "name": "Storage: Clock Tower",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Set Time"
+              }
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -2107,6 +2788,8 @@
             "connected_region": "Projector Room",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2118,6 +2801,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2127,6 +2813,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2183,6 +2872,8 @@
             "connected_region": "Prehistoric",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2191,6 +2882,8 @@
             "connected_region": "Prehistoric",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2199,6 +2892,8 @@
             "connected_region": "Prehistoric",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2206,19 +2901,46 @@
           {
             "name": "To Lobby From Prehistoric",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Prehistoric Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Greenhouse",
             "connected_region": "Greenhouse",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Greenhouse"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Ocean From Prehistoric",
             "connected_region": "Ocean",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Ocean Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2228,6 +2950,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2237,6 +2962,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2293,6 +3021,8 @@
             "connected_region": "Greenhouse",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2304,6 +3034,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2313,6 +3046,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2351,6 +3087,8 @@
             "connected_region": "Ocean",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2359,6 +3097,8 @@
             "connected_region": "Ocean",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2366,7 +3106,16 @@
           {
             "name": "To Prehistoric From Ocean",
             "connected_region": "Prehistoric",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Ocean Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2376,6 +3125,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2385,6 +3137,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2394,6 +3149,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2402,7 +3160,16 @@
             "name": "Puzzle Solved Atlantis",
             "id": 27007,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Office"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2501,6 +3268,8 @@
             "connected_region": "Maze Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2509,6 +3278,8 @@
             "connected_region": "Maze Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2520,6 +3291,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2535,6 +3309,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2543,7 +3320,13 @@
             "name": "Puzzle Solved Maze Door",
             "id": 27009,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Viewed Theater Movie"
+              }
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2570,6 +3353,8 @@
             "connected_region": "Maze",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2578,6 +3363,8 @@
             "connected_region": "Maze",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2589,6 +3376,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2598,6 +3388,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2617,6 +3410,8 @@
             "connected_region": "Tar River",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2625,6 +3420,8 @@
             "connected_region": "Tar River",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2636,12 +3433,34 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Lobby From Tar River",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Crawling"
+                  }
+                },
+                {
+                  "type": "helper",
+                  "name": "oil_capturable",
+                  "args": []
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2651,6 +3470,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2659,7 +3481,11 @@
             "name": "Storage: Tar River",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "oil_capturable",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -2704,6 +3530,8 @@
             "connected_region": "Egypt",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2712,6 +3540,8 @@
             "connected_region": "Egypt",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2720,6 +3550,8 @@
             "connected_region": "Egypt",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2727,19 +3559,49 @@
           {
             "name": "To Lobby From Egypt",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Egypt Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Burial From Egypt",
             "connected_region": "Burial",
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Egypt"
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Blue Maze From Egypt",
             "connected_region": "Blue Maze",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Crawling"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2749,6 +3611,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2757,7 +3622,13 @@
             "name": "Puzzle Solved Columns of RA",
             "id": 27010,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Viewed Egyptian Hieroglyphics Explained"
+              }
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2856,6 +3727,8 @@
             "connected_region": "Burial",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2864,6 +3737,8 @@
             "connected_region": "Burial",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2875,12 +3750,24 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Shaman From Burial",
             "connected_region": "Shaman",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Shaman Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2890,6 +3777,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -2899,6 +3789,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2991,6 +3884,8 @@
             "connected_region": "Shaman",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -2999,6 +3894,8 @@
             "connected_region": "Shaman",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3006,7 +3903,16 @@
           {
             "name": "To Burial From Shaman",
             "connected_region": "Burial",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Shaman Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3022,6 +3928,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3031,6 +3940,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3039,7 +3951,16 @@
             "name": "Puzzle Solved Shaman Drums",
             "id": 27013,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Clock Tower"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3084,6 +4005,8 @@
             "connected_region": "Gods Room",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3092,6 +4015,8 @@
             "connected_region": "Gods Room",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3100,6 +4025,8 @@
             "connected_region": "Gods Room",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3111,6 +4038,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3126,6 +4056,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3135,12 +4068,24 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Norse Stone From Gods Room",
             "connected_region": "Norse Stone",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Aligned Planets"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3167,7 +4112,16 @@
             "name": "Puzzle Solved Red Door",
             "id": 27015,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Maintenance Tunnels"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3230,6 +4184,8 @@
             "connected_region": "Norse Stone",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3241,6 +4197,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3297,6 +4256,8 @@
             "connected_region": "Anansi",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3305,6 +4266,8 @@
             "connected_region": "Anansi",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3312,7 +4275,19 @@
           {
             "name": "To Gods Room From Anansi",
             "connected_region": "Gods Room",
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Gods Room"
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3322,6 +4297,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3331,6 +4309,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3339,7 +4320,13 @@
             "name": "Puzzle Solved Anansi Music Box",
             "id": 27019,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Set Song"
+              }
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3390,7 +4377,13 @@
             "name": "Storage: Anansi Music Box",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Set Song"
+              }
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3417,6 +4410,8 @@
             "connected_region": "Pegasus",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3425,6 +4420,8 @@
             "connected_region": "Pegasus",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3436,6 +4433,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3445,6 +4445,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3454,6 +4457,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3473,6 +4479,8 @@
             "connected_region": "Werewolf",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3481,6 +4489,8 @@
             "connected_region": "Werewolf",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3492,6 +4502,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3501,6 +4514,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3539,6 +4555,8 @@
             "connected_region": "Night Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3547,6 +4565,8 @@
             "connected_region": "Night Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3555,6 +4575,8 @@
             "connected_region": "Night Staircase",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3566,12 +4588,24 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Janitor Closet",
             "connected_region": "Janitor Closet",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Janitor Closet"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3581,6 +4615,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3600,6 +4637,8 @@
             "connected_region": "Janitor Closet",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3611,12 +4650,22 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Water Capture From Janitor Closet",
             "connected_region": "Water Capture",
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "cloth_capturable",
+              "args": []
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3626,6 +4675,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3634,7 +4686,11 @@
             "name": "Storage: Janitor Closet",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "cloth_capturable",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3661,6 +4717,8 @@
             "connected_region": "UFO",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3669,6 +4727,8 @@
             "connected_region": "UFO",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3677,6 +4737,8 @@
             "connected_region": "UFO",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3688,18 +4750,39 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Orrery From UFO",
             "connected_region": "Orrery",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Viewed Fortune"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Inventions From UFO",
             "connected_region": "Inventions",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for UFO Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3708,7 +4791,16 @@
             "name": "Puzzle Solved UFO Symbols",
             "id": 27018,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Library"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3723,7 +4815,16 @@
             "name": "Storage: UFO",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach_region",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Library"
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3750,6 +4851,8 @@
             "connected_region": "Orrery",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3761,6 +4864,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3817,6 +4923,8 @@
             "connected_region": "Blue Maze",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3825,6 +4933,8 @@
             "connected_region": "Blue Maze",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3833,6 +4943,8 @@
             "connected_region": "Blue Maze",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3841,6 +4953,8 @@
             "connected_region": "Blue Maze",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3848,19 +4962,46 @@
           {
             "name": "To Egypt From Blue Maze",
             "connected_region": "Egypt",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Crawling"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Three Floor Elevator From Blue Maze Bottom",
             "connected_region": "Three Floor Elevator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Three Floor Elevator"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Three Floor Elevator From Blue Maze Top",
             "connected_region": "Three Floor Elevator",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Three Floor Elevator"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3870,6 +5011,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3879,6 +5023,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3888,6 +5035,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3926,6 +5076,8 @@
             "connected_region": "Three Floor Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3934,6 +5086,8 @@
             "connected_region": "Three Floor Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -3942,6 +5096,8 @@
             "connected_region": "Three Floor Elevator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3953,6 +5109,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -3962,6 +5121,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4000,6 +5162,8 @@
             "connected_region": "Fortune Teller",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4011,6 +5175,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4085,6 +5252,8 @@
             "connected_region": "Inventions",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4093,6 +5262,8 @@
             "connected_region": "Inventions",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4101,6 +5272,8 @@
             "connected_region": "Inventions",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4112,18 +5285,39 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To UFO From Inventions",
             "connected_region": "UFO",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for UFO Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Torture From Inventions",
             "connected_region": "Torture",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Torture Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4180,6 +5374,8 @@
             "connected_region": "Torture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4188,6 +5384,8 @@
             "connected_region": "Torture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4196,6 +5394,8 @@
             "connected_region": "Torture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4203,13 +5403,31 @@
           {
             "name": "To Inventions From Torture",
             "connected_region": "Inventions",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Torture Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Puzzle Room Mastermind From Torture",
             "connected_region": "Puzzle Room Mastermind",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Puzzle Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -4257,6 +5475,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4331,6 +5552,8 @@
             "connected_region": "Guillotine",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4342,6 +5565,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4398,6 +5624,8 @@
             "connected_region": "Puzzle Room Mastermind",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4406,6 +5634,8 @@
             "connected_region": "Puzzle Room Mastermind",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4413,7 +5643,16 @@
           {
             "name": "To Torture",
             "connected_region": "Torture",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Key for Puzzle Room"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -4423,6 +5662,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4479,6 +5721,8 @@
             "connected_region": "Puzzle Room Marbles",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4487,6 +5731,8 @@
             "connected_region": "Puzzle Room Marbles",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4498,6 +5744,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -4507,6 +5756,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4545,6 +5797,8 @@
             "connected_region": "Skull Bridge",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4553,6 +5807,8 @@
             "connected_region": "Skull Bridge",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4564,12 +5820,22 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Slide Room",
             "connected_region": "Slide Room",
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "all_skull_dials_set",
+              "args": []
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4596,7 +5862,11 @@
             "name": "Puzzle Solved Skull Dial Door",
             "id": 27023,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "all_skull_dials_set",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -4623,6 +5893,8 @@
             "connected_region": "Slide Room",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4634,12 +5906,24 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "To Lobby From Slide Room",
             "connected_region": "Lobby",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Lost Your Head"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4659,6 +5943,8 @@
             "connected_region": "Water Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4667,6 +5953,8 @@
             "connected_region": "Water Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4676,7 +5964,11 @@
             "name": "Ixupi Captured Water",
             "id": 27040,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "water_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4703,6 +5995,8 @@
             "connected_region": "Wax Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4711,6 +6005,8 @@
             "connected_region": "Wax Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4719,6 +6015,8 @@
             "connected_region": "Wax Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4728,7 +6026,11 @@
             "name": "Ixupi Captured Wax",
             "id": 27041,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "wax_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4755,6 +6057,8 @@
             "connected_region": "Ash Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4763,6 +6067,8 @@
             "connected_region": "Ash Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4772,7 +6078,11 @@
             "name": "Ixupi Captured Ash",
             "id": 27042,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "ash_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4799,6 +6109,8 @@
             "connected_region": "Oil Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4807,6 +6119,8 @@
             "connected_region": "Oil Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4816,7 +6130,11 @@
             "name": "Ixupi Captured Oil",
             "id": 27043,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "oil_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4843,6 +6161,8 @@
             "connected_region": "Cloth Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4851,6 +6171,8 @@
             "connected_region": "Cloth Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4859,6 +6181,8 @@
             "connected_region": "Cloth Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4868,7 +6192,11 @@
             "name": "Ixupi Captured Cloth",
             "id": 27044,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "cloth_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4895,6 +6223,8 @@
             "connected_region": "Wood Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4903,6 +6233,8 @@
             "connected_region": "Wood Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4911,6 +6243,8 @@
             "connected_region": "Wood Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4919,6 +6253,8 @@
             "connected_region": "Wood Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4928,7 +6264,11 @@
             "name": "Ixupi Captured Wood",
             "id": 27045,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "wood_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4955,6 +6295,8 @@
             "connected_region": "Crystal Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -4963,6 +6305,8 @@
             "connected_region": "Crystal Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4972,7 +6316,11 @@
             "name": "Ixupi Captured Crystal",
             "id": 27046,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "crystal_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -4999,6 +6347,8 @@
             "connected_region": "Sand Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -5007,6 +6357,8 @@
             "connected_region": "Sand Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -5016,7 +6368,11 @@
             "name": "Ixupi Captured Sand",
             "id": 27047,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "sand_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -5043,6 +6399,8 @@
             "connected_region": "Metal Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -5051,6 +6409,8 @@
             "connected_region": "Metal Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -5059,6 +6419,8 @@
             "connected_region": "Metal Capture",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -5068,7 +6430,11 @@
             "name": "Ixupi Captured Metal",
             "id": 27048,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "metal_capturable",
+              "args": []
+            },
             "progress_type": 2,
             "locked": true,
             "item": {
@@ -5095,6 +6461,8 @@
             "connected_region": "Victory",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -6198,6 +7566,510 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Crystal Pot Bottom DUPE": {
+        "name": "Crystal Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Metal Pot Bottom DUPE": {
+        "name": "Metal Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Ash Pot Bottom DUPE": {
+        "name": "Ash Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Water Pot Top DUPE": {
+        "name": "Water Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Oil Pot Top DUPE": {
+        "name": "Oil Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Sand Pot Bottom DUPE": {
+        "name": "Sand Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Empty": {
+        "name": "Empty",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 3
+      },
+      "Water Pot Bottom DUPE": {
+        "name": "Water Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wax Pot Top DUPE": {
+        "name": "Wax Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Cloth Pot Top DUPE": {
+        "name": "Cloth Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lightning Pot Top DUPE": {
+        "name": "Lightning Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wax Pot Bottom DUPE": {
+        "name": "Wax Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Cloth Pot Bottom DUPE": {
+        "name": "Cloth Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Sand Pot Top DUPE": {
+        "name": "Sand Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Metal Pot Top DUPE": {
+        "name": "Metal Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Oil Pot Bottom DUPE": {
+        "name": "Oil Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wood Pot Bottom DUPE": {
+        "name": "Wood Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lightning Pot Bottom DUPE": {
+        "name": "Lightning Pot Bottom DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Wood Pot Top DUPE": {
+        "name": "Wood Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Crystal Pot Top DUPE": {
+        "name": "Crystal Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Ash Pot Top DUPE": {
+        "name": "Ash Pot Top DUPE",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Prehistoric": {
+        "name": "Set Skull Dial: Prehistoric",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Tar River": {
+        "name": "Set Skull Dial: Tar River",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Egypt": {
+        "name": "Set Skull Dial: Egypt",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Burial": {
+        "name": "Set Skull Dial: Burial",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Gods Room": {
+        "name": "Set Skull Dial: Gods Room",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Skull Dial: Werewolf": {
+        "name": "Set Skull Dial: Werewolf",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Theater Movie": {
+        "name": "Viewed Theater Movie",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Time": {
+        "name": "Set Time",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Set Song": {
+        "name": "Set Song",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Fortune": {
+        "name": "Viewed Fortune",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Aligned Planets": {
+        "name": "Aligned Planets",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Norse Stone": {
+        "name": "Viewed Norse Stone",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Page 17": {
+        "name": "Viewed Page 17",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Viewed Egyptian Hieroglyphics Explained": {
+        "name": "Viewed Egyptian Hieroglyphics Explained",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Lost Your Head": {
+        "name": "Lost Your Head",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -6317,7 +8189,8 @@
   },
   "settings": {
     "1": {
-      "game": "Shivers"
+      "game": "Shivers",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

@@ -649,6 +649,7 @@ export class StateManager {
     this.settings = gameSettingsFromFile;
     this.settings.game = gameName; // Ensure game name is correctly set
     
+    
     log('info', `[StateManager] Loaded logic module for: "${gameName}"`);
 
     // All games now use gameStateModule - no legacy GameState needed
@@ -1322,6 +1323,7 @@ export class StateManager {
     this.indirectConnections.clear();
     if (!this.regions) return;
     Object.values(this.regions).forEach((region) => {
+      if (!region.exits) return;
       region.exits.forEach((exit) => {
         if (exit.rule) {
           const dependencies = this.findRegionDependencies(exit.rule);
@@ -1435,15 +1437,29 @@ export class StateManager {
       }
 
       // Start BFS process
-      let newEventCollected = true;
+      let continueSearching = true;
+      let passCount = 0;
 
-      while (newEventCollected) {
-        newEventCollected = false;
+      while (continueSearching) {
+        continueSearching = false;
+        passCount++;
+        
+        // Debug logging for A Hat in Time
+        if (this.gameId === 'ahit' || this.gameId === 'A Hat in Time') {
+          console.log(`[BFS] Starting pass ${passCount}`);
+        }
 
         // Process reachability with BFS
         const newlyReachable = this.runBFSPass();
+        if (newlyReachable) {
+          continueSearching = true;
+          if (this.gameId === 'ahit' || this.gameId === 'A Hat in Time') {
+            console.log(`[BFS] Pass ${passCount} found new regions, will continue`);
+          }
+        }
 
         // Auto-collect events - MODIFIED: Make conditional
+        let newEventCollected = false;
         if (this.autoCollectEventsEnabled) {
           for (const loc of this.eventLocations.values()) {
             if (this.knownReachableRegions.has(loc.region)) {
@@ -1452,6 +1468,7 @@ export class StateManager {
                 this._addItemToInventory(loc.item.name, 1);
                 this.checkedLocations.add(loc.name);
                 newEventCollected = true;
+                continueSearching = true;
                 this._logDebug(
                   `Auto-collected event item: ${loc.item.name} from ${loc.name}`
                 );
@@ -1460,13 +1477,10 @@ export class StateManager {
           }
         }
 
-        // If any new regions or events were found, continue searching
-        if (newlyReachable || newEventCollected) {
-          continue;
+        // If no new regions or events were found, we're done
+        if (!continueSearching) {
+          break;
         }
-
-        // When no more progress is made, we're done
-        break;
       }
 
       // Finalize unreachable regions set
@@ -1490,6 +1504,7 @@ export class StateManager {
    */
   runBFSPass() {
     let newRegionsFound = false;
+    const passStartRegions = new Set(this.knownReachableRegions);
 
     // Exactly match Python's nested loop structure
     let newConnection = true;
@@ -1519,6 +1534,10 @@ export class StateManager {
 
         // Check if exit is traversable using the *injected* evaluateRule engine
         const snapshotInterfaceContext = this._createSelfSnapshotInterface();
+        // Set parent_region context for exit evaluation - needs to be the region object, not just the name
+        snapshotInterfaceContext.parent_region = this.regions[fromRegion];
+        // Set currentExit so get_entrance can detect self-references
+        snapshotInterfaceContext.currentExit = exit.name;
         const ruleEvaluationResult = exit.access_rule
           ? this.evaluateRuleFromEngine(
               exit.access_rule,
@@ -1527,6 +1546,12 @@ export class StateManager {
           : true; // No rule means true
 
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
+        
+        // Debug Time Rift connections
+        if ((this.gameId === 'ahit' || this.gameId === 'A Hat in Time') && 
+            targetRegion && targetRegion.includes('Time Rift')) {
+          console.log(`[BFS] Evaluating ${fromRegion} -> ${targetRegion} (${exit.name}): canTraverse=${canTraverse}`);
+        }
 
         // +++ DETAILED LOGGING FOR RULE EVALUATION +++
         //if (exit.name === 'GameStart' || fromRegion === 'Menu') {
@@ -1546,6 +1571,12 @@ export class StateManager {
           this.knownReachableRegions.add(targetRegion);
           newRegionsFound = true;
           newConnection = true; // Signal that we found a new connection
+          
+          // Debug logging for A Hat in Time Time Rifts
+          if ((this.gameId === 'ahit' || this.gameId === 'A Hat in Time') && 
+              (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
+            console.log(`[BFS] NEW REGION: ${targetRegion} (from ${fromRegion} via ${exit.name})`);
+          }
 
           // Remove from blocked connections
           this.blockedConnections.delete(connection);
@@ -1623,6 +1654,7 @@ export class StateManager {
         );
       }
     }
+    
     return newRegionsFound;
   }
 
@@ -2153,44 +2185,70 @@ export class StateManager {
    * Helper method to execute a state method by name
    */
   executeStateMethod(method, ...args) {
-    // For consistency, we should check multiple places systematically
+    // Recursion protection: prevent getSnapshot from calling computeReachableRegions during helper execution
+    const wasInHelperExecution = this._inHelperExecution;
+    this._inHelperExecution = true;
 
-    // 1. Check if it's a direct method on stateManager
-    if (typeof this[method] === 'function') {
-      return this[method](...args);
-    }
+    try {
+      // For consistency, we should check multiple places systematically
 
-    // 2. Check special case for can_reach since it's commonly used
-    if (method === 'can_reach' && args.length >= 1) {
-      const targetName = args[0];
-      const targetType = args[1] || 'Region';
-      const player = args[2] || 1;
-      return this.can_reach(targetName, targetType, player);
-    }
-
-    // 3. Look in helpers - handle both underscore and non-underscore versions
-    // Some helper methods might be defined with leading underscores
-    if (this.helpers) {
-      // Try exact method name first
-      if (typeof this.helpers[method] === 'function') {
-        return this.helpers[method](...args);
+      // 1. Check if it's a direct method on stateManager
+      if (typeof this[method] === 'function') {
+        return this[method](...args);
       }
 
-      // If method starts with underscore and no match found, try without underscore
-      if (
-        method.startsWith('_') &&
-        typeof this.helpers[method.substring(1)] === 'function'
-      ) {
-        return this.helpers[method.substring(1)](...args);
+      // 2. Check special case for can_reach since it's commonly used
+      if (method === 'can_reach' && args.length >= 1) {
+        const targetName = args[0];
+        const targetType = args[1] || 'Region';
+        const player = args[2] || 1;
+        return this.can_reach(targetName, targetType, player);
       }
 
-      // If method doesn't start with underscore, try with underscore
-      if (
-        !method.startsWith('_') &&
-        typeof this.helpers['_' + method] === 'function'
-      ) {
-        return this.helpers['_' + method](...args);
+      // 3. Look in modern helperFunctions system
+      if (this.helperFunctions) {
+        // Try exact method name first
+        if (typeof this.helperFunctions[method] === 'function') {
+          const snapshot = this.getSnapshot();
+          const staticData = {
+            progressionMapping: this.progressionMapping,
+            groupData: this.groupData,
+            itemData: this.itemData,
+          };
+          return this.helperFunctions[method](snapshot, 'world', args[0], staticData);
+        }
+
       }
+
+      // 4. Legacy helpers system (fallback)
+      if (this.helpers) {
+        // Try exact method name first
+        if (typeof this.helpers[method] === 'function') {
+          return this.helpers[method](...args);
+        }
+
+        // If method starts with underscore and no match found, try without underscore
+        if (
+          method.startsWith('_') &&
+          typeof this.helpers[method.substring(1)] === 'function'
+        ) {
+          return this.helpers[method.substring(1)](...args);
+        }
+
+        // If method doesn't start with underscore, try with underscore
+        if (
+          !method.startsWith('_') &&
+          typeof this.helpers['_' + method] === 'function'
+        ) {
+          return this.helpers['_' + method](...args);
+        }
+      }
+
+      // If no method found, return undefined
+      return undefined;
+    } finally {
+      // Restore the previous state
+      this._inHelperExecution = wasInHelperExecution;
     }
 
     // State methods are now handled through gameStateModule - no legacy state object
@@ -2242,7 +2300,10 @@ export class StateManager {
           groupData: this.groupData,
           itemData: this.itemData,
         };
-        return this.helperFunctions[name](snapshot, 'world', args[0], staticData);
+        // For helpers that need multiple arguments, pass them as an array in the itemName parameter
+        // Most helpers expect (state, world, itemName, staticData) but some need multiple args
+        const helperArgs = args.length > 1 ? args : args[0];
+        return this.helperFunctions[name](snapshot, 'world', helperArgs, staticData);
       }
       return false; // Default return if no helper is found
     } finally {
@@ -2274,6 +2335,10 @@ export class StateManager {
           const exit = regionData.exits.find((e) => e.name === region);
           if (exit) {
             const snapshotInterface = this._createSelfSnapshotInterface();
+            // Set parent_region context for exit evaluation - needs to be the region object, not just the name
+            snapshotInterface.parent_region = this.regions[regionName];
+            // Set currentExit so get_entrance can detect self-references
+            snapshotInterface.currentExit = exit.name;
             return (
               this.isRegionReachable(regionName) &&
               (!exit.access_rule ||
@@ -2362,9 +2427,14 @@ export class StateManager {
           );
 
           connectingExits.forEach((exit) => {
-            const exitAccessible = this.evaluateRuleFromEngine(
-              exit.access_rule
-            );
+            const snapshotInterface = this._createSelfSnapshotInterface();
+            // Set parent_region context for exit evaluation - needs to be the region object, not just the name
+            snapshotInterface.parent_region = this.regions[sourceRegionName];
+            // Set currentExit so get_entrance can detect self-references
+            snapshotInterface.currentExit = exit.name;
+            const exitAccessible = exit.access_rule
+              ? this.evaluateRuleFromEngine(exit.access_rule, snapshotInterface)
+              : true;
             log(
               'info',
               `  - Exit: ${exit.name} (${
@@ -2536,9 +2606,14 @@ export class StateManager {
 
       case 'conditional':
         const testResult = this.evaluateRuleFromEngine(rule.test);
-        return testResult
-          ? this.evaluateRuleFromEngine(rule.if_true)
-          : this.evaluateRuleFromEngine(rule.if_false);
+        if (testResult) {
+          return this.evaluateRuleFromEngine(rule.if_true);
+        } else {
+          // Handle null if_false as true (no additional requirements)
+          return rule.if_false === null 
+            ? true 
+            : this.evaluateRuleFromEngine(rule.if_false);
+        }
 
       case 'comparison':
       case 'compare':
@@ -2743,9 +2818,15 @@ export class StateManager {
 
         // Player slot
         if (name === 'player') return self.playerSlot;
+        
+        // World object (commonly used in helper functions)
+        if (name === 'world') return 'world'; // Return a placeholder string for now
 
         // Current location being evaluated (for location access rules)
         if (name === 'location') return anInterface.currentLocation;
+        
+        // Parent region being evaluated (for exit access rules)
+        if (name === 'parent_region') return anInterface.parent_region;
 
         // Game-specific entities (e.g., 'old_man') from helpers.entities
         if (
@@ -2761,9 +2842,23 @@ export class StateManager {
         if (name === 'inventory') return self.inventory; // The inventory instance
         // Return gameStateModule for ALTTP, state for others
         if (name === 'state') {
-          return self.gameStateModule && self.settings?.game === 'A Link to the Past'
-            ? self.gameStateModule
-            : self.state; // For other games, return the state instance
+          if (self.gameStateModule && self.settings?.game === 'A Link to the Past') {
+            // For ALTTP, return a state object that includes the multiworld structure for compatibility with Python rules
+            return {
+              ...self.gameStateModule,
+              multiworld: {
+                worlds: {
+                  [self.playerSlot]: {
+                    options: {
+                      ...self.settings // Include all settings as options (now properly exported from Python)
+                    }
+                  }
+                }
+              }
+            };
+          } else {
+            return self.state; // For other games, return the state instance
+          }
         }
         if (name === 'settings') return self.settings; // The settings object for the current game
         // Note: 'helpers' itself is usually not resolved by name directly in rules this way,
@@ -2860,7 +2955,8 @@ export class StateManager {
   }
 
   getSnapshot() {
-    if (!this.cacheValid) {
+    // Don't recompute reachability during helper execution to prevent circular recursion
+    if (!this.cacheValid && !this._inHelperExecution) {
       this._logDebug(
         '[StateManager getSnapshot] Cache invalid, recomputing reachability...'
       );
@@ -2904,9 +3000,12 @@ export class StateManager {
         } else if (!this._inHelperExecution && this.isLocationAccessible(loc)) {
           // Skip location accessibility check during helper execution to prevent recursion
           locationReachability[loc.name] = 'reachable';
-        } else {
+        } else if (!this._inHelperExecution) {
+          // Only mark as unreachable if we actually checked accessibility
           locationReachability[loc.name] = 'unreachable';
         }
+        // During helper execution, we don't set locationReachability for unchecked locations
+        // This prevents incorrect 'unreachable' status during rule evaluation
       });
     }
 

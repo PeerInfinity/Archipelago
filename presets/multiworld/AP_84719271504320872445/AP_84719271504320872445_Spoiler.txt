@@ -1,13 +1,13 @@
-﻿Archipelago Version 0.6.1  -  Seed: 3
+﻿Archipelago Version 0.6.4  -  Seed: 3
 
 Filling Algorithm:               balanced
 Players:                         2
 Plando Options:                  connections, texts, bosses
 
 Player 1: Player1
-Game:                            A Link to the Past
+Game:                            A Short Hike
 Progression Balancing:           50
-Accessibility:                   Items
+Accessibility:                   Full
 Local Items:                     
 Non-local Items:                 
 Start Inventory:                 
@@ -16,80 +16,22 @@ Start Location Hints:
 Excluded Locations:              
 Priority Locations:              
 Item Links:                      
-Plando Connections:              
-Plando Texts:                    {}
+Plando Items:                    
 Start Inventory from Pool:       
-Goal:                            Ganon
-Mode:                            Open
-Glitches Required:               No Glitches
-Dark Room Logic:                 Lamp
-Open Pyramid Hole:               Goal
-Crystals for GT:                 7
-Crystals for Ganon:              7
-Triforce Pieces Mode:            Available
-Triforce Pieces Percentage:      150
-Triforce Pieces Required:        20
-Triforce Pieces Available:       30
-Triforce Pieces Extra:           10
-Entrance Shuffle:                Vanilla
-Entrance Shuffle Seed:           random
-Big Key Shuffle:                 Original Dungeon
-Small Key Shuffle:               Original Dungeon
-Key Drop Shuffle:                Yes
-Compass Shuffle:                 Original Dungeon
-Map Shuffle:                     Original Dungeon
-Prevent Dungeon Item on Boss:    No
-Item Pool:                       Normal
-Item Functionality:              Normal
-Enemy Health:                    Default
-Enemy Damage:                    Default
-Progressive Items:               On
-Swordless:                       No
-Dungeon Counters:                Pickup
-Retro Bow:                       No
-Retro Caves:                     No
-Hints:                           On
-Scams:                           Off
-Boss Shuffle:                    None
-Pot Shuffle:                     No
-Enemy Shuffle:                   No
-Killable Thieves:                No
-Bush Shuffle:                    No
-Available Shop Slots:            0
-Randomize Shop Inventories:      Default
-Shuffle Shop Inventories:        No
-Include Witch's Hut:             No
-Randomize Shop Prices:           No
-Randomize Cost Types:            No
-Shop Price Modifier:             100
-Shuffle Capacity Upgrades:       Off
-Bombless Start:                  No
-Shuffle Prizes:                  General
-Tile Shuffle:                    No
-Misery Mire Medallion:           Ether
-Turtle Rock Medallion:           Quake
-Glitched Starting Boots:         Yes
-Beemizer Total Chance:           0
-Beemizer Trap Chance:            60
-Timer:                           None
-Countdown Start Time:            10
-Red Clock Time:                  -2
-Blue Clock Time:                 2
-Green Clock Time:                4
-Death Link:                      No
-Allow Collection of checks for other players:Yes
-Overworld Palette:               Default
-Underworld Palette:              Default
-Menu Palette:                    Default
-Sword Palette:                   Default
-Shield Palette:                  Default
-Heart Beep Rate:                 Normal
-Heart Color:                     Red
-L/R Quickswapping:               Yes
-Menu Speed:                      Normal
-Play music:                      Yes
-Reduce Screen Flashes:           Yes
-Display Method for Triforce Hunt:Normal
+Goal:                            Help Everyone
+Coins in Purchaseable Locations: No
+Golden Feathers:                 20
+Silver Feathers:                 2
+Buckets:                         2
+Sticks:                          8
+Toy Shovels:                     5
+Golden Feather Progression:      Normal
+Shop Cost Multiplier:            100
+Coins per Filler Item:           13 Coins
+Randomize Walkie Talkie:         Yes
+Easier Races:                    No
+Shop Check Logic:                Fishing Rod
+Minimum Shop Check Logic Application:100 Coins
 
 Player 2: Player2
 Game:                            Adventure
@@ -103,6 +45,7 @@ Start Location Hints:
 Excluded Locations:              
 Priority Locations:              
 Item Links:                      
+Plando Items:                    
 Slay Dragon Checks:              Yes
 Death Link:                      No
 Bat Logic:                       Can Break
@@ -120,363 +63,164 @@ Right Difficulty Switch:         Hard With Unlock Item
 Start Castle:                    Yellow
 
 
-Entrances:
-
-Player1: Links House <=> Links House Exit
-Player1: Links House <= Chris Houlihan Room Exit
-
-Medallions:
-
-Misery Mire (Player1): Ether
-Turtle Rock (Player1): Quake
-
-Fairy Fountain Bottle Fill:
-
-Pyramid Fairy (Player1): Bottle (Blue Potion)
-Waterfall Fairy (Player1): Bottle (Blue Potion)
-
-Shops:
-
-Cave Shop (Dark Death Mountain) (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Small Heart - 10 Rupees
-    Bombs (10) - 50 Rupees
-Red Shield Shop (Player1) [Shop]
-    Red Shield - 500 Rupees
-    Bee - 10 Rupees
-    Arrows (10) - 30 Rupees
-Dark Lake Hylia Shop (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Blue Shield - 50 Rupees
-    Bombs (10) - 50 Rupees
-Dark World Lumberjack Shop (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Blue Shield - 50 Rupees
-    Bombs (10) - 50 Rupees
-Village of Outcasts Shop (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Blue Shield - 50 Rupees
-    Bombs (10) - 50 Rupees
-Dark World Potion Shop (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Blue Shield - 50 Rupees
-    Bombs (10) - 50 Rupees
-Light World Death Mountain Shop (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Small Heart - 10 Rupees
-    Bombs (10) - 50 Rupees
-Kakariko Shop (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Small Heart - 10 Rupees
-    Bombs (10) - 50 Rupees
-Cave Shop (Lake Hylia) (Player1) [Shop]
-    Red Potion - 150 Rupees
-    Small Heart - 10 Rupees
-    Bombs (10) - 50 Rupees
-Potion Shop (Player1) [Shop]
-    Red Potion - 120 Rupees
-    Green Potion - 60 Rupees
-    Blue Potion - 160 Rupees
-Capacity Upgrade (Player1) [Shop]
-    Bomb Upgrade (+5) - 100 Rupees x 7
-    Arrow Upgrade (+5) - 100 Rupees x 7
-
-
 Locations:
 
-Mushroom (Player1): Bombs (3) (Player1)
-Bottle Merchant (Player1): Piece of Heart (Player1)
-Flute Spot (Player1): Freeincarnate (Player2)
-Sunken Treasure (Player1): Freeincarnate (Player2)
-Purple Chest (Player1): Rupees (5) (Player1)
-Flute Activation Spot (Player1): Activated Flute (Player1)
-Blind's Hideout - Top (Player1): Boss Heart Container (Player1)
-Blind's Hideout - Left (Player1): Rupee (1) (Player1)
-Blind's Hideout - Right (Player1): Piece of Heart (Player1)
-Blind's Hideout - Far Left (Player1): Piece of Heart (Player1)
-Blind's Hideout - Far Right (Player1): Arrows (10) (Player1)
-Link's Uncle (Player1): Quake (Player1)
-Secret Passage (Player1): Fire Rod (Player1)
-King Zora (Player1): Red Boomerang (Player1)
-Zora's Ledge (Player1): Yellow Key (Player2)
-Waterfall Fairy - Left (Player1): Bombs (3) (Player1)
-Waterfall Fairy - Right (Player1): Boss Heart Container (Player1)
-King's Tomb (Player1): Rupees (20) (Player1)
-Floodgate (Player1): Open Floodgate (Player1)
-Floodgate Chest (Player1): Arrows (10) (Player1)
-Link's House (Player1): Bug Catching Net (Player1)
-Kakariko Tavern (Player1): Freeincarnate (Player2)
-Chicken House (Player1): Arrows (10) (Player1)
-Aginah's Cave (Player1): Freeincarnate (Player2)
-Sahasrahla's Hut - Left (Player1): Rupees (20) (Player1)
-Sahasrahla's Hut - Middle (Player1): Rupees (20) (Player1)
-Sahasrahla's Hut - Right (Player1): Ice Rod (Player1)
-Sahasrahla (Player1): Slow Yorgle (Player2)
-Kakariko Well - Top (Player1): Piece of Heart (Player1)
-Kakariko Well - Left (Player1): Arrows (10) (Player1)
-Kakariko Well - Middle (Player1): Freeincarnate (Player2)
-Kakariko Well - Right (Player1): Magic Upgrade (1/2) (Player1)
-Kakariko Well - Bottom (Player1): Slow Rhindle (Player2)
-Blacksmith (Player1): Bottle (Blue Potion) (Player1)
-Missing Smith (Player1): Return Smith (Player1)
-Magic Bat (Player1): Rupees (20) (Player1)
-Sick Kid (Player1): Rupees (20) (Player1)
-Hobo (Player1): Magic Mirror (Player1)
-Lost Woods Hideout (Player1): Piece of Heart (Player1)
-Lumberjack Tree (Player1): Rupees (50) (Player1)
-Cave 45 (Player1): Boss Heart Container (Player1)
-Graveyard Cave (Player1): Rupees (20) (Player1)
-Checkerboard Cave (Player1): Chalice (Player2)
-Mini Moldorm Cave - Far Left (Player1): Bombs (10) (Player1)
-Mini Moldorm Cave - Left (Player1): Piece of Heart (Player1)
-Mini Moldorm Cave - Right (Player1): Magnet (Player2)
-Mini Moldorm Cave - Far Right (Player1): Piece of Heart (Player1)
-Mini Moldorm Cave - Generous Guy (Player1): Bombs (3) (Player1)
-Ice Rod Cave (Player1): Bridge (Player2)
-Bonk Rock Cave (Player1): Progressive Shield (Player1)
-Library (Player1): Bombs (3) (Player1)
-Potion Shop (Player1): Blue Boomerang (Player1)
-Lake Hylia Island (Player1): Rupees (20) (Player1)
-Capacity Upgrade Shop (Player1): Capacity Upgrade Shop (Player1)
-Maze Race (Player1): Progressive Glove (Player1)
-Desert Ledge (Player1): Moon Pearl (Player1)
-Desert Palace - Big Chest (Player1): Small Key (Desert Palace) (Player1)
-Desert Palace - Torch (Player1): Small Key (Desert Palace) (Player1)
-Desert Palace - Map Chest (Player1): Small Key (Desert Palace) (Player1)
-Desert Palace - Compass Chest (Player1): Piece of Heart (Player1)
-Desert Palace - Big Key Chest (Player1): Compass (Desert Palace) (Player1)
-Desert Palace - Desert Tiles 1 Pot Key (Player1): Hammer (Player1)
-Desert Palace - Beamos Hall Pot Key (Player1): Small Key (Desert Palace) (Player1)
-Desert Palace - Desert Tiles 2 Pot Key (Player1): Big Key (Desert Palace) (Player1)
-Desert Palace - Boss (Player1): Map (Desert Palace) (Player1)
-Desert Palace - Prize (Player1): Crystal 6 (Player1)
-Eastern Palace - Compass Chest (Player1): Bombs (3) (Player1)
-Eastern Palace - Big Chest (Player1): Left Difficulty Switch (Player2)
-Eastern Palace - Cannonball Chest (Player1): Flippers (Player1)
-Eastern Palace - Dark Square Pot Key (Player1): Big Key (Eastern Palace) (Player1)
-Eastern Palace - Dark Eyegore Key Drop (Player1): Small Key (Eastern Palace) (Player1)
-Eastern Palace - Big Key Chest (Player1): Compass (Eastern Palace) (Player1)
-Eastern Palace - Map Chest (Player1): Small Key (Eastern Palace) (Player1)
-Eastern Palace - Boss (Player1): Map (Eastern Palace) (Player1)
-Eastern Palace - Prize (Player1): Crystal 3 (Player1)
-Master Sword Pedestal (Player1): Bombs (3) (Player1)
-Hyrule Castle - Boomerang Chest (Player1): Small Key (Hyrule Castle) (Player1)
-Hyrule Castle - Map Chest (Player1): Big Key (Hyrule Castle) (Player1)
-Hyrule Castle - Zelda's Chest (Player1): Map (Hyrule Castle) (Player1)
-Hyrule Castle - Map Guard Key Drop (Player1): Single Arrow (Player1)
-Hyrule Castle - Boomerang Guard Key Drop (Player1): Arrows (10) (Player1)
-Hyrule Castle - Big Key Drop (Player1): Ether (Player1)
-Sewers - Dark Cross (Player1): Small Key (Hyrule Castle) (Player1)
-Sewers - Key Rat Key Drop (Player1): Small Key (Hyrule Castle) (Player1)
-Sewers - Secret Room - Left (Player1): Piece of Heart (Player1)
-Sewers - Secret Room - Middle (Player1): Progressive Sword (Player1)
-Sewers - Secret Room - Right (Player1): Rupees (20) (Player1)
-Sanctuary (Player1): Small Key (Hyrule Castle) (Player1)
-Castle Tower - Room 03 (Player1): Small Key (Agahnims Tower) (Player1)
-Castle Tower - Dark Maze (Player1): Small Key (Agahnims Tower) (Player1)
-Castle Tower - Dark Archer Key Drop (Player1): Small Key (Agahnims Tower) (Player1)
-Castle Tower - Circle of Pots Key Drop (Player1): Small Key (Agahnims Tower) (Player1)
-Agahnim 1 (Player1): Beat Agahnim 1 (Player1)
-Old Man (Player1): Pegasus Boots (Player1)
-Spectacle Rock Cave (Player1): Bombs (3) (Player1)
-Paradox Cave Lower - Far Left (Player1): Rupees (100) (Player1)
-Paradox Cave Lower - Left (Player1): Rupees (300) (Player1)
-Paradox Cave Lower - Right (Player1): Arrows (10) (Player1)
-Paradox Cave Lower - Far Right (Player1): Hookshot (Player1)
-Paradox Cave Lower - Middle (Player1): Rupees (20) (Player1)
-Paradox Cave Upper - Left (Player1): Rupee (1) (Player1)
-Paradox Cave Upper - Right (Player1): Piece of Heart (Player1)
-Spiral Cave (Player1): Shovel (Player1)
-Ether Tablet (Player1): Rupees (5) (Player1)
-Spectacle Rock (Player1): Bombos (Player1)
-Tower of Hera - Basement Cage (Player1): Small Key (Tower of Hera) (Player1)
-Tower of Hera - Map Chest (Player1): Map (Tower of Hera) (Player1)
-Tower of Hera - Big Key Chest (Player1): Big Key (Tower of Hera) (Player1)
-Tower of Hera - Compass Chest (Player1): Rupees (20) (Player1)
-Tower of Hera - Big Chest (Player1): Book of Mudora (Player1)
-Tower of Hera - Boss (Player1): Compass (Tower of Hera) (Player1)
-Tower of Hera - Prize (Player1): Crystal 7 (Player1)
-Pyramid (Player1): Piece of Heart (Player1)
-Catfish (Player1): Rupees (20) (Player1)
-Stumpy (Player1): Freeincarnate (Player2)
-Digging Game (Player1): Piece of Heart (Player1)
-Bombos Tablet (Player1): Rupees (20) (Player1)
-Hype Cave - Top (Player1): Piece of Heart (Player1)
-Hype Cave - Middle Right (Player1): Rupees (20) (Player1)
-Hype Cave - Middle Left (Player1): Bottle (Blue Potion) (Player1)
-Hype Cave - Bottom (Player1): Mushroom (Player1)
-Hype Cave - Generous Guy (Player1): Freeincarnate (Player2)
-Frog (Player1): Get Frog (Player1)
-Dark Blacksmith Ruins (Player1): Pick Up Purple Chest (Player1)
-Peg Cave (Player1): Progressive Bow (Player1)
-Pyramid Fairy - Left (Player1): Magic Powder (Player1)
-Pyramid Fairy - Right (Player1): Rupees (20) (Player1)
-Brewery (Player1): Rupees (50) (Player1)
-C-Shaped House (Player1): Piece of Heart (Player1)
-Chest Game (Player1): Sword (Player2)
-Bumper Cave Ledge (Player1): Boss Heart Container (Player1)
-Mire Shed - Left (Player1): Bombs (3) (Player1)
-Mire Shed - Right (Player1): Rupees (20) (Player1)
-Superbunny Cave - Top (Player1): Piece of Heart (Player1)
-Superbunny Cave - Bottom (Player1): Rupees (300) (Player1)
-Spike Cave (Player1): Rupees (20) (Player1)
-Hookshot Cave - Top Right (Player1): Piece of Heart (Player1)
-Hookshot Cave - Top Left (Player1): Sanctuary Heart Container (Player1)
-Hookshot Cave - Bottom Right (Player1): Arrows (10) (Player1)
-Hookshot Cave - Bottom Left (Player1): Bombs (3) (Player1)
-Floating Island (Player1): Cane of Somaria (Player1)
-Mimic Cave (Player1): Freeincarnate (Player2)
-Swamp Palace - Entrance (Player1): Small Key (Swamp Palace) (Player1)
-Swamp Palace - Map Chest (Player1): Map (Swamp Palace) (Player1)
-Swamp Palace - Pot Row Pot Key (Player1): Small Key (Swamp Palace) (Player1)
-Swamp Palace - Trench 1 Pot Key (Player1): Small Key (Swamp Palace) (Player1)
-Swamp Palace - Big Chest (Player1): Big Key (Swamp Palace) (Player1)
-Swamp Palace - Compass Chest (Player1): Small Key (Swamp Palace) (Player1)
-Swamp Palace - Hookshot Pot Key (Player1): Rupees (20) (Player1)
-Swamp Palace - Trench 2 Pot Key (Player1): Small Key (Swamp Palace) (Player1)
-Swamp Palace - Big Key Chest (Player1): Boss Heart Container (Player1)
-Swamp Palace - West Chest (Player1): Rupees (300) (Player1)
-Swamp Palace - Flooded Room - Left (Player1): Piece of Heart (Player1)
-Swamp Palace - Flooded Room - Right (Player1): Small Key (Swamp Palace) (Player1)
-Swamp Palace - Waterway Pot Key (Player1): Progressive Glove (Player1)
-Swamp Palace - Waterfall Room (Player1): Piece of Heart (Player1)
-Swamp Palace - Boss (Player1): Compass (Swamp Palace) (Player1)
-Swamp Palace - Prize (Player1): Red Pendant (Player1)
-Thieves' Town - Big Key Chest (Player1): Small Key (Thieves Town) (Player1)
-Thieves' Town - Map Chest (Player1): Boss Heart Container (Player1)
-Thieves' Town - Compass Chest (Player1): Arrows (10) (Player1)
-Thieves' Town - Ambush Chest (Player1): Big Key (Thieves Town) (Player1)
-Thieves' Town - Attic (Player1): Map (Thieves Town) (Player1)
-Thieves' Town - Big Chest (Player1): Rupees (20) (Player1)
-Thieves' Town - Hallway Pot Key (Player1): Small Key (Thieves Town) (Player1)
-Thieves' Town - Spike Switch Pot Key (Player1): Compass (Thieves Town) (Player1)
-Thieves' Town - Blind's Cell (Player1): Small Key (Thieves Town) (Player1)
-Thieves' Town - Boss (Player1): Progressive Sword (Player1)
-Thieves' Town - Prize (Player1): Crystal 2 (Player1)
-Skull Woods - Map Chest (Player1): Black Key (Player2)
-Skull Woods - Pinball Room (Player1): Small Key (Skull Woods) (Player1)
-Skull Woods - Compass Chest (Player1): Small Key (Skull Woods) (Player1)
-Skull Woods - Pot Prison (Player1): Progressive Shield (Player1)
-Skull Woods - Big Chest (Player1): Big Key (Skull Woods) (Player1)
-Skull Woods - Big Key Chest (Player1): Map (Skull Woods) (Player1)
-Skull Woods - West Lobby Pot Key (Player1): Small Key (Skull Woods) (Player1)
-Skull Woods - Bridge Room (Player1): Small Key (Skull Woods) (Player1)
-Skull Woods - Spike Corner Key Drop (Player1): Small Key (Skull Woods) (Player1)
-Skull Woods - Boss (Player1): Compass (Skull Woods) (Player1)
-Skull Woods - Prize (Player1): Crystal 4 (Player1)
-Ice Palace - Jelly Key Drop (Player1): Small Key (Ice Palace) (Player1)
-Ice Palace - Compass Chest (Player1): Map (Ice Palace) (Player1)
-Ice Palace - Conveyor Key Drop (Player1): Small Key (Ice Palace) (Player1)
-Ice Palace - Freezor Chest (Player1): Big Key (Ice Palace) (Player1)
-Ice Palace - Many Pots Pot Key (Player1): Small Key (Ice Palace) (Player1)
-Ice Palace - Big Chest (Player1): Compass (Ice Palace) (Player1)
-Ice Palace - Iced T Room (Player1): Bombs (3) (Player1)
-Ice Palace - Spike Room (Player1): White Key (Player2)
-Ice Palace - Big Key Chest (Player1): Rupees (50) (Player1)
-Ice Palace - Map Chest (Player1): Small Key (Ice Palace) (Player1)
-Ice Palace - Hammer Block Key Drop (Player1): Small Key (Ice Palace) (Player1)
-Ice Palace - Boss (Player1): Small Key (Ice Palace) (Player1)
-Ice Palace - Prize (Player1): Green Pendant (Player1)
-Misery Mire - Big Chest (Player1): Progressive Sword (Player1)
-Misery Mire - Map Chest (Player1): Small Key (Misery Mire) (Player1)
-Misery Mire - Main Lobby (Player1): Small Key (Misery Mire) (Player1)
-Misery Mire - Bridge Chest (Player1): Small Key (Misery Mire) (Player1)
-Misery Mire - Spike Chest (Player1): Small Key (Misery Mire) (Player1)
-Misery Mire - Spikes Pot Key (Player1): Small Key (Misery Mire) (Player1)
-Misery Mire - Fishbone Pot Key (Player1): Big Key (Misery Mire) (Player1)
-Misery Mire - Conveyor Crystal Key Drop (Player1): Small Key (Misery Mire) (Player1)
-Misery Mire - Compass Chest (Player1): Arrows (10) (Player1)
-Misery Mire - Big Key Chest (Player1): Compass (Misery Mire) (Player1)
-Misery Mire - Boss (Player1): Map (Misery Mire) (Player1)
-Misery Mire - Prize (Player1): Blue Pendant (Player1)
-Turtle Rock - Compass Chest (Player1): Small Key (Turtle Rock) (Player1)
-Turtle Rock - Roller Room - Left (Player1): Boss Heart Container (Player1)
-Turtle Rock - Roller Room - Right (Player1): Small Key (Turtle Rock) (Player1)
-Turtle Rock - Pokey 1 Key Drop (Player1): Rupees (20) (Player1)
-Turtle Rock - Chain Chomps (Player1): Small Key (Turtle Rock) (Player1)
-Turtle Rock - Big Key Chest (Player1): Small Key (Turtle Rock) (Player1)
-Turtle Rock - Pokey 2 Key Drop (Player1): Big Key (Turtle Rock) (Player1)
-Turtle Rock - Big Chest (Player1): Arrows (10) (Player1)
-Turtle Rock - Crystaroller Room (Player1): Small Key (Turtle Rock) (Player1)
-Turtle Rock - Eye Bridge - Bottom Left (Player1): Small Key (Turtle Rock) (Player1)
-Turtle Rock - Eye Bridge - Bottom Right (Player1): Piece of Heart (Player1)
-Turtle Rock - Eye Bridge - Top Left (Player1): Bombs (3) (Player1)
-Turtle Rock - Eye Bridge - Top Right (Player1): Map (Turtle Rock) (Player1)
-Turtle Rock - Boss (Player1): Compass (Turtle Rock) (Player1)
-Turtle Rock - Prize (Player1): Crystal 5 (Player1)
-Palace of Darkness - Shooter Room (Player1): Small Key (Palace of Darkness) (Player1)
-Palace of Darkness - The Arena - Bridge (Player1): Arrows (10) (Player1)
-Palace of Darkness - Stalfos Basement (Player1): Small Key (Palace of Darkness) (Player1)
-Palace of Darkness - Big Key Chest (Player1): Big Key (Palace of Darkness) (Player1)
-Palace of Darkness - The Arena - Ledge (Player1): Small Key (Palace of Darkness) (Player1)
-Palace of Darkness - Map Chest (Player1): Small Key (Palace of Darkness) (Player1)
-Palace of Darkness - Compass Chest (Player1): Small Key (Palace of Darkness) (Player1)
-Palace of Darkness - Dark Basement - Left (Player1): Piece of Heart (Player1)
-Palace of Darkness - Dark Basement - Right (Player1): Rupees (50) (Player1)
-Palace of Darkness - Dark Maze - Top (Player1): Boss Heart Container (Player1)
-Palace of Darkness - Dark Maze - Bottom (Player1): Compass (Palace of Darkness) (Player1)
-Palace of Darkness - Big Chest (Player1): Freeincarnate (Player2)
-Palace of Darkness - Harmless Hellway (Player1): Small Key (Palace of Darkness) (Player1)
-Palace of Darkness - Boss (Player1): Map (Palace of Darkness) (Player1)
-Palace of Darkness - Prize (Player1): Crystal 1 (Player1)
-Ganons Tower - Bob's Torch (Player1): Slow Grundle (Player2)
-Ganons Tower - Hope Room - Left (Player1): Boss Heart Container (Player1)
-Ganons Tower - Hope Room - Right (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Conveyor Cross Pot Key (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Tile Room (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Compass Room - Top Left (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Compass Room - Top Right (Player1): Boss Heart Container (Player1)
-Ganons Tower - Compass Room - Bottom Left (Player1): Big Key (Ganons Tower) (Player1)
-Ganons Tower - Compass Room - Bottom Right (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Conveyor Star Pits Pot Key (Player1): Piece of Heart (Player1)
-Ganons Tower - DMs Room - Top Left (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - DMs Room - Top Right (Player1): Freeincarnate (Player2)
-Ganons Tower - DMs Room - Bottom Left (Player1): Bombs (3) (Player1)
-Ganons Tower - DMs Room - Bottom Right (Player1): Rupees (20) (Player1)
-Ganons Tower - Double Switch Pot Key (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Map Chest (Player1): Piece of Heart (Player1)
-Ganons Tower - Firesnake Room (Player1): Rupees (20) (Player1)
-Ganons Tower - Randomizer Room - Top Left (Player1): Rupees (5) (Player1)
-Ganons Tower - Randomizer Room - Top Right (Player1): Bombs (3) (Player1)
-Ganons Tower - Randomizer Room - Bottom Left (Player1): Freeincarnate (Player2)
-Ganons Tower - Randomizer Room - Bottom Right (Player1): Compass (Ganons Tower) (Player1)
-Ganons Tower - Bob's Chest (Player1): Progressive Sword (Player1)
-Ganons Tower - Big Chest (Player1): Rupees (50) (Player1)
-Ganons Tower - Big Key Room - Left (Player1): Progressive Shield (Player1)
-Ganons Tower - Big Key Room - Right (Player1): Rupees (20) (Player1)
-Ganons Tower - Big Key Chest (Player1): Bottle (Good Bee) (Player1)
-Ganons Tower - Mini Helmasaur Room - Left (Player1): Bombs (3) (Player1)
-Ganons Tower - Mini Helmasaur Room - Right (Player1): Piece of Heart (Player1)
-Ganons Tower - Pre-Moldorm Chest (Player1): Map (Ganons Tower) (Player1)
-Ganons Tower - Mini Helmasaur Key Drop (Player1): Small Key (Ganons Tower) (Player1)
-Ganons Tower - Validation Chest (Player1): Bombs (3) (Player1)
-Agahnim 2 (Player1): Beat Agahnim 2 (Player1)
-Ganon (Player1): Triforce (Player1)
-Blue Labyrinth 0 (Player2): Rupees (20) (Player1)
-Blue Labyrinth 1 (Player2): Rupees (20) (Player1)
-Catacombs (Player2): Rupees (50) (Player1)
-Adjacent to Catacombs (Player2): Rupees (5) (Player1)
-Southwest of Catacombs (Player2): Progressive Mail (Player1)
-White Castle Gate (Player2): Rupees (300) (Player1)
-Black Castle Gate (Player2): Rupees (20) (Player1)
-Yellow Castle Gate (Player2): Rupees (20) (Player1)
-Inside Yellow Castle (Player2): Freeincarnate (Player2)
-Dungeon0 (Player2): Cape (Player1)
-Dungeon Vault (Player2): Piece of Heart (Player1)
-Dungeon1 (Player2): Lamp (Player1)
-RedMaze0 (Player2): Arrows (10) (Player1)
-Red Maze Vault Entrance (Player2): Progressive Mail (Player1)
-Red Maze Vault (Player2): Rupees (20) (Player1)
-RedMaze1 (Player2): Cane of Byrna (Player1)
-Black Castle Foyer (Player2): Progressive Bow (Player1)
-Northeast of Catacombs (Player2): Rupees (300) (Player1)
-Southeast of Catacombs (Player2): Flute (Player1)
-Credits Left Side (Player2): Rupees (20) (Player1)
-Credits Right Side (Player2): Right Difficulty Switch (Player2)
+Start Beach Seashell (Player1): 33 Coins (Player1)
+Beach Hut Seashell (Player1): Freeincarnate (Player2)
+Beach Umbrella Seashell (Player1): Pickaxe (Player1)
+Sid Beach Mound Seashell (Player1): 13 Coins (Player1)
+Sid Beach Seashell (Player1): 13 Coins (Player1)
+Shirley's Point Beach Seashell (Player1): Seashell (Player1)
+Shirley's Point Rock Seashell (Player1): Golden Feather (Player1)
+Visitor's Center Beach Seashell (Player1): Seashell (Player1)
+West River Seashell (Player1): Camping Permit (Player1)
+West Riverbank Seashell (Player1): Seashell (Player1)
+Stone Tower Riverbank Seashell (Player1): Golden Feather (Player1)
+North Beach Seashell (Player1): Seashell (Player1)
+North Coast Seashell (Player1): Golden Feather (Player1)
+Boat Cliff Seashell (Player1): Seashell (Player1)
+Boat Isle Mound Seashell (Player1): Seashell (Player1)
+East Coast Seashell (Player1): Golden Feather (Player1)
+House North Beach Seashell (Player1): 13 Coins (Player1)
+Airstream Island North Seashell (Player1): Seashell (Player1)
+Airstream Island South Seashell (Player1): Bait (Player1)
+Secret Island Beach Seashell (Player1): 15 Coins (Player1)
+Meteor Lake Seashell (Player1): 13 Coins (Player1)
+Good Creek Path Seashell (Player1): Seashell (Player1)
+Visitor's Center Shop Golden Feather 1 (Player1): White Key (Player2)
+Visitor's Center Shop Golden Feather 2 (Player1): Freeincarnate (Player2)
+Visitor's Center Shop Hat (Player1): Toy Shovel (Player1)
+Tough Bird Salesman Golden Feather 1 (Player1): In Her Shadow Map (Player1)
+Tough Bird Salesman Golden Feather 2 (Player1): Compass (Player1)
+Tough Bird Salesman Golden Feather 3 (Player1): Chalice (Player2)
+Tough Bird Salesman Golden Feather 4 (Player1): Seashell (Player1)
+Tough Bird Salesman (400 Coins) (Player1): Pickaxe (Player1)
+Beachstickball (10 Hits) (Player1): Bucket (Player1)
+Beachstickball (20 Hits) (Player1): 25 Coins (Player1)
+Beachstickball (30 Hits) (Player1): Stick (Player1)
+Shovel Kid Trade (Player1): Shovel (Player1)
+Compass Guy (Player1): Freeincarnate (Player2)
+Hawk Peak Bucket Rock (Player1): 13 Coins (Player1)
+Orange Islands Bucket Rock (Player1): Seashell (Player1)
+Bill the Walrus Fisherman (Player1): Seashell (Player1)
+Catch 3 Fish Reward (Player1): Seashell (Player1)
+Catch All Fish Reward (Player1): Stick (Player1)
+Permit Guy Bribe (Player1): Pickaxe (Player1)
+Catch Fish with Permit (Player1): Golden Feather (Player1)
+Return Camping Permit (Player1): Golden Feather (Player1)
+Blocked Mine Pickaxe 1 (Player1): Progressive Fishing Rod (Player1)
+Blocked Mine Pickaxe 2 (Player1): 33 Coins (Player1)
+Blocked Mine Pickaxe 3 (Player1): Seashell (Player1)
+Blackwood Trail Lookout Toy Shovel (Player1): 25 Coins (Player1)
+Shirley's Point Beach Toy Shovel (Player1): Slow Rhindle (Player2)
+Visitor's Center Beach Toy Shovel (Player1): 13 Coins (Player1)
+Blackwood Trail Rock Toy Shovel (Player1): Seashell (Player1)
+Beach Hut Cliff Toy Shovel (Player1): Stick (Player1)
+Secret Island Beach Trail Stick (Player1): Wristwatch (Player1)
+Below Lighthouse Walkway Stick (Player1): Silver Feather (Player1)
+Beach Hut Rocky Pool Sand Stick (Player1): Toy Shovel (Player1)
+Cliff Overlooking West River Waterfall Stick (Player1): 13 Coins (Player1)
+Trail to Tough Bird Salesman Stick (Player1): Headband (Player1)
+North Beach Stick (Player1): Fishing Journal (Player1)
+Beachstickball Court Stick (Player1): 13 Coins (Player1)
+Stick Under Sid Beach Umbrella (Player1): Motorboat Key (Player1)
+Boat Rental (Player1): Yellow Key (Player2)
+Boat Challenge Reward (Player1): Bridge (Player2)
+Outlook Point Dog Gift (Player1): 13 Coins (Player1)
+Collect 15 Seashells (Player1): Running Shoes (Player1)
+Return to Shell Kid (Player1): Left Difficulty Switch (Player2)
+Taylor the Turtle Headband Gift (Player1): Seashell (Player1)
+Sue the Rabbit Shoes Reward (Player1): Toy Shovel (Player1)
+Purchase Sunhat (Player1): Shell Necklace (Player1)
+Blackwood Forest Golden Feather (Player1): Medal (Player1)
+Ranger May Shell Necklace Golden Feather (Player1): 33 Coins (Player1)
+Sand Castle Golden Feather (Player1): 13 Coins (Player1)
+Artist Golden Feather (Player1): 13 Coins (Player1)
+Visitor Camp Rock Golden Feather (Player1): Stick (Player1)
+Outlook Cliff Golden Feather (Player1): Magnet (Player2)
+Meteor Lake Cliff Golden Feather (Player1): Progressive Fishing Rod (Player1)
+Secret Island Peak (Player1): Bucket (Player1)
+Wristwatch Trade (Player1): 27 Coins (Player1)
+Lighthouse Golden Chest (Player1): 25 Coins (Player1)
+Outlook Golden Chest (Player1): Golden Feather (Player1)
+Stone Tower Golden Chest (Player1): Seashell (Player1)
+North Cliff Golden Chest (Player1): Toy Shovel (Player1)
+Blackwood Cliff Chest (Player1): Silver Feather (Player1)
+White Coast Trail Chest (Player1): Sword (Player2)
+Sid Beach Chest (Player1): Golden Feather (Player1)
+Sid Beach Buried Treasure Chest (Player1): Black Key (Player2)
+Sid Beach Cliff Chest (Player1): 13 Coins (Player1)
+Visitor's Center Buried Chest (Player1): 25 Coins (Player1)
+Visitor's Center Hidden Chest (Player1): 13 Coins (Player1)
+Shirley's Point Chest (Player1): Golden Feather (Player1)
+Caravan Cliff Chest (Player1): 7 Coins (Player1)
+Caravan Arch Chest (Player1): Stick (Player1)
+King Buried Treasure Chest (Player1): Freeincarnate (Player2)
+Good Creek Path Buried Chest (Player1): Freeincarnate (Player2)
+Good Creek Path West Chest (Player1): 21 Coins (Player1)
+Good Creek Path East Chest (Player1): 33 Coins (Player1)
+West Waterfall Chest (Player1): 13 Coins (Player1)
+Stone Tower West Cliff Chest (Player1): Seashell (Player1)
+Bucket Path Chest (Player1): The King Map (Player1)
+Bucket Cliff Chest (Player1): Golden Feather (Player1)
+In Her Shadow Buried Treasure Chest (Player1): Seashell (Player1)
+Meteor Lake Buried Chest (Player1): 7 Coins (Player1)
+Meteor Lake Chest (Player1): Golden Feather (Player1)
+House North Beach Chest (Player1): Slow Yorgle (Player2)
+East Coast Chest (Player1): 32 Coins (Player1)
+Fisherman's Boat Chest 1 (Player1): 18 Coins (Player1)
+Fisherman's Boat Chest 2 (Player1): Golden Feather (Player1)
+Airstream Island Chest (Player1): Golden Feather (Player1)
+West River Waterfall Head Chest (Player1): Toy Shovel (Player1)
+Old Building Chest (Player1): Stick (Player1)
+Old Building West Chest (Player1): Golden Feather (Player1)
+Old Building East Chest (Player1): Slow Grundle (Player2)
+Hawk Peak West Chest (Player1): Golden Feather (Player1)
+Hawk Peak East Buried Chest (Player1): Stick (Player1)
+Hawk Peak Northeast Chest (Player1): 13 Coins (Player1)
+Northern East Coast Chest (Player1): Freeincarnate (Player2)
+North Coast Chest (Player1): 13 Coins (Player1)
+North Coast Buried Chest (Player1): Freeincarnate (Player2)
+Small South Island Buried Chest (Player1): 25 Coins (Player1)
+Secret Island Bottom Chest (Player1): 33 Coins (Player1)
+Secret Island Treehouse Chest (Player1): Golden Feather (Player1)
+Sunhat Island Buried Chest (Player1): 13 Coins (Player1)
+Orange Islands South Buried Chest (Player1): 50 Coins (Player1)
+Orange Islands West Chest (Player1): Bait (Player1)
+Orange Islands North Buried Chest (Player1): Medal (Player1)
+Orange Islands East Chest (Player1): 33 Coins (Player1)
+Orange Islands South Hidden Chest (Player1): Seashell (Player1)
+A Stormy View Buried Treasure Chest (Player1): Stick (Player1)
+Orange Islands Ruins Buried Chest (Player1): 13 Coins (Player1)
+Lighthouse Race Reward (Player1): Seashell (Player1)
+Old Building Race Reward (Player1): Walkie Talkie (Player1)
+Hawk Peak Race Reward (Player1): Right Difficulty Switch (Player2)
+Lose Race Gift (Player1): Freeincarnate (Player2)
+Blue Labyrinth 0 (Player2): Golden Feather (Player1)
+Blue Labyrinth 1 (Player2): Seashell (Player1)
+Catacombs (Player2): The Treasure of Sid Beach Map (Player1)
+Adjacent to Catacombs (Player2): Golden Feather (Player1)
+Southwest of Catacombs (Player2): Medal (Player1)
+White Castle Gate (Player2): 13 Coins (Player1)
+Black Castle Gate (Player2): Freeincarnate (Player2)
+Yellow Castle Gate (Player2): A Stormy View Map (Player1)
+Inside Yellow Castle (Player2): Seashell (Player1)
+Dungeon0 (Player2): 25 Coins (Player1)
+Dungeon Vault (Player2): Freeincarnate (Player2)
+Dungeon1 (Player2): Sunhat (Player1)
+RedMaze0 (Player2): 13 Coins (Player1)
+Red Maze Vault Entrance (Player2): Golden Feather (Player1)
+Red Maze Vault (Player2): Seashell (Player1)
+RedMaze1 (Player2): 13 Coins (Player1)
+Black Castle Foyer (Player2): Baseball Cap (Player1)
+Northeast of Catacombs (Player2): 7 Coins (Player1)
+Southeast of Catacombs (Player2): Freeincarnate (Player2)
+Credits Left Side (Player2): 21 Coins (Player1)
+Credits Right Side (Player2): Freeincarnate (Player2)
 Chalice Home (Player2): Victory (Player2)
-Slay Yorgle (Player2): Bottle (Bee) (Player1)
-Slay Grundle (Player2): Bombs (3) (Player1)
-Slay Rhindle (Player2): Rupees (50) (Player1)
+Slay Yorgle (Player2): Golden Feather (Player1)
+Slay Grundle (Player2): 25 Coins (Player1)
+Slay Rhindle (Player2): Provincial Park Hat (Player1)
 
 Playthrough:
 
@@ -484,762 +228,45 @@ Playthrough:
 
 }
 1: {
-  Eastern Palace - Cannonball Chest (Player1): Flippers (Player1)
-  Eastern Palace - Map Chest (Player1): Small Key (Eastern Palace) (Player1)
-  Floodgate (Player1): Open Floodgate (Player1)
-  Link's Uncle (Player1): Quake (Player1)
-  Maze Race (Player1): Progressive Glove (Player1)
-  Sahasrahla's Hut - Right (Player1): Ice Rod (Player1)
-  Secret Passage (Player1): Fire Rod (Player1)
-  Southeast of Catacombs (Player2): Flute (Player1)
+  Airstream Island Chest (Player1): Golden Feather (Player1)
+  Airstream Island North Seashell (Player1): Seashell (Player1)
+  Beach Hut Rocky Pool Sand Stick (Player1): Toy Shovel (Player1)
+  Bill the Walrus Fisherman (Player1): Seashell (Player1)
+  Blackwood Trail Rock Toy Shovel (Player1): Seashell (Player1)
+  Blocked Mine Pickaxe 3 (Player1): Seashell (Player1)
+  Boat Isle Mound Seashell (Player1): Seashell (Player1)
+  East Coast Seashell (Player1): Golden Feather (Player1)
+  Fisherman's Boat Chest 2 (Player1): Golden Feather (Player1)
+  Good Creek Path Seashell (Player1): Seashell (Player1)
+  Meteor Lake Chest (Player1): Golden Feather (Player1)
+  Meteor Lake Cliff Golden Feather (Player1): Progressive Fishing Rod (Player1)
+  North Coast Seashell (Player1): Golden Feather (Player1)
+  Old Building West Chest (Player1): Golden Feather (Player1)
+  Orange Islands Bucket Rock (Player1): Seashell (Player1)
+  Orange Islands South Hidden Chest (Player1): Seashell (Player1)
+  Outlook Golden Chest (Player1): Golden Feather (Player1)
+  Secret Island Beach Trail Stick (Player1): Wristwatch (Player1)
+  Shirley's Point Beach Seashell (Player1): Seashell (Player1)
+  Shirley's Point Rock Seashell (Player1): Golden Feather (Player1)
+  Sid Beach Chest (Player1): Golden Feather (Player1)
+  Stick Under Sid Beach Umbrella (Player1): Motorboat Key (Player1)
+  Stone Tower Golden Chest (Player1): Seashell (Player1)
+  Stone Tower Riverbank Seashell (Player1): Golden Feather (Player1)
+  Stone Tower West Cliff Chest (Player1): Seashell (Player1)
+  Taylor the Turtle Headband Gift (Player1): Seashell (Player1)
+  Trail to Tough Bird Salesman Stick (Player1): Headband (Player1)
+  Visitor's Center Beach Seashell (Player1): Seashell (Player1)
+  West River Seashell (Player1): Camping Permit (Player1)
+  West Riverbank Seashell (Player1): Seashell (Player1)
+  Adjacent to Catacombs (Player2): Golden Feather (Player1)
+  Blue Labyrinth 0 (Player2): Golden Feather (Player1)
+  Blue Labyrinth 1 (Player2): Seashell (Player1)
 }
 2: {
-  Flute Activation Spot (Player1): Activated Flute (Player1)
-  Hobo (Player1): Magic Mirror (Player1)
-  Sewers - Secret Room - Middle (Player1): Progressive Sword (Player1)
-  Zora's Ledge (Player1): Yellow Key (Player2)
+  Boat Rental (Player1): Yellow Key (Player2)
+  Purchase Sunhat (Player1): Shell Necklace (Player1)
+  Tough Bird Salesman Golden Feather 3 (Player1): Chalice (Player2)
 }
 3: {
-  Tower of Hera - Basement Cage (Player1): Small Key (Tower of Hera) (Player1)
-}
-4: {
-  Tower of Hera - Big Key Chest (Player1): Big Key (Tower of Hera) (Player1)
-}
-5: {
-  Tower of Hera - Big Chest (Player1): Book of Mudora (Player1)
-  Tower of Hera - Prize (Player1): Crystal 7 (Player1)
-}
-6: {
-  Desert Ledge (Player1): Moon Pearl (Player1)
-  Desert Palace - Desert Tiles 1 Pot Key (Player1): Hammer (Player1)
-  Desert Palace - Map Chest (Player1): Small Key (Desert Palace) (Player1)
-}
-7: {
-  Palace of Darkness - Shooter Room (Player1): Small Key (Palace of Darkness) (Player1)
-  Paradox Cave Lower - Far Right (Player1): Hookshot (Player1)
-  Skull Woods - Bridge Room (Player1): Small Key (Skull Woods) (Player1)
-  Skull Woods - Compass Chest (Player1): Small Key (Skull Woods) (Player1)
-  Skull Woods - Map Chest (Player1): Black Key (Player2)
-  Skull Woods - Pinball Room (Player1): Small Key (Skull Woods) (Player1)
-  Skull Woods - West Lobby Pot Key (Player1): Small Key (Skull Woods) (Player1)
-  Swamp Palace - Entrance (Player1): Small Key (Swamp Palace) (Player1)
-  Thieves' Town - Ambush Chest (Player1): Big Key (Thieves Town) (Player1)
-  Thieves' Town - Big Key Chest (Player1): Small Key (Thieves Town) (Player1)
-}
-8: {
-  Palace of Darkness - Stalfos Basement (Player1): Small Key (Palace of Darkness) (Player1)
-  Skull Woods - Spike Corner Key Drop (Player1): Small Key (Skull Woods) (Player1)
-  Swamp Palace - Pot Row Pot Key (Player1): Small Key (Swamp Palace) (Player1)
-  Thieves' Town - Blind's Cell (Player1): Small Key (Thieves Town) (Player1)
-  Thieves' Town - Hallway Pot Key (Player1): Small Key (Thieves Town) (Player1)
-  Black Castle Foyer (Player2): Progressive Bow (Player1)
-  Dungeon0 (Player2): Cape (Player1)
-  Dungeon1 (Player2): Lamp (Player1)
-}
-9: {
-  Eastern Palace - Dark Square Pot Key (Player1): Big Key (Eastern Palace) (Player1)
-  Old Man (Player1): Pegasus Boots (Player1)
-  Palace of Darkness - Map Chest (Player1): Small Key (Palace of Darkness) (Player1)
-  Palace of Darkness - The Arena - Ledge (Player1): Small Key (Palace of Darkness) (Player1)
-  Skull Woods - Prize (Player1): Crystal 4 (Player1)
-  Swamp Palace - Trench 1 Pot Key (Player1): Small Key (Swamp Palace) (Player1)
-  Thieves' Town - Boss (Player1): Progressive Sword (Player1)
-  Thieves' Town - Prize (Player1): Crystal 2 (Player1)
-}
-10: {
-  Desert Palace - Torch (Player1): Small Key (Desert Palace) (Player1)
-  Eastern Palace - Dark Eyegore Key Drop (Player1): Small Key (Eastern Palace) (Player1)
-  Palace of Darkness - Compass Chest (Player1): Small Key (Palace of Darkness) (Player1)
-  Palace of Darkness - Harmless Hellway (Player1): Small Key (Palace of Darkness) (Player1)
-  Swamp Palace - Compass Chest (Player1): Small Key (Swamp Palace) (Player1)
-  Swamp Palace - Trench 2 Pot Key (Player1): Small Key (Swamp Palace) (Player1)
-}
-11: {
-  Desert Palace - Beamos Hall Pot Key (Player1): Small Key (Desert Palace) (Player1)
-  Eastern Palace - Prize (Player1): Crystal 3 (Player1)
-  Palace of Darkness - Big Key Chest (Player1): Big Key (Palace of Darkness) (Player1)
-  Swamp Palace - Waterway Pot Key (Player1): Progressive Glove (Player1)
-}
-12: {
-  Checkerboard Cave (Player1): Chalice (Player2)
-  Desert Palace - Desert Tiles 2 Pot Key (Player1): Big Key (Desert Palace) (Player1)
-  Floating Island (Player1): Cane of Somaria (Player1)
-  Palace of Darkness - Prize (Player1): Crystal 1 (Player1)
-  Peg Cave (Player1): Progressive Bow (Player1)
-}
-13: {
-  Desert Palace - Big Chest (Player1): Small Key (Desert Palace) (Player1)
-  Turtle Rock - Compass Chest (Player1): Small Key (Turtle Rock) (Player1)
-  Turtle Rock - Roller Room - Right (Player1): Small Key (Turtle Rock) (Player1)
   Chalice Home (Player2): Victory (Player2)
 }
-14: {
-  Desert Palace - Prize (Player1): Crystal 6 (Player1)
-  Turtle Rock - Chain Chomps (Player1): Small Key (Turtle Rock) (Player1)
-}
-15: {
-  Turtle Rock - Big Key Chest (Player1): Small Key (Turtle Rock) (Player1)
-  Turtle Rock - Pokey 2 Key Drop (Player1): Big Key (Turtle Rock) (Player1)
-}
-16: {
-  Turtle Rock - Crystaroller Room (Player1): Small Key (Turtle Rock) (Player1)
-}
-17: {
-  Turtle Rock - Eye Bridge - Bottom Left (Player1): Small Key (Turtle Rock) (Player1)
-}
-18: {
-  Turtle Rock - Prize (Player1): Crystal 5 (Player1)
-}
-19: {
-  Ganons Tower - Conveyor Cross Pot Key (Player1): Small Key (Ganons Tower) (Player1)
-  Ganons Tower - DMs Room - Top Left (Player1): Small Key (Ganons Tower) (Player1)
-  Ganons Tower - Double Switch Pot Key (Player1): Small Key (Ganons Tower) (Player1)
-  Ganons Tower - Hope Room - Right (Player1): Small Key (Ganons Tower) (Player1)
-  Ganons Tower - Tile Room (Player1): Small Key (Ganons Tower) (Player1)
-}
-20: {
-  Ganons Tower - Compass Room - Bottom Left (Player1): Big Key (Ganons Tower) (Player1)
-  Ganons Tower - Compass Room - Bottom Right (Player1): Small Key (Ganons Tower) (Player1)
-  Ganons Tower - Compass Room - Top Left (Player1): Small Key (Ganons Tower) (Player1)
-}
-21: {
-  Ganons Tower - Mini Helmasaur Key Drop (Player1): Small Key (Ganons Tower) (Player1)
-}
-22: {
-  Agahnim 2 (Player1): Beat Agahnim 2 (Player1)
-}
-23: {
-  Ganon (Player1): Triforce (Player1)
-}
-
-Paths:
-
-Agahnim 2 (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower Big Key Door
-   =>   Ganons Tower (Top) -> Ganons Tower Torch Rooms
-   =>   Ganons Tower (Before Moldorm) -> Ganons Tower Moldorm Door
-   =>   Ganons Tower (Moldorm) -> Ganons Tower Moldorm Gap
-   =>   Agahnim 2
-Checkerboard Cave (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Dark Desert Teleporter
-   =>   Dark Desert -> Desert Ledge (Northeast) Mirror Spot
-   =>   Desert Ledge (Northeast) -> Checkerboard Cave
-   =>   Checkerboard Cave
-Desert Ledge (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer) -> Desert Palace Exit (West)
-   =>   Desert Ledge
-Desert Palace - Beamos Hall Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer) -> Desert Palace Exit (West)
-   =>   Desert Ledge -> Desert Palace Entrance (North) Rocks
-   =>   Desert Palace Entrance (North) Spot -> Desert Palace Entrance (North)
-   =>   Desert Palace North
-Desert Palace - Big Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer)
-Desert Palace - Desert Tiles 1 Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer) -> Desert Palace Exit (West)
-   =>   Desert Ledge -> Desert Palace Entrance (North) Rocks
-   =>   Desert Palace Entrance (North) Spot -> Desert Palace Entrance (North)
-   =>   Desert Palace North
-Desert Palace - Desert Tiles 2 Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer) -> Desert Palace Exit (West)
-   =>   Desert Ledge -> Desert Palace Entrance (North) Rocks
-   =>   Desert Palace Entrance (North) Spot -> Desert Palace Entrance (North)
-   =>   Desert Palace North
-Desert Palace - Map Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer)
-Desert Palace - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer) -> Desert Palace Exit (West)
-   =>   Desert Ledge -> Desert Palace Entrance (North) Rocks
-   =>   Desert Palace Entrance (North) Spot -> Desert Palace Entrance (North)
-   =>   Desert Palace North
-Desert Palace - Torch (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Desert Palace Stairs
-   =>   Desert Palace Stairs -> Desert Palace Entrance (South)
-   =>   Desert Palace Main (Inner) -> Desert Palace Pots (Inner)
-   =>   Desert Palace Main (Outer)
-Eastern Palace - Cannonball Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Eastern Palace
-   =>   Eastern Palace
-Eastern Palace - Dark Eyegore Key Drop (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Eastern Palace
-   =>   Eastern Palace
-Eastern Palace - Dark Square Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Eastern Palace
-   =>   Eastern Palace
-Eastern Palace - Map Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Eastern Palace
-   =>   Eastern Palace
-Eastern Palace - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Eastern Palace
-   =>   Eastern Palace
-Floating Island (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Hookshot Cave
-   =>   Hookshot Cave -> Hookshot Cave Bomb Wall (South)
-   =>   Hookshot Cave (Upper) -> Hookshot Cave Exit (North)
-   =>   Death Mountain Floating Island (Dark World) -> Floating Island Mirror Spot
-   =>   Death Mountain Floating Island (Light World)
-Floodgate (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Dam
-   =>   Dam
-Flute Activation Spot (Player1)
-        Links House -> Links House Exit
-   =>   Light World
-Ganon (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Pyramid Hole
-   =>   Pyramid
-Ganons Tower - Compass Room - Bottom Left (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
-   =>   Ganons Tower (Tile Room) -> Ganons Tower (Tile Room) Key Door
-   =>   Ganons Tower (Compass Room)
-Ganons Tower - Compass Room - Bottom Right (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
-   =>   Ganons Tower (Tile Room) -> Ganons Tower (Tile Room) Key Door
-   =>   Ganons Tower (Compass Room)
-Ganons Tower - Compass Room - Top Left (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
-   =>   Ganons Tower (Tile Room) -> Ganons Tower (Tile Room) Key Door
-   =>   Ganons Tower (Compass Room)
-Ganons Tower - Conveyor Cross Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance)
-Ganons Tower - DMs Room - Top Left (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
-   =>   Ganons Tower (Hookshot Room)
-Ganons Tower - Double Switch Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower (Hookshot Room)
-   =>   Ganons Tower (Hookshot Room)
-Ganons Tower - Hope Room - Right (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance)
-Ganons Tower - Mini Helmasaur Key Drop (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower Big Key Door
-   =>   Ganons Tower (Top) -> Ganons Tower Torch Rooms
-   =>   Ganons Tower (Before Moldorm)
-Ganons Tower - Tile Room (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Ganons Tower
-   =>   Ganons Tower (Entrance) -> Ganons Tower (Tile Room)
-   =>   Ganons Tower (Tile Room)
-Hobo (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Hobo Bridge
-   =>   Hobo Bridge
-Link's Uncle (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Hyrule Castle Secret Entrance Drop
-   =>   Hyrule Castle Secret Entrance
-Maze Race (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Two Brothers House (East)
-   =>   Two Brothers House -> Two Brothers House Exit (West)
-   =>   Maze Race Ledge
-Old Man (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Death Mountain Entrance Rock
-   =>   Death Mountain Entrance -> Old Man Cave (West)
-   =>   Old Man Cave
-Palace of Darkness - Big Key Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
-   =>   Palace of Darkness (Center) -> Palace of Darkness Big Key Chest Staircase
-   =>   Palace of Darkness (Big Key Chest)
-Palace of Darkness - Compass Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
-   =>   Palace of Darkness (Center) -> Palace of Darkness (North)
-   =>   Palace of Darkness (North)
-Palace of Darkness - Harmless Hellway (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
-   =>   Palace of Darkness (Center) -> Palace of Darkness (North)
-   =>   Palace of Darkness (North) -> Palace of Darkness Spike Statue Room Door
-   =>   Palace of Darkness (Harmless Hellway)
-Palace of Darkness - Map Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bonk Wall
-   =>   Palace of Darkness (Bonk Section)
-Palace of Darkness - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
-   =>   Palace of Darkness (Center) -> Palace of Darkness Big Key Door
-   =>   Palace of Darkness (Final Section)
-Palace of Darkness - Shooter Room (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance)
-Palace of Darkness - Stalfos Basement (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bridge Room
-   =>   Palace of Darkness (Center)
-Palace of Darkness - The Arena - Ledge (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> East Hyrule Teleporter
-   =>   East Dark World -> Palace of Darkness
-   =>   Palace of Darkness (Entrance) -> Palace of Darkness Bonk Wall
-   =>   Palace of Darkness (Bonk Section)
-Paradox Cave Lower - Far Right (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Paradox Cave (Top)
-   =>   Paradox Cave -> Paradox Cave Drop
-   =>   Paradox Cave Chest Area
-Peg Cave (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Village of Outcasts Eastern Rocks
-   =>   Hammer Peg Area -> Dark World Hammer Peg Cave
-   =>   Dark World Hammer Peg Cave
-Sahasrahla's Hut - Right (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Sahasrahlas Hut
-   =>   Sahasrahlas Hut
-Secret Passage (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Hyrule Castle Secret Entrance Drop
-   =>   Hyrule Castle Secret Entrance
-Sewers - Secret Room - Middle (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Sanctuary Grave
-   =>   Sewer Drop -> Sewer Drop
-   =>   Sewers -> Sewers Secret Room
-   =>   Sewers Secret Room
-Skull Woods - Bridge Room (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods Second Section Door (East)
-   =>   Skull Woods Second Section -> Skull Woods Second Section Exit (West)
-   =>   Skull Woods Forest (West) -> Skull Woods Final Section
-   =>   Skull Woods Final Section (Entrance)
-Skull Woods - Compass Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods First Section Hole (West)
-   =>   Skull Woods First Section (Left)
-Skull Woods - Map Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods First Section Door
-   =>   Skull Woods First Section
-Skull Woods - Pinball Room (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods First Section Hole (East)
-   =>   Skull Woods First Section (Right)
-Skull Woods - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods Second Section Door (East)
-   =>   Skull Woods Second Section -> Skull Woods Second Section Exit (West)
-   =>   Skull Woods Forest (West) -> Skull Woods Final Section
-   =>   Skull Woods Final Section (Entrance) -> Skull Woods Torch Room
-   =>   Skull Woods Final Section (Mothula)
-Skull Woods - Spike Corner Key Drop (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods Second Section Door (East)
-   =>   Skull Woods Second Section -> Skull Woods Second Section Exit (West)
-   =>   Skull Woods Forest (West) -> Skull Woods Final Section
-   =>   Skull Woods Final Section (Entrance) -> Skull Woods Torch Room
-   =>   Skull Woods Final Section (Mothula)
-Skull Woods - West Lobby Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Skull Woods Forest
-   =>   Skull Woods Forest -> Skull Woods Second Section Door (East)
-   =>   Skull Woods Second Section
-Swamp Palace - Compass Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> South Hyrule Teleporter
-   =>   South Dark World -> Swamp Palace
-   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
-   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
-   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
-   =>   Swamp Palace (Center)
-Swamp Palace - Entrance (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> South Hyrule Teleporter
-   =>   South Dark World -> Swamp Palace
-   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
-   =>   Swamp Palace (First Room)
-Swamp Palace - Pot Row Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> South Hyrule Teleporter
-   =>   South Dark World -> Swamp Palace
-   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
-   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
-   =>   Swamp Palace (Starting Area)
-Swamp Palace - Trench 1 Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> South Hyrule Teleporter
-   =>   South Dark World -> Swamp Palace
-   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
-   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
-   =>   Swamp Palace (Starting Area)
-Swamp Palace - Trench 2 Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> South Hyrule Teleporter
-   =>   South Dark World -> Swamp Palace
-   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
-   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
-   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
-   =>   Swamp Palace (Center)
-Swamp Palace - Waterway Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> South Hyrule Teleporter
-   =>   South Dark World -> Swamp Palace
-   =>   Swamp Palace (Entrance) -> Swamp Palace Moat
-   =>   Swamp Palace (First Room) -> Swamp Palace Small Key Door
-   =>   Swamp Palace (Starting Area) -> Swamp Palace (Center)
-   =>   Swamp Palace (Center) -> Swamp Palace (North)
-   =>   Swamp Palace (North)
-Thieves' Town - Ambush Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Thieves Town
-   =>   Thieves Town (Entrance)
-Thieves' Town - Big Key Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Thieves Town
-   =>   Thieves Town (Entrance)
-Thieves' Town - Blind's Cell (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Thieves Town
-   =>   Thieves Town (Entrance) -> Thieves Town Big Key Door
-   =>   Thieves Town (Deep)
-Thieves' Town - Boss (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Thieves Town
-   =>   Thieves Town (Entrance) -> Thieves Town Big Key Door
-   =>   Thieves Town (Deep) -> Blind Fight
-   =>   Blind Fight
-Thieves' Town - Hallway Pot Key (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Thieves Town
-   =>   Thieves Town (Entrance) -> Thieves Town Big Key Door
-   =>   Thieves Town (Deep)
-Thieves' Town - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Kakariko Teleporter
-   =>   West Dark World -> Thieves Town
-   =>   Thieves Town (Entrance) -> Thieves Town Big Key Door
-   =>   Thieves Town (Deep) -> Blind Fight
-   =>   Blind Fight
-Tower of Hera - Basement Cage (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> Tower of Hera
-   =>   Tower of Hera (Bottom)
-Tower of Hera - Big Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> Tower of Hera
-   =>   Tower of Hera (Bottom) -> Tower of Hera Big Key Door
-   =>   Tower of Hera (Top)
-Tower of Hera - Big Key Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> Tower of Hera
-   =>   Tower of Hera (Bottom) -> Tower of Hera Small Key Door
-   =>   Tower of Hera (Basement)
-Tower of Hera - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> Tower of Hera
-   =>   Tower of Hera (Bottom) -> Tower of Hera Big Key Door
-   =>   Tower of Hera (Top)
-Turtle Rock - Big Key Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section) -> Turtle Rock Entrance to Pokey Room
-   =>   Turtle Rock (Pokey Room) -> Turtle Rock (Pokey Room) (North)
-   =>   Turtle Rock (Chain Chomp Room) -> Turtle Rock (Chain Chomp Room) (North)
-   =>   Turtle Rock (Second Section)
-Turtle Rock - Chain Chomps (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section) -> Turtle Rock Entrance to Pokey Room
-   =>   Turtle Rock (Pokey Room) -> Turtle Rock (Pokey Room) (North)
-   =>   Turtle Rock (Chain Chomp Room)
-Turtle Rock - Compass Chest (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section)
-Turtle Rock - Crystaroller Room (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section) -> Turtle Rock Entrance to Pokey Room
-   =>   Turtle Rock (Pokey Room) -> Turtle Rock (Pokey Room) (North)
-   =>   Turtle Rock (Chain Chomp Room) -> Turtle Rock (Chain Chomp Room) (North)
-   =>   Turtle Rock (Second Section) -> Turtle Rock Big Key Door
-   =>   Turtle Rock (Crystaroller Room)
-Turtle Rock - Eye Bridge - Bottom Left (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section) -> Turtle Rock Entrance to Pokey Room
-   =>   Turtle Rock (Pokey Room) -> Turtle Rock (Pokey Room) (North)
-   =>   Turtle Rock (Chain Chomp Room) -> Turtle Rock (Chain Chomp Room) (North)
-   =>   Turtle Rock (Second Section) -> Turtle Rock Big Key Door
-   =>   Turtle Rock (Crystaroller Room) -> Turtle Rock Dark Room Staircase
-   =>   Turtle Rock (Dark Room) -> Turtle Rock (Dark Room) (South)
-   =>   Turtle Rock (Eye Bridge)
-Turtle Rock - Pokey 2 Key Drop (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section) -> Turtle Rock Entrance to Pokey Room
-   =>   Turtle Rock (Pokey Room) -> Turtle Rock (Pokey Room) (North)
-   =>   Turtle Rock (Chain Chomp Room) -> Turtle Rock (Chain Chomp Room) (North)
-   =>   Turtle Rock (Second Section)
-Turtle Rock - Prize (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section) -> Turtle Rock Entrance to Pokey Room
-   =>   Turtle Rock (Pokey Room) -> Turtle Rock (Pokey Room) (North)
-   =>   Turtle Rock (Chain Chomp Room) -> Turtle Rock (Chain Chomp Room) (North)
-   =>   Turtle Rock (Second Section) -> Turtle Rock Big Key Door
-   =>   Turtle Rock (Crystaroller Room) -> Turtle Rock Dark Room Staircase
-   =>   Turtle Rock (Dark Room) -> Turtle Rock (Dark Room) (South)
-   =>   Turtle Rock (Eye Bridge) -> Turtle Rock (Trinexx)
-   =>   Turtle Rock (Trinexx)
-Turtle Rock - Roller Room - Right (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Flute Spot 1
-   =>   Death Mountain -> Death Mountain Teleporter
-   =>   Dark Death Mountain (West Bottom) -> Spectacle Rock Mirror Spot
-   =>   Spectacle Rock -> Spectacle Rock Drop
-   =>   Death Mountain (Top) -> East Death Mountain (Top)
-   =>   East Death Mountain (Top) -> Turtle Rock Teleporter
-   =>   Turtle Rock (Top) -> Turtle Rock Drop
-   =>   Dark Death Mountain (Top) -> Turtle Rock
-   =>   Turtle Rock (Entrance) -> Turtle Rock Entrance Gap
-   =>   Turtle Rock (First Section)
-Zora's Ledge (Player1)
-        Links House -> Links House Exit
-   =>   Light World -> Zoras River
-   =>   Zoras River

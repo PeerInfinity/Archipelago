@@ -156,6 +156,16 @@ function isBossDefeatCheck(rule, stateSnapshotInterface) {
 /**
  * Evaluates a rule against the provided state context (either StateManager or main thread snapshot).\n * @param {any} rule - The rule object (or primitive) to evaluate.\n * @param {object} context - Either the StateManager instance (or its interface) in the worker,\n *                           or the snapshot interface on the main thread.\n * @param {number} [depth=0] - Current recursion depth for debugging.\n * @returns {boolean|any} - The result of the rule evaluation.\n */
 export const evaluateRule = (rule, context, depth = 0) => {
+  // Prevent infinite recursion by limiting depth
+  if (depth > 100) {
+    log('error', '[evaluateRule] Maximum recursion depth exceeded', {
+      depth,
+      rule: rule?.type,
+      method: rule?.method
+    });
+    return false; // Return false for locations that would cause stack overflow
+  }
+
   // Ensure rule is an object
   if (typeof rule !== 'object' || rule === null) {
     // Handle primitive types directly if they sneak in (e.g., simple string/number requirement)
@@ -245,6 +255,8 @@ export const evaluateRule = (rule, context, depth = 0) => {
             );
             result = undefined;
           }
+        } else {
+          result = undefined;
         }
         break;
       }
@@ -328,9 +340,52 @@ export const evaluateRule = (rule, context, depth = 0) => {
             // Dynamically resolve the parent region from the context
             if (context.getStaticData && context.getStaticData().regions) {
               const regions = context.getStaticData().regions;
-              return regions[baseObject.parent_region_name];
+              
+              // Try direct lookup first
+              if (regions[baseObject.parent_region_name]) {
+                return regions[baseObject.parent_region_name];
+              }
+              
+              // Try player-specific lookup  
+              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+              if (regions[playerId] && regions[playerId][baseObject.parent_region_name]) {
+                return regions[playerId][baseObject.parent_region_name];
+              }
             }
             return undefined;
+          }
+
+          // Special handling for boss attribute - redirect to bosses["None"] if bosses exists
+          if (rule.attr === 'boss' && !baseObject.boss && baseObject.bosses) {
+            // Use the new bosses format - default to "None" entry
+            return baseObject.bosses["None"] || Object.values(baseObject.bosses)[0];
+          }
+          
+          // Special handling for dungeon attribute - resolve string to actual dungeon object
+          if (rule.attr === 'dungeon' && baseObject.dungeon) {
+            const dungeonValue = baseObject.dungeon;
+            
+            if (typeof dungeonValue === 'string') {
+              // Look up the actual dungeon object from staticData
+              const dungeonName = dungeonValue;
+              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+              const dungeons = context.dungeons || context.getAllDungeons?.() || context.staticData?.dungeons;
+              
+              if (dungeons) {
+                // Try player-specific dungeon first
+                if (dungeons[playerId] && dungeons[playerId][dungeonName]) {
+                  return dungeons[playerId][dungeonName];
+                }
+                // Fallback to direct dungeon lookup if not nested by player
+                if (dungeons[dungeonName]) {
+                  return dungeons[dungeonName];
+                }
+              }
+              // If we couldn't resolve, return the string (fallback)
+              return dungeonName;
+            }
+            // Already an object, return as-is
+            return dungeonValue;
           }
 
           // First try direct property access
@@ -366,6 +421,92 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'function_call': {
+        // Special handling for state.multiworld.get_location() calls
+        // These are used in location access rules to reference the location's parent_region
+        if (rule.function?.type === 'attribute' && 
+            rule.function.attr === 'get_location' &&
+            rule.function.object?.type === 'attribute' &&
+            rule.function.object.attr === 'multiworld') {
+          
+          const args = rule.args ? rule.args.map(arg => evaluateRule(arg, context, depth + 1)) : [];
+          const locationName = args[0];
+          
+          // If we're evaluating a rule for the same location, return the current location
+          // This avoids circular references when a location's access rule references itself
+          if (context.currentLocation && context.currentLocation.name === locationName) {
+            // Return an object that has the parent_region property properly set
+            return {
+              name: context.currentLocation.name,
+              parent_region: context.currentLocation.parent_region || 
+                           (context.currentLocation.region ? 
+                             context.getStaticData?.().regions?.[context.currentLocation.region] : 
+                             undefined),
+              parent_region_name: context.currentLocation.region
+            };
+          }
+          
+          // Otherwise, try to get the location from static data
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            // Search all regions for this location
+            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+              if (regionData.locations) {
+                const location = regionData.locations.find(loc => loc.name === locationName);
+                if (location) {
+                  return {
+                    name: location.name,
+                    parent_region: regionData,
+                    parent_region_name: regionName
+                  };
+                }
+              }
+            }
+          }
+          
+          return undefined;
+        }
+        
+        // Special handling for state.multiworld.get_entrance() calls
+        // These are used in exit access rules to reference the exit's parent_region
+        if (rule.function?.type === 'attribute' && 
+            rule.function.attr === 'get_entrance' &&
+            rule.function.object?.type === 'attribute' &&
+            rule.function.object.attr === 'multiworld') {
+          
+          const args = rule.args ? rule.args.map(arg => evaluateRule(arg, context, depth + 1)) : [];
+          const exitName = args[0];
+          
+          // When evaluating an exit rule, the context has parent_region set
+          // If this is a self-reference to the current exit, return the appropriate object
+          if (context.currentExit && context.currentExit === exitName) {
+            // For the current exit being evaluated, return an object with parent_region
+            return {
+              name: exitName,
+              parent_region: context.parent_region
+            };
+          }
+          
+          // Otherwise, try to find the exit in static data
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            // Search all regions for this exit
+            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+              if (regionData.exits) {
+                const exit = regionData.exits.find(ex => ex.name === exitName);
+                if (exit) {
+                  return {
+                    name: exit.name,
+                    parent_region: regionData,
+                    parent_region_name: regionName
+                  };
+                }
+              }
+            }
+          }
+          
+          return undefined;
+        }
+        
         // Special handling for boss.can_defeat function calls
         // These need to be redirected to use the boss's defeat_rule data
         if (
@@ -376,9 +517,26 @@ export const evaluateRule = (rule, context, depth = 0) => {
           let current = rule.function.object;
           let isDungeomBossDefeat = false;
 
-          // Look for the pattern: location.parent_region.dungeon.boss.can_defeat
+          // Look for patterns:
+          // 1. location.parent_region.dungeon.boss.can_defeat
+          // 2. location.parent_region.dungeon.bosses["index"].can_defeat (subscript pattern)
+          
+          // First check if immediate parent is a subscript accessing bosses
+          if (current && current.type === 'subscript') {
+            // Check if the subscript is accessing a bosses attribute
+            let subscriptValue = current.value;
+            while (subscriptValue && subscriptValue.type === 'attribute') {
+              if (subscriptValue.attr === 'bosses' || subscriptValue.attr === 'boss') {
+                isDungeomBossDefeat = true;
+                break;
+              }
+              subscriptValue = subscriptValue.object;
+            }
+          }
+          
+          // Also check the standard attribute chain
           while (current && current.type === 'attribute') {
-            if (current.attr === 'boss') {
+            if (current.attr === 'boss' || current.attr === 'bosses') {
               isDungeomBossDefeat = true;
               break;
             }
@@ -583,7 +741,22 @@ export const evaluateRule = (rule, context, depth = 0) => {
             }
             break;
           case 'in':
-            if (Array.isArray(right) || typeof right === 'string') {
+            if (Array.isArray(right)) {
+              // Handle array comparison with deep equality for nested arrays
+              if (Array.isArray(left)) {
+                result = right.some(item => {
+                  if (Array.isArray(item)) {
+                    // Deep array comparison
+                    return item.length === left.length && 
+                           item.every((val, index) => val === left[index]);
+                  } else {
+                    return item === left;
+                  }
+                });
+              } else {
+                result = right.includes(left);
+              }
+            } else if (typeof right === 'string') {
               result = right.includes(left);
             } else if (right instanceof Set) {
               // Handle Set
@@ -745,10 +918,10 @@ export const evaluateRule = (rule, context, depth = 0) => {
           } else if (testResult) {
             result = evaluateRule(rule.if_true, context, depth + 1);
           } else {
-            // Handle null if_false as false (can't defeat boss if condition not met)
+            // Handle null if_false as true (no additional requirements)
             result =
               rule.if_false === null
-                ? false
+                ? true
                 : evaluateRule(rule.if_false, context, depth + 1);
           }
         }
@@ -773,7 +946,15 @@ export const evaluateRule = (rule, context, depth = 0) => {
             result = left - right;
             break;
           case '*':
-            result = left * right;
+            // Handle Python-style list repetition: [item] * count = [item, item, ...]
+            if (Array.isArray(left) && typeof right === 'number') {
+              result = [];
+              for (let i = 0; i < right; i++) {
+                result.push(...left);
+              }
+            } else {
+              result = left * right;
+            }
             break;
           case '/':
             result = right !== 0 ? left / right : undefined;
@@ -831,6 +1012,67 @@ export const evaluateRule = (rule, context, depth = 0) => {
         result = evaluatedList.some((item) => item === undefined)
           ? undefined
           : evaluatedList;
+        break;
+      }
+
+      case 'all_of': {
+        // all_of evaluates an element_rule against all items from an iterator
+        if (!rule.element_rule) {
+          log('warn', '[evaluateRule] all_of rule missing element_rule', { rule });
+          result = undefined;
+          break;
+        }
+        
+        // Extract iterator information
+        let iterable;
+        if (rule.iterator_info && rule.iterator_info.iterator) {
+          // Get the iterator from the iterator_info
+          iterable = evaluateRule(rule.iterator_info.iterator, context, depth + 1);
+        } else if (rule.iterable) {
+          // Fallback for direct iterable field
+          iterable = evaluateRule(rule.iterable, context, depth + 1);
+        } else {
+          log('warn', '[evaluateRule] all_of rule missing iterator information', { rule });
+          result = undefined;
+          break;
+        }
+        
+        if (!Array.isArray(iterable)) {
+          log('warn', '[evaluateRule] all_of iterator is not an array', { rule, iterable });
+          result = false;
+          break;
+        }
+        
+        result = true;
+        for (const item of iterable) {
+          // For now, evaluate the element_rule directly
+          // TODO: In a full implementation, we'd need to bind the iterator variable
+          const itemResult = evaluateRule(rule.element_rule, context, depth + 1);
+          if (itemResult === false) {
+            result = false;
+            break;
+          }
+          if (itemResult === undefined) {
+            result = undefined;
+            break;
+          }
+        }
+        break;
+      }
+
+      case 'generator_expression': {
+        // generator_expression represents a Python generator expression
+        // It has an element and potentially filters/conditions
+        if (!rule.element) {
+          log('warn', '[evaluateRule] generator_expression rule missing element', { rule });
+          result = undefined;
+          break;
+        }
+        
+        // For now, evaluate the element directly
+        // This is a simplified implementation - real generator expressions would need
+        // proper iteration and filtering support
+        result = evaluateRule(rule.element, context, depth + 1);
         break;
       }
 

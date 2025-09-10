@@ -27,6 +27,8 @@
             "connected_region": "Raft",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -34,55 +36,109 @@
           {
             "name": "RaftToResearchTable",
             "connected_region": "ResearchTable",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToRadioTower",
             "connected_region": "RadioTower",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToVasagatan",
             "connected_region": "Vasagatan",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToBalboaIsland",
             "connected_region": "BalboaIsland",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToCaravanIsland",
             "connected_region": "CaravanIsland",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToTangaroa",
             "connected_region": "Tangaroa",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToVaruna Point",
             "connected_region": "Varuna Point",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToTemperance",
             "connected_region": "Temperance",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "RaftToUtopia",
             "connected_region": "Utopia",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -102,6 +158,8 @@
             "connected_region": "ResearchTable",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2031,6 +2089,8 @@
             "connected_region": "RadioTower",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2040,7 +2100,11 @@
             "name": "Tala (Radio Tower)",
             "id": 48054,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2055,7 +2119,11 @@
             "name": "Head light blueprint",
             "id": 48055,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2070,7 +2138,11 @@
             "name": "Recycler blueprint",
             "id": 48056,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2085,7 +2157,11 @@
             "name": "Radio Tower Briefcase",
             "id": 48057,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2100,7 +2176,11 @@
             "name": "Radio Tower Frequency to Vasagatan",
             "id": 48058,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -2115,7 +2195,11 @@
             "name": "Radio Tower Notepad 1",
             "id": 48059,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2130,7 +2214,11 @@
             "name": "Radio Tower Notepad 2",
             "id": 48060,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2145,7 +2233,11 @@
             "name": "Radio Tower Signalboard Trace",
             "id": 48061,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_radio_tower",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2172,6 +2264,8 @@
             "connected_region": "Vasagatan",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2181,7 +2275,11 @@
             "name": "Hannes Letter 1",
             "id": 48062,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2196,7 +2294,11 @@
             "name": "Hannes Letter 2",
             "id": 48063,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2211,7 +2313,11 @@
             "name": "Hannes Letter 3",
             "id": 48064,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2226,7 +2332,11 @@
             "name": "Olof Log 1",
             "id": 48065,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2241,7 +2351,11 @@
             "name": "Olof Log 2",
             "id": 48066,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2256,7 +2370,11 @@
             "name": "Olof Log 3",
             "id": 48067,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2271,7 +2389,11 @@
             "name": "Vasagatan Recording 1",
             "id": 48068,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2286,7 +2408,11 @@
             "name": "Vasagatan Recording 2",
             "id": 48069,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2301,7 +2427,11 @@
             "name": "Vasagatan Recording 3",
             "id": 48070,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2316,7 +2446,11 @@
             "name": "Vasagatan Magazine Clipping",
             "id": 48071,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2331,7 +2465,11 @@
             "name": "Vasagatan Frequency to Balboa",
             "id": 48072,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -2346,7 +2484,11 @@
             "name": "Engine blueprint",
             "id": 48073,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2361,7 +2503,11 @@
             "name": "Steering Wheel blueprint",
             "id": 48074,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_vasagatan",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2388,6 +2534,8 @@
             "connected_region": "BalboaIsland",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2397,7 +2545,11 @@
             "name": "Machete blueprint",
             "id": 48075,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2412,7 +2564,11 @@
             "name": "Balboa Island Correa twins picture",
             "id": 48076,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2427,7 +2583,11 @@
             "name": "Balboa Island Schedule of engineers",
             "id": 48077,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2442,7 +2602,11 @@
             "name": "Biofuel refiner blueprint",
             "id": 48078,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2565,7 +2729,11 @@
             "name": "Balboa Island Correas diary 1",
             "id": 48082,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2580,7 +2748,11 @@
             "name": "Balboa Island Correas diary 2",
             "id": 48083,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2595,7 +2767,11 @@
             "name": "Fuel pipe blueprint",
             "id": 48084,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2610,7 +2786,11 @@
             "name": "Balboa Island Bear map",
             "id": 48085,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2661,7 +2841,11 @@
             "name": "Balboa Island Doll murderer 4",
             "id": 48087,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2676,7 +2860,11 @@
             "name": "Balboa Island Doll murderer 1",
             "id": 48088,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2691,7 +2879,11 @@
             "name": "Balboa Island Doll murderer 3",
             "id": 48089,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2706,7 +2898,11 @@
             "name": "Balboa Island Doll murderer 5",
             "id": 48090,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2721,7 +2917,11 @@
             "name": "Balboa Island Doll murderer 2",
             "id": 48091,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2736,7 +2936,11 @@
             "name": "Relay Station quest",
             "id": 48155,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_balboa_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -2763,6 +2967,8 @@
             "connected_region": "CaravanIsland",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2772,7 +2978,11 @@
             "name": "Caravan Island Detto journal 1",
             "id": 48092,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2787,7 +2997,11 @@
             "name": "Caravan Island Detto journal 2",
             "id": 48093,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2802,7 +3016,11 @@
             "name": "Caravan Island Detto journal 3",
             "id": 48094,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2817,7 +3035,11 @@
             "name": "Caravan Island Detto journal 4",
             "id": 48095,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2832,7 +3054,11 @@
             "name": "Caravan Island Detto journal 5",
             "id": 48096,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2847,7 +3073,11 @@
             "name": "Caravan Island Detto journal 6",
             "id": 48097,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2862,7 +3092,11 @@
             "name": "Caravan Island Olaf speech",
             "id": 48098,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2877,7 +3111,11 @@
             "name": "Caravan Island Raft town article",
             "id": 48099,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2892,7 +3130,11 @@
             "name": "Caravan Island Doctor's note",
             "id": 48100,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2907,7 +3149,11 @@
             "name": "Firework blueprint",
             "id": 48101,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -2922,7 +3168,11 @@
             "name": "Battery Charger quest",
             "id": 48102,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3009,7 +3259,11 @@
             "name": "Engine controls blueprint",
             "id": 48105,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3024,7 +3278,11 @@
             "name": "Metal detector blueprint",
             "id": 48106,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_caravan_island",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3051,6 +3309,8 @@
             "connected_region": "Tangaroa",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3060,7 +3320,11 @@
             "name": "Tangaroa Ruben 1",
             "id": 48107,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3075,7 +3339,11 @@
             "name": "Tangaroa Ruben 2",
             "id": 48108,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3090,7 +3358,11 @@
             "name": "Tangaroa Ruben 3",
             "id": 48109,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3105,7 +3377,11 @@
             "name": "Tangaroa Ruben 4",
             "id": 48110,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3120,7 +3396,11 @@
             "name": "Tangaroa Ruben 5",
             "id": 48111,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3135,7 +3415,11 @@
             "name": "Tangaroa Gardener Diary",
             "id": 48112,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3150,7 +3434,11 @@
             "name": "Tangaroa Riot Log",
             "id": 48113,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3165,7 +3453,11 @@
             "name": "Tangaroa Tulley Note",
             "id": 48114,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3180,7 +3472,11 @@
             "name": "Tangaroa Cipher",
             "id": 48115,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3195,7 +3491,11 @@
             "name": "Tangaroa Frequency to Varuna Point",
             "id": 48116,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3210,7 +3510,11 @@
             "name": "Water pipe blueprint",
             "id": 48117,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3225,7 +3529,11 @@
             "name": "Electric purifier blueprint",
             "id": 48118,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3240,7 +3548,11 @@
             "name": "Water tank blueprint",
             "id": 48119,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3255,7 +3567,11 @@
             "name": "Large Storage blueprint",
             "id": 48120,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3270,7 +3586,11 @@
             "name": "Elaine (Tangaroa)",
             "id": 48121,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_tangaroa",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3297,6 +3617,8 @@
             "connected_region": "Varuna Point",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3306,7 +3628,11 @@
             "name": "Varuna Point Grabber diary 1",
             "id": 48122,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3321,7 +3647,11 @@
             "name": "Varuna Point Grabber diary 2",
             "id": 48123,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3336,7 +3666,11 @@
             "name": "Varuna Point Grabber diary 3",
             "id": 48124,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3351,7 +3685,11 @@
             "name": "Varuna Point Grabber diary 4",
             "id": 48125,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3366,7 +3704,11 @@
             "name": "Varuna Point Grabber diary 5",
             "id": 48126,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3381,7 +3723,11 @@
             "name": "Varuna Point Grabber diary 6",
             "id": 48127,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3396,7 +3742,11 @@
             "name": "Varuna Point Frequency to Temperance",
             "id": 48128,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3411,7 +3761,11 @@
             "name": "Wind Turbine blueprint",
             "id": 48129,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3426,7 +3780,11 @@
             "name": "Advanced Battery blueprint",
             "id": 48130,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3441,7 +3799,11 @@
             "name": "Advanced Headlight blueprint",
             "id": 48131,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3456,7 +3818,11 @@
             "name": "Electric Grill blueprint",
             "id": 48132,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_varuna_point",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3483,6 +3849,8 @@
             "connected_region": "Temperance",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3492,7 +3860,11 @@
             "name": "Temperance Bruno diary 1",
             "id": 48133,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3507,7 +3879,11 @@
             "name": "Temperance Bruno diary 2",
             "id": 48134,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3522,7 +3898,11 @@
             "name": "Temperance Bruno diary 3",
             "id": 48135,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3537,7 +3917,11 @@
             "name": "Temperance Bruno diary 4",
             "id": 48136,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3552,7 +3936,11 @@
             "name": "Temperance Bruno diary 5",
             "id": 48137,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3567,7 +3955,11 @@
             "name": "Temperance Sparrow note 1",
             "id": 48138,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3582,7 +3974,11 @@
             "name": "Temperance Sparrow note 2",
             "id": 48139,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3597,7 +3993,11 @@
             "name": "Temperance Frequency to Utopia",
             "id": 48140,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3612,7 +4012,11 @@
             "name": "Temperance Star sign 1",
             "id": 48141,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3627,7 +4031,11 @@
             "name": "Temperance Star sign 2",
             "id": 48142,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3642,7 +4050,11 @@
             "name": "Temperance Star sign 3",
             "id": 48143,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3657,7 +4069,11 @@
             "name": "Temperance Star sign 4",
             "id": 48144,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3672,7 +4088,11 @@
             "name": "Electric Smelter blueprint",
             "id": 48145,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3687,7 +4107,11 @@
             "name": "Advanced Biofuel Extractor blueprint",
             "id": 48146,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3702,7 +4126,11 @@
             "name": "Advanced Stationary Anchor blueprint",
             "id": 48147,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3717,7 +4145,11 @@
             "name": "Shogo (Temperance)",
             "id": 48148,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "raft_can_access_temperance",
+              "args": []
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3744,6 +4176,8 @@
             "connected_region": "Utopia",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3753,7 +4187,21 @@
             "name": "Electric Zipline blueprint",
             "id": 48149,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "raft_can_complete_temperance",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "raft_can_access_utopia",
+                  "args": []
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3768,7 +4216,21 @@
             "name": "Advanced Backpack blueprint",
             "id": 48150,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "raft_can_complete_temperance",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "raft_can_access_utopia",
+                  "args": []
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3783,7 +4245,21 @@
             "name": "Titanium Tools blueprint",
             "id": 48151,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "raft_can_complete_temperance",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "raft_can_access_utopia",
+                  "args": []
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3798,7 +4274,21 @@
             "name": "Utopia Captives note",
             "id": 48152,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "raft_can_complete_temperance",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "raft_can_access_utopia",
+                  "args": []
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3813,7 +4303,21 @@
             "name": "Utopia Detto map",
             "id": 48153,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "raft_can_complete_temperance",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "raft_can_access_utopia",
+                  "args": []
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -3828,7 +4332,21 @@
             "name": "Utopia Complete",
             "id": null,
             "crystal": null,
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "raft_can_complete_temperance",
+                  "args": []
+                },
+                {
+                  "type": "state_method",
+                  "method": "raft_can_access_utopia",
+                  "args": []
+                }
+              ]
+            },
             "progress_type": 1,
             "locked": true,
             "item": {
@@ -3857,6 +4375,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -8426,6 +8947,20 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -8551,7 +9086,8 @@
   },
   "settings": {
     "1": {
-      "game": "Raft"
+      "game": "Raft",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

@@ -5,7 +5,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -41,7 +41,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_short_hike/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/shorthike/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -59,7 +59,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_hat_in_time/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/ahit/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -77,7 +77,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -99,7 +99,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -121,7 +121,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -143,7 +143,7 @@
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -159,13 +159,35 @@
       "enabled": true
     }
   },
+  "test-regression": {
+    "moduleConfig": {
+      "path": "./modules.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "layoutConfig": {
+      "path": "./layout_presets.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "path": "./settings.json",
+      "enabled": true
+    },
+    "testsConfig": {
+      "path": "./playwright_tests_config-regression.json",
+      "enabled": true
+    }
+  },
   "test-spoilers": {
     "moduleConfig": {
       "path": "./modules.json",
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_hat_in_time/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -181,13 +203,13 @@
       "enabled": true
     }
   },
-  "test1": {
+  "loops": {
     "moduleConfig": {
       "path": "./modules.json",
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -195,7 +217,25 @@
       "enabled": true
     },
     "userSettings": {
-      "path": "./settings.json",
+      "paths": ["./settings.json", "./settings-loops.json"],
+      "enabled": true
+    }
+  },
+  "test-loops": {
+    "moduleConfig": {
+      "path": "./modules.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "layoutConfig": {
+      "path": "./layout_presets.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "paths": ["./settings.json", "./settings-loops.json"],
       "enabled": true
     },
     "testsConfig": {
@@ -203,13 +243,13 @@
       "enabled": true
     }
   },
-  "test2": {
+  "test-multi-settings": {
     "moduleConfig": {
       "path": "./modules.json",
       "enabled": true
     },
     "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_01043188731678011336/AP_01043188731678011336_rules.json",
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
       "enabled": true
     },
     "layoutConfig": {
@@ -217,29 +257,7 @@
       "enabled": true
     },
     "userSettings": {
-      "path": "./settings.json",
-      "enabled": true
-    },
-    "testsConfig": {
-      "path": "./playwright_tests_config.json",
-      "enabled": true
-    }
-  },
-  "test3": {
-    "moduleConfig": {
-      "path": "./modules.json",
-      "enabled": true
-    },
-    "rulesConfig": {
-      "path": "./presets/a_link_to_the_past/AP_84719271504320872445/AP_84719271504320872445_rules.json",
-      "enabled": true
-    },
-    "layoutConfig": {
-      "path": "./layout_presets.json",
-      "enabled": true
-    },
-    "userSettings": {
-      "path": "./settings.json",
+      "paths": ["./settings.json", "./settings-overlay.json"],
       "enabled": true
     },
     "testsConfig": {

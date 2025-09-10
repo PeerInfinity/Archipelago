@@ -29,6 +29,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -48,6 +51,8 @@
             "connected_region": "Board",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -58,26 +63,34 @@
             "id": 16871244501,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -94,26 +107,34 @@
             "id": 16871244502,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": true,
@@ -130,26 +151,34 @@
             "id": 16871244503,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -166,26 +195,34 @@
             "id": 16871244504,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": true,
@@ -202,26 +239,34 @@
             "id": 16871244505,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -238,26 +283,34 @@
             "id": 16871244506,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -274,26 +327,34 @@
             "id": 16871244507,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -310,26 +371,34 @@
             "id": 16871244508,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -346,26 +415,34 @@
             "id": 16871244509,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -382,26 +459,34 @@
             "id": 16871244510,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -418,26 +503,34 @@
             "id": 16871244511,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -454,26 +547,34 @@
             "id": 16871244512,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -490,26 +591,34 @@
             "id": 16871244513,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -526,26 +635,34 @@
             "id": 16871244514,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -562,26 +679,34 @@
             "id": 16871244515,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -598,26 +723,34 @@
             "id": 16871244517,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -634,26 +767,34 @@
             "id": 16871244519,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -670,26 +811,34 @@
             "id": 16871244522,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -706,26 +855,34 @@
             "id": 16871244525,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -742,26 +899,34 @@
             "id": 16871244528,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -778,26 +943,34 @@
             "id": 16871244532,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -814,26 +987,34 @@
             "id": 16871244536,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -850,26 +1031,34 @@
             "id": 16871244540,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -886,26 +1075,34 @@
             "id": 16871244544,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -922,26 +1119,34 @@
             "id": 16871244548,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -958,26 +1163,34 @@
             "id": 16871244553,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -994,26 +1207,34 @@
             "id": 16871244558,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1030,26 +1251,34 @@
             "id": 16871244563,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1066,26 +1295,34 @@
             "id": 16871244569,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1102,26 +1339,34 @@
             "id": 16871244574,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1138,26 +1383,34 @@
             "id": 16871244580,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1174,26 +1427,34 @@
             "id": 16871244587,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1210,26 +1471,34 @@
             "id": 16871244593,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1246,26 +1515,34 @@
             "id": 16871244600,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1282,26 +1559,34 @@
             "id": 16871244607,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1318,26 +1603,34 @@
             "id": 16871244614,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1354,26 +1647,34 @@
             "id": 16871244622,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1390,26 +1691,34 @@
             "id": 16871244630,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1426,26 +1735,34 @@
             "id": 16871244638,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1462,26 +1779,34 @@
             "id": 16871244646,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1498,26 +1823,34 @@
             "id": 16871244655,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1534,26 +1867,34 @@
             "id": 16871244664,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1570,26 +1911,34 @@
             "id": 16871244673,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1606,26 +1955,34 @@
             "id": 16871244683,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1642,26 +1999,34 @@
             "id": 16871244693,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1678,26 +2043,34 @@
             "id": 16871244703,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1714,26 +2087,34 @@
             "id": 16871244714,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1750,26 +2131,34 @@
             "id": 16871244724,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1786,26 +2175,34 @@
             "id": 16871244736,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1822,26 +2219,34 @@
             "id": 16871244747,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1858,26 +2263,34 @@
             "id": 16871244759,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1894,26 +2307,34 @@
             "id": 16871244771,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1930,26 +2351,34 @@
             "id": 16871244783,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -1966,26 +2395,34 @@
             "id": 16871244796,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2002,26 +2439,34 @@
             "id": 16871244809,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2038,26 +2483,34 @@
             "id": 16871244822,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2074,26 +2527,34 @@
             "id": 16871244836,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2110,26 +2571,34 @@
             "id": 16871244850,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2146,26 +2615,34 @@
             "id": 16871244864,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2182,26 +2659,34 @@
             "id": 16871244878,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2218,26 +2703,34 @@
             "id": 16871244893,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2254,26 +2747,34 @@
             "id": 16871244908,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2290,26 +2791,34 @@
             "id": 16871244924,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2326,26 +2835,34 @@
             "id": 16871244940,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2362,26 +2879,34 @@
             "id": 16871244956,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2398,26 +2923,34 @@
             "id": 16871244973,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2434,26 +2967,34 @@
             "id": 16871244990,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2470,26 +3011,34 @@
             "id": 16871245007,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2506,26 +3055,34 @@
             "id": 16871245024,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2542,26 +3099,34 @@
             "id": 16871245042,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2578,26 +3143,34 @@
             "id": 16871245060,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2614,26 +3187,34 @@
             "id": 16871245079,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2650,26 +3231,34 @@
             "id": 16871245098,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2686,26 +3275,34 @@
             "id": 16871245117,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2722,26 +3319,34 @@
             "id": 16871245137,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2758,26 +3363,34 @@
             "id": 16871245157,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2794,26 +3407,34 @@
             "id": 16871245177,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2830,26 +3451,34 @@
             "id": 16871245198,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2866,26 +3495,34 @@
             "id": 16871245219,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2902,26 +3539,34 @@
             "id": 16871245240,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2938,26 +3583,34 @@
             "id": 16871245262,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -2974,26 +3627,34 @@
             "id": 16871245277,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": true,
@@ -3010,26 +3671,34 @@
             "id": 16871245306,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3046,26 +3715,34 @@
             "id": 16871245329,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3082,26 +3759,34 @@
             "id": 16871245352,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3118,26 +3803,34 @@
             "id": 16871245376,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3154,26 +3847,34 @@
             "id": 16871245399,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3190,26 +3891,34 @@
             "id": 16871245424,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3226,26 +3935,34 @@
             "id": 16871245448,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -3262,26 +3979,34 @@
             "id": 16871245500,
             "crystal": null,
             "access_rule": {
-              "type": "helper",
-              "name": "dice_simulation_state_change",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "frags_per_dice"
-                },
-                {
-                  "type": "name",
-                  "name": "frags_per_roll"
-                },
-                {
-                  "type": "name",
-                  "name": "allowed_categories"
-                },
-                {
-                  "type": "name",
-                  "name": "difficulty"
-                }
-              ]
+              "type": "compare",
+              "left": {
+                "type": "helper",
+                "name": "dice_simulation_state_change",
+                "args": [
+                  {
+                    "type": "name",
+                    "name": "frags_per_dice"
+                  },
+                  {
+                    "type": "name",
+                    "name": "frags_per_roll"
+                  },
+                  {
+                    "type": "name",
+                    "name": "allowed_categories"
+                  },
+                  {
+                    "type": "name",
+                    "name": "difficulty"
+                  }
+                ]
+              },
+              "op": ">=",
+              "right": {
+                "type": "name",
+                "name": "curscore"
+              }
             },
             "progress_type": 1,
             "locked": false,
@@ -4005,6 +4730,20 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -4058,7 +4797,8 @@
   },
   "settings": {
     "1": {
-      "game": "Yacht Dice"
+      "game": "Yacht Dice",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

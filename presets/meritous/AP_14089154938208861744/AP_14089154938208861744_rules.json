@@ -25,7 +25,28 @@
           {
             "name": "To Meridian",
             "connected_region": "Meridian",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "group_check",
+                  "group": {
+                    "type": "constant",
+                    "value": "PSI Keys"
+                  }
+                },
+                {
+                  "type": "group_check",
+                  "group": {
+                    "type": "constant",
+                    "value": "Important Artifacts"
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -496,6 +517,8 @@
             "connected_region": "Second Quarter",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -503,7 +526,28 @@
           {
             "name": "To Ataraxia",
             "connected_region": "Ataraxia",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "group_check",
+                  "group": {
+                    "type": "constant",
+                    "value": "PSI Keys"
+                  }
+                },
+                {
+                  "type": "group_check",
+                  "group": {
+                    "type": "constant",
+                    "value": "Important Artifacts"
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -974,6 +1018,8 @@
             "connected_region": "Third Quarter",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -981,7 +1027,28 @@
           {
             "name": "To Merodach",
             "connected_region": "Merodach",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "group_check",
+                  "group": {
+                    "type": "constant",
+                    "value": "PSI Keys"
+                  }
+                },
+                {
+                  "type": "group_check",
+                  "group": {
+                    "type": "constant",
+                    "value": "Important Artifacts"
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1452,6 +1519,8 @@
             "connected_region": "Last Quarter",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1459,13 +1528,43 @@
           {
             "name": "Back to the entrance",
             "connected_region": "Final Boss",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Cursed Seal"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "Back to the entrance with the Knife",
             "connected_region": "True Final Boss",
-            "access_rule": null,
+            "access_rule": {
+              "type": "state_method",
+              "method": "has_all",
+              "args": [
+                {
+                  "type": "list",
+                  "value": [
+                    {
+                      "type": "constant",
+                      "value": "Cursed Seal"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "Agate Knife"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1954,6 +2053,8 @@
             "connected_region": "Meridian",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1961,7 +2062,16 @@
           {
             "name": "To Second Quarter",
             "connected_region": "Second Quarter",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Meridian Defeated"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2018,6 +2128,8 @@
             "connected_region": "Ataraxia",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2025,7 +2137,16 @@
           {
             "name": "To Third Quarter",
             "connected_region": "Third Quarter",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Ataraxia Defeated"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2082,6 +2203,8 @@
             "connected_region": "Merodach",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2089,7 +2212,16 @@
           {
             "name": "To Last Quarter",
             "connected_region": "Last Quarter",
-            "access_rule": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Merodach Defeated"
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2146,6 +2278,8 @@
             "connected_region": "Final Boss",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2185,6 +2319,8 @@
             "connected_region": "True Final Boss",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2568,6 +2704,76 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Meridian Defeated": {
+        "name": "Meridian Defeated",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Ataraxia Defeated": {
+        "name": "Ataraxia Defeated",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Merodach Defeated": {
+        "name": "Merodach Defeated",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
+      },
+      "Full Victory": {
+        "name": "Full Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -2619,7 +2825,8 @@
   },
   "settings": {
     "1": {
-      "game": "Meritous"
+      "game": "Meritous",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

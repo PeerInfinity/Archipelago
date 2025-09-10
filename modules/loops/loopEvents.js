@@ -1,6 +1,8 @@
 import loopStateSingleton from './loopStateSingleton.js';
 import { getLoopsModuleDispatcher, moduleInfo } from './index.js'; // Import the dispatcher getter and moduleInfo
 
+// Track loop mode state
+let isLoopModeActive = false;
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -10,6 +12,26 @@ function log(level, message, ...data) {
     const consoleMethod = console[level === 'info' ? 'log' : level] || console.log;
     consoleMethod(`[loopEvents] ${message}`, ...data);
   }
+}
+
+/**
+ * Initialize event handlers and subscribe to loop mode changes
+ * Should be called when the module initializes
+ * @param {EventBus} eventBus - The event bus instance
+ */
+export function initializeLoopEvents(eventBus) {
+  if (!eventBus) {
+    log('error', '[LoopEvents] Cannot initialize: EventBus not provided');
+    return;
+  }
+
+  // Subscribe to loop mode changes from the UI
+  eventBus.subscribe('loopUI:modeChanged', (data) => {
+    if (data && typeof data.active === 'boolean') {
+      isLoopModeActive = data.active;
+      log('info', '[LoopEvents] Loop mode changed:', isLoopModeActive);
+    }
+  }, 'loops');
 }
 
 /**
@@ -28,53 +50,44 @@ export function handleUserLocationCheckForLoops(eventData, propagationOptions) {
   );
   const dispatcher = getLoopsModuleDispatcher(); // Get the dispatcher
 
-  if (loopStateSingleton.isLoopModeActive) {
+  if (isLoopModeActive) {
     log('info', 
       '[LoopsModule] Handling user:locationCheck in Loop Mode.',
       eventData
     );
-    // Logic to queue 'Check Location' or 'Explore' action based on eventData.locationName
+    
+    // In the new architecture, we let the event continue up to playerState
+    // playerState will handle adding the locationCheck to its path
+    // Then loopState will read it from there when processing
+    
     if (eventData.locationName) {
-      // Ensure queueAction (or a more specific method like queueCheckLocationAction) exists and is called correctly
-      if (typeof loopStateSingleton.queueAction === 'function') {
-        loopStateSingleton.queueAction({
-          type: 'checkLocation',
-          locationName: eventData.locationName,
-          regionName: eventData.regionName,
-          // pass other relevant data from eventData if needed by the queue action
-        });
-      } else if (
-        typeof loopStateSingleton.queueCheckLocationAction === 'function'
-      ) {
-        // Fallback to queueCheckLocationAction if queueAction is not generic enough or available
-        loopStateSingleton.queueCheckLocationAction(
-          eventData.regionName,
-          eventData.locationName
+      // Let the event propagate up so playerState can handle it
+      // playerState listens for user:locationCheck and adds it to the path
+      if (dispatcher) {
+        dispatcher.publishToNextModule(
+          moduleInfo.name,
+          'user:locationCheck',
+          eventData,
+          { direction: 'up' }
+        );
+        log('info', 
+          '[LoopsModule] Loop mode active. Propagated user:locationCheck up to playerState.',
+          eventData
         );
       } else {
         log('error', 
-          '[LoopsModule] No method available on loopStateSingleton to queue location check.'
+          '[LoopsModule] Dispatcher not available for propagation in loop mode.'
         );
       }
     } else {
       // Handle "check next available" logic for loop mode if applicable
-      // This might involve a specific method on loopStateSingleton
-      if (
-        typeof loopStateSingleton.determineAndQueueNextLoopAction === 'function'
-      ) {
-        loopStateSingleton.determineAndQueueNextLoopAction();
-      } else {
-        log('warn', 
-          "[LoopsModule] 'check next available' requested in loop mode, but no handler method (determineAndQueueNextLoopAction) found on loopStateSingleton."
-        );
-      }
+      log('warn', 
+        "[LoopsModule] 'check next available' logic not yet implemented in new architecture."
+      );
     }
-    // Event handled locally, do not propagate further up from here based on typical conditional logic.
-    // If propagation is desired even when handled, the dispatcher logic here would need to change.
   } else {
-    // Loop mode not active, propagate up.
+    // Loop mode not active, propagate up normally
     if (dispatcher) {
-      // Propagation direction is 'up' as specified in registerDispatcherReceiver
       dispatcher.publishToNextModule(
         moduleInfo.name,
         'user:locationCheck',

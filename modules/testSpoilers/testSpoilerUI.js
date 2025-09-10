@@ -3,6 +3,7 @@ import eventBus from '../../app/core/eventBus.js'; // ADDED: Static import
 import { evaluateRule } from '../shared/ruleEngine.js'; // ADDED
 import { createStateSnapshotInterface } from '../shared/stateInterface.js'; // ADDED
 import { createRegionLink } from '../commonUI/index.js'; // ADDED
+import TestSpoilerRuleEvaluator from './testSpoilerRuleEvaluator.js'; // ADDED
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -50,6 +51,8 @@ export class TestSpoilerUI {
     this.eventProcessingDelayMs = 0; // ELIMINATED: No delay to prevent background processing issues
     this.stopOnFirstError = true; // ADDED: To control test run behavior - TEMPORARILY DISABLED for debugging
     this.currentMismatchDetails = null; // ADDED: Store current mismatch details for result aggregation
+    this.previousInventory = {}; // Track previous sphere's inventory to find newly added items
+    this.ruleEvaluator = new TestSpoilerRuleEvaluator((level, message, ...data) => this.log(level, message, ...data));
 
     // Create and append root element immediately
     this.getRootElement(); // This creates this.rootElement and sets this.testSpoilersContainer
@@ -714,6 +717,7 @@ export class TestSpoilerUI {
     this.log('debug', `[prepareSpoilerTest] Resetting currentLogIndex from ${this.currentLogIndex} to 0`);
     this.currentLogIndex = 0;
     this.testStateInitialized = false;
+    this.previousInventory = {}; // Reset previous inventory for new test
     this.abortController = new AbortController();
     this.log('debug', `[prepareSpoilerTest] Reset complete. currentLogIndex=${this.currentLogIndex}, testStateInitialized=${this.testStateInitialized}`);
 
@@ -1125,6 +1129,7 @@ export class TestSpoilerUI {
 
     let comparisonResult = false;
     let allChecksPassed = true; // Assume true until a check fails
+    let newlyAddedItems = []; // Declare at function scope to be accessible in return statement
 
     switch (eventType) {
       case 'state_update': {
@@ -1140,6 +1145,22 @@ export class TestSpoilerUI {
         const playerDataForCurrentTest = event.player_data[this.playerId];
         const inventory_from_log =
           playerDataForCurrentTest.inventory_details?.prog_items || {};
+        
+        // Find newly added items by comparing with previous inventory
+        newlyAddedItems = this.findNewlyAddedItems(this.previousInventory, inventory_from_log);
+        
+        // Log newly added items before the status message
+        if (newlyAddedItems.length > 0) {
+          const itemCounts = {};
+          newlyAddedItems.forEach(item => {
+            itemCounts[item] = (itemCounts[item] || 0) + 1;
+          });
+          const itemList = Object.entries(itemCounts).map(([item, count]) => 
+            count > 1 ? `${item} (x${count})` : item
+          ).join(', ');
+          this.log('info', `📦 Recently added item${newlyAddedItems.length > 1 ? 's' : ''}: ${itemList}`);
+        }
+        
         const accessible_from_log =
           playerDataForCurrentTest.accessible_locations || [];
         const accessible_regions_from_log =
@@ -1194,7 +1215,8 @@ export class TestSpoilerUI {
 
           // 3. Ping worker to ensure all commands are processed and state is stable.
           await stateManager.pingWorker(
-            `spoiler_sphere_${context.sphere_number}_inventory_applied`
+            `spoiler_sphere_${context.sphere_number}_inventory_applied`,
+            5000  // Increased timeout to 5 seconds to handle intermittent delays
           );
           this.log(
             'debug',
@@ -1461,6 +1483,11 @@ export class TestSpoilerUI {
       );
     }
 
+    // Update previous inventory for next comparison
+    if (eventType === 'state_update' && event.player_data && event.player_data[this.playerId]) {
+      this.previousInventory = JSON.parse(JSON.stringify(event.player_data[this.playerId].inventory_details?.prog_items || {}));
+    }
+    
     return {
       error: !allChecksPassed,
       message: `Comparison for ${eventType} at step ${
@@ -1470,7 +1497,8 @@ export class TestSpoilerUI {
         eventType: eventType,
         eventIndex: this.currentLogIndex,
         sphereIndex: event.sphere_index !== undefined ? event.sphere_index : this.currentLogIndex + 1,
-        playerId: this.playerId
+        playerId: this.playerId,
+        newlyAddedItems: eventType === 'state_update' && newlyAddedItems.length > 0 ? newlyAddedItems : null
       }
     };
   }
@@ -2130,6 +2158,7 @@ export class TestSpoilerUI {
     // It's managed by the loading logic (set on success, cleared on certain failures or when changing files).
     this.currentLogIndex = 0;
     this.testStateInitialized = false;
+    this.previousInventory = {}; // Reset previous inventory when clearing state
 
     // MODIFIED: Re-enable auto-collect events as part of clearing test state
     // This is a fire-and-forget call as clearTestState might not be awaited.
@@ -2430,12 +2459,13 @@ export class TestSpoilerUI {
         
         // Provide detailed rule breakdown using the location-specific interface
         this.log('info', `    Detailed Rule Analysis:`);
-        this._analyzeRuleTree(locationAccessRule, locationSnapshotInterface, '      ');
+        this.ruleEvaluator.analyzeRuleTree(locationAccessRule, locationSnapshotInterface, '      ');
         
       } catch (error) {
         this.log('error', `    Access Rule Evaluation Error: ${error.message}`);
         this.log('error', `    Error stack: ${error.stack}`);
-        this.log('info', `    SnapshotInterface keys: ${Object.keys(snapshotInterface).join(', ')}`);
+        this.log('info', `    SnapshotInterface keys: ${Object.keys(locationSnapshotInterface).join(', ')}`);
+        locationRuleResult = false; // Set explicit result for caught errors
       }
 
       // Final assessment
@@ -2586,7 +2616,7 @@ export class TestSpoilerUI {
               
               // Provide detailed rule breakdown
               this.log('info', `        Detailed Rule Analysis:`);
-              this._analyzeRuleTree(exitAccessRule, snapshotInterface, '          ');
+              this.ruleEvaluator.analyzeRuleTree(exitAccessRule, snapshotInterface, '          ');
               
               if (exitRuleResult === true) {
                 this.log('info', `        → This exit should be accessible, so ${targetRegionName} should be reachable`);
@@ -2633,294 +2663,21 @@ export class TestSpoilerUI {
     }
   }
 
-  /**
-   * Recursively analyzes a rule tree to show detailed evaluation breakdown
-   * @param {Object} rule - The rule object to analyze
-   * @param {Object} snapshotInterface - Interface for evaluating rules
-   * @param {string} indent - Current indentation level for display
-   * @param {number} depth - Current recursion depth (to prevent infinite loops)
-   */
-  _analyzeRuleTree(rule, snapshotInterface, indent = '', depth = 0) {
-    if (depth > 10) {
-      this.log('warn', `${indent}[MAX DEPTH REACHED]`);
-      return;
-    }
-
-    if (!rule || typeof rule !== 'object') {
-      const result = rule;
-      this.log('info', `${indent}Primitive: ${JSON.stringify(result)}`);
-      return result;
-    }
-
-    const ruleType = rule.type;
-    let result;
-    let evaluationError = null;
+  findNewlyAddedItems(previousInventory, currentInventory) {
+    const newlyAdded = [];
     
-    try {
-      result = evaluateRule(rule, snapshotInterface);
-      const resultSymbol = result === true ? '✓' : result === false ? '✗' : result === undefined ? '?' : result;
-      
-      switch (ruleType) {
-        case 'and':
-          this.log('info', `${indent}AND (${resultSymbol}):`);
-          if (rule.conditions && Array.isArray(rule.conditions)) {
-            for (let i = 0; i < rule.conditions.length; i++) {
-              const condition = rule.conditions[i];
-              const conditionResult = this._analyzeRuleTree(condition, snapshotInterface, indent + '  ', depth + 1);
-              this.log('info', `${indent}  Condition ${i + 1}: ${conditionResult} ${conditionResult === true ? '✓' : conditionResult === false ? '✗' : '?'}`);
-            }
-          }
-          break;
-          
-        case 'or':
-          this.log('info', `${indent}OR (${resultSymbol}):`);
-          if (rule.conditions && Array.isArray(rule.conditions)) {
-            for (let i = 0; i < rule.conditions.length; i++) {
-              const condition = rule.conditions[i];
-              const conditionResult = this._analyzeRuleTree(condition, snapshotInterface, indent + '  ', depth + 1);
-              this.log('info', `${indent}  Condition ${i + 1}: ${conditionResult} ${conditionResult === true ? '✓' : conditionResult === false ? '✗' : '?'}`);
-            }
-          }
-          break;
-          
-        case 'not':
-          this.log('info', `${indent}NOT (${resultSymbol}):`);
-          if (rule.operand) {
-            const operandResult = this._analyzeRuleTree(rule.operand, snapshotInterface, indent + '  ', depth + 1);
-            this.log('info', `${indent}  Operand: ${operandResult} → NOT = ${result}`);
-          }
-          break;
-          
-        case 'item_check':
-          let itemName, hasItem;
-          try {
-            itemName = evaluateRule(rule.item, snapshotInterface);
-            hasItem = snapshotInterface.hasItem ? snapshotInterface.hasItem(itemName) : false;
-            this.log('info', `${indent}HAS_ITEM "${itemName}": ${hasItem} (${resultSymbol})`);
-            
-            // Show inventory state for debugging
-            if (snapshotInterface.prog_items) {
-              const currentCount = snapshotInterface.countItem ? snapshotInterface.countItem(itemName) : 0;
-              this.log('info', `${indent}  Current inventory count for "${itemName}": ${currentCount}`);
-            }
-          } catch (itemError) {
-            this.log('error', `${indent}HAS_ITEM evaluation error: ${itemError.message}`);
-            this.log('info', `${indent}  Rule.item: ${JSON.stringify(rule.item)}`);
-          }
-          break;
-          
-        case 'count_check':
-          let countItemName, countRequired, currentCount;
-          try {
-            countItemName = evaluateRule(rule.item, snapshotInterface);
-            countRequired = rule.count ? evaluateRule(rule.count, snapshotInterface) : 1;
-            currentCount = snapshotInterface.countItem ? snapshotInterface.countItem(countItemName) : 0;
-            this.log('info', `${indent}COUNT_ITEM "${countItemName}": ${currentCount} >= ${countRequired} = ${currentCount >= countRequired} (${resultSymbol})`);
-          } catch (countError) {
-            this.log('error', `${indent}COUNT_ITEM evaluation error: ${countError.message}`);
-            this.log('info', `${indent}  Rule.item: ${JSON.stringify(rule.item)}`);
-            this.log('info', `${indent}  Rule.count: ${JSON.stringify(rule.count)}`);
-          }
-          break;
-          
-        case 'helper':
-          const helperName = rule.name;
-          let args = [];
-          try {
-            args = rule.args ? rule.args.map(arg => evaluateRule(arg, snapshotInterface)) : [];
-            this.log('info', `${indent}HELPER ${helperName}(${args.map(a => JSON.stringify(a)).join(', ')}): ${resultSymbol}`);
-            
-            // Check if helper function exists
-            if (snapshotInterface[helperName]) {
-              this.log('info', `${indent}  Helper function "${helperName}" found in snapshotInterface`);
-              
-              // Add specific analysis for commonly problematic helper functions
-              if (result === false) {
-                this.log('info', `${indent}  Helper function returned false - analyzing why:`);
-                
-                // Special analysis for medallion helpers
-                if (helperName.includes('medallion')) {
-                  this.log('info', `${indent}    This is a medallion requirement helper`);
-                  this.log('info', `${indent}    Check if player has the required medallion item`);
-                  
-                  // Show game settings for medallion assignments
-                  if (snapshotInterface.getSetting) {
-                    const mmMedallion = snapshotInterface.getSetting('misery_mire_medallion');
-                    const trMedallion = snapshotInterface.getSetting('turtle_rock_medallion');
-                    this.log('info', `${indent}    Game settings: misery_mire_medallion=${mmMedallion}, turtle_rock_medallion=${trMedallion}`);
-                  } else if (snapshotInterface.settings) {
-                    this.log('info', `${indent}    Settings object available: ${JSON.stringify(snapshotInterface.settings)}`);
-                  } else {
-                    this.log('info', `${indent}    No settings interface available for medallion lookup`);
-                  }
-                  
-                  // Try to determine which medallion is required for this specific helper
-                  if (helperName === 'has_misery_mire_medallion') {
-                    const mmMedallion = snapshotInterface.getSetting ? snapshotInterface.getSetting('misery_mire_medallion') : null;
-                    const requiredMedallion = mmMedallion || 'Ether'; // Default to Ether like the helper function
-                    this.log('info', `${indent}    Misery Mire requires: ${requiredMedallion} (from setting: ${mmMedallion})`);
-                    
-                    const hasRequired = snapshotInterface.hasItem ? snapshotInterface.hasItem(requiredMedallion) : false;
-                    const countRequired = snapshotInterface.countItem ? snapshotInterface.countItem(requiredMedallion) : 0;
-                    this.log('info', `${indent}    Required medallion ${requiredMedallion}: ${hasRequired} (count: ${countRequired})`);
-                  }
-                  
-                  // Show all medallions for context
-                  const medallionItems = ['Ether', 'Bombos', 'Quake'];
-                  this.log('info', `${indent}    All medallions in inventory:`);
-                  for (const medallion of medallionItems) {
-                    const hasThis = snapshotInterface.hasItem ? snapshotInterface.hasItem(medallion) : false;
-                    const count = snapshotInterface.countItem ? snapshotInterface.countItem(medallion) : 0;
-                    this.log('info', `${indent}      ${medallion}: ${hasThis} (count: ${count})`);
-                  }
-                }
-                
-                // Special analysis for weapon/sword helpers
-                if (helperName.includes('sword') || helperName === 'has_sword') {
-                  this.log('info', `${indent}    This is a sword/weapon requirement helper`);
-                  const swordItems = ['Fighter Sword', 'Master Sword', 'Tempered Sword', 'Golden Sword'];
-                  for (const sword of swordItems) {
-                    const hasThis = snapshotInterface.hasItem ? snapshotInterface.hasItem(sword) : false;
-                    const count = snapshotInterface.countItem ? snapshotInterface.countItem(sword) : 0;
-                    this.log('info', `${indent}      ${sword}: ${hasThis} (count: ${count})`);
-                  }
-                }
-                
-                // Special analysis for item requirement helpers
-                if (helperName.includes('has_') && !helperName.includes('medallion') && !helperName.includes('sword')) {
-                  const itemName = helperName.replace('has_', '').replace(/_/g, ' ');
-                  this.log('info', `${indent}    This appears to be an item requirement helper`);
-                  this.log('info', `${indent}    Possible required item: "${itemName}"`);
-                  
-                  // Try variations of the item name
-                  const itemVariations = [
-                    itemName,
-                    itemName.charAt(0).toUpperCase() + itemName.slice(1),
-                    itemName.replace(/ /g, '_'),
-                    itemName.replace(/ /g, '')
-                  ];
-                  
-                  for (const variation of itemVariations) {
-                    const hasThis = snapshotInterface.hasItem ? snapshotInterface.hasItem(variation) : false;
-                    const count = snapshotInterface.countItem ? snapshotInterface.countItem(variation) : 0;
-                    if (hasThis || count > 0) {
-                      this.log('info', `${indent}      Found item "${variation}": ${hasThis} (count: ${count})`);
-                    }
-                  }
-                }
-              }
-            } else {
-              this.log('error', `${indent}  Helper function "${helperName}" NOT FOUND in snapshotInterface`);
-              this.log('info', `${indent}  Available helper functions: ${Object.keys(snapshotInterface).filter(k => typeof snapshotInterface[k] === 'function').join(', ')}`);
-            }
-          } catch (helperError) {
-            this.log('error', `${indent}HELPER evaluation error: ${helperError.message}`);
-            this.log('info', `${indent}  Helper name: ${helperName}`);
-            this.log('info', `${indent}  Raw args: ${JSON.stringify(rule.args)}`);
-            this.log('info', `${indent}  Error stack: ${helperError.stack}`);
-          }
-          break;
-          
-        case 'attribute':
-          let objectValue;
-          try {
-            if (rule.object) {
-              this.log('info', `${indent}ATTRIBUTE ${rule.attr} (${resultSymbol}):`);
-              objectValue = this._analyzeRuleTree(rule.object, snapshotInterface, indent + '  ', depth + 1);
-              this.log('info', `${indent}  Object value: ${JSON.stringify(objectValue)}`);
-              
-              if (objectValue && typeof objectValue === 'object') {
-                if (rule.attr in objectValue) {
-                  this.log('info', `${indent}  Attribute "${rule.attr}" found: ${JSON.stringify(objectValue[rule.attr])}`);
-                } else {
-                  this.log('error', `${indent}  Attribute "${rule.attr}" NOT FOUND in object`);
-                  this.log('info', `${indent}  Available attributes: ${Object.keys(objectValue).join(', ')}`);
-                }
-              } else {
-                this.log('error', `${indent}  Object is not an object or is null/undefined: ${typeof objectValue}`);
-              }
-            } else {
-              this.log('info', `${indent}ATTRIBUTE ${rule.attr}: ${resultSymbol}`);
-              this.log('error', `${indent}  No object specified for attribute access`);
-            }
-          } catch (attrError) {
-            this.log('error', `${indent}ATTRIBUTE evaluation error: ${attrError.message}`);
-            this.log('info', `${indent}  Attribute name: ${rule.attr}`);
-            this.log('info', `${indent}  Object rule: ${JSON.stringify(rule.object)}`);
-          }
-          break;
-          
-        case 'function_call':
-          let funcObj, funcName;
-          try {
-            funcObj = rule.function ? evaluateRule(rule.function, snapshotInterface) : null;
-            funcName = funcObj?.name || rule.function?.attr || 'unknown';
-            this.log('info', `${indent}FUNCTION_CALL ${funcName}(...): ${resultSymbol}`);
-            
-            this.log('info', `${indent}  Function object: ${JSON.stringify(funcObj)}`);
-            this.log('info', `${indent}  Function type: ${typeof funcObj}`);
-            
-            if (rule.function) {
-              this._analyzeRuleTree(rule.function, snapshotInterface, indent + '  ', depth + 1);
-            }
-            
-            if (rule.args && rule.args.length > 0) {
-              this.log('info', `${indent}  Function arguments:`);
-              for (let i = 0; i < rule.args.length; i++) {
-                const argResult = this._analyzeRuleTree(rule.args[i], snapshotInterface, indent + '    ', depth + 1);
-                this.log('info', `${indent}    Arg ${i + 1}: ${JSON.stringify(argResult)}`);
-              }
-            }
-          } catch (funcError) {
-            this.log('error', `${indent}FUNCTION_CALL evaluation error: ${funcError.message}`);
-            this.log('info', `${indent}  Function rule: ${JSON.stringify(rule.function)}`);
-            this.log('info', `${indent}  Args rule: ${JSON.stringify(rule.args)}`);
-          }
-          break;
-          
-        case 'identifier':
-          this.log('info', `${indent}IDENTIFIER "${rule.name}": ${resultSymbol}`);
-          // Check if identifier exists in context
-          if (snapshotInterface[rule.name] !== undefined) {
-            this.log('info', `${indent}  Identifier "${rule.name}" found: ${JSON.stringify(snapshotInterface[rule.name])}`);
-          } else {
-            this.log('error', `${indent}  Identifier "${rule.name}" NOT FOUND in context`);
-            this.log('info', `${indent}  Available identifiers: ${Object.keys(snapshotInterface).join(', ')}`);
-          }
-          break;
-          
-        case 'literal':
-          this.log('info', `${indent}LITERAL: ${JSON.stringify(rule.value)} (${resultSymbol})`);
-          break;
-          
-        case 'name':
-          this.log('info', `${indent}NAME: ${resultSymbol}`);
-          this.log('info', `${indent}  name: ${rule.name}`);
-          // Check what this name resolves to
-          if (snapshotInterface[rule.name] !== undefined) {
-            this.log('info', `${indent}  Resolves to: ${JSON.stringify(snapshotInterface[rule.name])}`);
-          } else {
-            this.log('error', `${indent}  Name "${rule.name}" NOT FOUND in context`);
-          }
-          break;
-          
-        default:
-          this.log('info', `${indent}${ruleType.toUpperCase()}: ${resultSymbol}`);
-          // Try to show some basic info about the rule
-          if (rule.name) this.log('info', `${indent}  name: ${rule.name}`);
-          if (rule.value !== undefined) this.log('info', `${indent}  value: ${JSON.stringify(rule.value)}`);
-          this.log('info', `${indent}  Full rule: ${JSON.stringify(rule)}`);
-          break;
+    for (const [itemName, currentCount] of Object.entries(currentInventory)) {
+      const previousCount = previousInventory[itemName] || 0;
+      if (currentCount > previousCount) {
+        // Add entry for each additional count of the item
+        const addedCount = currentCount - previousCount;
+        for (let i = 0; i < addedCount; i++) {
+          newlyAdded.push(itemName);
+        }
       }
-      
-    } catch (error) {
-      evaluationError = error;
-      this.log('error', `${indent}ERROR evaluating ${ruleType}: ${error.message}`);
-      this.log('error', `${indent}  Error stack: ${error.stack}`);
-      this.log('info', `${indent}  Full rule causing error: ${JSON.stringify(rule)}`);
     }
     
-    return result;
+    return newlyAdded;
   }
 }
 

@@ -81,6 +81,7 @@
       "pathAnalyzerUI": "WARN",
       "presetUI": "WARN",
       "presetsModule": "WARN",
+      "regionGraph": "WARN",
       "regionUI": "WARN",
       "regionsModule": "WARN",
       "ruleEngine": "WARN",
@@ -153,19 +154,9 @@
       "maxAnalysisTimeMs": 10000
     },
     "loops": {
-      "maxActionQueueSize": 10,
-      "defaultLoopSpeed": 1,
-      "autoStartNextLoop": false,
-      "persistInventoryAcrossLoops": true,
-      "persistDiscoveriesAcrossLoops": true,
-      "manaRegenPerSecond": 1,
-      "maxMana": 100,
-      "regionBaseXP": 100,
-      "locationBaseXP": 10,
-      "exitBaseXP": 5,
-      "manaCostExplore": 10,
-      "manaCostCheck": 5,
-      "manaCostMove": 2
+      "defaultSpeed": 10,
+      "autoRestart": false,
+      "loopModeEnabled": false
     }
   }
 }

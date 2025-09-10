@@ -494,7 +494,7 @@ export class TestController {
       case 'LOAD_DEFAULT_RULES':
         if (this.stateManager) {
           // Always load the specific default rules file for test consistency
-          const defaultRulesPath = './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json';
+          const defaultRulesPath = './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json';
           
           this.log(`Loading default rules from: ${defaultRulesPath}`);
           

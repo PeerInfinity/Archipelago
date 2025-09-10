@@ -1,14 +1,14 @@
 {
   "schema_version": 3,
   "game_name": "Adventure",
-  "archipelago_version": "0.6.1",
+  "archipelago_version": "0.6.4",
   "generation_seed": 2,
   "player_names": {
     "1": "Player1",
     "2": "Player2"
   },
   "world_classes": {
-    "1": "ALTTPWorld",
+    "1": "ShortHikeWorld",
     "2": "AdventureWorld"
   },
   "plando_options": [
@@ -31,6 +31,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -50,6 +53,8 @@
             "connected_region": "Overworld",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -58,6 +63,8 @@
             "connected_region": "Overworld",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -66,6 +73,8 @@
             "connected_region": "Overworld",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -74,6 +83,8 @@
             "connected_region": "Overworld",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -82,6 +93,8 @@
             "connected_region": "Overworld",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -96,6 +109,9 @@
                 "value": "Yellow Key"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -108,6 +124,9 @@
                 "value": "White Key"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -120,6 +139,9 @@
                 "value": "Black Key"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -144,6 +166,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -159,9 +184,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Freeincarnate",
-              "player": 2,
-              "advancement": false,
+              "name": "Golden Feather",
+              "player": 1,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -177,7 +202,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Arrows (10)",
+              "name": "Pickaxe",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -195,8 +220,8 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Freeincarnate",
-              "player": 2,
+              "name": "Running Shoes",
+              "player": 1,
               "advancement": false,
               "priority": null,
               "type": "None"
@@ -213,9 +238,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Piece of Heart",
+              "name": "Seashell",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -231,9 +256,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Rupees (20)",
+              "name": "Golden Feather",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -249,9 +274,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Rupees (300)",
+              "name": "Stick",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -267,9 +292,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Lamp",
+              "name": "27 Coins",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -285,8 +310,8 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slow Grundle",
-              "player": 2,
+              "name": "Compass",
+              "player": 1,
               "advancement": false,
               "priority": null,
               "type": "None"
@@ -303,9 +328,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Bombs (3)",
+              "name": "Seashell",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -321,7 +346,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Magic Powder",
+              "name": "Golden Feather",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -329,8 +354,8 @@
             }
           },
           {
-            "name": "Slay Yorgle",
-            "id": 118000209,
+            "name": "Slay Grundle",
+            "id": 118000210,
             "crystal": null,
             "access_rule": {
               "type": "and",
@@ -354,7 +379,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Piece of Heart",
+              "name": "Baseball Cap",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -377,6 +402,8 @@
             "connected_region": "YellowCastle",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -388,6 +415,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -403,9 +433,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Sanctuary Heart Container",
+              "name": "Seashell",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -459,6 +489,8 @@
             "connected_region": "WhiteCastle",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -467,6 +499,8 @@
             "connected_region": "WhiteCastle",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -475,6 +509,8 @@
             "connected_region": "WhiteCastle",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -486,6 +522,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -498,6 +537,9 @@
                 "value": "Bridge"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -522,6 +564,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -537,9 +582,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Shield",
+              "name": "13 Coins",
               "player": 1,
-              "advancement": true,
+              "advancement": false,
               "priority": null,
               "type": "None"
             }
@@ -555,11 +600,11 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Progressive Sword",
+              "name": "Golden Feather",
               "player": 1,
               "advancement": true,
               "priority": null,
-              "type": "Sword"
+              "type": "None"
             }
           }
         ],
@@ -578,6 +623,8 @@
             "connected_region": "WhiteCastlePreVaultPeek",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -589,6 +636,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -604,9 +654,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Boss Heart Container",
+              "name": "Golden Feather",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -627,6 +677,8 @@
             "connected_region": "WhiteCastleVault",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -638,6 +690,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -653,8 +708,168 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Slow Yorgle",
-              "player": 2,
+              "name": "13 Coins",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Slay Yorgle",
+            "id": 118000209,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Sword"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Right Difficulty Switch"
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "33 Coins",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "BlackCastle": {
+        "name": "BlackCastle",
+        "type": "Region",
+        "player": 2,
+        "entrances": [
+          {
+            "name": "BlackCastlePort",
+            "parent_region": "Overworld",
+            "connected_region": "BlackCastle",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "BlackCastleReturnPassage",
+            "parent_region": "BlackCastleVault",
+            "connected_region": "BlackCastle",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "BlackCastleExit",
+            "connected_region": "Overworld",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "BlackCastleVaultEntrance",
+            "connected_region": "BlackCastleVault",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Bridge"
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Magnet"
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Dungeon0",
+            "id": 118000019,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "13 Coins",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Dungeon1",
+            "id": 118000021,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "7 Coins",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Black Castle Foyer",
+            "id": 118000027,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "13 Coins",
+              "player": 1,
               "advancement": false,
               "priority": null,
               "type": "None"
@@ -686,159 +901,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Bombs (3)",
+              "name": "Stick",
               "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
-      "BlackCastle": {
-        "name": "BlackCastle",
-        "type": "Region",
-        "player": 2,
-        "entrances": [
-          {
-            "name": "BlackCastlePort",
-            "parent_region": "Overworld",
-            "connected_region": "BlackCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          },
-          {
-            "name": "BlackCastleReturnPassage",
-            "parent_region": "BlackCastleVault",
-            "connected_region": "BlackCastle",
-            "reverse": null,
-            "assumed": false,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [
-          {
-            "name": "BlackCastleExit",
-            "connected_region": "Overworld",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "type": "Exit"
-          },
-          {
-            "name": "BlackCastleVaultEntrance",
-            "connected_region": "BlackCastleVault",
-            "access_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Bridge"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Magnet"
-                  }
-                }
-              ]
-            },
-            "type": "Exit"
-          }
-        ],
-        "locations": [
-          {
-            "name": "Dungeon0",
-            "id": 118000019,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Arrows (10)",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Dungeon1",
-            "id": 118000021,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Progressive Mail",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Black Castle Foyer",
-            "id": 118000027,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Piece of Heart",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Slay Grundle",
-            "id": 118000210,
-            "crystal": null,
-            "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Sword"
-                  }
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "constant",
-                    "value": "Right Difficulty Switch"
-                  }
-                }
-              ]
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Boss Heart Container",
-              "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -859,6 +924,8 @@
             "connected_region": "BlackCastleVault",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -870,6 +937,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -885,7 +955,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Rupees (20)",
+              "name": "21 Coins",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -908,6 +978,8 @@
             "connected_region": "CreditsRoom",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           },
           {
@@ -916,6 +988,8 @@
             "connected_region": "CreditsRoom",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -927,6 +1001,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -939,6 +1016,9 @@
                 "value": "Magnet"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -954,9 +1034,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Piece of Heart",
+              "name": "Motorboat Key",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -977,6 +1057,8 @@
             "connected_region": "CreditsRoomFarSide",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -988,6 +1070,9 @@
               "type": "constant",
               "value": true
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1003,9 +1088,9 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Piece of Heart",
+              "name": "Golden Feather",
               "player": 1,
-              "advancement": false,
+              "advancement": true,
               "priority": null,
               "type": "None"
             }
@@ -1047,7 +1132,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -1061,7 +1146,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -1075,7 +1160,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -1089,7 +1174,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -1103,7 +1188,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -1145,7 +1230,7 @@
         "groups": [
           "Everything"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
@@ -1165,7 +1250,7 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 12
       },
       "Slow Yorgle": {
         "name": "Slow Yorgle",
@@ -1218,7 +1303,7 @@
         "advancement": false,
         "priority": false,
         "useful": false,
-        "trap": false,
+        "trap": true,
         "event": false,
         "type": null,
         "max_count": 1
@@ -1236,6 +1321,20 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Victory": {
+        "name": "Victory",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -1249,13 +1348,13 @@
       "Black Key": 1,
       "Bridge": 1,
       "Chalice": 1,
-      "Freeincarnate": 14,
+      "Freeincarnate": 12,
       "Left Difficulty Switch": 1,
       "Magnet": 1,
       "Right Difficulty Switch": 1,
-      "Slow Grundle": 2,
+      "Slow Grundle": 1,
       "Slow Rhindle": 1,
-      "Slow Yorgle": 2,
+      "Slow Yorgle": 1,
       "Sword": 1,
       "Victory": 1,
       "White Key": 1,
@@ -1270,7 +1369,8 @@
   },
   "settings": {
     "2": {
-      "game": "Adventure"
+      "game": "Adventure",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

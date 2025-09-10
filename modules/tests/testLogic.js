@@ -915,15 +915,17 @@ export const testLogic = {
   // Set localStorage flags for Playwright test completion detection
   _setPlaywrightCompletionFlags(summary, allTests) {
     try {
-      // Prepare detailed test results for Playwright
-      const testDetails = allTests.map((test) => ({
-        id: test.id,
-        name: test.name,
-        status: test.status,
-        category: test.category,
-        conditions: test.conditions || [],
-        logs: test.logs || [],
-      }));
+      // Prepare detailed test results for Playwright - only include enabled tests
+      const testDetails = allTests
+        .filter((test) => test.status !== 'disabled')
+        .map((test) => ({
+          id: test.id,
+          name: test.name,
+          status: test.status,
+          category: test.category,
+          conditions: test.conditions || [],
+          logs: test.logs || [],
+        }));
 
       const playwrightResults = {
         summary,

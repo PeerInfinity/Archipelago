@@ -32,6 +32,7 @@ export class LoopState {
     // Injected dependencies (will be set via setDependencies)
     this.eventBus = null;
     this.stateManager = null;
+    this.playerState = null; // NEW: playerState API
 
     // Resources
     this.maxMana = 100;
@@ -41,12 +42,13 @@ export class LoopState {
     // Experience tracking
     this.regionXP = new Map(); // regionName -> {level, xp, xpForNextLevel}
 
-    // Action queue and processing
-    this.actionQueue = [];
-    this.currentAction = null;
-    this.currentActionIndex = 0; // Index of the current action in the queue
+    // Action processing - now based on playerState path
+    this.currentActionIndex = 0; // Index in the playerState path
+    this.actionProgress = new Map(); // pathIndex -> progress (0-100)
+    this.actionCompleted = new Set(); // Set of completed path indices
+    this.currentAction = null; // Current action being processed
     this.isProcessing = false;
-    this.isPaused = false;
+    this.isPaused = true; // Start paused by default
     this.autoRestartQueue = false; // Flag to auto-restart queue when complete
     this.gameSpeed = 10; // Multiplier for processing speed
 
@@ -72,6 +74,7 @@ export class LoopState {
    * @param {object} dependencies - Object containing dependencies.
    * @param {EventBus} dependencies.eventBus - The application's event bus instance.
    * @param {StateManager} dependencies.stateManager - The application's state manager instance.
+   * @param {Object} dependencies.playerState - The playerState API functions.
    */
   setDependencies(dependencies) {
     if (!dependencies.eventBus || !dependencies.stateManager) {
@@ -84,6 +87,7 @@ export class LoopState {
     log('info', '[LoopState] Setting dependencies...');
     this.eventBus = dependencies.eventBus;
     this.stateManager = dependencies.stateManager;
+    this.playerState = dependencies.playerState; // Store playerState API
 
     // Re-setup listeners that depend on the event bus
     this._setupEventListeners();
@@ -241,33 +245,106 @@ export class LoopState {
   }
 
   /**
-   * Add an action to the queue
-   * @param {Object} action - Action to add
+   * Get the current action queue from playerState path
+   * Maps path entries to action objects for processing
+   * @returns {Array} Array of action objects
    */
-  queueAction(action) {
-    // Insert the action in order by region
-    if (action.regionName) {
-      // Find the last action in the queue with the same region
-      const lastIndex = this.actionQueue
-        .map((a) => a.regionName)
-        .lastIndexOf(action.regionName);
-      if (lastIndex !== -1) {
-        // Insert after the last action with the same region
-        this.actionQueue.splice(lastIndex + 1, 0, action);
-      } else {
-        // If no actions with this region, just append
-        this.actionQueue.push(action);
+  getActionQueue() {
+    if (!this.playerState || !this.playerState.getPath) {
+      return [];
+    }
+    
+    const path = this.playerState.getPath();
+    const actions = [];
+    
+    // Map each path entry to an action object
+    path.forEach((entry, index) => {
+      let action = null;
+      
+      if (entry.type === 'regionMove') {
+        // Map regionMove to moveToRegion action
+        action = {
+          type: 'moveToRegion',
+          regionName: entry.region,
+          destinationRegion: entry.region, // For compatibility
+          exitUsed: entry.exitUsed,
+          instanceNumber: entry.instanceNumber,
+          pathIndex: index
+        };
+      } else if (entry.type === 'locationCheck') {
+        // Map locationCheck to checkLocation action
+        action = {
+          type: 'checkLocation',
+          locationName: entry.locationName,
+          regionName: entry.region,
+          instanceNumber: entry.instanceNumber,
+          pathIndex: index
+        };
+      } else if (entry.type === 'customAction') {
+        // Map customAction based on actionName
+        if (entry.actionName === 'explore') {
+          action = {
+            type: 'explore',
+            regionName: entry.region,
+            instanceNumber: entry.instanceNumber,
+            pathIndex: index
+          };
+        }
+        // Add other custom actions as needed
       }
-    } else {
-      // If no region specified, just append
-      this.actionQueue.push(action);
+      
+      if (action) {
+        // Add progress and completion status from our tracking
+        action.progress = this.actionProgress.get(index) || 0;
+        action.completed = this.actionCompleted.has(index);
+        actions.push(action);
+      }
+    });
+    
+    return actions;
+  }
+
+  /**
+   * Queue an action by adding it to playerState path
+   * @param {Object} action - Action to add
+   * @param {string} targetRegion - Region to insert the action at (optional)
+   * @param {number} targetInstance - Instance number to insert at (optional)
+   */
+  queueAction(action, targetRegion = null, targetInstance = null) {
+    if (!this.playerState) {
+      log('error', '[LoopState] Cannot queue action: playerState not available');
+      return;
     }
 
+    // Map action types to playerState path entries
+    if (action.type === 'explore') {
+      if (targetRegion && targetInstance) {
+        // Insert at specific location
+        this.playerState.insertCustomActionAt('explore', targetRegion, targetInstance, {});
+      } else {
+        // Add to current location
+        this.playerState.addCustomAction('explore', {});
+      }
+    } else if (action.type === 'checkLocation') {
+      if (targetRegion && targetInstance) {
+        // Insert at specific location
+        this.playerState.insertLocationCheckAt(action.locationName, targetRegion, targetInstance, action.regionName);
+      } else {
+        // Add to current location
+        this.playerState.addLocationCheck(action.locationName, action.regionName);
+      }
+    } else if (action.type === 'moveToRegion') {
+      // Movement is handled by the user:regionMove event, not added here
+      log('warn', '[LoopState] moveToRegion actions should be handled via user:regionMove event');
+    }
+
+    // Get updated queue
+    const queue = this.getActionQueue();
+    
     //log('info', 'Action queued:', action);
     this.eventBus.publish('loopState:queueUpdated', {
-      queue: this.actionQueue,
+      queue: queue,
     }, 'loops');
-    //log('info', 'Published loopState:queueUpdated event');
 
     // Start processing if not already running
     if (!this.isProcessing && !this.isPaused) {
@@ -276,85 +353,131 @@ export class LoopState {
   }
 
   /**
-   * Remove an action from the queue
-   * @param {number} index - Index of action to remove
+   * Remove an action from the queue by index
+   * @param {number} index - Index of action to remove in the current action queue
    */
   removeAction(index) {
-    if (index < 0 || index >= this.actionQueue.length) return;
-
-    // Special handling for move actions with dependent regions
-    const removedAction = this.actionQueue[index];
-    if (removedAction && removedAction.type === 'moveToRegion') {
-      const destinationRegion = removedAction.destinationRegion;
-
-      // Find all actions that depend on this move (they come after this one)
-      // and are either in the destination region or are moves from the destination
-      const dependentActions = [];
-
-      // First collect the indices of actions to remove
-      for (let i = index; i < this.actionQueue.length; i++) {
-        const action = this.actionQueue[i];
-        if (
-          i === index || // The removed action itself
-          action.regionName === destinationRegion || // Actions in the destination
-          (action.type === 'moveToRegion' &&
-            action.regionName === destinationRegion)
-        ) {
-          // Moves from destination
-          dependentActions.push(i);
-        }
-      }
-
-      // Sort in reverse order and remove them
-      dependentActions
-        .sort((a, b) => b - a)
-        .forEach((idx) => {
-          this.actionQueue.splice(idx, 1);
-        });
-
-      // If we removed the current action or any action before it, adjust the current action index
-      if (this.isProcessing) {
-        const lowestRemovedIndex = Math.min(...dependentActions);
-        if (lowestRemovedIndex <= this.currentActionIndex) {
-          if (lowestRemovedIndex === this.currentActionIndex) {
-            // Removing the current action
-            this.stopProcessing();
-          } else {
-            // Removing an action before the current action
-            // Count how many actions were removed before the current action
-            const removedBeforeCurrent = dependentActions.filter(
-              (idx) => idx < this.currentActionIndex
-            ).length;
-            this.currentActionIndex -= removedBeforeCurrent;
-          }
-        }
-      }
-    } else {
-      // Standard behavior for non-move actions
-      // If removing the current action, stop processing it
-      if (index === this.currentActionIndex && this.isProcessing) {
-        this.stopProcessing();
-      } else if (index < this.currentActionIndex) {
-        // If removing an action before the current one, adjust the index
-        this.currentActionIndex--;
-      }
-
-      // Just remove this specific action
-      this.actionQueue.splice(index, 1);
+    if (!this.playerState) {
+      log('error', '[LoopState] Cannot remove action: playerState not available');
+      return false;
     }
-
-    // Notify queue updated
+    
+    const queue = this.getActionQueue();
+    if (index < 0 || index >= queue.length) {
+      log('warn', '[LoopState] Invalid action index for removal:', index);
+      return false;
+    }
+    
+    const actionToRemove = queue[index];
+    
+    // Remove the action from playerState path
+    if (actionToRemove.type === 'checkLocation') {
+      this.playerState.removeLocationCheckAt(
+        actionToRemove.locationName, 
+        actionToRemove.regionName, 
+        actionToRemove.instanceNumber
+      );
+    } else if (actionToRemove.type === 'explore') {
+      this.playerState.removeCustomActionAt(
+        'explore', 
+        actionToRemove.regionName, 
+        actionToRemove.instanceNumber
+      );
+    } else if (actionToRemove.type === 'moveToRegion') {
+      log('warn', '[LoopState] Cannot remove regionMove actions - they are managed by navigation');
+      return false;
+    }
+    
+    // Clean up our tracking data
+    if (actionToRemove.pathIndex !== undefined) {
+      this.actionProgress.delete(actionToRemove.pathIndex);
+      this.actionCompleted.delete(actionToRemove.pathIndex);
+    }
+    
+    // If we removed the current action, stop processing
+    if (index === this.currentActionIndex && this.isProcessing) {
+      this.stopProcessing();
+    } else if (index < this.currentActionIndex) {
+      // If removing an action before the current one, adjust the index
+      this.currentActionIndex--;
+    }
+    
+    // Get updated queue and notify
+    const updatedQueue = this.getActionQueue();
     this.eventBus.publish('loopState:queueUpdated', {
-      queue: this.actionQueue,
+      queue: updatedQueue,
     }, 'loops');
-
+    
     // Restart processing if stopped and there are actions to process
-    if (!this.isProcessing && this.actionQueue.length > 0 && !this.isPaused) {
+    if (!this.isProcessing && updatedQueue.length > 0 && !this.isPaused) {
       // If we removed all actions up to current index, reset to beginning
-      if (this.currentActionIndex >= this.actionQueue.length) {
+      if (this.currentActionIndex >= updatedQueue.length) {
         this.currentActionIndex = 0;
       }
       this.startProcessing();
+    }
+    
+    return true;
+  }
+  
+  /**
+   * Clear all actions from the queue
+   */
+  clearQueue() {
+    if (!this.playerState) {
+      log('error', '[LoopState] Cannot clear queue: playerState not available');
+      return;
+    }
+    
+    // Stop processing
+    if (this.isProcessing) {
+      this.stopProcessing();
+    }
+    
+    // Clear tracking
+    this.actionProgress.clear();
+    this.actionCompleted.clear();
+    this.currentActionIndex = 0;
+    
+    // Remove all location checks and custom actions from the path
+    this.playerState.removeAllActionsOfType('locationCheck');
+    this.playerState.removeAllActionsOfType('customAction');
+    
+    // Get updated queue
+    const queue = this.getActionQueue();
+    
+    // Notify queue updated
+    this.eventBus.publish('loopState:queueUpdated', {
+      queue: queue,
+    }, 'loops');
+  }
+  
+  /**
+   * Clear all explore actions from the queue
+   */
+  clearExploreActions() {
+    if (!this.playerState) {
+      log('error', '[LoopState] Cannot clear explore actions: playerState not available');
+      return;
+    }
+    
+    // Remove all explore custom actions
+    const removedCount = this.playerState.removeAllActionsOfType('customAction', 'explore');
+    
+    if (removedCount > 0) {
+      // Clean up tracking for removed actions
+      // Note: We'd need to match pathIndex to clean up properly, but this is a bulk operation
+      // For now, we'll let the getActionQueue method handle missing progress
+      
+      // Get updated queue
+      const queue = this.getActionQueue();
+      
+      // Notify queue updated
+      this.eventBus.publish('loopState:queueUpdated', {
+        queue: queue,
+      }, 'loops');
+      
+      log('info', `[LoopState] Cleared ${removedCount} explore actions`);
     }
   }
 
@@ -362,19 +485,48 @@ export class LoopState {
    * Start processing the action queue
    */
   startProcessing() {
-    if (this.isPaused || this.isProcessing || this.actionQueue.length === 0) {
+    const queue = this.getActionQueue();
+    
+    if (this.isPaused || this.isProcessing) {
+      return;
+    }
+
+    // Check if we have any real actions to process (not just the initial Menu)
+    let firstActionIndex = 0;
+    if (queue.length > 0) {
+      const firstEntry = queue[0];
+      log('info', 'First queue entry:', firstEntry);
+      if (firstEntry.type === 'regionMove' && firstEntry.region === 'Menu' && !firstEntry.exitUsed) {
+        // First entry is the initial Menu position, real actions start at index 1
+        firstActionIndex = 1;
+        log('info', 'First entry is initial Menu, skipping to index 1');
+      }
+    }
+    
+    // If there are no real actions, don't start processing
+    if (firstActionIndex >= queue.length) {
+      log('info', 'No actions to process (only initial Menu in queue)');
       return;
     }
 
     this.isProcessing = true;
-    this.currentActionIndex = this.currentActionIndex || 0; // Default to 0 if not set
-
-    // Make sure the index is valid
-    if (this.currentActionIndex >= this.actionQueue.length) {
-      this.currentActionIndex = 0;
+    
+    // Set the current action index to the first real action if not already set
+    if (this.currentActionIndex === 0 || this.currentActionIndex === undefined) {
+      this.currentActionIndex = firstActionIndex;
+      log('info', `Setting currentActionIndex to ${firstActionIndex} (skipping initial Menu: ${firstActionIndex === 1})`);
     }
 
-    this.currentAction = this.actionQueue[this.currentActionIndex];
+    // Make sure the index is valid
+    if (this.currentActionIndex >= queue.length) {
+      // No more actions to process
+      log('info', 'No more actions to process, stopping');
+      this.stopProcessing();
+      return;
+    }
+
+    this.currentAction = queue[this.currentActionIndex];
+    log('info', `Starting to process action at index ${this.currentActionIndex}:`, this.currentAction);
 
     // Ensure we have a valid action
     if (!this.currentAction) {
@@ -383,11 +535,13 @@ export class LoopState {
       return;
     }
 
-    // Don't reset progress when resuming from pause
-    // Only set to 0 if it's a new action with no progress yet
-    if (!this.currentAction.progress) {
-      this.currentAction.progress = 0;
+    // Initialize progress if not tracked yet
+    if (!this.actionProgress.has(this.currentAction.pathIndex)) {
+      this.actionProgress.set(this.currentAction.pathIndex, 0);
     }
+    
+    // Set current action progress from tracking
+    this.currentAction.progress = this.actionProgress.get(this.currentAction.pathIndex);
 
     // Cancel any existing animation frame
     if (this._animationFrameId) {
@@ -440,14 +594,17 @@ export class LoopState {
     if (isPaused) {
       this.stopProcessing();
       this.eventBus.publish('loopState:paused', { isPaused: true }, 'loops');
-    } else if (this.actionQueue.length > 0) {
-      this.startProcessing();
-      this.eventBus.publish('loopState:resumed', { isPaused: false }, 'loops');
     } else {
-      // Even if there are no actions, still publish the state change
-      this.eventBus.publish('loopState:pauseStateChanged', {
-        isPaused: this.isPaused,
-      }, 'loops');
+      const queue = this.getActionQueue();
+      if (queue.length > 0) {
+        this.startProcessing();
+        this.eventBus.publish('loopState:resumed', { isPaused: false }, 'loops');
+      } else {
+        // Even if there are no actions, still publish the state change
+        this.eventBus.publish('loopState:pauseStateChanged', {
+          isPaused: this.isPaused,
+        }, 'loops');
+      }
     }
   }
 
@@ -489,21 +646,35 @@ export class LoopState {
     this._lastFrameTime = timestamp;
 
     try {
+      // Get current queue from playerState
+      const queue = this.getActionQueue();
+      
       // Verify we have a valid current action and index
       if (
         !this.currentAction ||
-        this.currentActionIndex >= this.actionQueue.length
+        this.currentActionIndex >= queue.length
       ) {
         log('error', 'Invalid action state in _processFrame:', {
           currentActionIndex: this.currentActionIndex,
-          queueLength: this.actionQueue.length,
+          queueLength: queue.length,
           hasCurrentAction: !!this.currentAction,
         });
 
         // Try to recover by finding a valid action
-        if (this.actionQueue.length > 0) {
+        if (queue.length > 0) {
+          // Skip initial Menu if present
           this.currentActionIndex = 0;
-          this.currentAction = this.actionQueue[0];
+          if (queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+            this.currentActionIndex = 1;
+          }
+          
+          if (this.currentActionIndex < queue.length) {
+            this.currentAction = queue[this.currentActionIndex];
+          } else {
+            // Only Menu in queue, no real actions
+            this.stopProcessing();
+            return;
+          }
         } else {
           // No actions left, stop processing
           this.stopProcessing();
@@ -516,8 +687,11 @@ export class LoopState {
       // Slow down the action for better visibility - use 20 instead of 100
       const progressIncrement = (deltaTime / 1000) * (20 / actionCost);
 
-      // Update progress
-      this.currentAction.progress += progressIncrement;
+      // Update progress in our tracking Map
+      const currentProgress = this.actionProgress.get(this.currentAction.pathIndex) || 0;
+      const newProgress = currentProgress + progressIncrement;
+      this.actionProgress.set(this.currentAction.pathIndex, newProgress);
+      this.currentAction.progress = newProgress;
 
       // Reduce mana based on progress
       const manaCost = (progressIncrement / 100) * actionCost;
@@ -606,7 +780,9 @@ export class LoopState {
     // Apply action effects
     this._applyActionEffects(this.currentAction);
 
-    // Mark as completed but keep in queue
+    // Mark as completed in our tracking
+    this.actionCompleted.add(this.currentAction.pathIndex);
+    this.actionProgress.set(this.currentAction.pathIndex, 100);
     this.currentAction.completed = true;
     this.currentAction.progress = 100; // Ensure it shows 100% complete
 
@@ -623,8 +799,11 @@ export class LoopState {
       // Get the repeat state from THIS instance's map
       const shouldRepeat = this.getRepeatExplore(regionName); // Use internal method
 
+      // Get current queue to check for more explore actions
+      const queue = this.getActionQueue();
+      
       // Check if there are already more explore actions for this region in the queue
-      const hasMoreExploreActions = this.actionQueue.some(
+      const hasMoreExploreActions = queue.some(
         (action, index) =>
           index > this.currentActionIndex &&
           action.type === 'explore' &&
@@ -637,22 +816,14 @@ export class LoopState {
         //  `Repeating explore action for ${regionName} (repeat state is true, no other explore actions pending)`
         //);
 
-        // Create a new action instance
-        const repeatAction = {
-          ...this.currentAction, // Copy all properties
-          id: `action_${Date.now()}_${Math.floor(Math.random() * 10000)}`, // Generate new ID
-          progress: 0,
-          completed: false,
-          repeatAction: true, // Mark for UI purposes
-        };
-
-        // Add the new action right after the current action
-        this.actionQueue.splice(this.currentActionIndex + 1, 0, repeatAction);
+        // Add a new explore action to playerState
+        if (this.playerState && this.playerState.addCustomAction) {
+          this.playerState.addCustomAction('explore', { repeat: true });
+        }
 
         // Notify that a new explore action was added
         this.eventBus.publish('loopState:exploreActionRepeated', {
-          action: repeatAction,
-          regionName: repeatAction.regionName,
+          regionName: regionName,
         }, 'loops');
       }
     }
@@ -660,9 +831,12 @@ export class LoopState {
     // Move to next action in the queue or wrap around to beginning
     this.currentActionIndex++;
 
+    // Get updated queue
+    const queue = this.getActionQueue();
+    
     // Loop to find the next valid, runnable action, skipping checked locations
-    while (this.currentActionIndex < this.actionQueue.length) {
-      const nextAction = this.actionQueue[this.currentActionIndex];
+    while (this.currentActionIndex < queue.length) {
+      const nextAction = queue[this.currentActionIndex];
 
       // Check if it's a checkLocation action for an already checked location
       if (
@@ -670,23 +844,15 @@ export class LoopState {
         this.stateManager.instance.isLocationChecked(nextAction.locationName)
       ) {
         //log('info',
-        //  `Skipping already checked location: ${nextAction.locationName}. Removing action.`
+        //  `Skipping already checked location: ${nextAction.locationName}.`
         //);
-        // Remove the action from the queue
-        this.actionQueue.splice(this.currentActionIndex, 1);
-        // NOTE: Do NOT increment index here, the next loop iteration will check the new action at the same index
-
-        // If queue became empty, stop processing
-        if (this.actionQueue.length === 0) {
-          this.currentAction = null;
-          this.isProcessing = false;
-          this.eventBus.publish('loopState:queueCompleted', {}, 'loops');
-          this.eventBus.publish('loopState:queueUpdated', {
-            queue: this.actionQueue,
-          }, 'loops');
-          return; // Exit the function
-        }
-
+        // Mark as completed since it's already checked
+        this.actionCompleted.add(nextAction.pathIndex);
+        this.actionProgress.set(nextAction.pathIndex, 100);
+        
+        // Skip to next action
+        this.currentActionIndex++;
+        
         // Continue the loop to check the next action at the current index
       } else {
         // Found a valid action to process
@@ -694,11 +860,15 @@ export class LoopState {
       }
     }
 
-    // If we reached the end of the queue (possibly after removing checked locations)
-    if (this.currentActionIndex >= this.actionQueue.length) {
+    // If we reached the end of the queue
+    if (this.currentActionIndex >= queue.length) {
       // Reset to beginning if auto-restart is enabled
       if (this.autoRestartQueue) {
+        // Skip initial Menu if present
         this.currentActionIndex = 0;
+        if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+          this.currentActionIndex = 1;
+        }
         this._resetActionsProgress();
       } else {
         // Queue completed
@@ -710,9 +880,13 @@ export class LoopState {
     }
 
     // Start processing next action if there's one available
-    if (this.currentActionIndex < this.actionQueue.length) {
-      this.currentAction = this.actionQueue[this.currentActionIndex];
-      this.currentAction.progress = 0;
+    if (this.currentActionIndex < queue.length) {
+      this.currentAction = queue[this.currentActionIndex];
+      // Initialize progress for new action if not tracked yet
+      if (!this.actionProgress.has(this.currentAction.pathIndex)) {
+        this.actionProgress.set(this.currentAction.pathIndex, 0);
+      }
+      this.currentAction.progress = this.actionProgress.get(this.currentAction.pathIndex);
       this.eventBus.publish('loopState:newActionStarted', {
         action: this.currentAction,
       }, 'loops');
@@ -831,11 +1005,9 @@ export class LoopState {
    * Reset progress for all actions in the queue
    */
   _resetActionsProgress() {
-    // Reset progress for all actions
-    for (const action of this.actionQueue) {
-      action.progress = 0;
-      action.completed = false;
-    }
+    // Clear all progress tracking
+    this.actionProgress.clear();
+    this.actionCompleted.clear();
   }
 
   /**
@@ -867,12 +1039,20 @@ export class LoopState {
     // Reset all action progress
     this._resetActionsProgress();
 
-    // Reset to first action
+    // Get queue to check for initial Menu
+    const queue = this.getActionQueue();
+    
+    // Reset to first real action (skip initial Menu if present)
     this.currentActionIndex = 0;
+    if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+      this.currentActionIndex = 1;
+    }
 
     // Update current action reference
-    if (this.actionQueue.length > 0) {
-      this.currentAction = this.actionQueue[this.currentActionIndex];
+    if (this.currentActionIndex < queue.length) {
+      this.currentAction = queue[this.currentActionIndex];
+    } else {
+      this.currentAction = null;
     }
 
     // Notify loop reset
@@ -916,8 +1096,11 @@ export class LoopState {
     // Reset progress on all actions
     this._resetActionsProgress();
 
+    // Get queue from playerState
+    const queue = this.getActionQueue();
+
     // Start processing if there are actions
-    if (this.actionQueue.length > 0) {
+    if (queue.length > 0) {
       this.startProcessing();
     }
   }
@@ -932,8 +1115,14 @@ export class LoopState {
       this.stopProcessing();
     }
 
-    // Reset to beginning
+    // Get queue to check for initial Menu
+    const queue = this.getActionQueue();
+    
+    // Reset to beginning, skipping initial Menu if present
     this.currentActionIndex = 0;
+    if (queue.length > 0 && queue[0].type === 'regionMove' && queue[0].region === 'Menu' && !queue[0].exitUsed) {
+      this.currentActionIndex = 1;
+    }
 
     // Reset progress on all actions
     this._resetActionsProgress();
@@ -949,11 +1138,11 @@ export class LoopState {
 
     // Notify about queue update (so UI can refresh)
     this.eventBus.publish('loopState:queueUpdated', {
-      queue: this.actionQueue,
+      queue: queue,
     }, 'loops');
 
     // Start processing if there are actions
-    if (this.actionQueue.length > 0 && !this.isPaused) {
+    if (queue.length > 0 && !this.isPaused) {
       this.startProcessing();
     }
   }
@@ -986,15 +1175,11 @@ export class LoopState {
       // Don't save maxMana as it should be calculated dynamically based on inventory
       currentMana: this.currentMana,
       regionXP: Array.from(this.regionXP.entries()),
-      // REMOVED: Discovery state saving
-      // discoveredRegions: Array.from(this.discoveredRegions),
-      // discoveredLocations: Array.from(this.discoveredLocations),
-      // discoveredExits: Array.from(this.discoveredExits.entries()).map(
-      //   ([region, exits]) => [region, Array.from(exits)]
-      // ),
       gameSpeed: this.gameSpeed,
       autoRestartQueue: this.autoRestartQueue,
-      actionQueue: this.actionQueue,
+      // Save progress tracking instead of queue
+      actionProgress: Array.from(this.actionProgress.entries()),
+      actionCompleted: Array.from(this.actionCompleted),
       currentActionIndex: this.currentActionIndex,
       repeatExploreStates: Array.from(this.repeatExploreStates.entries()),
     };
@@ -1007,18 +1192,11 @@ export class LoopState {
   loadFromSerializedState(state) {
     if (!state) return;
 
-    // REMOVED: Always recalculate maxMana based on current inventory
-    // Max mana will be calculated when the first snapshot event arrives.
-    // this.recalculateMaxMana();
-
     // Load current mana, cap at a reasonable default if needed (e.g., 100) until snapshot arrives
-    // We don't know the true maxMana yet.
     this.currentMana = state.currentMana ?? 100;
 
     // Load region XP
     this.regionXP = new Map(state.regionXP || []);
-
-    // REMOVED: Discovery state loading
 
     // Load game speed
     this.gameSpeed = state.gameSpeed ?? 10;
@@ -1026,16 +1204,16 @@ export class LoopState {
     // Load auto-restart setting
     this.autoRestartQueue = state.autoRestartQueue ?? false;
 
-    // Load queue state if available
-    if (state.actionQueue) {
-      this.actionQueue = state.actionQueue;
-      this.currentActionIndex = state.currentActionIndex ?? 0;
-      if (this.currentActionIndex < this.actionQueue.length) {
-        this.currentAction = this.actionQueue[this.currentActionIndex];
-      }
+    // Load progress tracking
+    if (state.actionProgress) {
+      this.actionProgress = new Map(state.actionProgress);
     }
+    if (state.actionCompleted) {
+      this.actionCompleted = new Set(state.actionCompleted);
+    }
+    this.currentActionIndex = state.currentActionIndex ?? 0;
 
-    // ADDED: Load repeatExploreStates
+    // Load repeatExploreStates
     this.repeatExploreStates = new Map(state.repeatExploreStates || []);
 
     // Notify state loaded

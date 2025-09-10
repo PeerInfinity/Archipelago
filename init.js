@@ -18,6 +18,7 @@ import eventBus from './app/core/eventBus.js';
 import settingsManager from './app/core/settingsManager.js';
 import { centralRegistry } from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
+import { loadAndMergeJsonFiles, getConfigPaths, hasMultiplePaths } from './utils/settingsMerger.js';
 
 // Make eventBus and centralRegistry globally available for cross-module communication
 window.eventBus = eventBus;
@@ -86,14 +87,20 @@ const runtimeModuleStates = new Map(); // Map<moduleId, { initialized: boolean, 
 // --- Helper Functions ---
 
 async function fetchJson(url, errorMessage) {
+  // Extract filename from URL for display
+  const fileName = url.split('/').pop() || url;
+  
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    const result = await response.json();
+    incrementFileCounter(fileName); // Increment counter with filename on successful load
+    return result;
   } catch (error) {
     logger.error('init', `${errorMessage}: ${url}`, error);
+    addFileError(fileName); // Add error to file list
     return null; // Return null to indicate failure
   }
 }
@@ -522,6 +529,8 @@ async function determineActiveMode() {
   // At this point, explicitMode is not "reset", and resetFlag is false.
   if (explicitMode) {
     logger.info('init', `Mode specified in URL: "${explicitMode}".`);
+    // Validate that the mode exists in modes.json (G_modesConfig will be loaded after this)
+    // We'll defer validation until after loadModesConfiguration() is called
     G_currentActiveMode = explicitMode;
   } else {
     try {
@@ -586,7 +595,7 @@ async function loadModesConfiguration() {
         default: {
           moduleConfig: { path: './modules.json', enabled: true },
           rulesConfig: {
-            path: './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json',
+            path: './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json',
             enabled: true,
           },
           layoutConfig: { path: './layout_presets.json', enabled: true },
@@ -605,7 +614,7 @@ async function loadModesConfiguration() {
       default: {
         moduleConfig: { path: './modules.json', enabled: true },
         rulesConfig: {
-          path: './presets/a_link_to_the_past/AP_14089154938208861744/AP_14089154938208861744_rules.json',
+          path: './presets/alttp/AP_14089154938208861744/AP_14089154938208861744_rules.json',
           enabled: true,
         },
         layoutConfig: { path: './layout_presets.json', enabled: true },
@@ -615,7 +624,7 @@ async function loadModesConfiguration() {
   }
 }
 
-async function loadCombinedModeData() {
+async function loadCombinedModeData(urlParams) {
   log('info', '[Init] loadCombinedModeData started'); // ADDED FOR TRACING
   let baseCombinedData = {};
   const dataSources = {}; // To track the origin of each config piece
@@ -667,8 +676,94 @@ async function loadCombinedModeData() {
   baseCombinedData.modeName = G_currentActiveMode;
 
   // Check for URL parameter override for rules file
-  const urlParams = new URLSearchParams(window.location.search);
-  const rulesOverride = urlParams.get('rules');
+  let rulesOverride = urlParams.get('rules');
+  
+  // Check for game and seed parameters as an alternative way to specify rules
+  const gameParam = urlParams.get('game');
+  const seedParam = urlParams.get('seed') || '1'; // Default seed is 1
+  
+  // If game parameter is provided and no rules parameter, look up the rules file
+  if (gameParam && !rulesOverride) {
+    try {
+      // Load preset_files.json to find matching game and seed
+      const presetFiles = await fetchJson(
+        './presets/preset_files.json',
+        'Error loading preset_files.json for game/seed lookup'
+      );
+      
+      if (presetFiles) {
+        // Find the game entry (check both root keys and name fields)
+        let gameEntry = null;
+        let gameKey = null;
+        
+        // First check if gameParam matches a root key directly
+        if (presetFiles[gameParam]) {
+          gameEntry = presetFiles[gameParam];
+          gameKey = gameParam;
+        } else {
+          // Search through all entries to find matching name
+          for (const [key, entry] of Object.entries(presetFiles)) {
+            if (entry.name && entry.name.toLowerCase() === gameParam.toLowerCase()) {
+              gameEntry = entry;
+              gameKey = key;
+              break;
+            }
+          }
+        }
+        
+        if (gameEntry && gameEntry.folders) {
+          // Find the folder with matching seed number
+          let rulesFile = null;
+          
+          for (const [folderName, folderData] of Object.entries(gameEntry.folders)) {
+            if (folderData.seed && String(folderData.seed) === String(seedParam)) {
+              // Look for rules.json file in the files array
+              if (folderData.files && Array.isArray(folderData.files)) {
+                const rulesFileName = folderData.files.find(file => file.endsWith('_rules.json'));
+                if (rulesFileName) {
+                  rulesFile = `./presets/${gameKey}/${folderName}/${rulesFileName}`;
+                  break;
+                }
+              }
+            }
+          }
+          
+          if (rulesFile) {
+            rulesOverride = rulesFile;
+            logger.info(
+              'init',
+              `Rules file determined from game="${gameParam}" and seed="${seedParam}": ${rulesFile}`
+            );
+          } else {
+            logger.warn(
+              'init',
+              `No rules file found for game="${gameParam}" with seed="${seedParam}"`
+            );
+          }
+        } else {
+          logger.warn(
+            'init',
+            `Game "${gameParam}" not found in preset_files.json`
+          );
+        }
+      }
+    } catch (error) {
+      logger.error(
+        'init',
+        `Error loading preset_files.json for game/seed lookup:`,
+        error
+      );
+    }
+  }
+  
+  // If the rules parameter starts with "./frontend/", remove that prefix
+  if (rulesOverride && rulesOverride.startsWith('./frontend/')) {
+    rulesOverride = './' + rulesOverride.substring('./frontend/'.length);
+    logger.info(
+      'init',
+      `Removed './frontend/' prefix from rules parameter. New path: ${rulesOverride}`
+    );
+  }
 
   // --- New logic to iterate over all config keys defined in modes.json for the current mode ---
   const currentModeFileConfigs = G_modesConfig?.[G_currentActiveMode];
@@ -678,17 +773,19 @@ async function loadCombinedModeData() {
         Object.prototype.hasOwnProperty.call(currentModeFileConfigs, configKey)
       ) {
         const configEntry = currentModeFileConfigs[configKey];
-        // Ensure it's an object with a 'path' and is 'enabled' (or enabled is not specified, defaulting to true)
+        // Ensure it's an object with a 'path' or 'paths' and is 'enabled' (or enabled is not specified, defaulting to true)
         if (
           configEntry &&
           typeof configEntry === 'object' &&
-          configEntry.path &&
+          (configEntry.path || configEntry.paths) &&
           (typeof configEntry.enabled === 'undefined' || configEntry.enabled)
         ) {
+          // Get paths to load (supports both single path and multiple paths)
+          let pathsToLoad = getConfigPaths(configEntry);
+          
           // Apply rules URL parameter override if this is rulesConfig
-          let effectivePath = configEntry.path;
           if (configKey === 'rulesConfig' && rulesOverride) {
-            effectivePath = rulesOverride;
+            pathsToLoad = [rulesOverride];
             logger.info(
               'init',
               `Rules file path overridden by URL parameter: ${rulesOverride}`
@@ -706,10 +803,25 @@ async function loadCombinedModeData() {
               'init',
               `${configKey} for "${G_currentActiveMode}" is missing or invalid in baseCombinedData. Attempting to load from files.`
             );
-            const fetchedData = await fetchJson(
-              effectivePath,
-              `Error loading ${configKey} from file`
-            );
+            
+            let fetchedData = null;
+            
+            // Check if we have multiple paths to merge
+            if (pathsToLoad.length > 1) {
+              // Load and merge multiple files
+              fetchedData = await loadAndMergeJsonFiles(
+                pathsToLoad,
+                fetchJson,
+                (msg) => logger.info('init', msg)
+              );
+            } else if (pathsToLoad.length === 1) {
+              // Single file load (existing behavior)
+              fetchedData = await fetchJson(
+                pathsToLoad[0],
+                `Error loading ${configKey} from file`
+              );
+            }
+            
             if (fetchedData) {
               baseCombinedData[configKey] = fetchedData;
 
@@ -717,18 +829,20 @@ async function loadCombinedModeData() {
                 source: rulesOverride && configKey === 'rulesConfig' ? 'urlOverride' : 'file',
                 timestamp: new Date().toISOString(),
                 details: rulesOverride && configKey === 'rulesConfig' 
-                  ? `Loaded from URL parameter override: ${effectivePath}`
-                  : `Loaded from file: ${effectivePath}`,
+                  ? `Loaded from URL parameter override: ${pathsToLoad[0]}`
+                  : pathsToLoad.length > 1
+                    ? `Merged from ${pathsToLoad.length} files: ${pathsToLoad.join(', ')}`
+                    : `Loaded from file: ${pathsToLoad[0]}`,
               };
 
               logger.info(
                 'init',
-                `Loaded ${configKey} for "${G_currentActiveMode}" from file: ${effectivePath}.`
+                `Loaded ${configKey} for "${G_currentActiveMode}" from ${pathsToLoad.length} file(s).`
               );
             } else {
               logger.warn(
                 'init',
-                `Failed to load ${configKey} from ${effectivePath}. It will be missing unless defaults are applied later.`
+                `Failed to load ${configKey} from ${pathsToLoad.join(', ')}. It will be missing unless defaults are applied later.`
               );
               // Ensure the key exists with null if fetch failed, to prevent re-attempts if not desired
               if (!baseCombinedData.hasOwnProperty(configKey)) {
@@ -736,7 +850,7 @@ async function loadCombinedModeData() {
                 dataSources[configKey] = {
                   source: 'error',
                   timestamp: new Date().toISOString(),
-                  details: `Failed to load from file: ${effectivePath}`,
+                  details: `Failed to load from file(s): ${pathsToLoad.join(', ')}`,
                 };
               }
             }
@@ -883,9 +997,60 @@ async function loadCombinedModeData() {
   );
 }
 
+// --- File loading counter and list ---
+let filesLoadedCount = 0;
+const loadedFilesList = [];
+
+function updateFileCounter() {
+  const counterElement = document.getElementById('files-loaded-count');
+  if (counterElement) {
+    counterElement.textContent = filesLoadedCount;
+  }
+}
+
+function addFileToList(fileName, status = 'success') {
+  const fileListContainer = document.getElementById('file-list-container');
+  if (fileListContainer) {
+    const fileEntry = document.createElement('div');
+    fileEntry.className = `file-entry ${status}`;
+    fileEntry.textContent = fileName;
+    fileListContainer.appendChild(fileEntry);
+    
+    // Auto-scroll to bottom to show newest entries
+    fileListContainer.scrollTop = fileListContainer.scrollHeight;
+  }
+  
+  // Also track in array for potential future use
+  loadedFilesList.push({ fileName, status, timestamp: new Date() });
+}
+
+function incrementFileCounter(fileName = 'Unknown file') {
+  filesLoadedCount++;
+  updateFileCounter();
+  addFileToList(fileName, 'success');
+  logger.debug('init', `Files loaded: ${filesLoadedCount} - Latest: ${fileName}`);
+}
+
+function addFileError(fileName) {
+  addFileToList(`❌ ${fileName}`, 'error');
+  logger.debug('init', `File load error: ${fileName}`);
+}
+
+// --- Helper function to hide loading screen ---
+function hideLoadingScreen() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hidden');
+    logger.info('init', 'Loading screen hidden');
+  }
+}
+
 // --- Main Initialization Logic ---
 async function main() {
   logger.info('init', 'Starting main initialization...');
+
+  // Get URL parameters early so they're available throughout the function
+  const urlParams = new URLSearchParams(window.location.search);
 
   // --- Make sure DOM is ready ---
   if (document.readyState === 'loading') {
@@ -909,8 +1074,36 @@ async function main() {
   // Load modes.json configuration
   await loadModesConfiguration();
 
+  // Validate that the current active mode exists in modes.json
+  if (!G_modesConfig[G_currentActiveMode]) {
+    logger.warn(
+      'init',
+      `Mode "${G_currentActiveMode}" not found in modes.json. Falling back to "default" mode.`
+    );
+    
+    // Check if the mode was from localStorage and clear it
+    if (!urlParams.get('mode')) {
+      try {
+        localStorage.removeItem(G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY);
+        logger.info('init', 'Cleared invalid mode from localStorage.');
+      } catch (e) {
+        logger.error('init', 'Error clearing invalid mode from localStorage:', e);
+      }
+    }
+    
+    G_currentActiveMode = 'default';
+    
+    // Save the corrected mode to localStorage
+    try {
+      localStorage.setItem(G_LOCAL_STORAGE_LAST_ACTIVE_MODE_KEY, G_currentActiveMode);
+      logger.info('init', 'Saved corrected mode to localStorage: "default".');
+    } catch (e) {
+      logger.error('init', 'Error saving corrected mode to localStorage:', e);
+    }
+  }
+
   // Load all data for the current mode (from localStorage or defaults)
-  await loadCombinedModeData();
+  await loadCombinedModeData(urlParams);
 
   // Initialize settings manager with mode-specific settings
   if (G_combinedModeData.userSettings) {
@@ -989,6 +1182,8 @@ async function main() {
       runtimeModuleStates.set(moduleId, { initialized: false, enabled: true });
       try {
         const moduleInstance = await import(moduleDefinition.path);
+        const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
+        incrementFileCounter(`${moduleId} (${moduleFileName})`); // Increment counter for module import
         importedModules.set(moduleId, moduleInstance.default || moduleInstance);
         logger.debug('init', `Dynamically imported module: ${moduleId}`);
 
@@ -1399,6 +1594,9 @@ async function main() {
       try {
         // Keep event listeners for diagnostics - Commenting out the verbose ones
         goldenLayoutInstance.on('started', () => {
+          // Hide loading screen when Golden Layout starts
+          hideLoadingScreen();
+          
           // log('info',
           //   '[Init DEBUG] GoldenLayout "started" EVENT HANDLER ENTERED (PanelManager init no longer solely relies on this)'
           // );
@@ -1640,6 +1838,8 @@ async function main() {
       );
       try {
         const moduleInstance = await import(moduleDefinition.path);
+        const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
+        incrementFileCounter(`${moduleId} (${moduleFileName})`); // Increment counter for dynamic module import
         actualModuleObject = moduleInstance.default || moduleInstance; // Assign here
         importedModules.set(moduleId, actualModuleObject);
         logger.debug(
@@ -2107,6 +2307,12 @@ async function main() {
 
   logger.info('init', 'Modular application initialization complete.');
 
+  // Fallback: Hide loading screen after initialization is complete if it's still visible
+  // This ensures the loading screen disappears even if Golden Layout events don't fire
+  setTimeout(() => {
+    hideLoadingScreen();
+  }, 500);
+
   // After all modules are ready and UI might be listening,
   // publish the final active mode.
   logger.info(
@@ -2116,6 +2322,25 @@ async function main() {
   eventBus.publish('app:activeModeDetermined', {
     activeMode: G_currentActiveMode,
   }, 'core');
+
+  // Check for panel URL parameter to activate a specific panel after everything is loaded
+  const panelParam = urlParams.get('panel');
+  if (panelParam) {
+    // Use a timeout to ensure all event handlers have processed and panels are ready
+    setTimeout(() => {
+      logger.info('init', `Activating panel from URL parameter: ${panelParam}`);
+      
+      // Try to activate the panel using panelManager
+      if (panelManagerInstance && typeof panelManagerInstance.activatePanel === 'function') {
+        panelManagerInstance.activatePanel(panelParam);
+        logger.info('init', `Panel activation request sent for: ${panelParam}`);
+      } else {
+        // Fallback: publish the activation event
+        logger.info('init', `Using event bus to activate panel: ${panelParam}`);
+        eventBus.publish('ui:activatePanel', { panelId: panelParam }, 'core');
+      }
+    }, 1500); // 1.5 second delay to ensure all initialization is complete
+  }
 
   // Attach a global listener for files:jsonLoaded to update rules in StateManager
   eventBus.subscribe('files:jsonLoaded', async (eventData) => {
@@ -2152,6 +2377,7 @@ async function main() {
         const { stateManagerProxySingleton } = await import(
           './modules/stateManager/index.js'
         );
+        incrementFileCounter('stateManager (index.js)'); // Increment counter for state manager import
         await stateManagerProxySingleton.loadRules(
           eventData.jsonData,
           {

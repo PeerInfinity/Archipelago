@@ -26,59 +26,19 @@
             "name": "Placing belts",
             "connected_region": "Shape transportation",
             "access_rule": {
-              "type": "function_call",
-              "function": {
+              "type": "item_check",
+              "item": {
                 "type": "attribute",
                 "object": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "regions"
-                  },
-                  "index": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "REGIONS"
-                    },
-                    "attr": "menu"
-                  }
+                  "type": "name",
+                  "name": "ITEMS"
                 },
-                "attr": "connect"
-              },
-              "args": [
-                {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "regions"
-                  },
-                  "index": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "REGIONS"
-                    },
-                    "attr": "belt"
-                  }
-                },
-                {
-                  "type": "constant",
-                  "value": "Placing belts"
-                },
-                {
-                  "type": "item_check",
-                  "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "ITEMS"
-                    },
-                    "attr": "belt"
-                  }
-                }
-              ]
+                "attr": "belt"
+              }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -111,6 +71,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -127,265 +90,228 @@
                 "attr": "wires"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "Placing any building",
             "connected_region": "Achievements with any placeable building",
             "access_rule": {
-              "type": "function_call",
-              "function": {
-                "type": "attribute",
-                "object": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "regions"
-                  },
-                  "index": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "REGIONS"
-                    },
-                    "attr": "menu"
-                  }
-                },
-                "attr": "connect"
-              },
+              "type": "state_method",
+              "method": "has_any",
               "args": [
                 {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "regions"
-                  },
-                  "index": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "REGIONS"
-                    },
-                    "attr": "any_building"
-                  }
-                },
-                {
-                  "type": "constant",
-                  "value": "Placing any building"
-                },
-                {
-                  "type": "state_method",
-                  "method": "has_any",
-                  "args": [
+                  "type": "list",
+                  "value": [
                     {
-                      "type": "list",
-                      "value": [
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "belt"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "balancer"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "comp_merger"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "comp_splitter"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "tunnel"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "tunnel_tier_ii"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "extractor"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "extractor_chain"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "cutter"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "cutter_quad"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "rotator"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "rotator_ccw"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "rotator_180"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "stacker"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "painter"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "painter_double"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "painter_quad"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "color_mixer"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "trash"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "belt_reader"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "storage"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "switch"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "item_filter"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "display"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "ITEMS"
-                          },
-                          "attr": "wires"
-                        }
-                      ]
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "belt"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "balancer"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "comp_merger"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "comp_splitter"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "tunnel"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "tunnel_tier_ii"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "extractor"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "extractor_chain"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "cutter"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "cutter_quad"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "rotator"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "rotator_ccw"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "rotator_180"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "stacker"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "painter"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "painter_double"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "painter_quad"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "color_mixer"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "trash"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "belt_reader"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "storage"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "switch"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "item_filter"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "display"
+                    },
+                    {
+                      "type": "attribute",
+                      "object": {
+                        "type": "name",
+                        "name": "ITEMS"
+                      },
+                      "attr": "wires"
                     }
                   ]
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -460,6 +386,8 @@
             "connected_region": "Shape transportation",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -499,6 +427,8 @@
             "connected_region": "Shape extraction",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -541,6 +471,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -552,6 +485,9 @@
               "inferred": true,
               "description": "Requires ability to cut half"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -568,6 +504,9 @@
                 "attr": "rotator"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -579,6 +518,9 @@
               "inferred": true,
               "description": "Requires ability to stack"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -595,6 +537,9 @@
                 "attr": "storage"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -611,6 +556,9 @@
                 "attr": "trash"
               }
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -630,6 +578,8 @@
             "connected_region": "Main",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -664,6 +614,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -703,6 +656,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -714,6 +670,9 @@
               "inferred": true,
               "description": "Requires ability to build mam"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -742,6 +701,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -753,6 +715,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -764,12 +729,21 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "Delivering unprocessed",
             "connected_region": "Shapesanity Full Uncolored",
-            "access_rule": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -781,6 +755,9 @@
               "inferred": true,
               "description": "Requires ability to make half shape"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -819,6 +796,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -830,6 +810,9 @@
               "inferred": true,
               "description": "Requires ability to make half half shape"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -841,6 +824,9 @@
               "inferred": true,
               "description": "Requires ability to make stitched shape"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -852,6 +838,9 @@
               "inferred": true,
               "description": "Requires ability to make east windmill"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -874,6 +863,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -907,6 +899,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -940,6 +935,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
@@ -973,6 +971,9 @@
                 }
               ]
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1173,6 +1174,8 @@
             "connected_region": "Levels with 1 building",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1186,6 +1189,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1278,6 +1284,8 @@
             "connected_region": "Levels with 2 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1291,6 +1299,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1383,6 +1394,8 @@
             "connected_region": "Levels with 3 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1396,6 +1409,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1488,6 +1504,8 @@
             "connected_region": "Levels with 4 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1501,6 +1519,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1593,6 +1614,8 @@
             "connected_region": "Levels with 5 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1794,6 +1817,8 @@
             "connected_region": "Upgrades with 1 building",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1807,6 +1832,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -1899,6 +1927,8 @@
             "connected_region": "Upgrades with 2 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -1912,6 +1942,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2004,6 +2037,8 @@
             "connected_region": "Upgrades with 3 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2017,6 +2052,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2127,6 +2165,8 @@
             "connected_region": "Upgrades with 4 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2140,6 +2180,9 @@
               "inferred": true,
               "description": "Requires having Logic List Building"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -2232,6 +2275,8 @@
             "connected_region": "Upgrades with 5 buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2415,6 +2460,8 @@
             "connected_region": "Achievements with (double) painter",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2454,6 +2501,8 @@
             "connected_region": "Achievements with half cutter",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2493,6 +2542,8 @@
             "connected_region": "Achievements with clockwise rotator",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2532,6 +2583,8 @@
             "connected_region": "Achievements with stacker",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2589,6 +2642,8 @@
             "connected_region": "Achievements with storage",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2628,6 +2683,8 @@
             "connected_region": "Achievements with trash",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2667,6 +2724,8 @@
             "connected_region": "Achievements with blueprints",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2724,6 +2783,8 @@
             "connected_region": "Achievements with wires",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2781,6 +2842,8 @@
             "connected_region": "Achievements with any placeable building",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2820,6 +2883,8 @@
             "connected_region": "Achievements with all main buildings",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -2833,6 +2898,9 @@
               "inferred": true,
               "description": "Requires having X Belt Multiplier"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3033,6 +3101,8 @@
             "connected_region": "Achievements with x1.6 belt speed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3090,6 +3160,8 @@
             "connected_region": "Shapesanity Full Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3103,6 +3175,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3177,6 +3252,8 @@
             "connected_region": "Shapesanity Full Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3190,6 +3267,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3228,6 +3308,8 @@
             "connected_region": "Shapesanity Full Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3267,6 +3349,8 @@
             "connected_region": "Shapesanity Half Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3280,6 +3364,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3299,6 +3386,8 @@
             "connected_region": "Shapesanity Half Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3312,6 +3401,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3368,6 +3460,8 @@
             "connected_region": "Shapesanity Half Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3425,6 +3519,8 @@
             "connected_region": "Shapesanity Piece Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3438,6 +3534,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3457,6 +3556,8 @@
             "connected_region": "Shapesanity Piece Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3470,6 +3571,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3544,6 +3648,8 @@
             "connected_region": "Shapesanity Piece Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3619,6 +3725,8 @@
             "connected_region": "Shapesanity Stitched Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3632,6 +3740,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3670,6 +3781,8 @@
             "connected_region": "Shapesanity Stitched Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -3683,6 +3796,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -3847,6 +3963,8 @@
             "connected_region": "Shapesanity Stitched Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4174,6 +4292,8 @@
             "connected_region": "Shapesanity East Windmill Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4187,6 +4307,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4225,6 +4348,8 @@
             "connected_region": "Shapesanity East Windmill Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4238,6 +4363,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4276,6 +4404,8 @@
             "connected_region": "Shapesanity East Windmill Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4315,6 +4445,8 @@
             "connected_region": "Shapesanity Half-Half Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4328,6 +4460,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4347,6 +4482,8 @@
             "connected_region": "Shapesanity Half-Half Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4360,6 +4497,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4379,6 +4519,8 @@
             "connected_region": "Shapesanity Half-Half Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4418,6 +4560,8 @@
             "connected_region": "Shapesanity Colorful East Windmill Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4431,6 +4575,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4450,6 +4597,8 @@
             "connected_region": "Shapesanity Colorful East Windmill Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4463,6 +4612,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4482,6 +4634,8 @@
             "connected_region": "Shapesanity Colorful Half-Half Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4495,6 +4649,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4514,6 +4671,8 @@
             "connected_region": "Shapesanity Colorful Half-Half Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4527,6 +4686,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4546,6 +4708,8 @@
             "connected_region": "Shapesanity Colorful Half-Half Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4603,6 +4767,8 @@
             "connected_region": "Shapesanity Colorful Full Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4616,6 +4782,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4635,6 +4804,8 @@
             "connected_region": "Shapesanity Colorful Full Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4648,6 +4819,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4667,6 +4841,8 @@
             "connected_region": "Shapesanity Colorful Full Mixed",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4742,6 +4918,8 @@
             "connected_region": "Shapesanity Colorful Half Uncolored",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4755,6 +4933,9 @@
               "inferred": true,
               "description": "Requires ability to paint"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -4774,6 +4955,8 @@
             "connected_region": "Shapesanity Colorful Half Painted",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -4787,6 +4970,9 @@
               "inferred": true,
               "description": "Requires ability to mix colors"
             },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -5861,6 +6047,20 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Goal": {
+        "name": "Goal",
+        "id": null,
+        "groups": [
+          "Event"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": true,
+        "type": "Event",
+        "max_count": 1
       }
     }
   },
@@ -5940,7 +6140,8 @@
   },
   "settings": {
     "1": {
-      "game": "shapez"
+      "game": "shapez",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {

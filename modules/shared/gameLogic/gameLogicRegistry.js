@@ -10,6 +10,11 @@ import { alttpStateModule } from './alttp/alttpLogic.js';
 import * as genericLogic from './generic/genericLogic.js';
 import * as ahitLogic from './ahit/ahitLogic.js';
 import { ahitStateModule } from './ahit/ahitLogic.js';
+import * as archipidleLogic from './archipidle/archipidleLogic.js';
+import { archipidleStateModule } from './archipidle/archipidleLogic.js';
+import * as blasphemousLogic from './blasphemous/blasphemousLogic.js';
+import { blasphemousStateModule } from './blasphemous/blasphemousLogic.js';
+import { helperFunctions as bombRushCyberfunkHelperFunctions } from './bomb_rush_cyberfunk/bombRushCyberfunkLogic.js';
 
 /**
  * Registry of all supported games and their logic modules
@@ -26,6 +31,24 @@ const GAME_REGISTRY = {
     helperFunctions: ahitLogic.helperFunctions,
     worldClasses: ['HatInTimeWorld'],
     aliases: ['A Hat in Time', 'AHIT']
+  },
+  'ArchipIDLE': {
+    logicModule: archipidleLogic.archipidleStateModule,
+    helperFunctions: archipidleLogic.helperFunctions,
+    worldClasses: ['ArchipIDLEWorld'],
+    aliases: ['ArchipIDLE']
+  },
+  'Blasphemous': {
+    logicModule: blasphemousLogic.blasphemousStateModule,
+    helperFunctions: blasphemousLogic.helperFunctions,
+    worldClasses: ['BlasphemousWorld'],
+    aliases: ['Blasphemous']
+  },
+  'Bomb Rush Cyberfunk': {
+    logicModule: genericLogic.genericStateModule, // Using generic for now
+    helperFunctions: bombRushCyberfunkHelperFunctions,
+    worldClasses: ['BombRushCyberfunkWorld'],
+    aliases: ['Bomb Rush Cyberfunk', 'BRC']
   },
   // Add more games here as they're implemented
   'Generic': {
@@ -129,8 +152,21 @@ export function determineGameName({ gameId, settings, worldClass }) {
   // 3. Detection from world class
   // 4. Fallback to Generic
 
+  // Check for direct settings.game first
   if (settings && settings.game && isGameSupported(settings.game)) {
     return settings.game;
+  }
+
+  // Check for nested player settings structure (e.g., settings["1"].game)
+  // TODO - check if this even happens
+  if (settings && typeof settings === 'object') {
+    for (const playerId in settings) {
+      const playerSettings = settings[playerId];
+      if (playerSettings && typeof playerSettings === 'object' && 
+          playerSettings.game && isGameSupported(playerSettings.game)) {
+        return playerSettings.game;
+      }
+    }
   }
 
   if (gameId && isGameSupported(gameId)) {

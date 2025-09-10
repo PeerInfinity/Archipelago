@@ -191,6 +191,21 @@ export function can_defeat_ganon(state, world, itemName, staticData) {
            (state.settings?.game_mode === 'swordless' || state.settings?.swordless)));
 }
 
+export function can_defeat_boss(state, world, locationName, bossType, staticData) {
+  // For Desert Palace and most other bosses, just need to be able to kill things
+  // The specific requirements are already checked in the location's access rules
+  // This is a simplified version - the actual boss defeat is handled by the dungeon's rules
+  return can_kill_most_things(state, world, 1, staticData);
+}
+
+export function can_take_damage(state, world, itemName, staticData) {
+  // Check if the game settings allow taking damage
+  // Default is true unless explicitly set to false in settings
+  const canTakeDamage = state.settings?.can_take_damage;
+  // If not explicitly set to false, assume true
+  return canTakeDamage !== false;
+}
+
 // Additional commonly used helpers
 
 export function can_use_bombs(state, world, itemName, staticData) {
@@ -503,6 +518,15 @@ export function location_item_name(state, world, itemName, staticData) {
         return [locationData.item.name, locationData.item.player || 1];
       }
     }
+    
+    // If locations is an array, convert it to object mapping on-the-fly
+    if (Array.isArray(staticData.locations)) {
+      for (const location of staticData.locations) {
+        if (location && location.name === locationName && location.item) {
+          return [location.item.name, location.item.player || 1];
+        }
+      }
+    }
   }
   
   // Search through regions for the location
@@ -538,31 +562,86 @@ export function location_item_name(state, world, itemName, staticData) {
   return null;
 }
 
-export function item_name_in_location_names(state, world, itemName, staticData) {
-  // TODO: Implement multi-location item checking
-  // Requires: Array of [locationName, playerNum] pairs as itemName parameter
-  // And: location item data in staticData
-  // This function checks if a specific item is placed in any of the given locations
+export function tr_big_key_chest_keys_needed(state, world, itemName, staticData) {
+  // This function handles the key requirements for the TR Big Chest
+  // Based on the Python function in worlds/alttp/Rules.py
+  const item = location_item_name(state, world, 'Turtle Rock - Big Key Chest', staticData);
   
-  // Parse parameters - itemName should contain the item to search for
-  // and world should contain the location pairs array
-  const searchItem = itemName;
-  const locationPairs = Array.isArray(world) ? world : [];
+  if (!item) {
+    // If we can't determine the item, use the default (6 keys)
+    return 6;
+  }
+  
+  const [locationItemName, locationPlayer] = item;
   const currentPlayer = state.player?.slot || 1;
   
-  for (const [locationName, locationPlayer] of locationPairs) {
+  // Only consider items for the current player
+  if (locationPlayer != currentPlayer) {
+    return 6;
+  }
+  
+  // Implement tr_big_key_chest_keys_needed logic:
+  // - Small Key (Turtle Rock): 0 keys needed
+  // - Big Key (Turtle Rock): 4 keys needed  
+  // - Anything else: 6 keys needed
+  if (locationItemName === 'Small Key (Turtle Rock)') {
+    return 0;
+  } else if (locationItemName === 'Big Key (Turtle Rock)') {
+    return 4;
+  } else {
+    return 6;
+  }
+}
+
+export function item_name_in_location_names(state, world, itemName, staticData) {
+  // Check if a specific item is placed in any of the given locations
+  // itemName: can be a single value (for single-arg calls) or array [searchItem, locationPairs] (for multi-arg calls)
+  
+  let searchItem, locationPairs;
+  
+  if (Array.isArray(itemName) && itemName.length >= 2) {
+    // Multi-argument call: [searchItem, locationPairs]
+    searchItem = itemName[0];
+    locationPairs = itemName[1];
+  } else {
+    // Single-argument call (backward compatibility)
+    searchItem = itemName;
+    locationPairs = Array.isArray(world) ? world : [];
+  }
+  
+  if (!Array.isArray(locationPairs)) {
+    return false;
+  }
+  
+  const currentPlayer = state.player?.slot || parseInt(state.player) || 1;
+  
+  for (const locationPair of locationPairs) {
+    if (!Array.isArray(locationPair) || locationPair.length < 2) continue;
+    
+    const [locationName, locationPlayer] = locationPair;
     if (typeof locationName !== 'string') continue;
     
-    const itemAtLocation = location_item_name(state, world, locationName, staticData);
+    const itemAtLocation = location_item_name(state, {}, locationName, staticData);
     if (itemAtLocation && Array.isArray(itemAtLocation)) {
       const [foundItem, foundPlayer] = itemAtLocation;
-      if (foundItem === searchItem && foundPlayer === currentPlayer) {
+      // Check if this is the item we're looking for and it belongs to the right player
+      if (foundItem === searchItem && parseInt(foundPlayer) === parseInt(locationPlayer)) {
         return true;
       }
     }
   }
   
   return false;
+}
+
+
+export function has_crystals_for_ganon(state, world, itemName, staticData) {
+  // Check if player has required number of crystals for Ganon
+  // The required number comes from settings
+  const requiredCrystals = state.settings?.crystals_needed_for_ganon || 7;
+  
+  // Use the simpler has_crystals function that counts Crystal 1-7 directly
+  return has_crystals(state, world, requiredCrystals.toString(), staticData);
 }
 
 export function GanonDefeatRule(state, world, itemName, staticData) {
@@ -740,6 +819,50 @@ export function can_get_bottle(state, world, itemName, staticData) {
          can_reach_region(state, world, 'Magic Shop', staticData);
 }
 
+export function zip(state, world, itemName, staticData) {
+  // Python's zip function - combines multiple iterables element-wise
+  // Expected usage: zip([list1], [list2], ...) -> [[item1_from_list1, item1_from_list2], ...]
+  // When called from rule engine, itemName is an array of arguments: [arg1, arg2, ...]
+  
+  if (!Array.isArray(itemName) || itemName.length === 0) {
+    return [];
+  }
+  
+  // itemName contains the arguments to zip together
+  const arrays = itemName;
+  
+  // Ensure we have valid arrays to work with
+  const validArrays = arrays.filter(arr => Array.isArray(arr));
+  
+  if (validArrays.length === 0) {
+    return [];
+  }
+  
+  // Get the shortest length among all arrays
+  const minLength = Math.min(...validArrays.map(arr => arr.length));
+  
+  // Create the zipped result
+  const result = [];
+  for (let i = 0; i < minLength; i++) {
+    const tuple = validArrays.map(arr => arr[i]);
+    result.push(tuple);
+  }
+  
+  return result;
+}
+
+export function len(state, world, itemName, staticData) {
+  // Python's len function - returns the length of a collection
+  if (Array.isArray(itemName)) {
+    return itemName.length;
+  } else if (typeof itemName === 'string') {
+    return itemName.length;
+  } else if (itemName && typeof itemName === 'object') {
+    return Object.keys(itemName).length;
+  }
+  return 0;
+}
+
 // Additional utility functions that may be referenced in rules
 
 export function can_bomb_things(state, world, itemName, staticData) {
@@ -832,9 +955,11 @@ export const helperFunctions = {
   can_kill_most_things,
   can_shoot_silver_arrows,
   can_defeat_ganon,
+  can_defeat_boss,
   has_beam_sword,
   has_melee_weapon,
   has_rod,
+  can_take_damage,
   
   // Magic and special abilities
   is_invincible,
@@ -878,8 +1003,10 @@ export const helperFunctions = {
   has_sword,
   has_any,
   location_item_name,
+  tr_big_key_chest_keys_needed,
   item_name_in_location_names,
   GanonDefeatRule,
+  has_crystals_for_ganon,
   can_get_glitched_speed_dw,
   _has_specific_key_count,
   basement_key_rule,
@@ -892,6 +1019,8 @@ export const helperFunctions = {
   has_crystals_count,
   can_reach_region,
   can_get_bottle,
+  zip,
+  len,
   
   // Additional utility functions
   can_bomb_things,

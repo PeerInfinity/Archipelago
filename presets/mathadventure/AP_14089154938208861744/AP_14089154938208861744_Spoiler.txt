@@ -1,0 +1,63 @@
+﻿Archipelago Version 0.6.4  -  Seed: 1
+
+Filling Algorithm:               balanced
+Players:                         1
+Plando Options:                  connections, texts, bosses
+Game:                            MathProof2p2e4
+Progression Balancing:           50
+Accessibility:                   Full
+Local Items:                     
+Non-local Items:                 
+Start Inventory:                 
+Start Hints:                     
+Start Location Hints:            
+Excluded Locations:              
+Priority Locations:              
+Item Links:                      
+Plando Items:                    
+Randomize Items:                 No
+Proof Complexity:                Normal
+Hint Complexity:                 Basic
+Require All Proofs:              No
+
+
+Locations:
+
+Definition of 2: df-2
+Definition of 3: df-3
+Definition of 4: df-4
+1 is Complex: ax-1cn
+2 is Complex: 2cn
+Equality Substitution Right: oveq2i
+Equality Substitution Left: oveq1i
+Addition Associativity: addassi
+Triple Equality Transitivity: 3eqtri
+Final Equality: eqtr4i
+Theorem: 2+2=4: Victory
+
+Playthrough:
+
+0: {
+
+}
+1: {
+  1 is Complex: ax-1cn
+  2 is Complex: 2cn
+  Definition of 2: df-2
+  Definition of 3: df-3
+  Definition of 4: df-4
+}
+2: {
+  Addition Associativity: addassi
+  Equality Substitution Left: oveq1i
+  Equality Substitution Right: oveq2i
+}
+3: {
+  Triple Equality Transitivity: 3eqtri
+}
+4: {
+  Final Equality: eqtr4i
+}
+5: {
+  Theorem: 2+2=4: Victory
+}

@@ -22,7 +22,20 @@ export async function testSpoilersPanelFullRun(testController) {
     const eventBusModule = await import('../../../app/core/eventBus.js');
     const eventBus = eventBusModule.default;
     eventBus.publish('ui:activatePanel', { panelId: PANEL_ID }, 'tests');
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait longer for panel to fully init
+    
+    // Poll for panel initialization instead of arbitrary delay
+    if (!(await testController.pollForCondition(
+      () => {
+        const panelElement = document.querySelector('.test-spoilers-module-root');
+        const isInitialized = panelElement && panelElement.querySelector('#load-suggested-spoiler-log');
+        return !!isInitialized;
+      },
+      'Test Spoilers panel initialization',
+      10000,
+      250
+    ))) {
+      throw new Error('Test Spoilers panel failed to initialize properly');
+    }
 
     let spoilersPanelElement = null;
     if (
@@ -71,8 +84,28 @@ export async function testSpoilersPanelFullRun(testController) {
     );
     loadSuggestedButton.click();
     
-    // Wait for the async loading to complete
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Poll for log loading completion instead of arbitrary delay
+    if (!(await testController.pollForCondition(
+      () => {
+        const currentSpoilersPanelElement = document.querySelector('.test-spoilers-module-root');
+        if (!currentSpoilersPanelElement) return false;
+        
+        // Check for indicators that the log has loaded
+        const hasRunButton = currentSpoilersPanelElement.querySelector('#run-full-spoiler-test') ||
+                            Array.from(currentSpoilersPanelElement.querySelectorAll('button')).find(btn => 
+                              btn.textContent.includes('Run Full Test'));
+        const logOutput = currentSpoilersPanelElement.querySelector('#spoiler-log-output');
+        const hasLogContent = logOutput && logOutput.children.length > 0;
+        
+        
+        return !!(hasRunButton || hasLogContent);
+      },
+      'Spoiler log loading completion',
+      15000,
+      500
+    ))) {
+      throw new Error('Spoiler log failed to load within expected time');
+    }
 
     // 3. Wait for the "Run Full Test" button to appear, which indicates the log has loaded
     let runFullTestButton = null;
@@ -135,7 +168,24 @@ export async function testSpoilersPanelFullRun(testController) {
     // 4. Click the "Run Full Test" button
     testController.log(`[${testRunId}] Clicking "Run Full Test" button...`);
     runFullTestButton.click();
-    await new Promise((resolve) => setTimeout(resolve, 100)); // allow test to start processing
+    
+    // Poll for test start instead of arbitrary delay
+    if (!(await testController.pollForCondition(
+      () => {
+        const isDisabled = runFullTestButton && runFullTestButton.disabled;
+        const hasStartedProcessing = typeof window !== 'undefined' && 
+                                    (window.__spoilerTestResults__ || 
+                                     document.querySelector('#spoiler-log-output .log-entry'));
+        
+        
+        return isDisabled || hasStartedProcessing;
+      },
+      'Full spoiler test to start processing',
+      5000,
+      100
+    ))) {
+      testController.log(`[${testRunId}] WARNING: Could not confirm test started processing, continuing anyway`);
+    }
 
     // 5. Wait for the test to complete by polling for detailed results AND button re-enablement
     testController.log(
@@ -152,6 +202,7 @@ export async function testSpoilersPanelFullRun(testController) {
           testController.log(
             `[${testRunId}] Polling: buttonReady=${buttonReady}, hasDetailedResults=${!!detailedResults}, processedEvents=${detailedResults?.processedEvents || 0}/${detailedResults?.totalEvents || 0}`
           );
+          
           
           // ENHANCED DEBUG: Log full detailedResults structure when available
           if (detailedResults) {

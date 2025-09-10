@@ -25,25 +25,273 @@
           {
             "name": "Menu -> Laboratory",
             "connected_region": "Laboratory",
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "subscript",
+                      "value": {
+                        "type": "name",
+                        "name": "area_cost_map"
+                      },
+                      "index": {
+                        "type": "name",
+                        "name": "i"
+                      }
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "subscript",
+                    "value": {
+                      "type": "name",
+                      "name": "area_cost_map"
+                    },
+                    "index": {
+                      "type": "name",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "Menu -> The Tower",
             "connected_region": "The Tower",
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "subscript",
+                      "value": {
+                        "type": "name",
+                        "name": "area_cost_map"
+                      },
+                      "index": {
+                        "type": "name",
+                        "name": "i"
+                      }
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "subscript",
+                    "value": {
+                      "type": "name",
+                      "name": "area_cost_map"
+                    },
+                    "index": {
+                      "type": "name",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "Menu -> Space Station 2",
             "connected_region": "Space Station 2",
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "subscript",
+                      "value": {
+                        "type": "name",
+                        "name": "area_cost_map"
+                      },
+                      "index": {
+                        "type": "name",
+                        "name": "i"
+                      }
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "subscript",
+                    "value": {
+                      "type": "name",
+                      "name": "area_cost_map"
+                    },
+                    "index": {
+                      "type": "name",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           },
           {
             "name": "Menu -> Warp Zone",
             "connected_region": "Warp Zone",
-            "access_rule": null,
+            "access_rule": {
+              "type": "helper",
+              "name": "_has_trinket_range",
+              "args": [
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "subscript",
+                      "value": {
+                        "type": "name",
+                        "name": "area_cost_map"
+                      },
+                      "index": {
+                        "type": "name",
+                        "name": "i"
+                      }
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "constant",
+                      "value": 1
+                    }
+                  }
+                },
+                {
+                  "type": "binary_op",
+                  "left": {
+                    "type": "attribute",
+                    "object": {
+                      "type": "name",
+                      "name": "options"
+                    },
+                    "attr": "door_cost"
+                  },
+                  "op": "*",
+                  "right": {
+                    "type": "subscript",
+                    "value": {
+                      "type": "name",
+                      "name": "area_cost_map"
+                    },
+                    "index": {
+                      "type": "name",
+                      "name": "i"
+                    }
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Exit"
           }
         ],
@@ -327,6 +575,8 @@
             "connected_region": "Laboratory",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -420,6 +670,8 @@
             "connected_region": "The Tower",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -477,6 +729,8 @@
             "connected_region": "Space Station 2",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -588,6 +842,8 @@
             "connected_region": "Warp Zone",
             "reverse": null,
             "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
             "type": "Entrance"
           }
         ],
@@ -947,7 +1203,8 @@
   },
   "settings": {
     "1": {
-      "game": "VVVVVV"
+      "game": "VVVVVV",
+      "assume_bidirectional_exits": false
     }
   },
   "game_info": {
