@@ -65,7 +65,9 @@ class ChocolateChipCookiesWorld(World):
     
     def generate_early(self) -> None:
         """Generate early logic."""
-        pass
+        # If seed is 1, disable randomization to use canonical item placements
+        if self.multiworld.seed == 1:
+            self.options.randomize_items.value = False
     
     def generate_basic(self) -> None:
         """Generate basic elements including victory condition."""

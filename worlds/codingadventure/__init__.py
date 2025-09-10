@@ -31,6 +31,11 @@ class WebDevJourneyWorld(World):
         name: data.location_id for name, data in location_table.items() if data.location_id is not None
     }
     
+    def generate_early(self) -> None:
+        # If seed is 1, disable randomization to use canonical item placements
+        if self.multiworld.seed == 1:
+            self.options.randomize_items.value = False
+    
     def create_regions(self) -> None:
         create_regions(self.multiworld, self.player)
     

@@ -1,18 +1,19 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-09-09 18:31:38
+**Generated:** 2025-09-10 13:23:06
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-09-09T18:31:38.483677
+**Source Data Last Updated:** 2025-09-10T13:01:46.885638
 
 **Script Version:** 1.0.0
 
 ## Summary
 
 - **Total Games:** 79
-- **Passed:** 11 (13.9%)
+- **Passed:** 10 (12.7%)
 - **Failed:** 68 (86.1%)
+- **Unknown/Error:** 1 (1.3%)
 
 ## Test Results
 
@@ -55,7 +56,7 @@
 | Links Awakening DX | ❌ Failed | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Lufia II Ancient Cave | ❌ Failed | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |
 | Mario & Luigi Superstar Saga | ❌ Failed | 0 | 0.1 | 7.1 | 🟠 1.4% | ⚫ | ⚫ |
-| MathProof2p2e4 | ✅ Passed | 0 | 5.1 | 5.1 | 🟢 Complete | ⚫ | ⚫ |
+| MathProof2p2e4 | ✅ Passed seeds 1-3 | 0 | 4.1 | 4.1 | 🟢 Complete | ⚫ | ⚫ |
 | Mega Man 2 | ❌ Failed | 0 | 0.1 | 9.1 | 🟠 1.1% | ⚫ | ⚫ |
 | MegaMan Battle Network 3 | ❌ Failed | 0 | 0.2 | 5.1 | 🟠 3.9% | ⚫ | ⚫ |
 | Meritous | ❌ Failed | 0 | 1.1 | 7.1 | 🟡 15.5% | ⚫ | ⚫ |

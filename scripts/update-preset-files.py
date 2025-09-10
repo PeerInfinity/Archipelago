@@ -43,47 +43,101 @@ def normalize_game_name(template_name: str) -> str:
 
 def extract_test_data_for_game(template_name: str, template_data: Dict[str, Any]) -> Dict[str, Any]:
     """Extract test result data for a single game."""
-    # Extract original pass/fail result
-    original_pass_fail = template_data.get('spoiler_test', {}).get('pass_fail', 'unknown')
-    
-    # Extract generation error count
-    gen_error_count = template_data.get('generation', {}).get('error_count', 0)
-    
-    # Extract sphere reached (where the test stopped or failed)
-    sphere_reached = template_data.get('spoiler_test', {}).get('sphere_reached', 0)
-    
-    # Extract max spheres (total spheres available)
-    max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
-    
-    # Extract world info for custom exporter/gameLogic status
-    world_info = template_data.get('world_info', {})
-    has_custom_exporter = world_info.get('has_custom_exporter', False)
-    has_custom_game_logic = world_info.get('has_custom_game_logic', False)
-    
-    # Apply stricter pass criteria: must have 0 generation errors AND max_spheres > 0
-    if original_pass_fail.lower() == 'passed' and gen_error_count == 0 and max_spheres > 0:
-        pass_fail = 'passed'
-    elif original_pass_fail.lower() == 'failed':
-        pass_fail = 'failed'
+    # Check if this is seed range data
+    if 'seed_range' in template_data:
+        # Handle seed range results
+        seeds_passed = template_data.get('seeds_passed', 0)
+        seeds_failed = template_data.get('seeds_failed', 0)
+        consecutive_passes = template_data.get('consecutive_passes_before_failure', 0)
+        first_failure_seed = template_data.get('first_failure_seed')
+        total_seeds = template_data.get('total_seeds_tested', 0)
+        seed_range = template_data.get('seed_range', 'unknown')
+        individual_results = template_data.get('individual_results', {})
+        
+        # Determine which seed's data to use (same logic as generate-test-chart.py)
+        if seeds_failed == 0 and seeds_passed > 0:
+            # All passed - use data from first seed
+            pass_fail = 'passed'
+            if individual_results:
+                first_seed_key = sorted(individual_results.keys(), key=lambda x: int(x) if x.isdigit() else 0)[0]
+                first_result = individual_results[first_seed_key]
+            else:
+                first_result = {}
+        else:
+            # Some failed - use data from first failed seed
+            pass_fail = 'failed'
+            if first_failure_seed and individual_results:
+                first_result = individual_results.get(str(first_failure_seed), {})
+            else:
+                # Fallback to first result if we can't find the failed seed
+                if individual_results:
+                    first_seed_key = sorted(individual_results.keys(), key=lambda x: int(x) if x.isdigit() else 0)[0]
+                    first_result = individual_results[first_seed_key]
+                else:
+                    first_result = {}
+        
+        # Extract data from the selected seed result
+        gen_error_count = first_result.get('generation', {}).get('error_count', 0)
+        gen_warning_count = first_result.get('generation', {}).get('warning_count', 0)
+        sphere_reached = first_result.get('spoiler_test', {}).get('sphere_reached', 0)
+        max_spheres = first_result.get('spoiler_test', {}).get('total_spheres', 0)
+        generation_time = first_result.get('generation', {}).get('processing_time_seconds', 0)
+        spoiler_time = first_result.get('spoiler_test', {}).get('processing_time_seconds', 0)
+        
+        # Calculate progress percentage based on sphere data
+        progress_percent = (sphere_reached / max_spheres * 100) if max_spheres > 0 else 0
+        
+        # Extract world info from the first result
+        world_info = first_result.get('world_info', {})
+        has_custom_exporter = world_info.get('has_custom_exporter', False)
+        has_custom_game_logic = world_info.get('has_custom_game_logic', False)
+        
+        test_timestamp = template_data.get('timestamp', '')
+        
     else:
-        # Mark as failed if it doesn't meet strict criteria, even if spoiler test "passed"
-        pass_fail = 'failed'
+        # Handle single seed results (original logic)
+        # Extract original pass/fail result
+        original_pass_fail = template_data.get('spoiler_test', {}).get('pass_fail', 'unknown')
+        
+        # Extract generation error and warning counts
+        gen_error_count = template_data.get('generation', {}).get('error_count', 0)
+        gen_warning_count = template_data.get('generation', {}).get('warning_count', 0)
+        
+        # Extract sphere reached (where the test stopped or failed)
+        sphere_reached = template_data.get('spoiler_test', {}).get('sphere_reached', 0)
+        
+        # Extract max spheres (total spheres available)
+        max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
+        
+        # Extract world info for custom exporter/gameLogic status
+        world_info = template_data.get('world_info', {})
+        has_custom_exporter = world_info.get('has_custom_exporter', False)
+        has_custom_game_logic = world_info.get('has_custom_game_logic', False)
+        
+        # Apply stricter pass criteria: must have 0 generation errors AND max_spheres > 0
+        if original_pass_fail.lower() == 'passed' and gen_error_count == 0 and max_spheres > 0:
+            pass_fail = 'passed'
+        elif original_pass_fail.lower() == 'failed':
+            pass_fail = 'failed'
+        else:
+            # Mark as failed if it doesn't meet strict criteria, even if spoiler test "passed"
+            pass_fail = 'failed'
+        
+        # Calculate progress percentage
+        progress_percent = 0.0
+        if max_spheres > 0:
+            progress_percent = (sphere_reached / max_spheres) * 100
+        
+        # Get timestamps
+        test_timestamp = template_data.get('timestamp', '')
+        generation_time = template_data.get('generation', {}).get('processing_time_seconds', 0)
+        spoiler_time = template_data.get('spoiler_test', {}).get('processing_time_seconds', 0)
     
-    # Calculate progress percentage
-    progress_percent = 0.0
-    if max_spheres > 0:
-        progress_percent = (sphere_reached / max_spheres) * 100
-    
-    # Get timestamps
-    test_timestamp = template_data.get('timestamp', '')
-    generation_time = template_data.get('generation', {}).get('processing_time_seconds', 0)
-    spoiler_time = template_data.get('spoiler_test', {}).get('processing_time_seconds', 0)
-    
-    return {
+    result_data = {
         'test_result': {
             'status': pass_fail,
             'generation_errors': gen_error_count,
-            'generation_warnings': template_data.get('generation', {}).get('warning_count', 0),
+            'generation_warnings': gen_warning_count,
             'sphere_reached': sphere_reached,
             'max_spheres': max_spheres,
             'progress_percent': round(progress_percent, 1),
@@ -97,6 +151,19 @@ def extract_test_data_for_game(template_name: str, template_data: Dict[str, Any]
             }
         }
     }
+    
+    # Add seed range specific info if available
+    if 'seed_range' in template_data:
+        result_data['test_result']['seed_range_info'] = {
+            'seed_range': template_data.get('seed_range', ''),
+            'seeds_passed': seeds_passed,
+            'seeds_failed': seeds_failed,
+            'consecutive_passes_before_failure': consecutive_passes,
+            'first_failure_seed': first_failure_seed,
+            'total_seeds_tested': total_seeds
+        }
+    
+    return result_data
 
 
 def update_preset_files_with_test_data(preset_files: Dict[str, Any], test_results: Dict[str, Any]) -> Dict[str, Any]:

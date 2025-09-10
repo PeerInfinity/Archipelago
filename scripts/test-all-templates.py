@@ -465,7 +465,7 @@ def save_results(results: Dict, results_file: str, batch_processing_time: float 
         print(f"Error saving results: {e}")
 
 
-def test_template(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, spoiler_only: bool = False) -> Dict:
+def test_template_single_seed(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, spoiler_only: bool = False) -> Dict:
     """Test a single template file and return results."""
     template_name = os.path.basename(template_file)
     game_name = normalize_game_name(template_name)
@@ -593,9 +593,8 @@ def test_template(template_file: str, templates_dir: str, project_root: str, wor
         result['spoiler_test']['first_error_line'] = f"Rules file not found: {rules_path}"
         return result
     
-    spoiler_cmd = ["npm", "run", "test:spoilers"]
+    spoiler_cmd = ["npm", "test", "--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
     spoiler_env = os.environ.copy()
-    spoiler_env['RULES_OVERRIDE'] = rules_path
     
     # Time the spoiler test process
     spoiler_start_time = time.time()
@@ -677,6 +676,131 @@ def test_template(template_file: str, templates_dir: str, project_root: str, wor
     return result
 
 
+def test_template_seed_range(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed_list: List[int], export_only: bool = False, spoiler_only: bool = False, stop_on_failure: bool = False) -> Dict:
+    """Test a template file with multiple seeds and return aggregated results."""
+    template_name = os.path.basename(template_file)
+    
+    print(f"\n=== Testing {template_name} with {len(seed_list)} seeds ===")
+    
+    # Initialize seed range result
+    seed_range_result = {
+        'template_name': template_name,
+        'seed_range': f"{seed_list[0]}-{seed_list[-1]}" if len(seed_list) > 1 else str(seed_list[0]),
+        'total_seeds_tested': 0,
+        'seeds_passed': 0,
+        'seeds_failed': 0,
+        'first_failure_seed': None,
+        'first_failure_reason': None,
+        'consecutive_passes_before_failure': 0,
+        'stop_on_failure': stop_on_failure,
+        'timestamp': datetime.now().isoformat(),
+        'individual_results': {},
+        'summary': {
+            'all_passed': False,
+            'any_failed': False,
+            'failure_rate': 0.0
+        }
+    }
+    
+    consecutive_passes = 0
+    
+    for i, seed in enumerate(seed_list, 1):
+        print(f"\n--- Seed {seed} ({i}/{len(seed_list)}) ---")
+        
+        try:
+            # Test this specific seed
+            result = test_template_single_seed(
+                template_file, templates_dir, project_root, world_mapping, 
+                str(seed), export_only, spoiler_only
+            )
+            
+            seed_range_result['individual_results'][str(seed)] = result
+            seed_range_result['total_seeds_tested'] += 1
+            
+            # Check if this seed passed
+            if export_only:
+                passed = result.get('generation', {}).get('success', False)
+            else:
+                passed = result.get('spoiler_test', {}).get('pass_fail') == 'passed'
+            
+            if passed:
+                seed_range_result['seeds_passed'] += 1
+                consecutive_passes += 1
+                print(f"✅ Seed {seed} PASSED")
+            else:
+                seed_range_result['seeds_failed'] += 1
+                print(f"❌ Seed {seed} FAILED")
+                
+                # Record first failure
+                if seed_range_result['first_failure_seed'] is None:
+                    seed_range_result['first_failure_seed'] = seed
+                    seed_range_result['consecutive_passes_before_failure'] = consecutive_passes
+                    
+                    # Determine failure reason
+                    if export_only:
+                        gen_result = result.get('generation', {})
+                        if gen_result.get('first_error_line'):
+                            seed_range_result['first_failure_reason'] = f"Generation error: {gen_result['first_error_line']}"
+                        else:
+                            seed_range_result['first_failure_reason'] = f"Generation failed with return code {gen_result.get('return_code')}"
+                    else:
+                        spoiler_result = result.get('spoiler_test', {})
+                        if spoiler_result.get('first_error_line'):
+                            seed_range_result['first_failure_reason'] = f"Test error: {spoiler_result['first_error_line']}"
+                        else:
+                            seed_range_result['first_failure_reason'] = f"Test failed at sphere {spoiler_result.get('sphere_reached', 0)}"
+                
+                # Stop on failure if requested
+                if stop_on_failure:
+                    print(f"Stopping at first failure (seed {seed})")
+                    break
+                    
+                # Reset consecutive passes counter after failure
+                consecutive_passes = 0
+        
+        except Exception as e:
+            print(f"❌ Seed {seed} ERROR: {e}")
+            seed_range_result['total_seeds_tested'] += 1
+            seed_range_result['seeds_failed'] += 1
+            
+            # Record as first failure if none yet
+            if seed_range_result['first_failure_seed'] is None:
+                seed_range_result['first_failure_seed'] = seed
+                seed_range_result['consecutive_passes_before_failure'] = consecutive_passes
+                seed_range_result['first_failure_reason'] = f"Exception: {str(e)}"
+            
+            if stop_on_failure:
+                print(f"Stopping due to exception on seed {seed}")
+                break
+            
+            consecutive_passes = 0
+    
+    # Calculate summary statistics
+    total_tested = seed_range_result['total_seeds_tested']
+    if total_tested > 0:
+        seed_range_result['summary']['failure_rate'] = seed_range_result['seeds_failed'] / total_tested
+        seed_range_result['summary']['all_passed'] = seed_range_result['seeds_failed'] == 0
+        seed_range_result['summary']['any_failed'] = seed_range_result['seeds_failed'] > 0
+    
+    # If no failures and we tested all seeds, consecutive passes = total
+    if seed_range_result['first_failure_seed'] is None:
+        seed_range_result['consecutive_passes_before_failure'] = seed_range_result['seeds_passed']
+    
+    # Print summary
+    print(f"\n=== Seed Range Summary for {template_name} ===")
+    print(f"Seeds tested: {total_tested}")
+    print(f"Passed: {seed_range_result['seeds_passed']}")
+    print(f"Failed: {seed_range_result['seeds_failed']}")
+    if seed_range_result['first_failure_seed'] is not None:
+        print(f"First failure at seed: {seed_range_result['first_failure_seed']}")
+        print(f"Consecutive passes before failure: {seed_range_result['consecutive_passes_before_failure']}")
+        print(f"Failure reason: {seed_range_result['first_failure_reason']}")
+    else:
+        print(f"🎉 All {seed_range_result['seeds_passed']} seeds passed!")
+    
+    return seed_range_result
+
+
 def main():
     parser = argparse.ArgumentParser(description='Test all Archipelago template files')
     parser.add_argument(
@@ -721,8 +845,18 @@ def main():
     parser.add_argument(
         '-s', '--seed',
         type=str,
-        default='1',
+        default=None,
         help='Seed number to use for generation (default: 1)'
+    )
+    parser.add_argument(
+        '--seed-range',
+        type=str,
+        help='Test a range of seeds (format: start-end, e.g., "1-10"). Reports how many seeds passed before first failure.'
+    )
+    parser.add_argument(
+        '--seed-range-continue-on-failure',
+        action='store_true',
+        help='When testing seed ranges, continue testing all seeds even after failures (default is to stop at first failure)'
     )
     parser.add_argument(
         '-p', '--post-process',
@@ -736,6 +870,37 @@ def main():
     if args.export_only and args.spoiler_only:
         print("Error: --export-only and --spoiler-only are mutually exclusive")
         sys.exit(1)
+    
+    # Check if both seed and seed_range were explicitly provided
+    if args.seed is not None and args.seed_range is not None:
+        print("Error: --seed and --seed-range are mutually exclusive")
+        sys.exit(1)
+    
+    # Parse seed range if provided
+    seed_list = []
+    if args.seed_range:
+        try:
+            if '-' in args.seed_range:
+                start_seed, end_seed = args.seed_range.split('-', 1)
+                start_seed = int(start_seed.strip())
+                end_seed = int(end_seed.strip())
+                if start_seed > end_seed:
+                    print(f"Error: Invalid seed range {start_seed}-{end_seed} (start > end)")
+                    sys.exit(1)
+                seed_list = list(range(start_seed, end_seed + 1))
+            else:
+                seed_list = [int(args.seed_range)]
+        except ValueError:
+            print(f"Error: Invalid seed range format '{args.seed_range}'. Use format like '1-10' or single number.")
+            sys.exit(1)
+    else:
+        # Use the provided seed or default to 1
+        seed_to_use = args.seed if args.seed is not None else '1'
+        try:
+            seed_list = [int(seed_to_use)]
+        except ValueError:
+            print(f"Error: Invalid seed '{seed_to_use}'. Must be a number.")
+            sys.exit(1)
     
     # Check virtual environment before proceeding
     venv_active = 'VIRTUAL_ENV' in os.environ
@@ -887,13 +1052,16 @@ def main():
     # Build world mapping once at startup
     world_mapping = build_and_load_world_mapping(project_root)
     
-    # Compute seed ID for display
-    try:
-        computed_seed_id = compute_seed_id(int(args.seed))
-        print(f"Using seed {args.seed} -> {computed_seed_id}")
-    except (ValueError, TypeError):
-        print(f"Error: Seed '{args.seed}' must be a number")
-        sys.exit(1)
+    # Display seed information
+    if len(seed_list) == 1:
+        computed_seed_id = compute_seed_id(seed_list[0])
+        print(f"Using seed {seed_list[0]} -> {computed_seed_id}")
+    else:
+        print(f"Testing seed range: {seed_list[0]}-{seed_list[-1]} ({len(seed_list)} seeds)")
+        if args.seed_range_continue_on_failure:
+            print("Will test all seeds regardless of failures")
+        else:
+            print("Will stop at first failure (default behavior)")
     
     # Start timing the batch processing
     batch_start_time = time.time()
@@ -905,9 +1073,20 @@ def main():
         print(f"\n[{i}/{total_files}] Processing {yaml_file}")
         
         try:
-            template_result = test_template(yaml_file, templates_dir, project_root, world_mapping, 
-                                          seed=args.seed,
-                                          export_only=args.export_only, spoiler_only=args.spoiler_only)
+            if len(seed_list) > 1:
+                # Test with seed range
+                template_result = test_template_seed_range(
+                    yaml_file, templates_dir, project_root, world_mapping, 
+                    seed_list, export_only=args.export_only, spoiler_only=args.spoiler_only,
+                    stop_on_failure=not args.seed_range_continue_on_failure
+                )
+            else:
+                # Test with single seed
+                template_result = test_template_single_seed(
+                    yaml_file, templates_dir, project_root, world_mapping, 
+                    str(seed_list[0]), export_only=args.export_only, spoiler_only=args.spoiler_only
+                )
+            
             results['results'][yaml_file] = template_result
             
             # Save results after each template (incremental updates)
@@ -943,26 +1122,64 @@ def main():
         print(f"Average time per template: {avg_time_per_template:.1f} seconds")
     print(f"Results saved to: {results_file}")
     
-    # Print summary based on mode
-    if args.export_only:
-        successful_exports = sum(1 for r in results['results'].values() 
-                               if r.get('generation', {}).get('success', False))
-        failed_exports = len(yaml_files) - successful_exports
-        print(f"Export Summary: {successful_exports} successful, {failed_exports} failed")
-    elif args.spoiler_only:
-        passed = sum(1 for r in results['results'].values() 
-                    if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
-        failed = sum(1 for r in results['results'].values() 
-                    if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
-        errors = len(yaml_files) - passed - failed
-        print(f"Spoiler Test Summary: {passed} passed, {failed} failed, {errors} errors")
+    # Print summary based on mode and seed range
+    print(f"\n=== Final Summary ===")
+    
+    if len(seed_list) > 1:
+        # Seed range testing summary
+        templates_with_all_seeds_passed = 0
+        templates_with_some_failures = 0
+        total_consecutive_passes = 0
+        
+        print(f"Seed Range Testing Results ({len(seed_list)} seeds per template):")
+        
+        for template_name, result in results['results'].items():
+            if 'seed_range' in result:
+                seeds_passed = result.get('seeds_passed', 0)
+                seeds_failed = result.get('seeds_failed', 0)
+                consecutive_passes = result.get('consecutive_passes_before_failure', 0)
+                first_failure_seed = result.get('first_failure_seed')
+                
+                total_consecutive_passes += consecutive_passes
+                
+                if seeds_failed == 0:
+                    templates_with_all_seeds_passed += 1
+                    print(f"  ✅ {template_name}: All {seeds_passed} seeds passed")
+                else:
+                    templates_with_some_failures += 1
+                    if first_failure_seed:
+                        print(f"  ❌ {template_name}: {consecutive_passes} consecutive passes, first failure at seed {first_failure_seed}")
+                    else:
+                        print(f"  ❌ {template_name}: {seeds_passed} passed, {seeds_failed} failed")
+        
+        print(f"\nOverall Seed Range Summary:")
+        print(f"  Templates with all seeds passing: {templates_with_all_seeds_passed}")
+        print(f"  Templates with some failures: {templates_with_some_failures}")
+        if len(yaml_files) > 0:
+            avg_consecutive = total_consecutive_passes / len(yaml_files)
+            print(f"  Average consecutive passes before failure: {avg_consecutive:.1f}")
+    
     else:
-        passed = sum(1 for r in results['results'].values() 
-                    if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
-        failed = sum(1 for r in results['results'].values() 
-                    if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
-        errors = len(yaml_files) - passed - failed
-        print(f"Full Test Summary: {passed} passed, {failed} failed, {errors} errors")
+        # Single seed testing summary
+        if args.export_only:
+            successful_exports = sum(1 for r in results['results'].values() 
+                                   if r.get('generation', {}).get('success', False))
+            failed_exports = len(yaml_files) - successful_exports
+            print(f"Export Summary: {successful_exports} successful, {failed_exports} failed")
+        elif args.spoiler_only:
+            passed = sum(1 for r in results['results'].values() 
+                        if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+            failed = sum(1 for r in results['results'].values() 
+                        if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+            errors = len(yaml_files) - passed - failed
+            print(f"Spoiler Test Summary: {passed} passed, {failed} failed, {errors} errors")
+        else:
+            passed = sum(1 for r in results['results'].values() 
+                        if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+            failed = sum(1 for r in results['results'].values() 
+                        if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+            errors = len(yaml_files) - passed - failed
+            print(f"Single Seed Test Summary: {passed} passed, {failed} failed, {errors} errors")
     
     # Run post-processing scripts if requested
     if args.post_process:

@@ -927,28 +927,62 @@ export class PresetUI {
     }
 
     const status = testResult.status || 'unknown';
+    const seedRangeInfo = testResult.seed_range_info;
+    
     let badgeClass = 'test-badge-unknown';
     let statusText = 'Unknown';
     let statusIcon = '❓';
 
-    switch (status.toLowerCase()) {
-      case 'passed':
+    // Check if this is seed range data
+    if (seedRangeInfo) {
+      // Handle seed range results
+      if (status.toLowerCase() === 'passed') {
         badgeClass = 'test-badge-passed';
-        statusText = 'Passed';
+        statusText = `Passed seeds ${seedRangeInfo.seed_range}`;
         statusIcon = '✅';
-        break;
-      case 'failed':
+      } else if (status.toLowerCase() === 'failed') {
         badgeClass = 'test-badge-failed';
-        statusText = 'Failed';
+        if (seedRangeInfo.first_failure_seed) {
+          statusText = `Failed seed ${seedRangeInfo.first_failure_seed}`;
+        } else {
+          statusText = `Failed (${seedRangeInfo.seeds_failed}/${seedRangeInfo.total_seeds_tested})`;
+        }
         statusIcon = '❌';
-        break;
-      default:
-        statusText = 'Unknown';
-        statusIcon = '❓';
+      }
+    } else {
+      // Handle single seed results (original logic)
+      switch (status.toLowerCase()) {
+        case 'passed':
+          badgeClass = 'test-badge-passed';
+          statusText = 'Passed';
+          statusIcon = '✅';
+          break;
+        case 'failed':
+          badgeClass = 'test-badge-failed';
+          statusText = 'Failed';
+          statusIcon = '❌';
+          break;
+        default:
+          statusText = 'Unknown';
+          statusIcon = '❓';
+      }
     }
 
     // Build detailed tooltip content
     let tooltipContent = `Status: ${statusText}`;
+    
+    // Add seed range specific info to tooltip
+    if (seedRangeInfo) {
+      tooltipContent += `\nSeed Range: ${seedRangeInfo.seed_range}`;
+      tooltipContent += `\nSeeds Passed: ${seedRangeInfo.seeds_passed}/${seedRangeInfo.total_seeds_tested}`;
+      if (seedRangeInfo.consecutive_passes_before_failure > 0) {
+        tooltipContent += `\nConsecutive Passes: ${seedRangeInfo.consecutive_passes_before_failure}`;
+      }
+      if (seedRangeInfo.first_failure_seed) {
+        tooltipContent += `\nFirst Failure: Seed ${seedRangeInfo.first_failure_seed}`;
+      }
+    }
+    
     if (testResult.generation_errors > 0) {
       tooltipContent += `\nGeneration Errors: ${testResult.generation_errors}`;
     }
@@ -965,19 +999,41 @@ export class PresetUI {
       tooltipContent += `\nCustom Game Logic: Yes`;
     }
 
+    // Build the badge display content
+    let badgeDisplayText = statusText;
+    let progressDisplay = '';
+    let errorDisplay = '';
+    
+    // For seed ranges, show abbreviated status
+    if (seedRangeInfo) {
+      if (status.toLowerCase() === 'passed') {
+        badgeDisplayText = `Seeds ${seedRangeInfo.seed_range}`;
+      } else if (seedRangeInfo.first_failure_seed) {
+        badgeDisplayText = `Seed ${seedRangeInfo.first_failure_seed}`;
+      }
+      // Show seed progress instead of sphere progress for seed ranges
+      if (seedRangeInfo.total_seeds_tested > 0) {
+        progressDisplay = `<div class="test-progress">${seedRangeInfo.seeds_passed}/${seedRangeInfo.total_seeds_tested} seeds</div>`;
+      }
+    } else {
+      // Single seed display (original)
+      badgeDisplayText = statusText;
+      if (testResult.max_spheres > 0) {
+        progressDisplay = `<div class="test-progress">${testResult.sphere_reached}/${testResult.max_spheres}</div>`;
+      }
+    }
+    
+    if (testResult.generation_errors > 0) {
+      errorDisplay = `<div class="test-errors">${testResult.generation_errors} errors</div>`;
+    }
+
     return `
       <div class="test-badge ${badgeClass}" title="${this.escapeHtml(tooltipContent)}">
         <span class="test-icon">${statusIcon}</span>
         <div class="test-details">
-          <div class="test-status">${statusText}</div>
-          ${testResult.max_spheres > 0 ? 
-            `<div class="test-progress">${testResult.sphere_reached}/${testResult.max_spheres}</div>` 
-            : ''
-          }
-          ${testResult.generation_errors > 0 ? 
-            `<div class="test-errors">${testResult.generation_errors} errors</div>` 
-            : ''
-          }
+          <div class="test-status">${badgeDisplayText}</div>
+          ${progressDisplay}
+          ${errorDisplay}
         </div>
       </div>
     `;

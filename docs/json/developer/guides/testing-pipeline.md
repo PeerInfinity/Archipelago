@@ -253,13 +253,15 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    
    The output directory structure follows this pattern:
    - **Template file:** `Templates/A Hat in Time.yaml`
-   - **Output directory:** `frontend/presets/a_hat_in_time/` (lowercase, spaces → underscores)
+   - **Output directory:** `frontend/presets/ahit/` (based on world_directory mapping)
    - **Generated files:** All prefixed with `AP_14089154938208861744`
    
    Examples of the directory naming convention:
-   - `"A Hat in Time.yaml"` → `a_hat_in_time/`
-   - `"A Short Hike.yaml"` → `a_short_hike/`  
+   - `"A Hat in Time.yaml"` → `ahit/`
+   - `"A Short Hike.yaml"` → `shorthike/`  
    - `"Adventure.yaml"` → `adventure/`
+   
+   **Note:** Directory names are determined by the `world_directory` field in `scripts/data/world-mapping.json`, not by converting spaces to underscores.
    
    **Important:** Use `"Templates/[GameName].yaml"` as the path, **not** `"Players/Templates/[GameName].yaml"`. The `--weights_file_path` is relative to the `player_files_path` setting in `host.yaml` (which defaults to "Players"), so the full path becomes `Players/Templates/[GameName].yaml` automatically.
    
@@ -277,16 +279,19 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    
    **Basic Usage:**
    ```bash
-   # Test with specific rules file
-   npm test --mode=test-spoilers --rules=./presets/ahit/AP_14089154938208861744/AP_14089154938208861744_rules.json
-   
-   # Shorter version with just mode and game
+   # Test with game parameter (recommended, seed defaults to 1)
    npm test --mode=test-spoilers --game=ahit
+   
+   # Test with specific seed (if different from default)
+   npm test --mode=test-spoilers --game=ahit --seed=5
+   
+   # Test with specific rules file (alternative)
+   npm test --rules=./presets/ahit/AP_14089154938208861744/AP_14089154938208861744_rules.json
    ```
    
    **Available Test Variants:**
    ```bash
-   # Basic test with parameters
+   # Basic test (seed defaults to 1)
    npm test --mode=test-spoilers --game=alttp
    
    # With visible browser (useful for debugging)
@@ -298,9 +303,23 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    # With Playwright UI
    npm run test:ui --mode=test-spoilers --game=alttp
    
-   # Test specific game with all parameters
-   npm test --mode=test-spoilers --game=adventure --seed=1
+   # Test with specific seed (if different from default)
+   npm test --mode=test-spoilers --game=adventure --seed=5
    ```
+   
+   **Parameter Methods Explained:**
+   
+   There are two ways to specify test parameters:
+   
+   1. **URL Parameters (Recommended):**
+      - `npm test --mode=test-spoilers --game=ahit`
+      - Parameters become URL query strings in the test browser
+      - Clean and intuitive command-line interface
+   
+   2. **Environment Variables (Legacy):**
+      - `RULES_OVERRIDE=./presets/ahit/AP_14089154938208861744/AP_14089154938208861744_rules.json npm test`
+      - Direct file path specification
+      - Still supported but less convenient
    
    **Advantages of URL Parameter Approach:**
    - No need to modify configuration files for temporary testing
@@ -328,8 +347,10 @@ If you skip the getting-started setup, you may encounter dependency errors or ot
    **Available Parameters:**
    - `--mode`: Specifies the test mode (e.g., `test`, `test-spoilers`, `test-full`, `test-regression`)
    - `--game`: Specifies the game to test (e.g., `alttp`, `adventure`, `a_hat_in_time`)
-   - `--seed`: Specifies the seed number for testing
-   - `--rules`: Path to the rules JSON file to use for testing This analysis includes:
+   - `--seed`: Specifies the seed number for testing (defaults to 1 if not specified)
+   - `--rules`: Path to the rules JSON file to use for testing
+   
+   This analysis includes:
    - Structured test failure details with clear error messages
    - Performance metrics and timing information
    - Organized error logs grouped by category
@@ -386,7 +407,7 @@ When tests fail, create game-specific helper functions:
    
    Look for `add_rule()` calls in `Rules.py` that reference your failing location name. The spoiler test will report missing helper functions or logic mismatches.
 
-3. **Test Iteratively:** Re-run `npm run test:spoilers` after each fix until all mismatches are resolved
+3. **Test Iteratively:** Re-run `npm test --mode=test-spoilers --game=[yourgame]` after each fix until all mismatches are resolved
 
 ### Debugging Tips
 
@@ -399,7 +420,7 @@ When tests fail, create game-specific helper functions:
 6. **Test Incrementally**: Make one fix at a time and re-run tests to isolate issues
 
 **Interactive Debugging:**
-- Use `npm run test:spoilers:headed` to see the test running in a visible browser
+- Use `npm run test:headed --mode=test-spoilers --game=[yourgame]` to see the test running in a visible browser
 - Check browser console for detailed rule evaluation logs
 - Use the "Regions" panel to manually verify accessibility logic
 - Compare failing locations between the spoiler log and current state output
@@ -407,7 +428,7 @@ When tests fail, create game-specific helper functions:
 **Example Debugging Session:**
 ```bash
 # 1. Run test and get failure
-RULES_OVERRIDE=./presets/a_short_hike/AP_[seed]/AP_[seed]_rules.json npm run test:spoilers
+npm test --mode=test-spoilers --game=a_short_hike
 
 # 2. Generate readable analysis
 npm run test:analyze

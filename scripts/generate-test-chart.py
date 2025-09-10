@@ -33,47 +33,88 @@ def extract_chart_data(results: Dict[str, Any]) -> List[Tuple[str, str, int, flo
         return chart_data
     
     for template_name, template_data in results['results'].items():
-        # Extract actual game name from world info, fallback to template name
-        world_info = template_data.get('world_info', {})
-        game_name = world_info.get('game_name_from_yaml')
-        
-        if not game_name:
-            # Fallback: try to get it from template name
-            game_name = template_name.replace('.yaml', '')
-            # Convert underscores to spaces and title case as last resort
-            game_name = game_name.replace('_', ' ').title()
-        
-        # Extract original pass/fail result
-        original_pass_fail = template_data.get('spoiler_test', {}).get('pass_fail', 'unknown')
-        
-        # Extract generation error count
-        gen_error_count = template_data.get('generation', {}).get('error_count', 0)
-        
-        # Extract sphere reached (where the test stopped or failed)
-        sphere_reached = template_data.get('spoiler_test', {}).get('sphere_reached', 0)
-        
-        # Extract max spheres (total spheres available)
-        max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
-        
-        # Extract world info for custom exporter/gameLogic status
-        world_info = template_data.get('world_info', {})
-        has_custom_exporter = world_info.get('has_custom_exporter', False)
-        has_custom_game_logic = world_info.get('has_custom_game_logic', False)
-        
-        # Fallback: if world_info is missing, try to look up from template name
-        if not world_info and template_name:
-            # This is a simplified fallback - in a complete implementation,
-            # we'd load the world mapping and template file to get accurate info
-            pass
-        
-        # Apply stricter pass criteria: must have 0 generation errors AND max_spheres > 0
-        if original_pass_fail.lower() == 'passed' and gen_error_count == 0 and max_spheres > 0:
-            pass_fail = 'Passed'
-        elif original_pass_fail.lower() == 'failed':
-            pass_fail = 'Failed'
+        # Check if this is seed range data
+        if 'seed_range' in template_data:
+            # Handle seed range results
+            # Extract seed range specific data
+            seeds_passed = template_data.get('seeds_passed', 0)
+            seeds_failed = template_data.get('seeds_failed', 0) 
+            first_failure_seed = template_data.get('first_failure_seed')
+            seed_range = template_data.get('seed_range', 'unknown')
+            individual_results = template_data.get('individual_results', {})
+            
+            # Determine pass/fail and which seed's data to use
+            if seeds_failed == 0 and seeds_passed > 0:
+                # All passed - use "Passed seeds X-Y" format and data from first seed
+                pass_fail = f"Passed seeds {seed_range}"
+                # Get data from the first seed (sorted by seed number)
+                if individual_results:
+                    first_seed_key = sorted(individual_results.keys(), key=lambda x: int(x) if x.isdigit() else 0)[0]
+                    first_result = individual_results[first_seed_key]
+                else:
+                    first_result = {}
+            else:
+                # Some failed - use "Failed seed X" format and data from first failed seed
+                if first_failure_seed:
+                    pass_fail = f"Failed seed {first_failure_seed}"
+                    # Get data from the first failed seed
+                    first_result = individual_results.get(str(first_failure_seed), {})
+                else:
+                    pass_fail = f"Failed"
+                    first_result = {}
+            
+            # Extract data from the selected seed result
+            gen_error_count = first_result.get('generation', {}).get('error_count', 0)
+            sphere_reached = first_result.get('spoiler_test', {}).get('sphere_reached', 0)
+            max_spheres = first_result.get('spoiler_test', {}).get('total_spheres', 0)
+            
+            # Extract world info and game name from the first result
+            world_info = first_result.get('world_info', {})
+            game_name = world_info.get('game_name_from_yaml')
+            
+            if not game_name:
+                # Fallback: try to get it from template name (preserve original case)
+                game_name = template_name.replace('.yaml', '')
+            
+            has_custom_exporter = world_info.get('has_custom_exporter', False)
+            has_custom_game_logic = world_info.get('has_custom_game_logic', False)
         else:
-            # Mark as failed if it doesn't meet strict criteria, even if spoiler test "passed"
-            pass_fail = 'Failed'
+            # Handle single seed results (original logic)
+            # Extract actual game name from world info, fallback to template name
+            world_info = template_data.get('world_info', {})
+            game_name = world_info.get('game_name_from_yaml')
+            
+            if not game_name:
+                # Fallback: try to get it from template name
+                game_name = template_name.replace('.yaml', '')
+                # Convert underscores to spaces and title case as last resort
+                game_name = game_name.replace('_', ' ').title()
+            
+            # Extract original pass/fail result
+            original_pass_fail = template_data.get('spoiler_test', {}).get('pass_fail', 'unknown')
+            
+            # Extract generation error count
+            gen_error_count = template_data.get('generation', {}).get('error_count', 0)
+            
+            # Extract sphere reached (where the test stopped or failed)
+            sphere_reached = template_data.get('spoiler_test', {}).get('sphere_reached', 0)
+            
+            # Extract max spheres (total spheres available)
+            max_spheres = template_data.get('spoiler_test', {}).get('total_spheres', 0)
+            
+            # Extract world info for custom exporter/gameLogic status
+            world_info = template_data.get('world_info', {})
+            has_custom_exporter = world_info.get('has_custom_exporter', False)
+            has_custom_game_logic = world_info.get('has_custom_game_logic', False)
+            
+            # Apply stricter pass criteria: must have 0 generation errors AND max_spheres > 0
+            if original_pass_fail.lower() == 'passed' and gen_error_count == 0 and max_spheres > 0:
+                pass_fail = 'Passed'
+            elif original_pass_fail.lower() == 'failed':
+                pass_fail = 'Failed'
+            else:
+                # Mark as failed if it doesn't meet strict criteria, even if spoiler test "passed"
+                pass_fail = 'Failed'
         
         chart_data.append((game_name, pass_fail, gen_error_count, sphere_reached, max_spheres, has_custom_exporter, has_custom_game_logic))
     
@@ -124,7 +165,7 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float, 
     # Table rows
     for game_name, pass_fail, gen_error_count, sphere_reached, max_spheres, has_custom_exporter, has_custom_game_logic in chart_data:
         # Create a progress indicator based on highest sphere reached
-        if pass_fail.lower() == 'passed':
+        if 'passed' in pass_fail.lower():
             progress = "🟢 Complete"
         elif sphere_reached >= 1.0:
             progress_pct = (sphere_reached / max_spheres) * 100 if max_spheres > 0 else 0
@@ -138,7 +179,13 @@ def generate_markdown_chart(chart_data: List[Tuple[str, str, int, float, float, 
             progress = "❓ N/A"
         
         # Add status emoji to test result
-        if pass_fail.lower() == 'passed':
+        if 'passed seeds' in pass_fail.lower():
+            # Seed range that passed
+            result_display = f"✅ {pass_fail}"
+        elif 'failed seed' in pass_fail.lower():
+            # Seed range that failed
+            result_display = f"❌ {pass_fail}"
+        elif pass_fail.lower() == 'passed':
             result_display = "✅ Passed"
         elif pass_fail.lower() == 'failed':
             result_display = "❌ Failed"
