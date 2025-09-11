@@ -113,6 +113,7 @@ export class RegionUI {
     this.isInitialized = false; // Reset flag
     this.clear(); // Clear previous state
     this._subscribeToEvents(); // Subscribe here
+    this.updateElementVisibility(); // Apply initial visibility settings
     // Initial render is triggered by stateManager:ready
   }
 
@@ -399,31 +400,73 @@ export class RegionUI {
 
     element.innerHTML = `
       <div class="control-group region-controls" style="padding: 0.5rem; border-bottom: 1px solid #666; flex-shrink: 0;">
-        <input type="search" id="region-search" placeholder="Search regions..." style="margin-right: 10px;">
-        <select id="region-sort-select" style="margin-right: 10px;">
-          <option value="original">Original Order</option>
-          <option value="alphabetical">Sort Alphabetical</option>
-          <option value="accessibility_original">Sort by Accessibility (Original)</option>
-          <option value="accessibility">Sort by Accessibility (Name)</option>
-          <!-- Add original order later if needed for regions -->
-        </select>
-        <label style="margin-right: 10px;">
-          <input type="checkbox" id="region-show-reachable" checked />
-          Show Reachable
-        </label>
-        <label style="margin-right: 10px;">
-          <input type="checkbox" id="region-show-unreachable" checked />
-          Show Unreachable
-        </label>
-        <label style="margin-right: 10px;">
-          <input type="checkbox" id="show-all-regions" />
-          Show All Regions
-        </label>
-        <label style="margin-right: 10px;">
-          <input type="checkbox" id="show-paths" checked />
-          Show Paths
-        </label>
-        <button id="expand-collapse-all">Expand All</button>
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+          <div class="controls-header" style="cursor: pointer; user-select: none; display: flex; align-items: center; padding: 5px 10px; border: 1px solid #555; border-radius: 4px; margin-right: 10px;">
+            <span class="collapse-indicator" style="margin-right: 5px; transition: transform 0.3s; transform: rotate(-90deg);">▼</span>
+            <span style="font-weight: bold;">Controls</span>
+          </div>
+          <input type="search" id="region-search" placeholder="Search regions..." style="flex-grow: 1; margin-right: 10px;">
+          <select id="region-sort-select" style="margin-right: 10px;">
+            <option value="original">Original Order</option>
+            <option value="alphabetical">Sort Alphabetical</option>
+            <option value="accessibility_original">Sort by Accessibility (Original)</option>
+            <option value="accessibility">Sort by Accessibility (Name)</option>
+            <!-- Add original order later if needed for regions -->
+          </select>
+          <button id="expand-collapse-all">Expand All</button>
+        </div>
+        <div class="controls-content" style="display: none;">
+          <div style="margin-bottom: 10px;">
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="region-show-reachable" checked />
+              Show Reachable
+            </label>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="region-show-unreachable" checked />
+              Show Unreachable
+            </label>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="show-all-regions" />
+              Show All Regions
+            </label>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="show-paths" checked />
+              Show Paths
+            </label>
+          </div>
+          <div style="border-top: 1px solid #555; padding-top: 10px;">
+            <span style="font-weight: bold; display: block; margin-bottom: 5px;">Region Block Visibility:</span>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="show-entrances" checked />
+              Show Entrances
+            </label>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="show-exits" checked />
+              Show Exits
+            </label>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="show-locations" checked />
+              Show Locations
+            </label>
+            <label style="margin-right: 10px;">
+              <input type="checkbox" id="show-logic-trees" checked />
+              Show Logic Trees
+            </label>
+          </div>
+          <div style="margin-top: 10px;">
+            <label style="margin-right: 10px;">
+              <span style="font-weight: bold;">Section Order:</span>
+              <select id="section-order-select" style="margin-left: 5px;">
+                <option value="entrances-exits-locations">Entrances → Exits → Locations</option>
+                <option value="entrances-locations-exits">Entrances → Locations → Exits</option>
+                <option value="exits-entrances-locations">Exits → Entrances → Locations</option>
+                <option value="exits-locations-entrances">Exits → Locations → Entrances</option>
+                <option value="locations-entrances-exits">Locations → Entrances → Exits</option>
+                <option value="locations-exits-entrances">Locations → Exits → Entrances</option>
+              </select>
+            </label>
+          </div>
+        </div>
       </div>
       <div id="region-details-container" style="flex-grow: 1; overflow-y: auto; padding: 0.5rem;">
           <div id="accessibility-sorted-sections">
@@ -450,6 +493,19 @@ export class RegionUI {
   }
 
   attachEventListeners() {
+    // Collapsible controls header
+    const controlsHeader = this.rootElement.querySelector('.controls-header');
+    const controlsContent = this.rootElement.querySelector('.controls-content');
+    const collapseIndicator = this.rootElement.querySelector('.collapse-indicator');
+    
+    if (controlsHeader && controlsContent && collapseIndicator) {
+      controlsHeader.addEventListener('click', () => {
+        const isCollapsed = controlsContent.style.display === 'none';
+        controlsContent.style.display = isCollapsed ? '' : 'none';
+        collapseIndicator.style.transform = isCollapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
+      });
+    }
+
     // Search Input
     const searchInput = this.rootElement.querySelector('#region-search');
     if (searchInput) {
@@ -514,6 +570,33 @@ export class RegionUI {
         this.showPaths = e.target.checked;
         this.renderAllRegions();
       });
+    }
+
+    // Visibility checkboxes for region block elements
+    const showEntrancesCheckbox = this.rootElement.querySelector('#show-entrances');
+    if (showEntrancesCheckbox) {
+      showEntrancesCheckbox.addEventListener('change', () => this.updateElementVisibility());
+    }
+
+    const showExitsCheckbox = this.rootElement.querySelector('#show-exits');
+    if (showExitsCheckbox) {
+      showExitsCheckbox.addEventListener('change', () => this.updateElementVisibility());
+    }
+
+    const showLocationsCheckbox = this.rootElement.querySelector('#show-locations');
+    if (showLocationsCheckbox) {
+      showLocationsCheckbox.addEventListener('change', () => this.updateElementVisibility());
+    }
+
+    const showLogicTreesCheckbox = this.rootElement.querySelector('#show-logic-trees');
+    if (showLogicTreesCheckbox) {
+      showLogicTreesCheckbox.addEventListener('change', () => this.updateElementVisibility());
+    }
+
+    // Section order dropdown
+    const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
+    if (sectionOrderSelect) {
+      sectionOrderSelect.addEventListener('change', () => this.renderAllRegions());
     }
 
     const expandCollapseAllButton = this.rootElement.querySelector(
@@ -1146,6 +1229,9 @@ export class RegionUI {
       
       // Handle skip indicator specially
       if (regionInfo.isSkipIndicator) {
+        const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
+        const sectionOrder = sectionOrderSelect ? sectionOrderSelect.value : 'entrances-exits-locations';
+        
         const regionBlock = this.regionBlockBuilder.buildRegionBlock(
           regionName,
           null, // No region data needed for skip indicator
@@ -1156,7 +1242,8 @@ export class RegionUI {
           regionInfo.uid,
           regionInfo.expanded,
           staticData,
-          regionInfo.isSkipIndicator
+          regionInfo.isSkipIndicator,
+          sectionOrder
         );
         
         if (useAccessibilitySections) {
@@ -1182,6 +1269,10 @@ export class RegionUI {
         continue;
       }
       const isReachable = regionInfo.isReachable;
+      // Get the selected section order
+      const sectionOrderSelect = this.rootElement.querySelector('#section-order-select');
+      const sectionOrder = sectionOrderSelect ? sectionOrderSelect.value : 'entrances-exits-locations';
+      
       const regionBlock = this.regionBlockBuilder.buildRegionBlock(
         regionName,
         regionData,
@@ -1192,7 +1283,8 @@ export class RegionUI {
         regionInfo.uid,
         regionInfo.expanded,
         staticData,
-        regionInfo.isSkipIndicator
+        regionInfo.isSkipIndicator,
+        sectionOrder
       );
       if (!regionBlock) {
         if (regionName === 'Menu') {
@@ -1462,6 +1554,49 @@ export class RegionUI {
         node.insertBefore(symbolSpan, node.firstChild); // Insert at beginning
       }
     });
+  }
+
+  /**
+   * Updates visibility of entrances, exits, locations, and logic trees based on checkbox states
+   */
+  updateElementVisibility() {
+    const showEntrances = this.rootElement.querySelector('#show-entrances')?.checked ?? true;
+    const showExits = this.rootElement.querySelector('#show-exits')?.checked ?? true;
+    const showLocations = this.rootElement.querySelector('#show-locations')?.checked ?? true;
+    const showLogicTrees = this.rootElement.querySelector('#show-logic-trees')?.checked ?? true;
+
+    // Apply visibility styles to the region details container
+    const style = document.getElementById('region-visibility-styles') || document.createElement('style');
+    style.id = 'region-visibility-styles';
+    
+    let css = '';
+    
+    if (!showEntrances) {
+      css += '.region-entrances-list { display: none !important; }\n';
+      css += '.region-entrances-header { display: none !important; }\n';
+    }
+    
+    if (!showExits) {
+      css += '.region-exits-list { display: none !important; }\n';
+      css += '.region-exits-header { display: none !important; }\n';
+    }
+    
+    if (!showLocations) {
+      css += '.region-locations-list { display: none !important; }\n';
+      css += '.region-locations-header { display: none !important; }\n';
+    }
+    
+    if (!showLogicTrees) {
+      css += '.logic-tree { display: none !important; }\n';
+      css += '.exit-wrapper .logic-rule-container { display: none !important; }\n';
+      css += '.location-wrapper .logic-rule-container { display: none !important; }\n';
+    }
+    
+    style.textContent = css;
+    
+    if (!document.getElementById('region-visibility-styles')) {
+      document.head.appendChild(style);
+    }
   }
 
   /**

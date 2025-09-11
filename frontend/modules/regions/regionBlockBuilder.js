@@ -49,7 +49,8 @@ export class RegionBlockBuilder {
     currentUid,
     currentExpandedState,
     staticData,
-    isSkipIndicator = false
+    isSkipIndicator = false,
+    sectionOrder = 'entrances-exits-locations'
   ) {
     // Handle skip indicator specially
     if (isSkipIndicator || currentUid === 'skip_indicator') {
@@ -163,7 +164,8 @@ export class RegionBlockBuilder {
       uid,
       expanded,
       staticData,
-      isLoopModeActive
+      isLoopModeActive,
+      sectionOrder
     );
 
     // Append header and content
@@ -229,7 +231,8 @@ export class RegionBlockBuilder {
     uid,
     expanded,
     staticData,
-    isLoopModeActive
+    isLoopModeActive,
+    sectionOrder = 'entrances-exits-locations'
   ) {
     const contentEl = document.createElement('div');
     contentEl.classList.add('region-content');
@@ -244,33 +247,41 @@ export class RegionBlockBuilder {
     // Add region rules
     this.addRegionRules(contentEl, regionStaticData, useColorblind, snapshotInterface);
 
-    // Add entrances
-    this.addEntrances(contentEl, regionName, staticData, snapshot, snapshotInterface, useColorblind);
-
-    // Add exits
-    this.addExits(
-      contentEl,
-      regionName,
-      regionStaticData,
-      snapshot,
-      snapshotInterface,
-      regionIsReachable,
-      useColorblind,
-      uid,
-      isLoopModeActive
-    );
-
-    // Add locations
-    this.addLocations(
-      contentEl,
-      regionName,
-      regionStaticData,
-      snapshot,
-      snapshotInterface,
-      regionIsReachable,
-      useColorblind,
-      isLoopModeActive
-    );
+    // Parse the section order and add sections in the specified order
+    const sections = sectionOrder.split('-');
+    
+    for (const section of sections) {
+      switch (section) {
+        case 'entrances':
+          this.addEntrances(contentEl, regionName, staticData, snapshot, snapshotInterface, useColorblind);
+          break;
+        case 'exits':
+          this.addExits(
+            contentEl,
+            regionName,
+            regionStaticData,
+            snapshot,
+            snapshotInterface,
+            regionIsReachable,
+            useColorblind,
+            uid,
+            isLoopModeActive
+          );
+          break;
+        case 'locations':
+          this.addLocations(
+            contentEl,
+            regionName,
+            regionStaticData,
+            snapshot,
+            snapshotInterface,
+            regionIsReachable,
+            useColorblind,
+            isLoopModeActive
+          );
+          break;
+      }
+    }
 
     // Add path analysis section
     this.addPathAnalysisSection(contentEl, regionName, uid);
@@ -385,6 +396,7 @@ export class RegionBlockBuilder {
     if (entrances.length > 0) {
       const entrancesHeader = document.createElement('h4');
       entrancesHeader.textContent = 'Entrances:';
+      entrancesHeader.classList.add('region-entrances-header');
       contentEl.appendChild(entrancesHeader);
       
       entrances.forEach((entrance) => {
@@ -582,6 +594,7 @@ export class RegionBlockBuilder {
   ) {
     const exitsHeader = document.createElement('h4');
     exitsHeader.textContent = 'Exits:';
+    exitsHeader.classList.add('region-exits-header');
     contentEl.appendChild(exitsHeader);
     
     const exitsList = document.createElement('ul');
@@ -762,6 +775,7 @@ export class RegionBlockBuilder {
             snapshotInterface
           );
           const ruleDiv = document.createElement('div');
+          ruleDiv.classList.add('logic-rule-container');
           ruleDiv.style.marginTop = '8px';
           ruleDiv.style.paddingTop = '8px';
           ruleDiv.style.borderTop = '1px solid rgba(128, 128, 128, 0.3)';
@@ -794,6 +808,7 @@ export class RegionBlockBuilder {
   ) {
     const locationsHeader = document.createElement('h4');
     locationsHeader.textContent = 'Locations:';
+    locationsHeader.classList.add('region-locations-header');
     contentEl.appendChild(locationsHeader);
     
     const locationsList = document.createElement('ul');
@@ -1001,6 +1016,7 @@ export class RegionBlockBuilder {
             locationContextInterface
           );
           const ruleDiv = document.createElement('div');
+          ruleDiv.classList.add('logic-rule-container');
           ruleDiv.style.marginTop = '8px';
           ruleDiv.style.paddingTop = '8px';
           ruleDiv.style.borderTop = '1px solid rgba(128, 128, 128, 0.3)';

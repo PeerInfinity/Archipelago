@@ -921,9 +921,27 @@ export class PresetUI {
   }
 
   renderTestResultBadge(gameData) {
-    const testResult = gameData.test_result;
+    let testResult = gameData.test_result;
     if (!testResult) {
       return '<div class="test-badge test-badge-unknown">No Test Data</div>';
+    }
+
+    // Handle multiple test results - pick first failure or first pass
+    if (Array.isArray(testResult)) {
+      // Look for the first failure
+      const firstFailure = testResult.find(result => result.status && result.status.toLowerCase() === 'failed');
+      if (firstFailure) {
+        testResult = firstFailure;
+      } else {
+        // No failures found, use the first pass (or first result if none passed)
+        const firstPass = testResult.find(result => result.status && result.status.toLowerCase() === 'passed');
+        testResult = firstPass || testResult[0];
+      }
+      
+      // If still no valid result, return unknown
+      if (!testResult) {
+        return '<div class="test-badge test-badge-unknown">No Test Data</div>';
+      }
     }
 
     const status = testResult.status || 'unknown';
@@ -1004,16 +1022,19 @@ export class PresetUI {
     let progressDisplay = '';
     let errorDisplay = '';
     
-    // For seed ranges, show abbreviated status
+    // For seed ranges, show cleaner format
     if (seedRangeInfo) {
       if (status.toLowerCase() === 'passed') {
-        badgeDisplayText = `Seeds ${seedRangeInfo.seed_range}`;
-      } else if (seedRangeInfo.first_failure_seed) {
-        badgeDisplayText = `Seed ${seedRangeInfo.first_failure_seed}`;
-      }
-      // Show seed progress instead of sphere progress for seed ranges
-      if (seedRangeInfo.total_seeds_tested > 0) {
-        progressDisplay = `<div class="test-progress">${seedRangeInfo.seeds_passed}/${seedRangeInfo.total_seeds_tested} seeds</div>`;
+        badgeDisplayText = 'Passed';
+        progressDisplay = `<div class="test-progress">Seeds ${seedRangeInfo.seed_range}</div>`;
+      } else if (status.toLowerCase() === 'failed') {
+        badgeDisplayText = 'Failed';
+        if (seedRangeInfo.first_failure_seed) {
+          progressDisplay = `<div class="test-progress">Seed ${seedRangeInfo.first_failure_seed}</div>`;
+        } else {
+          // Fallback if no first_failure_seed is specified
+          progressDisplay = `<div class="test-progress">${seedRangeInfo.seeds_failed} failed</div>`;
+        }
       }
     } else {
       // Single seed display (original)

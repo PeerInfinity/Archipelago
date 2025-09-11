@@ -1,0 +1,199 @@
+{
+  "moduleDefinitions": {
+    "modules": {
+      "path": "./modules/modules/index.js",
+      "enabled": true
+    },
+    "json": {
+      "path": "./modules/json/index.js",
+      "enabled": true
+    },
+    "events": {
+      "path": "./modules/events/index.js",
+      "enabled": true
+    },
+    "stateManager": {
+      "path": "./modules/stateManager/index.js",
+      "enabled": true
+    },
+    "client": {
+      "path": "./modules/client/index.js",
+      "enabled": true
+    },
+    "timer": {
+      "path": "./modules/timer/index.js",
+      "enabled": true
+    },
+    "timerPanel": {
+      "path": "./modules/timerPanel/index.js",
+      "enabled": false
+    },
+    "inventory": {
+      "path": "./modules/inventory/index.js",
+      "enabled": true
+    },
+    "editor": {
+      "path": "./modules/editor/index.js",
+      "enabled": true
+    },
+    "settings": {
+      "path": "./modules/settings/index.js",
+      "enabled": true
+    },
+    "commonUI": {
+      "path": "./modules/commonUI/index.js",
+      "enabled": true
+    },
+    "locations": {
+      "path": "./modules/locations/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "commonUI"]
+    },
+    "exits": {
+      "path": "./modules/exits/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "commonUI"]
+    },
+    "pathAnalyzer": {
+      "path": "./modules/pathAnalyzer/index.js",
+      "enabled": true
+    },
+    "pathAnalyzerPanel": {
+      "path": "./modules/pathAnalyzerPanel/index.js",
+      "enabled": true
+    },
+    "regions": {
+      "path": "./modules/regions/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "commonUI"]
+    },
+    "dungeons": {
+      "path": "./modules/dungeons/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "commonUI"]
+    },
+    "regionGraph": {
+      "path": "./modules/regionGraph/index.js",
+      "enabled": false,
+      "requires": ["stateManager", "playerState"]
+    },
+    "discovery": {
+      "path": "./modules/discovery/index.js",
+      "enabled": true
+    },
+    "playerState": {
+      "path": "./modules/playerState/index.js",
+      "enabled": true
+    },
+    "playerStatePanel": {
+      "path": "./modules/playerStatePanel/index.js",
+      "enabled": true
+    },
+    "loops": {
+      "path": "./modules/loops/index.js",
+      "enabled": true
+    },
+    "presets": {
+      "path": "./modules/presets/index.js",
+      "enabled": true
+    },
+    "testSpoilers": {
+      "path": "./modules/testSpoilers/index.js",
+      "enabled": true
+    },
+    "textAdventure": {
+      "path": "./modules/textAdventure/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "playerState", "discovery"]
+    },
+    "tests": {
+      "path": "./modules/tests/index.js",
+      "enabled": true
+    },
+    "progressBar": {
+      "path": "./modules/progressBar/index.js",
+      "enabled": true
+    },
+    "progressBarPanel": {
+      "path": "./modules/progressBarPanel/index.js",
+      "enabled": true,
+      "requires": ["progressBar"]
+    },
+    "metaGame": {
+      "path": "./modules/metaGame/index.js",
+      "enabled": true,
+      "requires": ["progressBar", "progressBarPanel"]
+    },
+    "metaGamePanel": {
+      "path": "./modules/metaGamePanel/index.js",
+      "enabled": true,
+      "requires": ["metaGame"]
+    },
+    "iframeAdapter": {
+      "path": "./modules/iframeAdapter/index.js",
+      "enabled": true
+    },
+    "iframePanel": {
+      "path": "./modules/iframePanel/index.js", 
+      "enabled": true,
+      "requires": ["iframeAdapter"]
+    },
+    "iframeManagerPanel": {
+      "path": "./modules/iframeManagerPanel/index.js",
+      "enabled": true,
+      "requires": ["iframeAdapter", "iframePanel"]
+    },
+    "windowAdapter": {
+      "path": "./modules/windowAdapter/index.js",
+      "enabled": true
+    },
+    "windowPanel": {
+      "path": "./modules/windowPanel/index.js",
+      "enabled": true,
+      "requires": ["windowAdapter"]
+    },
+    "windowManagerPanel": {
+      "path": "./modules/windowManagerPanel/index.js",
+      "enabled": true,
+      "requires": ["windowAdapter", "windowPanel"]
+    }
+  },
+  "loadPriority": [
+    "modules",
+    "json",
+    "events",
+    "stateManager",
+    "client",
+    "timer",
+    "timerPanel",
+    "inventory",
+    "editor",
+    "settings",
+    "commonUI",
+    "locations",
+    "exits",
+    "pathAnalyzer",
+    "pathAnalyzerPanel",
+    "regions",
+    "dungeons",
+    "regionGraph",
+    "discovery",
+    "playerState",
+    "playerStatePanel",
+    "loops",
+    "presets",
+    "testSpoilers",
+    "textAdventure",
+    "tests",
+    "progressBar",
+    "progressBarPanel",
+    "metaGame",
+    "metaGamePanel",
+    "iframeAdapter",
+    "iframePanel",
+    "iframeManagerPanel",
+    "windowAdapter",
+    "windowPanel",
+    "windowManagerPanel"
+  ]
+}

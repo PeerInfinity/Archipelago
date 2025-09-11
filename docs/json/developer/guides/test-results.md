@@ -1,18 +1,18 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-09-10 19:54:51
+**Generated:** 2025-09-11 10:26:09
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-09-10T19:53:54.238051
+**Source Data Last Updated:** 2025-09-11T09:37:29.932079
 
 **Script Version:** 1.0.0
 
 ## Summary
 
 - **Total Games:** 78
-- **Passed:** 9 (11.5%)
-- **Failed:** 69 (88.5%)
+- **Passed:** 11 (14.1%)
+- **Failed:** 67 (85.9%)
 
 ## Test Results
 
@@ -34,14 +34,14 @@
 | ChocolateChipCookies | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ⚫ | ⚫ |
 | Civilization VI | ❌ Failed seed 1 | 0 | 0.13 | 8.1 | 🟠 1.6% | ⚫ | ⚫ |
 | DLCQuest | ❌ Failed seed 1 | 0 | 0.1 | 8.1 | 🟠 1.2% | ⚫ | ⚫ |
-| DOOM 1993 | ❌ Failed seed 10 | 0 | 10.4 | 21.3 | 🟡 48.8% | ⚫ | ⚫ |
+| DOOM 1993 | ✅ Passed seeds 1-10 | 0 | 18.1 | 18.1 | 🟢 Complete | ⚫ | ⚫ |
 | DOOM II | ✅ Passed seeds 1-10 | 0 | 21.2 | 21.2 | 🟢 Complete | ⚫ | ⚫ |
 | Dark Souls III | ❌ Failed seed 1 | 0 | 0.1 | 3.3 | 🟠 3.0% | ⚫ | ⚫ |
 | Donkey Kong Country 3 | ❌ Failed seed 1 | 0 | 0 | 3.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Factorio | ❌ Failed seed 1 | 1 | 0 | 12.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Faxanadu | ❌ Failed seed 1 | 0 | 0.1 | 8.1 | 🟠 1.2% | ⚫ | ⚫ |
 | Final Fantasy Mystic Quest | ❌ Failed seed 1 | 0 | 0.1 | 18.1 | 🟠 0.6% | ⚫ | ⚫ |
-| Heretic | ❌ Failed seed 3 | 0 | 11.6 | 25.1 | 🟡 46.2% | ⚫ | ⚫ |
+| Heretic | ✅ Passed seeds 1-10 | 0 | 24.1 | 24.1 | 🟢 Complete | ⚫ | ⚫ |
 | Hollow Knight | ❌ Failed seed 1 | 0 | 0.1 | 87.1 | 🟠 0.1% | ⚫ | ⚫ |
 | Hylics 2 | ❌ Failed seed 1 | 0 | 0.2 | 7.1 | 🟠 2.8% | ⚫ | ⚫ |
 | Inscryption | ❌ Failed seed 1 | 0 | 2.1 | 8.1 | 🟡 25.9% | ⚫ | ⚫ |
