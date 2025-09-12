@@ -1,4 +1,5 @@
 import eventBus from '../../app/core/eventBus.js'; // <<< Import eventBus
+import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -54,9 +55,21 @@ class EditorUI {
         loaded: false,
         name: 'metaGame js file',
       },
+      latestSnapshot: {
+        text: '{\n  "message": "No snapshot data available yet."\n}',
+        loaded: false,
+        name: 'Latest Snapshot',
+      },
+      staticData: {
+        text: '{\n  "message": "No static data available yet."\n}',
+        loaded: false,
+        name: 'Static Data',
+      },
     };
     this.currentSourceKey = 'rules'; // Default source
     this.editorDropdown = null;
+    this.autoUpdateCheckbox = null;
+    this.autoUpdateEnabled = false;
 
     // Initial content - Storing as text now
     // this.content = { // REMOVED - managed by contentSources now
@@ -421,6 +434,53 @@ class EditorUI {
         }
       }
     , 'editor');
+    
+    // Subscribe to state snapshot updates
+    if (this.unsubscribeHandles['snapshotUpdate']) {
+      log('warn', 
+        'EditorUI already subscribed to snapshotUpdate. Unsubscribing previous first.'
+      );
+      this.unsubscribeHandles['snapshotUpdate']();
+    }
+    
+    log('info', "EditorUI subscribing to 'stateManager:snapshotUpdated'");
+    this.unsubscribeHandles['snapshotUpdate'] = eventBus.subscribe(
+      'stateManager:snapshotUpdated',
+      (eventData) => {
+        log('info', '[EditorUI] Received stateManager:snapshotUpdated event');
+        
+        if (!eventData || !eventData.snapshot) {
+          log('warn', 
+            "EditorUI received invalid payload for 'stateManager:snapshotUpdated'",
+            eventData
+          );
+          return;
+        }
+        
+        try {
+          // Update the latest snapshot content
+          this.contentSources.latestSnapshot.text = JSON.stringify(
+            eventData.snapshot,
+            null,
+            2
+          );
+          this.contentSources.latestSnapshot.loaded = true;
+          
+          log('info', '[EditorUI] Updated latest snapshot data');
+          
+          // If auto-update is enabled and we're viewing the snapshot, update the display
+          if (this.autoUpdateEnabled && this.currentSourceKey === 'latestSnapshot') {
+            this._displayCurrentSourceContent();
+            log('info', '[EditorUI] Auto-updated snapshot display');
+          }
+        } catch (e) {
+          log('error', 'Error processing snapshot data:', e);
+          this.contentSources.latestSnapshot.text = 
+            'Error: Could not display snapshot data.';
+          this.contentSources.latestSnapshot.loaded = true;
+        }
+      }
+    , 'editor');
   }
 
   // Unsubscribe from EventBus events
@@ -458,6 +518,9 @@ class EditorUI {
     controlsDiv.className = 'editor-controls';
     controlsDiv.style.padding = '5px';
     controlsDiv.style.backgroundColor = '#222'; // Darker background for controls
+    controlsDiv.style.display = 'flex';
+    controlsDiv.style.alignItems = 'center';
+    controlsDiv.style.gap = '10px';
 
     // Create dropdown
     this.editorDropdown = document.createElement('select');
@@ -473,6 +536,56 @@ class EditorUI {
       this._handleSourceChange.bind(this)
     );
     controlsDiv.appendChild(this.editorDropdown);
+
+    // Create auto-update checkbox and label
+    const checkboxContainer = document.createElement('div');
+    checkboxContainer.style.display = 'flex';
+    checkboxContainer.style.alignItems = 'center';
+    checkboxContainer.style.gap = '5px';
+    
+    this.autoUpdateCheckbox = document.createElement('input');
+    this.autoUpdateCheckbox.type = 'checkbox';
+    this.autoUpdateCheckbox.id = 'editor-auto-update';
+    this.autoUpdateCheckbox.checked = this.autoUpdateEnabled;
+    this.autoUpdateCheckbox.addEventListener(
+      'change',
+      this._handleAutoUpdateChange.bind(this)
+    );
+    
+    const checkboxLabel = document.createElement('label');
+    checkboxLabel.htmlFor = 'editor-auto-update';
+    checkboxLabel.textContent = 'Auto-update';
+    checkboxLabel.style.color = '#ccc';
+    checkboxLabel.style.cursor = 'pointer';
+    checkboxLabel.style.userSelect = 'none';
+    
+    checkboxContainer.appendChild(this.autoUpdateCheckbox);
+    checkboxContainer.appendChild(checkboxLabel);
+    controlsDiv.appendChild(checkboxContainer);
+    
+    // Create Update Now button
+    this.updateNowButton = document.createElement('button');
+    this.updateNowButton.textContent = 'Update Now';
+    this.updateNowButton.style.padding = '2px 8px';
+    this.updateNowButton.style.backgroundColor = '#444';
+    this.updateNowButton.style.color = '#ccc';
+    this.updateNowButton.style.border = '1px solid #666';
+    this.updateNowButton.style.borderRadius = '3px';
+    this.updateNowButton.style.cursor = 'pointer';
+    this.updateNowButton.addEventListener(
+      'click',
+      this._handleUpdateNowClick.bind(this)
+    );
+    
+    // Add hover effect
+    this.updateNowButton.addEventListener('mouseenter', () => {
+      this.updateNowButton.style.backgroundColor = '#555';
+    });
+    this.updateNowButton.addEventListener('mouseleave', () => {
+      this.updateNowButton.style.backgroundColor = '#444';
+    });
+    
+    controlsDiv.appendChild(this.updateNowButton);
 
     this.rootElement.appendChild(controlsDiv); // Add controls to the top
 
@@ -505,11 +618,123 @@ class EditorUI {
     if (this.contentSources[newSourceKey]) {
       this.currentSourceKey = newSourceKey;
       log('info', `[EditorUI] Switched to source: ${this.currentSourceKey}`);
+      
+      // If switching to Latest Snapshot and it hasn't been loaded yet, fetch current snapshot
+      if (newSourceKey === 'latestSnapshot' && !this.contentSources.latestSnapshot.loaded) {
+        this._fetchCurrentSnapshot();
+      }
+      
+      // If switching to Static Data and it hasn't been loaded yet, fetch static data
+      if (newSourceKey === 'staticData' && !this.contentSources.staticData.loaded) {
+        this._fetchStaticData();
+      }
+      
       this._displayCurrentSourceContent();
     } else {
       log('warn', 
         `[EditorUI] Attempted to switch to unknown source key: ${newSourceKey}`
       );
+    }
+  }
+
+  _handleAutoUpdateChange() {
+    this.autoUpdateEnabled = this.autoUpdateCheckbox.checked;
+    log('info', `[EditorUI] Auto-update ${this.autoUpdateEnabled ? 'enabled' : 'disabled'}`);
+    
+    // If auto-update was just enabled and we're viewing the snapshot, update immediately
+    if (this.autoUpdateEnabled && this.currentSourceKey === 'latestSnapshot') {
+      if (this.contentSources.latestSnapshot.loaded) {
+        this._displayCurrentSourceContent();
+        log('info', '[EditorUI] Updated snapshot display after enabling auto-update');
+      }
+    }
+  }
+
+  _fetchCurrentSnapshot() {
+    log('info', '[EditorUI] Fetching current snapshot from stateManager');
+    
+    // Try to get the snapshot from the imported stateManager
+    if (stateManager) {
+      const snapshot = stateManager.getLatestStateSnapshot();
+      
+      if (snapshot) {
+        try {
+          this.contentSources.latestSnapshot.text = JSON.stringify(
+            snapshot,
+            null,
+            2
+          );
+          this.contentSources.latestSnapshot.loaded = true;
+          log('info', '[EditorUI] Successfully fetched and loaded current snapshot');
+        } catch (e) {
+          log('error', 'Error processing fetched snapshot:', e);
+          this.contentSources.latestSnapshot.text = 
+            'Error: Could not display snapshot data.';
+          this.contentSources.latestSnapshot.loaded = true;
+        }
+      } else {
+        log('warn', '[EditorUI] No snapshot available from stateManager');
+        this.contentSources.latestSnapshot.text = 
+          '{\n  "message": "No snapshot data available yet. State may not be initialized."\n}';
+        this.contentSources.latestSnapshot.loaded = true;
+      }
+    } else {
+      log('warn', '[EditorUI] stateManager not available');
+      this.contentSources.latestSnapshot.text = 
+        '{\n  "message": "State manager not available. Please wait for initialization."\n}';
+      this.contentSources.latestSnapshot.loaded = true;
+    }
+  }
+
+  _fetchStaticData() {
+    log('info', '[EditorUI] Fetching static data from stateManager');
+    
+    // Try to get the static data from the imported stateManager
+    if (stateManager) {
+      const staticData = stateManager.getStaticData();
+      
+      if (staticData) {
+        try {
+          this.contentSources.staticData.text = JSON.stringify(
+            staticData,
+            null,
+            2
+          );
+          this.contentSources.staticData.loaded = true;
+          log('info', '[EditorUI] Successfully fetched and loaded static data');
+        } catch (e) {
+          log('error', 'Error processing fetched static data:', e);
+          this.contentSources.staticData.text = 
+            'Error: Could not display static data.';
+          this.contentSources.staticData.loaded = true;
+        }
+      } else {
+        log('warn', '[EditorUI] No static data available from stateManager');
+        this.contentSources.staticData.text = 
+          '{\n  "message": "No static data available yet. Rules may not be loaded."\n}';
+        this.contentSources.staticData.loaded = true;
+      }
+    } else {
+      log('warn', '[EditorUI] stateManager not available');
+      this.contentSources.staticData.text = 
+        '{\n  "message": "State manager not available. Please wait for initialization."\n}';
+      this.contentSources.staticData.loaded = true;
+    }
+  }
+
+  _handleUpdateNowClick() {
+    log('info', '[EditorUI] Update Now button clicked');
+    
+    if (this.currentSourceKey === 'latestSnapshot') {
+      this._fetchCurrentSnapshot();
+      this._displayCurrentSourceContent();
+      log('info', '[EditorUI] Manually updated snapshot display');
+    } else if (this.currentSourceKey === 'staticData') {
+      this._fetchStaticData();
+      this._displayCurrentSourceContent();
+      log('info', '[EditorUI] Manually updated static data display');
+    } else {
+      log('info', '[EditorUI] Update Now clicked but not viewing dynamic data');
     }
   }
 
@@ -603,6 +828,20 @@ class EditorUI {
         this.rootElement.removeChild(controlsDiv);
       }
       this.editorDropdown = null;
+    }
+    if (this.autoUpdateCheckbox) {
+      this.autoUpdateCheckbox.removeEventListener(
+        'change',
+        this._handleAutoUpdateChange.bind(this)
+      );
+      this.autoUpdateCheckbox = null;
+    }
+    if (this.updateNowButton) {
+      this.updateNowButton.removeEventListener(
+        'click',
+        this._handleUpdateNowClick.bind(this)
+      );
+      this.updateNowButton = null;
     }
   }
 
