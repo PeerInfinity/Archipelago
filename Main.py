@@ -201,6 +201,18 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
 
     AutoWorld.call_all(multiworld, 'post_fill')
 
+    # Apply vanilla item placement overrides if requested
+    import os as os_module
+    if os_module.environ.get('VANILLA_PLACEMENT') == '1':
+        print("\n!!! Applying Vanilla Item Placement Overrides !!!")
+        from worlds.alttp.VanillaPlacement import overwrite_with_vanilla_items
+        for world in multiworld.get_game_worlds("A Link to the Past"):
+            overwrite_with_vanilla_items(world)
+        # Mark that we're using vanilla placement for later checks
+        multiworld.vanilla_placement = True
+    else:
+        multiworld.vanilla_placement = False
+
     if multiworld.players > 1 and not args.skip_prog_balancing:
         balance_multiworld_progression(multiworld)
     else:
@@ -230,7 +242,12 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
         output_players = [player for player in multiworld.player_ids if AutoWorld.World.generate_output.__code__
                           is not multiworld.worlds[player].generate_output.__code__]
         with concurrent.futures.ThreadPoolExecutor(len(output_players) + 2) as pool:
-            check_accessibility_task = pool.submit(multiworld.fulfills_accessibility)
+            # Skip accessibility check if using vanilla placement
+            if getattr(multiworld, 'vanilla_placement', False):
+                print("Skipping accessibility check for vanilla placement")
+                check_accessibility_task = pool.submit(lambda: True)  # Always return True
+            else:
+                check_accessibility_task = pool.submit(multiworld.fulfills_accessibility)
 
             output_file_futures = [pool.submit(AutoWorld.call_stage, multiworld, "generate_output", temp_dir)]
             for player in output_players:

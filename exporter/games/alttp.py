@@ -398,6 +398,18 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
              if hasattr(world.difficulty_requirements, 'heart_piece_limit'):
                 itempool_counts['__max_heart_piece'] = world.difficulty_requirements.heart_piece_limit
 
+        # For vanilla placement, report only plain bottles (no variants)
+        import os
+        if os.environ.get('VANILLA_PLACEMENT') == '1':
+            bottle_variants = ["Bottle (Red Potion)", "Bottle (Green Potion)", "Bottle (Blue Potion)",
+                             "Bottle (Bee)", "Bottle (Good Bee)", "Bottle (Fairy)"]
+            # Remove all bottle variants from the count
+            for variant in bottle_variants:
+                if variant in itempool_counts:
+                    del itempool_counts[variant]
+            # Vanilla ALTTP has exactly 4 bottles
+            itempool_counts["Bottle"] = 4
+
         return dict(sorted(itempool_counts.items()))
 
     def get_settings_data(self, world, multiworld, player) -> Dict[str, Any]:
