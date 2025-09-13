@@ -1639,9 +1639,10 @@ export class PathAnalyzerUI {
    * @param {string} label - The label text (e.g., "Need item:")
    * @param {string} value - The value to display (e.g., "Moon Pearl")
    * @param {string} valueColor - The color for the value
+   * @param {Object} node - The full node object for additional context
    * @returns {HTMLElement} - The created display element
    */
-  _createNodeDisplay(label, value, valueColor) {
+  _createNodeDisplay(label, value, valueColor, node = null) {
     const container = document.createElement('span');
 
     // Add the label in white color
@@ -1655,6 +1656,77 @@ export class PathAnalyzerUI {
     valueSpan.textContent = value;
     valueSpan.style.color = valueColor;
     container.appendChild(valueSpan);
+
+    // Add placeholder for location information that will be populated async
+    const locationPlaceholder = document.createElement('span');
+    locationPlaceholder.classList.add('location-info-placeholder');
+    container.appendChild(locationPlaceholder);
+
+    // Add location information for items if showLocationItems is enabled
+    if (node && (node.type === 'item_check' || node.type === 'count_check')) {
+      // Check if the setting is enabled (async but updates existing element)
+      settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showLocationItems => {
+        if (!showLocationItems) return;
+
+        const itemName = node.item;
+
+        // Get the current snapshot to find where this item is located
+        const snapshot = stateManager.getLatestStateSnapshot();
+        const staticData = stateManager.getStaticData();
+
+        if (snapshot?.locationItems && staticData?.locations) {
+          // Find ALL locations that have this item
+          const locationInfos = [];
+          for (const [locName, itemData] of Object.entries(snapshot.locationItems)) {
+            if (itemData && itemData.name === itemName) {
+              // Get the location's region from static data
+              const locData = Object.values(staticData.locations).find(l => l.name === locName);
+              if (locData) {
+                locationInfos.push({
+                  locationName: locName,
+                  regionName: locData.region || locData.parent_region
+                });
+              }
+            }
+          }
+
+          if (locationInfos.length > 0 && locationPlaceholder.parentNode) {
+            // Clear the placeholder
+            locationPlaceholder.innerHTML = '';
+
+            const fromSpan = document.createElement('span');
+            fromSpan.textContent = ' from ';
+            fromSpan.style.color = '#e0e0e0';
+            locationPlaceholder.appendChild(fromSpan);
+
+            // Create clickable location links for all locations
+            locationInfos.forEach((locationInfo, index) => {
+              if (index > 0) {
+                const separator = document.createElement('span');
+                separator.textContent = index === locationInfos.length - 1 ? ' or ' : ', ';
+                separator.style.color = '#e0e0e0';
+                locationPlaceholder.appendChild(separator);
+              }
+
+              const locLink = commonUI.createLocationLink(
+                locationInfo.locationName,
+                locationInfo.regionName,
+                false,  // Don't use colorblind mode for inline text
+                snapshot
+              );
+
+              locationPlaceholder.appendChild(locLink);
+            });
+
+            // Debug: Log if links were created
+            if (typeof window !== 'undefined' && window.logger) {
+              window.logger.info('pathAnalyzerUI',
+                `Created ${locationInfos.length} location links for item ${itemName}`);
+            }
+          }
+        }
+      });
+    }
 
     return container;
   }
@@ -2003,7 +2075,8 @@ export class PathAnalyzerUI {
         const display = this._createNodeDisplay(
           this._getNodeDisplayLabel(node),
           this._getNodeDisplayValue(node),
-          sectionColor
+          sectionColor,
+          node  // Pass the full node for additional context
         );
         item.appendChild(display);
       }

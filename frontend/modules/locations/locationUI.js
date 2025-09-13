@@ -41,6 +41,7 @@ export class LocationUI {
     this.stateUnsubscribeHandles = []; // Array to store unsubscribe functions for state/loop events
     this.settingsUnsubscribe = null;
     this.colorblindSettings = {}; // Cache colorblind settings
+    this.showLocationItems = false; // Cache showLocationItems setting
     this.isInitialized = false; // Add flag
     this.originalLocationOrder = []; // ADDED: To store original keys
     this.pendingLocations = new Set(); // ADDED: To track pending locations
@@ -95,22 +96,26 @@ export class LocationUI {
     // Update local cache on any settings change
     try {
       this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
+      this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
     } catch (error) {
-      log('error', 'Error loading colorblind settings:', error);
+      log('error', 'Error loading settings:', error);
       this.colorblindSettings = false;
+      this.showLocationItems = false;
     }
 
     this.settingsUnsubscribe = eventBus.subscribe(
       'settings:changed',
       async ({ key, value }) => {
-        if (key === '*' || key.startsWith('colorblindMode.locations')) {
+        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems')) {
           log('info', 'LocationUI reacting to settings change:', key);
           // Update cache
           try {
             this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
+            this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
           } catch (error) {
-            log('error', 'Error loading colorblind settings during update:', error);
+            log('error', 'Error loading settings during update:', error);
             this.colorblindSettings = false;
+            this.showLocationItems = false;
           }
           this.updateLocationDisplay(); // Trigger redraw
         }
@@ -1167,6 +1172,21 @@ export class LocationUI {
         locationNameSpan.className = 'location-name';
         locationNameSpan.textContent = name;
         locationCard.appendChild(locationNameSpan);
+
+        // Item at Location (if showLocationItems is enabled)
+        if (this.showLocationItems && snapshot?.locationItems) {
+          const itemAtLocation = snapshot.locationItems[name];
+          if (itemAtLocation && itemAtLocation.name) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'text-sm location-item-name';
+            itemDiv.style.fontStyle = 'italic';
+            itemDiv.textContent = `Item: ${itemAtLocation.name}`;
+            if (itemAtLocation.player) {
+              itemDiv.textContent += ` (Player ${itemAtLocation.player})`;
+            }
+            locationCard.appendChild(itemDiv);
+          }
+        }
 
         // Region Info & Link
         const regionNameForLink = location.parent_region || location.region;

@@ -347,6 +347,27 @@ export class RegionUI {
     subscribe('ui:navigateToRegion', handleNavigateToRegion);
     log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToRegion'); // DEBUG LOG
 
+    // Subscribe to ui:navigateToLocation events
+    const handleNavigateToLocation = (eventPayload) => {
+      if (eventPayload && eventPayload.regionName && eventPayload.locationName) {
+        log(
+          'info',
+          `[RegionUI] Received ui:navigateToLocation for ${eventPayload.locationName} in ${eventPayload.regionName}.`
+        );
+        // First navigate to the region containing the location
+        this.navigateToRegion(eventPayload.regionName);
+        // TODO: Could highlight or scroll to the specific location within the region
+      } else {
+        log(
+          'warn',
+          '[RegionUI] Received ui:navigateToLocation with missing data.',
+          eventPayload
+        );
+      }
+    };
+    subscribe('ui:navigateToLocation', handleNavigateToLocation);
+    log('info', '[RegionUI] SUCCESSFULLY SUBSCRIBED to ui:navigateToLocation');
+
     // Subscribe to user:regionMove events
     const handleRegionMove = (eventPayload) => {
       if (eventPayload && eventPayload.sourceRegion && eventPayload.targetRegion) {

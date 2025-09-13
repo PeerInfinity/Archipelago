@@ -864,6 +864,28 @@ export class RegionBlockBuilder {
         locLink.dataset.region = regionName;
         headerRow.appendChild(locLink);
 
+        // Add item name if showLocationItems is enabled
+        settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showItems => {
+          if (showItems && snapshot?.locationItems) {
+            const itemAtLocation = snapshot.locationItems[locationDef.name];
+            if (itemAtLocation && itemAtLocation.name) {
+              const itemSpan = document.createElement('span');
+              itemSpan.classList.add('location-item-info');
+              itemSpan.style.marginLeft = '8px';
+              itemSpan.style.fontStyle = 'italic';
+              itemSpan.style.fontSize = '0.9em';
+              itemSpan.style.color = '#888';
+              itemSpan.textContent = `(${itemAtLocation.name}`;
+              if (itemAtLocation.player) {
+                itemSpan.textContent += ` - P${itemAtLocation.player}`;
+              }
+              itemSpan.textContent += ')';
+              // Insert after the locLink in headerRow
+              locLink.parentNode.insertBefore(itemSpan, locLink.nextSibling);
+            }
+          }
+        });
+
         // Check if location is queued in the path (only if the setting is enabled)
         settingsManager.getSetting('regionGraph.addLocationsToPath', false).then(addToPathEnabled => {
           if (addToPathEnabled) {
