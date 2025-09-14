@@ -130,6 +130,115 @@ class CommonUI {
   }
 
   /**
+   * Extracts a specific helper function from the helper file code
+   * @param {string} fileContent - The full content of the helper file
+   * @param {string} functionName - The name of the helper function to extract
+   * @returns {string|null} - The extracted function code or null if not found
+   */
+  _extractHelperFunction(fileContent, functionName) {
+    // Try to find the function definition
+    // Look for patterns like: functionName(args) { ... } or functionName: function(args) { ... }
+
+    // Pattern 1: Regular function declaration
+    const funcPattern1 = new RegExp(
+      `function\\s+${functionName}\\s*\\([^)]*\\)\\s*\\{`,
+      'g'
+    );
+
+    // Pattern 2: Method in an object
+    const funcPattern2 = new RegExp(
+      `${functionName}\\s*:\\s*function\\s*\\([^)]*\\)\\s*\\{`,
+      'g'
+    );
+
+    // Pattern 3: Arrow function
+    const funcPattern3 = new RegExp(
+      `(?:const|let|var)\\s+${functionName}\\s*=\\s*\\([^)]*\\)\\s*=>\\s*\\{`,
+      'g'
+    );
+
+    // Pattern 4: Method shorthand in object
+    const funcPattern4 = new RegExp(
+      `${functionName}\\s*\\([^)]*\\)\\s*\\{`,
+      'g'
+    );
+
+    let match = null;
+    let startIndex = -1;
+
+    // Try each pattern
+    for (const pattern of [funcPattern1, funcPattern2, funcPattern3, funcPattern4]) {
+      pattern.lastIndex = 0; // Reset regex
+      match = pattern.exec(fileContent);
+      if (match) {
+        startIndex = match.index;
+        break;
+      }
+    }
+
+    if (startIndex === -1) {
+      return null;
+    }
+
+    // Extract the function body by counting braces
+    let braceCount = 0;
+    let inString = false;
+    let stringChar = null;
+    let escaped = false;
+    let functionEnd = startIndex;
+
+    for (let i = startIndex; i < fileContent.length; i++) {
+      const char = fileContent[i];
+      const prevChar = i > 0 ? fileContent[i - 1] : '';
+
+      // Handle string literals
+      if (!escaped && (char === '"' || char === "'" || char === '`')) {
+        if (!inString) {
+          inString = true;
+          stringChar = char;
+        } else if (char === stringChar) {
+          inString = false;
+          stringChar = null;
+        }
+      }
+
+      // Handle escape characters
+      escaped = !escaped && prevChar === '\\';
+
+      // Count braces only outside of strings
+      if (!inString) {
+        if (char === '{') {
+          braceCount++;
+        } else if (char === '}') {
+          braceCount--;
+          if (braceCount === 0) {
+            functionEnd = i + 1;
+            break;
+          }
+        }
+      }
+    }
+
+    return fileContent.substring(startIndex, functionEnd);
+  }
+
+  /**
+   * Formats helper function code with item highlighting and location links
+   * @param {string} code - The helper function code
+   * @param {object} stateSnapshotInterface - Interface for state evaluation
+   * @returns {HTMLElement} - Formatted code element
+   */
+  async _formatHelperCode(code, stateSnapshotInterface) {
+    const container = document.createElement('div');
+
+    // For now, just display the code as-is
+    // TODO: Add item name highlighting and location links
+    container.textContent = code;
+
+    return container;
+  }
+
+  /**
    * Renders a logic tree from a rule object
    * Enhanced version that supports colorblind mode and displays full rule details
    * @param {Object} rule - The rule object to render
@@ -395,8 +504,104 @@ class CommonUI {
       }
 
       case 'helper': {
-        // Display helper name
+        // Display helper name with expand/collapse button
         root.appendChild(document.createTextNode(` helper: ${rule.name}`));
+
+        // Add expand/collapse button for helper code
+        const expandBtn = document.createElement('button');
+        expandBtn.textContent = '[+]';
+        expandBtn.style.marginLeft = '8px';
+        expandBtn.style.fontSize = '12px';
+        expandBtn.style.padding = '0 4px';
+        expandBtn.style.cursor = 'pointer';
+        expandBtn.style.border = '1px solid #666';
+        expandBtn.style.backgroundColor = '#333';
+        expandBtn.style.color = '#ccc';
+        expandBtn.title = 'Show helper function code';
+
+        // Container for the helper code (initially hidden)
+        const codeContainer = document.createElement('div');
+        codeContainer.style.display = 'none';
+        codeContainer.style.marginTop = '8px';
+        codeContainer.style.marginLeft = '20px';
+        codeContainer.style.padding = '8px';
+        codeContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+        codeContainer.style.border = '1px solid #444';
+        codeContainer.style.borderRadius = '4px';
+        codeContainer.style.fontFamily = 'monospace';
+        codeContainer.style.fontSize = '12px';
+        codeContainer.style.whiteSpace = 'pre-wrap';
+        codeContainer.style.overflowX = 'auto';
+
+        let isExpanded = false;
+        let codeLoaded = false;
+
+        expandBtn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          isExpanded = !isExpanded;
+
+          if (isExpanded) {
+            expandBtn.textContent = '[-]';
+            expandBtn.title = 'Hide helper function code';
+            codeContainer.style.display = 'block';
+
+            // Load code if not already loaded
+            if (!codeLoaded) {
+              codeContainer.textContent = 'Loading...';
+
+              try {
+                // Get static data to determine game directory
+                const staticData = stateManager.getStaticData();
+                const gameDir = staticData?.game_directory;
+
+                if (!gameDir) {
+                  throw new Error('Game directory not found in static data');
+                }
+
+                // Construct the path to the helper file
+                const helperPath = `/frontend/modules/shared/gameLogic/${gameDir}/${gameDir}Logic.js`;
+
+                // Fetch the helper file
+                const response = await fetch(helperPath);
+                if (!response.ok) {
+                  throw new Error(`Failed to load helper file: ${response.status}`);
+                }
+
+                const helperCode = await response.text();
+
+                // Extract the specific helper function
+                const helperFunctionCode = this._extractHelperFunction(helperCode, rule.name);
+
+                if (helperFunctionCode) {
+                  // Create a container for the formatted code
+                  codeContainer.innerHTML = '';
+
+                  // Process the code to add item formatting if showLocationItems is enabled
+                  const showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
+                  if (showLocationItems) {
+                    const formattedCode = await this._formatHelperCode(helperFunctionCode, stateSnapshotInterface);
+                    codeContainer.appendChild(formattedCode);
+                  } else {
+                    codeContainer.textContent = helperFunctionCode;
+                  }
+
+                  codeLoaded = true;
+                } else {
+                  codeContainer.textContent = `Helper function '${rule.name}' not found in ${helperPath}`;
+                }
+              } catch (error) {
+                log('error', `Failed to load helper function: ${error.message}`);
+                codeContainer.textContent = `Error loading helper: ${error.message}`;
+              }
+            }
+          } else {
+            expandBtn.textContent = '[+]';
+            expandBtn.title = 'Show helper function code';
+            codeContainer.style.display = 'none';
+          }
+        });
+
+        root.appendChild(expandBtn);
 
         // Process arguments for display
         if (rule.args && rule.args.length > 0) {
@@ -464,6 +669,9 @@ class CommonUI {
 
           root.appendChild(argsContainer);
         }
+
+        // Add the code container to the root
+        root.appendChild(codeContainer);
         break;
       }
 

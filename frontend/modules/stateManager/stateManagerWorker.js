@@ -288,22 +288,8 @@ async function handleMessage(message) {
         await stateManagerInstance.loadFromJSON(rulesData, playerId);
         const initialSnapshot = stateManagerInstance.getSnapshot();
 
-        // MODIFIED: Construct static data object directly from instance properties
-        const workerStaticGameData = {
-          items: stateManagerInstance.itemData,
-          groups: stateManagerInstance.groupData, // This should now be the processed array of strings
-          locations: stateManagerInstance.locations,
-          regions: stateManagerInstance.regions,
-          exits: stateManagerInstance.exits, // Ensure exits are included
-          dungeons: stateManagerInstance.dungeons, // ADDED: Include dungeons data
-          originalLocationOrder: stateManagerInstance.originalLocationOrder, // Ensure orders are included
-          originalExitOrder: stateManagerInstance.originalExitOrder,
-          originalRegionOrder: stateManagerInstance.originalRegionOrder,
-          // ID mappings for location and item names to server IDs
-          locationNameToId: stateManagerInstance.locationNameToId,
-          itemNameToId: stateManagerInstance.itemNameToId,
-          // Add other static data pieces if needed by the proxy or UI later
-        };
+        // Use the getStaticGameData method to get all static data including game_name and game_directory
+        const workerStaticGameData = stateManagerInstance.getStaticGameData();
 
         log(
           'info',

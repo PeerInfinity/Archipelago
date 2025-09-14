@@ -475,6 +475,9 @@ export class StateManager {
       `[StateManager Class] Loading JSON for player ${selectedPlayerId}...`
     );
 
+    // Store the rules data so it's available for getStaticGameData()
+    this.rules = jsonData;
+
     // Initialize order arrays
     this.originalLocationOrder = [];
     this.originalRegionOrder = [];
@@ -2914,6 +2917,8 @@ export class StateManager {
         locations: self.locations,
         regions: self.regions,
         dungeons: self.dungeons, // ADDED
+        game_name: self.rules?.game_name || self.gameId,
+        game_directory: self.rules?.game_directory || null,
       }),
     };
     // log('info',
@@ -3679,10 +3684,15 @@ export class StateManager {
   getStaticGameData() {
     return {
       gameId: this.gameId,
+      game_name: this.rules?.game_name || this.gameId,
+      game_directory: this.rules?.game_directory || null,
       locations: this.locations,
       regions: this.regions,
+      exits: this.exits,
       dungeons: this.dungeons,
+      items: this.itemData,
       itemData: this.itemData,
+      groups: this.groupData,
       groupData: this.groupData,
       progressionMapping: this.progressionMapping,
       itempoolCounts: this.itempoolCounts,

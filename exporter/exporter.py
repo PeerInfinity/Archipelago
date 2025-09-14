@@ -1157,6 +1157,7 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
     desired_key_order = [
         'schema_version',
         'game_name',
+        'game_directory',
         'archipelago_version',
         'generation_seed',
         'player_names',
@@ -1209,7 +1210,15 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
                 if game_name:
                     ordered_data[key] = game_name
                 continue
-                
+
+            # Special handling for game_directory
+            if key == 'game_directory':
+                if game_name:
+                    # Use the get_world_directory_name function to get the directory name
+                    game_directory = get_world_directory_name(game_name)
+                    ordered_data[key] = game_directory
+                continue
+
             # Special handling for dungeons (only include if it exists)
             if key == 'dungeons':
                 if key in data:
