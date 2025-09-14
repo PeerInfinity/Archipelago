@@ -4,6 +4,8 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 // Import the function directly from its source file
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import settingsManager from '../../app/core/settingsManager.js';
+import eventBusCore from '../../app/core/eventBus.js';
 // eventBus will be injected during module initialization
 let eventBus = null;
 
@@ -53,6 +55,78 @@ class CommonUI {
     //  `[CommonUI] ${contextMessage}: Encountered ${this.unknownEvaluationCount} unresolved rule evaluations (undefined).`
     //);
     return this.unknownEvaluationCount;
+  }
+
+  /**
+   * Helper method to create location info elements for an item
+   * @param {string} itemName - The name of the item to find locations for
+   * @param {object} snapshot - The current state snapshot (optional, will fetch if not provided)
+   * @returns {HTMLElement|null} - Element containing location links or null if no locations found
+   */
+  _createItemLocationInfo(itemName, snapshot = null) {
+    // Get snapshot and static data if not provided
+    if (!snapshot) {
+      snapshot = stateManager.getLatestStateSnapshot();
+    }
+    const staticData = stateManager.getStaticData();
+
+    if (!snapshot?.locationItems || !staticData?.locations) {
+      return null;
+    }
+
+    // Find all locations that have this item
+    const locationInfos = [];
+    for (const [locName, itemData] of Object.entries(snapshot.locationItems)) {
+      if (itemData && itemData.name === itemName) {
+        // Get the location's region from static data
+        const locData = Object.values(staticData.locations).find(l => l.name === locName);
+        if (locData) {
+          locationInfos.push({
+            locationName: locName,
+            regionName: locData.region || locData.parent_region
+          });
+        }
+      }
+    }
+
+    if (locationInfos.length === 0) {
+      return null;
+    }
+
+    // Create container for location info
+    const container = document.createElement('span');
+    container.style.fontSize = '0.9em';
+    container.style.fontStyle = 'italic';
+
+    const fromText = document.createElement('span');
+    fromText.textContent = ' (from ';
+    fromText.style.color = '#999';
+    container.appendChild(fromText);
+
+    // Add all location links
+    locationInfos.forEach((locationInfo, index) => {
+      if (index > 0) {
+        const separator = document.createElement('span');
+        separator.textContent = index === locationInfos.length - 1 ? ' or ' : ', ';
+        separator.style.color = '#999';
+        container.appendChild(separator);
+      }
+
+      const locLink = this.createLocationLink(
+        locationInfo.locationName,
+        locationInfo.regionName,
+        false,  // Don't use colorblind mode for inline text
+        snapshot
+      );
+      container.appendChild(locLink);
+    });
+
+    const closeParen = document.createElement('span');
+    closeParen.textContent = ')';
+    closeParen.style.color = '#999';
+    container.appendChild(closeParen);
+
+    return container;
   }
 
   /**
@@ -151,10 +225,13 @@ class CommonUI {
 
       case 'item_check': {
         let itemText = '';
+        let itemName = null;
         if (typeof rule.item === 'string') {
           itemText = rule.item;
+          itemName = rule.item;
         } else if (rule.item && rule.item.type === 'constant') {
           itemText = rule.item.value;
+          itemName = rule.item.value;
         } else if (rule.item) {
           itemText = `(complex expression)`;
 
@@ -177,17 +254,35 @@ class CommonUI {
         }
 
         root.appendChild(document.createTextNode(` item: ${itemText}`));
+
+        // Add location info if showLocationItems is enabled and we have a simple item name
+        if (itemName && typeof itemName === 'string') {
+          // Check if setting is enabled (async)
+          settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showLocationItems => {
+            if (showLocationItems) {
+              // Extract snapshot from the stateSnapshotInterface if possible
+              const snapshot = stateSnapshotInterface?._snapshot || null;
+              const locationInfo = this._createItemLocationInfo(itemName, snapshot);
+              if (locationInfo && root.parentNode) {
+                root.appendChild(locationInfo);
+              }
+            }
+          });
+        }
         break;
       }
 
       case 'count_check': {
         let itemText = '';
+        let itemName = null;
         let countText = rule.count || 1;
 
         if (typeof rule.item === 'string') {
           itemText = rule.item;
+          itemName = rule.item;
         } else if (rule.item && rule.item.type === 'constant') {
           itemText = rule.item.value;
+          itemName = rule.item.value;
         } else if (rule.item) {
           itemText = '(complex expression)';
         }
@@ -203,6 +298,21 @@ class CommonUI {
         root.appendChild(
           document.createTextNode(` ${itemText} >= ${countText}`)
         );
+
+        // Add location info if showLocationItems is enabled and we have a simple item name
+        if (itemName && typeof itemName === 'string') {
+          // Check if setting is enabled (async)
+          settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showLocationItems => {
+            if (showLocationItems) {
+              // Extract snapshot from the stateSnapshotInterface if possible
+              const snapshot = stateSnapshotInterface?._snapshot || null;
+              const locationInfo = this._createItemLocationInfo(itemName, snapshot);
+              if (locationInfo && root.parentNode) {
+                root.appendChild(locationInfo);
+              }
+            }
+          });
+        }
 
         // Add visualization for complex expressions
         const hasComplexItem =
@@ -961,18 +1071,25 @@ class CommonUI {
     // Add click handler
     link.addEventListener('click', (e) => {
       e.stopPropagation();
-      
-      if (!eventBus) {
-        log('error', '[commonUI] eventBus not available - cannot publish events');
+
+      // Use injected eventBus if available, otherwise fall back to imported eventBusCore
+      const activeEventBus = eventBus || eventBusCore;
+
+      if (!activeEventBus) {
+        log('error', '[commonUI] No eventBus available - cannot publish events. Location: ' + locationName);
         return;
       }
-      
-      // Publish an event with location and region names
+
+      // First activate the Regions panel
+      activeEventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'commonUI');
+      log('info', `[commonUI] Published ui:activatePanel for regionsPanel.`);
+
+      // Then publish navigation to the location
       log(
         'info',
         `[commonUI] Publishing ui:navigateToLocation for ${locationName} in ${regionName}`
       );
-      eventBus.publish('ui:navigateToLocation', {
+      activeEventBus.publish('ui:navigateToLocation', {
         locationName: locationName,
         regionName: regionName,
       }, 'commonUI');

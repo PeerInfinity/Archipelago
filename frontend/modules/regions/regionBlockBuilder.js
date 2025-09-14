@@ -112,6 +112,12 @@ export class RegionBlockBuilder {
     regionBlock.classList.add(expanded ? 'expanded' : 'collapsed');
     regionBlock.classList.toggle('colorblind-mode', useColorblind);
 
+    // Add background color based on accessibility
+    if (!regionIsReachable) {
+      // Slightly reddish gray for inaccessible regions
+      regionBlock.style.backgroundColor = 'rgba(70, 50, 50, 0.3)'; // Reddish-gray with transparency
+    }
+
     // Check if Discovery Mode is active
     const isDiscoveryModeActive = this.regionUI.isDiscoveryModeActive || false;
 
@@ -779,7 +785,12 @@ export class RegionBlockBuilder {
           ruleDiv.style.marginTop = '8px';
           ruleDiv.style.paddingTop = '8px';
           ruleDiv.style.borderTop = '1px solid rgba(128, 128, 128, 0.3)';
-          ruleDiv.innerHTML = `Rule: ${logicTreeElement.outerHTML}`;
+
+          // Add "Rule: " text and append the logic tree element directly (not as innerHTML)
+          const ruleLabel = document.createTextNode('Rule: ');
+          ruleDiv.appendChild(ruleLabel);
+          ruleDiv.appendChild(logicTreeElement);
+
           exitWrapper.appendChild(ruleDiv);
         }
 
@@ -844,6 +855,7 @@ export class RegionBlockBuilder {
 
         const li = document.createElement('li');
         li.classList.add('location-item');
+        li.dataset.locationName = locationDef.name; // Add data attribute for easy targeting
         const locationNameDisplay =
           isDiscoveryModeActive && !isLocationDiscovered ? '???' : locationDef.name;
         
@@ -1042,7 +1054,12 @@ export class RegionBlockBuilder {
           ruleDiv.style.marginTop = '8px';
           ruleDiv.style.paddingTop = '8px';
           ruleDiv.style.borderTop = '1px solid rgba(128, 128, 128, 0.3)';
-          ruleDiv.innerHTML = `Rule: ${logicTreeElement.outerHTML}`;
+
+          // Add "Rule: " text and append the logic tree element directly (not as innerHTML)
+          const ruleLabel = document.createTextNode('Rule: ');
+          ruleDiv.appendChild(ruleLabel);
+          ruleDiv.appendChild(logicTreeElement);
+
           locationWrapper.appendChild(ruleDiv);
         }
 

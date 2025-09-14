@@ -363,9 +363,34 @@ export class RegionUI {
           'info',
           `[RegionUI] Received ui:navigateToLocation for ${eventPayload.locationName} in ${eventPayload.regionName}.`
         );
-        // First navigate to the region containing the location
+        // Navigate to the region containing the location
+        // This will handle enabling Show All, expanding the region, and scrolling to it
         this.navigateToRegion(eventPayload.regionName);
-        // TODO: Could highlight or scroll to the specific location within the region
+
+        // After a brief delay to allow the region to expand and render,
+        // scroll to the specific location within the region
+        setTimeout(() => {
+          const locationElement = document.querySelector(
+            `li.location-item[data-location-name="${eventPayload.locationName}"]`
+          );
+          if (locationElement) {
+            locationElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center',
+              inline: 'nearest'
+            });
+
+            // Add a temporary highlight effect
+            locationElement.style.transition = 'background-color 0.3s ease';
+            const originalBg = locationElement.style.backgroundColor;
+            locationElement.style.backgroundColor = 'rgba(255, 255, 100, 0.3)';
+            setTimeout(() => {
+              locationElement.style.backgroundColor = originalBg;
+            }, 2000);
+          } else {
+            log('warn', `[RegionUI] Could not find location element for ${eventPayload.locationName}`);
+          }
+        }, 300); // Wait 300ms for region expansion animation
       } else {
         log(
           'warn',
