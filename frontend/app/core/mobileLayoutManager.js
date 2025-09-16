@@ -23,6 +23,8 @@ class MobileLayoutManager {
     this.contentArea = null;
     this.isInitialized = false;
     this.appIsReady = false; // Track if app is ready for UI data load
+    this.stateManagerReady = false; // Track if state manager is ready
+    this.rulesLoaded = false; // Track if rules are loaded
 
     log('info', 'MobileLayoutManager instance created');
 
@@ -30,6 +32,18 @@ class MobileLayoutManager {
     eventBus.subscribe('app:readyForUiDataLoad', () => {
       this.appIsReady = true;
       log('info', 'MobileLayoutManager: App is ready for UI data load');
+    }, 'mobileLayoutManager');
+
+    // Listen for stateManager ready event
+    eventBus.subscribe('stateManager:ready', () => {
+      this.stateManagerReady = true;
+      log('info', 'MobileLayoutManager: StateManager is ready');
+    }, 'mobileLayoutManager');
+
+    // Listen for rules loaded event
+    eventBus.subscribe('stateManager:rulesLoaded', () => {
+      this.rulesLoaded = true;
+      log('info', 'MobileLayoutManager: Rules loaded');
     }, 'mobileLayoutManager');
   }
 
@@ -50,11 +64,24 @@ class MobileLayoutManager {
 
     log('info', 'MobileLayoutManager initialized');
 
-    // Create all panels upfront after initialization
-    // This will be called after all panels are registered
-    setTimeout(() => {
-      this.createAllPanels();
-    }, 0);
+    // Create tabs for all registered panels now that tabBar exists
+    this.createAllTabs();
+
+    // Create all panels immediately to match desktop behavior
+    // Panels will subscribe to events in their constructors
+    this.createAllPanelsSync();
+  }
+
+
+  /**
+   * Create tabs for all registered panels
+   */
+  createAllTabs() {
+    log('info', 'Creating tabs for all registered panels...');
+    for (const [componentType, panel] of this.panels) {
+      this.createTab(componentType);
+    }
+    log('info', `Created ${this.panels.size} tabs`);
   }
 
   /**
@@ -79,80 +106,37 @@ class MobileLayoutManager {
   }
 
   /**
-   * Create all registered panels upfront
+   * Create all registered panels synchronously
+   * This matches desktop behavior where panels are created during layout loading
    */
-  createAllPanels() {
-    log('info', 'Creating all panels upfront...');
+  createAllPanelsSync() {
+    log('info', 'Creating all panels synchronously to match desktop loading sequence...');
 
-    this.panels.forEach((panel, componentType) => {
+    // Create all panels immediately, matching Golden Layout's behavior
+    for (const [componentType, panel] of this.panels) {
       if (!panel.instance) {
-        try {
-          // Create a mock container that mimics Golden Layout's container
-          const panelContainer = document.createElement('div');
-          panelContainer.className = 'mobile-panel-instance';
-          panelContainer.style.display = 'none'; // Hidden by default
-          panelContainer.dataset.componentType = componentType;
-
-          const mockContainer = {
-            element: panelContainer,
-            width: this.contentArea.clientWidth,
-            height: this.contentArea.clientHeight,
-            on: (event, handler) => {
-              if (event === 'destroy') {
-                panelContainer.addEventListener('destroy', handler);
-              }
-            },
-            emit: (event) => {
-              panelContainer.dispatchEvent(new CustomEvent(event));
-            }
-          };
-
-          const componentState = {
-            isMobile: true,
-            componentType: componentType
-          };
-
-          // Call the factory function to create the panel
-          const uiProvider = new panel.factory(mockContainer, componentState, componentType);
-
-          if (uiProvider && typeof uiProvider.getRootElement === 'function') {
-            const rootElement = uiProvider.getRootElement();
-            if (rootElement instanceof HTMLElement) {
-              panelContainer.appendChild(rootElement);
-              this.contentArea.appendChild(panelContainer);
-
-              panel.instance = uiProvider;
-              panel.element = panelContainer;
-
-              // Call onMount if it exists
-              if (typeof uiProvider.onMount === 'function') {
-                uiProvider.onMount(mockContainer, componentState);
-              }
-
-              // Initialize if app is ready
-              if (this.appIsReady) {
-                if (typeof uiProvider.initialize === 'function') {
-                  uiProvider.initialize();
-                }
-                if (typeof uiProvider.init === 'function') {
-                  uiProvider.init();
-                }
-              }
-
-              log('info', `Panel pre-created: ${componentType}`);
-            }
-          }
-        } catch (error) {
-          log('error', `Error pre-creating panel ${componentType}:`, error);
-        }
+        this.createPanelInstance(componentType);
       }
-    });
+    }
 
     // Show the first panel by default
     const firstPanel = Array.from(this.panels.keys())[0];
     if (firstPanel) {
       this.showPanel(firstPanel);
     }
+
+    log('info', `All ${this.panels.size} panels created successfully`);
+  }
+
+  /**
+   * Legacy async method kept for compatibility
+   * @deprecated Use createAllPanelsSync instead
+   */
+  async createAllPanels() {
+    log('warn', 'createAllPanels (async) called - this is deprecated, panels should already be created');
+    // Panels should already be created by createAllPanelsSync in initialize()
+    // This method is kept for compatibility but shouldn't be needed
+    return Promise.resolve();
   }
 
   /**
@@ -171,8 +155,7 @@ class MobileLayoutManager {
       tabElement: null
     });
 
-    // Create tab for this panel
-    this.createTab(componentType);
+    // Tabs will be created later when initialize() is called
   }
 
   /**
@@ -199,11 +182,6 @@ class MobileLayoutManager {
 
     panel.tabElement = tab;
     this.tabBar.appendChild(tab);
-
-    // Show first panel by default
-    if (this.panels.size === 1) {
-      this.showPanel(componentType);
-    }
   }
 
   /**
@@ -316,6 +294,8 @@ class MobileLayoutManager {
         componentType: componentType
       };
 
+      // Create the panel instance - this matches Golden Layout's behavior
+      // The panel constructor will set up event subscriptions
       const uiProvider = new panel.factory(mockContainer, componentState, componentType);
 
       if (uiProvider && typeof uiProvider.getRootElement === 'function') {
@@ -327,20 +307,16 @@ class MobileLayoutManager {
           panel.instance = uiProvider;
           panel.element = panelContainer;
 
+          // Call onMount if it exists - this matches Golden Layout behavior
           if (typeof uiProvider.onMount === 'function') {
             uiProvider.onMount(mockContainer, componentState);
           }
 
-          if (this.appIsReady) {
-            if (typeof uiProvider.initialize === 'function') {
-              uiProvider.initialize();
-            }
-            if (typeof uiProvider.init === 'function') {
-              uiProvider.init();
-            }
-          }
+          // DO NOT call initialize() here - panels will initialize themselves
+          // when they receive app:readyForUiDataLoad event, exactly like desktop mode
+          // The panels are now created and listening for events
 
-          log('info', `Panel created: ${componentType}`);
+          log('info', `Panel created and ready for events: ${componentType}`);
         }
       }
     } catch (error) {

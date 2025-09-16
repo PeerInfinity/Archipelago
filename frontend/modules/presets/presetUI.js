@@ -14,6 +14,7 @@ function log(level, message, ...data) {
 
 export class PresetUI {
   constructor(container, componentState) {
+    log('warn', '[PresetUI] Constructor called with container:', container, 'componentState:', componentState);
     this.container = container;
     this.componentState = componentState;
 
@@ -33,12 +34,14 @@ export class PresetUI {
 
     // Defer the rest of initialization (fetching data, rendering)
     const readyHandler = (eventPayload) => {
-      log('info', 
-        '[PresetUI] Received app:readyForUiDataLoad. Initializing presets.'
+      log('warn',
+        '[PresetUI] Received app:readyForUiDataLoad. Initializing presets. Container:', this.container
       );
-      this.initialize();
+      const initResult = this.initialize();
+      log('warn', '[PresetUI] Initialize() returned:', initResult);
       eventBus.unsubscribe('app:readyForUiDataLoad', readyHandler);
     };
+    log('warn', '[PresetUI] Subscribing to app:readyForUiDataLoad event');
     eventBus.subscribe('app:readyForUiDataLoad', readyHandler, 'presets');
 
     this.container.on('destroy', () => {
@@ -62,31 +65,36 @@ export class PresetUI {
   }
 
   initialize(/* container removed, uses rootElement */) {
+    log('warn', '[PresetUI] initialize() called');
     this.getRootElement();
 
     if (!this.presetsListContainer) {
-      log('error', 
+      log('error',
         'PresetUI: Could not find #presets-list container during initialization.'
       );
       this.initialized = false;
       return false;
     }
 
+    log('warn', '[PresetUI] presetsListContainer found, starting fetch');
     this.initialized = false;
 
     try {
+      log('warn', '[PresetUI] Fetching ./presets/preset_files.json');
       fetch('./presets/preset_files.json')
         .then((response) => {
+          log('warn', '[PresetUI] Fetch response received, status:', response.status);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           return response.json();
         })
         .then((data) => {
+          log('warn', '[PresetUI] JSON data parsed, games found:', Object.keys(data).length);
           this.presets = data;
           this.renderGamesList();
           this.initialized = true;
-          log('info', '[PresetUI] Initialized successfully.');
+          log('warn', '[PresetUI] Initialized successfully.');
         })
         .catch((error) => {
           log('error', 'Error loading presets data:', error);

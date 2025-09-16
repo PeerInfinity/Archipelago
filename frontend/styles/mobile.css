@@ -1,6 +1,127 @@
 /* Mobile Layout Styles */
 /* Mobile-specific styles for touch-friendly panel navigation */
 
+/* When mobile layout is active (forced via ?layout=mobile or auto-detected) */
+body.mobile-layout-active .lm_goldenlayout {
+  display: none !important;
+}
+
+body.mobile-layout-active .mobile-layout-container {
+  display: flex !important;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-color: #2d2d2d;
+  color: #cecece;
+  position: relative;
+  overflow: hidden;
+}
+
+body.mobile-layout-active .mobile-panel-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 60px;
+  background-color: #2d2d2d;
+}
+
+body.mobile-layout-active .mobile-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #1a1a1a;
+  border-top: 1px solid #666;
+  display: flex !important;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1a1a1a;
+  scroll-behavior: smooth;
+}
+
+/* Panel instance styling when mobile is active */
+body.mobile-layout-active .mobile-panel-instance {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Individual tabs when mobile is active */
+body.mobile-layout-active .mobile-tab {
+  flex: 0 0 auto;
+  min-width: 70px;
+  max-width: 100px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+body.mobile-layout-active .mobile-tab:active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.mobile-layout-active .mobile-tab.active {
+  background-color: rgba(52, 152, 219, 0.2);
+}
+
+body.mobile-layout-active .mobile-tab.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #3498db;
+}
+
+body.mobile-layout-active .mobile-tab-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+body.mobile-layout-active .mobile-tab-label {
+  font-size: 11px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: #cecece;
+  user-select: none;
+  font-weight: 400;
+}
+
+body.mobile-layout-active .mobile-tab.active .mobile-tab-label {
+  color: #3498db;
+  font-weight: 500;
+}
+
+/* When desktop layout is active, hide mobile elements */
+body.desktop-layout-active .mobile-layout-container,
+body.desktop-layout-active .mobile-tab-bar {
+  display: none !important;
+}
+
 /* Mobile Layout Container - Only visible on mobile */
 @media (max-width: 768px) {
   /* Hide Golden Layout on mobile */
@@ -373,12 +494,4 @@
 }
 
 /* Desktop mode - ensure mobile layout is hidden */
-@media (min-width: 769px) and (pointer: fine) {
-  .mobile-layout-container {
-    display: none !important;
-  }
-
-  .mobile-tab-bar {
-    display: none !important;
-  }
-}
+/* This is now handled by the body.desktop-layout-active class */

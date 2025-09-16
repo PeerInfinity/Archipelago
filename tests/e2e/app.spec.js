@@ -5,7 +5,8 @@ test.describe('Application End-to-End Tests', () => {
   const testGame = process.env.TEST_GAME; // Optional game parameter
   const testSeed = process.env.TEST_SEED; // Optional seed parameter
   const rulesOverride = process.env.RULES_OVERRIDE; // Optional rules file override
-  
+  const testLayout = process.env.TEST_LAYOUT; // Optional layout parameter (mobile/desktop)
+
   // Build URL with all optional parameters
   let APP_URL = `http://localhost:8000/frontend/?mode=${testMode}`;
   if (testGame) {
@@ -16,6 +17,9 @@ test.describe('Application End-to-End Tests', () => {
   }
   if (rulesOverride) {
     APP_URL += `&rules=${encodeURIComponent(rulesOverride)}`;
+  }
+  if (testLayout) {
+    APP_URL += `&layout=${encodeURIComponent(testLayout)}`;
   }
 
   test('run in-app tests and check results', async ({ page }) => {
@@ -39,6 +43,9 @@ test.describe('Application End-to-End Tests', () => {
     }
     if (rulesOverride) {
       console.log(`  - rules: ${rulesOverride}`);
+    }
+    if (testLayout) {
+      console.log(`  - layout: ${testLayout}`);
     }
     console.log(`PW DEBUG: URL: ${APP_URL}`);
     // Wait until network activity has ceased, giving SPA more time to initialize
