@@ -9,6 +9,16 @@ function log(level, message, ...data) {
   }
 }
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'dungeons',
+  title: 'Dungeons',
+  componentType: 'dungeonsPanel',
+  icon: '🏰',
+  column: 3, // Right column
+  description: 'Dungeons display panel.',
+};
+
 class DungeonsModule {
   constructor() {
     this.ui = null;

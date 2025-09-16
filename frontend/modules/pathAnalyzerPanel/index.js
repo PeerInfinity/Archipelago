@@ -12,10 +12,12 @@ function log(level, message, ...data) {
 }
 
 export const moduleInfo = {
-  name: 'PathAnalyzerPanel',
+  name: 'pathAnalyzerPanel',
   title: 'Path Analyzer',
-  description:
-    'A dedicated panel for path analysis with configurable settings.',
+  componentType: 'pathAnalyzerPanel',
+  icon: '🛤️',
+  column: 2, // Middle column,
+  description: 'A dedicated panel for path analysis with configurable settings.',
 };
 
 let thisModuleId = moduleInfo.name;

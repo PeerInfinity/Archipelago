@@ -14,7 +14,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Plain Text Editor',
+  name: 'editor',
+  title: 'Editor',
+  componentType: 'editorPanel',
+  icon: '✏️',
+  column: 2, // Middle column,
   description: 'Text Editor panel.',
 };
 

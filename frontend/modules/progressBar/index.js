@@ -3,7 +3,7 @@ import eventBus from '../../app/core/eventBus.js';
 
 // Module info
 export const moduleInfo = {
-  name: 'ProgressBar',
+  name: 'progressBar',
   description: 'Progress bar component for tracking various operations with timer and event-driven modes.'
 };
 

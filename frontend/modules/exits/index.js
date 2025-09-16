@@ -14,7 +14,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Exits',
+  name: 'exits',
+  title: 'Exits',
+  componentType: 'exitsPanel',
+  icon: '🚪',
+  column: 3, // Right column,
   description: 'Exits display panel.',
 };
 

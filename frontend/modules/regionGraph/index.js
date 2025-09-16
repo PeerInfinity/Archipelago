@@ -4,7 +4,11 @@ import { createUniversalLogger } from '../../app/core/universalLogger.js';
 const logger = createUniversalLogger('regionGraph');
 
 export const moduleInfo = {
-  name: 'Region Graph',
+  name: 'regionGraph',
+  title: 'Region Graph',
+  componentType: 'regionGraphPanel',
+  icon: '🌐',
+  column: 2, // Middle column,
   description: 'Interactive visualization of region connectivity graph with deterministic layout',
 };
 

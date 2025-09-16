@@ -16,7 +16,10 @@ function log(level, message, ...data) {
 
 export const moduleInfo = {
   name: 'tests',
-  title: 'Tests', // Title for the panel in GoldenLayout
+  title: 'Tests',
+  componentType: 'testsPanel',
+  icon: '✅',
+  column: 1, // Left column,
   description: 'Automated application feature testing.',
 };
 

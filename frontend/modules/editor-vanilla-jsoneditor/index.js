@@ -14,7 +14,7 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Vanilla JSON Editor',
+  name: 'editor-vanilla-jsoneditor',
   description: 'JSON Editor panel.',
 };
 

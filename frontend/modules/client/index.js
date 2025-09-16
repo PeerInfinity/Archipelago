@@ -30,6 +30,10 @@ function log(level, message, ...data) {
 // --- Module Info --- //
 export const moduleInfo = {
   name: 'client',
+  title: 'Console',
+  componentType: 'clientPanel',
+  icon: '💻',
+  column: 2, // Middle column,
   description: 'Handles Archipelago client connection and communication.',
 };
 

@@ -1,6 +1,12 @@
 // windowAdapter module entry point
 import { WindowAdapterCore } from './windowAdapterCore.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'windowAdapter',
+  description: 'Adapter for window-based module communication and integration.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

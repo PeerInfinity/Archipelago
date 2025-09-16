@@ -14,7 +14,10 @@ function log(level, message, ...data) {
 // --- Module Info ---
 export const moduleInfo = {
   name: 'presets',
-  title: 'Presets', // Title for the panel
+  title: 'Presets',
+  componentType: 'presetsPanel',
+  icon: '⚙️',
+  column: 2, // Middle column
   description: 'Provides UI for loading preset game rules.',
 };
 

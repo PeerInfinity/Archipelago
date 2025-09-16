@@ -13,7 +13,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'ProgressBarPanel',
+  name: 'progressBarPanel',
+  title: 'Progress Bars',
+  componentType: 'progressBarPanel',
+  icon: '📊',
+  column: 2, // Middle column,
   description: 'Panel container for hosting progress bars.',
 };
 

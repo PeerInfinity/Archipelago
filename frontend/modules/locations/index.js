@@ -14,7 +14,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Locations',
+  name: 'locations',
+  title: 'Locations',
+  componentType: 'locationsPanel',
+  icon: '📍',
+  column: 3, // Right column,
   description: 'Locations display panel.',
 };
 

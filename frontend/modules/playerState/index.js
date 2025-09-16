@@ -1,5 +1,11 @@
 import { createPlayerStateSingleton, getPlayerStateSingleton } from './singleton.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'playerState',
+  description: 'Manages player state including current region, path history, and movement.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

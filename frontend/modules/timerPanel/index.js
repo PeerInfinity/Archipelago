@@ -15,8 +15,11 @@ function log(level, message, ...data) {
 // import eventBus from '../../app/core/eventBus.js'; // TimerPanelUI will handle its own eventBus needs
 
 export const moduleInfo = {
-  name: 'TimerPanel', // This is the moduleId
-  title: 'Timer Display', // Title for the GoldenLayout panel tab
+  name: 'timerPanel',
+  title: 'Timer Panel',
+  componentType: 'timerPanel',
+  icon: '⏱️',
+  column: 2, // Middle column,
   description: 'A dedicated panel for displaying the Timer UI.',
 };
 

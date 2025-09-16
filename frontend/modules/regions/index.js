@@ -12,11 +12,15 @@ function log(level, message, ...data) {
   }
 }
 
-// --- Module Info (Optional) ---
-// export const moduleInfo = {
-//   name: 'Regions',
-//   description: 'Regions display panel.',
-// };
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'regions',
+  title: 'Regions',
+  componentType: 'regionsPanel',
+  icon: '🗺️',
+  column: 3, // Right column
+  description: 'Regions display panel.',
+};
 
 // Store module-level references
 export let moduleDispatcher = null; // Export the dispatcher

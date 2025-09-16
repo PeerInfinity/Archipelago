@@ -144,14 +144,17 @@ class MobileLayoutManager {
    * @param {string} componentType - The component type identifier
    * @param {Function} componentFactory - The component factory function
    * @param {string} title - Display title for the panel
+   * @param {Object} moduleInfo - Additional module information (icon, column, etc.)
    */
-  registerPanel(componentType, componentFactory, title) {
+  registerPanel(componentType, componentFactory, title, moduleInfo = {}) {
     log('info', `Registering panel: ${componentType} (${title})`);
 
     this.panels.set(componentType, {
       factory: componentFactory,
       instance: null,
       title: title || componentType,
+      icon: moduleInfo.icon,
+      column: moduleInfo.column || 0,
       tabElement: null
     });
 
@@ -185,25 +188,26 @@ class MobileLayoutManager {
   }
 
   /**
-   * Get icon for panel type (can be customized)
+   * Get icon for panel type
    * @param {string} componentType - The component type
    * @returns {string} Icon HTML or emoji
    */
   getIconForPanel(componentType) {
-    const icons = {
-      'loopsPanel': '🔄',
-      'jsonPanel': '📄',
-      'inventoryPanel': '🎒',
-      'locationsPanel': '📍',
-      'testsPanel': '✅',
-      'modulesPanel': '📦',
-      'clientPanel': '🎮',
-      'editorPanel': '✏️',
-      'timerPanel': '⏱️',
-      'pathAnalyzerPanel': '🛤️',
-      'presetsPanel': '⚙️'
-    };
-    return icons[componentType] || '📱';
+    const panel = this.panels.get(componentType);
+
+    // First priority: use icon from moduleInfo if provided
+    if (panel && panel.icon) {
+      return panel.icon;
+    }
+
+    // Second priority: use first letter of title
+    if (panel && panel.title) {
+      const firstLetter = panel.title.charAt(0).toUpperCase();
+      return `<span style="font-weight: bold; font-size: 1.2em;">${firstLetter}</span>`;
+    }
+
+    // Fallback: generic icon
+    return '📱';
   }
 
   /**
@@ -312,9 +316,7 @@ class MobileLayoutManager {
             uiProvider.onMount(mockContainer, componentState);
           }
 
-          // DO NOT call initialize() here - panels will initialize themselves
-          // when they receive app:readyForUiDataLoad event, exactly like desktop mode
-          // The panels are now created and listening for events
+          // Panels will initialize themselves when they receive app:readyForUiDataLoad event
 
           log('info', `Panel created and ready for events: ${componentType}`);
         }

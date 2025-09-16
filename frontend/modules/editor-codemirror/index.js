@@ -14,7 +14,7 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'CodeMirror Editor',
+  name: 'editor-codemirror',
   description: 'CodeMirror Editor panel.',
 };
 

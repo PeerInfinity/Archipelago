@@ -2,8 +2,12 @@ import { MetaGamePanelUI } from './metaGamePanelUI.js';
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
 
 export const moduleInfo = {
-  name: 'MetaGamePanel',
-  description: 'UI panel for metaGame module configuration and management'
+  name: 'metaGamePanel',
+  title: 'Meta Game',
+  componentType: 'metaGamePanel',
+  icon: '🎯',
+  column: 2, // Middle column,
+  description: 'UI panel for metaGame module configuration and management',
 };
 
 export function register(registrationApi) {

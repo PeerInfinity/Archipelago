@@ -19,7 +19,11 @@ let modulesPanelInstance = null;
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Modules',
+  name: 'modules',
+  title: 'Modules',
+  componentType: 'modulesPanel',
+  icon: '📦',
+  column: 1, // Left column,
   description: 'Panel to manage modules.',
 };
 

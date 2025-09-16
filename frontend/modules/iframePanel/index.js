@@ -1,6 +1,16 @@
 // iframePanel module entry point
 import { IframePanelUI } from './iframePanelUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'iframePanel',
+  title: 'Iframe Panel',
+  componentType: 'iframePanel',
+  icon: '🖼️',
+  column: 3, // Right column
+  description: 'Iframe Panel display panel.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

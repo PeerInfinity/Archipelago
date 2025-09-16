@@ -14,7 +14,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Settings',
+  name: 'settings',
+  title: 'Settings',
+  componentType: 'settingsPanel',
+  icon: '⚙️',
+  column: 2, // Middle column,
   description: 'Settings editor panel.',
 };
 

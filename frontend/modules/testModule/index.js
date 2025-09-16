@@ -12,7 +12,7 @@ function log(level, message, ...data) {
 }
 
 export const moduleInfo = {
-  name: 'Test Module',
+  name: 'testModule',
   description: 'A simple panel loaded dynamically.',
 };
 

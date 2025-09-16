@@ -14,7 +14,7 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Settings',
+  name: 'settings-jsoneditor',
   description: 'Settings editor panel.',
 };
 

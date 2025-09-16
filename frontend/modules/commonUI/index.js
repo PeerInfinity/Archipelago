@@ -14,7 +14,7 @@ import { stateManagerProxySingleton } from '../stateManager/index.js';
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'CommonUI',
+  name: 'commonUI',
   description: 'Provides shared UI utility functions and components.',
 };
 

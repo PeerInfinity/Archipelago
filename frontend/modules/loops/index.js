@@ -6,6 +6,10 @@ import { handleUserLocationCheckForLoops, handleUserItemCheckForLoops, initializ
 // --- Module Info ---
 export const moduleInfo = {
   name: 'loops',
+  title: 'Loops',
+  componentType: 'loopsPanel',
+  icon: '🔄',
+  column: 3, // Right column
   description: 'Loop mode logic and UI panel.',
 };
 

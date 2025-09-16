@@ -1039,14 +1039,10 @@ function addFileError(fileName) {
 
 // --- Helper function to hide loading screen ---
 function hideLoadingScreen() {
-  logger.info('init', 'hideLoadingScreen() called');
   const loadingScreen = document.getElementById('loading-screen');
   if (loadingScreen) {
-    logger.info('init', 'Found loading screen element, adding hidden class');
     loadingScreen.classList.add('hidden');
     logger.info('init', 'Loading screen hidden');
-  } else {
-    logger.warn('init', 'Loading screen element not found!');
   }
 }
 
@@ -1442,17 +1438,21 @@ async function main() {
       .getAllPanelComponents()
       .forEach((factoryDetails, componentType) => {
         if (typeof factoryDetails.componentClass === 'function') {
-          // Get title from module info
+          // Get module info for title and other properties
           const moduleInstance = importedModules.get(factoryDetails.moduleId);
-          const title = moduleInstance?.moduleInfo?.name ||
-                       moduleInstance?.moduleInfo?.title ||
+          const moduleInfo = moduleInstance?.moduleInfo || {};
+
+          // Priority: title first, then name, then componentType
+          const title = moduleInfo.title ||
+                       moduleInfo.name ||
                        componentType;
 
-          // Register with mobile layout manager
+          // Register with mobile layout manager, passing full moduleInfo
           mobileLayoutManager.registerPanel(
             componentType,
             factoryDetails.componentClass,
-            title
+            title,
+            moduleInfo
           );
 
           logger.debug(
@@ -1471,8 +1471,7 @@ async function main() {
     document.body.classList.add('mobile-layout-active');
     logger.info('init', 'Added mobile-layout-active class to body');
 
-    // Don't hide loading screen yet - wait until initialization is complete
-    // hideLoadingScreen() will be called later after app:readyForUiDataLoad
+    // Loading screen will be hidden after app:readyForUiDataLoad
   }
 
   // Helper function to get module ID from componentType
@@ -1785,9 +1784,8 @@ async function main() {
       (await settingsManager.getSetting('activeLayout')) || 'default';
     await loadLayoutConfiguration(goldenLayoutInstance, activeLayoutId, null); // Pass null for customConfig as it should come from G_combinedModeData
   }
-  // Mobile layout hideLoadingScreen is now called earlier after initialization
 
-  logger.info('INIT_STEP', typeof usesMobileLayout !== 'undefined' ? (usesMobileLayout ? 'Mobile Layout initialization completed' : 'Golden Layout initialization completed') : 'Layout initialization completed (mobile state unknown)');
+  logger.info('INIT_STEP', usesMobileLayout ? 'Mobile Layout initialization completed' : 'Golden Layout initialization completed');
 
   // --- Initialize Event Dispatcher ---
   logger.info('init', 'Initializing Event Dispatcher...');
@@ -2281,6 +2279,7 @@ async function main() {
         ...state, // { initialized, enabled }
         definition: moduleInstance?.moduleInfo || {
           name: moduleId,
+          title: moduleId, // Add title as fallback
           description:
             'Definition N/A - Module not fully loaded or moduleInfo missing.',
         },
@@ -2360,21 +2359,15 @@ async function main() {
 
   // Signal that core systems are up, modules are initialized,
   // and UI components can now safely fetch initial data (like from StateManager)
-  logger.info('init', 'About to publish app:readyForUiDataLoad event...');
   logger.info('init', 'Publishing app:readyForUiDataLoad event...');
   eventBus.publish('app:readyForUiDataLoad', {
     getModuleManager: () => moduleManagerApi,
   }, 'core');
-  logger.info('init', 'Published app:readyForUiDataLoad event');
 
   // Hide loading screen for mobile layout after app is ready
-  // Check if we're in mobile mode and hide loading screen
   const mobileLayoutActive = document.body.classList.contains('mobile-layout-active');
-  logger.info('init', `Checking mobile layout: body has mobile-layout-active class = ${mobileLayoutActive}`);
   if (mobileLayoutActive) {
-    logger.info('init', 'Calling hideLoadingScreen for mobile layout...');
     hideLoadingScreen();
-    logger.info('init', 'Mobile layout fully initialized, hiding loading screen');
   }
 
   // ADDED: Dispatch initial timer rehoming event
