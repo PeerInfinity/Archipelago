@@ -30,7 +30,7 @@ class CentralRegistry {
     log('info', 'CentralRegistry initialized');
   }
 
-  registerPanelComponent(moduleId, componentType, componentClass) {
+  registerPanelComponent(moduleId, componentType, componentClass, moduleInfo = null) {
     if (typeof componentClass !== 'function') {
       log(
         'error',
@@ -59,7 +59,7 @@ class CentralRegistry {
       'info',
       `Registering panel component class '${componentType}' from ${moduleId}`
     );
-    this.panelComponents.set(componentType, { moduleId, componentClass }); // Store class constructor and moduleId
+    this.panelComponents.set(componentType, { moduleId, componentClass, moduleInfo }); // Store class constructor, moduleId and moduleInfo
   }
 
   getComponentTypeForModule(moduleId) {

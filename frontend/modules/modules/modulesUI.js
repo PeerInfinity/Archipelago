@@ -253,7 +253,22 @@ export class ModulesPanel {
       infoDiv.className = 'module-info';
       const nameDiv = document.createElement('div');
       nameDiv.className = 'module-name';
-      nameDiv.textContent = state.definition.title || moduleId;
+
+      // Add icon - use module's icon if it has one (panel module), otherwise use a default
+      const iconSpan = document.createElement('span');
+      if (state.definition.icon) {
+        iconSpan.textContent = state.definition.icon;
+        iconSpan.title = 'Has panel';
+      } else {
+        iconSpan.textContent = '▪️'; // Black square for non-panel modules
+        iconSpan.title = 'Service module (no panel)';
+      }
+      iconSpan.style.marginRight = '8px';
+      nameDiv.appendChild(iconSpan);
+
+      const nameText = document.createElement('span');
+      nameText.textContent = state.definition.title || moduleId;
+      nameDiv.appendChild(nameText);
       const descDiv = document.createElement('div');
       descDiv.className = 'module-description';
       descDiv.textContent =

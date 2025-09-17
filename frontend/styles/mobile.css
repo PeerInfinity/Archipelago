@@ -25,7 +25,7 @@ body.mobile-layout-active .mobile-panel-content {
   background-color: #2d2d2d;
 }
 
-body.mobile-layout-active .mobile-tab-bar {
+body.mobile-layout-active .mobile-bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -37,12 +37,52 @@ body.mobile-layout-active .mobile-tab-bar {
   align-items: center;
   z-index: 1000;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.mobile-layout-active .mobile-tab-bar {
+  flex: 1;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #666 #1a1a1a;
   scroll-behavior: smooth;
+}
+
+body.mobile-layout-active .mobile-nav-btn {
+  background: #3a3a3a;
+  border: 1px solid #555;
+  color: #fff;
+  padding: 0;
+  width: 50px;
+  height: 100%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.mobile-layout-active .mobile-nav-btn:hover:not(:disabled) {
+  background: #4a4a4a;
+}
+
+body.mobile-layout-active .mobile-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+body.mobile-layout-active .mobile-nav-left {
+  border-right: 1px solid #444;
+}
+
+body.mobile-layout-active .mobile-nav-right {
+  border-left: 1px solid #444;
 }
 
 /* Panel instance styling when mobile is active */
@@ -150,8 +190,8 @@ body.desktop-layout-active .mobile-tab-bar {
     background-color: #2d2d2d;
   }
 
-  /* Bottom tab bar container */
-  .mobile-tab-bar {
+  /* Bottom bar container with navigation buttons */
+  .mobile-bottom-bar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -163,12 +203,54 @@ body.desktop-layout-active .mobile-tab-bar {
     align-items: center;
     z-index: 1000;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Tab bar within the bottom bar */
+  .mobile-tab-bar {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #666 #1a1a1a; /* Firefox */
     scroll-behavior: smooth;
+  }
+
+  /* Navigation buttons */
+  .mobile-nav-btn {
+    background: #3a3a3a;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 0;
+    width: 50px;
+    height: 100%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav-btn:hover:not(:disabled) {
+    background: #4a4a4a;
+  }
+
+  .mobile-nav-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .mobile-nav-left {
+    border-right: 1px solid #444;
+  }
+
+  .mobile-nav-right {
+    border-left: 1px solid #444;
   }
 
   /* Add subtle gradients on edges to indicate scrollability */
@@ -411,8 +493,13 @@ body.desktop-layout-active .mobile-tab-bar {
 
 /* Landscape mode adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
-  .mobile-tab-bar {
+  .mobile-bottom-bar {
     height: 50px;
+  }
+
+  .mobile-nav-btn {
+    width: 45px;
+    font-size: 18px;
   }
 
   .mobile-tab-bar::before,

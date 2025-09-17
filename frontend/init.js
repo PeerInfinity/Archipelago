@@ -19,6 +19,7 @@ import settingsManager from './app/core/settingsManager.js';
 import { centralRegistry } from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
 import { loadAndMergeJsonFiles, getConfigPaths, hasMultiplePaths } from './utils/settingsMerger.js';
+import { getModuleMetadata } from './app/core/moduleMetadata.js';
 
 // Make eventBus and centralRegistry globally available for cross-module communication
 window.eventBus = eventBus;
@@ -79,6 +80,7 @@ let G_skipLocalStorageLoad = false; // Flag to skip localStorage loading if ?res
 
 let layoutPresets = {};
 const importedModules = new Map(); // Map<moduleId, moduleObject>
+const moduleInfoMap = new Map(); // Map<moduleId, moduleInfo> - separate storage for moduleInfo
 let dispatcher = null;
 let moduleManagerApi = {}; // Define placeholder for the API object
 
@@ -258,10 +260,20 @@ function createInitializationApi(moduleId) {
 function createRegistrationApi(moduleId, moduleInstance) {
   return {
     registerPanelComponent: (componentType, componentFactory) => {
+      // Try multiple sources for moduleInfo
+      const moduleInfo = moduleInstance?.moduleInfo ||
+                        componentFactory?.moduleInfo || // Check if attached to factory
+                        moduleInfoMap.get(moduleId) ||
+                        null;
+
+          // Log registration (optional - can be changed to debug level)
+      logger.debug('init', `Registering panel component: ${componentType} from ${moduleId}`);
+
       centralRegistry.registerPanelComponent(
         moduleId,
         componentType,
-        componentFactory
+        componentFactory,
+        moduleInfo
       );
     },
     // Keep old one for compatibility
@@ -1185,10 +1197,18 @@ async function main() {
         const moduleInstance = await import(moduleDefinition.path);
         const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
         incrementFileCounter(`${moduleId} (${moduleFileName})`); // Increment counter for module import
-        importedModules.set(moduleId, moduleInstance.default || moduleInstance);
-        logger.debug('init', `Dynamically imported module: ${moduleId}`);
 
         const actualModuleObject = moduleInstance.default || moduleInstance;
+        importedModules.set(moduleId, actualModuleObject);
+
+
+        // Store moduleInfo separately if it exists
+        if (actualModuleObject?.moduleInfo) {
+          moduleInfoMap.set(moduleId, actualModuleObject.moduleInfo);
+          logger.debug('init', `Stored moduleInfo for ${moduleId}`, actualModuleObject.moduleInfo);
+        }
+
+        logger.debug('init', `Dynamically imported module: ${moduleId}`);
         if (
           actualModuleObject &&
           typeof actualModuleObject.register === 'function'
@@ -1282,6 +1302,7 @@ async function main() {
   const forceLayout = layoutUrlParams.get('layout'); // ?layout=mobile or ?layout=desktop
 
   let usesMobileLayout;
+
   if (forceLayout === 'mobile') {
     usesMobileLayout = true;
     logger.info('init', 'Layout mode forced to MOBILE via URL parameter (?layout=mobile)');
@@ -1295,6 +1316,7 @@ async function main() {
     usesMobileLayout = isMobile || isTouchDevice;
     logger.info('init', `Auto-detected device - Mobile: ${isMobile}, Touch: ${isTouchDevice}, Using mobile layout: ${usesMobileLayout}`);
   }
+
 
   let layoutManagerInstance = null;
   let goldenLayoutInstance = null;
@@ -1438,14 +1460,21 @@ async function main() {
       .getAllPanelComponents()
       .forEach((factoryDetails, componentType) => {
         if (typeof factoryDetails.componentClass === 'function') {
-          // Get module info for title and other properties
-          const moduleInstance = importedModules.get(factoryDetails.moduleId);
-          const moduleInfo = moduleInstance?.moduleInfo || {};
+          // Get module info from multiple sources
+          const rawModuleInfo = factoryDetails.moduleInfo ||
+                               factoryDetails.componentClass?.moduleInfo ||
+                               moduleInfoMap.get(factoryDetails.moduleId) ||
+                               importedModules.get(factoryDetails.moduleId)?.moduleInfo ||
+                               {};
+
+          // Use the centralized metadata helper to ensure complete module info
+          const moduleInfo = getModuleMetadata(componentType, rawModuleInfo);
 
           // Priority: title first, then name, then componentType
           const title = moduleInfo.title ||
                        moduleInfo.name ||
                        componentType;
+
 
           // Register with mobile layout manager, passing full moduleInfo
           mobileLayoutManager.registerPanel(
@@ -1464,7 +1493,7 @@ async function main() {
 
     // Now initialize the mobile layout manager after all components are registered
     // This will create all panels synchronously, matching desktop behavior
-    mobileLayoutManager.initialize(layoutContainer);
+    mobileLayoutManager.initialize(layoutContainer, layoutPresets);
     logger.info('INIT_STEP', 'Mobile Layout Manager initialized with all components');
 
     // Add class to body to indicate mobile layout is active

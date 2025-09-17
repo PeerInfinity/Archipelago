@@ -25,6 +25,15 @@ class MobileLayoutManager {
     this.appIsReady = false; // Track if app is ready for UI data load
     this.stateManagerReady = false; // Track if state manager is ready
     this.rulesLoaded = false; // Track if rules are loaded
+    this.layoutPresets = null; // Store layout presets for panel ordering
+    this.panelOrder = []; // Store the desired panel order
+
+    // Dynamic column system properties
+    this.currentColumn = 0; // Current active column index
+    this.columnPanels = []; // Panels for each column (dynamically sized)
+    this.columnActivePanels = []; // Remember active panel for each column
+    this.navigationButtons = null; // Container for left/right navigation buttons
+    this.columnCount = 0; // Number of columns (determined from layout)
 
     log('info', 'MobileLayoutManager instance created');
 
@@ -50,22 +59,28 @@ class MobileLayoutManager {
   /**
    * Initialize the mobile layout manager
    * @param {HTMLElement} container - The container element for mobile layout
+   * @param {Object} layoutPresets - Layout presets configuration
    */
-  initialize(container) {
+  initialize(container, layoutPresets = null) {
     if (this.isInitialized) {
       log('warn', 'MobileLayoutManager already initialized');
       return;
     }
 
     this.container = container;
+    this.layoutPresets = layoutPresets;
     this.setupMobileLayout();
     this.attachEventListeners();
     this.isInitialized = true;
 
     log('info', 'MobileLayoutManager initialized');
 
-    // Create tabs for all registered panels now that tabBar exists
-    this.createAllTabs();
+    // Determine panel order from layout presets
+    this.determinePanelOrder();
+
+    // Don't set column yet - let createAllPanelsSync determine it based on which panel will be shown
+    // Initially set to 0, will be updated when first panel is shown
+    this.currentColumn = 0;
 
     // Create all panels immediately to match desktop behavior
     // Panels will subscribe to events in their constructors
@@ -74,14 +89,91 @@ class MobileLayoutManager {
 
 
   /**
+   * Determine panel order from layout presets and organize by column
+   */
+  determinePanelOrder() {
+    const orderedPanels = [];
+    this.columnPanels = []; // Reset column panels
+    this.columnActivePanels = []; // Reset active panels
+
+    // Try to get panel order from default preset in layout_presets.json
+    if (this.layoutPresets && this.layoutPresets.default) {
+      const defaultLayout = this.layoutPresets.default;
+      if (defaultLayout.root && defaultLayout.root.content) {
+        // Determine number of columns from the layout
+        this.columnCount = defaultLayout.root.content.length;
+
+        // Initialize arrays for the detected number of columns
+        for (let i = 0; i < this.columnCount; i++) {
+          this.columnPanels[i] = [];
+          this.columnActivePanels[i] = null;
+        }
+
+        // Extract panels from each column
+        defaultLayout.root.content.forEach((column, columnIndex) => {
+          if (column.content && Array.isArray(column.content)) {
+            column.content.forEach(panel => {
+              if (panel.componentType) {
+                orderedPanels.push(panel.componentType);
+                this.columnPanels[columnIndex].push(panel.componentType);
+              }
+            });
+          }
+        });
+      }
+    }
+
+    // If no columns were detected, create a default single column
+    if (this.columnCount === 0) {
+      this.columnCount = 1;
+      this.columnPanels = [[]];
+      this.columnActivePanels = [null];
+    }
+
+    // Add any panels not in the layout presets to the middle column (or first if only one)
+    const middleColumn = Math.floor(this.columnCount / 2);
+    for (const componentType of this.panels.keys()) {
+      if (!orderedPanels.includes(componentType)) {
+        orderedPanels.push(componentType);
+        this.columnPanels[middleColumn].push(componentType);
+      }
+    }
+
+    this.panelOrder = orderedPanels;
+    log('info', `Detected ${this.columnCount} columns from layout`);
+    log('info', 'Panel order determined:', this.panelOrder);
+    log('info', 'Column panels:', this.columnPanels);
+  }
+
+  /**
    * Create tabs for all registered panels
    */
   createAllTabs() {
-    log('info', 'Creating tabs for all registered panels...');
-    for (const [componentType, panel] of this.panels) {
-      this.createTab(componentType);
+    log('info', 'Creating tabs for current column panels...');
+
+    // Clear existing tabs
+    if (this.tabBar) {
+      this.tabBar.innerHTML = '';
     }
-    log('info', `Created ${this.panels.size} tabs`);
+
+    // Make sure we have valid column panels
+    if (!this.columnPanels[this.currentColumn]) {
+      log('warn', `No panels found for column ${this.currentColumn}`);
+      return;
+    }
+
+    // Create tabs only for panels in the current column
+    const currentColumnPanels = this.columnPanels[this.currentColumn];
+    for (const componentType of currentColumnPanels) {
+      if (this.panels.has(componentType)) {
+        this.createTab(componentType);
+      }
+    }
+
+    log('info', `Created ${currentColumnPanels.length} tabs for column ${this.currentColumn}`);
+
+    // Update navigation button states
+    this.updateNavigationButtons();
   }
 
   /**
@@ -97,12 +189,35 @@ class MobileLayoutManager {
     this.contentArea.className = 'mobile-panel-content';
     this.container.appendChild(this.contentArea);
 
+    // Create navigation and tab bar container
+    const bottomBar = document.createElement('div');
+    bottomBar.className = 'mobile-bottom-bar';
+
+    // Create left navigation button
+    const leftNavBtn = document.createElement('button');
+    leftNavBtn.className = 'mobile-nav-btn mobile-nav-left';
+    leftNavBtn.innerHTML = '◀';
+    leftNavBtn.addEventListener('click', () => this.navigateColumn(-1));
+
     // Create tab bar
     this.tabBar = document.createElement('div');
     this.tabBar.className = 'mobile-tab-bar';
-    this.container.appendChild(this.tabBar);
 
-    // No swipe gestures - removed to prevent accidental panel switches
+    // Create right navigation button
+    const rightNavBtn = document.createElement('button');
+    rightNavBtn.className = 'mobile-nav-btn mobile-nav-right';
+    rightNavBtn.innerHTML = '▶';
+    rightNavBtn.addEventListener('click', () => this.navigateColumn(1));
+
+    // Append elements to bottom bar
+    bottomBar.appendChild(leftNavBtn);
+    bottomBar.appendChild(this.tabBar);
+    bottomBar.appendChild(rightNavBtn);
+
+    this.container.appendChild(bottomBar);
+
+    // Store navigation buttons reference
+    this.navigationButtons = { left: leftNavBtn, right: rightNavBtn };
   }
 
   /**
@@ -119,13 +234,48 @@ class MobileLayoutManager {
       }
     }
 
-    // Show the first panel by default
-    const firstPanel = Array.from(this.panels.keys())[0];
-    if (firstPanel) {
-      this.showPanel(firstPanel);
+    // Set initial active panels for each column (first panel in each column)
+    for (let i = 0; i < this.columnCount; i++) {
+      if (this.columnPanels[i].length > 0) {
+        this.columnActivePanels[i] = this.columnPanels[i][0];
+      }
+    }
+
+    // Show the first panel from the middle column by default
+    const firstMiddlePanel = this.getFirstMiddleColumnPanel();
+    if (firstMiddlePanel) {
+      this.showPanel(firstMiddlePanel);
+    } else {
+      // Fallback to first panel if no middle column panels found
+      const firstPanel = this.panelOrder.length > 0 ? this.panelOrder[0] : Array.from(this.panels.keys())[0];
+      if (firstPanel) {
+        this.showPanel(firstPanel);
+      }
     }
 
     log('info', `All ${this.panels.size} panels created successfully`);
+  }
+
+  /**
+   * Get the first panel from the middle column based on layout presets
+   * @returns {string|null} The componentType of the first middle column panel
+   */
+  getFirstMiddleColumnPanel() {
+    if (this.layoutPresets && this.layoutPresets.default) {
+      const defaultLayout = this.layoutPresets.default;
+      if (defaultLayout.root && defaultLayout.root.content && defaultLayout.root.content.length > 0) {
+        // Find the middle column dynamically
+        const middleIndex = Math.floor(defaultLayout.root.content.length / 2);
+        const middleColumn = defaultLayout.root.content[middleIndex];
+        if (middleColumn && middleColumn.content && middleColumn.content.length > 0) {
+          const firstPanel = middleColumn.content[0];
+          if (firstPanel.componentType && this.panels.has(firstPanel.componentType)) {
+            return firstPanel.componentType;
+          }
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -211,6 +361,63 @@ class MobileLayoutManager {
   }
 
   /**
+   * Navigate to a different column
+   * @param {number} direction - Direction to navigate (-1 for left, 1 for right)
+   */
+  navigateColumn(direction) {
+    const newColumn = this.currentColumn + direction;
+
+    // Check bounds dynamically based on column count
+    if (newColumn < 0 || newColumn >= this.columnCount) {
+      return;
+    }
+
+    // Check if new column has panels
+    if (this.columnPanels[newColumn].length === 0) {
+      return;
+    }
+
+    // Switch to the new column
+    this.currentColumn = newColumn;
+
+    // Refresh tabs for the new column
+    this.createAllTabs();
+
+    // Show the remembered active panel for this column
+    const activePanelForColumn = this.columnActivePanels[this.currentColumn];
+    if (activePanelForColumn) {
+      this.showPanel(activePanelForColumn);
+    } else {
+      // If no active panel remembered, show the first panel in the column
+      const firstPanelInColumn = this.columnPanels[this.currentColumn][0];
+      if (firstPanelInColumn) {
+        this.showPanel(firstPanelInColumn);
+      }
+    }
+
+    log('info', `Navigated to column ${this.currentColumn}`);
+  }
+
+  /**
+   * Update navigation button states based on current column
+   */
+  updateNavigationButtons() {
+    if (!this.navigationButtons) return;
+
+    // Disable left button if at leftmost column or no panels in left column
+    const canGoLeft = this.currentColumn > 0 &&
+                       this.columnPanels[this.currentColumn - 1].length > 0;
+    this.navigationButtons.left.disabled = !canGoLeft;
+    this.navigationButtons.left.style.opacity = canGoLeft ? '1' : '0.3';
+
+    // Disable right button if at rightmost column or no panels in right column
+    const canGoRight = this.currentColumn < this.columnCount - 1 &&
+                        this.columnPanels[this.currentColumn + 1].length > 0;
+    this.navigationButtons.right.disabled = !canGoRight;
+    this.navigationButtons.right.style.opacity = canGoRight ? '1' : '0.3';
+  }
+
+  /**
    * Show a specific panel
    * @param {string} componentType - The component type to show
    */
@@ -219,6 +426,28 @@ class MobileLayoutManager {
     if (!panel) {
       log('warn', `Panel not found: ${componentType}`);
       return;
+    }
+
+    // Determine which column this panel belongs to
+    let panelColumn = -1;
+    for (let i = 0; i < this.columnCount; i++) {
+      if (this.columnPanels[i].includes(componentType)) {
+        panelColumn = i;
+        break;
+      }
+    }
+
+    // ALWAYS update to the panel's column to keep selector in sync
+    if (panelColumn !== -1) {
+      const columnChanged = (panelColumn !== this.currentColumn);
+      this.currentColumn = panelColumn;
+
+      // Create or refresh tabs if needed
+      // Check if tabs exist at all (first time) or if column changed
+      const needsTabUpdate = !this.tabBar.children.length || columnChanged;
+      if (needsTabUpdate) {
+        this.createAllTabs();
+      }
     }
 
     // Hide all panels
@@ -254,6 +483,11 @@ class MobileLayoutManager {
 
     // Update active state
     this.activePanel = componentType;
+
+    // Remember the active panel for this column
+    if (panelColumn !== -1) {
+      this.columnActivePanels[panelColumn] = componentType;
+    }
 
     // Update tab bar active state
     this.updateTabBarState();
