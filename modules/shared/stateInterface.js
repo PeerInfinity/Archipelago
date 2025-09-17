@@ -43,7 +43,7 @@ export function createStateSnapshotInterface(
   contextVariables = {}
 ) {
   // Legacy snapshotHelpersInstance removed - using agnostic helpers directly
-  const gameId = snapshot?.game; // Get gameId from the snapshot
+  const gameName = staticData?.game_name || snapshot?.game; // Get game name from static data or snapshot
 
   function findLocationDataInStatic(locationName) {
     if (!staticData) return null;
@@ -141,7 +141,6 @@ export function createStateSnapshotInterface(
       }
     },
     hasItem: (itemName) => {
-      const gameName = snapshot?.game;
       const selectedHelpers = getHelperFunctions(gameName);
 
       // Use dynamic helper selection for has functionality
@@ -153,7 +152,6 @@ export function createStateSnapshotInterface(
       return !!(snapshot?.inventory && snapshot.inventory[itemName] > 0);
     },
     countItem: (itemName) => {
-      const gameName = snapshot?.game;
       const selectedHelpers = getHelperFunctions(gameName);
 
       // Use dynamic helper selection for count functionality
@@ -342,7 +340,6 @@ export function createStateSnapshotInterface(
     currentLocation: contextVariables.location,
     // Legacy helpers property removed - use executeHelper method instead
     executeHelper: (helperName, ...args) => {
-      const gameName = snapshot?.game;
       const selectedHelpers = getHelperFunctions(gameName);
 
       if (selectedHelpers && selectedHelpers[helperName]) {
@@ -383,7 +380,6 @@ export function createStateSnapshotInterface(
       }
       
       // Use game-specific agnostic helpers for all helper methods
-      const gameName = snapshot?.game;
       const selectedHelpers = getHelperFunctions(gameName);
       
       // Map method names to helper names if needed
@@ -421,7 +417,6 @@ export function createStateSnapshotInterface(
   };
 
   // Add helper functions as direct properties for compatibility with spoiler tests
-  const gameName = snapshot?.game;
   const selectedHelpers = getHelperFunctions(gameName);
   
   if (selectedHelpers && selectedHelpers !== genericLogic) {

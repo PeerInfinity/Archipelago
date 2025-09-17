@@ -26,8 +26,8 @@ export async function testMetaGameProgressBarIntegration(testController) {
     testController.log('Loading metaGame module with progressBarTest.js...');
     
     // Get the metaGame module API through centralRegistry
-    const metaGameAPI = window.centralRegistry.getPublicFunction('MetaGame', 'loadConfiguration');
-    const metaGameStatus = window.centralRegistry.getPublicFunction('MetaGame', 'getStatus');
+    const metaGameAPI = window.centralRegistry.getPublicFunction('metaGame', 'loadConfiguration');
+    const metaGameStatus = window.centralRegistry.getPublicFunction('metaGame', 'getStatus');
     
     // Add dispatcher access for later use
     testController.dispatcher = window.eventDispatcher;
@@ -318,7 +318,7 @@ export async function testMetaGamePanelUI(testController) {
 
     // Clear any existing MetaGame configuration to prevent state pollution
     testController.log('Clearing any existing metaGame configuration...');
-    const metaGameClearAPI = window.centralRegistry.getPublicFunction('MetaGame', 'clearConfiguration');
+    const metaGameClearAPI = window.centralRegistry.getPublicFunction('metaGame', 'clearConfiguration');
     if (metaGameClearAPI) {
       await metaGameClearAPI();
       testController.log('MetaGame configuration cleared');

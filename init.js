@@ -19,6 +19,7 @@ import settingsManager from './app/core/settingsManager.js';
 import { centralRegistry } from './app/core/centralRegistry.js';
 import EventDispatcher from './app/core/eventDispatcher.js';
 import { loadAndMergeJsonFiles, getConfigPaths, hasMultiplePaths } from './utils/settingsMerger.js';
+import { getModuleMetadata } from './app/core/moduleMetadata.js';
 
 // Make eventBus and centralRegistry globally available for cross-module communication
 window.eventBus = eventBus;
@@ -35,6 +36,7 @@ centralRegistry.registerEventBusPublisher('core', 'ui:activatePanel');
 centralRegistry.registerEventBusPublisher('core', 'settings:changed');
 
 import { GoldenLayout } from './libs/golden-layout/js/esm/golden-layout.js';
+import mobileLayoutManager from './app/core/mobileLayoutManager.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -78,6 +80,7 @@ let G_skipLocalStorageLoad = false; // Flag to skip localStorage loading if ?res
 
 let layoutPresets = {};
 const importedModules = new Map(); // Map<moduleId, moduleObject>
+const moduleInfoMap = new Map(); // Map<moduleId, moduleInfo> - separate storage for moduleInfo
 let dispatcher = null;
 let moduleManagerApi = {}; // Define placeholder for the API object
 
@@ -257,10 +260,20 @@ function createInitializationApi(moduleId) {
 function createRegistrationApi(moduleId, moduleInstance) {
   return {
     registerPanelComponent: (componentType, componentFactory) => {
+      // Try multiple sources for moduleInfo
+      const moduleInfo = moduleInstance?.moduleInfo ||
+                        componentFactory?.moduleInfo || // Check if attached to factory
+                        moduleInfoMap.get(moduleId) ||
+                        null;
+
+          // Log registration (optional - can be changed to debug level)
+      logger.debug('init', `Registering panel component: ${componentType} from ${moduleId}`);
+
       centralRegistry.registerPanelComponent(
         moduleId,
         componentType,
-        componentFactory
+        componentFactory,
+        moduleInfo
       );
     },
     // Keep old one for compatibility
@@ -1184,10 +1197,18 @@ async function main() {
         const moduleInstance = await import(moduleDefinition.path);
         const moduleFileName = moduleDefinition.path.split('/').pop() || moduleDefinition.path;
         incrementFileCounter(`${moduleId} (${moduleFileName})`); // Increment counter for module import
-        importedModules.set(moduleId, moduleInstance.default || moduleInstance);
-        logger.debug('init', `Dynamically imported module: ${moduleId}`);
 
         const actualModuleObject = moduleInstance.default || moduleInstance;
+        importedModules.set(moduleId, actualModuleObject);
+
+
+        // Store moduleInfo separately if it exists
+        if (actualModuleObject?.moduleInfo) {
+          moduleInfoMap.set(moduleId, actualModuleObject.moduleInfo);
+          logger.debug('init', `Stored moduleInfo for ${moduleId}`, actualModuleObject.moduleInfo);
+        }
+
+        logger.debug('init', `Dynamically imported module: ${moduleId}`);
         if (
           actualModuleObject &&
           typeof actualModuleObject.register === 'function'
@@ -1275,20 +1296,64 @@ async function main() {
   }
   // --- End Data Application and Event Publish ---
 
-  // --- Initialize Golden Layout ---
-  logger.info('INIT_STEP', 'Golden Layout initialization started');
-  const layoutContainer = document.getElementById('goldenlayout-container');
-  if (!layoutContainer) {
-    logger.error('init', 'Golden Layout container not found!');
-    return;
-  }
-  const goldenLayoutInstance = new GoldenLayout(layoutContainer);
-  goldenLayoutInstance.resizeWithContainerAutomatically = true;
+  // --- Detect Mobile and Initialize Appropriate Layout Manager ---
+  // Check for forced layout mode from URL parameter first
+  const layoutUrlParams = new URLSearchParams(window.location.search);
+  const forceLayout = layoutUrlParams.get('layout'); // ?layout=mobile or ?layout=desktop
 
-  // After all modules have registered their panel components with centralRegistry:
-  centralRegistry
-    .getAllPanelComponents()
-    .forEach((factoryDetails, componentType) => {
+  let usesMobileLayout;
+
+  if (forceLayout === 'mobile') {
+    usesMobileLayout = true;
+    logger.info('init', 'Layout mode forced to MOBILE via URL parameter (?layout=mobile)');
+  } else if (forceLayout === 'desktop') {
+    usesMobileLayout = false;
+    logger.info('init', 'Layout mode forced to DESKTOP via URL parameter (?layout=desktop)');
+  } else {
+    // Auto-detect based on device
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    usesMobileLayout = isMobile || isTouchDevice;
+    logger.info('init', `Auto-detected device - Mobile: ${isMobile}, Touch: ${isTouchDevice}, Using mobile layout: ${usesMobileLayout}`);
+  }
+
+
+  let layoutManagerInstance = null;
+  let goldenLayoutInstance = null;
+
+  if (usesMobileLayout) {
+    // --- Setup Mobile Layout Manager (but don't initialize yet) ---
+    logger.info('INIT_STEP', 'Mobile Layout Manager setup started');
+
+    const layoutContainer = document.getElementById('goldenlayout-container');
+    if (!layoutContainer) {
+      logger.error('init', 'Layout container not found!');
+      return;
+    }
+
+    // Store container for later initialization (after components are registered)
+    layoutManagerInstance = mobileLayoutManager;
+    // Will initialize after components are registered
+  } else {
+    // --- Initialize Golden Layout for Desktop ---
+    logger.info('INIT_STEP', 'Golden Layout initialization started');
+    const layoutContainer = document.getElementById('goldenlayout-container');
+    if (!layoutContainer) {
+      logger.error('init', 'Golden Layout container not found!');
+      return;
+    }
+    goldenLayoutInstance = new GoldenLayout(layoutContainer);
+    goldenLayoutInstance.resizeWithContainerAutomatically = true;
+    layoutManagerInstance = goldenLayoutInstance;
+
+    // Add class to body to indicate desktop layout is active
+    document.body.classList.add('desktop-layout-active');
+    logger.info('init', 'Added desktop-layout-active class to body');
+
+    // Register components with Golden Layout (Desktop only)
+    centralRegistry
+      .getAllPanelComponents()
+      .forEach((factoryDetails, componentType) => {
       if (typeof factoryDetails.componentClass === 'function') {
         // Wrap the direct class constructor in a factory function that Golden Layout expects,
         // which it will call with new internally, or expects us to call new.
@@ -1386,6 +1451,57 @@ async function main() {
         );
       }
     });
+  } // End of desktop-only Golden Layout setup
+
+  // Register components with Mobile Layout Manager if on mobile
+  if (usesMobileLayout) {
+    const layoutContainer = document.getElementById('goldenlayout-container');
+    centralRegistry
+      .getAllPanelComponents()
+      .forEach((factoryDetails, componentType) => {
+        if (typeof factoryDetails.componentClass === 'function') {
+          // Get module info from multiple sources
+          const rawModuleInfo = factoryDetails.moduleInfo ||
+                               factoryDetails.componentClass?.moduleInfo ||
+                               moduleInfoMap.get(factoryDetails.moduleId) ||
+                               importedModules.get(factoryDetails.moduleId)?.moduleInfo ||
+                               {};
+
+          // Use the centralized metadata helper to ensure complete module info
+          const moduleInfo = getModuleMetadata(componentType, rawModuleInfo);
+
+          // Priority: title first, then name, then componentType
+          const title = moduleInfo.title ||
+                       moduleInfo.name ||
+                       componentType;
+
+
+          // Register with mobile layout manager, passing full moduleInfo
+          mobileLayoutManager.registerPanel(
+            componentType,
+            factoryDetails.componentClass,
+            title,
+            moduleInfo
+          );
+
+          logger.debug(
+            'init',
+            `Registered mobile panel: ${componentType} from module ${factoryDetails.moduleId}`
+          );
+        }
+      });
+
+    // Now initialize the mobile layout manager after all components are registered
+    // This will create all panels synchronously, matching desktop behavior
+    mobileLayoutManager.initialize(layoutContainer, layoutPresets);
+    logger.info('INIT_STEP', 'Mobile Layout Manager initialized with all components');
+
+    // Add class to body to indicate mobile layout is active
+    document.body.classList.add('mobile-layout-active');
+    logger.info('init', 'Added mobile-layout-active class to body');
+
+    // Loading screen will be hidden after app:readyForUiDataLoad
+  }
 
   // Helper function to get module ID from componentType
   const getModuleIdFromComponentType = (componentType) => {
@@ -1499,8 +1615,9 @@ async function main() {
       .filter((item) => item !== null); // Remove null entries
   }
 
-  // --- Load Layout ---
+  // --- Load Layout (Desktop only) ---
   if (
+    !usesMobileLayout &&
     G_combinedModeData.layoutConfig &&
     typeof G_combinedModeData.layoutConfig === 'object'
   ) {
@@ -1596,19 +1713,15 @@ async function main() {
         goldenLayoutInstance.on('started', () => {
           // Hide loading screen when Golden Layout starts
           hideLoadingScreen();
-          
-          // log('info',
-          //   '[Init DEBUG] GoldenLayout "started" EVENT HANDLER ENTERED (PanelManager init no longer solely relies on this)'
-          // );
-          // If this event DOES fire, PanelManager might be re-initialized if it wasn't fully ready before.
-          // This could be okay if PanelManager.initialize() is idempotent.
-          if (!panelManagerInstance.isInitialized) {
+
+          // Only initialize PanelManager for desktop mode
+          if (!usesMobileLayout && !panelManagerInstance.isInitialized) {
             logger.info(
               'init',
               '"started" event: PanelManager not yet initialized, calling initialize.'
-            ); // Kept as info
+            );
             panelManagerInstance.initialize(goldenLayoutInstance, null);
-          } else {
+          } else if (!usesMobileLayout) {
             // logger.debug('init',
             //   '"started" event: PanelManager already initialized.'
             // );
@@ -1691,7 +1804,7 @@ async function main() {
       );
       goldenLayoutInstance.loadLayout(getDefaultLayoutConfig()); // Fallback
     }
-  } else {
+  } else if (!usesMobileLayout) {
     logger.warn(
       'init',
       'No valid layoutConfig found in G_combinedModeData. Attempting to use settings or default (old fallback path).'
@@ -1701,7 +1814,7 @@ async function main() {
     await loadLayoutConfiguration(goldenLayoutInstance, activeLayoutId, null); // Pass null for customConfig as it should come from G_combinedModeData
   }
 
-  logger.info('INIT_STEP', 'Golden Layout initialization completed');
+  logger.info('INIT_STEP', usesMobileLayout ? 'Mobile Layout initialization completed' : 'Golden Layout initialization completed');
 
   // --- Initialize Event Dispatcher ---
   logger.info('init', 'Initializing Event Dispatcher...');
@@ -2195,6 +2308,7 @@ async function main() {
         ...state, // { initialized, enabled }
         definition: moduleInstance?.moduleInfo || {
           name: moduleId,
+          title: moduleId, // Add title as fallback
           description:
             'Definition N/A - Module not fully loaded or moduleInfo missing.',
         },
@@ -2268,12 +2382,22 @@ async function main() {
   window.G_combinedModeData = G_combinedModeData;
   logger.debug('init', 'window.G_combinedModeData has been set.');
 
+  // Mobile panels are now created automatically during mobileLayoutManager.initialize()
+  // This matches the desktop behavior where Golden Layout creates panels during loadLayout()
+  // Panels are created synchronously and are ready to receive events
+
   // Signal that core systems are up, modules are initialized,
   // and UI components can now safely fetch initial data (like from StateManager)
   logger.info('init', 'Publishing app:readyForUiDataLoad event...');
   eventBus.publish('app:readyForUiDataLoad', {
     getModuleManager: () => moduleManagerApi,
   }, 'core');
+
+  // Hide loading screen for mobile layout after app is ready
+  const mobileLayoutActive = document.body.classList.contains('mobile-layout-active');
+  if (mobileLayoutActive) {
+    hideLoadingScreen();
+  }
 
   // ADDED: Dispatch initial timer rehoming event
   // This is done with a timeout to allow app:readyForUiDataLoad handlers (e.g., UI panel creation)

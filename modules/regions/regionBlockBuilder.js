@@ -3,7 +3,7 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { renderLogicTree } from '../commonUI/index.js';
 import commonUI from '../commonUI/index.js';
-import loopStateSingleton from '../loops/loopStateSingleton.js';
+import discoveryStateSingleton from '../discovery/singleton.js';
 import { stateManagerProxySingleton } from '../stateManager/index.js';
 import settingsManager from '../../app/core/settingsManager.js';
 
@@ -49,7 +49,8 @@ export class RegionBlockBuilder {
     currentUid,
     currentExpandedState,
     staticData,
-    isSkipIndicator = false
+    isSkipIndicator = false,
+    sectionOrder = 'entrances-exits-locations'
   ) {
     // Handle skip indicator specially
     if (isSkipIndicator || currentUid === 'skip_indicator') {
@@ -111,18 +112,24 @@ export class RegionBlockBuilder {
     regionBlock.classList.add(expanded ? 'expanded' : 'collapsed');
     regionBlock.classList.toggle('colorblind-mode', useColorblind);
 
-    // Check if Loop Mode is active
-    const isLoopModeActive = loopStateSingleton.isLoopModeActive;
+    // Add background color based on accessibility
+    if (!regionIsReachable) {
+      // Slightly reddish gray for inaccessible regions
+      regionBlock.style.backgroundColor = 'rgba(70, 50, 50, 0.3)'; // Reddish-gray with transparency
+    }
 
-    // In Loop Mode, skip rendering if undiscovered
+    // Check if Discovery Mode is active
+    const isDiscoveryModeActive = this.regionUI.isDiscoveryModeActive || false;
+
+    // In Discovery Mode, skip rendering if undiscovered
     if (
-      isLoopModeActive &&
-      !loopStateSingleton.isRegionDiscovered(regionName)
+      isDiscoveryModeActive &&
+      !discoveryStateSingleton.isRegionDiscovered(regionName)
     ) {
       if (regionName === 'Menu') {
         log(
           'warn',
-          '[RegionBlockBuilder] Menu region is considered undiscovered in loop mode. Returning null.'
+          '[RegionBlockBuilder] Menu region is considered undiscovered in discovery mode. Returning null.'
         );
       }
       return null;
@@ -163,7 +170,8 @@ export class RegionBlockBuilder {
       uid,
       expanded,
       staticData,
-      isLoopModeActive
+      isDiscoveryModeActive,
+      sectionOrder
     );
 
     // Append header and content
@@ -229,7 +237,8 @@ export class RegionBlockBuilder {
     uid,
     expanded,
     staticData,
-    isLoopModeActive
+    isDiscoveryModeActive,
+    sectionOrder = 'entrances-exits-locations'
   ) {
     const contentEl = document.createElement('div');
     contentEl.classList.add('region-content');
@@ -244,33 +253,41 @@ export class RegionBlockBuilder {
     // Add region rules
     this.addRegionRules(contentEl, regionStaticData, useColorblind, snapshotInterface);
 
-    // Add entrances
-    this.addEntrances(contentEl, regionName, staticData, snapshot, snapshotInterface, useColorblind);
-
-    // Add exits
-    this.addExits(
-      contentEl,
-      regionName,
-      regionStaticData,
-      snapshot,
-      snapshotInterface,
-      regionIsReachable,
-      useColorblind,
-      uid,
-      isLoopModeActive
-    );
-
-    // Add locations
-    this.addLocations(
-      contentEl,
-      regionName,
-      regionStaticData,
-      snapshot,
-      snapshotInterface,
-      regionIsReachable,
-      useColorblind,
-      isLoopModeActive
-    );
+    // Parse the section order and add sections in the specified order
+    const sections = sectionOrder.split('-');
+    
+    for (const section of sections) {
+      switch (section) {
+        case 'entrances':
+          this.addEntrances(contentEl, regionName, staticData, snapshot, snapshotInterface, useColorblind);
+          break;
+        case 'exits':
+          this.addExits(
+            contentEl,
+            regionName,
+            regionStaticData,
+            snapshot,
+            snapshotInterface,
+            regionIsReachable,
+            useColorblind,
+            uid,
+            isDiscoveryModeActive
+          );
+          break;
+        case 'locations':
+          this.addLocations(
+            contentEl,
+            regionName,
+            regionStaticData,
+            snapshot,
+            snapshotInterface,
+            regionIsReachable,
+            useColorblind,
+            isDiscoveryModeActive
+          );
+          break;
+      }
+    }
 
     // Add path analysis section
     this.addPathAnalysisSection(contentEl, regionName, uid);
@@ -385,6 +402,7 @@ export class RegionBlockBuilder {
     if (entrances.length > 0) {
       const entrancesHeader = document.createElement('h4');
       entrancesHeader.textContent = 'Entrances:';
+      entrancesHeader.classList.add('region-entrances-header');
       contentEl.appendChild(entrancesHeader);
       
       entrances.forEach((entrance) => {
@@ -578,10 +596,11 @@ export class RegionBlockBuilder {
     regionIsReachable,
     useColorblind,
     uid,
-    isLoopModeActive
+    isDiscoveryModeActive
   ) {
     const exitsHeader = document.createElement('h4');
     exitsHeader.textContent = 'Exits:';
+    exitsHeader.classList.add('region-exits-header');
     contentEl.appendChild(exitsHeader);
     
     const exitsList = document.createElement('ul');
@@ -615,15 +634,15 @@ export class RegionBlockBuilder {
         const isTraversable =
           regionIsReachable && exitAccessible && connectedRegionReachable;
 
-        // Loop mode discovery check
+        // Discovery mode discovery check
         const isExitDiscovered =
-          !isLoopModeActive ||
-          loopStateSingleton.isExitDiscovered(regionName, exitDef.name);
+          !isDiscoveryModeActive ||
+          discoveryStateSingleton.isExitDiscovered(regionName, exitDef.name);
 
         const li = document.createElement('li');
         li.classList.add('exit-item');
         const exitNameDisplay =
-          isLoopModeActive && !isExitDiscovered ? '???' : exitDef.name;
+          isDiscoveryModeActive && !isExitDiscovered ? '???' : exitDef.name;
         
         // Create a wrapper div for the entire clickable area
         const exitWrapper = document.createElement('div');
@@ -665,7 +684,7 @@ export class RegionBlockBuilder {
         li.classList.toggle('inaccessible', !isTraversable);
         li.classList.toggle(
           'undiscovered',
-          isLoopModeActive && !isExitDiscovered
+          isDiscoveryModeActive && !isExitDiscovered
         );
         
         // Apply border color based on status
@@ -682,12 +701,12 @@ export class RegionBlockBuilder {
         exitWrapper.style.borderRadius = '4px';
         exitWrapper.style.padding = '8px 12px';
         exitWrapper.style.margin = '4px 0';
-        exitWrapper.style.cursor = isTraversable && connectedRegionName && (!isLoopModeActive || isExitDiscovered) ? 'pointer' : 'default';
+        exitWrapper.style.cursor = isTraversable && connectedRegionName && (!isDiscoveryModeActive || isExitDiscovered) ? 'pointer' : 'default';
         exitWrapper.style.display = 'block';
         exitWrapper.style.transition = 'all 0.2s ease';
         
         // Add hover effect for traversable exits
-        if (isTraversable && connectedRegionName && (!isLoopModeActive || isExitDiscovered)) {
+        if (isTraversable && connectedRegionName && (!isDiscoveryModeActive || isExitDiscovered)) {
           exitWrapper.addEventListener('mouseenter', () => {
             exitWrapper.style.transform = 'translateX(4px)';
             exitWrapper.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
@@ -762,10 +781,16 @@ export class RegionBlockBuilder {
             snapshotInterface
           );
           const ruleDiv = document.createElement('div');
+          ruleDiv.classList.add('logic-rule-container');
           ruleDiv.style.marginTop = '8px';
           ruleDiv.style.paddingTop = '8px';
           ruleDiv.style.borderTop = '1px solid rgba(128, 128, 128, 0.3)';
-          ruleDiv.innerHTML = `Rule: ${logicTreeElement.outerHTML}`;
+
+          // Add "Rule: " text and append the logic tree element directly (not as innerHTML)
+          const ruleLabel = document.createTextNode('Rule: ');
+          ruleDiv.appendChild(ruleLabel);
+          ruleDiv.appendChild(logicTreeElement);
+
           exitWrapper.appendChild(ruleDiv);
         }
 
@@ -790,10 +815,11 @@ export class RegionBlockBuilder {
     snapshotInterface,
     regionIsReachable,
     useColorblind,
-    isLoopModeActive
+    isDiscoveryModeActive
   ) {
     const locationsHeader = document.createElement('h4');
     locationsHeader.textContent = 'Locations:';
+    locationsHeader.classList.add('region-locations-header');
     contentEl.appendChild(locationsHeader);
     
     const locationsList = document.createElement('ul');
@@ -822,15 +848,16 @@ export class RegionBlockBuilder {
 
         const locChecked = snapshot.checkedLocations?.includes(locationDef.name) ?? false;
 
-        // Loop mode discovery check
+        // Discovery mode discovery check
         const isLocationDiscovered =
-          !isLoopModeActive ||
-          loopStateSingleton.isLocationDiscovered(locationDef.name);
+          !isDiscoveryModeActive ||
+          discoveryStateSingleton.isLocationDiscovered(locationDef.name);
 
         const li = document.createElement('li');
         li.classList.add('location-item');
+        li.dataset.locationName = locationDef.name; // Add data attribute for easy targeting
         const locationNameDisplay =
-          isLoopModeActive && !isLocationDiscovered ? '???' : locationDef.name;
+          isDiscoveryModeActive && !isLocationDiscovered ? '???' : locationDef.name;
         
         // Create a wrapper div for the entire clickable area
         const locationWrapper = document.createElement('div');
@@ -848,6 +875,28 @@ export class RegionBlockBuilder {
         locLink.dataset.location = locationDef.name;
         locLink.dataset.region = regionName;
         headerRow.appendChild(locLink);
+
+        // Add item name if showLocationItems is enabled
+        settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showItems => {
+          if (showItems && snapshot?.locationItems) {
+            const itemAtLocation = snapshot.locationItems[locationDef.name];
+            if (itemAtLocation && itemAtLocation.name) {
+              const itemSpan = document.createElement('span');
+              itemSpan.classList.add('location-item-info');
+              itemSpan.style.marginLeft = '8px';
+              itemSpan.style.fontStyle = 'italic';
+              itemSpan.style.fontSize = '0.9em';
+              itemSpan.style.color = '#888';
+              itemSpan.textContent = `(${itemAtLocation.name}`;
+              if (itemAtLocation.player) {
+                itemSpan.textContent += ` - P${itemAtLocation.player}`;
+              }
+              itemSpan.textContent += ')';
+              // Insert after the locLink in headerRow
+              locLink.parentNode.insertBefore(itemSpan, locLink.nextSibling);
+            }
+          }
+        });
 
         // Check if location is queued in the path (only if the setting is enabled)
         settingsManager.getSetting('regionGraph.addLocationsToPath', false).then(addToPathEnabled => {
@@ -900,7 +949,7 @@ export class RegionBlockBuilder {
         li.classList.toggle('checked-location', locChecked);
         li.classList.toggle(
           'undiscovered',
-          isLoopModeActive && !isLocationDiscovered
+          isDiscoveryModeActive && !isLocationDiscovered
         );
         
         // Apply border color based on status
@@ -937,7 +986,7 @@ export class RegionBlockBuilder {
         }
         
         // Make entire wrapper clickable if location is accessible and not checked
-        if (locAccessible && !locChecked && (!isLoopModeActive || isLocationDiscovered)) {
+        if (locAccessible && !locChecked && (!isDiscoveryModeActive || isLocationDiscovered)) {
           locationWrapper.addEventListener('click', async () => {
             try {
               log(
@@ -1001,10 +1050,16 @@ export class RegionBlockBuilder {
             locationContextInterface
           );
           const ruleDiv = document.createElement('div');
+          ruleDiv.classList.add('logic-rule-container');
           ruleDiv.style.marginTop = '8px';
           ruleDiv.style.paddingTop = '8px';
           ruleDiv.style.borderTop = '1px solid rgba(128, 128, 128, 0.3)';
-          ruleDiv.innerHTML = `Rule: ${logicTreeElement.outerHTML}`;
+
+          // Add "Rule: " text and append the logic tree element directly (not as innerHTML)
+          const ruleLabel = document.createTextNode('Rule: ');
+          ruleDiv.appendChild(ruleLabel);
+          ruleDiv.appendChild(logicTreeElement);
+
           locationWrapper.appendChild(ruleDiv);
         }
 

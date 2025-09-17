@@ -1,5 +1,7 @@
 import loopStateSingleton from './loopStateSingleton.js';
-import { getLoopsModuleDispatcher, moduleInfo } from './index.js'; // Import the dispatcher getter and moduleInfo
+import { getLoopsModuleDispatcher, moduleInfo, getPlayerStateAPI } from './index.js'; // Import the dispatcher getter, moduleInfo, and playerState API
+import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import discoveryStateSingleton from '../discovery/singleton.js';
 
 // Track loop mode state
 let isLoopModeActive = false;
@@ -31,6 +33,11 @@ export function initializeLoopEvents(eventBus) {
       isLoopModeActive = data.active;
       log('info', '[LoopEvents] Loop mode changed:', isLoopModeActive);
     }
+  }, 'loops');
+
+  // Subscribe to exit click events from the Exits module
+  eventBus.subscribe('user:exitClicked', (eventData) => {
+    handleUserExitClicked(eventBus, eventData);
   }, 'loops');
 }
 
@@ -140,8 +147,143 @@ export function handleUserItemCheckForLoops(eventData, propagationOptions) {
       eventData
     );
   } else {
-    log('error', 
+    log('error',
       '[LoopsModule] Dispatcher not available for propagation of user:itemCheck.'
     );
   }
+}
+
+/**
+ * Handles the 'user:exitClicked' event from the Exits module.
+ * When loop mode is active, builds a path to the exit and publishes region move events.
+ * @param {EventBus} eventBus - The event bus instance
+ * @param {object} eventData - The exit click data
+ */
+function handleUserExitClicked(eventBus, eventData) {
+  log('info', '[LoopEvents] Received user:exitClicked event:', eventData);
+
+  // Only process if loop mode is active
+  if (!isLoopModeActive) {
+    log('info', '[LoopEvents] Loop mode not active, ignoring exit click');
+    return;
+  }
+
+  const { exitName, sourceRegion, destinationRegion, isDiscovered } = eventData;
+
+  // Get the playerState API
+  const playerStateAPI = getPlayerStateAPI();
+  if (!playerStateAPI) {
+    log('error', '[LoopEvents] PlayerState API not available');
+    return;
+  }
+
+  // Get current player region
+  const currentRegion = playerStateAPI.getCurrentRegion();
+  if (!currentRegion) {
+    log('error', '[LoopEvents] Could not get current player region');
+    return;
+  }
+
+  log('info', `[LoopEvents] Processing exit click from ${sourceRegion} to ${destinationRegion}, current region: ${currentRegion}`);
+
+  // Import and use path analyzer to find path to the exit's source region
+  import('../pathAnalyzer/pathAnalyzerLogic.js').then((module) => {
+    const PathAnalyzerLogic = module.PathAnalyzerLogic;
+    const pathAnalyzer = new PathAnalyzerLogic();
+
+    // Find path from current region to the region containing the exit
+    const path = pathAnalyzer.findPathInLoopMode(sourceRegion);
+
+    if (!path) {
+      log('error', `[LoopEvents] Cannot find path from ${currentRegion} to ${sourceRegion}`);
+      if (window.consoleManager) {
+        window.consoleManager.print(`Cannot find a path to ${sourceRegion} in discovery mode.`, 'error');
+      }
+      return;
+    }
+
+    log('info', `[LoopEvents] Found path to exit: ${path.join(' -> ')}`);
+
+    // Build the sequence of moves
+    const moves = [];
+
+    // First, navigate to the source region if not already there
+    for (let i = 0; i < path.length - 1; i++) {
+      const fromRegion = path[i];
+      const toRegion = path[i + 1];
+
+      // Find the exit that connects these regions
+      const instance = stateManager.instance;
+      const regionData = instance?.regions[fromRegion];
+      const exitToUse = regionData?.exits?.find(
+        (e) =>
+          e.connected_region === toRegion &&
+          discoveryStateSingleton.isExitDiscovered(fromRegion, e.name)
+      );
+
+      if (exitToUse) {
+        moves.push({
+          type: 'regionMove',
+          sourceRegion: fromRegion,
+          targetRegion: toRegion,
+          exitUsed: exitToUse.name
+        });
+      } else {
+        log('warn', `[LoopEvents] Could not find discovered exit from ${fromRegion} to ${toRegion}`);
+        // Stop here if we can't find a valid path
+        return;
+      }
+    }
+
+    // Handle the final action based on whether the exit is discovered
+    if (!isDiscovered) {
+      // Exit is undiscovered - need to explore the source region
+      log('info', `[LoopEvents] Exit ${exitName} is undiscovered, adding explore action for ${sourceRegion}`);
+
+      // Add explore custom action
+      const exploreAction = {
+        type: 'explore',
+        regionName: sourceRegion,
+        repeatExplore: true // Set repeat explore for undiscovered exits
+      };
+
+      // Use playerState API to add the explore action
+      if (playerStateAPI.addCustomAction) {
+        playerStateAPI.addCustomAction(exploreAction);
+        log('info', `[LoopEvents] Added explore action for ${sourceRegion}`);
+      } else {
+        log('error', '[LoopEvents] addCustomAction not available in playerState API');
+      }
+    } else {
+      // Exit is discovered - add final move through the clicked exit
+      moves.push({
+        type: 'regionMove',
+        sourceRegion: sourceRegion,
+        targetRegion: destinationRegion,
+        exitUsed: exitName
+      });
+    }
+
+    // Publish all the region move events
+    const dispatcher = getLoopsModuleDispatcher();
+    if (dispatcher && moves.length > 0) {
+      moves.forEach((move, index) => {
+        log('info', `[LoopEvents] Publishing user:regionMove ${index + 1}/${moves.length}: ${move.sourceRegion} -> ${move.targetRegion}`);
+
+        // Publish via dispatcher (like regionGraph does)
+        dispatcher.publish('user:regionMove', {
+          sourceRegion: move.sourceRegion,
+          targetRegion: move.targetRegion,
+          exitUsed: move.exitUsed
+        });
+      });
+    } else if (moves.length === 0 && !isDiscovered) {
+      // We only added an explore action, no moves needed
+      log('info', '[LoopEvents] No moves needed, only explore action was added');
+    } else {
+      log('error', '[LoopEvents] Dispatcher not available or no moves to publish');
+    }
+  }).catch((error) => {
+    log('error', '[LoopEvents] Failed to load path analyzer:', error);
+  });
 }

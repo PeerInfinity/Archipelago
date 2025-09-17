@@ -140,19 +140,24 @@ export function isGameSupported(gameName) {
 /**
  * Determine game name from various sources
  * @param {Object} options - Detection options
- * @param {string} options.gameId - Direct game ID
+ * @param {string} options.gameName - Direct game name from rules
  * @param {Object} options.settings - Game settings object
  * @param {string} options.worldClass - World class from Archipelago data
  * @returns {string} The determined game name
  */
-export function determineGameName({ gameId, settings, worldClass }) {
+export function determineGameName({ gameName, settings, worldClass }) {
   // Priority order:
-  // 1. Settings.game (most reliable)
-  // 2. Direct gameId
+  // 1. Direct gameName from rules (most reliable)
+  // 2. Settings.game
   // 3. Detection from world class
   // 4. Fallback to Generic
 
-  // Check for direct settings.game first
+  // Check for direct gameName first (from rules.json)
+  if (gameName && isGameSupported(gameName)) {
+    return gameName;
+  }
+
+  // Check for direct settings.game
   if (settings && settings.game && isGameSupported(settings.game)) {
     return settings.game;
   }
@@ -162,15 +167,11 @@ export function determineGameName({ gameId, settings, worldClass }) {
   if (settings && typeof settings === 'object') {
     for (const playerId in settings) {
       const playerSettings = settings[playerId];
-      if (playerSettings && typeof playerSettings === 'object' && 
+      if (playerSettings && typeof playerSettings === 'object' &&
           playerSettings.game && isGameSupported(playerSettings.game)) {
         return playerSettings.game;
       }
     }
-  }
-
-  if (gameId && isGameSupported(gameId)) {
-    return gameId;
   }
 
   if (worldClass) {
@@ -187,13 +188,13 @@ export function determineGameName({ gameId, settings, worldClass }) {
  * Initialize game logic for state manager
  * This is the main function that state manager should call
  * @param {Object} options - Initialization options
- * @param {string} options.gameId - Direct game ID
+ * @param {string} options.gameName - Direct game name from rules
  * @param {Object} options.settings - Game settings object
  * @param {string} options.worldClass - World class from Archipelago data
  * @returns {Object} Object containing logicModule, helperFunctions, and detectedGame
  */
-export function initializeGameLogic({ gameId, settings, worldClass }) {
-  const detectedGame = determineGameName({ gameId, settings, worldClass });
+export function initializeGameLogic({ gameName, settings, worldClass }) {
+  const detectedGame = determineGameName({ gameName, settings, worldClass });
   const logic = getGameLogic(detectedGame);
 
   return {

@@ -23,7 +23,7 @@ export function createStateSnapshotInterface(
   contextVariables = {}
 ) {
   // Legacy snapshotHelpersInstance removed - using agnostic helpers directly
-  const gameId = snapshot?.game; // Get gameId from the snapshot
+  const gameName = staticData?.game_name || snapshot?.game; // Get game name from static data or snapshot
 
   function findLocationDataInStatic(locationName) {
     if (!staticData) return null;
@@ -116,7 +116,6 @@ export function createStateSnapshotInterface(
       }
     },
     hasItem: (itemName) => {
-      const gameName = snapshot?.game;
       let selectedHelpers = genericLogic; // Default to generic
 
       if (gameName === 'A Link to the Past') {
@@ -132,7 +131,6 @@ export function createStateSnapshotInterface(
       return !!(snapshot?.inventory && snapshot.inventory[itemName] > 0);
     },
     countItem: (itemName) => {
-      const gameName = snapshot?.game;
       let selectedHelpers = genericLogic; // Default to generic
 
       if (gameName === 'A Link to the Past') {
@@ -325,7 +323,6 @@ export function createStateSnapshotInterface(
     currentLocation: contextVariables.location,
     // Legacy helpers property removed - use executeHelper method instead
     executeHelper: (helperName, ...args) => {
-      const gameName = snapshot?.game;
       let selectedHelpers = genericLogic; // Default to generic
 
       if (gameName === 'A Link to the Past') {

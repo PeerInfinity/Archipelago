@@ -524,11 +524,11 @@ export class RegionGraphUI {
   setupControlPanel() {
     // Create hybrid control panel with both existing controls and layout editor
     this.controlPanel.innerHTML = `
-      <div style="display: flex; align-items: center; margin-bottom: 5px;">
-        <button id="toggleControls" style="background: none; border: 1px solid #555; color: white; padding: 2px 6px; font-size: 10px; cursor: pointer; border-radius: 2px; margin-right: 8px;">−</button>
-        <span style="font-weight: bold;">Controls</span>
+      <div id="controlsHeader" style="display: flex; align-items: center; margin-bottom: 5px; cursor: pointer; user-select: none;">
+        <button id="toggleControls" style="background: none; border: 1px solid #555; color: white; padding: 2px 6px; font-size: 10px; cursor: pointer; border-radius: 2px; margin-right: 8px; pointer-events: none;">+</button>
+        <span style="font-weight: bold; pointer-events: none;">Controls</span>
       </div>
-      <div id="controlsContent">
+      <div id="controlsContent" style="display: none;">
         <div style="margin-bottom: 10px;">
           <button id="resetView" style="margin: 2px; padding: 4px 8px;">Reset View</button>
           <button id="relayout" style="margin: 2px; padding: 4px 8px;">Re-layout</button>
@@ -798,9 +798,11 @@ export class RegionGraphUI {
       });
     }
 
-    const toggleButton = this.controlPanel.querySelector('#toggleControls');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', () => {
+    const controlsHeader = this.controlPanel.querySelector('#controlsHeader');
+    if (controlsHeader) {
+      controlsHeader.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         this.toggleControlPanel();
       });
     }

@@ -289,7 +289,7 @@ export class TimerPanelUI {
         typeof centralRegistry.getPublicFunction === 'function'
       ) {
         const attachFn = centralRegistry.getPublicFunction(
-          'Timer',
+          'timer',
           'attachTimerToHost'
         );
         if (attachFn && typeof attachFn === 'function') {

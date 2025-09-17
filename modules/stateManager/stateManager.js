@@ -291,7 +291,7 @@ export class StateManager {
     } else if (!this.inventory) {
       // If inventory doesn't exist, create it
       this.inventory = this._createInventoryInstance(
-        this.settings ? this.settings.game : this.gameId || 'UnknownGame'
+        this.settings ? this.settings.game : this.rules?.game_name || 'UnknownGame'
       );
     }
 
@@ -301,7 +301,7 @@ export class StateManager {
       
       // Use centralized game logic selection
       const logic = initializeGameLogic({
-        gameId: this.gameId,
+        gameName: this.rules?.game_name,
         settings: gameSettings,
         worldClass: null // Not available in this context
       });
@@ -475,6 +475,9 @@ export class StateManager {
       `[StateManager Class] Loading JSON for player ${selectedPlayerId}...`
     );
 
+    // Store the rules data so it's available for getStaticGameData()
+    this.rules = jsonData;
+
     // Initialize order arrays
     this.originalLocationOrder = [];
     this.originalRegionOrder = [];
@@ -509,52 +512,12 @@ export class StateManager {
     this.playerSlot = parseInt(selectedPlayerId, 10);
     log('info', `StateManager playerSlot set to: ${this.playerSlot}`);
 
-    // Determine gameId - THIS IS THE MODIFIED SECTION
-    let determinedGameId = jsonData.game_name || 'UnknownGame'; // Start with game_name
-    this._logDebug(
-      `[StateManager loadFromJSON] Initial game_name from JSON: "${determinedGameId}"`
-    );
+    // Store rules data (including game_name and game_directory)
+    this.rules = jsonData;
 
-    if (
-      determinedGameId === 'Archipelago' ||
-      determinedGameId === 'UnknownGame' ||
-      !jsonData.game_name
-    ) {
-      const playerWorldClass = jsonData.world_classes?.[selectedPlayerId];
-      this._logDebug(
-        `[StateManager loadFromJSON] game_name is generic or missing. Player world_class: "${playerWorldClass}"`
-      );
-      if (playerWorldClass) {
-        // Use centralized game detection
-        determinedGameId = detectGameFromWorldClass(playerWorldClass);
-        if (determinedGameId !== 'Generic') {
-          // Successfully detected a specific game
-        } else {
-          // Fallback if world_class is present but not specifically mapped
-          log(
-            'warn',
-            `[StateManager loadFromJSON] Unmapped world_class "${playerWorldClass}". Using it directly as gameId if it's not a generic name.`
-          );
-          // Avoid setting determinedGameId to something like "World" if that's not descriptive
-          if (playerWorldClass && playerWorldClass !== 'World') {
-            determinedGameId = playerWorldClass;
-          } else {
-            determinedGameId = 'UnknownGame'; // Keep as unknown if world_class is also too generic or unmapped
-          }
-        }
-        this._logDebug(
-          `[StateManager loadFromJSON] Inferred gameId as "${determinedGameId}" from world_classes.`
-        );
-      } else {
-        this._logDebug(
-          `[StateManager loadFromJSON] No world_class found for player ${selectedPlayerId} to infer gameId.`
-        );
-        // If game_name was also missing/generic, determinedGameId remains 'UnknownGame'
-      }
-    }
-    this.gameId = determinedGameId; // Set the instance's gameId
+    // Log the game name from rules
     this._logDebug(
-      `[StateManager loadFromJSON] Final determined this.gameId: "${this.gameId}"`
+      `[StateManager loadFromJSON] Game name from rules: "${this.rules?.game_name}", directory: "${this.rules?.game_directory}"`
     );
 
     // Load item data for the selected player
@@ -615,7 +578,6 @@ export class StateManager {
     }
 
     // Load other direct properties
-    // this.gameId is now set by the new logic involving determinedGameId, so the old direct assignment is removed.
     this.startRegions = jsonData.start_regions?.[selectedPlayerId] || [];
     this.mode = jsonData.mode?.[selectedPlayerId] || null;
     this.itempoolCounts = jsonData.itempool_counts?.[selectedPlayerId] || {};
@@ -627,11 +589,11 @@ export class StateManager {
 
     // --- Select and Initialize Game-Specific Logic Module ---
     const gameSettingsFromFile = jsonData.settings?.[selectedPlayerId] || {};
-    // Use this.gameId (now more reliably set) if gameSettingsFromFile.game is missing
-    const gameName = gameSettingsFromFile.game || this.gameId;
+    // Use game_name from rules (already loaded) if gameSettingsFromFile.game is missing
+    const gameName = gameSettingsFromFile.game || this.rules?.game_name || 'UnknownGame';
 
     this._logDebug(
-      `[StateManager loadFromJSON] Selecting logic module for game: "${gameName}" (derived from settings.game or this.gameId)`
+      `[StateManager loadFromJSON] Selecting logic module for game: "${gameName}" (derived from settings.game or rules.game_name)`
     );
 
     // Use centralized game logic selection
@@ -1445,7 +1407,7 @@ export class StateManager {
         passCount++;
         
         // Debug logging for A Hat in Time
-        if (this.gameId === 'ahit' || this.gameId === 'A Hat in Time') {
+        if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
           console.log(`[BFS] Starting pass ${passCount}`);
         }
 
@@ -1453,7 +1415,7 @@ export class StateManager {
         const newlyReachable = this.runBFSPass();
         if (newlyReachable) {
           continueSearching = true;
-          if (this.gameId === 'ahit' || this.gameId === 'A Hat in Time') {
+          if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
             console.log(`[BFS] Pass ${passCount} found new regions, will continue`);
           }
         }
@@ -1548,7 +1510,7 @@ export class StateManager {
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
         
         // Debug Time Rift connections
-        if ((this.gameId === 'ahit' || this.gameId === 'A Hat in Time') && 
+        if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
             targetRegion && targetRegion.includes('Time Rift')) {
           console.log(`[BFS] Evaluating ${fromRegion} -> ${targetRegion} (${exit.name}): canTraverse=${canTraverse}`);
         }
@@ -1573,7 +1535,7 @@ export class StateManager {
           newConnection = true; // Signal that we found a new connection
           
           // Debug logging for A Hat in Time Time Rifts
-          if ((this.gameId === 'ahit' || this.gameId === 'A Hat in Time') && 
+          if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
               (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
             console.log(`[BFS] NEW REGION: ${targetRegion} (from ${fromRegion} via ${exit.name})`);
           }
@@ -2914,6 +2876,8 @@ export class StateManager {
         locations: self.locations,
         regions: self.regions,
         dungeons: self.dungeons, // ADDED
+        game_name: self.rules?.game_name,
+        game_directory: self.rules?.game_directory,
       }),
     };
     // log('info',
@@ -3059,7 +3023,7 @@ export class StateManager {
         slot: this.playerSlot,
         team: this.team, // Assuming this.team exists on StateManager
       },
-      game: this.gameId || this.settings?.game || 'Unknown', // Single game identifier
+      game: this.rules?.game_name || this.settings?.game || 'Unknown', // Single game identifier
       // All games now use gameStateModule data
       difficultyRequirements: this.gameStateModule?.difficultyRequirements,
       shops: this.gameStateModule?.shops,
@@ -3199,7 +3163,7 @@ export class StateManager {
     if (isFullReset && this.settings) {
       // Fallback: Re-create state if reset is not available but settings are
       const gameSettings = this.settings;
-      const determinedGameName = gameSettings.game || this.gameId;
+      const determinedGameName = gameSettings.game || this.rules?.game_name;
       
       // Use centralized game logic selection for runtime state reset
       const logic = getGameLogic(determinedGameName);
@@ -3226,7 +3190,7 @@ export class StateManager {
     if (isFullReset) {
       const gameNameForInventory = this.settings
         ? this.settings.game
-        : this.gameId || 'UnknownGame';
+        : this.rules?.game_name || 'UnknownGame';
       this.inventory = this._createInventoryInstance(gameNameForInventory);
       this._logDebug(
         `[StateManager applyRuntimeState] Inventory re-initialized via _createInventoryInstance for ${gameNameForInventory}.`
@@ -3678,11 +3642,15 @@ export class StateManager {
    */
   getStaticGameData() {
     return {
-      gameId: this.gameId,
+      game_name: this.rules?.game_name,
+      game_directory: this.rules?.game_directory,
       locations: this.locations,
       regions: this.regions,
+      exits: this.exits,
       dungeons: this.dungeons,
+      items: this.itemData,
       itemData: this.itemData,
+      groups: this.groupData,
       groupData: this.groupData,
       progressionMapping: this.progressionMapping,
       itempoolCounts: this.itempoolCounts,

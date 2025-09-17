@@ -15,9 +15,12 @@ function log(level, message, ...data) {
 
 // Module metadata (optional but good practice)
 export const moduleInfo = {
-  name: 'Events Inspector',
-  description:
-    'Displays registered event publishers, subscribers, senders, and receivers.',
+  name: 'events',
+  title: 'Events',
+  componentType: 'eventsPanel',
+  icon: '📡',
+  column: 1, // Left column,
+  description: 'Displays registered event publishers, subscribers, senders, and receivers.',
 };
 
 /**

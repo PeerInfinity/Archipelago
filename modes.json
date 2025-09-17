@@ -183,7 +183,29 @@
   },
   "test-spoilers": {
     "moduleConfig": {
-      "path": "./modules.json",
+      "path": "./modules-test-spoilers.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "layoutConfig": {
+      "path": "./layout_presets.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "path": "./settings.json",
+      "enabled": true
+    },
+    "testsConfig": {
+      "path": "./playwright_tests_config-spoilers.json",
+      "enabled": true
+    }
+  },
+  "test-spoilers-headed": {
+    "moduleConfig": {
+      "path": "./modules-test-spoilers-headed.json",
       "enabled": true
     },
     "rulesConfig": {

@@ -50,11 +50,11 @@ export class StateManagerProxy {
     this.isReadyPublished = false; // Flag to prevent multiple ready events
     this.isPotentialStaleSnapshot = false; // <<< ADDED: Staleness flag
     this.debugMode = false; // Initialize debugMode
-    this.gameIdFromWorker = null; // ADDED: To store gameId from worker confirmation
+    this.gameNameFromWorker = null; // ADDED: To store game_name from worker confirmation
     this.currentRulesSource = null; // ADDED: To store the source name of the current rules
     this.messageCounter = 0; // DEPRECATED or RENAMED? Let's ensure nextMessageId is primary.
     this.nextMessageId = 0; // MODIFIED: Initialize nextMessageId
-    this.config = null; // To store initial config like gameId, playerId
+    this.config = null; // To store initial config like playerId
     
     // Track worker initialization state
     this.workerInitialized = false;
@@ -135,32 +135,25 @@ export class StateManagerProxy {
     }
   }
 
-  getGameId() {
+  getGameName() {
+    // Primary source: game_name from static data
+    if (this.staticDataCache && this.staticDataCache.game_name) {
+      return this.staticDataCache.game_name;
+    }
+    // Fallback to UI cache game field
     if (this.uiCache && this.uiCache.game) {
       return this.uiCache.game;
     }
-    // Fallback if .game isn't on snapshot, but .gameId is (less likely for current worker)
-    if (this.uiCache && this.uiCache.gameId) {
-      return this.uiCache.gameId;
-    }
-    // Use gameId received directly from worker during rules load confirmation
-    if (this.gameIdFromWorker) {
-      return this.gameIdFromWorker;
-    }
-    // Fallback to staticDataCache (very unlikely to have it)
-    if (this.staticDataCache && this.staticDataCache.gameId) {
-      log(
-        'warn',
-        '[StateManagerProxy getGameId] Using gameId from staticDataCache as a last resort.'
-      );
-      return this.staticDataCache.gameId;
+    // Use game_name received directly from worker during rules load confirmation
+    if (this.gameNameFromWorker) {
+      return this.gameNameFromWorker;
     }
     log(
       'warn',
-      '[StateManagerProxy getGameId] Game ID not found. Sources checked: uiCache.game, uiCache.gameId, this.gameIdFromWorker, staticDataCache.gameId. uiCache available:',
-      !!this.uiCache,
-      'gameIdFromWorker:',
-      this.gameIdFromWorker
+      '[StateManagerProxy getGameName] Game name not found. Sources checked: staticDataCache.game_name, uiCache.game, gameNameFromWorker. staticDataCache available:',
+      !!this.staticDataCache,
+      'gameNameFromWorker:',
+      this.gameNameFromWorker
     );
     return null;
   }
@@ -361,8 +354,8 @@ export class StateManagerProxy {
           );
         }
 
-        // Store gameId from the confirmation message
-        this.gameIdFromWorker = message.gameId;
+        // Store game_name from the confirmation message
+        this.gameNameFromWorker = message.gameName;
 
         // Resolve the initial load promise ONLY IF IT'S THE VERY FIRST LOAD
         if (this.initialLoadResolver) {
@@ -378,7 +371,7 @@ export class StateManagerProxy {
         );
         this.eventBus.publish('stateManager:rulesLoaded', {
           snapshot: this.uiCache, // Provide the latest snapshot
-          gameId: this.gameIdFromWorker, // Forward gameId from worker confirmation (using stored one)
+          gameName: this.gameNameFromWorker, // Forward game name from worker confirmation
           playerId: message.playerId, // Forward playerId
           source: this.currentRulesSource, // MODIFIED: Use the stored source
         }, 'stateManager');
@@ -1046,7 +1039,7 @@ export class StateManagerProxy {
       }
       this.eventBus.publish('stateManager:ready', {
         // Directly use event name string
-        gameId: this.config ? this.config.gameId : null,
+        gameName: this.config ? this.config.gameName : null,
         playerId: this.config ? this.config.playerId : null,
       }, 'stateManager');
     }
@@ -1214,7 +1207,7 @@ export class StateManagerProxy {
       JSON.parse(JSON.stringify(initialConfig))
     );
     // Store the initial configuration for the worker
-    // initialConfig might contain rulesConfig (as data), gameId, etc.
+    // initialConfig might contain rulesConfig (as data), gameName, etc.
     this.initialConfig = {
       rulesData: initialConfig.rulesConfig, // Expects rulesConfig to be the actual rules JSON object
       playerId: initialConfig.playerId || '1', // ADDED: Store and use playerId from initialConfig

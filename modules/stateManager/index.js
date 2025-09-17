@@ -163,7 +163,7 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
 
   let jsonData = null; // This will hold rules fetched if moduleSpecificConfig doesn't have them
   let playerInfo = {}; // Default empty, to be populated
-  let gameId = moduleSpecificConfig.gameId || 'ALTTP';
+  let gameName = moduleSpecificConfig.gameName || 'A Link to the Past';
 
   try {
     let rulesConfigToUse = moduleSpecificConfig.rulesConfig;
@@ -234,11 +234,11 @@ async function postInitialize(initializationApi, moduleSpecificConfig = {}) {
       playerInfo
     );
 
-    if (rulesConfigToUse.game && !moduleSpecificConfig.gameId) {
-      gameId = rulesConfigToUse.game;
+    if (rulesConfigToUse.game_name && !moduleSpecificConfig.gameName) {
+      gameName = rulesConfigToUse.game_name;
       logger.info(
         moduleInfo.name,
-        `[StateManager Module] Game ID from rules: ${gameId}`
+        `[StateManager Module] Game name from rules: ${gameName}`
       );
     }
 

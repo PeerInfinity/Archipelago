@@ -10,7 +10,7 @@ import commonUI, {
   renderLogicTree,
   applyColorblindClass,
 } from '../commonUI/index.js';
-import loopStateSingleton from '../loops/loopStateSingleton.js';
+// Discovery mode tracking will be done via event listener
 import settingsManager from '../../app/core/settingsManager.js';
 import eventBus from '../../app/core/eventBus.js';
 import discoveryStateSingleton from '../discovery/singleton.js';
@@ -41,7 +41,9 @@ export class LocationUI {
     this.stateUnsubscribeHandles = []; // Array to store unsubscribe functions for state/loop events
     this.settingsUnsubscribe = null;
     this.colorblindSettings = {}; // Cache colorblind settings
+    this.showLocationItems = false; // Cache showLocationItems setting
     this.isInitialized = false; // Add flag
+    this.isDiscoveryModeActive = false; // Track discovery mode state
     this.originalLocationOrder = []; // ADDED: To store original keys
     this.pendingLocations = new Set(); // ADDED: To track pending locations
     // this.dispatcher = getDispatcher(); // Removed from constructor
@@ -95,22 +97,26 @@ export class LocationUI {
     // Update local cache on any settings change
     try {
       this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
+      this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
     } catch (error) {
-      log('error', 'Error loading colorblind settings:', error);
+      log('error', 'Error loading settings:', error);
       this.colorblindSettings = false;
+      this.showLocationItems = false;
     }
 
     this.settingsUnsubscribe = eventBus.subscribe(
       'settings:changed',
       async ({ key, value }) => {
-        if (key === '*' || key.startsWith('colorblindMode.locations')) {
+        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems')) {
           log('info', 'LocationUI reacting to settings change:', key);
           // Update cache
           try {
             this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
+            this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
           } catch (error) {
-            log('error', 'Error loading colorblind settings during update:', error);
+            log('error', 'Error loading settings during update:', error);
             this.colorblindSettings = false;
+            this.showLocationItems = false;
           }
           this.updateLocationDisplay(); // Trigger redraw
         }
@@ -286,16 +292,20 @@ export class LocationUI {
       // Subscribe to loop state changes if relevant
       subscribe('loop:stateChanged', debouncedUpdate); // May affect explored status visibility
       subscribe('loop:actionCompleted', debouncedUpdate); // May affect explored status
-      subscribe('loop:discoveryChanged', debouncedUpdate); // May affect explored status
-      subscribe('loop:modeChanged', (isLoopMode) => {
-        debouncedUpdate(); // Update display based on mode change
-        // Show/hide loop-specific controls
-        const exploredCheckbox =
-          this.rootElement?.querySelector('#show-explored');
-        if (exploredCheckbox && exploredCheckbox.parentElement) {
-          exploredCheckbox.parentElement.style.display = isLoopMode
-            ? 'inline-block'
-            : 'none';
+      subscribe('discovery:changed', debouncedUpdate); // May affect explored status
+      subscribe('discovery:modeChanged', (data) => {
+        if (data && typeof data.active === 'boolean') {
+          this.isDiscoveryModeActive = data.active;
+          log('info', `[LocationUI] Discovery mode changed: ${this.isDiscoveryModeActive}`);
+          debouncedUpdate(); // Update display based on mode change
+          // Show/hide discovery-specific controls
+          const exploredCheckbox =
+            this.rootElement?.querySelector('#show-explored');
+          if (exploredCheckbox && exploredCheckbox.parentElement) {
+            exploredCheckbox.parentElement.style.display = this.isDiscoveryModeActive
+              ? 'inline-block'
+              : 'none';
+          }
         }
       });
     } catch (error) {
@@ -347,7 +357,7 @@ export class LocationUI {
           <input type="checkbox" id="show-unreachable" checked />
           Show Unreachable
         </label>
-        <label style="display: none"> <!-- Initially hidden, controlled by loop mode -->
+        <label style="display: none"> <!-- Initially hidden, controlled by discovery mode -->
           <input type="checkbox" id="show-explored" checked />
           Show Explored
         </label>
@@ -553,7 +563,7 @@ export class LocationUI {
       // Potentially show a message to the user or just proceed with the event publish
     }
 
-    // Removed loop mode active check and direct call to stateManager or eventBus for checkLocationRequest
+    // Removed discovery mode active check and direct call to stateManager or eventBus for checkLocationRequest
 
     const payload = {
       locationName: locationName,
@@ -819,7 +829,7 @@ export class LocationUI {
             return false;
         }
 
-        if (loopStateSingleton.isLoopModeActive && isExplored && !showExplored)
+        if (this.isDiscoveryModeActive && isExplored && !showExplored)
           return false;
 
         // Search term check (match name or region)
@@ -1135,7 +1145,7 @@ export class LocationUI {
 
         locationCard.classList.toggle(
           'explored',
-          loopStateSingleton.isLoopModeActive && !!isExplored
+          this.isDiscoveryModeActive && !!isExplored
         );
 
         const csObject = this.colorblindSettings;
@@ -1167,6 +1177,21 @@ export class LocationUI {
         locationNameSpan.className = 'location-name';
         locationNameSpan.textContent = name;
         locationCard.appendChild(locationNameSpan);
+
+        // Item at Location (if showLocationItems is enabled)
+        if (this.showLocationItems && snapshot?.locationItems) {
+          const itemAtLocation = snapshot.locationItems[name];
+          if (itemAtLocation && itemAtLocation.name) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'text-sm location-item-name';
+            itemDiv.style.fontStyle = 'italic';
+            itemDiv.textContent = `Item: ${itemAtLocation.name}`;
+            if (itemAtLocation.player) {
+              itemDiv.textContent += ` (Player ${itemAtLocation.player})`;
+            }
+            locationCard.appendChild(itemDiv);
+          }
+        }
 
         // Region Info & Link
         const regionNameForLink = location.parent_region || location.region;
@@ -1230,7 +1255,7 @@ export class LocationUI {
         statusDiv.textContent = `Status: ${statusText}`;
         locationCard.appendChild(statusDiv);
 
-        if (loopStateSingleton.isLoopModeActive && !!isExplored) {
+        if (this.isDiscoveryModeActive && !!isExplored) {
           const exploredIndicator = document.createElement('span');
           exploredIndicator.className = 'location-explored-indicator';
           exploredIndicator.textContent = ' [E]';

@@ -1,7 +1,7 @@
 import { MetaGameLogic } from './metaGameLogic.js';
 
 export const moduleInfo = {
-  name: 'MetaGame',
+  name: 'metaGame',
   description: 'Meta-game features and event orchestration system'
 };
 

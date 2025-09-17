@@ -1,0 +1,584 @@
+/* Mobile Layout Styles */
+/* Mobile-specific styles for touch-friendly panel navigation */
+
+/* When mobile layout is active (forced via ?layout=mobile or auto-detected) */
+body.mobile-layout-active .lm_goldenlayout {
+  display: none !important;
+}
+
+body.mobile-layout-active .mobile-layout-container {
+  display: flex !important;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-color: #2d2d2d;
+  color: #cecece;
+  position: relative;
+  overflow: hidden;
+}
+
+body.mobile-layout-active .mobile-panel-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 60px;
+  background-color: #2d2d2d;
+}
+
+body.mobile-layout-active .mobile-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #1a1a1a;
+  border-top: 1px solid #666;
+  display: flex !important;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.mobile-layout-active .mobile-tab-bar {
+  flex: 1;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1a1a1a;
+  scroll-behavior: smooth;
+}
+
+body.mobile-layout-active .mobile-nav-btn {
+  background: #3a3a3a;
+  border: 1px solid #555;
+  color: #fff;
+  padding: 0;
+  width: 50px;
+  height: 100%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.mobile-layout-active .mobile-nav-btn:hover:not(:disabled) {
+  background: #4a4a4a;
+}
+
+body.mobile-layout-active .mobile-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+body.mobile-layout-active .mobile-nav-left {
+  border-right: 1px solid #444;
+}
+
+body.mobile-layout-active .mobile-nav-right {
+  border-left: 1px solid #444;
+}
+
+/* Panel instance styling when mobile is active */
+body.mobile-layout-active .mobile-panel-instance {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Individual tabs when mobile is active */
+body.mobile-layout-active .mobile-tab {
+  flex: 0 0 auto;
+  min-width: 70px;
+  max-width: 100px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+body.mobile-layout-active .mobile-tab:active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.mobile-layout-active .mobile-tab.active {
+  background-color: rgba(52, 152, 219, 0.2);
+}
+
+body.mobile-layout-active .mobile-tab.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #3498db;
+}
+
+body.mobile-layout-active .mobile-tab-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+body.mobile-layout-active .mobile-tab-label {
+  font-size: 11px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: #cecece;
+  user-select: none;
+  font-weight: 400;
+}
+
+body.mobile-layout-active .mobile-tab.active .mobile-tab-label {
+  color: #3498db;
+  font-weight: 500;
+}
+
+/* When desktop layout is active, hide mobile elements */
+body.desktop-layout-active .mobile-layout-container,
+body.desktop-layout-active .mobile-tab-bar {
+  display: none !important;
+}
+
+/* Mobile Layout Container - Only visible on mobile */
+@media (max-width: 768px) {
+  /* Hide Golden Layout on mobile */
+  .lm_goldenlayout {
+    display: none !important;
+  }
+
+  /* Mobile layout container */
+  .mobile-layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    background-color: #2d2d2d;
+    color: #cecece;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Panel content area */
+  .mobile-panel-content {
+    flex: 1;
+    position: relative; /* For absolute positioned panels */
+    overflow: hidden; /* Let panels handle their own scrolling */
+    padding-bottom: 60px; /* Space for tab bar */
+    background-color: #2d2d2d;
+  }
+
+  /* Bottom bar container with navigation buttons */
+  .mobile-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #1a1a1a;
+    border-top: 1px solid #666;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Tab bar within the bottom bar */
+  .mobile-tab-bar {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #666 #1a1a1a; /* Firefox */
+    scroll-behavior: smooth;
+  }
+
+  /* Navigation buttons */
+  .mobile-nav-btn {
+    background: #3a3a3a;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 0;
+    width: 50px;
+    height: 100%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav-btn:hover:not(:disabled) {
+    background: #4a4a4a;
+  }
+
+  .mobile-nav-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .mobile-nav-left {
+    border-right: 1px solid #444;
+  }
+
+  .mobile-nav-right {
+    border-left: 1px solid #444;
+  }
+
+  /* Add subtle gradients on edges to indicate scrollability */
+  .mobile-tab-bar::before,
+  .mobile-tab-bar::after {
+    content: '';
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    width: 20px;
+    height: 60px;
+    pointer-events: none;
+    z-index: 1001;
+  }
+
+  .mobile-tab-bar::before {
+    left: 0;
+    background: linear-gradient(to right, #1a1a1a 0%, transparent 100%);
+  }
+
+  .mobile-tab-bar::after {
+    right: 0;
+    background: linear-gradient(to left, #1a1a1a 0%, transparent 100%);
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  .mobile-tab-bar::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .mobile-tab-bar::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  .mobile-tab-bar::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 2px;
+  }
+
+  .mobile-tab-bar::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+
+  /* Individual tabs */
+  .mobile-tab {
+    flex: 0 0 auto; /* Don't grow or shrink, maintain size */
+    min-width: 70px; /* Minimum width for each tab */
+    max-width: 100px; /* Maximum width to prevent too large tabs */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+  }
+
+  .mobile-tab:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Active tab indicator */
+  .mobile-tab.active {
+    background-color: rgba(52, 152, 219, 0.2);
+  }
+
+  .mobile-tab.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #3498db;
+  }
+
+  /* Tab icon */
+  .mobile-tab-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+    user-select: none;
+  }
+
+  /* Tab label */
+  .mobile-tab-label {
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    color: #cecece;
+    user-select: none;
+    font-weight: 400;
+  }
+
+  .mobile-tab.active .mobile-tab-label {
+    color: #3498db;
+    font-weight: 500;
+  }
+
+  /* Error message styling */
+  .mobile-error-message {
+    padding: 20px;
+    text-align: center;
+    color: #e74c3c;
+  }
+
+  .mobile-error-message h3 {
+    margin-bottom: 10px;
+  }
+
+  /* Adjust existing panels for mobile */
+  #main-content,
+  #inventory-column,
+  #locations-column {
+    width: 100% !important;
+    min-width: unset !important;
+    max-width: 100% !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+
+  /* Hide main content collapse button on mobile */
+  #main-content-collapse-btn,
+  #main-content-expand-btn {
+    display: none !important;
+  }
+
+  /* Make buttons and inputs touch-friendly */
+  .button,
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  textarea,
+  select {
+    min-height: 44px;
+    padding: 10px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  /* Larger checkboxes and radio buttons */
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 24px;
+    min-height: 24px;
+    margin: 8px;
+  }
+
+  /* Improve spacing for touch targets */
+  .inventory-items .item-button,
+  .location-card,
+  .exit-card {
+    min-height: 44px;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+
+  /* Adjust grid layouts for mobile */
+  #locations-grid,
+  #exits-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  /* Make modals mobile-friendly */
+  .modal {
+    width: 90% !important;
+    max-width: 100% !important;
+    margin: 5% auto !important;
+  }
+
+  .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  /* Adjust loop controls for mobile */
+  .loop-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .loop-controls button {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  /* Make region blocks more touch-friendly */
+  .loop-region-block {
+    margin-bottom: 15px;
+  }
+
+  .loop-region-header {
+    min-height: 44px;
+    padding: 12px;
+  }
+
+  /* Adjust test panel for mobile */
+  .test-item {
+    padding: 12px;
+  }
+
+  .test-item-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Hide desktop-specific features */
+  .view-selector {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* Ensure scrolling works properly */
+  body {
+    overflow: hidden; /* Prevent body scroll */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Loading screen adjustments */
+  .loading-screen {
+    z-index: 2000; /* Above mobile tab bar */
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-bottom-bar {
+    height: 50px;
+  }
+
+  .mobile-nav-btn {
+    width: 45px;
+    font-size: 18px;
+  }
+
+  .mobile-tab-bar::before,
+  .mobile-tab-bar::after {
+    height: 50px;
+  }
+
+  .mobile-tab {
+    min-width: 65px;
+    max-width: 90px;
+  }
+
+  .mobile-tab-icon {
+    font-size: 18px;
+  }
+
+  .mobile-tab-label {
+    font-size: 10px;
+  }
+
+  .mobile-panel-content {
+    padding-bottom: 50px;
+  }
+}
+
+/* Tablet adjustments (larger than phone but still touch) */
+@media (min-width: 769px) and (max-width: 1024px) and (pointer: coarse) {
+  /* Show mobile layout for tablets with touch */
+  .lm_goldenlayout {
+    display: none !important;
+  }
+
+  .mobile-layout-container {
+    display: flex;
+  }
+
+  /* Larger tab bar for tablets */
+  .mobile-tab-bar {
+    height: 70px;
+  }
+
+  .mobile-tab-bar::before,
+  .mobile-tab-bar::after {
+    height: 70px;
+  }
+
+  .mobile-tab {
+    min-width: 80px;
+    max-width: 120px;
+  }
+
+  .mobile-tab-icon {
+    font-size: 24px;
+  }
+
+  .mobile-tab-label {
+    font-size: 12px;
+  }
+
+  /* Allow 2-column grids on tablets */
+  #locations-grid,
+  #exits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  }
+}
+
+/* Panel instance styling */
+.mobile-panel-instance {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Desktop mode - ensure mobile layout is hidden */
+/* This is now handled by the body.desktop-layout-active class */

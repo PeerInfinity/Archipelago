@@ -663,9 +663,13 @@ export function GanonDefeatRule(state, world, itemName, staticData) {
       return false;
     }
     
-    const glitchesRequired = state.settings?.glitches_required || 'no_glitches';
+    // Check for glitches - 'none' and 'no_glitches' both mean no glitches allowed
+    const glitchesRequired = state.settings?.glitches_required;
+    const isGlitchesAllowed = glitchesRequired && 
+                             glitchesRequired !== 'none' && 
+                             glitchesRequired !== 'no_glitches';
     
-    if (glitchesRequired !== 'no_glitches') {
+    if (isGlitchesAllowed) {
       // With glitches, more options available
       return has(state, 'Tempered Sword', staticData) ||
              has(state, 'Golden Sword', staticData) ||
@@ -673,7 +677,7 @@ export function GanonDefeatRule(state, world, itemName, staticData) {
              has(state, 'Lamp', staticData) ||
              can_extend_magic(state, world, '12', staticData);
     } else {
-      // No glitches - need silver arrows
+      // No glitches (default) - need silver arrows
       return has(state, 'Silver Bow', staticData) &&
              can_shoot_arrows(state, world, '0', staticData);
     }

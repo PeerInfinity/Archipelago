@@ -14,7 +14,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Exits',
+  name: 'exits',
+  title: 'Exits',
+  componentType: 'exitsPanel',
+  icon: '🚪',
+  column: 3, // Right column,
   description: 'Exits display panel.',
 };
 
@@ -27,6 +31,9 @@ export function register(registrationApi) {
 
   // Register the panel component class constructor
   registrationApi.registerPanelComponent('exitsPanel', ExitUI);
+
+  // Register events that this module publishes
+  registrationApi.registerEventBusPublisher('user:exitClicked');
 
   // Register settings schema if needed
   // No specific settings schema for Exits registration.

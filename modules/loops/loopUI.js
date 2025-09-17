@@ -194,7 +194,10 @@ export class LoopUI {
     };
 
     // --- Attach Listeners using NEW IDs ---
-    attachButtonHandler('loop-ui-toggle-loop-mode', this.toggleLoopMode); // Use method reference
+    attachButtonHandler('loop-ui-toggle-loop-mode', () => {
+      // Always use the event for consistency
+      eventBus.publish('loops:setLoopMode', { action: 'toggle' }, 'loops');
+    });
 
     attachButtonHandler('loop-ui-toggle-pause', function () {
       const newPauseState = !loopState.isPaused;
@@ -434,7 +437,7 @@ export class LoopUI {
     log('info', `[LoopUI] loopModeEnabled setting value: ${loopModeEnabled}, isLoopModeActive: ${this.isLoopModeActive}`);
     if (loopModeEnabled && !this.isLoopModeActive) {
       log('info', '[LoopUI] Auto-entering loop mode based on loopModeEnabled setting');
-      this.toggleLoopMode();
+      eventBus.publish('loops:setLoopMode', { action: 'enable' }, 'loops');
     }
   }
 
@@ -738,6 +741,16 @@ export class LoopUI {
       }
     });
 
+    // Subscribe to stateManager:ready to ensure static data is available
+    subscribe('stateManager:ready', () => {
+      log('info', '[LoopUI] Received stateManager:ready - static data should be available');
+      // If loop mode is active, re-render to ensure we have all data
+      if (this.isLoopModeActive) {
+        log('info', '[LoopUI] Re-rendering loop panel with full static data');
+        this.renderLoopPanel();
+      }
+    });
+
     // New discoveries
     subscribe('discovery:locationDiscovered', (data) => {
       if (this.isLoopModeActive) {
@@ -826,26 +839,57 @@ export class LoopUI {
       });
     });
 
-    // <<< ADD SUBSCRIPTION FOR LOOP MODE REQUEST >>>
-    subscribe('system:requestLoopMode', () => {
-      log('info', 
-        '[LoopUI] Received system:requestLoopMode, activating loop mode...'
+    // Subscribe to loop mode change requests
+    subscribe('loops:setLoopMode', (data) => {
+      const action = data?.action || 'toggle'; // Default to toggle if no action specified
+      log('info',
+        `[LoopUI] Received loops:setLoopMode with action: ${action}, current mode: ${this.isLoopModeActive}`
       );
-      if (!this.isLoopModeActive) {
-        this.toggleLoopMode();
-        // Additionally, activate the loopsPanel if panelManagerInstance is available
-        if (panelManagerInstance) {
-          try {
-            log('info', '[LoopUI] Activating loopsPanel...');
-            panelManagerInstance.activatePanel('loopsPanel');
-          } catch (error) {
-            log('error', '[LoopUI] Error activating loopsPanel:', error);
+
+      switch (action) {
+        case 'enable':
+          if (!this.isLoopModeActive) {
+            this.toggleLoopMode();
+            // Activate the loops panel when entering loop mode
+            if (panelManagerInstance) {
+              try {
+                log('info', '[LoopUI] Activating loopsPanel...');
+                panelManagerInstance.activatePanel('loopsPanel');
+              } catch (error) {
+                log('error', '[LoopUI] Error activating loopsPanel:', error);
+              }
+            } else {
+              log('warn',
+                '[LoopUI] panelManagerInstance not available to activate panel.'
+              );
+            }
           }
-        } else {
-          log('warn', 
-            '[LoopUI] panelManagerInstance not available to activate panel.'
-          );
-        }
+          break;
+        case 'disable':
+          if (this.isLoopModeActive) {
+            this.toggleLoopMode();
+          }
+          break;
+        case 'toggle':
+        default:
+          // For toggle, always call toggleLoopMode
+          this.toggleLoopMode();
+          // If we're entering loop mode (after toggle), activate the panel
+          if (this.isLoopModeActive) {
+            if (panelManagerInstance) {
+              try {
+                log('info', '[LoopUI] Activating loopsPanel...');
+                panelManagerInstance.activatePanel('loopsPanel');
+              } catch (error) {
+                log('error', '[LoopUI] Error activating loopsPanel:', error);
+              }
+            } else {
+              log('warn',
+                '[LoopUI] panelManagerInstance not available to activate panel.'
+              );
+            }
+          }
+          break;
       }
     });
   }
@@ -1650,9 +1694,13 @@ export class LoopUI {
     regionGroups.forEach((actions, regionName) => {
       // Get region static data
       const regionStaticData = staticData?.regions?.[regionName];
-      if (!regionStaticData && regionName !== 'Menu') {
-        log('warn', `No static data found for region: ${regionName}`);
-        return;
+      if (!regionStaticData) {
+        if (regionName !== 'Menu') {
+          log('warn', `No static data found for region: ${regionName}`);
+          return;
+        }
+        // For Menu, we'll continue even without static data
+        // This can happen on initial render before stateManager:ready
       }
       
       // Check if this region block should be expanded
@@ -1848,15 +1896,15 @@ export class LoopUI {
     }
     
     exitEl.innerHTML = `
-      <span class="exit-name">${exit.name} → ${exit.destination}</span>
+      <span class="exit-name">${exit.name} → ${exit.connected_region}</span>
     `;
-    
+
     // Make clickable to trigger region move
     exitEl.addEventListener('click', () => {
       // Publish region move event - this will be handled by playerState
       eventBus.publish('user:regionMove', {
         from: regionName,
-        to: exit.destination,
+        to: exit.connected_region,
         exitUsed: exit.name
       }, 'loops');
       this.renderLoopPanel();
@@ -1988,15 +2036,16 @@ export class LoopUI {
     }
     
     // If expanded, add region details (locations, exits, explore button)
+    // Show details for all expanded regions, including initial Menu
     if (isExpanded) {
       const detailsEl = document.createElement('div');
       detailsEl.className = 'loop-region-details';
-      
+
       // Add explore button if in loop mode
       if (this.isLoopModeActive) {
         const exploreContainer = document.createElement('div');
         exploreContainer.className = 'region-explore-container';
-        
+
         const exploreBtn = document.createElement('button');
         exploreBtn.className = 'explore-btn';
         exploreBtn.textContent = 'Explore Region';
@@ -2004,7 +2053,7 @@ export class LoopUI {
           this._queueExploreAction(regionName);
         });
         exploreContainer.appendChild(exploreBtn);
-        
+
         detailsEl.appendChild(exploreContainer);
       }
       

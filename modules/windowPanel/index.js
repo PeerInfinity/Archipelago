@@ -1,6 +1,16 @@
 // windowPanel module entry point
 import { WindowPanelUI } from './windowPanelUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'windowPanel',
+  title: 'Window Panel',
+  componentType: 'windowPanel',
+  icon: '🪟',
+  column: 3, // Right column
+  description: 'Window Panel display panel.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

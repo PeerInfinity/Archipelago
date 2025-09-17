@@ -4,6 +4,8 @@ import { evaluateRule } from '../shared/ruleEngine.js';
 // Import the function directly from its source file
 import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 import { stateManagerProxySingleton as stateManager } from '../stateManager/index.js';
+import settingsManager from '../../app/core/settingsManager.js';
+import eventBusCore from '../../app/core/eventBus.js';
 // eventBus will be injected during module initialization
 let eventBus = null;
 
@@ -53,6 +55,305 @@ class CommonUI {
     //  `[CommonUI] ${contextMessage}: Encountered ${this.unknownEvaluationCount} unresolved rule evaluations (undefined).`
     //);
     return this.unknownEvaluationCount;
+  }
+
+  /**
+   * Helper method to create location info elements for an item
+   * @param {string} itemName - The name of the item to find locations for
+   * @param {object} snapshot - The current state snapshot (optional, will fetch if not provided)
+   * @returns {HTMLElement|null} - Element containing location links or null if no locations found
+   */
+  _createItemLocationInfo(itemName, snapshot = null) {
+    // Get snapshot and static data if not provided
+    if (!snapshot) {
+      snapshot = stateManager.getLatestStateSnapshot();
+    }
+    const staticData = stateManager.getStaticData();
+
+    if (!snapshot?.locationItems || !staticData?.locations) {
+      return null;
+    }
+
+    // Find all locations that have this item
+    const locationInfos = [];
+    for (const [locName, itemData] of Object.entries(snapshot.locationItems)) {
+      if (itemData && itemData.name === itemName) {
+        // Get the location's region from static data
+        const locData = Object.values(staticData.locations).find(l => l.name === locName);
+        if (locData) {
+          locationInfos.push({
+            locationName: locName,
+            regionName: locData.region || locData.parent_region
+          });
+        }
+      }
+    }
+
+    if (locationInfos.length === 0) {
+      return null;
+    }
+
+    // Create container for location info
+    const container = document.createElement('span');
+    container.style.fontSize = '0.9em';
+    container.style.fontStyle = 'italic';
+
+    const fromText = document.createElement('span');
+    fromText.textContent = ' (from ';
+    fromText.style.color = '#999';
+    container.appendChild(fromText);
+
+    // Add all location links
+    locationInfos.forEach((locationInfo, index) => {
+      if (index > 0) {
+        const separator = document.createElement('span');
+        separator.textContent = index === locationInfos.length - 1 ? ' or ' : ', ';
+        separator.style.color = '#999';
+        container.appendChild(separator);
+      }
+
+      const locLink = this.createLocationLink(
+        locationInfo.locationName,
+        locationInfo.regionName,
+        false,  // Don't use colorblind mode for inline text
+        snapshot
+      );
+      container.appendChild(locLink);
+    });
+
+    const closeParen = document.createElement('span');
+    closeParen.textContent = ')';
+    closeParen.style.color = '#999';
+    container.appendChild(closeParen);
+
+    return container;
+  }
+
+  /**
+   * Extracts a specific helper function from the helper file code
+   * @param {string} fileContent - The full content of the helper file
+   * @param {string} functionName - The name of the helper function to extract
+   * @returns {string|null} - The extracted function code or null if not found
+   */
+  _extractHelperFunction(fileContent, functionName) {
+    // Try to find the function definition
+    // Look for patterns like: functionName(args) { ... } or functionName: function(args) { ... }
+
+    // Pattern 1: Regular function declaration
+    const funcPattern1 = new RegExp(
+      `function\\s+${functionName}\\s*\\([^)]*\\)\\s*\\{`,
+      'g'
+    );
+
+    // Pattern 2: Method in an object
+    const funcPattern2 = new RegExp(
+      `${functionName}\\s*:\\s*function\\s*\\([^)]*\\)\\s*\\{`,
+      'g'
+    );
+
+    // Pattern 3: Arrow function
+    const funcPattern3 = new RegExp(
+      `(?:const|let|var)\\s+${functionName}\\s*=\\s*\\([^)]*\\)\\s*=>\\s*\\{`,
+      'g'
+    );
+
+    // Pattern 4: Method shorthand in object
+    const funcPattern4 = new RegExp(
+      `${functionName}\\s*\\([^)]*\\)\\s*\\{`,
+      'g'
+    );
+
+    let match = null;
+    let startIndex = -1;
+
+    // Try each pattern
+    for (const pattern of [funcPattern1, funcPattern2, funcPattern3, funcPattern4]) {
+      pattern.lastIndex = 0; // Reset regex
+      match = pattern.exec(fileContent);
+      if (match) {
+        startIndex = match.index;
+        break;
+      }
+    }
+
+    if (startIndex === -1) {
+      return null;
+    }
+
+    // Extract the function body by counting braces
+    let braceCount = 0;
+    let inString = false;
+    let stringChar = null;
+    let escaped = false;
+    let functionEnd = startIndex;
+
+    for (let i = startIndex; i < fileContent.length; i++) {
+      const char = fileContent[i];
+      const prevChar = i > 0 ? fileContent[i - 1] : '';
+
+      // Handle string literals
+      if (!escaped && (char === '"' || char === "'" || char === '`')) {
+        if (!inString) {
+          inString = true;
+          stringChar = char;
+        } else if (char === stringChar) {
+          inString = false;
+          stringChar = null;
+        }
+      }
+
+      // Handle escape characters
+      escaped = !escaped && prevChar === '\\';
+
+      // Count braces only outside of strings
+      if (!inString) {
+        if (char === '{') {
+          braceCount++;
+        } else if (char === '}') {
+          braceCount--;
+          if (braceCount === 0) {
+            functionEnd = i + 1;
+            break;
+          }
+        }
+      }
+    }
+
+    return fileContent.substring(startIndex, functionEnd);
+  }
+
+  /**
+   * Formats helper function code with item highlighting and location links
+   * @param {string} code - The helper function code
+   * @param {object} stateSnapshotInterface - Interface for state evaluation
+   * @returns {HTMLElement} - Formatted code element
+   */
+  async _formatHelperCode(code, stateSnapshotInterface) {
+    const container = document.createElement('pre');
+    container.style.margin = '0';
+    container.style.whiteSpace = 'pre-wrap';
+    container.style.wordWrap = 'break-word';
+
+    // Get snapshot and static data
+    const snapshot = stateSnapshotInterface?._snapshot || stateManager.getLatestStateSnapshot();
+    const staticData = stateManager.getStaticData();
+
+    if (!snapshot || !staticData?.items) {
+      container.textContent = code;
+      return container;
+    }
+
+    // Get all item names from static data
+    const itemNames = Object.keys(staticData.items);
+
+    // Check if showLocationItems is enabled
+    const showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
+
+    // Create a regex pattern to match item names in quotes
+    // Match items in single quotes, double quotes, or as identifiers
+    const itemPatterns = itemNames.map(name => {
+      // Escape special regex characters in item names
+      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return escaped;
+    });
+
+    if (itemPatterns.length === 0) {
+      container.textContent = code;
+      return container;
+    }
+
+    // Create regex to match items in quotes or as identifiers
+    const itemRegex = new RegExp(
+      `(['"])(${itemPatterns.join('|')})\\1|\\b(${itemPatterns.join('|')})\\b`,
+      'g'
+    );
+
+    let lastIndex = 0;
+    let match;
+
+    while ((match = itemRegex.exec(code)) !== null) {
+      // Add text before the match
+      if (match.index > lastIndex) {
+        const textNode = document.createTextNode(code.substring(lastIndex, match.index));
+        container.appendChild(textNode);
+      }
+
+      // Get the matched item name (could be from group 2 or 3)
+      const itemName = match[2] || match[3];
+      const fullMatch = match[0];
+
+      // Check if this item has a count in inventory
+      const itemCount = snapshot.inventory?.[itemName] || 0;
+      const hasItem = itemCount > 0;
+
+      // Create a span for the item
+      const itemSpan = document.createElement('span');
+      itemSpan.textContent = fullMatch;
+      itemSpan.style.fontWeight = 'bold';
+
+      // Apply color based on whether player has the item
+      if (hasItem) {
+        itemSpan.style.color = '#00ff00'; // Green if player has item
+        itemSpan.title = `You have ${itemCount} ${itemName}`;
+      } else {
+        itemSpan.style.color = '#ff9999'; // Light red if player doesn't have item
+        itemSpan.title = `You need ${itemName}`;
+      }
+
+      container.appendChild(itemSpan);
+
+      // Add expandable location info if enabled and item not yet obtained
+      if (showLocationItems && !hasItem) {
+        const locationInfo = this._createItemLocationInfo(itemName, snapshot);
+        if (locationInfo) {
+          // Create an expand button
+          const expandBtn = document.createElement('button');
+          expandBtn.textContent = '[+]';
+          expandBtn.style.marginLeft = '4px';
+          expandBtn.style.fontSize = '10px';
+          expandBtn.style.padding = '0 2px';
+          expandBtn.style.cursor = 'pointer';
+          expandBtn.style.border = '1px solid #666';
+          expandBtn.style.backgroundColor = '#333';
+          expandBtn.style.color = '#ccc';
+          expandBtn.title = `Show where to find ${itemName}`;
+
+          // Create container for location info
+          const locationContainer = document.createElement('span');
+          locationContainer.style.display = 'none';
+          locationContainer.style.fontSize = '0.9em';
+          locationContainer.appendChild(locationInfo);
+
+          let isExpanded = false;
+          expandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+              expandBtn.textContent = '[-]';
+              expandBtn.title = `Hide location info for ${itemName}`;
+              locationContainer.style.display = 'inline';
+            } else {
+              expandBtn.textContent = '[+]';
+              expandBtn.title = `Show where to find ${itemName}`;
+              locationContainer.style.display = 'none';
+            }
+          });
+
+          container.appendChild(expandBtn);
+          container.appendChild(locationContainer);
+        }
+      }
+
+      lastIndex = match.index + fullMatch.length;
+    }
+
+    // Add any remaining text after the last match
+    if (lastIndex < code.length) {
+      const textNode = document.createTextNode(code.substring(lastIndex));
+      container.appendChild(textNode);
+    }
+
+    return container;
   }
 
   /**
@@ -151,10 +452,13 @@ class CommonUI {
 
       case 'item_check': {
         let itemText = '';
+        let itemName = null;
         if (typeof rule.item === 'string') {
           itemText = rule.item;
+          itemName = rule.item;
         } else if (rule.item && rule.item.type === 'constant') {
           itemText = rule.item.value;
+          itemName = rule.item.value;
         } else if (rule.item) {
           itemText = `(complex expression)`;
 
@@ -177,17 +481,50 @@ class CommonUI {
         }
 
         root.appendChild(document.createTextNode(` item: ${itemText}`));
+
+        // Add location info if showLocationItems is enabled and we have a simple item name
+        if (itemName && typeof itemName === 'string') {
+          // Create a placeholder for location info that will be filled async
+          const locationPlaceholder = document.createElement('span');
+          locationPlaceholder.classList.add('location-info-placeholder');
+          locationPlaceholder.dataset.itemName = itemName;
+          root.appendChild(locationPlaceholder);
+
+          // Check if setting is enabled (async)
+          settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showLocationItems => {
+            if (showLocationItems && locationPlaceholder.parentNode) {
+              // Get the CURRENT snapshot at the time of rendering, not the one from closure
+              const currentSnapshot = stateSnapshotInterface?._snapshot || stateManager.getLatestStateSnapshot();
+              const locationInfo = this._createItemLocationInfo(itemName, currentSnapshot);
+              if (locationInfo) {
+                // Replace the placeholder with the actual location info
+                locationPlaceholder.replaceWith(locationInfo);
+              } else {
+                // Remove placeholder if no location info
+                locationPlaceholder.remove();
+              }
+            } else {
+              // Remove placeholder if setting is disabled
+              if (locationPlaceholder.parentNode) {
+                locationPlaceholder.remove();
+              }
+            }
+          });
+        }
         break;
       }
 
       case 'count_check': {
         let itemText = '';
+        let itemName = null;
         let countText = rule.count || 1;
 
         if (typeof rule.item === 'string') {
           itemText = rule.item;
+          itemName = rule.item;
         } else if (rule.item && rule.item.type === 'constant') {
           itemText = rule.item.value;
+          itemName = rule.item.value;
         } else if (rule.item) {
           itemText = '(complex expression)';
         }
@@ -203,6 +540,36 @@ class CommonUI {
         root.appendChild(
           document.createTextNode(` ${itemText} >= ${countText}`)
         );
+
+        // Add location info if showLocationItems is enabled and we have a simple item name
+        if (itemName && typeof itemName === 'string') {
+          // Create a placeholder for location info that will be filled async
+          const locationPlaceholder = document.createElement('span');
+          locationPlaceholder.classList.add('location-info-placeholder');
+          locationPlaceholder.dataset.itemName = itemName;
+          root.appendChild(locationPlaceholder);
+
+          // Check if setting is enabled (async)
+          settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showLocationItems => {
+            if (showLocationItems && locationPlaceholder.parentNode) {
+              // Get the CURRENT snapshot at the time of rendering, not the one from closure
+              const currentSnapshot = stateSnapshotInterface?._snapshot || stateManager.getLatestStateSnapshot();
+              const locationInfo = this._createItemLocationInfo(itemName, currentSnapshot);
+              if (locationInfo) {
+                // Replace the placeholder with the actual location info
+                locationPlaceholder.replaceWith(locationInfo);
+              } else {
+                // Remove placeholder if no location info
+                locationPlaceholder.remove();
+              }
+            } else {
+              // Remove placeholder if setting is disabled
+              if (locationPlaceholder.parentNode) {
+                locationPlaceholder.remove();
+              }
+            }
+          });
+        }
 
         // Add visualization for complex expressions
         const hasComplexItem =
@@ -285,8 +652,99 @@ class CommonUI {
       }
 
       case 'helper': {
-        // Display helper name
+        // Display helper name with expand/collapse button
         root.appendChild(document.createTextNode(` helper: ${rule.name}`));
+
+        // Add expand/collapse button for helper code
+        const expandBtn = document.createElement('button');
+        expandBtn.textContent = '[+]';
+        expandBtn.style.marginLeft = '8px';
+        expandBtn.style.fontSize = '12px';
+        expandBtn.style.padding = '0 4px';
+        expandBtn.style.cursor = 'pointer';
+        expandBtn.style.border = '1px solid #666';
+        expandBtn.style.backgroundColor = '#333';
+        expandBtn.style.color = '#ccc';
+        expandBtn.title = 'Show helper function code';
+
+        // Container for the helper code (initially hidden)
+        const codeContainer = document.createElement('div');
+        codeContainer.style.display = 'none';
+        codeContainer.style.marginTop = '8px';
+        codeContainer.style.marginLeft = '20px';
+        codeContainer.style.padding = '8px';
+        codeContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+        codeContainer.style.border = '1px solid #444';
+        codeContainer.style.borderRadius = '4px';
+        codeContainer.style.fontFamily = 'monospace';
+        codeContainer.style.fontSize = '12px';
+        codeContainer.style.whiteSpace = 'pre-wrap';
+        codeContainer.style.overflowX = 'auto';
+
+        let isExpanded = false;
+        let codeLoaded = false;
+
+        expandBtn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          isExpanded = !isExpanded;
+
+          if (isExpanded) {
+            expandBtn.textContent = '[-]';
+            expandBtn.title = 'Hide helper function code';
+            codeContainer.style.display = 'block';
+
+            // Load code if not already loaded
+            if (!codeLoaded) {
+              codeContainer.textContent = 'Loading...';
+
+              try {
+                // Get static data to determine game directory
+                const staticData = stateManager.getStaticData();
+                const gameDir = staticData?.game_directory;
+
+                if (!gameDir) {
+                  throw new Error('Game directory not found in static data');
+                }
+
+                // Construct the path to the helper file
+                const helperPath = `/frontend/modules/shared/gameLogic/${gameDir}/${gameDir}Logic.js`;
+
+                // Fetch the helper file
+                const response = await fetch(helperPath);
+                if (!response.ok) {
+                  throw new Error(`Failed to load helper file: ${response.status}`);
+                }
+
+                const helperCode = await response.text();
+
+                // Extract the specific helper function
+                const helperFunctionCode = this._extractHelperFunction(helperCode, rule.name);
+
+                if (helperFunctionCode) {
+                  // Create a container for the formatted code
+                  codeContainer.innerHTML = '';
+
+                  // Always format the code to highlight item names
+                  const formattedCode = await this._formatHelperCode(helperFunctionCode, stateSnapshotInterface);
+                  codeContainer.appendChild(formattedCode);
+
+                  codeLoaded = true;
+                } else {
+                  codeContainer.textContent = `Helper function '${rule.name}' not found in ${helperPath}`;
+                }
+              } catch (error) {
+                log('error', `Failed to load helper function: ${error.message}`);
+                codeContainer.textContent = `Error loading helper: ${error.message}`;
+              }
+            }
+          } else {
+            expandBtn.textContent = '[+]';
+            expandBtn.title = 'Show helper function code';
+            codeContainer.style.display = 'none';
+          }
+        });
+
+        root.appendChild(expandBtn);
 
         // Process arguments for display
         if (rule.args && rule.args.length > 0) {
@@ -354,6 +812,9 @@ class CommonUI {
 
           root.appendChild(argsContainer);
         }
+
+        // Add the code container to the root
+        root.appendChild(codeContainer);
         break;
       }
 
@@ -919,25 +1380,32 @@ class CommonUI {
     link.dataset.region = regionName;
     link.title = `Click to view ${locationName} in the ${regionName} region`;
 
-    // Find the location data FROM THE SNAPSHOT
-    let locationData = null;
-    for (const loc of snapshot?.locations || []) {
-      if (loc.name === locationName && loc.region === regionName) {
-        locationData = loc;
-        break;
-      }
-    }
+    // Get location accessibility from locationReachability in the snapshot
+    const locationReachability = snapshot?.locationReachability?.[locationName];
+    const isLocationAccessible = locationReachability === 'reachable' || locationReachability === true;
 
-    // Determine if location is accessible and checked FROM THE SNAPSHOT
-    const isAccessible = locationData?.isAccessible === true;
+    // Check if location is checked
     const checkedLocations = new Set(snapshot?.checkedLocations || []);
     const isChecked = checkedLocations.has(locationName);
 
-    // Set appropriate class
+    // Check if the region is accessible
+    const regionStatus = snapshot?.regionReachability?.[regionName];
+    const isRegionAccessible = (
+      regionStatus === 'reachable' ||
+      regionStatus === 'checked' ||
+      regionStatus === true
+    );
+
+    // Location is only truly accessible if both location AND region are accessible
+    const isFullyAccessible = isLocationAccessible && isRegionAccessible;
+
+    // Set appropriate class based on accessibility state
     if (isChecked) {
       link.classList.add('checked-loc');
-    } else if (isAccessible) {
+    } else if (isFullyAccessible) {
       link.classList.add('accessible');
+    } else if (isLocationAccessible && !isRegionAccessible) {
+      link.classList.add('accessible-but-unreachable');
     } else {
       link.classList.add('inaccessible');
     }
@@ -947,9 +1415,12 @@ class CommonUI {
       const symbolSpan = document.createElement('span');
       symbolSpan.classList.add('colorblind-symbol');
 
-      if (isAccessible) {
+      if (isFullyAccessible) {
         symbolSpan.textContent = ' ✓';
         symbolSpan.classList.add('accessible');
+      } else if (isLocationAccessible && !isRegionAccessible) {
+        symbolSpan.textContent = ' ⚠';
+        symbolSpan.classList.add('accessible-but-unreachable');
       } else {
         symbolSpan.textContent = ' ✗';
         symbolSpan.classList.add('inaccessible');
@@ -961,18 +1432,25 @@ class CommonUI {
     // Add click handler
     link.addEventListener('click', (e) => {
       e.stopPropagation();
-      
-      if (!eventBus) {
-        log('error', '[commonUI] eventBus not available - cannot publish events');
+
+      // Use injected eventBus if available, otherwise fall back to imported eventBusCore
+      const activeEventBus = eventBus || eventBusCore;
+
+      if (!activeEventBus) {
+        log('error', '[commonUI] No eventBus available - cannot publish events. Location: ' + locationName);
         return;
       }
-      
-      // Publish an event with location and region names
+
+      // First activate the Regions panel
+      activeEventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'commonUI');
+      log('info', `[commonUI] Published ui:activatePanel for regionsPanel.`);
+
+      // Then publish navigation to the location
       log(
         'info',
         `[commonUI] Publishing ui:navigateToLocation for ${locationName} in ${regionName}`
       );
-      eventBus.publish('ui:navigateToLocation', {
+      activeEventBus.publish('ui:navigateToLocation', {
         locationName: locationName,
         regionName: regionName,
       }, 'commonUI');

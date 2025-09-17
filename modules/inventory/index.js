@@ -17,7 +17,11 @@ function log(level, message, ...data) {
 
 // --- Module Info ---
 export const moduleInfo = {
-  name: 'Inventory',
+  name: 'inventory',
+  title: 'Inventory',
+  componentType: 'inventoryPanel',
+  icon: '🎒',
+  column: 1, // Left column
   description: 'Inventory display panel.',
 };
 

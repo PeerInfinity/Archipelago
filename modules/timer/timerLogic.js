@@ -34,8 +34,8 @@ export class TimerLogic {
       this.dispatcher
     );
 
-    this.minCheckDelay = 5; //30; // Default minimum delay in seconds
-    this.maxCheckDelay = 5; //60; // Default maximum delay in seconds
+    this.minCheckDelay = 0; //30; // Default minimum delay in seconds
+    this.maxCheckDelay = 0; //60; // Default maximum delay in seconds
     this.gameInterval = null;
     this.startTime = 0;
     this.endTime = 0;

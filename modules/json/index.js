@@ -13,9 +13,12 @@ function log(level, message, ...data) {
 
 // Module Info
 export const moduleInfo = {
-  name: 'JSON Operations',
-  description:
-    'Manages loading, combining, and saving of various application JSON data sources and modes.',
+  name: 'json',
+  title: 'JSON',
+  componentType: 'jsonPanel',
+  icon: '📄',
+  column: 1, // Left column,
+  description: 'Manages loading, combining, and saving of various application JSON data sources and modes.',
 };
 
 /**

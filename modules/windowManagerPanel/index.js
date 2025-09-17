@@ -1,6 +1,16 @@
 // windowManagerPanel module entry point
 import { WindowManagerUI } from './windowManagerUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'windowManagerPanel',
+  title: 'Window Manager',
+  componentType: 'windowManagerPanel',
+  icon: '🪟',
+  column: 2, // Middle column
+  description: 'Window Manager display panel.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

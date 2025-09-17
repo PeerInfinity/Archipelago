@@ -33,7 +33,7 @@ export class PresetUI {
 
     // Defer the rest of initialization (fetching data, rendering)
     const readyHandler = (eventPayload) => {
-      log('info', 
+      log('info',
         '[PresetUI] Received app:readyForUiDataLoad. Initializing presets.'
       );
       this.initialize();
@@ -65,7 +65,7 @@ export class PresetUI {
     this.getRootElement();
 
     if (!this.presetsListContainer) {
-      log('error', 
+      log('error',
         'PresetUI: Could not find #presets-list container during initialization.'
       );
       this.initialized = false;
@@ -151,9 +151,9 @@ export class PresetUI {
     `;
 
     // Process each game
-    Object.entries(this.presets).forEach(([gameId, gameData]) => {
+    Object.entries(this.presets).forEach(([gameDirectory, gameData]) => {
       // Skip metadata entry
-      if (gameId === 'metadata') return;
+      if (gameDirectory === 'metadata') return;
       
       // Create a section for each game
       html += `
@@ -161,12 +161,12 @@ export class PresetUI {
           <h4 class="game-name">${this.escapeHtml(gameData.name)}</h4>
       `;
 
-      if (gameId === 'multiworld') {
+      if (gameDirectory === 'multiworld') {
         // Special layout for multiworld - block format
         html += `</div>`; // Close the inline game-row
         html += `<div class="multiworld-container">`;
         html += `<div class="multiworld-seeds">`;
-        Object.entries(gameData.folders).forEach(([folderId, folderData]) => {
+        Object.entries(gameData.folders).forEach(([seedName, folderData]) => {
           html += `<div class="multiworld-seed-block">`;
           html += `<span class="seed-number">Seed: ${this.escapeHtml(
             folderData.seed
@@ -176,8 +176,8 @@ export class PresetUI {
             html += `
               <div class="player-info">
                 <button class="preset-player-button"
-                        data-game="${this.escapeHtml(gameId)}"
-                        data-folder="${this.escapeHtml(folderId)}"
+                        data-game-directory="${this.escapeHtml(gameDirectory)}"
+                        data-seed-name="${this.escapeHtml(seedName)}"
                         data-player="${this.escapeHtml(playerGame.player)}"
                         title="Load Player ${this.escapeHtml(
                           playerGame.player
@@ -198,11 +198,11 @@ export class PresetUI {
       } else {
         // Standard layout for single-player games
         html += `<div class="game-presets">`;
-        Object.entries(gameData.folders).forEach(([folderId, folderData]) => {
+        Object.entries(gameData.folders).forEach(([seedName, folderData]) => {
           html += `
             <button class="preset-button"
-                    data-game="${this.escapeHtml(gameId)}"
-                    data-folder="${this.escapeHtml(folderId)}"
+                    data-game-directory="${this.escapeHtml(gameDirectory)}"
+                    data-seed-name="${this.escapeHtml(seedName)}"
                     title="${this.escapeHtml(
                       folderData.description || `Seed ${folderData.seed}`
                     )}">
@@ -216,7 +216,7 @@ export class PresetUI {
       }
 
       // Close the game section (only for non-multiworld)
-      if (gameId !== 'multiworld') {
+      if (gameDirectory !== 'multiworld') {
         html += `
           </div>
         `;
@@ -470,24 +470,24 @@ export class PresetUI {
     );
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
-        const gameId = button.getAttribute('data-game');
-        const folderId = button.getAttribute('data-folder');
+        const gameDirectory = button.getAttribute('data-game-directory');
+        const seedName = button.getAttribute('data-seed-name');
         const playerId = button.getAttribute('data-player'); // Will be null for standard buttons
 
         if (playerId) {
-          log('info', 
-            `Loading preset ${folderId} from game ${gameId} for player ${playerId}`
+          log('info',
+            `Loading preset ${seedName} from game ${gameDirectory} for player ${playerId}`
           );
-          this.currentGame = gameId;
-          this.currentPreset = folderId;
+          this.currentGameDirectory = gameDirectory;
+          this.currentSeedName = seedName;
           this.currentPlayer = playerId; // Store current player
-          this.loadPreset(gameId, folderId, playerId);
+          this.loadPreset(gameDirectory, seedName, playerId);
         } else {
-          log('info', `Loading preset ${folderId} from game ${gameId}`);
-          this.currentGame = gameId;
-          this.currentPreset = folderId;
+          log('info', `Loading preset ${seedName} from game ${gameDirectory}`);
+          this.currentGameDirectory = gameDirectory;
+          this.currentSeedName = seedName;
           this.currentPlayer = null; // Clear current player
-          this.loadPreset(gameId, folderId); // No player ID for standard presets
+          this.loadPreset(gameDirectory, seedName); // No player ID for standard presets
         }
       });
     });
@@ -550,7 +550,7 @@ export class PresetUI {
     try {
       if (this.componentState) {
         this.componentState.currentRules = rulesData;
-        this.componentState.currentGameId = rulesData.game || 'unknown_game'; // Try to get game from JSON
+        this.componentState.currentGameName = rulesData.game_name || 'unknown_game'; // Try to get game name from JSON
         this.componentState.currentPlayerId = playerId;
       } else {
         log('warn', 
@@ -603,21 +603,21 @@ export class PresetUI {
     }
   }
 
-  loadPreset(gameId, folderId, playerId = null) {
-    this.currentGame = gameId;
-    this.currentPreset = folderId;
+  loadPreset(gameDirectory, seedName, playerId = null) {
+    this.currentGameDirectory = gameDirectory;
+    this.currentSeedName = seedName;
     this.currentPlayer = playerId;
 
     const container = this.presetsListContainer;
     if (!container) return;
 
     try {
-      const gameData = this.presets[gameId];
-      const folderData = gameData.folders[folderId];
+      const gameData = this.presets[gameDirectory];
+      const folderData = gameData.folders[seedName];
 
       // Build the HTML for the preset details
       let headerTitle = `${this.escapeHtml(gameData.name)} - Preset`;
-      if (playerId && gameId === 'multiworld') {
+      if (playerId && gameDirectory === 'multiworld') {
         const playerInfo = folderData.games.find((p) => p.player == playerId);
         if (playerInfo) {
           headerTitle = `Multiworld Seed ${this.escapeHtml(
@@ -646,7 +646,7 @@ export class PresetUI {
 
       // Add links for each file
       folderData.files.forEach((file) => {
-        const filePath = `./presets/${gameId}/${folderId}/${file}`;
+        const filePath = `./presets/${gameDirectory}/${seedName}/${file}`;
         html += `
           <a class="preset-file-link" href="${filePath}" target="_blank" data-file="${file}">${file}</a><br/>
         `;
@@ -680,14 +680,14 @@ export class PresetUI {
           // If this is a rules.json file, load it into the game
           if (file.endsWith('_rules.json')) {
             e.preventDefault(); // Prevent opening in a new tab
-            this.loadRulesFile(gameId, folderId, file, playerId);
+            this.loadRulesFile(gameDirectory, seedName, file, playerId);
           }
         });
       });
 
       // Automatically load the rules.json file for this preset/player
       let rulesFile = null;
-      if (playerId && gameId === 'multiworld') {
+      if (playerId && gameDirectory === 'multiworld') {
         rulesFile = folderData.files.find((file) =>
           file.endsWith(`_P${playerId}_rules.json`)
         );
@@ -727,7 +727,7 @@ export class PresetUI {
           );
         }
 
-        this.loadRulesFile(gameId, folderId, rulesFile, effectivePlayerId);
+        this.loadRulesFile(gameDirectory, seedName, rulesFile, effectivePlayerId);
       } else {
         log('warn', 
           'No suitable rules.json file found for automatic loading.'
@@ -764,8 +764,8 @@ export class PresetUI {
     }
   }
 
-  async loadRulesFile(gameId, folderId, rulesFile, playerId = '1') {
-    const fullPath = `./presets/${gameId}/${folderId}/${rulesFile}`;
+  async loadRulesFile(gameDirectory, seedName, rulesFile, playerId = '1') {
+    const fullPath = `./presets/${gameDirectory}/${seedName}/${rulesFile}`;
     log('info', `Loading rules file: ${fullPath}`);
     try {
       const response = await fetch(fullPath);
@@ -779,23 +779,23 @@ export class PresetUI {
       // Ensure componentState exists before trying to set properties on it
       if (this.componentState) {
         this.componentState.currentRules = rulesData;
-        this.componentState.currentGameId = gameId;
+        this.componentState.currentGameDirectory = gameDirectory;
         this.componentState.currentPlayerId = playerId; // Store the determined player ID
       } else {
         // If componentState is not available, these assignments would fail.
         // Log a warning, as this might indicate an issue with panel state management.
         log('warn', 
-          '[PresetUI] loadRulesFile: this.componentState is undefined. Cannot store currentRules, currentGameId, or currentPlayerId. This might be normal if the panel was just created and no state has been saved yet, or it could indicate an issue with GoldenLayout state persistence for this component.'
+          '[PresetUI] loadRulesFile: this.componentState is undefined. Cannot store currentRules, currentGameDirectory, or currentPlayerId. This might be normal if the panel was just created and no state has been saved yet, or it could indicate an issue with GoldenLayout state persistence for this component.'
         );
         // As a fallback, we can store these on the instance if needed for immediate use,
         // but they won't be persisted by GoldenLayout.
         // this.currentRules_fallback = rulesData;
-        // this.currentGameId_fallback = gameId;
+        // this.currentGameDirectory_fallback = gameDirectory;
         // this.currentPlayerId_fallback = playerId;
       }
 
-      log('info', 
-        `Rules loaded for ${gameId}, player ${playerId}. Publishing files:jsonLoaded.`
+      log('info',
+        `Rules loaded for ${gameDirectory}, player ${playerId}. Publishing files:jsonLoaded.`
       );
       eventBus.publish('files:jsonLoaded', {
         fileName: rulesFile,
@@ -921,34 +921,86 @@ export class PresetUI {
   }
 
   renderTestResultBadge(gameData) {
-    const testResult = gameData.test_result;
+    let testResult = gameData.test_result;
     if (!testResult) {
       return '<div class="test-badge test-badge-unknown">No Test Data</div>';
     }
 
+    // Handle multiple test results - pick first failure or first pass
+    if (Array.isArray(testResult)) {
+      // Look for the first failure
+      const firstFailure = testResult.find(result => result.status && result.status.toLowerCase() === 'failed');
+      if (firstFailure) {
+        testResult = firstFailure;
+      } else {
+        // No failures found, use the first pass (or first result if none passed)
+        const firstPass = testResult.find(result => result.status && result.status.toLowerCase() === 'passed');
+        testResult = firstPass || testResult[0];
+      }
+      
+      // If still no valid result, return unknown
+      if (!testResult) {
+        return '<div class="test-badge test-badge-unknown">No Test Data</div>';
+      }
+    }
+
     const status = testResult.status || 'unknown';
+    const seedRangeInfo = testResult.seed_range_info;
+    
     let badgeClass = 'test-badge-unknown';
     let statusText = 'Unknown';
     let statusIcon = '❓';
 
-    switch (status.toLowerCase()) {
-      case 'passed':
+    // Check if this is seed range data
+    if (seedRangeInfo) {
+      // Handle seed range results
+      if (status.toLowerCase() === 'passed') {
         badgeClass = 'test-badge-passed';
-        statusText = 'Passed';
+        statusText = `Passed seeds ${seedRangeInfo.seed_range}`;
         statusIcon = '✅';
-        break;
-      case 'failed':
+      } else if (status.toLowerCase() === 'failed') {
         badgeClass = 'test-badge-failed';
-        statusText = 'Failed';
+        if (seedRangeInfo.first_failure_seed) {
+          statusText = `Failed seed ${seedRangeInfo.first_failure_seed}`;
+        } else {
+          statusText = `Failed (${seedRangeInfo.seeds_failed}/${seedRangeInfo.total_seeds_tested})`;
+        }
         statusIcon = '❌';
-        break;
-      default:
-        statusText = 'Unknown';
-        statusIcon = '❓';
+      }
+    } else {
+      // Handle single seed results (original logic)
+      switch (status.toLowerCase()) {
+        case 'passed':
+          badgeClass = 'test-badge-passed';
+          statusText = 'Passed';
+          statusIcon = '✅';
+          break;
+        case 'failed':
+          badgeClass = 'test-badge-failed';
+          statusText = 'Failed';
+          statusIcon = '❌';
+          break;
+        default:
+          statusText = 'Unknown';
+          statusIcon = '❓';
+      }
     }
 
     // Build detailed tooltip content
     let tooltipContent = `Status: ${statusText}`;
+    
+    // Add seed range specific info to tooltip
+    if (seedRangeInfo) {
+      tooltipContent += `\nSeed Range: ${seedRangeInfo.seed_range}`;
+      tooltipContent += `\nSeeds Passed: ${seedRangeInfo.seeds_passed}/${seedRangeInfo.total_seeds_tested}`;
+      if (seedRangeInfo.consecutive_passes_before_failure > 0) {
+        tooltipContent += `\nConsecutive Passes: ${seedRangeInfo.consecutive_passes_before_failure}`;
+      }
+      if (seedRangeInfo.first_failure_seed) {
+        tooltipContent += `\nFirst Failure: Seed ${seedRangeInfo.first_failure_seed}`;
+      }
+    }
+    
     if (testResult.generation_errors > 0) {
       tooltipContent += `\nGeneration Errors: ${testResult.generation_errors}`;
     }
@@ -965,19 +1017,44 @@ export class PresetUI {
       tooltipContent += `\nCustom Game Logic: Yes`;
     }
 
+    // Build the badge display content
+    let badgeDisplayText = statusText;
+    let progressDisplay = '';
+    let errorDisplay = '';
+    
+    // For seed ranges, show cleaner format
+    if (seedRangeInfo) {
+      if (status.toLowerCase() === 'passed') {
+        badgeDisplayText = 'Passed';
+        progressDisplay = `<div class="test-progress">Seeds ${seedRangeInfo.seed_range}</div>`;
+      } else if (status.toLowerCase() === 'failed') {
+        badgeDisplayText = 'Failed';
+        if (seedRangeInfo.first_failure_seed) {
+          progressDisplay = `<div class="test-progress">Seed ${seedRangeInfo.first_failure_seed}</div>`;
+        } else {
+          // Fallback if no first_failure_seed is specified
+          progressDisplay = `<div class="test-progress">${seedRangeInfo.seeds_failed} failed</div>`;
+        }
+      }
+    } else {
+      // Single seed display (original)
+      badgeDisplayText = statusText;
+      if (testResult.max_spheres > 0) {
+        progressDisplay = `<div class="test-progress">${testResult.sphere_reached}/${testResult.max_spheres}</div>`;
+      }
+    }
+    
+    if (testResult.generation_errors > 0) {
+      errorDisplay = `<div class="test-errors">${testResult.generation_errors} errors</div>`;
+    }
+
     return `
       <div class="test-badge ${badgeClass}" title="${this.escapeHtml(tooltipContent)}">
         <span class="test-icon">${statusIcon}</span>
         <div class="test-details">
-          <div class="test-status">${statusText}</div>
-          ${testResult.max_spheres > 0 ? 
-            `<div class="test-progress">${testResult.sphere_reached}/${testResult.max_spheres}</div>` 
-            : ''
-          }
-          ${testResult.generation_errors > 0 ? 
-            `<div class="test-errors">${testResult.generation_errors} errors</div>` 
-            : ''
-          }
+          <div class="test-status">${badgeDisplayText}</div>
+          ${progressDisplay}
+          ${errorDisplay}
         </div>
       </div>
     `;

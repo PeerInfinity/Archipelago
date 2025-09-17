@@ -1,6 +1,7 @@
 {
   "schema_version": 3,
   "game_name": "A Link to the Past",
+  "game_directory": "alttp",
   "archipelago_version": "0.6.4",
   "generation_seed": 2,
   "player_names": {
@@ -5378,33 +5379,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "function_call",
-                      "function": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "state"
-                          },
-                          "attr": "multiworld"
-                        },
-                        "attr": "get_region"
-                      },
-                      "args": [
-                        {
-                          "type": "constant",
-                          "value": "Desert Palace Main (Outer)"
-                        }
-                      ]
-                    },
-                    "attr": "can_reach"
-                  },
-                  "args": []
+                  "type": "helper",
+                  "name": "can_reach_region",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": "Desert Palace Main (Outer)"
+                    }
+                  ]
                 },
                 {
                   "type": "and",
@@ -14596,12 +14578,9 @@
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "world"
-                                      },
-                                      "attr": "can_take_damage"
+                                      "type": "helper",
+                                      "name": "can_take_damage",
+                                      "args": []
                                     },
                                     {
                                       "type": "or",
@@ -19035,12 +19014,9 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "world"
-                          },
-                          "attr": "can_take_damage"
+                          "type": "helper",
+                          "name": "can_take_damage",
+                          "args": []
                         },
                         {
                           "type": "helper",
@@ -24821,52 +24797,18 @@
                           "args": []
                         },
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "subscript",
-                              "value": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "attribute",
-                                    "object": {
-                                      "type": "function_call",
-                                      "function": {
-                                        "type": "attribute",
-                                        "object": {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "state"
-                                          },
-                                          "attr": "multiworld"
-                                        },
-                                        "attr": "get_location"
-                                      },
-                                      "args": [
-                                        {
-                                          "type": "constant",
-                                          "value": "Ganons Tower - Big Key Room - Left"
-                                        }
-                                      ]
-                                    },
-                                    "attr": "parent_region"
-                                  },
-                                  "attr": "dungeon"
-                                },
-                                "attr": "bosses"
-                              },
-                              "index": {
-                                "type": "constant",
-                                "value": "bottom"
-                              }
+                          "type": "helper",
+                          "name": "can_defeat_boss",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": "Ganons Tower - Big Key Room - Left"
                             },
-                            "attr": "can_defeat"
-                          },
-                          "args": []
+                            {
+                              "type": "constant",
+                              "value": "bottom"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -24917,52 +24859,18 @@
                           "args": []
                         },
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "subscript",
-                              "value": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "attribute",
-                                    "object": {
-                                      "type": "function_call",
-                                      "function": {
-                                        "type": "attribute",
-                                        "object": {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "state"
-                                          },
-                                          "attr": "multiworld"
-                                        },
-                                        "attr": "get_location"
-                                      },
-                                      "args": [
-                                        {
-                                          "type": "constant",
-                                          "value": "Ganons Tower - Big Key Room - Right"
-                                        }
-                                      ]
-                                    },
-                                    "attr": "parent_region"
-                                  },
-                                  "attr": "dungeon"
-                                },
-                                "attr": "bosses"
-                              },
-                              "index": {
-                                "type": "constant",
-                                "value": "bottom"
-                              }
+                          "type": "helper",
+                          "name": "can_defeat_boss",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": "Ganons Tower - Big Key Room - Right"
                             },
-                            "attr": "can_defeat"
-                          },
-                          "args": []
+                            {
+                              "type": "constant",
+                              "value": "bottom"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -25013,52 +24921,18 @@
                           "args": []
                         },
                         {
-                          "type": "function_call",
-                          "function": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "subscript",
-                              "value": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "attribute",
-                                    "object": {
-                                      "type": "function_call",
-                                      "function": {
-                                        "type": "attribute",
-                                        "object": {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "state"
-                                          },
-                                          "attr": "multiworld"
-                                        },
-                                        "attr": "get_location"
-                                      },
-                                      "args": [
-                                        {
-                                          "type": "constant",
-                                          "value": "Ganons Tower - Big Key Chest"
-                                        }
-                                      ]
-                                    },
-                                    "attr": "parent_region"
-                                  },
-                                  "attr": "dungeon"
-                                },
-                                "attr": "bosses"
-                              },
-                              "index": {
-                                "type": "constant",
-                                "value": "bottom"
-                              }
+                          "type": "helper",
+                          "name": "can_defeat_boss",
+                          "args": [
+                            {
+                              "type": "constant",
+                              "value": "Ganons Tower - Big Key Chest"
                             },
-                            "attr": "can_defeat"
-                          },
-                          "args": []
+                            {
+                              "type": "constant",
+                              "value": "bottom"
+                            }
+                          ]
                         }
                       ]
                     }

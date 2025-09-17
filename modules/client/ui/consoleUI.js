@@ -299,7 +299,7 @@ export class ConsoleUI {
 
   static handleSetDelayCommand(argsString, { centralRegistry, consoleManager }) {
     // Access the Timer module via the central registry
-    const timerModule = centralRegistry?.getPublicFunction('Timer', 'setCheckDelay');
+    const timerModule = centralRegistry?.getPublicFunction('timer', 'setCheckDelay');
     if (!timerModule) {
       consoleManager.print(
         'Cannot set delay: Timer module not available.',

@@ -870,6 +870,19 @@ select {
   color: #007bff;
 }
 
+/* Location link accessibility states */
+.location-link.accessible {
+  color: #00ff00; /* Green for accessible locations in accessible regions */
+}
+
+.location-link.accessible-but-unreachable {
+  color: #ffaa00; /* Orange for accessible locations in unreachable regions */
+}
+
+.location-link.inaccessible {
+  color: #ff0000; /* Red for inaccessible locations */
+}
+
 .region-paths {
   margin-top: 1rem;
   padding-top: 0.5rem;

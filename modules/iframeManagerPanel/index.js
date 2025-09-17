@@ -1,6 +1,16 @@
 // iframeManagerPanel module entry point
 import { IframeManagerUI } from './iframeManagerUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'iframeManagerPanel',
+  title: 'Iframe Manager',
+  componentType: 'iframeManagerPanel',
+  icon: '🖼️',
+  column: 2, // Middle column
+  description: 'Iframe Manager display panel.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

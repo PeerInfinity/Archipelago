@@ -2,8 +2,12 @@ import { MetaGamePanelUI } from './metaGamePanelUI.js';
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
 
 export const moduleInfo = {
-  name: 'MetaGamePanel',
-  description: 'UI panel for metaGame module configuration and management'
+  name: 'metaGamePanel',
+  title: 'Meta Game',
+  componentType: 'metaGamePanel',
+  icon: '🎯',
+  column: 2, // Middle column,
+  description: 'UI panel for metaGame module configuration and management',
 };
 
 export function register(registrationApi) {
@@ -37,9 +41,9 @@ export function initialize(moduleId, priorityIndex, initializationApi) {
   try {
     // Get access to metaGame module functions via centralRegistry
     const metaGameAPI = {
-      loadConfiguration: window.centralRegistry?.getPublicFunction('MetaGame', 'loadConfiguration'),
-      getStatus: window.centralRegistry?.getPublicFunction('MetaGame', 'getStatus'),
-      updateJSONConfiguration: window.centralRegistry?.getPublicFunction('MetaGame', 'updateJSONConfiguration')
+      loadConfiguration: window.centralRegistry?.getPublicFunction('metaGame', 'loadConfiguration'),
+      getStatus: window.centralRegistry?.getPublicFunction('metaGame', 'getStatus'),
+      updateJSONConfiguration: window.centralRegistry?.getPublicFunction('metaGame', 'updateJSONConfiguration')
     };
     
     logger.debug('metaGameAPI setup:', {

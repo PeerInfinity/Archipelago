@@ -1216,7 +1216,7 @@ export class TestSpoilerUI {
           // 3. Ping worker to ensure all commands are processed and state is stable.
           await stateManager.pingWorker(
             `spoiler_sphere_${context.sphere_number}_inventory_applied`,
-            5000  // Increased timeout to 5 seconds to handle intermittent delays
+            10000  // Increased timeout to 10 seconds to handle intermittent delays
           );
           this.log(
             'debug',

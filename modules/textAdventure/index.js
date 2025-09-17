@@ -1,6 +1,16 @@
 // textAdventure module entry point
 import { TextAdventureUI } from './textAdventureUI.js';
 
+// --- Module Info ---
+export const moduleInfo = {
+  name: 'textAdventure',
+  title: 'Text Adventure',
+  componentType: 'textAdventurePanel',
+  icon: '📖',
+  column: 3, // Right column
+  description: 'Text Adventure display panel.',
+};
+
 // Helper function for logging with fallback
 function log(level, message, ...data) {
   if (typeof window !== 'undefined' && window.logger) {

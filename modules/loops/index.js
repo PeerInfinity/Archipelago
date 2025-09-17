@@ -6,6 +6,10 @@ import { handleUserLocationCheckForLoops, handleUserItemCheckForLoops, initializ
 // --- Module Info ---
 export const moduleInfo = {
   name: 'loops',
+  title: 'Loops',
+  componentType: 'loopsPanel',
+  icon: '🔄',
+  column: 3, // Right column
   description: 'Loop mode logic and UI panel.',
 };
 
@@ -155,6 +159,7 @@ export function register(registrationApi) {
   registrationApi.registerEventBusPublisher('loopState:newActionStarted');
   registrationApi.registerEventBusPublisher('loopState:exploreActionRepeated');
   registrationApi.registerEventBusPublisher('loopUI:modeChanged');
+  registrationApi.registerEventBusPublisher('loops:setLoopMode');
 }
 
 /**

@@ -1125,7 +1125,7 @@ class MainContentUI {
         typeof centralRegistry.getPublicFunction === 'function'
       ) {
         const attachFn = centralRegistry.getPublicFunction(
-          'Timer', // Module name used by Timer module in moduleInfo.name
+          'timer', // Module name used by Timer module in moduleInfo.name
           'attachTimerToHost'
         );
         if (attachFn && typeof attachFn === 'function') {

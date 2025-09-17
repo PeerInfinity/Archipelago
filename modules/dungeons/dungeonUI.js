@@ -250,21 +250,33 @@ export class DungeonUI {
       }
 
       // Boss section
-      if (dungeon.boss) {
+      if (dungeon.bosses && Object.keys(dungeon.bosses).length > 0) {
         const bossContainer = document.createElement('div');
-        bossContainer.innerHTML = `<h4>Boss: ${dungeon.boss.name}</h4>`;
+        bossContainer.innerHTML = '<h4>Bosses</h4>';
 
-        if (dungeon.boss.defeat_rule) {
-          const ruleDiv = document.createElement('div');
-          ruleDiv.classList.add('logic-tree');
-          ruleDiv.innerHTML = '<strong>Defeat Rule:</strong>';
-          const defeatRuleTree = renderLogicTree(
-            dungeon.boss.defeat_rule,
-            this.colorblindSettings,
-            snapshotInterface
-          );
-          ruleDiv.appendChild(defeatRuleTree);
-          bossContainer.appendChild(ruleDiv);
+        // Iterate through all bosses
+        for (const [bossKey, bossData] of Object.entries(dungeon.bosses)) {
+          const bossSectionDiv = document.createElement('div');
+          bossSectionDiv.style.marginBottom = '10px';
+
+          // Show boss name (and key if different from name)
+          const bossTitle = bossKey !== bossData.name ?
+            `${bossData.name} (${bossKey})` : bossData.name;
+          bossSectionDiv.innerHTML = `<strong>${bossTitle}</strong>`;
+
+          if (bossData.defeat_rule) {
+            const ruleDiv = document.createElement('div');
+            ruleDiv.classList.add('logic-tree');
+            ruleDiv.innerHTML = '<em>Defeat Rule:</em>';
+            const defeatRuleTree = renderLogicTree(
+              bossData.defeat_rule,
+              this.colorblindSettings,
+              snapshotInterface
+            );
+            ruleDiv.appendChild(defeatRuleTree);
+            bossSectionDiv.appendChild(ruleDiv);
+          }
+          bossContainer.appendChild(bossSectionDiv);
         }
         content.appendChild(bossContainer);
       }
