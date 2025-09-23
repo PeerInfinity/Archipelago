@@ -1,11 +1,12 @@
 from dataclasses import dataclass
-from Options import Choice, Range, TextChoice, PerGameCommonOptions, OptionGroup
+from Options import Choice, Range, TextChoice, Toggle, PerGameCommonOptions, OptionGroup
 from typing import Dict
 
 class TheoremSelection(TextChoice):
     """
     The theorem to prove. Can be a theorem name from the metamath database
-    or a URL to a proof on metamath website (e.g., https://vo.gt/mm/mpeuni/2p2e4)
+    or a URL to a proof on metamath website (e.g., https://us.metamath.org/mpeuni/2p2e4.html)
+    Common theorems: 2p2e4, 1p1e2, 3p3e6, ax-mp, pm2.21
     """
     display_name = "Theorem to Prove"
     default = "2p2e4"
@@ -42,18 +43,28 @@ class HintFrequency(Range):
     range_end = 30
     default = 10
 
+class AutoDownloadDatabase(Toggle):
+    """
+    Automatically download the metamath database (set.mm) if it's not found locally.
+    The file is about 50MB and will be cached for future use.
+    """
+    display_name = "Auto-Download Database"
+    default = 1
+
 @dataclass
 class MetamathOptions(PerGameCommonOptions):
     theorem: TheoremSelection
     complexity: ProofComplexity
     starting_statements: StartingStatements
     hint_frequency: HintFrequency
+    auto_download_database: AutoDownloadDatabase
 
 metamath_option_groups = [
     OptionGroup("Proof Settings", [
         TheoremSelection,
         ProofComplexity,
         StartingStatements,
-        HintFrequency
+        HintFrequency,
+        AutoDownloadDatabase
     ])
 ]

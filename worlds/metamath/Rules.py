@@ -1,6 +1,10 @@
-from typing import List, Dict, Set, Optional
+from typing import List, Dict, Set, Optional, Tuple
 from BaseClasses import MultiWorld, CollectionState
 from worlds.generic.Rules import set_rule
+import metamathpy.database as md
+from metamathpy.proof import verify_proof
+import os
+import urllib.request
 
 class ProofStatement:
     """Represents a single statement in a metamath proof."""
@@ -21,11 +25,15 @@ class ProofStructure:
         self.statements: Dict[int, ProofStatement] = {}
         self.dependency_graph: Dict[int, Set[int]] = {}
         self.reverse_dependencies: Dict[int, Set[int]] = {}
+        self.label_to_index: Dict[str, int] = {}  # Map labels to indices
 
     def add_statement(self, statement: ProofStatement):
         """Add a statement to the proof structure."""
         self.statements[statement.index] = statement
         self.dependency_graph[statement.index] = set(statement.dependencies)
+
+        if statement.label:
+            self.label_to_index[statement.label] = statement.index
 
         # Build reverse dependency graph
         for dep in statement.dependencies:
@@ -72,87 +80,239 @@ def set_metamath_rules(world, proof_structure: ProofStructure):
                 if dependencies:  # Only set rule if there are dependencies
                     set_rule(location, make_rule(dependencies))
 
-def get_2p2e4_proof() -> ProofStructure:
-    """Returns the proof structure for 2 + 2 = 4."""
+def download_metamath_database(target_path: str) -> bool:
+    """Download the metamath database if it doesn't exist."""
+    try:
+        os.makedirs(os.path.dirname(target_path), exist_ok=True)
+        print(f"Downloading metamath database to {target_path}...")
+        urllib.request.urlretrieve('https://us.metamath.org/metamath/set.mm', target_path)
+        print(f"Successfully downloaded metamath database")
+        return True
+    except Exception as e:
+        print(f"Failed to download metamath database: {e}")
+        return False
+
+def get_metamath_database(auto_download: bool = True):
+    """
+    Load the metamath database file.
+
+    Args:
+        auto_download: If True, download the database if not found locally
+    """
+    # Try multiple possible locations for set.mm
+    possible_paths = [
+        'metamath_data/set.mm',
+        os.path.join(os.path.dirname(__file__), 'metamath_data/set.mm'),
+        os.path.join(os.path.dirname(__file__), '../../metamath_data/set.mm'),
+        '/home/robert/tests/test2/archipelago-json/metamath_data/set.mm'
+    ]
+
+    for path in possible_paths:
+        if os.path.exists(path):
+            return md.parse(path)
+
+    # If not found and auto_download is enabled, download it
+    if auto_download:
+        download_path = os.path.join(os.path.dirname(__file__), '../../metamath_data/set.mm')
+        if download_metamath_database(download_path):
+            return md.parse(download_path)
+
+    raise FileNotFoundError(
+        "Could not find set.mm database. Please download from https://us.metamath.org/metamath/set.mm "
+        "or enable auto_download_database in options."
+    )
+
+def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[str, Set[str]]]:
+    """
+    Extract proof steps and dependencies using metamath-py's proof verification.
+
+    Args:
+        db: Metamath database
+        theorem_name: Name of the theorem to analyze
+
+    Returns:
+        Tuple of (ordered list of proof steps, dependency dictionary)
+    """
+    if theorem_name not in db.rules:
+        print(f"Warning: Theorem {theorem_name} not found in database")
+        return [], {}
+
+    rule = db.rules[theorem_name]
+
+    try:
+        # Verify the proof and get the proof tree
+        root_step, proof_steps_dict = verify_proof(db, rule)
+
+        # Extract all unique steps from the proof tree
+        all_steps = root_step.all_steps()
+
+        # Build dependency graph
+        dependencies = {}
+        ordered_steps = []
+        seen = set()
+
+        for step in all_steps:
+            if step.rule and hasattr(step.rule, 'consequent'):
+                label = step.rule.consequent.label
+
+                # Skip constants, hypotheses, and duplicate entries
+                if (not label.startswith('c') and
+                    not label.startswith('w') and
+                    label not in seen):
+
+                    seen.add(label)
+                    ordered_steps.append(label)
+
+                    # Extract dependencies for this step
+                    deps = set()
+                    for dep_label, dep_step in step.dependencies.items():
+                        if hasattr(dep_step.rule, 'consequent'):
+                            dep_name = dep_step.rule.consequent.label
+                            # Only include non-constant, non-hypothesis dependencies
+                            if not dep_name.startswith('c') and not dep_name.startswith('w'):
+                                deps.add(dep_name)
+
+                    dependencies[label] = deps
+
+        return ordered_steps, dependencies
+
+    except Exception as e:
+        print(f"Error verifying proof for {theorem_name}: {e}")
+        return [], {}
+
+def parse_proof_from_database(db, theorem_name: str) -> ProofStructure:
+    """
+    Parse a proof from the metamath database into a ProofStructure.
+    Uses metamath-py's proof verification for accurate dependency extraction.
+    """
     structure = ProofStructure()
 
-    # Step 1: Define 2 = (1 + 1) [df-2]
-    structure.add_statement(ProofStatement(
-        index=1, label="df-2",
-        expression="2 = (1 + 1)",
-        dependencies=[]
-    ))
+    # Extract dependencies using proof verification
+    ordered_steps, dependencies = extract_proof_dependencies(db, theorem_name)
 
-    # Step 2: (2 + 2) = (2 + (1 + 1)) [oveq2i]
-    structure.add_statement(ProofStatement(
-        index=2, label="oveq2i",
-        expression="(2 + 2) = (2 + (1 + 1))",
-        dependencies=[1]
-    ))
+    if not ordered_steps:
+        # Fallback: create a single-step proof if extraction failed
+        if theorem_name in db.statements:
+            stmt = db.statements[theorem_name]
+            structure.add_statement(ProofStatement(
+                index=1,
+                label=theorem_name,
+                expression=' '.join(stmt.tokens),
+                dependencies=[]
+            ))
+        return structure
 
-    # Step 3: Define 4 = (3 + 1) [df-4]
-    structure.add_statement(ProofStatement(
-        index=3, label="df-4",
-        expression="4 = (3 + 1)",
-        dependencies=[]
-    ))
+    # Convert to ProofStructure format
+    label_to_index = {}
 
-    # Step 4: Define 3 = (2 + 1) [df-3]
-    structure.add_statement(ProofStatement(
-        index=4, label="df-3",
-        expression="3 = (2 + 1)",
-        dependencies=[]
-    ))
+    for i, label in enumerate(ordered_steps, 1):
+        # Get the expression for this label
+        if label in db.statements:
+            stmt = db.statements[label]
+            expression = ' '.join(stmt.tokens)
+        else:
+            expression = label  # Fallback
 
-    # Step 5: (3 + 1) = ((2 + 1) + 1) [oveq1i]
-    structure.add_statement(ProofStatement(
-        index=5, label="oveq1i",
-        expression="(3 + 1) = ((2 + 1) + 1)",
-        dependencies=[4]
-    ))
+        label_to_index[label] = i
 
-    # Step 6: 2 is a complex number [2cn]
-    structure.add_statement(ProofStatement(
-        index=6, label="2cn",
-        expression="2 ∈ ℂ",
-        dependencies=[]
-    ))
+    # Add statements with proper index-based dependencies
+    for i, label in enumerate(ordered_steps, 1):
+        # Get the expression
+        if label in db.statements:
+            stmt = db.statements[label]
+            expression = ' '.join(stmt.tokens)
+        else:
+            expression = label
 
-    # Step 7: 1 is a complex number [ax-1cn]
-    structure.add_statement(ProofStatement(
-        index=7, label="ax-1cn",
-        expression="1 ∈ ℂ",
-        dependencies=[]
-    ))
+        # Convert label dependencies to index dependencies
+        label_deps = dependencies.get(label, set())
+        index_deps = [label_to_index[dep] for dep in label_deps if dep in label_to_index]
 
-    # Step 8: ((2 + 1) + 1) = (2 + (1 + 1)) [addassi]
-    structure.add_statement(ProofStatement(
-        index=8, label="addassi",
-        expression="((2 + 1) + 1) = (2 + (1 + 1))",
-        dependencies=[6, 7]
-    ))
-
-    # Step 9: 4 = (2 + (1 + 1)) [3eqtri]
-    structure.add_statement(ProofStatement(
-        index=9, label="3eqtri",
-        expression="4 = (2 + (1 + 1))",
-        dependencies=[3, 5, 8]
-    ))
-
-    # Step 10: Final theorem (2 + 2) = 4 [eqtr4i]
-    structure.add_statement(ProofStatement(
-        index=10, label="2p2e4",
-        expression="(2 + 2) = 4",
-        dependencies=[2, 9]
-    ))
+        structure.add_statement(ProofStatement(
+            index=i,
+            label=label,
+            expression=expression,
+            dependencies=index_deps
+        ))
 
     return structure
 
-def parse_metamath_proof(proof_data: str) -> ProofStructure:
+def get_hardcoded_2p2e4_proof() -> ProofStructure:
     """
-    Parse metamath proof data into a ProofStructure.
-    For now, returns the hardcoded 2p2e4 proof.
+    Returns a hardcoded proof structure for 2 + 2 = 4.
+    This serves as a fallback when the database is not available.
     """
-    # TODO: Implement actual metamath parsing using metamathpy
-    # For now, return the 2p2e4 proof
-    return get_2p2e4_proof()
+    structure = ProofStructure()
+
+    # The actual 2p2e4 proof structure based on metamath
+    steps = [
+        (1, 'df-2', '2 = (1 + 1)', []),
+        (2, 'df-3', '3 = (2 + 1)', []),
+        (3, 'df-4', '4 = (3 + 1)', []),
+        (4, 'ax-1cn', '1 ∈ ℂ', []),
+        (5, '2cn', '2 ∈ ℂ', []),
+        (6, 'oveq2i', '(2 + 2) = (2 + (1 + 1))', [1]),  # Depends on df-2
+        (7, 'oveq1i', '(3 + 1) = ((2 + 1) + 1)', [2]),  # Depends on df-3
+        (8, 'addassi', '((2 + 1) + 1) = (2 + (1 + 1))', [4, 5]),  # Depends on ax-1cn and 2cn
+        (9, '3eqtri', '4 = (2 + (1 + 1))', [3, 7, 8]),  # Depends on df-4, oveq1i, addassi
+        (10, 'eqtr4i', '(2 + 2) = 4', [6, 9])  # Final step depends on oveq2i and 3eqtri
+    ]
+
+    for index, label, expression, dependencies in steps:
+        structure.add_statement(ProofStatement(index, label, expression, dependencies))
+
+    return structure
+
+def parse_metamath_proof(theorem_name: str, auto_download: bool = True) -> ProofStructure:
+    """
+    Parse a metamath proof into a ProofStructure.
+
+    Priority:
+    1. Try to load from metamath-py database with full proof verification
+    2. Fall back to hardcoded proofs for known theorems
+    3. Fall back to hardcoded 2p2e4 if all else fails
+
+    Args:
+        theorem_name: The name of the theorem to parse (e.g., '2p2e4', 'pm2.21')
+        auto_download: Whether to auto-download the database if not found
+
+    Returns:
+        ProofStructure containing the proof steps and dependencies
+    """
+
+    # First, try to load from the metamath database
+    try:
+        db = get_metamath_database(auto_download)
+
+        # Check if the theorem exists
+        if theorem_name not in db.statements and theorem_name not in db.rules:
+            print(f"Theorem {theorem_name} not found in database, trying fallbacks")
+        else:
+            # Parse the proof with full dependency extraction
+            structure = parse_proof_from_database(db, theorem_name)
+
+            # If we got a valid structure with multiple steps, use it
+            if len(structure.statements) > 1:
+                print(f"Successfully parsed {theorem_name} from database: {len(structure.statements)} steps")
+                return structure
+            elif len(structure.statements) == 1:
+                print(f"Warning: Only got 1 step for {theorem_name}, trying fallbacks")
+
+    except FileNotFoundError as e:
+        print(f"Metamath database not found: {e}")
+    except Exception as e:
+        print(f"Error parsing proof from database: {e}")
+
+    # Second, fall back to hardcoded proofs for known theorems
+    known_proofs = {
+        '2p2e4': get_hardcoded_2p2e4_proof,
+        # Add more hardcoded proofs here as needed
+    }
+
+    if theorem_name in known_proofs:
+        print(f"Using hardcoded proof for {theorem_name}")
+        return known_proofs[theorem_name]()
+
+    # Finally, fall back to 2p2e4 if nothing else works
+    print(f"Warning: Could not load proof for {theorem_name}, falling back to 2p2e4")
+    return get_hardcoded_2p2e4_proof()

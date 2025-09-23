@@ -91,7 +91,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Statement 8",
+              "name": "Statement 4",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -121,13 +121,34 @@
             "id": 234790004,
             "crystal": null,
             "access_rule": {
-              "type": "constant",
-              "value": true
+              "type": "all_of",
+              "element_rule": {
+                "type": "item_check",
+                "item": {
+                  "type": "attribute",
+                  "object": {
+                    "type": "name",
+                    "name": "world"
+                  },
+                  "attr": "player"
+                }
+              },
+              "iterator_info": {
+                "type": "comprehension_details",
+                "target": {
+                  "type": "name",
+                  "name": "dep"
+                },
+                "iterator": {
+                  "type": "name",
+                  "name": "deps"
+                }
+              }
             },
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Statement 5",
+              "name": "Statement 7",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -137,6 +158,24 @@
           {
             "name": "Prove Statement 5",
             "id": 234790005,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 6",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Prove Statement 6",
+            "id": 234790006,
             "crystal": null,
             "access_rule": {
               "type": "all_of",
@@ -166,25 +205,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Statement 3",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Prove Statement 6",
-            "id": 234790006,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Statement 7",
+              "name": "Statement 10",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -202,7 +223,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Statement 4",
+              "name": "Statement 8",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -241,7 +262,7 @@
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Statement 10",
+              "name": "Statement 3",
               "player": 1,
               "advancement": true,
               "priority": null,
@@ -253,29 +274,8 @@
             "id": 234790009,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "world"
-                  },
-                  "attr": "player"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "dep"
-                },
-                "iterator": {
-                  "type": "name",
-                  "name": "deps"
-                }
-              }
+              "type": "constant",
+              "value": true
             },
             "progress_type": 1,
             "locked": false,
@@ -292,34 +292,13 @@
             "id": 234790010,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "world"
-                  },
-                  "attr": "player"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "dep"
-                },
-                "iterator": {
-                  "type": "name",
-                  "name": "deps"
-                }
-              }
+              "type": "constant",
+              "value": true
             },
             "progress_type": 1,
             "locked": false,
             "item": {
-              "name": "Statement 6",
+              "name": "Statement 5",
               "player": 1,
               "advancement": true,
               "priority": null,

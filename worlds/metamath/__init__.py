@@ -5,7 +5,7 @@ from worlds.AutoWorld import WebWorld, World
 from .Items import MetamathItem, item_table, item_groups, generate_item_table
 from .Locations import MetamathLocation, location_table, generate_location_table
 from .Options import MetamathOptions, metamath_option_groups
-from .Rules import ProofStructure, ProofStatement, set_metamath_rules, parse_metamath_proof, get_2p2e4_proof
+from .Rules import ProofStructure, ProofStatement, set_metamath_rules, parse_metamath_proof
 
 class MetamathWeb(WebWorld):
     tutorials = []
@@ -36,12 +36,24 @@ class MetamathWorld(World):
 
     def generate_early(self):
         """Load and parse the metamath proof based on options."""
-        # Use the real 2p2e4 proof if that's what's selected
-        if self.options.theorem.value == "2p2e4":
-            self.proof_structure = get_2p2e4_proof()
-        else:
-            # For other theorems, use example proof for now
-            self.proof_structure = self._create_example_proof()
+        # Get the theorem name from options
+        theorem_name = self.options.theorem.value
+
+        # Extract theorem name from URL if provided
+        if theorem_name.startswith("http"):
+            # Extract the theorem name from URLs like https://us.metamath.org/mpeuni/2p2e4.html
+            import re
+            match = re.search(r'/([^/]+)\.html?$', theorem_name)
+            if match:
+                theorem_name = match.group(1)
+            else:
+                # Try to extract from path without extension
+                parts = theorem_name.rstrip('/').split('/')
+                theorem_name = parts[-1] if parts else "2p2e4"
+
+        # Parse the proof using metamath-py
+        auto_download = bool(self.options.auto_download_database.value)
+        self.proof_structure = parse_metamath_proof(theorem_name, auto_download)
         self.num_statements = len(self.proof_structure.statements)
 
         # Regenerate item and location tables based on actual proof size
@@ -68,42 +80,6 @@ class MetamathWorld(World):
                 random.shuffle(candidates)
                 self.starting_statements.update(candidates[:remaining])
 
-    def _create_example_proof(self) -> ProofStructure:
-        """Create an example proof structure for testing."""
-        structure = ProofStructure()
-
-        # Create a more interesting dependency graph
-        # Statement 1: Axiom (no dependencies)
-        structure.add_statement(ProofStatement(1, "axiom1", "A ⊆ A", []))
-
-        # Statement 2: Axiom (no dependencies)
-        structure.add_statement(ProofStatement(2, "axiom2", "A ∪ B = B ∪ A", []))
-
-        # Statement 3: Uses axiom 1
-        structure.add_statement(ProofStatement(3, None, "∅ ⊆ A", [1]))
-
-        # Statement 4: Uses axiom 2
-        structure.add_statement(ProofStatement(4, None, "B ∪ A = A ∪ B", [2]))
-
-        # Statement 5: Uses statements 1 and 3
-        structure.add_statement(ProofStatement(5, None, "∅ ⊆ ∅", [1, 3]))
-
-        # Statement 6: Uses statements 2 and 4
-        structure.add_statement(ProofStatement(6, None, "(A ∪ B) ∪ C = (B ∪ A) ∪ C", [2, 4]))
-
-        # Statement 7: Uses statements 3 and 5
-        structure.add_statement(ProofStatement(7, None, "∅ ⊆ B", [3, 5]))
-
-        # Statement 8: Uses statements 4, 6, and 7
-        structure.add_statement(ProofStatement(8, None, "Complex expression", [4, 6, 7]))
-
-        # Statement 9: Uses statement 8
-        structure.add_statement(ProofStatement(9, None, "Another expression", [8]))
-
-        # Statement 10: Final theorem uses multiple statements
-        structure.add_statement(ProofStatement(10, "final_theorem", "A ∪ ∅ = A", [5, 7, 9]))
-
-        return structure
 
     def create_regions(self):
         """Create the proof region containing all statement locations."""
