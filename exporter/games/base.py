@@ -182,12 +182,27 @@ class BaseGameExportHandler:
         """
         Get game-specific region attributes to include in the export.
         This is called for each region during processing.
-        
+
         Args:
             region: The region object being processed
-            
+
         Returns:
             A dictionary of attributes to add to the region data
+        """
+        # Base implementation returns no additional attributes
+        return {}
+
+    def get_location_attributes(self, location, world) -> Dict[str, Any]:
+        """
+        Get game-specific location attributes to include in the export.
+        This is called for each location during processing.
+
+        Args:
+            location: The location object being processed
+            world: The world object for this player
+
+        Returns:
+            A dictionary of attributes to add to the location data
         """
         # Base implementation returns no additional attributes
         return {}

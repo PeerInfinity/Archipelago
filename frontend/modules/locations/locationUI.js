@@ -42,6 +42,7 @@ export class LocationUI {
     this.settingsUnsubscribe = null;
     this.colorblindSettings = {}; // Cache colorblind settings
     this.showLocationItems = false; // Cache showLocationItems setting
+    this.showFullText = false; // Cache showFullText setting
     this.isInitialized = false; // Add flag
     this.isDiscoveryModeActive = false; // Track discovery mode state
     this.originalLocationOrder = []; // ADDED: To store original keys
@@ -98,25 +99,29 @@ export class LocationUI {
     try {
       this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
       this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
+      this.showFullText = await settingsManager.getSetting('moduleSettings.locations.showFullText', false);
     } catch (error) {
       log('error', 'Error loading settings:', error);
       this.colorblindSettings = false;
       this.showLocationItems = false;
+      this.showFullText = false;
     }
 
     this.settingsUnsubscribe = eventBus.subscribe(
       'settings:changed',
       async ({ key, value }) => {
-        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems')) {
+        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems') || key.startsWith('moduleSettings.locations.showFullText')) {
           log('info', 'LocationUI reacting to settings change:', key);
           // Update cache
           try {
             this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
             this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
+            this.showFullText = await settingsManager.getSetting('moduleSettings.locations.showFullText', false);
           } catch (error) {
             log('error', 'Error loading settings during update:', error);
             this.colorblindSettings = false;
             this.showLocationItems = false;
+            this.showFullText = false;
           }
           this.updateLocationDisplay(); // Trigger redraw
         }
@@ -134,6 +139,11 @@ export class LocationUI {
 
   dispose() {
     this.onPanelDestroy();
+  }
+
+  shouldUseFullText() {
+    // Return the cached showFullText setting
+    return this.showFullText;
   }
 
   // --- NEW: Event Subscription for State/Loop --- //
@@ -1175,7 +1185,13 @@ export class LocationUI {
         // Location Name (as a span)
         const locationNameSpan = document.createElement('span');
         locationNameSpan.className = 'location-name';
-        locationNameSpan.textContent = name;
+
+        // Use fullText if available and settings allow it
+        const useFullText = this.shouldUseFullText();
+        const displayName = (useFullText && location.fullText) ? location.fullText : name;
+        locationNameSpan.textContent = displayName;
+        locationNameSpan.title = location.fullText || name; // Show full text as tooltip
+
         locationCard.appendChild(locationNameSpan);
 
         // Item at Location (if showLocationItems is enabled)
@@ -1405,7 +1421,10 @@ export class LocationUI {
       modalRuleTree.textContent = 'No rule defined.';
     }
 
-    modalTitle.textContent = `Details for ${location.name}`;
+    // Use fullText if available and settings allow it
+    const useFullText = this.shouldUseFullText();
+    const displayName = (useFullText && location.fullText) ? location.fullText : location.name;
+    modalTitle.textContent = `Details for ${displayName}`;
     let detailsContent = `<p><strong>Region:</strong> ${
       location.region || 'N/A'
     }</p>`;

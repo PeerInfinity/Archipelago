@@ -2,6 +2,14 @@ from dataclasses import dataclass
 from Options import Choice, Range, TextChoice, Toggle, PerGameCommonOptions, OptionGroup
 from typing import Dict
 
+class RandomizeItems(Toggle):
+    """
+    Enable item randomization. When disabled, all items will remain in their original locations
+    (proof statements will be at their corresponding theorem locations).
+    """
+    display_name = "Randomize Items"
+    default = True
+
 class TheoremSelection(TextChoice):
     """
     The theorem to prove. Can be a theorem name from the metamath database
@@ -53,6 +61,7 @@ class AutoDownloadDatabase(Toggle):
 
 @dataclass
 class MetamathOptions(PerGameCommonOptions):
+    randomize_items: RandomizeItems
     theorem: TheoremSelection
     complexity: ProofComplexity
     starting_statements: StartingStatements
@@ -61,6 +70,7 @@ class MetamathOptions(PerGameCommonOptions):
 
 metamath_option_groups = [
     OptionGroup("Proof Settings", [
+        RandomizeItems,
         TheoremSelection,
         ProofComplexity,
         StartingStatements,

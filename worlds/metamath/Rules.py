@@ -9,11 +9,12 @@ import urllib.request
 class ProofStatement:
     """Represents a single statement in a metamath proof."""
 
-    def __init__(self, index: int, label: Optional[str], expression: str, dependencies: List[int]):
+    def __init__(self, index: int, label: Optional[str], expression: str, dependencies: List[int], full_text: Optional[str] = None):
         self.index = index  # Statement number (1-based)
         self.label = label  # Optional theorem/axiom name
         self.expression = expression  # The mathematical expression
         self.dependencies = dependencies  # List of statement indices this depends on
+        self.full_text = full_text  # Full text description of the statement (if available)
 
 class ProofStructure:
     """
@@ -58,27 +59,57 @@ class ProofStructure:
         return provable
 
 def set_metamath_rules(world, proof_structure: ProofStructure):
-    """Set access rules for metamath locations based on proof dependencies."""
+    """Set access rules for metamath regions based on proof dependencies."""
 
-    for location in world.multiworld.get_locations(world.player):
-        if location.name.startswith("Prove Statement "):
-            # Extract statement number from location name
-            stmt_num = int(location.name.split()[-1])
+    # Set access rules on region entrances
+    for region in world.multiworld.get_regions(world.player):
+        if region.name.startswith("Prove Statement "):
+            # Extract statement number from region name
+            stmt_num = int(region.name.split()[-1])
 
             if stmt_num in proof_structure.dependency_graph:
                 dependencies = proof_structure.dependency_graph[stmt_num]
 
-                # Create rule: player must have all dependent statements as items
-                def make_rule(deps):
-                    def rule(state: CollectionState) -> bool:
-                        return all(
-                            state.has(f"Statement {dep}", world.player)
-                            for dep in deps
-                        )
-                    return rule
-
                 if dependencies:  # Only set rule if there are dependencies
-                    set_rule(location, make_rule(dependencies))
+                    # Set access rules on all entrances to this region
+                    for entrance in region.entrances:
+                        # Convert set to sorted list for consistent ordering
+                        deps_list = sorted(list(dependencies))
+
+                        # Build lambda based on exact dependencies
+                        # Create item names upfront to avoid f-string issues
+
+                        if len(deps_list) == 1:
+                            # Single dependency - create item name directly
+                            item_name = "Statement " + str(deps_list[0])
+                            set_rule(entrance,
+                                lambda state, item=item_name, p=world.player: state.has(item, p))
+                        elif len(deps_list) == 2:
+                            # Two dependencies - create item names directly
+                            item1 = "Statement " + str(deps_list[0])
+                            item2 = "Statement " + str(deps_list[1])
+                            set_rule(entrance,
+                                lambda state, i1=item1, i2=item2, p=world.player:
+                                    state.has(i1, p) and state.has(i2, p))
+                        elif len(deps_list) == 3:
+                            # Three dependencies - create item names directly
+                            item1 = "Statement " + str(deps_list[0])
+                            item2 = "Statement " + str(deps_list[1])
+                            item3 = "Statement " + str(deps_list[2])
+                            set_rule(entrance,
+                                lambda state, i1=item1, i2=item2, i3=item3, p=world.player:
+                                    state.has(i1, p) and state.has(i2, p) and state.has(i3, p))
+                        else:
+                            # More than 3 - build a function that explicitly checks each
+                            def make_multi_dep_rule(dep_nums, player):
+                                item_names = ["Statement " + str(d) for d in dep_nums]
+                                def check_rule(state):
+                                    for item_name in item_names:
+                                        if not state.has(item_name, player):
+                                            return False
+                                    return True
+                                return check_rule
+                            set_rule(entrance, make_multi_dep_rule(deps_list[:], world.player))
 
 def download_metamath_database(target_path: str) -> bool:
     """Download the metamath database if it doesn't exist."""
@@ -109,18 +140,61 @@ def get_metamath_database(auto_download: bool = True):
 
     for path in possible_paths:
         if os.path.exists(path):
-            return md.parse(path)
+            return md.parse(path), path  # Return both database and path
 
     # If not found and auto_download is enabled, download it
     if auto_download:
         download_path = os.path.join(os.path.dirname(__file__), '../../metamath_data/set.mm')
         if download_metamath_database(download_path):
-            return md.parse(download_path)
+            return md.parse(download_path), download_path
 
     raise FileNotFoundError(
         "Could not find set.mm database. Please download from https://us.metamath.org/metamath/set.mm "
         "or enable auto_download_database in options."
     )
+
+def extract_statement_descriptions(db_path: str) -> Dict[str, str]:
+    """
+    Extract comment descriptions from the raw metamath database file.
+
+    Args:
+        db_path: Path to the .mm file
+
+    Returns:
+        Dictionary mapping statement labels to their descriptions
+    """
+    descriptions = {}
+
+    try:
+        with open(db_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Pattern to find comments followed by statements
+        # $( comment $) label $a |- expression $.
+        import re
+        pattern = r'\$\((.*?)\$\)\s*(\S+)\s+\$[aefp]'
+
+        matches = re.finditer(pattern, content, re.DOTALL)
+        for match in matches:
+            comment = match.group(1).strip()
+            label = match.group(2)
+
+            # Clean up the comment - remove contributor info if present
+            # Keep the main description part
+            lines = comment.split('\n')
+            description_lines = []
+            for line in lines:
+                line = line.strip()
+                if line and not line.startswith('(Contributed') and not line.startswith('(Revised'):
+                    description_lines.append(line)
+
+            if description_lines:
+                descriptions[label] = ' '.join(description_lines)
+
+    except Exception as e:
+        print(f"Warning: Could not extract descriptions from {db_path}: {e}")
+
+    return descriptions
 
 def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[str, Set[str]]]:
     """
@@ -180,7 +254,7 @@ def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[s
         print(f"Error verifying proof for {theorem_name}: {e}")
         return [], {}
 
-def parse_proof_from_database(db, theorem_name: str) -> ProofStructure:
+def parse_proof_from_database(db, theorem_name: str, descriptions: Dict[str, str] = None) -> ProofStructure:
     """
     Parse a proof from the metamath database into a ProofStructure.
     Uses metamath-py's proof verification for accurate dependency extraction.
@@ -194,11 +268,18 @@ def parse_proof_from_database(db, theorem_name: str) -> ProofStructure:
         # Fallback: create a single-step proof if extraction failed
         if theorem_name in db.statements:
             stmt = db.statements[theorem_name]
+            expression = ' '.join(stmt.tokens)
+            full_text = None
+            if descriptions and theorem_name in descriptions:
+                full_text = f"{theorem_name}: {descriptions[theorem_name]} ({expression})"
+            else:
+                full_text = f"{theorem_name}: {expression}"
             structure.add_statement(ProofStatement(
                 index=1,
                 label=theorem_name,
-                expression=' '.join(stmt.tokens),
-                dependencies=[]
+                expression=expression,
+                dependencies=[],
+                full_text=full_text
             ))
         return structure
 
@@ -224,6 +305,14 @@ def parse_proof_from_database(db, theorem_name: str) -> ProofStructure:
         else:
             expression = label
 
+        # Get full text description if available
+        full_text = None
+        if descriptions and label in descriptions:
+            full_text = f"{label}: {descriptions[label]} ({expression})"
+        elif label in db.statements:
+            # If no description, use label and expression
+            full_text = f"{label}: {expression}"
+
         # Convert label dependencies to index dependencies
         label_deps = dependencies.get(label, set())
         index_deps = [label_to_index[dep] for dep in label_deps if dep in label_to_index]
@@ -232,7 +321,8 @@ def parse_proof_from_database(db, theorem_name: str) -> ProofStructure:
             index=i,
             label=label,
             expression=expression,
-            dependencies=index_deps
+            dependencies=index_deps,
+            full_text=full_text
         ))
 
     return structure
@@ -244,22 +334,22 @@ def get_hardcoded_2p2e4_proof() -> ProofStructure:
     """
     structure = ProofStructure()
 
-    # The actual 2p2e4 proof structure based on metamath
+    # The actual 2p2e4 proof structure based on metamath with descriptions
     steps = [
-        (1, 'df-2', '2 = (1 + 1)', []),
-        (2, 'df-3', '3 = (2 + 1)', []),
-        (3, 'df-4', '4 = (3 + 1)', []),
-        (4, 'ax-1cn', '1 ∈ ℂ', []),
-        (5, '2cn', '2 ∈ ℂ', []),
-        (6, 'oveq2i', '(2 + 2) = (2 + (1 + 1))', [1]),  # Depends on df-2
-        (7, 'oveq1i', '(3 + 1) = ((2 + 1) + 1)', [2]),  # Depends on df-3
-        (8, 'addassi', '((2 + 1) + 1) = (2 + (1 + 1))', [4, 5]),  # Depends on ax-1cn and 2cn
-        (9, '3eqtri', '4 = (2 + (1 + 1))', [3, 7, 8]),  # Depends on df-4, oveq1i, addassi
-        (10, 'eqtr4i', '(2 + 2) = 4', [6, 9])  # Final step depends on oveq2i and 3eqtri
+        (1, 'df-2', '2 = (1 + 1)', [], 'df-2: Define the number 2. (2 = (1 + 1))'),
+        (2, 'df-3', '3 = (2 + 1)', [], 'df-3: Define the number 3. (3 = (2 + 1))'),
+        (3, 'df-4', '4 = (3 + 1)', [], 'df-4: Define the number 4. (4 = (3 + 1))'),
+        (4, 'ax-1cn', '1 ∈ ℂ', [], 'ax-1cn: 1 is a complex number. (1 ∈ ℂ)'),
+        (5, '2cn', '2 ∈ ℂ', [], '2cn: 2 is a complex number. (2 ∈ ℂ)'),
+        (6, 'oveq2i', '(2 + 2) = (2 + (1 + 1))', [1], 'oveq2i: Equality of operation value. ((2 + 2) = (2 + (1 + 1)))'),  # Depends on df-2
+        (7, 'oveq1i', '(3 + 1) = ((2 + 1) + 1)', [2], 'oveq1i: Equality of operation value. ((3 + 1) = ((2 + 1) + 1))'),  # Depends on df-3
+        (8, 'addassi', '((2 + 1) + 1) = (2 + (1 + 1))', [4, 5], 'addassi: Associative law for addition. (((2 + 1) + 1) = (2 + (1 + 1)))'),  # Depends on ax-1cn and 2cn
+        (9, '3eqtri', '4 = (2 + (1 + 1))', [3, 7, 8], '3eqtri: Transitive equality. (4 = (2 + (1 + 1)))'),  # Depends on df-4, oveq1i, addassi
+        (10, 'eqtr4i', '(2 + 2) = 4', [6, 9], 'eqtr4i: Transitive equality. ((2 + 2) = 4)')  # Final step depends on oveq2i and 3eqtri
     ]
 
-    for index, label, expression, dependencies in steps:
-        structure.add_statement(ProofStatement(index, label, expression, dependencies))
+    for index, label, expression, dependencies, full_text in steps:
+        structure.add_statement(ProofStatement(index, label, expression, dependencies, full_text))
 
     return structure
 
@@ -282,14 +372,17 @@ def parse_metamath_proof(theorem_name: str, auto_download: bool = True) -> Proof
 
     # First, try to load from the metamath database
     try:
-        db = get_metamath_database(auto_download)
+        db, db_path = get_metamath_database(auto_download)
+
+        # Extract descriptions from the raw file
+        descriptions = extract_statement_descriptions(db_path)
 
         # Check if the theorem exists
         if theorem_name not in db.statements and theorem_name not in db.rules:
             print(f"Theorem {theorem_name} not found in database, trying fallbacks")
         else:
             # Parse the proof with full dependency extraction
-            structure = parse_proof_from_database(db, theorem_name)
+            structure = parse_proof_from_database(db, theorem_name, descriptions)
 
             # If we got a valid structure with multiple steps, use it
             if len(structure.statements) > 1:

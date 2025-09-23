@@ -36,6 +36,10 @@ class MetamathWorld(World):
 
     def generate_early(self):
         """Load and parse the metamath proof based on options."""
+        # If seed is 1, disable randomization to use canonical item placements
+        if self.multiworld.seed == 1:
+            self.options.randomize_items.value = False
+
         # Get the theorem name from options
         theorem_name = self.options.theorem.value
 
@@ -82,13 +86,20 @@ class MetamathWorld(World):
 
 
     def create_regions(self):
-        """Create the proof region containing all statement locations."""
+        """Create one region per statement with connections based on proof dependencies."""
         menu_region = Region("Menu", self.player, self.multiworld)
-        proof_region = Region("Proof", self.player, self.multiworld)
 
-        # Create locations for each statement that can be proven
+        # Create a region for each statement
+        statement_regions = {}
+
         for i in range(1, self.num_statements + 1):
-            if i not in self.starting_statements:  # Don't create locations for pre-proven statements
+            # Create region with same name as location
+            region_name = f"Prove Statement {i}"
+            region = Region(region_name, self.player, self.multiworld)
+            statement_regions[i] = region
+
+            # Create location in this region (if not a starting statement)
+            if i not in self.starting_statements:
                 loc_name = f"Prove Statement {i}"
                 if loc_name in self.location_name_to_id:
                     location = MetamathLocation(
@@ -96,13 +107,32 @@ class MetamathWorld(World):
                         loc_name,
                         self.location_name_to_id[loc_name],
                         self.proof_structure.dependency_graph.get(i, []),
-                        proof_region
+                        region
                     )
-                    proof_region.locations.append(location)
+                    region.locations.append(location)
 
-        # Connect regions
-        menu_region.connect(proof_region)
-        self.multiworld.regions += [menu_region, proof_region]
+        # Connect Menu to all statement regions that have no dependencies or only starting statement dependencies
+        for i, region in statement_regions.items():
+            dependencies = self.proof_structure.dependency_graph.get(i, [])
+            # Connect from menu if this statement has no dependencies, or only depends on starting statements
+            if not dependencies or all(dep in self.starting_statements for dep in dependencies):
+                menu_region.connect(region, f"To Statement {i}")
+
+        # Connect regions based on dependency graph
+        # For each statement, create connections FROM its dependency regions TO this region
+        for i, region in statement_regions.items():
+            dependencies = self.proof_structure.dependency_graph.get(i, [])
+
+            # For each dependency, create a connection from that region to this one
+            for dep in dependencies:
+                if dep in statement_regions:
+                    source_region = statement_regions[dep]
+                    # Create connection from dependency region to this region
+                    source_region.connect(region, f"From Statement {dep} to Statement {i}")
+
+        # Add all regions to multiworld
+        self.multiworld.regions.append(menu_region)
+        self.multiworld.regions.extend(statement_regions.values())
 
     def set_rules(self):
         """Set access rules based on proof dependencies."""
@@ -110,6 +140,11 @@ class MetamathWorld(World):
 
     def create_items(self):
         """Create statement items for the item pool."""
+        # Only create item pool if randomization is enabled
+        if not self.options.randomize_items.value:
+            # Items will be placed in pre_fill instead
+            return
+
         # Create items for all statements
         items = []
 
@@ -148,6 +183,26 @@ class MetamathWorld(World):
         # Add items to multiworld
         self.multiworld.itempool += items
 
+    def pre_fill(self):
+        """Pre-fill items if not randomizing."""
+        if not self.options.randomize_items.value:
+            self._place_original_items()
+
+    def _place_original_items(self):
+        """Place statement items in their corresponding prove locations when randomization is disabled."""
+        # In metamath, each statement i should be placed at location "Prove Statement i"
+        for i in range(1, self.num_statements + 1):
+            if i not in self.starting_statements:
+                item_name = f"Statement {i}"
+                location_name = f"Prove Statement {i}"
+
+                # Get the location and create the item
+                location = self.multiworld.get_location(location_name, self.player)
+                item = self.create_item(item_name)
+
+                # Place the item at its original location
+                location.place_locked_item(item)
+
     def generate_basic(self):
         """Generate the basic world structure."""
         # Pre-collect starting statements
@@ -181,10 +236,12 @@ class MetamathWorld(World):
                 i: {
                     "label": stmt.label,
                     "expression": stmt.expression,
-                    "dependencies": stmt.dependencies
+                    "dependencies": stmt.dependencies,
+                    "full_text": stmt.full_text  # Include full text description
                 }
                 for i, stmt in self.proof_structure.statements.items()
             },
             "starting_statements": list(self.starting_statements),
             "theorem": self.options.theorem.value,
+            "randomize_items": self.options.randomize_items.value,
         }

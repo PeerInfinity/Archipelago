@@ -649,6 +649,72 @@ class RuleAnalyzer(ast.NodeVisitor):
         logging.debug(f"Constant result: {result}")
         return result # Return the result
 
+    def visit_JoinedStr(self, node):
+        """Handle f-string nodes (JoinedStr)"""
+        logging.debug("\nvisit_JoinedStr called")
+        logging.debug(f"JoinedStr node: {ast.dump(node)}")
+
+        # Check if all parts are constants or simple names
+        # If so, we might be able to construct the full string
+        all_parts_simple = True
+        parts = []
+
+        for value in node.values:
+            if isinstance(value, ast.Constant):
+                parts.append({'type': 'constant', 'value': str(value.value)})
+            elif isinstance(value, ast.FormattedValue):
+                # Visit the formatted value to get its content
+                formatted_result = self.visit(value)
+                parts.append(formatted_result)
+                if formatted_result.get('type') not in ['constant', 'name', 'formatted_value']:
+                    all_parts_simple = False
+            else:
+                parts.append({'type': 'unknown'})
+                all_parts_simple = False
+
+        result = {
+            'type': 'f_string',
+            'parts': parts,
+            'all_simple': all_parts_simple
+        }
+
+        # If all parts are simple, try to construct a placeholder string
+        if all_parts_simple:
+            value_parts = []
+            for part in parts:
+                if part.get('type') == 'constant':
+                    value_parts.append(str(part.get('value', '')))
+                elif part.get('type') == 'formatted_value':
+                    inner = part.get('value', {})
+                    if inner.get('type') == 'name':
+                        # Keep the name as a placeholder for now
+                        value_parts.append(f"{{{inner.get('name', '...')}}}")
+                    elif inner.get('type') == 'constant':
+                        value_parts.append(str(inner.get('value', '')))
+                    else:
+                        value_parts.append("{...}")
+                else:
+                    value_parts.append("{...}")
+            result['value'] = ''.join(value_parts)
+
+        logging.debug(f"JoinedStr result: {result}")
+        return result
+
+    def visit_FormattedValue(self, node):
+        """Handle formatted value nodes within f-strings"""
+        logging.debug("\nvisit_FormattedValue called")
+        logging.debug(f"FormattedValue node: {ast.dump(node)}")
+
+        # Visit the value expression to get its details
+        value_result = self.visit(node.value) if node.value else None
+
+        result = {
+            'type': 'formatted_value',
+            'value': value_result
+        }
+        logging.debug(f"FormattedValue result: {result}")
+        return result
+
     def visit_Subscript(self, node):
         """
         Handle subscript expressions like foo[bar]

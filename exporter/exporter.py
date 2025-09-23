@@ -779,6 +779,10 @@ def process_regions(multiworld, player: int) -> tuple:
                                 'locked': getattr(location, 'locked', False),
                                 'item': None
                             }
+
+                            # Add game-specific location attributes from the handler
+                            location_attributes = game_handler.get_location_attributes(location, world)
+                            location_data.update(location_attributes)
                             
                             if hasattr(location, 'item') and location.item:
                                 item_name = getattr(location.item, 'name', None)

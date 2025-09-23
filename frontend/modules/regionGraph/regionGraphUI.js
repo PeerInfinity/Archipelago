@@ -572,6 +572,10 @@ export class RegionGraphUI {
             <input type="checkbox" id="addLocationsToPath" style="margin-right: 5px;">
             Add locations to path
           </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="checkAllLocationsInRegion" style="margin-right: 5px;">
+            Check all locations in region
+          </label>
         </div>
       </div>
     `;
@@ -731,14 +735,69 @@ export class RegionGraphUI {
         // Control "Show All Regions" based on path modification checkboxes
         const shouldShowAll = !(addToPathCheckbox?.checked || overwritePathCheckbox?.checked);
         this.setShowAllRegions(shouldShowAll);
-        
+
         // Activate the regions panel
         eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'regionGraph');
         logger.debug('Published ui:activatePanel for regionsPanel');
-        
+
         // Navigate to the region
         eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'regionGraph');
         logger.debug(`Published ui:navigateToRegion for ${regionName}`);
+      }
+
+      // Check all locations in region (if enabled)
+      const checkAllLocationsCheckbox = this.controlPanel.querySelector('#checkAllLocationsInRegion');
+      if (checkAllLocationsCheckbox && checkAllLocationsCheckbox.checked) {
+        // Get locations in this region
+        const staticData = stateManager.getStaticData();
+        const regionData = staticData?.regions?.[regionName];
+
+        if (regionData && regionData.locations && regionData.locations.length > 0) {
+          // Get current state to check which locations are accessible
+          const snapshot = stateManager.getLatestStateSnapshot();
+          const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+          const checkedLocations = new Set(snapshot.checkedLocations || []);
+
+          // Check each location that is accessible and not already checked
+          import('./index.js').then(({ moduleDispatcher }) => {
+            let locationsChecked = 0;
+
+            regionData.locations.forEach(location => {
+              // Skip if already checked
+              if (checkedLocations.has(location.name)) {
+                return;
+              }
+
+              // Check if location is accessible
+              const isAccessible = location.requires ?
+                evaluateRule(location.requires, snapshotInterface) : true;
+
+              if (isAccessible) {
+                // Dispatch location check event
+                const payload = {
+                  locationName: location.name,
+                  regionName: regionName,
+                  originator: 'RegionGraphBulkCheck',
+                  originalDOMEvent: true,
+                };
+
+                if (moduleDispatcher) {
+                  moduleDispatcher.publish('user:locationCheck', payload, {
+                    initialTarget: 'bottom',
+                  });
+                  locationsChecked++;
+                  logger.debug('Dispatched user:locationCheck for bulk check', payload);
+                }
+              }
+            });
+
+            if (locationsChecked > 0) {
+              logger.debug(`Checked ${locationsChecked} accessible locations in ${regionName}`);
+            }
+          }).catch(error => {
+            logger.error('Error importing moduleDispatcher for bulk location check:', error);
+          });
+        }
       }
     });
 
@@ -898,6 +957,13 @@ export class RegionGraphUI {
         this.saveCheckboxSetting('#addLocationsToPath', 'regionGraph.addLocationsToPath', e.target.checked);
       });
     }
+
+    const checkAllLocationsInRegionCheckbox = this.controlPanel.querySelector('#checkAllLocationsInRegion');
+    if (checkAllLocationsInRegionCheckbox) {
+      checkAllLocationsInRegionCheckbox.addEventListener('change', (e) => {
+        this.saveCheckboxSetting('#checkAllLocationsInRegion', 'regionGraph.checkAllLocationsInRegion', e.target.checked);
+      });
+    }
   }
 
   async loadCheckboxSettings() {
@@ -910,7 +976,8 @@ export class RegionGraphUI {
       { id: '#showRegionInPanel', setting: 'regionGraph.showRegionInPanel', default: true },
       { id: '#addToPath', setting: 'regionGraph.addToPath', default: true },
       { id: '#overwritePath', setting: 'regionGraph.overwritePath', default: false },
-      { id: '#addLocationsToPath', setting: 'regionGraph.addLocationsToPath', default: false }
+      { id: '#addLocationsToPath', setting: 'regionGraph.addLocationsToPath', default: false },
+      { id: '#checkAllLocationsInRegion', setting: 'regionGraph.checkAllLocationsInRegion', default: false }
     ];
     
     for (const checkbox of checkboxes) {
