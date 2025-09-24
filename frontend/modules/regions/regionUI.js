@@ -55,6 +55,9 @@ export class RegionUI {
     this.colorblindSettings = false; // Add colorblind settings cache
     this.navigationTarget = null; // Add navigation target state
     this.isDiscoveryModeActive = false; // Track discovery mode state
+    this.showName = true; // Cache showName setting
+    this.showLabel1 = false; // Cache showLabel1 setting
+    this.showLabel2 = false; // Cache showLabel2 setting
     
     // Separate tracking for "Show All" mode expansion states
     // Map of regionName -> boolean (expanded state)
@@ -89,6 +92,7 @@ export class RegionUI {
       // Initialize settings cache and showAll state here as they don't depend on StateManager data
       this.colorblindSettings = false; // Will be loaded async
       this._loadColorblindSettings();
+      this._loadDisplaySettings();
       const showAllCheckbox =
         this.rootElement.querySelector('#show-all-regions');
       this.showAll = showAllCheckbox ? showAllCheckbox.checked : false;
@@ -253,6 +257,17 @@ export class RegionUI {
         );
         // Update local cache
         this._loadColorblindSettings();
+        if (this.isInitialized) debouncedUpdate(); // Trigger redraw if initialized
+      }
+      if (key === '*' || key.startsWith('moduleSettings.regions.showName') ||
+          key.startsWith('moduleSettings.regions.showLabel1') ||
+          key.startsWith('moduleSettings.regions.showLabel2')) {
+        log(
+          'info',
+          `[RegionUI] Display settings changed (${key}), updating cache and triggering update.`
+        );
+        // Update local cache
+        this._loadDisplaySettings();
         if (this.isInitialized) debouncedUpdate(); // Trigger redraw if initialized
       }
     };
@@ -431,6 +446,46 @@ export class RegionUI {
       log('error', '[RegionUI] Failed to load colorblind settings:', error);
       this.colorblindSettings = false;
     }
+  }
+
+  async _loadDisplaySettings() {
+    try {
+      this.showName = await settingsManager.getSetting('moduleSettings.regions.showName', true);
+      this.showLabel1 = await settingsManager.getSetting('moduleSettings.regions.showLabel1', false);
+      this.showLabel2 = await settingsManager.getSetting('moduleSettings.regions.showLabel2', false);
+      log('debug', `[RegionUI] Loaded display settings: showName=${this.showName}, showLabel1=${this.showLabel1}, showLabel2=${this.showLabel2}`);
+    } catch (error) {
+      log('error', '[RegionUI] Failed to load display settings:', error);
+      this.showName = true;
+      this.showLabel1 = false;
+      this.showLabel2 = false;
+    }
+  }
+
+  getRegionDisplayElements(regionData) {
+    // Build array of display elements based on enabled settings
+    const elements = [];
+
+    if (this.showName && (regionData.name || regionData)) {
+      const name = typeof regionData === 'string' ? regionData : regionData.name;
+      elements.push({ type: 'name', text: name });
+    }
+
+    if (this.showLabel1 && regionData.label1) {
+      elements.push({ type: 'label1', text: regionData.label1 });
+    }
+
+    if (this.showLabel2 && regionData.label2) {
+      elements.push({ type: 'label2', text: regionData.label2 });
+    }
+
+    // If nothing is enabled or no data available, default to name
+    if (elements.length === 0) {
+      const name = typeof regionData === 'string' ? regionData : (regionData.name || 'Unknown');
+      elements.push({ type: 'name', text: name });
+    }
+
+    return elements;
   }
 
   onPanelDestroy() {

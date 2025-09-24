@@ -156,7 +156,8 @@ export class RegionBlockBuilder {
       regionIsReachable,
       useColorblind,
       expanded,
-      isComplete
+      isComplete,
+      regionStaticData
     );
 
     // Build content
@@ -195,26 +196,53 @@ export class RegionBlockBuilder {
     regionIsReachable,
     useColorblind,
     expanded,
-    isComplete
+    isComplete,
+    regionStaticData
   ) {
     const headerEl = document.createElement('div');
     headerEl.classList.add('region-header');
-    const regionLabel = regionName + this._suffixIfDuplicate(regionName, uid);
 
-    headerEl.innerHTML = `
-      <span class="region-name" title="${regionName}">${regionLabel}</span>
-      <span class="region-status">(${checkedLocationsCount}/${totalLocations})</span>
-      ${
-        useColorblind
-          ? `<span class="colorblind-symbol ${
-              regionIsReachable ? 'accessible' : 'inaccessible'
-            }">${regionIsReachable ? '✓' : '✗'}</span>`
-          : ''
-      }
-      <button class="collapse-btn">${
-        expanded ? 'Collapse' : 'Expand'
-      }</button>
-    `;
+    // Get display elements from regionUI
+    const displayElements = this.regionUI.getRegionDisplayElements(regionStaticData || regionName);
+
+    // Create container for region text lines
+    const regionTextContainer = document.createElement('span');
+    regionTextContainer.className = 'region-text-container';
+    regionTextContainer.style.display = 'inline-flex';
+    regionTextContainer.style.flexDirection = 'column';
+    regionTextContainer.style.gap = '2px';
+
+    // Add each display element as a separate line
+    const suffix = this._suffixIfDuplicate(regionName, uid);
+    displayElements.forEach((element, index) => {
+      const lineSpan = document.createElement('span');
+      lineSpan.className = `region-${element.type}`;
+      // Only add suffix to the first line
+      lineSpan.textContent = index === 0 ? element.text + suffix : element.text;
+      regionTextContainer.appendChild(lineSpan);
+    });
+
+    headerEl.appendChild(regionTextContainer);
+
+    // Add status
+    const statusSpan = document.createElement('span');
+    statusSpan.className = 'region-status';
+    statusSpan.textContent = `(${checkedLocationsCount}/${totalLocations})`;
+    headerEl.appendChild(statusSpan);
+
+    // Add colorblind symbol if needed
+    if (useColorblind) {
+      const colorblindSpan = document.createElement('span');
+      colorblindSpan.className = `colorblind-symbol ${regionIsReachable ? 'accessible' : 'inaccessible'}`;
+      colorblindSpan.textContent = regionIsReachable ? '✓' : '✗';
+      headerEl.appendChild(colorblindSpan);
+    }
+
+    // Add expand/collapse button
+    const collapseBtn = document.createElement('button');
+    collapseBtn.className = 'collapse-btn';
+    collapseBtn.textContent = expanded ? 'Collapse' : 'Expand';
+    headerEl.appendChild(collapseBtn);
 
     // Add accessibility classes to header
     headerEl.classList.toggle('accessible', regionIsReachable);

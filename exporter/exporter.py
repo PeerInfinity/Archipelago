@@ -301,6 +301,28 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         # Store the pre-calculated itempool counts
         export_data['itempool_counts'][player_str] = itempool_counts
 
+        # Get metamath-specific data if this is a metamath world
+        if game_name == "Metamath":
+            logger.info(f"Processing Metamath world for player {player}")
+            logger.info(f"Game handler type: {type(game_handler)}")
+            logger.info(f"Has get_metamath_data: {hasattr(game_handler, 'get_metamath_data')}")
+
+            if hasattr(game_handler, 'get_metamath_data'):
+                try:
+                    metamath_data = game_handler.get_metamath_data(world)
+                    logger.info(f"Got metamath_data: {bool(metamath_data)}, keys: {metamath_data.keys() if metamath_data else 'None'}")
+                    if metamath_data:
+                        if 'metamath_data' not in export_data:
+                            export_data['metamath_data'] = {}
+                        export_data['metamath_data'][player_str] = metamath_data
+                        logger.info(f"Successfully added metamath_data for player {player}")
+                    else:
+                        logger.warning(f"metamath_data was empty for player {player}")
+                except Exception as e:
+                    logger.error(f"Error getting metamath data for player {player}: {e}", exc_info=True)
+            else:
+                logger.warning(f"Game handler does not have get_metamath_data method")
+
         # Get Settings using handler
         try:
             settings_data = game_handler.get_settings_data(world, multiworld, player) # Call the handler method
@@ -1086,14 +1108,15 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
         'progression_mapping',
         'starting_items',
         'settings',
-        'game_info'
+        'game_info',
+        'metamath_data'
     ]
-    
+
     # Player-specific keys contain data nested under player IDs
     player_specific_keys = [
         'regions', 'dungeons', 'items', 'item_groups', 'progression_mapping',
         'settings', 'start_regions', 'itempool_counts', 'game_info',
-        'starting_items'
+        'starting_items', 'metamath_data'
     ]
 
     # Prepare the combined export data for all players using the helper

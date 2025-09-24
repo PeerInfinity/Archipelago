@@ -137,18 +137,26 @@
     },
     "inventory": {
       "showItemGroups": true,
-      "defaultSort": "original"
+      "defaultSort": "original",
+      "showName": true,
+      "showLabel1": true,
+      "showLabel2": true
     },
     "locations": {
       "defaultSort": "original",
       "columns": 3,
       "showFilters": true,
-      "showFullText": true
+      "showName": true,
+      "showLabel1": true,
+      "showLabel2": true
     },
     "regions": {
       "defaultSort": "original",
       "showFilters": true,
-      "autoExpandCurrent": true
+      "autoExpandCurrent": true,
+      "showName": true,
+      "showLabel1": true,
+      "showLabel2": true
     },
     "commonUI": {
       "showLocationItems": true
@@ -156,6 +164,11 @@
     "pathAnalyzer": {
       "maxPaths": 100,
       "maxAnalysisTimeMs": 10000
+    },
+    "regionGraph": {
+      "showName": true,
+      "showLabel1": true,
+      "showLabel2": true
     },
     "loops": {
       "defaultSpeed": 10,

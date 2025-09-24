@@ -11,8 +11,40 @@ logger = logging.getLogger(__name__)
 class MetamathGameExportHandler(BaseGameExportHandler):
     """Metamath specific rule handler that resolves statement dependencies."""
 
+    def get_region_attributes(self, region) -> Dict[str, Any]:
+        """Add statement reference and label/expression attributes to metamath regions."""
+        attributes = {}
+
+        # Extract statement number from region name (format: "Prove Statement X")
+        if region.name and region.name.startswith("Prove Statement "):
+            try:
+                stmt_num = int(region.name.split()[-1])
+
+                # Get the data from the world's proof_structure if available
+                world = None
+                # Try to get world from region's player
+                if hasattr(region, 'player') and hasattr(region, 'multiworld'):
+                    if hasattr(region.multiworld, 'worlds'):
+                        world = region.multiworld.worlds.get(region.player)
+
+                if world and hasattr(world, 'proof_structure') and world.proof_structure:
+                    statement = world.proof_structure.statements.get(stmt_num)
+                    if statement:
+                        if hasattr(statement, 'label') and statement.label:
+                            attributes['label1'] = statement.label
+                            logger.debug(f"Added label1 (label) for region {region.name}: {statement.label}")
+
+                        if hasattr(statement, 'expression') and statement.expression:
+                            attributes['label2'] = statement.expression
+                            logger.debug(f"Added label2 (expression) for region {region.name}: {statement.expression}")
+
+            except (ValueError, AttributeError) as e:
+                logger.debug(f"Could not process region {region.name}: {e}")
+
+        return attributes
+
     def get_location_attributes(self, location, world) -> Dict[str, Any]:
-        """Add fullText attribute to metamath locations if available."""
+        """Add statement reference and label/expression attributes to metamath locations."""
         attributes = {}
 
         # Extract statement number from location name (format: "Prove Statement X")
@@ -20,15 +52,117 @@ class MetamathGameExportHandler(BaseGameExportHandler):
             try:
                 stmt_num = int(location.name.split()[-1])
 
-                # Get the full text from the proof structure if available
+                # Add a reference to the statement in metamath_data
+                attributes['statement_id'] = stmt_num
+                logger.debug(f"Added statement_id {stmt_num} for location {location.name}")
+
+                # Add label1 (the label) and label2 (the expression) if available
                 if hasattr(world, 'proof_structure') and world.proof_structure:
                     statement = world.proof_structure.statements.get(stmt_num)
-                    if statement and hasattr(statement, 'full_text') and statement.full_text:
-                        attributes['fullText'] = statement.full_text
+                    if statement:
+                        if hasattr(statement, 'label') and statement.label:
+                            attributes['label1'] = statement.label
+                            logger.debug(f"Added label1 (label) for statement {stmt_num}: {statement.label}")
+
+                        if hasattr(statement, 'expression') and statement.expression:
+                            attributes['label2'] = statement.expression
+                            logger.debug(f"Added label2 (expression) for statement {stmt_num}: {statement.expression}")
+
             except (ValueError, AttributeError) as e:
-                logger.debug(f"Could not get fullText for location {location.name}: {e}")
+                logger.debug(f"Could not process location {location.name}: {e}")
 
         return attributes
+
+    def get_item_data(self, world) -> Dict[str, Dict[str, Any]]:
+        """
+        Return metamath-specific item definitions with label1 and label2 attributes.
+        """
+        # Start with the base implementation
+        items_data = super().get_item_data(world)
+
+        # Add label1 and label2 for statement items
+        if hasattr(world, 'proof_structure') and world.proof_structure:
+            for stmt_num, statement in world.proof_structure.statements.items():
+                item_name = f"Statement {stmt_num}"
+
+                # Initialize item data if it doesn't exist
+                if item_name not in items_data:
+                    items_data[item_name] = {
+                        'name': item_name,
+                        'groups': ['Statements'],
+                        'advancement': True,
+                        'priority': False,
+                        'useful': False,
+                        'trap': False,
+                        'event': False,
+                        'type': None,
+                        'max_count': 1
+                    }
+
+                # Add label1 and label2
+                if hasattr(statement, 'label') and statement.label:
+                    items_data[item_name]['label1'] = statement.label
+                    logger.debug(f"Added label1 (label) for item {item_name}: {statement.label}")
+
+                if hasattr(statement, 'expression') and statement.expression:
+                    items_data[item_name]['label2'] = statement.expression
+                    logger.debug(f"Added label2 (expression) for item {item_name}: {statement.expression}")
+
+        return items_data
+
+    def get_metamath_data(self, world) -> Dict[str, Any]:
+        """
+        Extract all metamath data from the world's proof_structure.
+        This will be stored in a new 'metamath_data' section of the export.
+        """
+        metamath_data = {}
+
+        try:
+            if hasattr(world, 'proof_structure') and world.proof_structure:
+                logger.debug("Found proof_structure on world, extracting metamath data")
+
+                # Store all statement data
+                statements = {}
+                for stmt_num, statement in world.proof_structure.statements.items():
+                    stmt_data = {
+                        'label': statement.label,
+                        'expression': statement.expression,
+                        'dependencies': statement.dependencies,
+                    }
+
+                    # Include full_text if available
+                    if hasattr(statement, 'full_text') and statement.full_text:
+                        stmt_data['full_text'] = statement.full_text
+
+                    statements[str(stmt_num)] = stmt_data
+
+                metamath_data['statements'] = statements
+
+                # Store dependency graph
+                dependency_graph = {}
+                for stmt_num, deps in world.proof_structure.dependency_graph.items():
+                    dependency_graph[str(stmt_num)] = list(deps)
+                metamath_data['dependency_graph'] = dependency_graph
+
+                # Store reverse dependencies if available
+                if hasattr(world.proof_structure, 'reverse_dependencies'):
+                    reverse_deps = {}
+                    for stmt_num, deps in world.proof_structure.reverse_dependencies.items():
+                        reverse_deps[str(stmt_num)] = list(deps)
+                    metamath_data['reverse_dependencies'] = reverse_deps
+
+                # Store label to index mapping if available
+                if hasattr(world.proof_structure, 'label_to_index'):
+                    metamath_data['label_to_index'] = world.proof_structure.label_to_index
+
+                logger.debug(f"Extracted metamath data with {len(statements)} statements")
+            else:
+                logger.debug("No proof_structure found on world")
+
+        except Exception as e:
+            logger.error(f"Error extracting metamath data: {e}")
+
+        return metamath_data
 
     def post_process_rule(self, rule: Dict[str, Any], context: Dict[str, Any] = None) -> Dict[str, Any]:
         """Post-process rules to resolve variable names to actual statement numbers."""

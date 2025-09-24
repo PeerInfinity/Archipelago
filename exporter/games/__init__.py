@@ -13,6 +13,7 @@ from .blasphemous import BlasphemousGameExportHandler
 from .bomb_rush_cyberfunk import BombRushCyberfunkGameExportHandler
 from .bumpstik import BumpStikGameExportHandler
 from .shorthike import ShortHikeGameExportHandler
+from .metamath import MetamathGameExportHandler
 
 # Register game-specific helper expanders
 GAME_HANDLERS: Dict[str, Type[BaseGameExportHandler]] = {
@@ -26,6 +27,7 @@ GAME_HANDLERS: Dict[str, Type[BaseGameExportHandler]] = {
     'Blasphemous': BlasphemousGameExportHandler,
     'Bomb Rush Cyberfunk': BombRushCyberfunkGameExportHandler,
     'Bumper Stickers': BumpStikGameExportHandler,
+    'Metamath': MetamathGameExportHandler,
 }
 
 def get_game_export_handler(game_name: str, world=None) -> BaseGameExportHandler:

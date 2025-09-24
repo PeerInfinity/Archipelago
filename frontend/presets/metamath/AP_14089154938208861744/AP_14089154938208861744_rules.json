@@ -119,7 +119,9 @@
         "locations": [],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "eqtr4i",
+        "label2": "|- A = C"
       },
       "Prove Statement 2": {
         "name": "Prove Statement 2",
@@ -191,12 +193,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 2,
+            "label1": "oveq2i",
+            "label2": "|- ( C F A ) = ( C F B )"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "oveq2i",
+        "label2": "|- ( C F A ) = ( C F B )"
       },
       "Prove Statement 3": {
         "name": "Prove Statement 3",
@@ -252,12 +259,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 3,
+            "label1": "df-2",
+            "label2": "|- 2 = ( 1 + 1 )"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "df-2",
+        "label2": "|- 2 = ( 1 + 1 )"
       },
       "Prove Statement 4": {
         "name": "Prove Statement 4",
@@ -349,12 +361,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 4,
+            "label1": "3eqtri",
+            "label2": "|- A = D"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "3eqtri",
+        "label2": "|- A = D"
       },
       "Prove Statement 5": {
         "name": "Prove Statement 5",
@@ -437,12 +454,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 5,
+            "label1": "df-4",
+            "label2": "|- 4 = ( 3 + 1 )"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "df-4",
+        "label2": "|- 4 = ( 3 + 1 )"
       },
       "Prove Statement 6": {
         "name": "Prove Statement 6",
@@ -525,12 +547,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 6,
+            "label1": "oveq1i",
+            "label2": "|- ( A F C ) = ( B F C )"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "oveq1i",
+        "label2": "|- ( A F C ) = ( B F C )"
       },
       "Prove Statement 7": {
         "name": "Prove Statement 7",
@@ -586,12 +613,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 7,
+            "label1": "df-3",
+            "label2": "|- 3 = ( 2 + 1 )"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "df-3",
+        "label2": "|- 3 = ( 2 + 1 )"
       },
       "Prove Statement 8": {
         "name": "Prove Statement 8",
@@ -684,12 +716,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 8,
+            "label1": "addassi",
+            "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "addassi",
+        "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )"
       },
       "Prove Statement 9": {
         "name": "Prove Statement 9",
@@ -761,12 +798,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 9,
+            "label1": "2cn",
+            "label2": "|- 2 e. CC"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "2cn",
+        "label2": "|- 2 e. CC"
       },
       "Prove Statement 10": {
         "name": "Prove Statement 10",
@@ -838,12 +880,17 @@
               "advancement": true,
               "priority": null,
               "type": "None"
-            }
+            },
+            "statement_id": 10,
+            "label1": "ax-1cn",
+            "label2": "|- 1 e. CC"
           }
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "label1": "ax-1cn",
+        "label2": "|- 1 e. CC"
       }
     }
   },
@@ -859,22 +906,23 @@
     "1": {
       "Statement 1": {
         "name": "Statement 1",
-        "id": 234790000,
         "groups": [
           "Everything",
           "Statements"
         ],
-        "advancement": false,
+        "advancement": true,
         "priority": false,
         "useful": false,
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "eqtr4i",
+        "label2": "|- A = C",
+        "id": 234790000
       },
       "Statement 2": {
         "name": "Statement 2",
-        "id": 234790001,
         "groups": [
           "Everything",
           "Statements"
@@ -885,11 +933,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "oveq2i",
+        "label2": "|- ( C F A ) = ( C F B )",
+        "id": 234790001
       },
       "Statement 3": {
         "name": "Statement 3",
-        "id": 234790002,
         "groups": [
           "Everything",
           "Statements"
@@ -900,11 +950,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "df-2",
+        "label2": "|- 2 = ( 1 + 1 )",
+        "id": 234790002
       },
       "Statement 4": {
         "name": "Statement 4",
-        "id": 234790003,
         "groups": [
           "Everything",
           "Statements"
@@ -915,11 +967,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "3eqtri",
+        "label2": "|- A = D",
+        "id": 234790003
       },
       "Statement 5": {
         "name": "Statement 5",
-        "id": 234790004,
         "groups": [
           "Everything",
           "Statements"
@@ -930,11 +984,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "df-4",
+        "label2": "|- 4 = ( 3 + 1 )",
+        "id": 234790004
       },
       "Statement 6": {
         "name": "Statement 6",
-        "id": 234790005,
         "groups": [
           "Everything",
           "Statements"
@@ -945,11 +1001,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "oveq1i",
+        "label2": "|- ( A F C ) = ( B F C )",
+        "id": 234790005
       },
       "Statement 7": {
         "name": "Statement 7",
-        "id": 234790006,
         "groups": [
           "Everything",
           "Statements"
@@ -960,11 +1018,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "df-3",
+        "label2": "|- 3 = ( 2 + 1 )",
+        "id": 234790006
       },
       "Statement 8": {
         "name": "Statement 8",
-        "id": 234790007,
         "groups": [
           "Everything",
           "Statements"
@@ -975,11 +1035,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "addassi",
+        "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+        "id": 234790007
       },
       "Statement 9": {
         "name": "Statement 9",
-        "id": 234790008,
         "groups": [
           "Everything",
           "Statements"
@@ -990,11 +1052,13 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "2cn",
+        "label2": "|- 2 e. CC",
+        "id": 234790008
       },
       "Statement 10": {
         "name": "Statement 10",
-        "id": 234790009,
         "groups": [
           "Everything",
           "Statements"
@@ -1005,127 +1069,10 @@
         "trap": false,
         "event": false,
         "type": null,
-        "max_count": 1
-      },
-      "Proof Hint": {
-        "name": "Proof Hint",
-        "id": 234791999,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Logic Guide": {
-        "name": "Logic Guide",
-        "id": 234791998,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Axiom Reference": {
-        "name": "Axiom Reference",
-        "id": 234791997,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Lemma Note": {
-        "name": "Lemma Note",
-        "id": 234791996,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Theorem Insight": {
-        "name": "Theorem Insight",
-        "id": 234791995,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Deduction Tip": {
-        "name": "Deduction Tip",
-        "id": 234791994,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "Inference Help": {
-        "name": "Inference Help",
-        "id": 234791993,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
-      },
-      "QED Moment": {
-        "name": "QED Moment",
-        "id": 234791992,
-        "groups": [
-          "Everything",
-          "Hints"
-        ],
-        "advancement": false,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": false,
-        "type": null,
-        "max_count": 1
+        "max_count": 1,
+        "label1": "ax-1cn",
+        "label2": "|- 1 e. CC",
+        "id": 234790009
       },
       "Statement 11": {
         "name": "Statement 11",
@@ -2476,6 +2423,126 @@
         "event": false,
         "type": null,
         "max_count": 1
+      },
+      "Proof Hint": {
+        "name": "Proof Hint",
+        "id": 234791999,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Logic Guide": {
+        "name": "Logic Guide",
+        "id": 234791998,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Axiom Reference": {
+        "name": "Axiom Reference",
+        "id": 234791997,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lemma Note": {
+        "name": "Lemma Note",
+        "id": 234791996,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Theorem Insight": {
+        "name": "Theorem Insight",
+        "id": 234791995,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Deduction Tip": {
+        "name": "Deduction Tip",
+        "id": 234791994,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inference Help": {
+        "name": "Inference Help",
+        "id": 234791993,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "QED Moment": {
+        "name": "QED Moment",
+        "id": 234791992,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
       }
     }
   },
@@ -2519,6 +2586,153 @@
       "name": "Metamath",
       "rule_format": {
         "version": "1.0"
+      }
+    }
+  },
+  "metamath_data": {
+    "1": {
+      "statements": {
+        "1": {
+          "label": "eqtr4i",
+          "expression": "|- A = C",
+          "dependencies": [
+            2,
+            4
+          ],
+          "full_text": "eqtr4i: An equality transitivity inference.  (Contributed by NM, 26-May-1993.) (|- A = C)"
+        },
+        "2": {
+          "label": "oveq2i",
+          "expression": "|- ( C F A ) = ( C F B )",
+          "dependencies": [
+            3
+          ],
+          "full_text": "oveq2i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.) (|- ( C F A ) = ( C F B ))"
+        },
+        "3": {
+          "label": "df-2",
+          "expression": "|- 2 = ( 1 + 1 )",
+          "dependencies": [],
+          "full_text": "df-2: Define the number 2.  (Contributed by NM, 27-May-1999.) (|- 2 = ( 1 + 1 ))"
+        },
+        "4": {
+          "label": "3eqtri",
+          "expression": "|- A = D",
+          "dependencies": [
+            8,
+            5,
+            6
+          ],
+          "full_text": "3eqtri: Register '=' as an equality for its type (class). $) $( $j equality 'wceq' from 'eqid' 'eqcomi' 'eqtri'; $) ${ 3eqtri.1 $e |- A = B $. 3eqtri.2 $e |- B = C $. 3eqtri.3 $e |- C = D $. $( An inference from three chained equalities.  (Contributed by NM, 29-Aug-1993.) (|- A = D)"
+        },
+        "5": {
+          "label": "df-4",
+          "expression": "|- 4 = ( 3 + 1 )",
+          "dependencies": [],
+          "full_text": "df-4: Define the number 4.  (Contributed by NM, 27-May-1999.) (|- 4 = ( 3 + 1 ))"
+        },
+        "6": {
+          "label": "oveq1i",
+          "expression": "|- ( A F C ) = ( B F C )",
+          "dependencies": [
+            7
+          ],
+          "full_text": "oveq1i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.) (|- ( A F C ) = ( B F C ))"
+        },
+        "7": {
+          "label": "df-3",
+          "expression": "|- 3 = ( 2 + 1 )",
+          "dependencies": [],
+          "full_text": "df-3: Define the number 3.  (Contributed by NM, 27-May-1999.) (|- 3 = ( 2 + 1 ))"
+        },
+        "8": {
+          "label": "addassi",
+          "expression": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+          "dependencies": [
+            9,
+            10
+          ],
+          "full_text": "addassi: Associative law for addition.  (Contributed by NM, 23-Nov-1994.) (|- ( ( A + B ) + C ) = ( A + ( B + C ) ))"
+        },
+        "9": {
+          "label": "2cn",
+          "expression": "|- 2 e. CC",
+          "dependencies": [],
+          "full_text": "2cn: The number 2 is a complex number.  (Contributed by NM, 30-Jul-2004.) Reduce dependencies on axioms.  (Revised by Steven Nguyen, 4-Oct-2022.) (|- 2 e. CC)"
+        },
+        "10": {
+          "label": "ax-1cn",
+          "expression": "|- 1 e. CC",
+          "dependencies": [],
+          "full_text": "ax-1cn: $j restatement 'ax-resscn' of 'axresscn'; $) $( 1 is a complex number.  Axiom 2 of 22 for real and complex numbers, justified by Theorem ~ ax1cn .  (Contributed by NM, 1-Mar-1995.) (|- 1 e. CC)"
+        }
+      },
+      "dependency_graph": {
+        "1": [
+          2,
+          4
+        ],
+        "2": [
+          3
+        ],
+        "3": [],
+        "4": [
+          8,
+          5,
+          6
+        ],
+        "5": [],
+        "6": [
+          7
+        ],
+        "7": [],
+        "8": [
+          9,
+          10
+        ],
+        "9": [],
+        "10": []
+      },
+      "reverse_dependencies": {
+        "2": [
+          1
+        ],
+        "4": [
+          1
+        ],
+        "3": [
+          2
+        ],
+        "8": [
+          4
+        ],
+        "5": [
+          4
+        ],
+        "6": [
+          4
+        ],
+        "7": [
+          6
+        ],
+        "9": [
+          8
+        ],
+        "10": [
+          8
+        ]
+      },
+      "label_to_index": {
+        "eqtr4i": 1,
+        "oveq2i": 2,
+        "df-2": 3,
+        "3eqtri": 4,
+        "df-4": 5,
+        "oveq1i": 6,
+        "df-3": 7,
+        "addassi": 8,
+        "2cn": 9,
+        "ax-1cn": 10
       }
     }
   }

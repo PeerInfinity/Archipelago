@@ -42,7 +42,9 @@ export class LocationUI {
     this.settingsUnsubscribe = null;
     this.colorblindSettings = {}; // Cache colorblind settings
     this.showLocationItems = false; // Cache showLocationItems setting
-    this.showFullText = false; // Cache showFullText setting
+    this.showName = true; // Cache showName setting
+    this.showLabel1 = false; // Cache showLabel1 setting
+    this.showLabel2 = false; // Cache showLabel2 setting
     this.isInitialized = false; // Add flag
     this.isDiscoveryModeActive = false; // Track discovery mode state
     this.originalLocationOrder = []; // ADDED: To store original keys
@@ -99,29 +101,37 @@ export class LocationUI {
     try {
       this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
       this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
-      this.showFullText = await settingsManager.getSetting('moduleSettings.locations.showFullText', false);
+      this.showName = await settingsManager.getSetting('moduleSettings.locations.showName', true);
+      this.showLabel1 = await settingsManager.getSetting('moduleSettings.locations.showLabel1', false);
+      this.showLabel2 = await settingsManager.getSetting('moduleSettings.locations.showLabel2', false);
     } catch (error) {
       log('error', 'Error loading settings:', error);
       this.colorblindSettings = false;
       this.showLocationItems = false;
-      this.showFullText = false;
+      this.showName = true;
+      this.showLabel1 = false;
+      this.showLabel2 = false;
     }
 
     this.settingsUnsubscribe = eventBus.subscribe(
       'settings:changed',
       async ({ key, value }) => {
-        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems') || key.startsWith('moduleSettings.locations.showFullText')) {
+        if (key === '*' || key.startsWith('colorblindMode.locations') || key.startsWith('moduleSettings.commonUI.showLocationItems') || key.startsWith('moduleSettings.locations.showName') || key.startsWith('moduleSettings.locations.showLabel1') || key.startsWith('moduleSettings.locations.showLabel2')) {
           log('info', 'LocationUI reacting to settings change:', key);
           // Update cache
           try {
             this.colorblindSettings = await settingsManager.getSetting('colorblindMode.locations', false);
             this.showLocationItems = await settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false);
-            this.showFullText = await settingsManager.getSetting('moduleSettings.locations.showFullText', false);
+            this.showName = await settingsManager.getSetting('moduleSettings.locations.showName', true);
+            this.showLabel1 = await settingsManager.getSetting('moduleSettings.locations.showLabel1', false);
+            this.showLabel2 = await settingsManager.getSetting('moduleSettings.locations.showLabel2', false);
           } catch (error) {
             log('error', 'Error loading settings during update:', error);
             this.colorblindSettings = false;
             this.showLocationItems = false;
-            this.showFullText = false;
+            this.showName = true;
+            this.showLabel1 = false;
+            this.showLabel2 = false;
           }
           this.updateLocationDisplay(); // Trigger redraw
         }
@@ -141,9 +151,28 @@ export class LocationUI {
     this.onPanelDestroy();
   }
 
-  shouldUseFullText() {
-    // Return the cached showFullText setting
-    return this.showFullText;
+  getLocationDisplayElements(location) {
+    // Build array of display elements based on enabled settings
+    const elements = [];
+
+    if (this.showName && location.name) {
+      elements.push({ type: 'name', text: location.name });
+    }
+
+    if (this.showLabel1 && location.label1) {
+      elements.push({ type: 'label1', text: location.label1 });
+    }
+
+    if (this.showLabel2 && location.label2) {
+      elements.push({ type: 'label2', text: location.label2 });
+    }
+
+    // If nothing is enabled or no data available, default to name
+    if (elements.length === 0) {
+      elements.push({ type: 'name', text: location.name || 'Unknown' });
+    }
+
+    return elements;
   }
 
   // --- NEW: Event Subscription for State/Loop --- //
@@ -1182,17 +1211,32 @@ export class LocationUI {
         // Clear existing content of locationCard before appending new elements
         locationCard.innerHTML = '';
 
-        // Location Name (as a span)
-        const locationNameSpan = document.createElement('span');
-        locationNameSpan.className = 'location-name';
+        // Create a container for location text lines
+        const locationTextContainer = document.createElement('div');
+        locationTextContainer.className = 'location-text-container';
+        locationTextContainer.style.display = 'flex';
+        locationTextContainer.style.flexDirection = 'column';
+        locationTextContainer.style.gap = '2px';
 
-        // Use fullText if available and settings allow it
-        const useFullText = this.shouldUseFullText();
-        const displayName = (useFullText && location.fullText) ? location.fullText : name;
-        locationNameSpan.textContent = displayName;
-        locationNameSpan.title = location.fullText || name; // Show full text as tooltip
+        // Get display elements based on enabled settings
+        const displayElements = this.getLocationDisplayElements(location);
 
-        locationCard.appendChild(locationNameSpan);
+        // Create a separate div for each enabled element
+        displayElements.forEach((element, index) => {
+          const lineDiv = document.createElement('div');
+          lineDiv.className = `location-${element.type}`;
+          lineDiv.textContent = element.text;
+          locationTextContainer.appendChild(lineDiv);
+        });
+
+        // Build tooltip with all available information
+        const tooltipParts = [];
+        if (location.name) tooltipParts.push(`Name: ${location.name}`);
+        if (location.label1) tooltipParts.push(`Label: ${location.label1}`);
+        if (location.label2) tooltipParts.push(`Expression: ${location.label2}`);
+        locationTextContainer.title = tooltipParts.join('\n') || name; // Show all info as tooltip
+
+        locationCard.appendChild(locationTextContainer);
 
         // Item at Location (if showLocationItems is enabled)
         if (this.showLocationItems && snapshot?.locationItems) {
@@ -1421,14 +1465,26 @@ export class LocationUI {
       modalRuleTree.textContent = 'No rule defined.';
     }
 
-    // Use fullText if available and settings allow it
-    const useFullText = this.shouldUseFullText();
-    const displayName = (useFullText && location.fullText) ? location.fullText : location.name;
-    modalTitle.textContent = `Details for ${displayName}`;
+    // Get display elements for the modal title
+    const displayElements = this.getLocationDisplayElements(location);
+    const displayNames = displayElements.map(el => el.text);
+    modalTitle.textContent = `Details for ${displayNames.join(' - ')}`;
+
     let detailsContent = `<p><strong>Region:</strong> ${
       location.region || 'N/A'
     }</p>`;
     detailsContent += `<p><strong>Type:</strong> ${location.type || 'N/A'}</p>`;
+
+    // Always show name, label1 and label2 in the modal if available
+    if (location.name) {
+      detailsContent += `<p><strong>Name:</strong> ${location.name}</p>`;
+    }
+    if (location.label1) {
+      detailsContent += `<p><strong>Label:</strong> ${location.label1}</p>`;
+    }
+    if (location.label2) {
+      detailsContent += `<p><strong>Expression:</strong> ${location.label2}</p>`;
+    }
     // Add more location details as needed (e.g., item if present in staticData.locations[location.name].item)
     const staticLocationData = staticData.locations[location.name];
     if (staticLocationData && staticLocationData.item) {
