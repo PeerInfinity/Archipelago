@@ -23,6 +23,10 @@ python Generate.py --weights_file_path "Templates/WebDevJourney.yaml" --multi 1 
 python Generate.py --weights_file_path "Templates/WebDevJourney.yaml" --multi 1 --seed 2
 python Generate.py --weights_file_path "Templates/WebDevJourney.yaml" --multi 1 --seed 3
 
+python Generate.py --weights_file_path "Templates/Metamath.yaml" --multi 1 --seed 1
+python Generate.py --weights_file_path "Templates/Metamath.yaml" --multi 1 --seed 2
+python Generate.py --weights_file_path "Templates/Metamath.yaml" --multi 1 --seed 3
+
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 1
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 2
 python Generate.py --player_files_path "Players/presets/Multiworld" --seed 3

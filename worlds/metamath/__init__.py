@@ -112,17 +112,19 @@ class MetamathWorld(World):
                     region.locations.append(location)
 
         # Connect Menu to statement regions that have NO dependencies (axioms/base statements)
-        for i, region in statement_regions.items():
+        for i in sorted(statement_regions.keys()):
+            region = statement_regions[i]
             dependencies = self.proof_structure.dependency_graph.get(i, [])
             if not dependencies:
                 menu_region.connect(region, f"To Statement {i}")
 
         # Connect regions based on dependency graph
         # Create exits from each statement to statements that depend on it
-        for i, dependents in self.proof_structure.reverse_dependencies.items():
+        for i in sorted(self.proof_structure.reverse_dependencies.keys()):
+            dependents = self.proof_structure.reverse_dependencies[i]
             if i in statement_regions:
                 source_region = statement_regions[i]
-                for dependent in dependents:
+                for dependent in sorted(dependents):
                     if dependent in statement_regions:
                         target_region = statement_regions[dependent]
                         # Create connection from this statement to statements that depend on it
@@ -135,6 +137,11 @@ class MetamathWorld(World):
     def set_rules(self):
         """Set access rules based on proof dependencies."""
         set_metamath_rules(self, self.proof_structure)
+
+        # Set completion condition - the goal is to prove the final theorem
+        # This is achieved by having all the items required to prove it
+        final_statement = self.num_statements
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(f"Statement {final_statement}", self.player)
 
         # Save dependency mappings for the exporter to use
         # This helps the exporter resolve which items are actually required

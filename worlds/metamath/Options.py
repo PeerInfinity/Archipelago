@@ -40,7 +40,7 @@ class StartingStatements(Range):
     display_name = "Starting Statements %"
     range_start = 0
     range_end = 50
-    default = 10
+    default = 0
 
 class HintFrequency(Range):
     """

@@ -254,32 +254,9 @@ def prepare_export_data(multiworld) -> Dict[str, Any]:
         world = multiworld.worlds[player]
         game_handler = get_game_export_handler(game_name, world)
 
-        # Get metamath-specific data first if this is a metamath world
-        # This needs to happen before processing regions so the cache is loaded
-        if game_name == "Metamath":
-            logger.info(f"Processing Metamath world for player {player}")
-            logger.info(f"Game handler type: {type(game_handler)}")
-            logger.info(f"Has get_metamath_data: {hasattr(game_handler, 'get_metamath_data')}")
-
-            if hasattr(game_handler, 'get_metamath_data'):
-                try:
-                    metamath_data = game_handler.get_metamath_data(world)
-                    logger.info(f"Got metamath_data: {bool(metamath_data)}, keys: {metamath_data.keys() if metamath_data else 'None'}")
-                    if metamath_data:
-                        if 'metamath_data' not in export_data:
-                            export_data['metamath_data'] = {}
-                        export_data['metamath_data'][player_str] = metamath_data
-                        logger.info(f"Successfully added metamath_data for player {player}")
-                        # Ensure the dependency cache is loaded for exit rule processing
-                        if hasattr(game_handler, 'ensure_cache_loaded'):
-                            game_handler.ensure_cache_loaded(world, metamath_data)
-                            logger.debug(f"Ensured cache is loaded for metamath handler")
-                    else:
-                        logger.warning(f"metamath_data was empty for player {player}")
-                except Exception as e:
-                    logger.error(f"Error getting metamath data for player {player}: {e}", exc_info=True)
-            else:
-                logger.warning(f"Game handler does not have get_metamath_data method")
+        # Call game-specific preprocessing
+        # This allows games to set up data and caches before region processing
+        game_handler.preprocess_world_data(world, export_data, player)
 
         # Process all regions and their connections
         # Also extract dungeons to separate structure

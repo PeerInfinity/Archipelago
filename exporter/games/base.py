@@ -206,3 +206,19 @@ class BaseGameExportHandler:
         """
         # Base implementation returns no additional attributes
         return {}
+
+    def preprocess_world_data(self, world, export_data: Dict[str, Any], player: int) -> None:
+        """
+        Preprocess game-specific data before region processing.
+        This is called early in the export process to set up any necessary data.
+
+        Args:
+            world: The world object for this player
+            export_data: The export data dictionary being built
+            player: The player number
+
+        Returns:
+            None (modifies export_data in place)
+        """
+        # Base implementation does nothing
+        pass

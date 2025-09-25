@@ -17,31 +17,6 @@ class MetamathGameExportHandler(BaseGameExportHandler):
         self._cache_loaded = False
         self._metamath_data = None
 
-    def _build_exit_dependencies_from_metamath_data(self):
-        """Build exit dependencies from metamath_data if available."""
-        if not self._metamath_data:
-            return {}
-
-        exit_deps = {}
-        dependency_graph = self._metamath_data.get('dependency_graph', {})
-        reverse_dependencies = self._metamath_data.get('reverse_dependencies', {})
-
-        # Build exit dependencies based on the pattern "From Statement X to Statement Y"
-        # where Y has dependencies and X -> Y is a valid exit (X appears in Y's reverse deps)
-        for target_stmt, deps in dependency_graph.items():
-            if deps:  # Only if the target has dependencies
-                target_num = int(target_stmt) if isinstance(target_stmt, str) else target_stmt
-                dep_items = [f"Statement {d}" for d in sorted(deps)]
-
-                # Get the statements that have edges TO this target
-                # These are the reverse dependencies
-                sources = reverse_dependencies.get(str(target_num), [])
-                for source_num in sources:
-                    exit_name = f"From Statement {source_num} to Statement {target_num}"
-                    exit_deps[exit_name] = dep_items
-
-        return exit_deps
-
     def _load_dependency_cache(self, world):
         """Load dependency data directly from the world object or build from metamath_data."""
         if self._cache_loaded:
@@ -70,12 +45,8 @@ class MetamathGameExportHandler(BaseGameExportHandler):
                 self._exit_dependency_cache = world.exit_dependencies
                 logger.debug(f"Loaded {len(self._exit_dependency_cache)} exit dependencies from world object")
             else:
-                # Try to build from metamath_data as fallback
-                self._exit_dependency_cache = self._build_exit_dependencies_from_metamath_data()
-                if self._exit_dependency_cache:
-                    logger.debug(f"Built {len(self._exit_dependency_cache)} exit dependencies from metamath_data")
-                else:
-                    logger.debug("No exit_dependencies found and could not build from metamath_data")
+                self._exit_dependency_cache = {}
+                logger.debug("No exit_dependencies found on world object")
 
             self._cache_loaded = True
         except Exception as e:
@@ -163,7 +134,8 @@ class MetamathGameExportHandler(BaseGameExportHandler):
 
         # Add label1 and label2 for statement items
         if hasattr(world, 'proof_structure') and world.proof_structure:
-            for stmt_num, statement in world.proof_structure.statements.items():
+            for stmt_num in sorted(world.proof_structure.statements.keys()):
+                statement = world.proof_structure.statements[stmt_num]
                 item_name = f"Statement {stmt_num}"
 
                 # Initialize item data if it doesn't exist
@@ -191,6 +163,38 @@ class MetamathGameExportHandler(BaseGameExportHandler):
 
         return items_data
 
+    def preprocess_world_data(self, world, export_data: Dict[str, Any], player: int) -> None:
+        """
+        Preprocess metamath-specific data before region processing.
+        This sets up the metamath_data and ensures the cache is loaded.
+
+        Args:
+            world: The world object for this player
+            export_data: The export data dictionary being built
+            player: The player number
+        """
+        import logging
+        logger = logging.getLogger(__name__)
+        player_str = str(player)
+
+        logger.info(f"Processing Metamath world for player {player}")
+
+        try:
+            metamath_data = self.get_metamath_data(world)
+            logger.info(f"Got metamath_data: {bool(metamath_data)}, keys: {metamath_data.keys() if metamath_data else 'None'}")
+            if metamath_data:
+                if 'metamath_data' not in export_data:
+                    export_data['metamath_data'] = {}
+                export_data['metamath_data'][player_str] = metamath_data
+                logger.info(f"Successfully added metamath_data for player {player}")
+                # Ensure the dependency cache is loaded for exit rule processing
+                self.ensure_cache_loaded(world, metamath_data)
+                logger.debug(f"Ensured cache is loaded for metamath handler")
+            else:
+                logger.warning(f"metamath_data was empty for player {player}")
+        except Exception as e:
+            logger.error(f"Error getting metamath data for player {player}: {e}", exc_info=True)
+
     def get_metamath_data(self, world) -> Dict[str, Any]:
         """
         Extract all metamath data from the world's proof_structure.
@@ -204,11 +208,12 @@ class MetamathGameExportHandler(BaseGameExportHandler):
 
                 # Store all statement data
                 statements = {}
-                for stmt_num, statement in world.proof_structure.statements.items():
+                for stmt_num in sorted(world.proof_structure.statements.keys()):
+                    statement = world.proof_structure.statements[stmt_num]
                     stmt_data = {
                         'label': statement.label,
                         'expression': statement.expression,
-                        'dependencies': statement.dependencies,
+                        'dependencies': sorted(list(statement.dependencies)),
                     }
 
                     # Include full_text if available
@@ -221,15 +226,17 @@ class MetamathGameExportHandler(BaseGameExportHandler):
 
                 # Store dependency graph
                 dependency_graph = {}
-                for stmt_num, deps in world.proof_structure.dependency_graph.items():
-                    dependency_graph[str(stmt_num)] = list(deps)
+                for stmt_num in sorted(world.proof_structure.dependency_graph.keys()):
+                    deps = world.proof_structure.dependency_graph[stmt_num]
+                    dependency_graph[str(stmt_num)] = sorted(list(deps))
                 metamath_data['dependency_graph'] = dependency_graph
 
                 # Store reverse dependencies if available
                 if hasattr(world.proof_structure, 'reverse_dependencies'):
                     reverse_deps = {}
-                    for stmt_num, deps in world.proof_structure.reverse_dependencies.items():
-                        reverse_deps[str(stmt_num)] = list(deps)
+                    for stmt_num in sorted(world.proof_structure.reverse_dependencies.keys()):
+                        deps = world.proof_structure.reverse_dependencies[stmt_num]
+                        reverse_deps[str(stmt_num)] = sorted(list(deps))
                     metamath_data['reverse_dependencies'] = reverse_deps
 
                 # Store label to index mapping if available
