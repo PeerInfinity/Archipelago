@@ -5,6 +5,7 @@ import metamathpy.database as md
 from metamathpy.proof import verify_proof
 import os
 import urllib.request
+from collections import defaultdict, deque
 
 class ProofStatement:
     """Represents a single statement in a metamath proof."""
@@ -61,7 +62,34 @@ class ProofStructure:
 def set_metamath_rules(world, proof_structure: ProofStructure):
     """Set access rules for metamath regions based on proof dependencies."""
 
-    # Set access rules on region entrances
+    # Helper function to create dependency rules
+    def create_dependency_rule(deps_list, player):
+        if len(deps_list) == 1:
+            # Single dependency - create item name directly
+            item_name = "Statement " + str(deps_list[0])
+            return lambda state, item=item_name, p=player: state.has(item, p)
+        elif len(deps_list) == 2:
+            # Two dependencies - create item names directly
+            item1 = "Statement " + str(deps_list[0])
+            item2 = "Statement " + str(deps_list[1])
+            return lambda state, i1=item1, i2=item2, p=player: state.has(i1, p) and state.has(i2, p)
+        elif len(deps_list) == 3:
+            # Three dependencies - create item names directly
+            item1 = "Statement " + str(deps_list[0])
+            item2 = "Statement " + str(deps_list[1])
+            item3 = "Statement " + str(deps_list[2])
+            return lambda state, i1=item1, i2=item2, i3=item3, p=player: state.has(i1, p) and state.has(i2, p) and state.has(i3, p)
+        else:
+            # More than 3 - build a function that explicitly checks each
+            item_names = ["Statement " + str(d) for d in deps_list]
+            def check_rule(state):
+                for item_name in item_names:
+                    if not state.has(item_name, player):
+                        return False
+                return True
+            return check_rule
+
+    # Set access rules on both locations AND region entrances
     for region in world.multiworld.get_regions(world.player):
         if region.name.startswith("Prove Statement "):
             # Extract statement number from region name
@@ -71,45 +99,17 @@ def set_metamath_rules(world, proof_structure: ProofStructure):
                 dependencies = proof_structure.dependency_graph[stmt_num]
 
                 if dependencies:  # Only set rule if there are dependencies
+                    # Convert set to sorted list for consistent ordering
+                    deps_list = sorted(list(dependencies))
+                    rule = create_dependency_rule(deps_list, world.player)
+
                     # Set access rules on all entrances to this region
                     for entrance in region.entrances:
-                        # Convert set to sorted list for consistent ordering
-                        deps_list = sorted(list(dependencies))
+                        set_rule(entrance, rule)
 
-                        # Build lambda based on exact dependencies
-                        # Create item names upfront to avoid f-string issues
-
-                        if len(deps_list) == 1:
-                            # Single dependency - create item name directly
-                            item_name = "Statement " + str(deps_list[0])
-                            set_rule(entrance,
-                                lambda state, item=item_name, p=world.player: state.has(item, p))
-                        elif len(deps_list) == 2:
-                            # Two dependencies - create item names directly
-                            item1 = "Statement " + str(deps_list[0])
-                            item2 = "Statement " + str(deps_list[1])
-                            set_rule(entrance,
-                                lambda state, i1=item1, i2=item2, p=world.player:
-                                    state.has(i1, p) and state.has(i2, p))
-                        elif len(deps_list) == 3:
-                            # Three dependencies - create item names directly
-                            item1 = "Statement " + str(deps_list[0])
-                            item2 = "Statement " + str(deps_list[1])
-                            item3 = "Statement " + str(deps_list[2])
-                            set_rule(entrance,
-                                lambda state, i1=item1, i2=item2, i3=item3, p=world.player:
-                                    state.has(i1, p) and state.has(i2, p) and state.has(i3, p))
-                        else:
-                            # More than 3 - build a function that explicitly checks each
-                            def make_multi_dep_rule(dep_nums, player):
-                                item_names = ["Statement " + str(d) for d in dep_nums]
-                                def check_rule(state):
-                                    for item_name in item_names:
-                                        if not state.has(item_name, player):
-                                            return False
-                                    return True
-                                return check_rule
-                            set_rule(entrance, make_multi_dep_rule(deps_list[:], world.player))
+                    # Set access rules on all locations in this region
+                    for location in region.locations:
+                        set_rule(location, rule)
 
 def download_metamath_database(target_path: str) -> bool:
     """Download the metamath database if it doesn't exist."""
@@ -195,6 +195,52 @@ def extract_statement_descriptions(db_path: str) -> Dict[str, str]:
         print(f"Warning: Could not extract descriptions from {db_path}: {e}")
 
     return descriptions
+
+def topological_sort_proof(ordered_steps: List[str], dependencies: Dict[str, Set[str]]) -> List[str]:
+    """
+    Reorder proof steps using topological sort so dependencies come before dependents.
+    This provides a more logical ordering where base definitions come first.
+
+    Args:
+        ordered_steps: Original list of proof step labels
+        dependencies: Dictionary mapping each step to its dependencies
+
+    Returns:
+        Topologically sorted list of step labels
+    """
+    # Create adjacency list and in-degree count
+    graph = defaultdict(list)
+    in_degree = defaultdict(int)
+
+    # Initialize all steps
+    for step in ordered_steps:
+        if step not in in_degree:
+            in_degree[step] = 0
+
+    # Build graph (dependency -> dependent)
+    for step, deps in dependencies.items():
+        for dep in deps:
+            graph[dep].append(step)
+            in_degree[step] += 1
+
+    # Find all nodes with no incoming edges (no dependencies)
+    queue = deque([step for step in ordered_steps if in_degree[step] == 0])
+    result = []
+
+    while queue:
+        # Sort queue to ensure consistent ordering among steps at same level
+        current = sorted(queue)[0]
+        queue.remove(current)
+        result.append(current)
+
+        # Remove edges from this node
+        for neighbor in sorted(graph[current]):  # Sort for consistency
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    # Return sorted order if successful, otherwise original order
+    return result if len(result) == len(ordered_steps) else ordered_steps
 
 def extract_proof_dependencies(db, theorem_name: str) -> Tuple[List[str], Dict[str, Set[str]]]:
     """
@@ -282,6 +328,9 @@ def parse_proof_from_database(db, theorem_name: str, descriptions: Dict[str, str
                 full_text=full_text
             ))
         return structure
+
+    # Apply topological sort for more logical ordering
+    ordered_steps = topological_sort_proof(ordered_steps, dependencies)
 
     # Convert to ProofStructure format
     label_to_index = {}

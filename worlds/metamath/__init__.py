@@ -111,24 +111,22 @@ class MetamathWorld(World):
                     )
                     region.locations.append(location)
 
-        # Connect Menu to all statement regions that have no dependencies or only starting statement dependencies
+        # Connect Menu to statement regions that have NO dependencies (axioms/base statements)
         for i, region in statement_regions.items():
             dependencies = self.proof_structure.dependency_graph.get(i, [])
-            # Connect from menu if this statement has no dependencies, or only depends on starting statements
-            if not dependencies or all(dep in self.starting_statements for dep in dependencies):
+            if not dependencies:
                 menu_region.connect(region, f"To Statement {i}")
 
         # Connect regions based on dependency graph
-        # For each statement, create connections FROM its dependency regions TO this region
-        for i, region in statement_regions.items():
-            dependencies = self.proof_structure.dependency_graph.get(i, [])
-
-            # For each dependency, create a connection from that region to this one
-            for dep in dependencies:
-                if dep in statement_regions:
-                    source_region = statement_regions[dep]
-                    # Create connection from dependency region to this region
-                    source_region.connect(region, f"From Statement {dep} to Statement {i}")
+        # Create exits from each statement to statements that depend on it
+        for i, dependents in self.proof_structure.reverse_dependencies.items():
+            if i in statement_regions:
+                source_region = statement_regions[i]
+                for dependent in dependents:
+                    if dependent in statement_regions:
+                        target_region = statement_regions[dependent]
+                        # Create connection from this statement to statements that depend on it
+                        source_region.connect(target_region, f"From Statement {i} to Statement {dependent}")
 
         # Add all regions to multiworld
         self.multiworld.regions.append(menu_region)
