@@ -11,6 +11,79 @@ logger = logging.getLogger(__name__)
 class MetamathGameExportHandler(BaseGameExportHandler):
     """Metamath specific rule handler that resolves statement dependencies."""
 
+    def __init__(self):
+        super().__init__()
+        self._dependency_cache = {}
+        self._cache_loaded = False
+        self._metamath_data = None
+
+    def _build_exit_dependencies_from_metamath_data(self):
+        """Build exit dependencies from metamath_data if available."""
+        if not self._metamath_data:
+            return {}
+
+        exit_deps = {}
+        dependency_graph = self._metamath_data.get('dependency_graph', {})
+        reverse_dependencies = self._metamath_data.get('reverse_dependencies', {})
+
+        # Build exit dependencies based on the pattern "From Statement X to Statement Y"
+        # where Y has dependencies and X -> Y is a valid exit (X appears in Y's reverse deps)
+        for target_stmt, deps in dependency_graph.items():
+            if deps:  # Only if the target has dependencies
+                target_num = int(target_stmt) if isinstance(target_stmt, str) else target_stmt
+                dep_items = [f"Statement {d}" for d in sorted(deps)]
+
+                # Get the statements that have edges TO this target
+                # These are the reverse dependencies
+                sources = reverse_dependencies.get(str(target_num), [])
+                for source_num in sources:
+                    exit_name = f"From Statement {source_num} to Statement {target_num}"
+                    exit_deps[exit_name] = dep_items
+
+        return exit_deps
+
+    def _load_dependency_cache(self, world):
+        """Load dependency data directly from the world object or build from metamath_data."""
+        if self._cache_loaded:
+            return
+
+        try:
+            # First, try to get metamath_data if available
+            self._metamath_data = self.get_metamath_data(world)
+
+            # Get the dependency data directly from the world object
+            if hasattr(world, 'location_dependencies'):
+                self._dependency_cache = world.location_dependencies
+                logger.debug(f"Loaded {len(self._dependency_cache)} location dependencies from world object")
+            else:
+                logger.debug("No location_dependencies found on world object")
+
+            # Also load entrance dependencies if available
+            if hasattr(world, 'entrance_dependencies'):
+                self._entrance_dependency_cache = world.entrance_dependencies
+                logger.debug(f"Loaded {len(self._entrance_dependency_cache)} entrance dependencies from world object")
+            else:
+                self._entrance_dependency_cache = {}
+
+            # Also load exit dependencies if available
+            if hasattr(world, 'exit_dependencies'):
+                self._exit_dependency_cache = world.exit_dependencies
+                logger.debug(f"Loaded {len(self._exit_dependency_cache)} exit dependencies from world object")
+            else:
+                # Try to build from metamath_data as fallback
+                self._exit_dependency_cache = self._build_exit_dependencies_from_metamath_data()
+                if self._exit_dependency_cache:
+                    logger.debug(f"Built {len(self._exit_dependency_cache)} exit dependencies from metamath_data")
+                else:
+                    logger.debug("No exit_dependencies found and could not build from metamath_data")
+
+            self._cache_loaded = True
+        except Exception as e:
+            logger.debug(f"Could not load dependency data: {e}")
+            self._cache_loaded = True
+            self._entrance_dependency_cache = {}
+            self._exit_dependency_cache = {}
+
     def get_region_attributes(self, region) -> Dict[str, Any]:
         """Add statement reference and label/expression attributes to metamath regions."""
         attributes = {}
@@ -47,6 +120,9 @@ class MetamathGameExportHandler(BaseGameExportHandler):
         """Add statement reference and label/expression attributes to metamath locations."""
         attributes = {}
 
+        # Make sure cache is loaded
+        self._load_dependency_cache(world)
+
         # Extract statement number from location name (format: "Prove Statement X")
         if location.name and location.name.startswith("Prove Statement "):
             try:
@@ -67,6 +143,11 @@ class MetamathGameExportHandler(BaseGameExportHandler):
                         if hasattr(statement, 'expression') and statement.expression:
                             attributes['label2'] = statement.expression
                             logger.debug(f"Added label2 (expression) for statement {stmt_num}: {statement.expression}")
+
+                # Add the actual dependencies for this location if we have them cached
+                if location.name in self._dependency_cache:
+                    attributes['required_items'] = self._dependency_cache[location.name]
+                    logger.debug(f"Added required_items for {location.name}: {attributes['required_items']}")
 
             except (ValueError, AttributeError) as e:
                 logger.debug(f"Could not process location {location.name}: {e}")
@@ -248,3 +329,84 @@ class MetamathGameExportHandler(BaseGameExportHandler):
 
         # Fallback to original function
         return rule_func
+
+    def set_context(self, context: str):
+        """Store the current context (location name) for rule processing."""
+        self._current_context = context
+
+    def ensure_cache_loaded(self, world, metamath_data=None):
+        """Ensure the dependency cache is loaded."""
+        # If metamath_data is provided, use it directly
+        if metamath_data:
+            self._metamath_data = metamath_data
+        self._load_dependency_cache(world)
+
+    def postprocess_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
+        """Post-process rules to replace has_all with actual item requirements."""
+        if not rule or not isinstance(rule, dict):
+            return rule
+
+        # Handle state_method calls (like has_all)
+        if rule.get('type') == 'state_method' and rule.get('method') == 'has_all':
+            # Check if we have cached dependencies for the current context
+            context = getattr(self, '_current_context', None)
+            item_list = None
+
+            # First check location dependencies
+            if context and context in self._dependency_cache:
+                item_list = self._dependency_cache[context]
+                logger.debug(f"Post-processing location dependencies for {context}: {item_list}")
+
+            # If not found, check entrance dependencies
+            elif context and hasattr(self, '_entrance_dependency_cache') and context in self._entrance_dependency_cache:
+                item_list = self._entrance_dependency_cache[context]
+                logger.debug(f"Post-processing entrance dependencies for {context}: {item_list}")
+
+            # If not found, check exit dependencies
+            elif context and hasattr(self, '_exit_dependency_cache') and context in self._exit_dependency_cache:
+                item_list = self._exit_dependency_cache[context]
+                logger.debug(f"Post-processing exit dependencies for {context}: {item_list}")
+
+            # If we found dependencies, replace the rule
+            if item_list:
+                # Replace the rule with explicit item checks
+                if len(item_list) == 1:
+                    # Single item - simple check
+                    return {
+                        'type': 'item_check',
+                        'item': {
+                            'type': 'constant',
+                            'value': item_list[0]
+                        },
+                        'count': {
+                            'type': 'constant',
+                            'value': 1
+                        }
+                    }
+                else:
+                    # Multiple items - create AND conditions
+                    conditions = []
+                    for item_name in item_list:
+                        conditions.append({
+                            'type': 'item_check',
+                            'item': {
+                                'type': 'constant',
+                                'value': item_name
+                            },
+                            'count': {
+                                'type': 'constant',
+                                'value': 1
+                            }
+                        })
+                    return {
+                        'type': 'and',
+                        'conditions': conditions
+                    }
+
+        return rule
+
+    def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
+        """Expand rules - call parent implementation then postprocess."""
+        expanded = super().expand_rule(rule)
+        # Apply postprocessing to handle has_all replacements
+        return self.postprocess_rule(expanded)

@@ -1,6 +1,6 @@
 from typing import List, Dict, Set, Optional, Tuple
 from BaseClasses import MultiWorld, CollectionState
-from worlds.generic.Rules import set_rule
+from worlds.generic.Rules import add_rule
 import metamathpy.database as md
 from metamathpy.proof import verify_proof
 import os
@@ -61,36 +61,10 @@ class ProofStructure:
 
 def set_metamath_rules(world, proof_structure: ProofStructure):
     """Set access rules for metamath regions based on proof dependencies."""
+    player = world.player
 
-    # Helper function to create dependency rules
-    def create_dependency_rule(deps_list, player):
-        if len(deps_list) == 1:
-            # Single dependency - create item name directly
-            item_name = "Statement " + str(deps_list[0])
-            return lambda state, item=item_name, p=player: state.has(item, p)
-        elif len(deps_list) == 2:
-            # Two dependencies - create item names directly
-            item1 = "Statement " + str(deps_list[0])
-            item2 = "Statement " + str(deps_list[1])
-            return lambda state, i1=item1, i2=item2, p=player: state.has(i1, p) and state.has(i2, p)
-        elif len(deps_list) == 3:
-            # Three dependencies - create item names directly
-            item1 = "Statement " + str(deps_list[0])
-            item2 = "Statement " + str(deps_list[1])
-            item3 = "Statement " + str(deps_list[2])
-            return lambda state, i1=item1, i2=item2, i3=item3, p=player: state.has(i1, p) and state.has(i2, p) and state.has(i3, p)
-        else:
-            # More than 3 - build a function that explicitly checks each
-            item_names = ["Statement " + str(d) for d in deps_list]
-            def check_rule(state):
-                for item_name in item_names:
-                    if not state.has(item_name, player):
-                        return False
-                return True
-            return check_rule
-
-    # Set access rules on both locations AND region entrances
-    for region in world.multiworld.get_regions(world.player):
+    # Set access rules on locations and entrances based on dependencies
+    for region in world.multiworld.get_regions(player):
         if region.name.startswith("Prove Statement "):
             # Extract statement number from region name
             stmt_num = int(region.name.split()[-1])
@@ -99,17 +73,20 @@ def set_metamath_rules(world, proof_structure: ProofStructure):
                 dependencies = proof_structure.dependency_graph[stmt_num]
 
                 if dependencies:  # Only set rule if there are dependencies
-                    # Convert set to sorted list for consistent ordering
-                    deps_list = sorted(list(dependencies))
-                    rule = create_dependency_rule(deps_list, world.player)
+                    # Create a set of item names for this statement's dependencies
+                    item_names = {f"Statement {d}" for d in dependencies}
 
-                    # Set access rules on all entrances to this region
-                    for entrance in region.entrances:
-                        set_rule(entrance, rule)
+                    # Create the access rule lambda
+                    access_rule = lambda state, p=player, items=item_names: state.has_all(items, p)
 
                     # Set access rules on all locations in this region
                     for location in region.locations:
-                        set_rule(location, rule)
+                        add_rule(location, access_rule)
+
+                    # Also set the same access rules on all entrances to this region
+                    # This ensures you can't even enter the region without the required items
+                    for entrance in region.entrances:
+                        add_rule(entrance, access_rule)
 
 def download_metamath_database(target_path: str) -> bool:
     """Download the metamath database if it doesn't exist."""

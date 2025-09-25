@@ -136,6 +136,48 @@ class MetamathWorld(World):
         """Set access rules based on proof dependencies."""
         set_metamath_rules(self, self.proof_structure)
 
+        # Save dependency mappings for the exporter to use
+        # This helps the exporter resolve which items are actually required
+        # Store this directly on the world object so the exporter can access it
+
+        location_dependencies = {}
+        entrance_dependencies = {}
+        exit_dependencies = {}
+
+        for region in self.multiworld.get_regions(self.player):
+            if region.name.startswith("Prove Statement "):
+                stmt_num = int(region.name.split()[-1])
+                if stmt_num in self.proof_structure.dependency_graph:
+                    dependencies = self.proof_structure.dependency_graph[stmt_num]
+                    if dependencies:
+                        # Store the actual item names required for each location and entrance
+                        item_names = [f"Statement {d}" for d in sorted(dependencies)]
+
+                        # Store for locations
+                        for location in region.locations:
+                            location_dependencies[location.name] = item_names
+
+                        # Store for entrances
+                        for entrance in region.entrances:
+                            entrance_dependencies[entrance.name] = item_names
+
+            # Also store exit dependencies - exits lead TO regions with dependencies
+            for exit in region.exits:
+                if exit.connected_region and exit.connected_region.name.startswith("Prove Statement "):
+                    target_stmt_num = int(exit.connected_region.name.split()[-1])
+                    if target_stmt_num in self.proof_structure.dependency_graph:
+                        target_dependencies = self.proof_structure.dependency_graph[target_stmt_num]
+                        if target_dependencies:
+                            # Store the actual item names required to reach the target
+                            target_item_names = [f"Statement {d}" for d in sorted(target_dependencies)]
+                            exit_dependencies[exit.name] = target_item_names
+
+        # Store the dependencies directly on the world object
+        # The exporter can access this without needing a file
+        self.location_dependencies = location_dependencies
+        self.entrance_dependencies = entrance_dependencies
+        self.exit_dependencies = exit_dependencies
+
     def create_items(self):
         """Create statement items for the item pool."""
         # Only create item pool if randomization is enabled
