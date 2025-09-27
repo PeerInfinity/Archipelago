@@ -1149,18 +1149,27 @@ export class RegionGraphUI {
       logger.debug('Getting state data...');
       const staticData = stateManager.getStaticData();
       const snapshot = stateManager.getLatestStateSnapshot();
-      
+
       logger.verbose('State data loaded', { staticData, snapshot });
-      
+
       if (!staticData?.regions || !snapshot) {
         logger.warn('Missing data', { hasRegions: !!staticData?.regions, hasSnapshot: !!snapshot });
         this.updateStatus('No region data available');
         return;
       }
 
+      // Check if this is a reload after rules have already been loaded once
+      const isReload = this.graphInitialized;
+
       logger.info('Building graph from regions', { count: Object.keys(staticData.regions).length });
       this.buildGraphFromRegions(staticData.regions, staticData.exits);
       this.graphInitialized = true; // Mark as successfully loaded
+
+      // Force a re-layout when loading new rules
+      if (isReload && this.cy) {
+        logger.info('New rules loaded, triggering automatic re-layout');
+        this.runLayout(true);
+      }
     } catch (error) {
       logger.error('Error loading graph data:', error);
       this.updateStatus('Error loading graph data');
