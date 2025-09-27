@@ -141,9 +141,11 @@ export class TextAdventureUI {
             }, 'textAdventureUI');
             this.unsubscribeHandles.push(historyClearedUnsubscribe);
 
-            // Subscribe to rules loaded event directly from StateManager
+            // Subscribe to rules loaded event to show initial message
             const rulesUnsubscribe = eventBus.subscribe('stateManager:rulesLoaded', () => {
-                this.handleRulesLoaded();
+                // Clear and show initial message, but let logic handle region display
+                this.clearDisplay();
+                this.displayMessage('Rules loaded! Your adventure begins...');
             }, 'textAdventureUI');
             this.unsubscribeHandles.push(rulesUnsubscribe);
         }
@@ -163,18 +165,6 @@ Load a rules file to begin your adventure.`;
         this.displayMessage(welcomeMsg);
     }
 
-    handleRulesLoaded() {
-        log('info', 'Rules loaded, displaying current region');
-        // Clear previous messages except welcome
-        this.clearDisplay();
-        this.displayMessage('Rules loaded! Your adventure begins...');
-        
-        // Give the logic layer a chance to initialize, then display region
-        // Use requestAnimationFrame for proper sequencing without arbitrary timeout
-        requestAnimationFrame(() => {
-            this.logic.displayCurrentRegion();
-        });
-    }
 
     handleCommand() {
         const input = this.inputField.value.trim();
@@ -211,14 +201,7 @@ Load a rules file to begin your adventure.`;
                 log('debug', `Processing move command: ${command.target}`);
                 response = this.logic.handleRegionMove(command.target);
                 log('debug', `Move command response: ${response}`);
-                
-                // For successful move commands, wait briefly for region change to complete
-                // then display updated region info
-                if (response && !response.includes('blocked') && !response.includes('Cannot determine')) {
-                    setTimeout(() => {
-                        this.logic.displayCurrentRegion();
-                    }, 100);
-                }
+                // Region display is handled by handleRegionChange event, no need for additional display
                 break;
                 
             case 'check':
@@ -230,10 +213,21 @@ Load a rules file to begin your adventure.`;
                     this.displayMessage(checkMessage);
                 }
                 
-                // If we should redisplay region info, wait for state update first
+                // If we should redisplay region info after a successful check,
+                // wait for the state to update so the checked location appears in "Already searched"
                 if (checkResult.shouldRedisplayRegion && checkResult.wasSuccessful) {
                     // For successful checks, wait for state update before redisplaying region
-                    this.waitForStateUpdateThenDisplayRegion();
+                    // Set up a one-time listener for the next state update
+                    let unsubscribeFunc = null;
+                    const onStateUpdate = () => {
+                        this.logic.displayCurrentRegion();
+                        // Clean up the listener after use
+                        if (unsubscribeFunc) {
+                            unsubscribeFunc();
+                            unsubscribeFunc = null;
+                        }
+                    };
+                    unsubscribeFunc = eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureUI-oneTime');
                 } else if (checkResult.shouldRedisplayRegion) {
                     // For unsuccessful checks (already checked, inaccessible), display immediately
                     this.logic.displayCurrentRegion();
@@ -388,19 +382,6 @@ Load a rules file to begin your adventure.`;
         return message;
     }
 
-    /**
-     * Wait for the next state update, then display current region
-     */
-    waitForStateUpdateThenDisplayRegion() {
-        // Set up a one-time listener for the next state update
-        const onStateUpdate = () => {
-            this.logic.displayCurrentRegion();
-            // Clean up the listener after use
-            eventBus.unsubscribe('stateManager:snapshotUpdated', onStateUpdate);
-        };
-        
-        eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureUI-oneTime');
-    }
 
     updateDisplay() {
         // Refresh the current view if needed
