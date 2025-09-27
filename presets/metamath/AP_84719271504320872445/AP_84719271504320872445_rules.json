@@ -1,0 +1,2852 @@
+{
+  "schema_version": 3,
+  "game_name": "Metamath",
+  "game_directory": "metamath",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 3,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "MetamathWorld"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "To Statement 1",
+            "connected_region": "Prove Statement 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "To Statement 2",
+            "connected_region": "Prove Statement 2",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "To Statement 4",
+            "connected_region": "Prove Statement 4",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "To Statement 5",
+            "connected_region": "Prove Statement 5",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "To Statement 6",
+            "connected_region": "Prove Statement 6",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Prove Statement 1": {
+        "name": "Prove Statement 1",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Statement 1",
+            "parent_region": "Menu",
+            "connected_region": "Prove Statement 1",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 1 to Statement 3",
+            "connected_region": "Prove Statement 3",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 1"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 2"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "2cn",
+        "label2": "|- 2 e. CC"
+      },
+      "Prove Statement 2": {
+        "name": "Prove Statement 2",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Statement 2",
+            "parent_region": "Menu",
+            "connected_region": "Prove Statement 2",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 2 to Statement 3",
+            "connected_region": "Prove Statement 3",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 1"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 2"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 2",
+            "id": 234790002,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 8",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 2,
+            "label1": "ax-1cn",
+            "label2": "|- 1 e. CC"
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "ax-1cn",
+        "label2": "|- 1 e. CC"
+      },
+      "Prove Statement 3": {
+        "name": "Prove Statement 3",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "From Statement 1 to Statement 3",
+            "parent_region": "Prove Statement 1",
+            "connected_region": "Prove Statement 3",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "From Statement 2 to Statement 3",
+            "parent_region": "Prove Statement 2",
+            "connected_region": "Prove Statement 3",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 3 to Statement 8",
+            "connected_region": "Prove Statement 8",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 3"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 6"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 7"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 3",
+            "id": 234790003,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 1"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 2"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 3",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 3,
+            "label1": "addassi",
+            "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+            "required_items": [
+              "Statement 1",
+              "Statement 2"
+            ]
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "addassi",
+        "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )"
+      },
+      "Prove Statement 4": {
+        "name": "Prove Statement 4",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Statement 4",
+            "parent_region": "Menu",
+            "connected_region": "Prove Statement 4",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 4 to Statement 9",
+            "connected_region": "Prove Statement 9",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Statement 4"
+              },
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 4",
+            "id": 234790004,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 6",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 4,
+            "label1": "df-2",
+            "label2": "|- 2 = ( 1 + 1 )"
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "df-2",
+        "label2": "|- 2 = ( 1 + 1 )"
+      },
+      "Prove Statement 5": {
+        "name": "Prove Statement 5",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Statement 5",
+            "parent_region": "Menu",
+            "connected_region": "Prove Statement 5",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 5 to Statement 7",
+            "connected_region": "Prove Statement 7",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Statement 5"
+              },
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 5",
+            "id": 234790005,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 4",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 5,
+            "label1": "df-3",
+            "label2": "|- 3 = ( 2 + 1 )"
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "df-3",
+        "label2": "|- 3 = ( 2 + 1 )"
+      },
+      "Prove Statement 6": {
+        "name": "Prove Statement 6",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "To Statement 6",
+            "parent_region": "Menu",
+            "connected_region": "Prove Statement 6",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 6 to Statement 8",
+            "connected_region": "Prove Statement 8",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 3"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 6"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 7"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 6",
+            "id": 234790006,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 5",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 6,
+            "label1": "df-4",
+            "label2": "|- 4 = ( 3 + 1 )"
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "df-4",
+        "label2": "|- 4 = ( 3 + 1 )"
+      },
+      "Prove Statement 7": {
+        "name": "Prove Statement 7",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "From Statement 5 to Statement 7",
+            "parent_region": "Prove Statement 5",
+            "connected_region": "Prove Statement 7",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 7 to Statement 8",
+            "connected_region": "Prove Statement 8",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 3"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 6"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 7"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 7",
+            "id": 234790007,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Statement 5"
+              },
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 9",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 7,
+            "label1": "oveq1i",
+            "label2": "|- ( A F C ) = ( B F C )",
+            "required_items": [
+              "Statement 5"
+            ]
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "oveq1i",
+        "label2": "|- ( A F C ) = ( B F C )"
+      },
+      "Prove Statement 8": {
+        "name": "Prove Statement 8",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "From Statement 3 to Statement 8",
+            "parent_region": "Prove Statement 3",
+            "connected_region": "Prove Statement 8",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "From Statement 6 to Statement 8",
+            "parent_region": "Prove Statement 6",
+            "connected_region": "Prove Statement 8",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "From Statement 7 to Statement 8",
+            "parent_region": "Prove Statement 7",
+            "connected_region": "Prove Statement 8",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 8 to Statement 10",
+            "connected_region": "Prove Statement 10",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 8"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 9"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 8",
+            "id": 234790008,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 3"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 6"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 7"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 10",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 8,
+            "label1": "3eqtri",
+            "label2": "|- A = D",
+            "required_items": [
+              "Statement 3",
+              "Statement 6",
+              "Statement 7"
+            ]
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "3eqtri",
+        "label2": "|- A = D"
+      },
+      "Prove Statement 9": {
+        "name": "Prove Statement 9",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "From Statement 4 to Statement 9",
+            "parent_region": "Prove Statement 4",
+            "connected_region": "Prove Statement 9",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "From Statement 9 to Statement 10",
+            "connected_region": "Prove Statement 10",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 8"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 9"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Prove Statement 9",
+            "id": 234790009,
+            "crystal": null,
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Statement 4"
+              },
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 7",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 9,
+            "label1": "oveq2i",
+            "label2": "|- ( C F A ) = ( C F B )",
+            "required_items": [
+              "Statement 4"
+            ]
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "oveq2i",
+        "label2": "|- ( C F A ) = ( C F B )"
+      },
+      "Prove Statement 10": {
+        "name": "Prove Statement 10",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "From Statement 8 to Statement 10",
+            "parent_region": "Prove Statement 8",
+            "connected_region": "Prove Statement 10",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "From Statement 9 to Statement 10",
+            "parent_region": "Prove Statement 9",
+            "connected_region": "Prove Statement 10",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Prove Statement 10",
+            "id": 234790010,
+            "crystal": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 8"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Statement 9"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Statement 2",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            },
+            "statement_id": 10,
+            "label1": "eqtr4i",
+            "label2": "|- A = C",
+            "required_items": [
+              "Statement 8",
+              "Statement 9"
+            ]
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "label1": "eqtr4i",
+        "label2": "|- A = C"
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "Statement 1": {
+        "name": "Statement 1",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1,
+        "label1": "2cn",
+        "label2": "|- 2 e. CC",
+        "id": 234790000
+      },
+      "Statement 2": {
+        "name": "Statement 2",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "ax-1cn",
+        "label2": "|- 1 e. CC",
+        "id": 234790001
+      },
+      "Statement 3": {
+        "name": "Statement 3",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "addassi",
+        "label2": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+        "id": 234790002
+      },
+      "Statement 4": {
+        "name": "Statement 4",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "df-2",
+        "label2": "|- 2 = ( 1 + 1 )",
+        "id": 234790003
+      },
+      "Statement 5": {
+        "name": "Statement 5",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "df-3",
+        "label2": "|- 3 = ( 2 + 1 )",
+        "id": 234790004
+      },
+      "Statement 6": {
+        "name": "Statement 6",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "df-4",
+        "label2": "|- 4 = ( 3 + 1 )",
+        "id": 234790005
+      },
+      "Statement 7": {
+        "name": "Statement 7",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "oveq1i",
+        "label2": "|- ( A F C ) = ( B F C )",
+        "id": 234790006
+      },
+      "Statement 8": {
+        "name": "Statement 8",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "3eqtri",
+        "label2": "|- A = D",
+        "id": 234790007
+      },
+      "Statement 9": {
+        "name": "Statement 9",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "oveq2i",
+        "label2": "|- ( C F A ) = ( C F B )",
+        "id": 234790008
+      },
+      "Statement 10": {
+        "name": "Statement 10",
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 2,
+        "label1": "eqtr4i",
+        "label2": "|- A = C",
+        "id": 234790009
+      },
+      "Statement 11": {
+        "name": "Statement 11",
+        "id": 234790010,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 12": {
+        "name": "Statement 12",
+        "id": 234790011,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 13": {
+        "name": "Statement 13",
+        "id": 234790012,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 14": {
+        "name": "Statement 14",
+        "id": 234790013,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 15": {
+        "name": "Statement 15",
+        "id": 234790014,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 16": {
+        "name": "Statement 16",
+        "id": 234790015,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 17": {
+        "name": "Statement 17",
+        "id": 234790016,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 18": {
+        "name": "Statement 18",
+        "id": 234790017,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 19": {
+        "name": "Statement 19",
+        "id": 234790018,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 20": {
+        "name": "Statement 20",
+        "id": 234790019,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 21": {
+        "name": "Statement 21",
+        "id": 234790020,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 22": {
+        "name": "Statement 22",
+        "id": 234790021,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 23": {
+        "name": "Statement 23",
+        "id": 234790022,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 24": {
+        "name": "Statement 24",
+        "id": 234790023,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 25": {
+        "name": "Statement 25",
+        "id": 234790024,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 26": {
+        "name": "Statement 26",
+        "id": 234790025,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 27": {
+        "name": "Statement 27",
+        "id": 234790026,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 28": {
+        "name": "Statement 28",
+        "id": 234790027,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 29": {
+        "name": "Statement 29",
+        "id": 234790028,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 30": {
+        "name": "Statement 30",
+        "id": 234790029,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 31": {
+        "name": "Statement 31",
+        "id": 234790030,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 32": {
+        "name": "Statement 32",
+        "id": 234790031,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 33": {
+        "name": "Statement 33",
+        "id": 234790032,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 34": {
+        "name": "Statement 34",
+        "id": 234790033,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 35": {
+        "name": "Statement 35",
+        "id": 234790034,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 36": {
+        "name": "Statement 36",
+        "id": 234790035,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 37": {
+        "name": "Statement 37",
+        "id": 234790036,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 38": {
+        "name": "Statement 38",
+        "id": 234790037,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 39": {
+        "name": "Statement 39",
+        "id": 234790038,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 40": {
+        "name": "Statement 40",
+        "id": 234790039,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 41": {
+        "name": "Statement 41",
+        "id": 234790040,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 42": {
+        "name": "Statement 42",
+        "id": 234790041,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 43": {
+        "name": "Statement 43",
+        "id": 234790042,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 44": {
+        "name": "Statement 44",
+        "id": 234790043,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 45": {
+        "name": "Statement 45",
+        "id": 234790044,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 46": {
+        "name": "Statement 46",
+        "id": 234790045,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 47": {
+        "name": "Statement 47",
+        "id": 234790046,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 48": {
+        "name": "Statement 48",
+        "id": 234790047,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 49": {
+        "name": "Statement 49",
+        "id": 234790048,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 50": {
+        "name": "Statement 50",
+        "id": 234790049,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 51": {
+        "name": "Statement 51",
+        "id": 234790050,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 52": {
+        "name": "Statement 52",
+        "id": 234790051,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 53": {
+        "name": "Statement 53",
+        "id": 234790052,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 54": {
+        "name": "Statement 54",
+        "id": 234790053,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 55": {
+        "name": "Statement 55",
+        "id": 234790054,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 56": {
+        "name": "Statement 56",
+        "id": 234790055,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 57": {
+        "name": "Statement 57",
+        "id": 234790056,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 58": {
+        "name": "Statement 58",
+        "id": 234790057,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 59": {
+        "name": "Statement 59",
+        "id": 234790058,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 60": {
+        "name": "Statement 60",
+        "id": 234790059,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 61": {
+        "name": "Statement 61",
+        "id": 234790060,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 62": {
+        "name": "Statement 62",
+        "id": 234790061,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 63": {
+        "name": "Statement 63",
+        "id": 234790062,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 64": {
+        "name": "Statement 64",
+        "id": 234790063,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 65": {
+        "name": "Statement 65",
+        "id": 234790064,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 66": {
+        "name": "Statement 66",
+        "id": 234790065,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 67": {
+        "name": "Statement 67",
+        "id": 234790066,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 68": {
+        "name": "Statement 68",
+        "id": 234790067,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 69": {
+        "name": "Statement 69",
+        "id": 234790068,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 70": {
+        "name": "Statement 70",
+        "id": 234790069,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 71": {
+        "name": "Statement 71",
+        "id": 234790070,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 72": {
+        "name": "Statement 72",
+        "id": 234790071,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 73": {
+        "name": "Statement 73",
+        "id": 234790072,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 74": {
+        "name": "Statement 74",
+        "id": 234790073,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 75": {
+        "name": "Statement 75",
+        "id": 234790074,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 76": {
+        "name": "Statement 76",
+        "id": 234790075,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 77": {
+        "name": "Statement 77",
+        "id": 234790076,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 78": {
+        "name": "Statement 78",
+        "id": 234790077,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 79": {
+        "name": "Statement 79",
+        "id": 234790078,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 80": {
+        "name": "Statement 80",
+        "id": 234790079,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 81": {
+        "name": "Statement 81",
+        "id": 234790080,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 82": {
+        "name": "Statement 82",
+        "id": 234790081,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 83": {
+        "name": "Statement 83",
+        "id": 234790082,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 84": {
+        "name": "Statement 84",
+        "id": 234790083,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 85": {
+        "name": "Statement 85",
+        "id": 234790084,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 86": {
+        "name": "Statement 86",
+        "id": 234790085,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 87": {
+        "name": "Statement 87",
+        "id": 234790086,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 88": {
+        "name": "Statement 88",
+        "id": 234790087,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 89": {
+        "name": "Statement 89",
+        "id": 234790088,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 90": {
+        "name": "Statement 90",
+        "id": 234790089,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 91": {
+        "name": "Statement 91",
+        "id": 234790090,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 92": {
+        "name": "Statement 92",
+        "id": 234790091,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 93": {
+        "name": "Statement 93",
+        "id": 234790092,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 94": {
+        "name": "Statement 94",
+        "id": 234790093,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 95": {
+        "name": "Statement 95",
+        "id": 234790094,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 96": {
+        "name": "Statement 96",
+        "id": 234790095,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 97": {
+        "name": "Statement 97",
+        "id": 234790096,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 98": {
+        "name": "Statement 98",
+        "id": 234790097,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 99": {
+        "name": "Statement 99",
+        "id": 234790098,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Statement 100": {
+        "name": "Statement 100",
+        "id": 234790099,
+        "groups": [
+          "Everything",
+          "Statements"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Proof Hint": {
+        "name": "Proof Hint",
+        "id": 234791999,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Logic Guide": {
+        "name": "Logic Guide",
+        "id": 234791998,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Axiom Reference": {
+        "name": "Axiom Reference",
+        "id": 234791997,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Lemma Note": {
+        "name": "Lemma Note",
+        "id": 234791996,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Theorem Insight": {
+        "name": "Theorem Insight",
+        "id": 234791995,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Deduction Tip": {
+        "name": "Deduction Tip",
+        "id": 234791994,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Inference Help": {
+        "name": "Inference Help",
+        "id": 234791993,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "QED Moment": {
+        "name": "QED Moment",
+        "id": 234791992,
+        "groups": [
+          "Everything",
+          "Hints"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything",
+      "Hints",
+      "Statements"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "Statement 1": 1,
+      "Statement 10": 2,
+      "Statement 2": 2,
+      "Statement 3": 2,
+      "Statement 4": 2,
+      "Statement 5": 2,
+      "Statement 6": 2,
+      "Statement 7": 2,
+      "Statement 8": 2,
+      "Statement 9": 2
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": [
+      "Statement 1"
+    ]
+  },
+  "settings": {
+    "1": {
+      "game": "Metamath",
+      "assume_bidirectional_exits": false
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Metamath",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  },
+  "metamath_data": {
+    "1": {
+      "statements": {
+        "1": {
+          "label": "2cn",
+          "expression": "|- 2 e. CC",
+          "dependencies": [],
+          "full_text": "2cn: The number 2 is a complex number.  (Contributed by NM, 30-Jul-2004.) Reduce dependencies on axioms.  (Revised by Steven Nguyen, 4-Oct-2022.) (|- 2 e. CC)"
+        },
+        "2": {
+          "label": "ax-1cn",
+          "expression": "|- 1 e. CC",
+          "dependencies": [],
+          "full_text": "ax-1cn: $j restatement 'ax-resscn' of 'axresscn'; $) $( 1 is a complex number.  Axiom 2 of 22 for real and complex numbers, justified by Theorem ~ ax1cn .  (Contributed by NM, 1-Mar-1995.) (|- 1 e. CC)"
+        },
+        "3": {
+          "label": "addassi",
+          "expression": "|- ( ( A + B ) + C ) = ( A + ( B + C ) )",
+          "dependencies": [
+            1,
+            2
+          ],
+          "full_text": "addassi: Associative law for addition.  (Contributed by NM, 23-Nov-1994.) (|- ( ( A + B ) + C ) = ( A + ( B + C ) ))"
+        },
+        "4": {
+          "label": "df-2",
+          "expression": "|- 2 = ( 1 + 1 )",
+          "dependencies": [],
+          "full_text": "df-2: Define the number 2.  (Contributed by NM, 27-May-1999.) (|- 2 = ( 1 + 1 ))"
+        },
+        "5": {
+          "label": "df-3",
+          "expression": "|- 3 = ( 2 + 1 )",
+          "dependencies": [],
+          "full_text": "df-3: Define the number 3.  (Contributed by NM, 27-May-1999.) (|- 3 = ( 2 + 1 ))"
+        },
+        "6": {
+          "label": "df-4",
+          "expression": "|- 4 = ( 3 + 1 )",
+          "dependencies": [],
+          "full_text": "df-4: Define the number 4.  (Contributed by NM, 27-May-1999.) (|- 4 = ( 3 + 1 ))"
+        },
+        "7": {
+          "label": "oveq1i",
+          "expression": "|- ( A F C ) = ( B F C )",
+          "dependencies": [
+            5
+          ],
+          "full_text": "oveq1i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.) (|- ( A F C ) = ( B F C ))"
+        },
+        "8": {
+          "label": "3eqtri",
+          "expression": "|- A = D",
+          "dependencies": [
+            3,
+            6,
+            7
+          ],
+          "full_text": "3eqtri: Register '=' as an equality for its type (class). $) $( $j equality 'wceq' from 'eqid' 'eqcomi' 'eqtri'; $) ${ 3eqtri.1 $e |- A = B $. 3eqtri.2 $e |- B = C $. 3eqtri.3 $e |- C = D $. $( An inference from three chained equalities.  (Contributed by NM, 29-Aug-1993.) (|- A = D)"
+        },
+        "9": {
+          "label": "oveq2i",
+          "expression": "|- ( C F A ) = ( C F B )",
+          "dependencies": [
+            4
+          ],
+          "full_text": "oveq2i: Equality inference for operation value.  (Contributed by NM, 28-Feb-1995.) (|- ( C F A ) = ( C F B ))"
+        },
+        "10": {
+          "label": "eqtr4i",
+          "expression": "|- A = C",
+          "dependencies": [
+            8,
+            9
+          ],
+          "full_text": "eqtr4i: An equality transitivity inference.  (Contributed by NM, 26-May-1993.) (|- A = C)"
+        }
+      },
+      "dependency_graph": {
+        "1": [],
+        "2": [],
+        "3": [
+          1,
+          2
+        ],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [
+          5
+        ],
+        "8": [
+          3,
+          6,
+          7
+        ],
+        "9": [
+          4
+        ],
+        "10": [
+          8,
+          9
+        ]
+      },
+      "reverse_dependencies": {
+        "1": [
+          3
+        ],
+        "2": [
+          3
+        ],
+        "3": [
+          8
+        ],
+        "4": [
+          9
+        ],
+        "5": [
+          7
+        ],
+        "6": [
+          8
+        ],
+        "7": [
+          8
+        ],
+        "8": [
+          10
+        ],
+        "9": [
+          10
+        ]
+      },
+      "label_to_index": {
+        "2cn": 1,
+        "ax-1cn": 2,
+        "addassi": 3,
+        "df-2": 4,
+        "df-3": 5,
+        "df-4": 6,
+        "oveq1i": 7,
+        "3eqtri": 8,
+        "oveq2i": 9,
+        "eqtr4i": 10
+      }
+    }
+  }
+}

@@ -34,6 +34,9 @@ export class InventoryUI {
     this.flatContainer = null;
     this.unsubscribeHandles = [];
     this.isInitialized = false;
+    this.showName = true; // Cache showName setting
+    this.showLabel1 = false; // Cache showLabel1 setting
+    this.showLabel2 = false; // Cache showLabel2 setting
 
     this._createBaseUI();
 
@@ -181,16 +184,25 @@ export class InventoryUI {
   createItemDiv(container, name) {
     const itemContainer = document.createElement('div');
     itemContainer.className = 'item-container';
+
+    // Get item data for label1 and label2
+    const itemData = this.itemData[name] || name;
+
+    // Get display elements
+    const displayElements = this.getItemDisplayElements(itemData);
+
+    // Create the button HTML with display text
+    const displayText = displayElements.map(el => el.text).join('<br>');
+
     itemContainer.innerHTML = `
-      <button 
-        class="item-button" 
+      <button
+        class="item-button"
         data-item="${name}"
-        title="${name}"
+        title="${name}${itemData.label1 ? '\nLabel: ' + itemData.label1 : ''}${itemData.label2 ? '\nExpression: ' + itemData.label2 : ''}"
       >
-        ${name}
+        ${displayText}
       </button>
     `;
-
     container.appendChild(itemContainer);
   }
 
@@ -340,8 +352,52 @@ export class InventoryUI {
     });
   }
 
+  async loadDisplaySettings() {
+    try {
+      const settingsManager = await import('../../app/core/settingsManager.js').then(m => m.default);
+      this.showName = await settingsManager.getSetting('moduleSettings.inventory.showName', true);
+      this.showLabel1 = await settingsManager.getSetting('moduleSettings.inventory.showLabel1', false);
+      this.showLabel2 = await settingsManager.getSetting('moduleSettings.inventory.showLabel2', false);
+      log('debug', `[InventoryUI] Loaded display settings: showName=${this.showName}, showLabel1=${this.showLabel1}, showLabel2=${this.showLabel2}`);
+    } catch (error) {
+      log('error', '[InventoryUI] Failed to load display settings:', error);
+      this.showName = true;
+      this.showLabel1 = false;
+      this.showLabel2 = false;
+    }
+  }
+
+  getItemDisplayElements(itemData) {
+    // Build array of display elements based on enabled settings
+    const elements = [];
+
+    const name = typeof itemData === 'string' ? itemData : (itemData.name || itemData);
+
+    if (this.showName && name) {
+      elements.push({ type: 'name', text: name });
+    }
+
+    if (this.showLabel1 && itemData && itemData.label1) {
+      elements.push({ type: 'label1', text: itemData.label1 });
+    }
+
+    if (this.showLabel2 && itemData && itemData.label2) {
+      elements.push({ type: 'label2', text: itemData.label2 });
+    }
+
+    // If nothing is enabled or no data available, default to name
+    if (elements.length === 0) {
+      elements.push({ type: 'name', text: name || 'Unknown' });
+    }
+
+    return elements;
+  }
+
   attachEventBusListeners() {
     this.destroy();
+
+    // Load display settings
+    this.loadDisplaySettings();
 
     const subscribe = (eventName, handler) => {
       log('info', `[InventoryUI] Subscribing to ${eventName}`);
@@ -399,6 +455,20 @@ export class InventoryUI {
     subscribe('stateManager:snapshotUpdated', this._handleSnapshotUpdated);
     subscribe('stateManager:inventoryChanged', this._handleInventoryChanged);
     subscribe('stateManager:rulesLoaded', this._handleRulesLoaded);
+
+    // Subscribe to settings changes
+    subscribe('settings:changed', async ({ key, value }) => {
+      if (key === '*' || key.startsWith('moduleSettings.inventory.showName') ||
+          key.startsWith('moduleSettings.inventory.showLabel1') ||
+          key.startsWith('moduleSettings.inventory.showLabel2')) {
+        log('info', `[InventoryUI] Display settings changed (${key}), reloading...`);
+        await this.loadDisplaySettings();
+        // Re-render the inventory with new display settings
+        if (this.itemData && this.groupNames) {
+          this.initializeUI(this.itemData, this.groupNames);
+        }
+      }
+    });
 
     subscribe('loop:modeChanged', (isLoopMode) => {
       if (this.isInitialized) this.updateDisplay();

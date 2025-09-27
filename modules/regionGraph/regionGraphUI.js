@@ -39,6 +39,11 @@ export class RegionGraphUI {
     this.locationsVisible = false;
     this.locationsManuallyHidden = false;
     this.locationsManuallyShown = false;
+
+    // Display settings
+    this.showName = true;
+    this.showLabel1 = false;
+    this.showLabel2 = false;
     
     this.rootElement = document.createElement('div');
     this.rootElement.classList.add('region-graph-panel-container', 'panel-container');
@@ -99,6 +104,67 @@ export class RegionGraphUI {
 
   getRootElement() {
     return this.rootElement;
+  }
+
+  async loadDisplaySettings() {
+    try {
+      this.showName = await settingsManager.getSetting('moduleSettings.regionGraph.showName', true);
+      this.showLabel1 = await settingsManager.getSetting('moduleSettings.regionGraph.showLabel1', false);
+      this.showLabel2 = await settingsManager.getSetting('moduleSettings.regionGraph.showLabel2', false);
+      logger.debug(`Loaded display settings: showName=${this.showName}, showLabel1=${this.showLabel1}, showLabel2=${this.showLabel2}`);
+    } catch (error) {
+      logger.error('Failed to load display settings:', error);
+      this.showName = true;
+      this.showLabel1 = false;
+      this.showLabel2 = false;
+    }
+  }
+
+  getRegionDisplayText(regionData, regionName) {
+    const parts = [];
+    const name = regionName || (typeof regionData === 'string' ? regionData : regionData?.name);
+
+    if (this.showName && name) {
+      parts.push(name.replace(/_/g, ' '));
+    }
+
+    if (this.showLabel1 && regionData?.label1) {
+      parts.push(regionData.label1);
+    }
+
+    if (this.showLabel2 && regionData?.label2) {
+      parts.push(regionData.label2);
+    }
+
+    // If nothing is enabled or no data available, default to name
+    if (parts.length === 0 && name) {
+      parts.push(name.replace(/_/g, ' '));
+    }
+
+    return parts.join('\n');
+  }
+
+  getLocationDisplayText(locationData) {
+    const parts = [];
+
+    if (this.showName && locationData?.name) {
+      parts.push(locationData.name);
+    }
+
+    if (this.showLabel1 && locationData?.label1) {
+      parts.push(locationData.label1);
+    }
+
+    if (this.showLabel2 && locationData?.label2) {
+      parts.push(locationData.label2);
+    }
+
+    // If nothing is enabled or no data available, default to name
+    if (parts.length === 0 && locationData?.name) {
+      parts.push(locationData.name);
+    }
+
+    return parts.join('\n');
   }
 
   loadCytoscape() {
@@ -167,8 +233,12 @@ export class RegionGraphUI {
     }
   }
 
-  initializeGraph() {
+  async initializeGraph() {
     logger.debug('initializeGraph called');
+
+    // Load display settings
+    await this.loadDisplaySettings();
+
     try {
       if (!this.cytoscape) {
         logger.error('Cytoscape not loaded');
@@ -572,6 +642,10 @@ export class RegionGraphUI {
             <input type="checkbox" id="addLocationsToPath" style="margin-right: 5px;">
             Add locations to path
           </label>
+          <label style="display: block; margin: 3px 0; cursor: pointer;">
+            <input type="checkbox" id="checkAllLocationsInRegion" style="margin-right: 5px;">
+            Check all locations in region
+          </label>
         </div>
       </div>
     `;
@@ -596,7 +670,7 @@ export class RegionGraphUI {
       
       // Handle location node clicks
       if (node.hasClass('location-node')) {
-        const locationName = node.data('label');
+        const locationName = node.data('locationName') || node.data('label');
         const parentRegion = node.data('parentRegion');
         
         logger.debug(`Location node clicked: ${locationName} in ${parentRegion}`);
@@ -731,14 +805,69 @@ export class RegionGraphUI {
         // Control "Show All Regions" based on path modification checkboxes
         const shouldShowAll = !(addToPathCheckbox?.checked || overwritePathCheckbox?.checked);
         this.setShowAllRegions(shouldShowAll);
-        
+
         // Activate the regions panel
         eventBus.publish('ui:activatePanel', { panelId: 'regionsPanel' }, 'regionGraph');
         logger.debug('Published ui:activatePanel for regionsPanel');
-        
+
         // Navigate to the region
         eventBus.publish('ui:navigateToRegion', { regionName: regionName }, 'regionGraph');
         logger.debug(`Published ui:navigateToRegion for ${regionName}`);
+      }
+
+      // Check all locations in region (if enabled)
+      const checkAllLocationsCheckbox = this.controlPanel.querySelector('#checkAllLocationsInRegion');
+      if (checkAllLocationsCheckbox && checkAllLocationsCheckbox.checked) {
+        // Get locations in this region
+        const staticData = stateManager.getStaticData();
+        const regionData = staticData?.regions?.[regionName];
+
+        if (regionData && regionData.locations && regionData.locations.length > 0) {
+          // Get current state to check which locations are accessible
+          const snapshot = stateManager.getLatestStateSnapshot();
+          const snapshotInterface = createStateSnapshotInterface(snapshot, staticData);
+          const checkedLocations = new Set(snapshot.checkedLocations || []);
+
+          // Check each location that is accessible and not already checked
+          import('./index.js').then(({ moduleDispatcher }) => {
+            let locationsChecked = 0;
+
+            regionData.locations.forEach(location => {
+              // Skip if already checked
+              if (checkedLocations.has(location.name)) {
+                return;
+              }
+
+              // Check if location is accessible
+              const isAccessible = location.requires ?
+                evaluateRule(location.requires, snapshotInterface) : true;
+
+              if (isAccessible) {
+                // Dispatch location check event
+                const payload = {
+                  locationName: location.name,
+                  regionName: regionName,
+                  originator: 'RegionGraphBulkCheck',
+                  originalDOMEvent: true,
+                };
+
+                if (moduleDispatcher) {
+                  moduleDispatcher.publish('user:locationCheck', payload, {
+                    initialTarget: 'bottom',
+                  });
+                  locationsChecked++;
+                  logger.debug('Dispatched user:locationCheck for bulk check', payload);
+                }
+              }
+            });
+
+            if (locationsChecked > 0) {
+              logger.debug(`Checked ${locationsChecked} accessible locations in ${regionName}`);
+            }
+          }).catch(error => {
+            logger.error('Error importing moduleDispatcher for bulk location check:', error);
+          });
+        }
       }
     });
 
@@ -898,6 +1027,13 @@ export class RegionGraphUI {
         this.saveCheckboxSetting('#addLocationsToPath', 'regionGraph.addLocationsToPath', e.target.checked);
       });
     }
+
+    const checkAllLocationsInRegionCheckbox = this.controlPanel.querySelector('#checkAllLocationsInRegion');
+    if (checkAllLocationsInRegionCheckbox) {
+      checkAllLocationsInRegionCheckbox.addEventListener('change', (e) => {
+        this.saveCheckboxSetting('#checkAllLocationsInRegion', 'regionGraph.checkAllLocationsInRegion', e.target.checked);
+      });
+    }
   }
 
   async loadCheckboxSettings() {
@@ -910,7 +1046,8 @@ export class RegionGraphUI {
       { id: '#showRegionInPanel', setting: 'regionGraph.showRegionInPanel', default: true },
       { id: '#addToPath', setting: 'regionGraph.addToPath', default: true },
       { id: '#overwritePath', setting: 'regionGraph.overwritePath', default: false },
-      { id: '#addLocationsToPath', setting: 'regionGraph.addLocationsToPath', default: false }
+      { id: '#addLocationsToPath', setting: 'regionGraph.addLocationsToPath', default: false },
+      { id: '#checkAllLocationsInRegion', setting: 'regionGraph.checkAllLocationsInRegion', default: false }
     ];
     
     for (const checkbox of checkboxes) {
@@ -1140,12 +1277,14 @@ export class RegionGraphUI {
     for (const [regionName, regionData] of Object.entries(regions)) {
       // Calculate location counts
       const locationCounts = this.calculateLocationCounts(regionName, regionData);
-      
-      // Create label with region name and location counts
-      const regionLabel = regionName.replace(/_/g, ' ');
+
+      // Get display text based on settings
+      const displayText = this.getRegionDisplayText(regionData);
+
+      // Add location counts if there are locations
       const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-      const fullLabel = `${regionLabel}\n${countLabel}`;
-      
+      const fullLabel = locationCounts.total > 0 ? `${displayText}\n${countLabel}` : displayText;
+
       elements.nodes.push({
         data: {
           id: regionName,
@@ -1456,7 +1595,7 @@ export class RegionGraphUI {
       // Handle location nodes separately
       if (node.hasClass('location-node')) {
         const parentRegion = node.data('parentRegion');
-        const locationName = node.data('label');
+        const locationName = node.data('locationName') || node.data('label');
         const regionData = staticData.regions[parentRegion];
         
         if (regionData && regionData.locations) {
@@ -1486,11 +1625,13 @@ export class RegionGraphUI {
       
       // Recalculate location counts for updated state
       const locationCounts = this.calculateLocationCounts(regionName, regionData);
-      
-      // Update node label with new counts
-      const regionLabel = regionName.replace(/_/g, ' ');
+
+      // Get display text based on settings
+      const displayText = this.getRegionDisplayText(regionData);
+
+      // Add location counts if there are locations
       const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-      const fullLabel = `${regionLabel}\n${countLabel}`;
+      const fullLabel = locationCounts.total > 0 ? `${displayText}\n${countLabel}` : displayText;
       node.data('label', fullLabel);
       node.data('locationCounts', locationCounts);
       
@@ -1612,12 +1753,16 @@ export class RegionGraphUI {
         
         const regionName = node.id();
         const count = this.regionPathCounts.get(regionName) || 0;
-        
+
         // Update the label to include count if region is in path
+        const staticData = stateManager.getStaticData();
+        const regionData = staticData?.regions?.[regionName];
+        const baseText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+
         if (count > 0) {
-          node.data('label', `${regionName} (${count})`);
+          node.data('label', `${baseText} (${count})`);
           node.addClass('in-path');
-          
+
           // Add different classes based on count for visual distinction
           if (count === 1) {
             node.removeClass('path-multiple');
@@ -1627,7 +1772,7 @@ export class RegionGraphUI {
             node.addClass('path-multiple');
           }
         } else {
-          node.data('label', regionName);
+          node.data('label', baseText);
           node.removeClass('in-path path-single path-multiple');
         }
       });
@@ -2246,10 +2391,13 @@ export class RegionGraphUI {
         .update();
     } else if (zoom < this.zoomLevels.showRegionCounts) {
       // Show only region names, no counts
+      const staticData = stateManager.getStaticData();
       this.cy.nodes().forEach(node => {
         if (!node.hasClass('location-node') && !node.hasClass('player')) {
           const regionName = node.data('regionName') || node.id();
-          node.data('label', regionName.replace(/_/g, ' '));
+          const regionData = staticData?.regions?.[regionName];
+          const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+          node.data('label', displayText);
         }
       });
       // Apply the labels and hide edge labels
@@ -2261,16 +2409,19 @@ export class RegionGraphUI {
         .update();
     } else if (zoom < this.zoomLevels.showRegionEdgeLabels) {
       // Show region names with counts
+      const staticData = stateManager.getStaticData();
       this.cy.nodes().forEach(node => {
         if (!node.hasClass('location-node') && !node.hasClass('player')) {
           const regionName = node.data('regionName') || node.id();
+          const regionData = staticData?.regions?.[regionName];
           const locationCounts = node.data('locationCounts');
-          if (locationCounts) {
-            const regionLabel = regionName.replace(/_/g, ' ');
+          if (locationCounts && locationCounts.total > 0) {
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
             const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-            node.data('label', `${regionLabel}\n${countLabel}`);
+            node.data('label', `${displayText}\n${countLabel}`);
           } else {
-            node.data('label', regionName.replace(/_/g, ' '));
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            node.data('label', displayText);
           }
         }
       });
@@ -2283,16 +2434,19 @@ export class RegionGraphUI {
         .update();
     } else if (zoom < this.zoomLevels.showLocationNodes) {
       // Show region nodes with counts and edge labels
+      const staticData = stateManager.getStaticData();
       this.cy.nodes().forEach(node => {
         if (!node.hasClass('location-node') && !node.hasClass('player')) {
           const regionName = node.data('regionName') || node.id();
+          const regionData = staticData?.regions?.[regionName];
           const locationCounts = node.data('locationCounts');
-          if (locationCounts) {
-            const regionLabel = regionName.replace(/_/g, ' ');
+          if (locationCounts && locationCounts.total > 0) {
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
             const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-            node.data('label', `${regionLabel}\n${countLabel}`);
+            node.data('label', `${displayText}\n${countLabel}`);
           } else {
-            node.data('label', regionName.replace(/_/g, ' '));
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            node.data('label', displayText);
           }
         }
       });
@@ -2307,16 +2461,19 @@ export class RegionGraphUI {
         .update();
     } else if (zoom < this.zoomLevels.showLocationLabels) {
       // Show everything except location labels
+      const staticData = stateManager.getStaticData();
       this.cy.nodes().forEach(node => {
         if (!node.hasClass('location-node') && !node.hasClass('player')) {
           const regionName = node.data('regionName') || node.id();
+          const regionData = staticData?.regions?.[regionName];
           const locationCounts = node.data('locationCounts');
-          if (locationCounts) {
-            const regionLabel = regionName.replace(/_/g, ' ');
+          if (locationCounts && locationCounts.total > 0) {
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
             const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-            node.data('label', `${regionLabel}\n${countLabel}`);
+            node.data('label', `${displayText}\n${countLabel}`);
           } else {
-            node.data('label', regionName.replace(/_/g, ' '));
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            node.data('label', displayText);
           }
         }
       });
@@ -2331,16 +2488,19 @@ export class RegionGraphUI {
         .update();
     } else {
       // Show everything including location labels
+      const staticData = stateManager.getStaticData();
       this.cy.nodes().forEach(node => {
         if (!node.hasClass('location-node') && !node.hasClass('player')) {
           const regionName = node.data('regionName') || node.id();
+          const regionData = staticData?.regions?.[regionName];
           const locationCounts = node.data('locationCounts');
-          if (locationCounts) {
-            const regionLabel = regionName.replace(/_/g, ' ');
+          if (locationCounts && locationCounts.total > 0) {
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
             const countLabel = `${locationCounts.checked}, ${locationCounts.accessible}, ${locationCounts.inaccessible} / ${locationCounts.total}`;
-            node.data('label', `${regionLabel}\n${countLabel}`);
+            node.data('label', `${displayText}\n${countLabel}`);
           } else {
-            node.data('label', regionName.replace(/_/g, ' '));
+            const displayText = regionData ? this.getRegionDisplayText(regionData) : regionName.replace(/_/g, ' ');
+            node.data('label', displayText);
           }
         }
       });
@@ -2405,12 +2565,16 @@ export class RegionGraphUI {
     locations.forEach((location, i) => {
       const angle = (2 * Math.PI * i) / locations.length - Math.PI/2;
       const locationStatus = this.getLocationStatus(regionId, location);
-      
+
+      // Get display text for location
+      const displayText = this.getLocationDisplayText(location);
+
       elements.push({
         group: 'nodes',
         data: {
           id: `loc_${regionId}_${location.name}`,
-          label: location.name,
+          label: displayText,
+          locationName: location.name,
           parentRegion: regionId,
           isLocation: true,
           locked: true
