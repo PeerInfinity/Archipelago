@@ -35,3 +35,5 @@ python scripts/pack_apworld.py metamath
 python scripts/pack_apworld.py mathadventure
 python scripts/pack_apworld.py bakingadventure
 python scripts/pack_apworld.py codingadventure
+
+find frontend/presets -type d -empty -delete
