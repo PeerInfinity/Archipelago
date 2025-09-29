@@ -64,3 +64,4 @@ See the [Project Roadmap](/docs/json/project-roadmap.md) for the latest status, 
 - Uses [json-editor](https://github.com/json-editor/json-editor)
 - Uses [CodeMirror](https://github.com/codemirror/codemirror5)
 - Uses [Cytoscape.js](https://github.com/cytoscape/cytoscape.js) for graph visualization
+- Uses [metamath-py](https://pypi.org/project/metamath-py/) for the MetaMath apworld
