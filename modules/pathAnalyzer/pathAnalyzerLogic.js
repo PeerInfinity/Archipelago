@@ -207,7 +207,19 @@ export class PathAnalyzerLogic {
       // Continue trying to find paths anyway
     }
 
-    const startRegions = staticData?.startRegions || ['Menu'];
+    let startRegions = staticData?.startRegions || ['Menu'];
+
+    // Ensure startRegions is always an array
+    if (!Array.isArray(startRegions)) {
+      // If it's an object with a 'default' property, use that
+      if (startRegions && typeof startRegions === 'object' && startRegions.default) {
+        startRegions = startRegions.default;
+      } else {
+        // Otherwise fall back to Menu
+        startRegions = ['Menu'];
+      }
+    }
+
     const regionsData = staticData?.regions;
 
     if (!regionsData) {

@@ -101,6 +101,16 @@
       "path": "./modules/testSpoilers/index.js",
       "enabled": true
     },
+    "sphereState": {
+      "path": "./modules/sphereState/index.js",
+      "enabled": true,
+      "requires": ["stateManager"]
+    },
+    "spoilerChecklist": {
+      "path": "./modules/spoilerChecklist/index.js",
+      "enabled": true,
+      "requires": ["stateManager", "commonUI", "sphereState", "locations"]
+    },
     "textAdventure": {
       "path": "./modules/textAdventure/index.js",
       "enabled": true,
@@ -183,6 +193,8 @@
     "loops",
     "presets",
     "testSpoilers",
+    "sphereState",
+    "spoilerChecklist",
     "textAdventure",
     "tests",
     "progressBar",
