@@ -318,8 +318,10 @@ export class PathAnalyzerLogic {
     iterationCounter,
     iterationCallback
   ) {
-    // Check if target reached - like old version, check if length > 1
-    if (currentRegion === targetRegion && currentPath.length > 1) {
+    // Check if target reached
+    // For starting regions (path length 1), we accept them as valid paths
+    // For other regions, we need at least 2 nodes (start -> target)
+    if (currentRegion === targetRegion && currentPath.length >= 1) {
       allPaths.push([...currentPath]);
       log(
         'info',

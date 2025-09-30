@@ -181,7 +181,7 @@ function handleRulesLoaded(data, propagationOptions) {
 
   log('info', `Extracted game: ${gameDir}, preset: ${presetId}`);
 
-  const sphereLogPath = `/frontend/presets/${gameDir}/${presetId}/${presetId}_spheres_log.jsonl`;
+  const sphereLogPath = `./presets/${gameDir}/${presetId}/${presetId}_spheres_log.jsonl`;
   log('info', `Attempting to auto-load sphere log from: ${sphereLogPath}`);
 
   // Load sphere log (async, but we don't await)
