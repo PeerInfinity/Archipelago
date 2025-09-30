@@ -8,7 +8,24 @@ logger = logging.getLogger(__name__)
 
 class AHitGameExportHandler(BaseGameExportHandler):
     """A Hat in Time specific rule expander with game-specific helper functions."""
-    
+
+    def get_settings_data(self, world, multiworld, player):
+        """Extract A Hat in Time settings including HatItems option."""
+        # Get base settings
+        settings = super().get_settings_data(world, multiworld, player)
+
+        # Add AHIT-specific settings
+        try:
+            if hasattr(world, 'options') and hasattr(world.options, 'HatItems'):
+                settings['HatItems'] = bool(world.options.HatItems.value)
+            else:
+                settings['HatItems'] = False  # Default value
+        except Exception as e:
+            logger.error(f"Error extracting HatItems option: {e}")
+            settings['HatItems'] = False
+
+        return settings
+
     def get_chapter_costs(self, world):
         """Extract A Hat in Time chapter costs for telescope access rules."""
         try:
@@ -87,6 +104,19 @@ class AHitGameExportHandler(BaseGameExportHandler):
             logger.error(f"Error applying chapter costs to {exit_name}: {e}")
             return rule
 
+    def get_hat_costs(self, world):
+        """Extract A Hat in Time hat yarn costs and crafting order."""
+        try:
+            hat_info = {}
+            if hasattr(world, 'hat_yarn_costs'):
+                hat_info['hat_yarn_costs'] = {int(k): v for k, v in world.hat_yarn_costs.items()}
+            if hasattr(world, 'hat_craft_order'):
+                hat_info['hat_craft_order'] = [int(h) for h in world.hat_craft_order]
+            return hat_info
+        except Exception as e:
+            logger.error(f"Error extracting hat costs: {e}")
+            return {}
+
     def get_game_info(self, world):
         """Get A Hat in Time specific game information including chapter costs."""
         try:
@@ -95,22 +125,24 @@ class AHitGameExportHandler(BaseGameExportHandler):
                 "rule_format": {
                     "version": "1.0"
                 },
-                "chapter_costs": self.get_chapter_costs(world)
+                "chapter_costs": self.get_chapter_costs(world),
+                "hat_info": self.get_hat_costs(world)
             }
             return game_info
         except Exception as e:
             logger.error(f"Error getting A Hat in Time game info: {e}")
             return {
-                "name": "A Hat in Time", 
+                "name": "A Hat in Time",
                 "rule_format": {"version": "1.0"},
-                "chapter_costs": {}
+                "chapter_costs": {},
+                "hat_info": {}
             }
 
     def expand_helper(self, helper_name: str, args: List[Any] = None):
         """Expand A Hat in Time specific helper functions."""
         if args is None:
             args = []
-        
+
         # A Hat in Time helper function mappings
         helper_mappings = {
             # Movement and traversal abilities
@@ -324,17 +356,21 @@ class AHitGameExportHandler(BaseGameExportHandler):
         """Expand A Hat in Time specific rules with enhanced processing."""
         if not rule:
             return rule
-            
+
         # Handle helper functions
         if rule.get('type') == 'helper':
+            # Filter out 'world' argument - it's automatically provided by executeHelper
+            if 'args' in rule:
+                rule['args'] = [arg for arg in rule['args'] if not (isinstance(arg, dict) and arg.get('type') == 'name' and arg.get('name') == 'world')]
+
             expanded = self.expand_helper(rule['name'], rule.get('args', []))
             if expanded:
                 return expanded
             # If no specific mapping, preserve the helper node
             return rule
-            
+
         # Handle logical operators recursively
         if rule['type'] in ['and', 'or']:
             rule['conditions'] = [self.expand_rule(cond) for cond in rule['conditions']]
-            
+
         return rule

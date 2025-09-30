@@ -131,19 +131,37 @@ export function get_difficulty(state, world, itemName, staticData) {
  */
 
 export function can_clear_required_act(state, world, actEntrance, staticData) {
-  // This function checks if a required act can be cleared by:
-  // 1. Finding the entrance by name in the static data
-  // 2. Getting the connected region from that entrance
-  // 3. Checking if the "Act Completion" location for that region is accessible
+  // This function checks if a required act can be cleared.
+  // In A Hat in Time, acts are clearable if their connected region is reachable,
+  // since Act Completion locations have no additional requirements.
   
-  // Handle case where no actEntrance is provided (defensive check)
+  // Handle multiple calling conventions:
+  // 1. From rule engine: (state, 'world', 'world', 'Mafia Town - Act 4', staticData)
+  // 2. Direct call: (state, world, actEntrance, staticData)
+  
+  // If actEntrance is an array, it means we got args passed incorrectly
+  if (Array.isArray(actEntrance)) {
+    // Args array contains ['world', 'Mafia Town - Act 4']
+    // We want the second element
+    // When this happens, staticData is in the 4th parameter position
+    actEntrance = actEntrance[1];
+    staticData = arguments[3];  // Get the actual staticData
+  } else if (world === 'world' && actEntrance === 'world' && staticData && typeof staticData === 'string') {
+    // We have (state, 'world', 'world', 'Mafia Town - Act 4', realStaticData)
+    // Shift parameters
+    actEntrance = staticData;
+    staticData = arguments[4];  // Get the 5th argument
+  }
+  
+  // Handle case where no actEntrance is provided
   if (!actEntrance) {
     return false;
   }
-  
-  // Debug logging for key acts
-  const debugActs = ['Mafia Town - Act 4', 'Mafia Town - Act 6'];
-  const shouldDebug = debugActs.includes(actEntrance);
+
+  // Handle case where actEntrance is not a string (could be an object from args)
+  if (typeof actEntrance === 'object' && actEntrance?.type === 'constant') {
+    actEntrance = actEntrance.value;
+  }
 
   // Find the entrance in the staticData
   if (!staticData || !staticData.regions) {
@@ -170,55 +188,73 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
   }
 
   if (!connectedRegion) {
-    // Unknown entrance, assume it's accessible
-    if (shouldDebug) {
-      console.log(`[can_clear_required_act] ${actEntrance}: No connected region found, returning true`);
-    }
-    return true;
-  }
-  
-  if (shouldDebug) {
-    console.log(`[can_clear_required_act] ${actEntrance} connects to ${connectedRegion}`);
+    // Unknown entrance, assume not reachable
+    return false;
   }
 
-  // First check if the connected region is reachable
+  // Check if the connected region is reachable
   if (state.regionReachability && state.regionReachability[connectedRegion] !== undefined) {
-    const regionReachable = state.regionReachability[connectedRegion] === true || state.regionReachability[connectedRegion] === 'reachable';
-    if (!regionReachable) {
-      console.log(`[can_clear_required_act] ${actEntrance}: ${connectedRegion} is NOT reachable (status: ${state.regionReachability[connectedRegion]})`);
-      return false;
-    }
-    console.log(`[can_clear_required_act] ${actEntrance}: ${connectedRegion} IS reachable`);
-  } else {
-    console.log(`[can_clear_required_act] ${actEntrance}: No regionReachability data for ${connectedRegion}`);
+    const regionReachable = state.regionReachability[connectedRegion] === true || 
+                           state.regionReachability[connectedRegion] === 'reachable';
+    return regionReachable;
   }
 
-  // Check if it's a "Free Roam" area (these are always clearable if reachable)
-  if (connectedRegion.includes('Free Roam')) {
-    return true;
-  }
-
-  // For act regions, during BFS traversal we can't check location accessibility
-  // due to recursion protection, so we assume acts are clearable if the region
-  // is reachable (which we already checked above)
-  // This matches the Python backend behavior where act completion locations
-  // typically have no additional access rules beyond region reachability
-  return true;
+  // If we don't have reachability data, assume not reachable
+  // This is conservative but safe
+  return false;
 }
 
 // Movement and abilities
 
 /**
+ * Calculate the cumulative yarn cost to craft a specific hat
+ * @param {Object} staticData - Static game data containing hat_info
+ * @param {number} hatType - HatType enum value
+ * @returns {number} Total yarn cost needed
+ */
+function get_hat_cost(staticData, hatType) {
+  if (!staticData || !staticData.game_info || !staticData.game_info['1'] || !staticData.game_info['1'].hat_info) {
+    return 0;
+  }
+
+  const hatInfo = staticData.game_info['1'].hat_info;
+  const hatYarnCosts = hatInfo.hat_yarn_costs || {};
+  const hatCraftOrder = hatInfo.hat_craft_order || [];
+
+  let cost = 0;
+  for (const h of hatCraftOrder) {
+    // Keys in JSON are strings, so convert h to string when accessing the costs
+    cost += hatYarnCosts[String(h)] || 0;
+    if (h === hatType) {
+      break;
+    }
+  }
+
+  return cost;
+}
+
+/**
  * Check if player can use a specific hat
  * @param {Object} state - Canonical state object
  * @param {Object} world - World/settings object
- * @param {string} hatType - The hat type to check
+ * @param {string|number} hatType - The hat type to check (string name or HatType enum value)
  * @param {Object} staticData - Static game data
  * @returns {boolean}
  */
 export function can_use_hat(state, world, hatType, staticData) {
-  // Map hat types to item names
-  const hatToItem = {
+  console.log(`[can_use_hat] Called with hatType=${hatType}, typeof=${typeof hatType}`);
+
+  // Map HatType enum values (integers) to item names
+  const hatEnumToItem = {
+    0: 'Sprint Hat',      // HatType.SPRINT
+    1: 'Brewing Hat',     // HatType.BREWING
+    2: 'Ice Hat',         // HatType.ICE
+    3: 'Dweller Mask',    // HatType.DWELLER
+    4: 'Time Stop Hat'    // HatType.TIME_STOP
+  };
+
+  // Map string names to item names (for backwards compatibility)
+  const hatNameToItem = {
     'Sprint': 'Sprint Hat',
     'Brewing': 'Brewing Hat',
     'Ice': 'Ice Hat',
@@ -226,11 +262,63 @@ export function can_use_hat(state, world, hatType, staticData) {
     'Time Stop': 'Time Stop Hat'
   };
 
-  const itemName = hatToItem[hatType];
+  let itemName;
+  let hatTypeNum;
+  if (typeof hatType === 'number') {
+    hatTypeNum = hatType;
+    itemName = hatEnumToItem[hatType];
+  } else {
+    itemName = hatNameToItem[hatType];
+    // Find the numeric hat type for Yarn cost calculation
+    for (const [num, name] of Object.entries(hatEnumToItem)) {
+      if (name === itemName) {
+        hatTypeNum = parseInt(num);
+        break;
+      }
+    }
+  }
+
+  console.log(`[can_use_hat] itemName=${itemName}, hatTypeNum=${hatTypeNum}`);
+
   if (!itemName) {
+    console.log(`[can_use_hat] No itemName found, returning false`);
     return false;
   }
 
+  // Check if HatItems option is enabled (hats are separate items)
+  const hatItemsEnabled = staticData?.settings?.['1']?.HatItems;
+  console.log(`[can_use_hat] HatItems enabled: ${hatItemsEnabled}`);
+  if (hatItemsEnabled) {
+    const result = has(state, itemName, staticData);
+    console.log(`[can_use_hat] Checking for hat item ${itemName}: ${result}`);
+    return result;
+  }
+
+  // HatItems is disabled, check Yarn count instead
+  if (hatTypeNum !== undefined) {
+    const hatInfo = staticData?.game_info?.['1']?.hat_info;
+    if (hatInfo && hatInfo.hat_yarn_costs) {
+      // Keys in JSON are strings, so convert hatTypeNum to string
+      const hatYarnCost = hatInfo.hat_yarn_costs[String(hatTypeNum)];
+      console.log(`[can_use_hat] hatYarnCost for ${hatTypeNum}: ${hatYarnCost}`);
+      // Check if hat cost is 0 or negative (in starting inventory)
+      if (hatYarnCost !== undefined && hatYarnCost <= 0) {
+        console.log(`[can_use_hat] Hat in starting inventory, returning true`);
+        return true;
+      }
+
+      // Check if player has enough Yarn to craft this hat
+      const requiredYarn = get_hat_cost(staticData, hatTypeNum);
+      const yarnCount = count(state, 'Yarn', staticData);
+      console.log(`[can_use_hat] Required Yarn: ${requiredYarn}, Player Yarn: ${yarnCount}`);
+      const result = yarnCount >= requiredYarn;
+      console.log(`[can_use_hat] Returning ${result}`);
+      return result;
+    }
+  }
+
+  // Fallback: check for hat item directly
+  console.log(`[can_use_hat] Fallback: checking for hat item ${itemName}`);
   return has(state, itemName, staticData);
 }
 

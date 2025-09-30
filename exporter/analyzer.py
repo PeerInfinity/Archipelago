@@ -310,14 +310,14 @@ class RuleAnalyzer(ast.NodeVisitor):
         # First check closure variables
         if var_name in self.closure_vars:
             return self.closure_vars[var_name]
-        
+
         # Then check function defaults if available
         if self.rule_func and hasattr(self.rule_func, '__defaults__') and self.rule_func.__defaults__:
             # Get parameter names from function code
             if hasattr(self.rule_func, '__code__'):
                 arg_names = self.rule_func.__code__.co_varnames[:self.rule_func.__code__.co_argcount]
                 defaults = self.rule_func.__defaults__
-                
+
                 # Map default values to parameter names (defaults apply to last N parameters)
                 if len(defaults) > 0:
                     default_start = len(arg_names) - len(defaults)
@@ -326,8 +326,62 @@ class RuleAnalyzer(ast.NodeVisitor):
                         if param_name == var_name:
                             logging.debug(f"Resolved variable '{var_name}' to default value: {default_value}")
                             return default_value
-        
+
         logging.debug(f"Could not resolve variable '{var_name}'")
+        return None
+
+    def try_resolve_expression(self, expr):
+        """Try to resolve a complex expression to a concrete value."""
+        if not isinstance(expr, dict):
+            return None
+
+        expr_type = expr.get('type')
+
+        # Handle simple constants
+        if expr_type == 'constant':
+            return expr.get('value')
+
+        # Handle variable names
+        if expr_type == 'name':
+            resolved = self.resolve_variable(expr.get('name'))
+            logging.debug(f"try_resolve_expression: Resolved name '{expr.get('name')}' to {type(resolved).__name__ if resolved is not None else 'None'}")
+            return resolved
+
+        # Handle attribute access (e.g., world.player or ChapterIndex.BIRDS)
+        if expr_type == 'attribute':
+            obj = self.try_resolve_expression(expr.get('object'))
+            logging.debug(f"try_resolve_expression: Resolved attribute object to {type(obj).__name__ if obj is not None else 'None'}")
+            if obj is not None:
+                attr_name = expr.get('attr')
+                if hasattr(obj, attr_name):
+                    result = getattr(obj, attr_name)
+                    logging.debug(f"try_resolve_expression: Got attribute '{attr_name}' = {type(result).__name__}")
+                    return result
+                else:
+                    logging.debug(f"try_resolve_expression: Object has no attribute '{attr_name}'")
+
+        # Handle subscript (e.g., world.chapter_timepiece_costs[ChapterIndex.BIRDS])
+        if expr_type == 'subscript':
+            value = self.try_resolve_expression(expr.get('value'))
+            index = self.try_resolve_expression(expr.get('index'))
+            logging.debug(f"try_resolve_expression: Subscript value={type(value).__name__ if value is not None else 'None'}, index={index}")
+            if value is not None and index is not None:
+                try:
+                    if isinstance(value, dict):
+                        result = value.get(index)
+                        logging.debug(f"try_resolve_expression: Dict subscript result = {result}")
+                        return result
+                    elif isinstance(value, (list, tuple)):
+                        result = value[int(index)]
+                        logging.debug(f"try_resolve_expression: List/tuple subscript result = {result}")
+                        return result
+                    else:
+                        result = value[index]
+                        logging.debug(f"try_resolve_expression: Generic subscript result = {result}")
+                        return result
+                except (KeyError, IndexError, TypeError) as e:
+                    logging.debug(f"try_resolve_expression: Subscript failed with {type(e).__name__}: {e}")
+
         return None
 
     def visit_Module(self, node):
@@ -497,10 +551,26 @@ class RuleAnalyzer(ast.NodeVisitor):
                     return processed_result
                 # If can't pre-process, fall through to regular helper handling
 
+            # Try to resolve arguments before creating the helper result
+            resolved_args = []
+            for i, arg in enumerate(processed_args):
+                if isinstance(arg, dict):
+                    resolved_value = self.try_resolve_expression(arg)
+                    # Only use resolved value if it's a simple JSON-serializable type
+                    if resolved_value is not None and isinstance(resolved_value, (int, float, str, bool)):
+                        logging.debug(f"Resolved helper arg {i}: {arg} -> {resolved_value}")
+                        resolved_args.append({'type': 'constant', 'value': resolved_value})
+                    else:
+                        if resolved_value is not None:
+                            logging.debug(f"Skipping non-serializable resolved value for arg {i}: {type(resolved_value).__name__}")
+                        resolved_args.append(arg)
+                else:
+                    resolved_args.append(arg)
+
             result = {
                 'type': 'helper',
                 'name': func_name,
-                'args': processed_args
+                'args': resolved_args
             }
             logging.debug(f"Created helper result: {result}")
             return result # Return helper result
@@ -513,33 +583,30 @@ class RuleAnalyzer(ast.NodeVisitor):
                 
                 # Simplify handling based on method name
                 if method == 'has' and len(processed_args) >= 1:
-                    logging.debug(f"Processing state.has with {len(processed_args)} args: {processed_args}")
+                    logging.info(f"Processing state.has with {len(processed_args)} args")
+                    for i, arg in enumerate(processed_args):
+                        logging.info(f"  Arg {i}: {arg}")
                     result = {'type': 'item_check', 'item': processed_args[0]}
-                    # Check for count parameter - could be 2nd or 3rd argument depending on if player is filtered
-                    if len(processed_args) >= 2:
-                        # If 2nd argument is numeric constant or variable name, it's likely the count
-                        second_arg = processed_args[1]
-                        if isinstance(second_arg, dict):
-                            # Handle constant integer (like 15)
-                            if second_arg.get('type') == 'constant' and isinstance(second_arg.get('value'), int):
-                                logging.debug(f"Found count parameter in position 1: {second_arg}")
-                                result['count'] = second_arg
-                            # Handle variable name (like min_feathers)
-                            elif second_arg.get('type') == 'name' and second_arg.get('name'):
-                                var_name = second_arg.get('name')
-                                resolved_value = self.resolve_variable(var_name)
-                                if resolved_value is not None:
-                                    # Successfully resolved variable to a concrete value
-                                    logging.debug(f"Found variable count parameter in position 1: {second_arg} -> {resolved_value}")
+                    # Check for count parameter - only in 3rd argument position (item, player, count)
+                    # Note: 2-argument form is always (item, player) and should NOT add a count field
+                    if len(processed_args) >= 3:
+                        # Traditional 3-argument case (item, player, count)
+                        third_arg = processed_args[2]
+                        if isinstance(third_arg, dict):
+                            # Handle constant integer
+                            if third_arg.get('type') == 'constant' and isinstance(third_arg.get('value'), int):
+                                logging.debug(f"Found count parameter in position 2: {third_arg}")
+                                result['count'] = third_arg
+                            # Handle variable name or complex expressions
+                            else:
+                                # Try to resolve any expression (variable, attribute, subscript, etc.)
+                                resolved_value = self.try_resolve_expression(third_arg)
+                                if resolved_value is not None and isinstance(resolved_value, int):
+                                    logging.debug(f"Found and resolved count parameter in position 2: {third_arg} -> {resolved_value}")
                                     result['count'] = {'type': 'constant', 'value': resolved_value}
                                 else:
-                                    # Could not resolve, keep as variable reference
-                                    logging.debug(f"Found unresolved variable count parameter in position 1: {second_arg}")
-                                    result['count'] = second_arg
-                    elif len(processed_args) >= 3:
-                        # Traditional 3-argument case (item, player, count)
-                        logging.debug(f"Found count parameter in position 2: {processed_args[2]}")
-                        result['count'] = processed_args[2]
+                                    logging.debug(f"Found unresolved count parameter in position 2: {third_arg}")
+                                    result['count'] = third_arg
                 elif method == 'has_group' and len(processed_args) >= 1:
                     result = {'type': 'group_check', 'group': processed_args[0]}
                 elif method == 'has_any' and len(processed_args) >= 1 and isinstance(processed_args[0], list):

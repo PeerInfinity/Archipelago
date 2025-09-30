@@ -432,7 +432,7 @@ def load_existing_results(results_file: str) -> Dict:
                 return json.load(f)
         except (json.JSONDecodeError, IOError):
             pass
-    
+
     return {
         'metadata': {
             'created': datetime.now().isoformat(),
@@ -443,20 +443,237 @@ def load_existing_results(results_file: str) -> Dict:
     }
 
 
-def save_results(results: Dict, results_file: str, batch_processing_time: float = None):
-    """Save results to JSON file."""
+def merge_results(existing_results: Dict, new_results: Dict, templates_tested: List[str], update_metadata: bool = True) -> Dict:
+    """
+    Merge new test results into existing results.
+    Only updates entries for templates/seeds that were tested in the current run.
+    Preserves all other existing results.
+
+    For seed range tests, merges at the individual seed level - if you test seeds 1-10
+    and then retest just seed 1, only seed 1's results are updated.
+
+    Args:
+        existing_results: The existing results to merge into
+        new_results: The new results from this run
+        templates_tested: List of template names tested in this run
+        update_metadata: If True, updates metadata fields like batch processing time
+    """
+    merged = existing_results.copy()
+
+    # Only update metadata if requested (typically only for full runs, not --include-list runs)
+    if update_metadata:
+        merged['metadata']['last_updated'] = new_results['metadata']['last_updated']
+
+        # Copy over batch processing time metadata from new results if present
+        for key in ['batch_processing_time_seconds', 'batch_processing_time_minutes', 'average_time_per_template_seconds']:
+            if key in new_results['metadata']:
+                merged['metadata'][key] = new_results['metadata'][key]
+    else:
+        # Always update last_updated timestamp, but not the batch processing metrics
+        merged['metadata']['last_updated'] = new_results['metadata']['last_updated']
+
+    # Merge results: only update entries for templates tested in this run
+    if 'results' not in merged:
+        merged['results'] = {}
+
+    for template_name in templates_tested:
+        if template_name not in new_results['results']:
+            continue
+
+        new_result = new_results['results'][template_name]
+
+        # Check if existing result is a seed range (has 'individual_results' key)
+        existing_has_seed_range = (template_name in merged['results'] and
+                                   'individual_results' in merged['results'][template_name])
+
+        # Check if this is a seed range result (has 'individual_results' key)
+        if 'individual_results' in new_result:
+            # New result is a seed range result - merge at the seed level
+            if existing_has_seed_range:
+                # Template already exists with seed range results - merge individual seeds
+                existing_template = merged['results'][template_name]
+
+                # Merge individual seed results
+                if 'individual_results' not in existing_template:
+                    existing_template['individual_results'] = {}
+
+                for seed, seed_result in new_result['individual_results'].items():
+                    existing_template['individual_results'][seed] = seed_result
+
+                # Recalculate summary statistics based on all seeds
+                all_seeds = existing_template['individual_results']
+                total_seeds = len(all_seeds)
+                seeds_passed = 0
+                seeds_failed = 0
+                first_failure_seed = None
+                first_failure_reason = None
+                consecutive_passes = 0
+
+                # Sort seeds numerically for consistent processing
+                sorted_seeds = sorted(all_seeds.keys(), key=lambda x: int(x))
+
+                for seed in sorted_seeds:
+                    seed_result = all_seeds[seed]
+                    # Check if seed passed (same logic as in test_template_seed_range)
+                    if 'spoiler_test' in seed_result:
+                        passed = seed_result.get('spoiler_test', {}).get('pass_fail') == 'passed'
+                    else:
+                        passed = seed_result.get('generation', {}).get('success', False)
+
+                    if passed:
+                        seeds_passed += 1
+                        if first_failure_seed is None:
+                            consecutive_passes += 1
+                    else:
+                        seeds_failed += 1
+                        if first_failure_seed is None:
+                            first_failure_seed = int(seed)
+                            # Get failure reason from the seed result
+                            if 'spoiler_test' in seed_result:
+                                spoiler_result = seed_result.get('spoiler_test', {})
+                                if spoiler_result.get('first_error_line'):
+                                    first_failure_reason = f"Test error: {spoiler_result['first_error_line']}"
+                                else:
+                                    first_failure_reason = f"Test failed at sphere {spoiler_result.get('sphere_reached', 0)}"
+                            else:
+                                gen_result = seed_result.get('generation', {})
+                                if gen_result.get('first_error_line'):
+                                    first_failure_reason = f"Generation error: {gen_result['first_error_line']}"
+                                else:
+                                    first_failure_reason = f"Generation failed with return code {gen_result.get('return_code')}"
+
+                # Update summary fields
+                existing_template['total_seeds_tested'] = total_seeds
+                existing_template['seeds_passed'] = seeds_passed
+                existing_template['seeds_failed'] = seeds_failed
+                existing_template['first_failure_seed'] = first_failure_seed
+                existing_template['first_failure_reason'] = first_failure_reason
+                existing_template['consecutive_passes_before_failure'] = consecutive_passes
+
+                # Update seed_range to reflect actual range
+                if sorted_seeds:
+                    existing_template['seed_range'] = f"{sorted_seeds[0]}-{sorted_seeds[-1]}" if len(sorted_seeds) > 1 else str(sorted_seeds[0])
+
+                # Update summary stats
+                if total_seeds > 0:
+                    existing_template['summary']['failure_rate'] = seeds_failed / total_seeds
+                    existing_template['summary']['all_passed'] = seeds_failed == 0
+                    existing_template['summary']['any_failed'] = seeds_failed > 0
+
+                # Update timestamp
+                existing_template['timestamp'] = new_result['timestamp']
+
+            else:
+                # No existing seed range results for this template, use new results entirely
+                merged['results'][template_name] = new_result
+        else:
+            # New result is a single seed result
+            if existing_has_seed_range:
+                # Existing result is a seed range - merge this single seed into it
+                existing_template = merged['results'][template_name]
+
+                # Get the seed from the new result
+                seed = new_result.get('seed', '1')
+
+                # Add this single seed result to the individual_results
+                if 'individual_results' not in existing_template:
+                    existing_template['individual_results'] = {}
+
+                existing_template['individual_results'][seed] = new_result
+
+                # Recalculate summary statistics (same logic as above)
+                all_seeds = existing_template['individual_results']
+                total_seeds = len(all_seeds)
+                seeds_passed = 0
+                seeds_failed = 0
+                first_failure_seed = None
+                first_failure_reason = None
+                consecutive_passes = 0
+
+                # Sort seeds numerically for consistent processing
+                sorted_seeds = sorted(all_seeds.keys(), key=lambda x: int(x))
+
+                for seed in sorted_seeds:
+                    seed_result = all_seeds[seed]
+                    # Check if seed passed
+                    if 'spoiler_test' in seed_result:
+                        passed = seed_result.get('spoiler_test', {}).get('pass_fail') == 'passed'
+                    else:
+                        passed = seed_result.get('generation', {}).get('success', False)
+
+                    if passed:
+                        seeds_passed += 1
+                        if first_failure_seed is None:
+                            consecutive_passes += 1
+                    else:
+                        seeds_failed += 1
+                        if first_failure_seed is None:
+                            first_failure_seed = int(seed)
+                            # Get failure reason from the seed result
+                            if 'spoiler_test' in seed_result:
+                                spoiler_result = seed_result.get('spoiler_test', {})
+                                if spoiler_result.get('first_error_line'):
+                                    first_failure_reason = f"Test error: {spoiler_result['first_error_line']}"
+                                else:
+                                    first_failure_reason = f"Test failed at sphere {spoiler_result.get('sphere_reached', 0)}"
+                            else:
+                                gen_result = seed_result.get('generation', {})
+                                if gen_result.get('first_error_line'):
+                                    first_failure_reason = f"Generation error: {gen_result['first_error_line']}"
+                                else:
+                                    first_failure_reason = f"Generation failed with return code {gen_result.get('return_code')}"
+
+                # Update summary fields
+                existing_template['total_seeds_tested'] = total_seeds
+                existing_template['seeds_passed'] = seeds_passed
+                existing_template['seeds_failed'] = seeds_failed
+                existing_template['first_failure_seed'] = first_failure_seed
+                existing_template['first_failure_reason'] = first_failure_reason
+                existing_template['consecutive_passes_before_failure'] = consecutive_passes
+
+                # Update seed_range to reflect actual range
+                if sorted_seeds:
+                    existing_template['seed_range'] = f"{sorted_seeds[0]}-{sorted_seeds[-1]}" if len(sorted_seeds) > 1 else str(sorted_seeds[0])
+
+                # Update summary stats
+                if total_seeds > 0:
+                    existing_template['summary']['failure_rate'] = seeds_failed / total_seeds
+                    existing_template['summary']['all_passed'] = seeds_failed == 0
+                    existing_template['summary']['any_failed'] = seeds_failed > 0
+
+                # Update timestamp
+                existing_template['timestamp'] = new_result['timestamp']
+            else:
+                # Single seed result and no existing seed range - replace entirely
+                merged['results'][template_name] = new_result
+
+    return merged
+
+
+def save_results(results: Dict, results_file: str, batch_processing_time: float = None, timestamped_file: str = None):
+    """Save results to JSON file and optionally to a timestamped file."""
     results['metadata']['last_updated'] = datetime.now().isoformat()
-    
+
     # Add batch processing time if provided
     if batch_processing_time is not None:
         results['metadata']['batch_processing_time_seconds'] = round(batch_processing_time, 1)
         results['metadata']['batch_processing_time_minutes'] = round(batch_processing_time / 60, 1)
-        
+
         # Calculate average time per template if we have results
         if 'results' in results and len(results['results']) > 0:
             avg_time = batch_processing_time / len(results['results'])
             results['metadata']['average_time_per_template_seconds'] = round(avg_time, 1)
-    
+
+    # Save to timestamped file if provided
+    if timestamped_file:
+        try:
+            with open(timestamped_file, 'w') as f:
+                json.dump(results, f, indent=2, sort_keys=True)
+            print(f"Timestamped results saved to: {timestamped_file}")
+        except IOError as e:
+            print(f"Error saving timestamped results: {e}")
+
+    # Save to main results file
     try:
         with open(results_file, 'w') as f:
             json.dump(results, f, indent=2, sort_keys=True)
@@ -1039,14 +1256,41 @@ def main():
     elif len(skipped_files) > 10:
         print(f"{'Not included' if args.include_list is not None else 'Skipping'}: {len(skipped_files)} files (too many to list)")
     
-    # Load or create results structure
+    # Load existing results for merging
     results_file = os.path.join(project_root, args.output_file)
-    results = load_existing_results(results_file)
-    
+    existing_results = load_existing_results(results_file)
+
+    # Determine if we should update metadata in merged results
+    # Only update metadata for full runs (no --include-list)
+    update_metadata = args.include_list is None
+
+    # Create new results structure for this run
+    results = {
+        'metadata': {
+            'created': datetime.now().isoformat(),
+            'last_updated': datetime.now().isoformat(),
+            'script_version': '1.0.0'
+        },
+        'results': {}
+    }
+
     # Ensure output directory exists
     os.makedirs(os.path.dirname(results_file), exist_ok=True)
-    
+
+    # Generate timestamped filename
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    output_dir = os.path.dirname(results_file)
+    output_basename = os.path.basename(results_file)
+    # Insert timestamp before file extension
+    name_parts = output_basename.rsplit('.', 1)
+    if len(name_parts) == 2:
+        timestamped_basename = f"{name_parts[0]}_{timestamp}.{name_parts[1]}"
+    else:
+        timestamped_basename = f"{output_basename}_{timestamp}"
+    timestamped_file = os.path.join(output_dir, timestamped_basename)
+
     print(f"Results will be saved to: {results_file}")
+    print(f"Timestamped backup will be saved to: {timestamped_basename}")
     print(f"Testing templates from: {templates_dir}")
     
     # Build world mapping once at startup
@@ -1088,13 +1332,20 @@ def main():
                 )
             
             results['results'][yaml_file] = template_result
-            
+
             # Save results after each template (incremental updates)
-            save_results(results, results_file)
-            
+            # Merge with existing results and save
+            templates_tested_so_far = list(results['results'].keys())
+            incremental_merged = merge_results(existing_results, results, templates_tested_so_far, update_metadata)
+            save_results(incremental_merged, results_file)
+
         except KeyboardInterrupt:
             print("\nInterrupted by user. Saving current results...")
-            save_results(results, results_file)
+            templates_tested_so_far = list(results['results'].keys())
+            incremental_merged = merge_results(existing_results, results, templates_tested_so_far, update_metadata)
+            save_results(incremental_merged, results_file)
+            # Also save timestamped partial results
+            save_results(results, results_file, timestamped_file=timestamped_file)
             sys.exit(1)
         except Exception as e:
             print(f"Error processing {yaml_file}: {e}")
@@ -1105,22 +1356,32 @@ def main():
                 'error': str(e)
             }
             results['results'][yaml_file] = error_result
-            save_results(results, results_file)
+            # Save results after error (incremental updates)
+            templates_tested_so_far = list(results['results'].keys())
+            incremental_merged = merge_results(existing_results, results, templates_tested_so_far, update_metadata)
+            save_results(incremental_merged, results_file)
     
     # Calculate total batch processing time
     batch_end_time = time.time()
     total_batch_time = batch_end_time - batch_start_time
-    
-    # Save final results with batch processing time
-    save_results(results, results_file, total_batch_time)
-    
+
+    # Save timestamped results file (snapshot of this run only)
+    save_results(results, results_file, total_batch_time, timestamped_file)
+
+    # Merge this run's results into the existing results
+    merged_results = merge_results(existing_results, results, yaml_files, update_metadata)
+
+    # Save merged results to main file
+    save_results(merged_results, results_file)
+
     print(f"\n=== Testing Complete ===")
     print(f"Processed {len(yaml_files)} templates")
     print(f"Total batch processing time: {total_batch_time:.1f} seconds ({total_batch_time/60:.1f} minutes)")
     if len(yaml_files) > 0:
         avg_time_per_template = total_batch_time / len(yaml_files)
         print(f"Average time per template: {avg_time_per_template:.1f} seconds")
-    print(f"Results saved to: {results_file}")
+    print(f"Timestamped results saved to: {timestamped_file}")
+    print(f"Merged results saved to: {results_file}")
     
     # Print summary based on mode and seed range
     print(f"\n=== Final Summary ===")

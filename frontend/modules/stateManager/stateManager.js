@@ -583,8 +583,9 @@ export class StateManager {
     this.itempoolCounts = jsonData.itempool_counts?.[selectedPlayerId] || {};
     this.progressionMapping =
       jsonData.progression_mapping?.[selectedPlayerId] || {};
+    this.gameInfo = jsonData.game_info || {};
     this._logDebug(
-      'Loaded startRegions, mode, itempoolCounts, and progressionMapping.'
+      'Loaded startRegions, mode, itempoolCounts, progressionMapping, and gameInfo.'
     );
 
     // --- Select and Initialize Game-Specific Logic Module ---
@@ -2176,6 +2177,9 @@ export class StateManager {
             progressionMapping: this.progressionMapping,
             groupData: this.groupData,
             itemData: this.itemData,
+            regions: { [this.playerSlot]: this.regions },  // Add regions for the current player
+            settings: { [this.playerSlot]: this.settings },  // Add settings for the current player
+            game_info: this.gameInfo,  // Add game_info
           };
           return this.helperFunctions[method](snapshot, 'world', args[0], staticData);
         }
@@ -2256,11 +2260,14 @@ export class StateManager {
     try {
       // The `this.helperFunctions` property is now set dynamically based on the game.
       if (this.helperFunctions && this.helperFunctions[name]) {
-        const snapshot = this.getSnapshot(); 
+        const snapshot = this.getSnapshot();
         const staticData = {
           progressionMapping: this.progressionMapping,
           groupData: this.groupData,
           itemData: this.itemData,
+          regions: { [this.playerSlot]: this.regions },  // Add regions for the current player
+          settings: { [this.playerSlot]: this.settings },  // Add settings for the current player
+          game_info: this.gameInfo,  // Add game_info
         };
         // For helpers that need multiple arguments, pass them as an array in the itemName parameter
         // Most helpers expect (state, world, itemName, staticData) but some need multiple args
