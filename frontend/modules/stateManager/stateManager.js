@@ -3039,8 +3039,6 @@ export class StateManager {
       requiredMedallions: this.gameStateModule?.requiredMedallions,
       treasureHuntRequired: this.gameStateModule?.treasureHuntRequired,
       events: this.gameStateModule?.events || [],
-      // ADDED: Expose dungeons in the main snapshot body for easier access by some components
-      dungeons: this.dungeons,
       // REFACTOR: Add missing properties for canonical state
       debugMode: this.debugMode || false,
       autoCollectEventsEnabled: this.autoCollectEventsEnabled !== false, // Default true

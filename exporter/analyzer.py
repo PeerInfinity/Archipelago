@@ -310,14 +310,14 @@ class RuleAnalyzer(ast.NodeVisitor):
         # First check closure variables
         if var_name in self.closure_vars:
             return self.closure_vars[var_name]
-        
+
         # Then check function defaults if available
         if self.rule_func and hasattr(self.rule_func, '__defaults__') and self.rule_func.__defaults__:
             # Get parameter names from function code
             if hasattr(self.rule_func, '__code__'):
                 arg_names = self.rule_func.__code__.co_varnames[:self.rule_func.__code__.co_argcount]
                 defaults = self.rule_func.__defaults__
-                
+
                 # Map default values to parameter names (defaults apply to last N parameters)
                 if len(defaults) > 0:
                     default_start = len(arg_names) - len(defaults)
@@ -326,9 +326,36 @@ class RuleAnalyzer(ast.NodeVisitor):
                         if param_name == var_name:
                             logging.debug(f"Resolved variable '{var_name}' to default value: {default_value}")
                             return default_value
-        
+
         logging.debug(f"Could not resolve variable '{var_name}'")
         return None
+
+    def _is_state_or_player_arg(self, arg_node, arg_result):
+        """
+        Check if an argument is the 'state' or 'player' parameter.
+        Returns: (is_state, is_player) tuple
+        """
+        if isinstance(arg_node, ast.Name):
+            name = arg_node.id
+            return (name == 'state', name == 'player')
+        return (False, False)
+
+    def _filter_special_args(self, args_with_nodes):
+        """
+        Filter out state and player arguments.
+
+        Args:
+            args_with_nodes: List of (arg_node, arg_result) tuples
+
+        Returns:
+            List of arg_results with state/player filtered out
+        """
+        filtered = []
+        for arg_node, arg_result in args_with_nodes:
+            is_state, is_player = self._is_state_or_player_arg(arg_node, arg_result)
+            if not (is_state or is_player):
+                filtered.append(arg_result)
+        return filtered
 
     def visit_Module(self, node):
         try:
@@ -394,7 +421,10 @@ class RuleAnalyzer(ast.NodeVisitor):
 
     def visit_Call(self, node):
         """
-        Updated visit_Call method that properly handles complex arguments and special cases better.
+        Visit a function call node.
+
+        This method keeps ALL arguments during analysis (including state and player).
+        Filtering of state/player happens later when creating final result structures.
         """
         logging.debug(f"\nvisit_Call called:")
         logging.debug(f"Function: {ast.dump(node.func)}")
@@ -404,9 +434,9 @@ class RuleAnalyzer(ast.NodeVisitor):
         func_info = self.visit(node.func) # Get returned result
         logging.debug(f"Function info after visit: {func_info}")
 
-        # Process arguments
-        args = []
-        processed_args = []
+        # Process ALL arguments and keep track of AST nodes for filtering
+        args = []  # Analyzed argument results
+        args_with_nodes = []  # Pairs of (ast_node, result) for filtering
         for i, arg_node in enumerate(node.args):
             arg_result = self.visit(arg_node) # Get returned result for each arg
             if arg_result is None:
@@ -414,44 +444,43 @@ class RuleAnalyzer(ast.NodeVisitor):
                  # More permissive - continue even if arg analysis fails
                  continue
             args.append(arg_result)
-            
-            # Still skip names "state" and "player" for processed_args used by helpers
-            if not (isinstance(arg_node, ast.Name) and arg_node.id in ['state', 'player']):
-                processed_args.append(arg_result)
+            args_with_nodes.append((arg_node, arg_result))
 
-        logging.debug(f"Collected args: {args}") # Simplified comment
-        logging.debug(f"Processed args (without state/player): {processed_args}") # Simplified comment
+        logging.debug(f"Collected all args: {args}")
 
-        # --- Determine the type of call --- 
+        # --- Determine the type of call ---
 
         # 1. Helper function call (identified by name)
         if func_info and func_info.get('type') == 'name':
             func_name = func_info['name']
             logging.debug(f"Checking helper: {func_name}")
-            
+
+            # Filter arguments for game handler and result creation
+            filtered_args = self._filter_special_args(args_with_nodes)
+
             # Check for game-specific special function calls
             if self.game_handler and hasattr(self.game_handler, 'handle_special_function_call'):
-                special_result = self.game_handler.handle_special_function_call(func_name, processed_args)
+                special_result = self.game_handler.handle_special_function_call(func_name, filtered_args)
                 if special_result:
                     logging.debug(f"Game handler processed special function {func_name}: {special_result}")
                     return special_result
-            
+
             # Check if the function name is in closure vars
             if func_name in self.closure_vars:
                  logging.debug(f"Identified call to known closure variable: {func_name}")
-                 
+
                  # --- Recursive analysis logic (enhanced for multiline lambdas) ---
                  try:
-                     # Correctly check if 'state' is passed as an argument AST node
-                     has_state_arg = any(isinstance(arg, ast.Name) and arg.id == 'state' for arg in node.args) 
+                     # Check if 'state' is passed as an argument using original AST nodes
+                     has_state_arg = any(isinstance(arg, ast.Name) and arg.id == 'state' for arg in node.args)
                      # Attempt recursion if state arg is present
                      if has_state_arg:
                           # Get the actual function from the closure
                           actual_func = self.closure_vars[func_name]
                           logging.debug(f"Recursively analyzing closure function: {func_name} -> {actual_func}")
                           # Pass the seen_funcs dictionary (it's mutable state)
-                          recursive_result = analyze_rule(rule_func=actual_func, 
-                                                          closure_vars=self.closure_vars.copy(), 
+                          recursive_result = analyze_rule(rule_func=actual_func,
+                                                          closure_vars=self.closure_vars.copy(),
                                                           seen_funcs=self.seen_funcs, # Pass the dict
                                                           game_handler=self.game_handler,
                                                           player_context=self.player_context)
@@ -466,14 +495,14 @@ class RuleAnalyzer(ast.NodeVisitor):
                  # If recursion wasn't attempted or failed, fall through to default helper representation
 
             # *** Special handling for all(GeneratorExp) ***
-            if func_name == 'all' and len(processed_args) == 1 and processed_args[0].get('type') == 'generator_expression':
+            if func_name == 'all' and len(filtered_args) == 1 and filtered_args[0].get('type') == 'generator_expression':
                 logging.debug(f"Detected all(GeneratorExp) pattern.")
-                gen_exp = processed_args[0] # The result from visit_GeneratorExp
+                gen_exp = filtered_args[0] # The result from visit_GeneratorExp
                 # Represent this as a specific 'all_of' rule type
                 result = {
                     'type': 'all_of',
                     'element_rule': gen_exp['element'],
-                    'iterator_info': gen_exp['comprehension'] 
+                    'iterator_info': gen_exp['comprehension']
                 }
                 logging.debug(f"Created 'all_of' result: {result}")
                 return result
@@ -481,26 +510,27 @@ class RuleAnalyzer(ast.NodeVisitor):
 
             # *** Special handling for zip() function ***
             if func_name == 'zip':
-                logging.debug(f"Detected zip() function call with {len(processed_args)} args")
-                processed_result = self._try_preprocess_zip(processed_args)
+                logging.debug(f"Detected zip() function call with {len(filtered_args)} args")
+                processed_result = self._try_preprocess_zip(filtered_args)
                 if processed_result is not None:
                     logging.debug(f"Pre-processed zip() to: {processed_result}")
                     return processed_result
                 # If can't pre-process, fall through to regular helper handling
 
             # *** Special handling for len() function ***
-            if func_name == 'len' and len(processed_args) == 1:
+            if func_name == 'len' and len(filtered_args) == 1:
                 logging.debug(f"Detected len() function call")
-                processed_result = self._try_preprocess_len(processed_args[0])
+                processed_result = self._try_preprocess_len(filtered_args[0])
                 if processed_result is not None:
                     logging.debug(f"Pre-processed len() to: {processed_result}")
                     return processed_result
                 # If can't pre-process, fall through to regular helper handling
 
+            # Create helper result with filtered args (no state/player in JSON)
             result = {
                 'type': 'helper',
                 'name': func_name,
-                'args': processed_args
+                'args': filtered_args
             }
             logging.debug(f"Created helper result: {result}")
             return result # Return helper result
@@ -510,19 +540,21 @@ class RuleAnalyzer(ast.NodeVisitor):
             if func_info['object'].get('type') == 'name' and func_info['object'].get('name') == 'state':
                 method = func_info['attr']
                 logging.debug(f"Processing state method: {method}")
-                
+
+                # Filter out state/player for final result
+                filtered_args = self._filter_special_args(args_with_nodes)
+
                 # Simplify handling based on method name
-                if method == 'has' and len(processed_args) >= 1:
-                    logging.debug(f"Processing state.has with {len(processed_args)} args: {processed_args}")
-                    result = {'type': 'item_check', 'item': processed_args[0]}
-                    # Check for count parameter - could be 2nd or 3rd argument depending on if player is filtered
-                    if len(processed_args) >= 2:
-                        # If 2nd argument is numeric constant or variable name, it's likely the count
-                        second_arg = processed_args[1]
+                if method == 'has' and len(filtered_args) >= 1:
+                    logging.debug(f"Processing state.has with {len(filtered_args)} filtered args: {filtered_args}")
+                    result = {'type': 'item_check', 'item': filtered_args[0]}
+                    # Check for count parameter (now in position 1 after filtering)
+                    if len(filtered_args) >= 2:
+                        second_arg = filtered_args[1]
                         if isinstance(second_arg, dict):
                             # Handle constant integer (like 15)
                             if second_arg.get('type') == 'constant' and isinstance(second_arg.get('value'), int):
-                                logging.debug(f"Found count parameter in position 1: {second_arg}")
+                                logging.debug(f"Found count parameter: {second_arg}")
                                 result['count'] = second_arg
                             # Handle variable name (like min_feathers)
                             elif second_arg.get('type') == 'name' and second_arg.get('name'):
@@ -530,39 +562,36 @@ class RuleAnalyzer(ast.NodeVisitor):
                                 resolved_value = self.resolve_variable(var_name)
                                 if resolved_value is not None:
                                     # Successfully resolved variable to a concrete value
-                                    logging.debug(f"Found variable count parameter in position 1: {second_arg} -> {resolved_value}")
+                                    logging.debug(f"Found variable count parameter: {second_arg} -> {resolved_value}")
                                     result['count'] = {'type': 'constant', 'value': resolved_value}
                                 else:
                                     # Could not resolve, keep as variable reference
-                                    logging.debug(f"Found unresolved variable count parameter in position 1: {second_arg}")
+                                    logging.debug(f"Found unresolved variable count parameter: {second_arg}")
                                     result['count'] = second_arg
-                    elif len(processed_args) >= 3:
-                        # Traditional 3-argument case (item, player, count)
-                        logging.debug(f"Found count parameter in position 2: {processed_args[2]}")
-                        result['count'] = processed_args[2]
-                elif method == 'has_group' and len(processed_args) >= 1:
-                    result = {'type': 'group_check', 'group': processed_args[0]}
-                elif method == 'has_any' and len(processed_args) >= 1 and isinstance(processed_args[0], list):
-                    result = {'type': 'or', 'conditions': [{'type': 'item_check', 'item': item} for item in processed_args[0]]}
-                elif method == '_lttp_has_key' and len(processed_args) >= 1:
-                    # Default count to 1 if not specified
-                    count = processed_args[1] if len(processed_args) >= 2 else {'type': 'constant', 'value': 1}
-                    result = {'type': 'count_check', 'item': processed_args[0], 'count': count}
+                elif method == 'has_group' and len(filtered_args) >= 1:
+                    result = {'type': 'group_check', 'group': filtered_args[0]}
+                elif method == 'has_any' and len(filtered_args) >= 1 and isinstance(filtered_args[0], list):
+                    result = {'type': 'or', 'conditions': [{'type': 'item_check', 'item': item} for item in filtered_args[0]]}
+                elif method == '_lttp_has_key' and len(filtered_args) >= 1:
+                    # Count is now in position 1 after player is filtered
+                    count = filtered_args[1] if len(filtered_args) >= 2 else {'type': 'constant', 'value': 1}
+                    result = {'type': 'count_check', 'item': filtered_args[0], 'count': count}
                 # Add other state methods like can_reach if needed
-                # elif method == 'can_reach': ... 
+                # elif method == 'can_reach': ...
                 else:
                     # Default for unhandled state methods
-                    result = {'type': 'state_method', 'method': method, 'args': processed_args}
-                
+                    result = {'type': 'state_method', 'method': method, 'args': filtered_args}
+
                 logging.debug(f"State method result: {result}")
                 return result # Return state method result
 
         # 3. Fallback for other types of calls (e.g., calling result of another function)
         logging.debug(f"Fallback function call type. func_info = {func_info}")
+        filtered_args = self._filter_special_args(args_with_nodes)
         result = {
             'type': 'function_call',
             'function': func_info,
-            'args': processed_args # Use processed args here too
+            'args': filtered_args
         }
         logging.debug(f"Fallback call result: {result}")
         return result # Return generic function call result
