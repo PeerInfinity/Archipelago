@@ -756,6 +756,37 @@ export class TestSpoilerUI {
       'Skipping explicit rule loading. Assuming StateManager has current rules.'
     );
 
+    // Load sphere log into sphereState
+    try {
+      if (window.centralRegistry && typeof window.centralRegistry.getPublicFunction === 'function') {
+        const loadSphereLog = window.centralRegistry.getPublicFunction('sphereState', 'loadSphereLog');
+        const setCurrentPlayerId = window.centralRegistry.getPublicFunction('sphereState', 'setCurrentPlayerId');
+
+        if (loadSphereLog && setCurrentPlayerId) {
+          // Set player ID first
+          if (this.playerId) {
+            setCurrentPlayerId(this.playerId);
+            this.log('info', `Set sphereState player ID to: ${this.playerId}`);
+          }
+
+          // Load the sphere log
+          const logPath = this.currentSpoilerLogPath;
+          this.log('info', `Loading sphere log into sphereState: ${logPath}`);
+          const success = await loadSphereLog(logPath);
+
+          if (success) {
+            this.log('info', 'Sphere log successfully loaded into sphereState');
+          } else {
+            this.log('warn', 'Failed to load sphere log into sphereState');
+          }
+        } else {
+          this.log('warn', 'sphereState loadSphereLog or setCurrentPlayerId function not available');
+        }
+      }
+    } catch (error) {
+      this.log('error', `Error loading sphere log into sphereState: ${error.message}`);
+    }
+
     // MODIFIED: Disable auto-event collection for the test
     try {
       await stateManager.setAutoCollectEventsConfig(false);
@@ -1111,6 +1142,37 @@ export class TestSpoilerUI {
     }
   }
 
+  /**
+   * Get sphere data from sphereState module
+   * @param {number} sphereIndex - The index of the current sphere being processed
+   * @returns {object|null} Sphere data with accumulated inventory/locations/regions
+   */
+  _getSphereDataFromSphereState(sphereIndex) {
+    try {
+      if (!window.centralRegistry || typeof window.centralRegistry.getPublicFunction !== 'function') {
+        this.log('warn', 'centralRegistry not available for sphereState access');
+        return null;
+      }
+
+      const getSphereData = window.centralRegistry.getPublicFunction('sphereState', 'getSphereData');
+      if (!getSphereData) {
+        this.log('warn', 'sphereState getSphereData function not available');
+        return null;
+      }
+
+      const allSpheres = getSphereData();
+      if (!allSpheres || sphereIndex >= allSpheres.length) {
+        this.log('warn', `Sphere ${sphereIndex} not found in sphereState data`);
+        return null;
+      }
+
+      return allSpheres[sphereIndex];
+    } catch (error) {
+      this.log('error', `Error getting sphere data from sphereState: ${error.message}`);
+      return null;
+    }
+  }
+
   async processSingleEvent(event) {
     this.log(
       'debug',
@@ -1133,38 +1195,38 @@ export class TestSpoilerUI {
 
     switch (eventType) {
       case 'state_update': {
-        if (!event.player_data || !event.player_data[this.playerId]) {
+        // Get sphere data from sphereState (which handles both verbose and incremental formats)
+        const sphereData = this._getSphereDataFromSphereState(this.currentLogIndex);
+
+        if (!sphereData) {
           this.log(
             'warn',
-            `State update event missing player_data for current player ${this.playerId}. Skipping comparison.`
+            `Could not get sphere data from sphereState for index ${this.currentLogIndex}. Skipping comparison.`
           );
           allChecksPassed = false;
           break;
         }
 
-        const playerDataForCurrentTest = event.player_data[this.playerId];
-        const inventory_from_log =
-          playerDataForCurrentTest.inventory_details?.prog_items || {};
-        
+        // Use accumulated data from sphereState
+        const inventory_from_log = sphereData.inventoryDetails?.prog_items || {};
+
         // Find newly added items by comparing with previous inventory
         newlyAddedItems = this.findNewlyAddedItems(this.previousInventory, inventory_from_log);
-        
+
         // Log newly added items before the status message
         if (newlyAddedItems.length > 0) {
           const itemCounts = {};
           newlyAddedItems.forEach(item => {
             itemCounts[item] = (itemCounts[item] || 0) + 1;
           });
-          const itemList = Object.entries(itemCounts).map(([item, count]) => 
+          const itemList = Object.entries(itemCounts).map(([item, count]) =>
             count > 1 ? `${item} (x${count})` : item
           ).join(', ');
           this.log('info', `📦 Recently added item${newlyAddedItems.length > 1 ? 's' : ''}: ${itemList}`);
         }
-        
-        const accessible_from_log =
-          playerDataForCurrentTest.accessible_locations || [];
-        const accessible_regions_from_log =
-          playerDataForCurrentTest.accessible_regions || [];
+
+        const accessible_from_log = sphereData.accessibleLocations || [];
+        const accessible_regions_from_log = sphereData.accessibleRegions || [];
 
         const context = {
           type: 'state_update',
@@ -1271,77 +1333,6 @@ export class TestSpoilerUI {
         break;
       }
 
-      case 'sphere_update': // Handles Spoiler playthrough logs
-      case 'inventory_changed': // Legacy, might be combined or removed if sphere_update covers all
-      case 'accessibility_update': // Legacy, might be combined or removed
-        {
-          // NOTE: This old logic for sphere_update etc. uses a modified snapshot.
-          // If these event types are still relevant for spoiler logs, they need similar refactoring
-          // as 'state_update' above to use the new worker-driven state comparison.
-          // For now, assuming 'state_update' is the primary event from Python sphere logs.
-          this.log(
-            'warn',
-            `Event type '${eventType}' found. If this is from a Python sphere log, its comparison logic might be outdated. Prefer 'state_update' events.`
-          );
-          // Ensure player_data and specific player ID exist
-          if (!event.player_data || !event.player_data[this.playerId]) {
-            this.log(
-              'warn',
-              `Event type '${eventType}' missing player_data for player ${this.playerId}. Skipping comparison.`
-            );
-            allChecksPassed = false; // This is a data issue for the current player, so mark as failed step
-            break;
-          }
-          const playerData = event.player_data[this.playerId];
-          const inventory_from_log_legacy = playerData.inventory || {};
-          const accessible_from_log_legacy =
-            playerData.accessible_locations || [];
-          const accessible_regions_from_log_legacy =
-            playerData.accessible_regions || [];
-          const context_legacy = {
-            type: eventType,
-            sphere_number: event.sphere_number || this.currentLogIndex + 1, // Fallback sphere number
-            player_id: this.playerId, // From current UI context
-          };
-
-          this.log(
-            'info',
-            `Comparing Sphere Update (Legacy Method) for player ${this.playerId} (Sphere ${context_legacy.sphere_number})`
-          );
-          this.log(
-            'debug',
-            'Log Inventory (Legacy):',
-            inventory_from_log_legacy
-          );
-          this.log(
-            'debug',
-            'Log Accessible Locations (Legacy):',
-            accessible_from_log_legacy
-          );
-          this.log(
-            'debug',
-            'Log Accessible Regions (Legacy):',
-            accessible_regions_from_log_legacy
-          );
-
-          // This still uses the old compareAccessibleLocations that modifies a snapshot locally.
-          // NOTE: Legacy method only compares locations, not regions. Region comparison is only available for 'state_update' events.
-          // To fix this, it would need to follow the same pattern as state_update (reset, set inv, ping, get fresh snap)
-          // then call the new compareAccessibleLocations.
-          // For now, this will likely be incorrect if state_update is the standard.
-          const logDataForLegacyComparison = {
-            accessible: accessible_from_log_legacy,
-            inventory: inventory_from_log_legacy,
-          };
-          comparisonResult = await this.compareAccessibleLocations_OLD(
-            // Temporarily call old version or adapt
-            logDataForLegacyComparison,
-            this.playerId, // Assuming old version might need playerID
-            context_legacy
-          );
-          allChecksPassed = comparisonResult;
-        }
-        break;
 
       case 'connected':
         this.log(
@@ -1484,8 +1475,11 @@ export class TestSpoilerUI {
     }
 
     // Update previous inventory for next comparison
-    if (eventType === 'state_update' && event.player_data && event.player_data[this.playerId]) {
-      this.previousInventory = JSON.parse(JSON.stringify(event.player_data[this.playerId].inventory_details?.prog_items || {}));
+    if (eventType === 'state_update') {
+      const sphereData = this._getSphereDataFromSphereState(this.currentLogIndex);
+      if (sphereData) {
+        this.previousInventory = JSON.parse(JSON.stringify(sphereData.inventoryDetails?.prog_items || {}));
+      }
     }
     
     return {

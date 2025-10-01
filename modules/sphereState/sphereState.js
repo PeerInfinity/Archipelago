@@ -59,6 +59,7 @@ export class SphereState {
     this.currentPlayerId = null;
     this.currentSphere = null; // {integerSphere, fractionalSphere, isComplete}
     this.sphereLogPath = null;
+    this.logFormat = null; // 'verbose' or 'incremental'
   }
 
   /**
@@ -69,6 +70,7 @@ export class SphereState {
     this.sphereData = [];
     this.currentSphere = null;
     this.sphereLogPath = null;
+    this.logFormat = null;
     // Don't reset currentPlayerId as it comes from static data
 
     if (this.eventBus) {
@@ -113,6 +115,55 @@ export class SphereState {
   }
 
   /**
+   * Detect the format of the sphere log (verbose or incremental)
+   * @param {object} firstEntry - First valid entry from the log
+   * @returns {string} 'verbose', 'incremental', or 'unknown'
+   */
+  _detectFormat(firstEntry) {
+    if (!firstEntry || !firstEntry.player_data) {
+      return 'unknown';
+    }
+
+    const firstPlayerData = Object.values(firstEntry.player_data)[0];
+    if (!firstPlayerData) {
+      return 'unknown';
+    }
+
+    if (firstPlayerData.inventory_details !== undefined) {
+      return 'verbose';
+    } else if (firstPlayerData.new_inventory_details !== undefined) {
+      return 'incremental';
+    }
+
+    return 'unknown';
+  }
+
+  /**
+   * Merge inventory details (for incremental format accumulation)
+   * @param {object} accumulated - Accumulated inventory
+   * @param {object} delta - Delta to add
+   * @returns {object} Merged inventory
+   */
+  _mergeInventory(accumulated, delta) {
+    const result = {
+      prog_items: { ...accumulated.prog_items },
+      non_prog_items: { ...accumulated.non_prog_items }
+    };
+
+    // Merge prog_items
+    for (const [itemName, count] of Object.entries(delta.prog_items || {})) {
+      result.prog_items[itemName] = (result.prog_items[itemName] || 0) + count;
+    }
+
+    // Merge non_prog_items
+    for (const [itemName, count] of Object.entries(delta.non_prog_items || {})) {
+      result.non_prog_items[itemName] = (result.non_prog_items[itemName] || 0) + count;
+    }
+
+    return result;
+  }
+
+  /**
    * Parse sphere log JSONL content
    * @param {string} jsonlText - The JSONL content
    */
@@ -120,42 +171,151 @@ export class SphereState {
     const lines = jsonlText.trim().split('\n');
     this.sphereData = [];
 
+    // Parse all entries first
+    const entries = [];
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       if (!line) continue;
 
       try {
         const entry = JSON.parse(line);
-
         if (entry.type !== 'state_update') {
           log('warn', `Unexpected entry type at line ${i + 1}: ${entry.type}`);
           continue;
         }
-
-        const parsed = parseSphereIndex(entry.sphere_index);
-
-        // Extract data for current player
-        const playerData = entry.player_data?.[String(this.currentPlayerId)];
-        if (!playerData && this.currentPlayerId) {
-          log('warn', `No data for player ${this.currentPlayerId} in sphere ${parsed.sphereIndex}`);
-        }
-
-        this.sphereData.push({
-          ...parsed,
-          locations: entry.sphere_locations || [],
-          accessibleLocations: playerData?.accessible_locations || [],
-          accessibleRegions: playerData?.accessible_regions || [],
-          inventoryDetails: playerData?.inventory_details || { prog_items: {}, non_prog_items: {} }
-        });
+        entries.push(entry);
       } catch (error) {
         log('error', `Failed to parse line ${i + 1}:`, error);
       }
     }
 
+    if (entries.length === 0) {
+      log('warn', 'No valid entries found in sphere log');
+      return;
+    }
+
+    // Detect format
+    this.logFormat = this._detectFormat(entries[0]);
+    log('info', `Detected sphere log format: ${this.logFormat}`);
+
+    if (this.logFormat === 'incremental') {
+      this._parseIncrementalFormat(entries);
+    } else if (this.logFormat === 'verbose') {
+      this._parseVerboseFormat(entries);
+    } else {
+      log('error', 'Unknown sphere log format, attempting verbose parse');
+      this._parseVerboseFormat(entries);
+    }
+
     // Sort by sphere index
     this.sphereData.sort(compareSphereIndices);
 
-    log('info', `Parsed ${this.sphereData.length} sphere entries`);
+    log('info', `Parsed ${this.sphereData.length} sphere entries (${this.logFormat} format)`);
+  }
+
+  /**
+   * Parse verbose format entries
+   * @param {array} entries - Array of parsed JSONL entries
+   */
+  _parseVerboseFormat(entries) {
+    for (const entry of entries) {
+      const parsed = parseSphereIndex(entry.sphere_index);
+
+      // Extract data for current player
+      const playerData = entry.player_data?.[String(this.currentPlayerId)];
+      if (!playerData && this.currentPlayerId) {
+        log('warn', `No data for player ${this.currentPlayerId} in sphere ${parsed.sphereIndex}`);
+      }
+
+      this.sphereData.push({
+        ...parsed,
+        locations: entry.sphere_locations || [],
+        accessibleLocations: playerData?.accessible_locations || [],
+        accessibleRegions: playerData?.accessible_regions || [],
+        inventoryDetails: playerData?.inventory_details || { prog_items: {}, non_prog_items: {} }
+      });
+    }
+  }
+
+  /**
+   * Parse incremental format entries and accumulate deltas
+   * @param {array} entries - Array of parsed JSONL entries
+   */
+  _parseIncrementalFormat(entries) {
+    // Track accumulated state separately for fractional and integer spheres
+    const fractionalAccumulated = {
+      inventoryDetails: { prog_items: {}, non_prog_items: {} },
+      accessibleLocations: new Set(),
+      accessibleRegions: new Set()
+    };
+
+    const integerAccumulated = {
+      inventoryDetails: { prog_items: {}, non_prog_items: {} },
+      accessibleLocations: new Set(),
+      accessibleRegions: new Set()
+    };
+
+    for (const entry of entries) {
+      const parsed = parseSphereIndex(entry.sphere_index);
+      const playerData = entry.player_data?.[String(this.currentPlayerId)];
+
+      if (!playerData && this.currentPlayerId) {
+        log('warn', `No data for player ${this.currentPlayerId} in sphere ${parsed.sphereIndex}`);
+        continue;
+      }
+
+      const isSphereZero = parsed.sphereIndex === '0';
+      const isFractional = parsed.sphereIndex.includes('.');
+
+      // Get deltas from the entry
+      const deltaInventory = playerData?.new_inventory_details || { prog_items: {}, non_prog_items: {} };
+      const deltaLocations = playerData?.new_accessible_locations || [];
+      const deltaRegions = playerData?.new_accessible_regions || [];
+
+      let accumulated;
+
+      if (isSphereZero) {
+        // Sphere 0 initializes both trackers
+        fractionalAccumulated.inventoryDetails = { ...deltaInventory };
+        fractionalAccumulated.accessibleLocations = new Set(deltaLocations);
+        fractionalAccumulated.accessibleRegions = new Set(deltaRegions);
+
+        integerAccumulated.inventoryDetails = { ...deltaInventory };
+        integerAccumulated.accessibleLocations = new Set(deltaLocations);
+        integerAccumulated.accessibleRegions = new Set(deltaRegions);
+
+        accumulated = fractionalAccumulated;
+      } else if (isFractional) {
+        // Accumulate onto fractional tracker
+        fractionalAccumulated.inventoryDetails = this._mergeInventory(
+          fractionalAccumulated.inventoryDetails,
+          deltaInventory
+        );
+        deltaLocations.forEach(loc => fractionalAccumulated.accessibleLocations.add(loc));
+        deltaRegions.forEach(reg => fractionalAccumulated.accessibleRegions.add(reg));
+
+        accumulated = fractionalAccumulated;
+      } else {
+        // Accumulate onto integer tracker
+        integerAccumulated.inventoryDetails = this._mergeInventory(
+          integerAccumulated.inventoryDetails,
+          deltaInventory
+        );
+        deltaLocations.forEach(loc => integerAccumulated.accessibleLocations.add(loc));
+        deltaRegions.forEach(reg => integerAccumulated.accessibleRegions.add(reg));
+
+        accumulated = integerAccumulated;
+      }
+
+      // Store the accumulated state in sphereData
+      this.sphereData.push({
+        ...parsed,
+        locations: entry.sphere_locations || [],
+        accessibleLocations: Array.from(accumulated.accessibleLocations).sort(),
+        accessibleRegions: Array.from(accumulated.accessibleRegions).sort(),
+        inventoryDetails: { ...accumulated.inventoryDetails }
+      });
+    }
   }
 
   /**

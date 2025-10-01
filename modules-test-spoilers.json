@@ -4,6 +4,10 @@
       "path": "./modules/stateManager/index.js",
       "enabled": true
     },
+    "sphereState": {
+      "path": "./modules/sphereState/index.js",
+      "enabled": true
+    },
     "testSpoilers": {
       "path": "./modules/testSpoilers/index.js",
       "enabled": true
@@ -15,6 +19,7 @@
   },
   "loadPriority": [
     "stateManager",
+    "sphereState",
     "testSpoilers",
     "tests"
   ]

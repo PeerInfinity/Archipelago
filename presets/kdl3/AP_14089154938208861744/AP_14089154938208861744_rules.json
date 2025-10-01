@@ -4160,12 +4160,22 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "world"
-                },
-                "attr": "player"
+                "type": "f_string",
+                "parts": [
+                  {
+                    "type": "formatted_value",
+                    "value": {
+                      "type": "name",
+                      "name": "lvl"
+                    }
+                  },
+                  {
+                    "type": "constant",
+                    "value": " - Stage Completion"
+                  }
+                ],
+                "all_simple": true,
+                "value": "{lvl} - Stage Completion"
               }
             },
             "progress_type": 1,
@@ -9773,12 +9783,22 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "world"
-                },
-                "attr": "player"
+                "type": "f_string",
+                "parts": [
+                  {
+                    "type": "formatted_value",
+                    "value": {
+                      "type": "name",
+                      "name": "lvl"
+                    }
+                  },
+                  {
+                    "type": "constant",
+                    "value": " - Stage Completion"
+                  }
+                ],
+                "all_simple": true,
+                "value": "{lvl} - Stage Completion"
               }
             },
             "progress_type": 1,
@@ -19795,12 +19815,22 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "world"
-                },
-                "attr": "player"
+                "type": "f_string",
+                "parts": [
+                  {
+                    "type": "formatted_value",
+                    "value": {
+                      "type": "name",
+                      "name": "lvl"
+                    }
+                  },
+                  {
+                    "type": "constant",
+                    "value": " - Stage Completion"
+                  }
+                ],
+                "all_simple": true,
+                "value": "{lvl} - Stage Completion"
               }
             },
             "progress_type": 1,
@@ -25505,12 +25535,22 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "world"
-                },
-                "attr": "player"
+                "type": "f_string",
+                "parts": [
+                  {
+                    "type": "formatted_value",
+                    "value": {
+                      "type": "name",
+                      "name": "lvl"
+                    }
+                  },
+                  {
+                    "type": "constant",
+                    "value": " - Stage Completion"
+                  }
+                ],
+                "all_simple": true,
+                "value": "{lvl} - Stage Completion"
               }
             },
             "progress_type": 1,
@@ -34107,12 +34147,22 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "world"
-                },
-                "attr": "player"
+                "type": "f_string",
+                "parts": [
+                  {
+                    "type": "formatted_value",
+                    "value": {
+                      "type": "name",
+                      "name": "lvl"
+                    }
+                  },
+                  {
+                    "type": "constant",
+                    "value": " - Stage Completion"
+                  }
+                ],
+                "all_simple": true,
+                "value": "{lvl} - Stage Completion"
               }
             },
             "progress_type": 1,
@@ -34355,23 +34405,67 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Purified"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Purified"
                   }
                 },
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Defeated"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Defeated"
                   }
                 }
               ]
@@ -34497,23 +34591,67 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Purified"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Purified"
                   }
                 },
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Defeated"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Defeated"
                   }
                 }
               ]
@@ -34639,23 +34777,67 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Purified"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Purified"
                   }
                 },
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Defeated"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Defeated"
                   }
                 }
               ]
@@ -34781,23 +34963,67 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Purified"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Purified"
                   }
                 },
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "world"
-                    },
-                    "attr": "player"
+                    "type": "f_string",
+                    "parts": [
+                      {
+                        "type": "constant",
+                        "value": "Level "
+                      },
+                      {
+                        "type": "formatted_value",
+                        "value": {
+                          "type": "binary_op",
+                          "left": {
+                            "type": "name",
+                            "name": "x"
+                          },
+                          "op": "-",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      },
+                      {
+                        "type": "constant",
+                        "value": " Boss Defeated"
+                      }
+                    ],
+                    "all_simple": true,
+                    "value": "Level {...} Boss Defeated"
                   }
                 }
               ]
