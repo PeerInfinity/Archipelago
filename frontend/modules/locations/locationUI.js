@@ -1239,8 +1239,8 @@ export class LocationUI {
         locationCard.appendChild(locationTextContainer);
 
         // Item at Location (if showLocationItems is enabled)
-        if (this.showLocationItems && snapshot?.locationItems) {
-          const itemAtLocation = snapshot.locationItems[name];
+        if (this.showLocationItems && staticData?.locationItems) {
+          const itemAtLocation = staticData.locationItems[name];
           if (itemAtLocation && itemAtLocation.name) {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'text-sm location-item-name';

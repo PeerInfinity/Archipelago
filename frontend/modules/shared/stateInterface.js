@@ -256,8 +256,8 @@ export function createStateSnapshotInterface(
       return current;
     },
     getLocationItem: (locationName) => {
-      if (!snapshot || !snapshot.locationItems) return undefined;
-      return snapshot.locationItems[locationName];
+      if (!staticData || !staticData.locationItems) return undefined;
+      return staticData.locationItems[locationName];
     },
     // ADDED: A more direct way to resolve attribute chains
     resolveAttribute: (baseObject, attributeName) => {
@@ -349,7 +349,8 @@ export function createStateSnapshotInterface(
           return selectedHelpers[helperName](snapshot, args[1], args[0], staticData);
         } else {
           // Pass all arguments to the helper function
-          return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
+          // Always pass args[0] explicitly (or undefined if no args) to ensure staticData stays in 4th position
+          return selectedHelpers[helperName](snapshot, 'world', args[0], staticData);
         }
       }
       return undefined; // Helper not found - all games should use agnostic helpers

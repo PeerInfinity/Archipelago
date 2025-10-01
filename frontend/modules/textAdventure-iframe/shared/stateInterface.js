@@ -239,8 +239,8 @@ export function createStateSnapshotInterface(
       return current;
     },
     getLocationItem: (locationName) => {
-      if (!snapshot || !snapshot.locationItems) return undefined;
-      return snapshot.locationItems[locationName];
+      if (!staticData || !staticData.locationItems) return undefined;
+      return staticData.locationItems[locationName];
     },
     // ADDED: A more direct way to resolve attribute chains
     resolveAttribute: (baseObject, attributeName) => {

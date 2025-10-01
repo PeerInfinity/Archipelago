@@ -507,7 +507,7 @@ export function has_any(state, world, itemName, staticData) {
 export function location_item_name(state, world, itemName, staticData) {
   // Look up what item is placed at a specific location
   const locationName = itemName;
-  
+
   // First check if we have location-item mapping in static data locations object
   if (staticData && staticData.locations) {
     // Check if locations is a direct mapping object
@@ -532,25 +532,26 @@ export function location_item_name(state, world, itemName, staticData) {
   // Search through regions for the location
   if (staticData && staticData.regions) {
     const playerSlot = state.player?.slot || '1';
-    const playerRegions = staticData.regions[playerSlot];
-    
-    if (playerRegions) {
-      for (const regionName in playerRegions) {
-        const region = playerRegions[regionName];
-        if (region.locations && Array.isArray(region.locations)) {
-          const location = region.locations.find(loc => loc.name === locationName);
-          if (location && location.item) {
-            // Return array format: [item_name, player_number]
-            return [location.item.name, location.item.player || 1];
-          }
+
+    // Check if regions are nested by player or if it's a direct regions object
+    let regionsToSearch = staticData.regions[playerSlot] || staticData.regions;
+
+    // Iterate through regions
+    for (const regionName in regionsToSearch) {
+      const region = regionsToSearch[regionName];
+      if (region && region.locations && Array.isArray(region.locations)) {
+        const location = region.locations.find(loc => loc.name === locationName);
+        if (location && location.item) {
+          // Return array format: [item_name, player_number]
+          return [location.item.name, location.item.player || 1];
         }
       }
     }
   }
-  
-  // Check if we have item placement data in the state itself
-  if (state.locationItems && state.locationItems[locationName]) {
-    const item = state.locationItems[locationName];
+
+  // Check if we have item placement data in the static data
+  if (staticData && staticData.locationItems && staticData.locationItems[locationName]) {
+    const item = staticData.locationItems[locationName];
     if (typeof item === 'string') {
       return [item, state.player?.slot || 1];
     } else if (item && item.name) {
@@ -565,24 +566,25 @@ export function location_item_name(state, world, itemName, staticData) {
 export function tr_big_key_chest_keys_needed(state, world, itemName, staticData) {
   // This function handles the key requirements for the TR Big Chest
   // Based on the Python function in worlds/alttp/Rules.py
+
   const item = location_item_name(state, world, 'Turtle Rock - Big Key Chest', staticData);
-  
+
   if (!item) {
     // If we can't determine the item, use the default (6 keys)
     return 6;
   }
-  
+
   const [locationItemName, locationPlayer] = item;
   const currentPlayer = state.player?.slot || 1;
-  
+
   // Only consider items for the current player
   if (locationPlayer != currentPlayer) {
     return 6;
   }
-  
+
   // Implement tr_big_key_chest_keys_needed logic:
   // - Small Key (Turtle Rock): 0 keys needed
-  // - Big Key (Turtle Rock): 4 keys needed  
+  // - Big Key (Turtle Rock): 4 keys needed
   // - Anything else: 6 keys needed
   if (locationItemName === 'Small Key (Turtle Rock)') {
     return 0;

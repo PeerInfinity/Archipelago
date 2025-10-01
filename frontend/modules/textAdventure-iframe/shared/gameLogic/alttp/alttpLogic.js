@@ -508,25 +508,26 @@ export function location_item_name(state, world, itemName, staticData) {
   // Search through regions for the location
   if (staticData && staticData.regions) {
     const playerSlot = state.player?.slot || '1';
-    const playerRegions = staticData.regions[playerSlot];
-    
-    if (playerRegions) {
-      for (const regionName in playerRegions) {
-        const region = playerRegions[regionName];
-        if (region.locations && Array.isArray(region.locations)) {
-          const location = region.locations.find(loc => loc.name === locationName);
-          if (location && location.item) {
-            // Return array format: [item_name, player_number]
-            return [location.item.name, location.item.player || 1];
-          }
+
+    // Check if regions are nested by player or if it's a direct regions object
+    let regionsToSearch = staticData.regions[playerSlot] || staticData.regions;
+
+    // Iterate through regions
+    for (const regionName in regionsToSearch) {
+      const region = regionsToSearch[regionName];
+      if (region && region.locations && Array.isArray(region.locations)) {
+        const location = region.locations.find(loc => loc.name === locationName);
+        if (location && location.item) {
+          // Return array format: [item_name, player_number]
+          return [location.item.name, location.item.player || 1];
         }
       }
     }
   }
   
-  // Check if we have item placement data in the state itself
-  if (state.locationItems && state.locationItems[locationName]) {
-    const item = state.locationItems[locationName];
+  // Check if we have item placement data in the static data
+  if (staticData && staticData.locationItems && staticData.locationItems[locationName]) {
+    const item = staticData.locationItems[locationName];
     if (typeof item === 'string') {
       return [item, state.player?.slot || 1];
     } else if (item && item.name) {

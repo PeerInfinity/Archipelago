@@ -1,9 +1,9 @@
 // Refactored to use canonical inventory format and agnostic logic modules
-import { 
-  initializeGameLogic, 
-  determineGameName, 
+import {
+  initializeGameLogic,
+  determineGameName,
   getGameLogic,
-  detectGameFromWorldClass 
+  detectGameFromWorldClass
 } from '../shared/gameLogic/gameLogicRegistry.js';
 
 // Import universal logger for consistent logging across contexts
@@ -39,7 +39,7 @@ export class StateManager {
 
     // Game-specific state module
     this.gameStateModule = null; // Will be set based on game type
-    
+
     // Dynamic logic module selection
     this.logicModule = null; // e.g., alttpLogic.alttpStateModule or genericLogic.genericStateModule
     this.helperFunctions = null; // e.g., alttpLogic.helperFunctions or genericLogic.helperFunctions
@@ -233,7 +233,7 @@ export class StateManager {
     this.inventory = this._createInventoryInstance(gameName);
     this.itemData = itemData; // Store for convenience
     this.groupData = groupData; // Store groupData
-    
+
     log('info', `[StateManager] Initialized canonical inventory for game: ${gameName}`);
   }
 
@@ -298,21 +298,21 @@ export class StateManager {
     // Re-initialize game-specific state using dynamic logic modules
     if (this.settings) {
       const gameSettings = this.settings;
-      
+
       // Use centralized game logic selection
       const logic = initializeGameLogic({
         gameName: this.rules?.game_name,
         settings: gameSettings,
         worldClass: null // Not available in this context
       });
-      
+
       this.logicModule = logic.logicModule;
       this.helperFunctions = logic.helperFunctions;
-      
+
       // Re-initialize using selected logic module
       this.gameStateModule = this.logicModule.initializeState();
       this.gameStateModule = this.logicModule.loadSettings(this.gameStateModule, gameSettings);
-      
+
       // All games now use gameStateModule - no legacy state system needed
       this.state = null;
     } else {
@@ -529,8 +529,7 @@ export class StateManager {
       }
     }
     this._logDebug(
-      `Loaded ${
-        Object.keys(this.itemNameToId).length
+      `Loaded ${Object.keys(this.itemNameToId).length
       } item IDs and populated itemNameToId map.`
     );
 
@@ -604,15 +603,15 @@ export class StateManager {
 
     // Initialize the state using the selected module
     this.gameStateModule = this.logicModule.initializeState();
-    
+
     // Load settings using the selected module
     this.gameStateModule = this.logicModule.loadSettings(this.gameStateModule, gameSettingsFromFile);
-    
+
     // Set the main settings object for the StateManager instance
     this.settings = gameSettingsFromFile;
     this.settings.game = gameName; // Ensure game name is correctly set
-    
-    
+
+
     log('info', `[StateManager] Loaded logic module for: "${gameName}"`);
 
     // All games now use gameStateModule - no legacy GameState needed
@@ -1406,7 +1405,7 @@ export class StateManager {
       while (continueSearching) {
         continueSearching = false;
         passCount++;
-        
+
         // Debug logging for A Hat in Time
         if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
           console.log(`[BFS] Starting pass ${passCount}`);
@@ -1503,16 +1502,16 @@ export class StateManager {
         snapshotInterfaceContext.currentExit = exit.name;
         const ruleEvaluationResult = exit.access_rule
           ? this.evaluateRuleFromEngine(
-              exit.access_rule,
-              snapshotInterfaceContext
-            )
+            exit.access_rule,
+            snapshotInterfaceContext
+          )
           : true; // No rule means true
 
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
-        
+
         // Debug Time Rift connections
         if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
-            targetRegion && targetRegion.includes('Time Rift')) {
+          targetRegion && targetRegion.includes('Time Rift')) {
           console.log(`[BFS] Evaluating ${fromRegion} -> ${targetRegion} (${exit.name}): canTraverse=${canTraverse}`);
         }
 
@@ -1534,10 +1533,10 @@ export class StateManager {
           this.knownReachableRegions.add(targetRegion);
           newRegionsFound = true;
           newConnection = true; // Signal that we found a new connection
-          
+
           // Debug logging for A Hat in Time Time Rifts
           if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
-              (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
+            (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
             console.log(`[BFS] NEW REGION: ${targetRegion} (from ${fromRegion} via ${exit.name})`);
           }
 
@@ -1617,7 +1616,7 @@ export class StateManager {
         );
       }
     }
-    
+
     return newRegionsFound;
   }
 
@@ -1637,12 +1636,12 @@ export class StateManager {
     if (Array.isArray(this.startRegions)) {
       return this.startRegions;
     }
-    
+
     // Log unexpected values for debugging
     if (this.startRegions !== null && this.startRegions !== undefined) {
       this._logDebug(`[StateManager] Unexpected startRegions value: ${typeof this.startRegions}`, this.startRegions);
     }
-    
+
     return ['Menu'];
   }
 
@@ -1878,7 +1877,7 @@ export class StateManager {
     this.beginBatchUpdate(true);
     requiredItems.forEach((itemName) => {
       this.addItemToInventory(itemName);
-      
+
       // Process event items using dynamic logic module
       if (this.gameStateModule && this.logicModule) {
         const updatedState = this.logicModule.processEventItem(this.gameStateModule, itemName);
@@ -1912,11 +1911,11 @@ export class StateManager {
    */
   checkLocation(locationName, addItems = true) {
     let locationWasActuallyChecked = false;
-    
+
     // First check if location is already checked
     if (this.checkedLocations.has(locationName)) {
       this._logDebug(`[StateManager Class] Location ${locationName} is already checked, ignoring.`);
-      
+
       // Publish event to notify UI that location check was rejected due to already being checked
       this._publishEvent('locationCheckRejected', {
         locationName: locationName,
@@ -1927,7 +1926,7 @@ export class StateManager {
       const location = this.locations.find((loc) => loc.name === locationName);
       if (!location) {
         this._logDebug(`[StateManager Class] Location ${locationName} not found in locations data.`);
-        
+
         // Publish event to notify UI that location check was rejected due to location not found
         this._publishEvent('locationCheckRejected', {
           locationName: locationName,
@@ -1937,7 +1936,7 @@ export class StateManager {
         // Validate that the location is accessible before checking
         if (!this.isLocationAccessible(location)) {
           this._logDebug(`[StateManager Class] Location ${locationName} is not accessible, cannot check.`);
-          
+
           // Publish event to notify UI that location check was rejected due to inaccessibility
           this._publishEvent('locationCheckRejected', {
             locationName: locationName,
@@ -2173,14 +2172,7 @@ export class StateManager {
         // Try exact method name first
         if (typeof this.helperFunctions[method] === 'function') {
           const snapshot = this.getSnapshot();
-          const staticData = {
-            progressionMapping: this.progressionMapping,
-            groupData: this.groupData,
-            itemData: this.itemData,
-            regions: { [this.playerSlot]: this.regions },  // Add regions for the current player
-            settings: { [this.playerSlot]: this.settings },  // Add settings for the current player
-            game_info: this.gameInfo,  // Add game_info
-          };
+          const staticData = this.getStaticGameData();
           return this.helperFunctions[method](snapshot, 'world', args[0], staticData);
         }
 
@@ -2226,10 +2218,10 @@ export class StateManager {
         stateManagerHas: typeof this[method] === 'function',
         helpersHas: this.helpers
           ? typeof this.helpers[method] === 'function' ||
-            (method.startsWith('_') &&
-              typeof this.helpers[method.substring(1)] === 'function') ||
-            (!method.startsWith('_') &&
-              typeof this.helpers['_' + method] === 'function')
+          (method.startsWith('_') &&
+            typeof this.helpers[method.substring(1)] === 'function') ||
+          (!method.startsWith('_') &&
+            typeof this.helpers['_' + method] === 'function')
           : false,
         stateHas: false, // Legacy state system removed
       });
@@ -2252,8 +2244,7 @@ export class StateManager {
 
     // Debug logging for helper execution (can be enabled when needed)
     this._logDebug(
-      `[StateManager Worker executeHelper] Helper: ${name}, game: ${
-        this.settings?.game
+      `[StateManager Worker executeHelper] Helper: ${name}, game: ${this.settings?.game
       }, hasHelper: ${!!(this.helperFunctions && this.helperFunctions[name])}`
     );
 
@@ -2261,14 +2252,7 @@ export class StateManager {
       // The `this.helperFunctions` property is now set dynamically based on the game.
       if (this.helperFunctions && this.helperFunctions[name]) {
         const snapshot = this.getSnapshot();
-        const staticData = {
-          progressionMapping: this.progressionMapping,
-          groupData: this.groupData,
-          itemData: this.itemData,
-          regions: { [this.playerSlot]: this.regions },  // Add regions for the current player
-          settings: { [this.playerSlot]: this.settings },  // Add settings for the current player
-          game_info: this.gameInfo,  // Add game_info
-        };
+        const staticData = this.getStaticGameData();
         // For helpers that need multiple arguments, pass them as an array in the itemName parameter
         // Most helpers expect (state, world, itemName, staticData) but some need multiple args
         const helperArgs = args.length > 1 ? args : args[0];
@@ -2390,8 +2374,7 @@ export class StateManager {
           const sourceReachable = this.isRegionReachable(sourceRegionName);
           log(
             'info',
-            `- From ${sourceRegionName} (${
-              sourceReachable ? 'REACHABLE' : 'UNREACHABLE'
+            `- From ${sourceRegionName} (${sourceReachable ? 'REACHABLE' : 'UNREACHABLE'
             }):`
           );
 
@@ -2406,8 +2389,7 @@ export class StateManager {
               : true;
             log(
               'info',
-              `  - Exit: ${exit.name} (${
-                exitAccessible ? 'ACCESSIBLE' : 'BLOCKED'
+              `  - Exit: ${exit.name} (${exitAccessible ? 'ACCESSIBLE' : 'BLOCKED'
               })`
             );
 
@@ -2471,15 +2453,14 @@ export class StateManager {
     try {
       const snapshotInterface = this._createSelfSnapshotInterface();
       ruleResult = this.evaluateRuleFromEngine(rule, snapshotInterface);
-    } catch (e) {}
+    } catch (e) { }
 
     switch (rule.type) {
       case 'and':
       case 'or':
         log(
           'info',
-          `${indent}${rule.type.toUpperCase()} rule with ${
-            rule.conditions.length
+          `${indent}${rule.type.toUpperCase()} rule with ${rule.conditions.length
           } conditions`
         );
         let allResults = [];
@@ -2500,8 +2481,7 @@ export class StateManager {
         if (rule.type === 'and') {
           log(
             'info',
-            `${indent}AND result: ${
-              allResults.every((r) => r) ? 'PASS' : 'FAIL'
+            `${indent}AND result: ${allResults.every((r) => r) ? 'PASS' : 'FAIL'
             }`
           );
         } else {
@@ -2524,8 +2504,7 @@ export class StateManager {
         const count = this._countItem(rule.item);
         log(
           'info',
-          `${indent}COUNT CHECK: ${rule.item} (${count}) >= ${rule.count} - ${
-            count >= rule.count ? 'PASS' : 'FAIL'
+          `${indent}COUNT CHECK: ${rule.item} (${count}) >= ${rule.count} - ${count >= rule.count ? 'PASS' : 'FAIL'
           }`
         );
         break;
@@ -2537,8 +2516,7 @@ export class StateManager {
         );
         log(
           'info',
-          `${indent}HELPER: ${rule.name}(${JSON.stringify(rule.args)}) - ${
-            helperResult ? 'PASS' : 'FAIL'
+          `${indent}HELPER: ${rule.name}(${JSON.stringify(rule.args)}) - ${helperResult ? 'PASS' : 'FAIL'
           }`
         );
         break;
@@ -2563,10 +2541,9 @@ export class StateManager {
           if (targetType === 'Region') {
             log(
               'info',
-              `${indent}  -> Checking can_reach for region "${targetRegion}": ${
-                this.isRegionReachable(targetRegion)
-                  ? 'REACHABLE'
-                  : 'UNREACHABLE'
+              `${indent}  -> Checking can_reach for region "${targetRegion}": ${this.isRegionReachable(targetRegion)
+                ? 'REACHABLE'
+                : 'UNREACHABLE'
               }`
             );
           }
@@ -2579,8 +2556,8 @@ export class StateManager {
           return this.evaluateRuleFromEngine(rule.if_true);
         } else {
           // Handle null if_false as true (no additional requirements)
-          return rule.if_false === null 
-            ? true 
+          return rule.if_false === null
+            ? true
             : this.evaluateRuleFromEngine(rule.if_false);
         }
 
@@ -2747,6 +2724,7 @@ export class StateManager {
   // Needed for internal methods that rely on rule evaluation (like isLocationAccessible)
   _createSelfSnapshotInterface() {
     const self = this;
+
     const anInterface = {
       _isSnapshotInterface: true,
       hasItem: (itemName) => self._hasItem(itemName),
@@ -2759,8 +2737,8 @@ export class StateManager {
         (self.gameStateModule && self.logicModule && typeof self.logicModule.hasFlag === 'function'
           ? self.logicModule.hasFlag(self.gameStateModule, flagName)
           : (self.state &&
-             typeof self.state.hasFlag === 'function' &&
-             self.state.hasFlag(flagName))),
+            typeof self.state.hasFlag === 'function' &&
+            self.state.hasFlag(flagName))),
       getSetting: (settingName) =>
         self.settings ? self.settings[settingName] : undefined,
       getAllSettings: () => self.settings,
@@ -2787,13 +2765,13 @@ export class StateManager {
 
         // Player slot
         if (name === 'player') return self.playerSlot;
-        
+
         // World object (commonly used in helper functions)
         if (name === 'world') return 'world'; // Return a placeholder string for now
 
         // Current location being evaluated (for location access rules)
         if (name === 'location') return anInterface.currentLocation;
-        
+
         // Parent region being evaluated (for exit access rules)
         if (name === 'parent_region') return anInterface.parent_region;
 
@@ -2870,23 +2848,15 @@ export class StateManager {
         return undefined; // Crucial: return undefined for unhandled names
       },
       // Static data accessors (mirroring proxy's snapshot interface)
-      staticData: {
-        items: self.itemData,
-        groups: self.groupData,
-        locations: self.locations,
-        regions: self.regions,
-        dungeons: self.dungeons, // ADDED
+      get staticData() {
+        return self.getStaticGameData();
       },
-      getStaticData: () => ({
-        items: self.itemData,
-        groups: self.groupData,
-        locations: self.locations,
-        regions: self.regions,
-        dungeons: self.dungeons, // ADDED
-        game_name: self.rules?.game_name,
-        game_directory: self.rules?.game_directory,
-      }),
+      getStaticData: () => self.getStaticGameData(),
     };
+
+    // NOTE: We do NOT expose helpers as direct properties here to avoid recursion issues.
+    // Helpers should be called through executeHelper() which properly manages state.
+
     // log('info',
     //   '[StateManager _createSelfSnapshotInterface] Returning interface:',
     //   anInterface
@@ -2980,26 +2950,7 @@ export class StateManager {
       });
     }
 
-    // 4. LocationItems
-    const locationItemsMap = {};
-    if (this.locations) {
-      this.locations.forEach((loc) => {
-        if (
-          loc.item &&
-          typeof loc.item.name === 'string' &&
-          typeof loc.item.player === 'number'
-        ) {
-          locationItemsMap[loc.name] = {
-            name: loc.item.name,
-            player: loc.item.player,
-          };
-        } else if (loc.item) {
-          locationItemsMap[loc.name] = null;
-        } else {
-          locationItemsMap[loc.name] = null;
-        }
-      });
-    }
+    // 4. LocationItems - REMOVED: Now in static data
 
     // 5. Convert eventLocations Map to plain object
     const eventLocationsObject = {};
@@ -3023,7 +2974,6 @@ export class StateManager {
       // REFACTOR: Separated region and location reachability to prevent name conflicts
       regionReachability: regionReachability,
       locationReachability: locationReachability,
-      locationItems: locationItemsMap,
       // serverProvidedUncheckedLocations: Array.from(this.serverProvidedUncheckedLocations || []), // Optionally expose if UI needs it directly
       player: {
         name: this.settings?.playerName || `Player ${this.playerSlot}`,
@@ -3035,9 +2985,6 @@ export class StateManager {
       difficultyRequirements: this.gameStateModule?.difficultyRequirements,
       shops: this.gameStateModule?.shops,
       gameMode: this.gameStateModule?.gameMode || this.mode,
-      // ALTTP-specific properties promoted from state object
-      requiredMedallions: this.gameStateModule?.requiredMedallions,
-      treasureHuntRequired: this.gameStateModule?.treasureHuntRequired,
       events: this.gameStateModule?.events || [],
       // REFACTOR: Add missing properties for canonical state
       debugMode: this.debugMode || false,
@@ -3107,7 +3054,7 @@ export class StateManager {
     const newCount = Math.max(0, currentCount - count);
 
     this.inventory[itemName] = newCount;
-    
+
     this._logDebug(
       `[StateManager] _removeItemFromInventory: "${itemName}" count changed from ${currentCount} to ${newCount}`
     );
@@ -3159,7 +3106,7 @@ export class StateManager {
 
     // Check if this is a full reset or incremental update
     const isFullReset = payload.resetInventory !== false; // Default to true for backward compatibility
-    
+
     this._logDebug(
       `[StateManager applyRuntimeState] ${isFullReset ? 'Full reset' : 'Incremental update'} mode`
     );
@@ -3169,16 +3116,16 @@ export class StateManager {
       // Fallback: Re-create state if reset is not available but settings are
       const gameSettings = this.settings;
       const determinedGameName = gameSettings.game || this.rules?.game_name;
-      
+
       // Use centralized game logic selection for runtime state reset
       const logic = getGameLogic(determinedGameName);
       this.logicModule = logic.logicModule;
       this.helperFunctions = logic.helperFunctions;
-      
+
       // Re-initialize using selected logic module
       this.gameStateModule = this.logicModule.initializeState();
       this.gameStateModule = this.logicModule.loadSettings(this.gameStateModule, gameSettings);
-      
+
       // All games now use gameStateModule - no legacy GameState needed
       this.state = null;
       this._logDebug(
@@ -3235,19 +3182,16 @@ export class StateManager {
             changed = true;
           }
         });
-        
+
         if (changed) {
           this._logDebug(
-            `[StateManager applyRuntimeState] Merged ${
-              payload.serverCheckedLocationNames.length
-            } server checked locations. New total: ${
-              this.checkedLocations ? this.checkedLocations.size : 'undefined'
+            `[StateManager applyRuntimeState] Merged ${payload.serverCheckedLocationNames.length
+            } server checked locations. New total: ${this.checkedLocations ? this.checkedLocations.size : 'undefined'
             }`
           );
         } else {
           this._logDebug(
-            `[StateManager applyRuntimeState] No new server checked locations to add. Total remains: ${
-              this.checkedLocations ? this.checkedLocations.size : 'undefined'
+            `[StateManager applyRuntimeState] No new server checked locations to add. Total remains: ${this.checkedLocations ? this.checkedLocations.size : 'undefined'
             }`
           );
         }
@@ -3646,6 +3590,26 @@ export class StateManager {
    * This includes location/item ID mappings, original orders, etc.
    */
   getStaticGameData() {
+    // Build locationItems map from location data
+    const locationItemsMap = {};
+    if (this.locations) {
+      this.locations.forEach((loc) => {
+        if (
+          loc.item &&
+          typeof loc.item.name === 'string' &&
+          typeof loc.item.player === 'number'
+        ) {
+          locationItemsMap[loc.name] = {
+            name: loc.item.name,
+            player: loc.item.player,
+          };
+        } else if (loc.item) {
+          locationItemsMap[loc.name] = null;
+        } else {
+          locationItemsMap[loc.name] = null;
+        }
+      });
+    }
     return {
       game_name: this.rules?.game_name,
       game_directory: this.rules?.game_directory,
@@ -3669,7 +3633,9 @@ export class StateManager {
       originalRegionOrder: this.originalRegionOrder,
       originalExitOrder: this.originalExitOrder,
       // Event locations
-      eventLocations: Object.fromEntries(this.eventLocations || new Map())
+      eventLocations: Object.fromEntries(this.eventLocations || new Map()),
+      // Location items mapping
+      locationItems: locationItemsMap
     };
   }
 }

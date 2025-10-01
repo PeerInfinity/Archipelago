@@ -330,10 +330,6 @@ export class StateManagerProxy {
           }
 
           this.staticDataCache = newCache;
-          //log('info',
-          //  '[StateManagerProxy rulesLoadedConfirmation] Updated staticDataCache. Keys in cache:',
-          //  Object.keys(this.staticDataCache)
-          //);
         } else {
           log(
             'warn',
