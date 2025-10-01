@@ -47,12 +47,18 @@
     "locations": {
       "path": "./modules/locations/index.js",
       "enabled": true,
-      "requires": ["stateManager", "commonUI"]
+      "requires": [
+        "stateManager",
+        "commonUI"
+      ]
     },
     "exits": {
       "path": "./modules/exits/index.js",
       "enabled": true,
-      "requires": ["stateManager", "commonUI"]
+      "requires": [
+        "stateManager",
+        "commonUI"
+      ]
     },
     "pathAnalyzer": {
       "path": "./modules/pathAnalyzer/index.js",
@@ -65,17 +71,26 @@
     "regions": {
       "path": "./modules/regions/index.js",
       "enabled": true,
-      "requires": ["stateManager", "commonUI"]
+      "requires": [
+        "stateManager",
+        "commonUI"
+      ]
     },
     "dungeons": {
       "path": "./modules/dungeons/index.js",
       "enabled": true,
-      "requires": ["stateManager", "commonUI"]
+      "requires": [
+        "stateManager",
+        "commonUI"
+      ]
     },
     "regionGraph": {
       "path": "./modules/regionGraph/index.js",
       "enabled": false,
-      "requires": ["stateManager", "playerState"]
+      "requires": [
+        "stateManager",
+        "playerState"
+      ]
     },
     "discovery": {
       "path": "./modules/discovery/index.js",
@@ -101,10 +116,31 @@
       "path": "./modules/testSpoilers/index.js",
       "enabled": true
     },
+    "sphereState": {
+      "path": "./modules/sphereState/index.js",
+      "enabled": true,
+      "requires": [
+        "stateManager"
+      ]
+    },
+    "spoilerChecklist": {
+      "path": "./modules/spoilerChecklist/index.js",
+      "enabled": true,
+      "requires": [
+        "stateManager",
+        "commonUI",
+        "sphereState",
+        "locations"
+      ]
+    },
     "textAdventure": {
       "path": "./modules/textAdventure/index.js",
       "enabled": true,
-      "requires": ["stateManager", "playerState", "discovery"]
+      "requires": [
+        "stateManager",
+        "playerState",
+        "discovery"
+      ]
     },
     "tests": {
       "path": "./modules/tests/index.js",
@@ -117,31 +153,43 @@
     "progressBarPanel": {
       "path": "./modules/progressBarPanel/index.js",
       "enabled": true,
-      "requires": ["progressBar"]
+      "requires": [
+        "progressBar"
+      ]
     },
     "metaGame": {
       "path": "./modules/metaGame/index.js",
       "enabled": true,
-      "requires": ["progressBar", "progressBarPanel"]
+      "requires": [
+        "progressBar",
+        "progressBarPanel"
+      ]
     },
     "metaGamePanel": {
       "path": "./modules/metaGamePanel/index.js",
       "enabled": true,
-      "requires": ["metaGame"]
+      "requires": [
+        "metaGame"
+      ]
     },
     "iframeAdapter": {
       "path": "./modules/iframeAdapter/index.js",
       "enabled": true
     },
     "iframePanel": {
-      "path": "./modules/iframePanel/index.js", 
+      "path": "./modules/iframePanel/index.js",
       "enabled": true,
-      "requires": ["iframeAdapter"]
+      "requires": [
+        "iframeAdapter"
+      ]
     },
     "iframeManagerPanel": {
       "path": "./modules/iframeManagerPanel/index.js",
       "enabled": true,
-      "requires": ["iframeAdapter", "iframePanel"]
+      "requires": [
+        "iframeAdapter",
+        "iframePanel"
+      ]
     },
     "windowAdapter": {
       "path": "./modules/windowAdapter/index.js",
@@ -150,12 +198,17 @@
     "windowPanel": {
       "path": "./modules/windowPanel/index.js",
       "enabled": true,
-      "requires": ["windowAdapter"]
+      "requires": [
+        "windowAdapter"
+      ]
     },
     "windowManagerPanel": {
       "path": "./modules/windowManagerPanel/index.js",
       "enabled": true,
-      "requires": ["windowAdapter", "windowPanel"]
+      "requires": [
+        "windowAdapter",
+        "windowPanel"
+      ]
     }
   },
   "loadPriority": [
@@ -183,6 +236,8 @@
     "loops",
     "presets",
     "testSpoilers",
+    "sphereState",
+    "spoilerChecklist",
     "textAdventure",
     "tests",
     "progressBar",

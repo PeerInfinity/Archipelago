@@ -1054,17 +1054,18 @@ def _get_cleaned_rules_data(multiworld) -> Dict[str, Any]:
 
 
 # --- Game Rules Export ---
-def export_game_rules(multiworld, output_dir: str, filename_base: str, save_presets: bool = False) -> Dict[str, str]:
+def export_game_rules(multiworld, output_dir: str, filename_base: str, save_presets: bool = False, skip_preset_copy_if_rules_identical: bool = False) -> Dict[str, str]:
     """
     Exports game rules to JSON files for frontend consumption.
     Also saves a copy of rules to frontend/presets with game name as prefix if save_presets is True.
-    
+
     Args:
         multiworld: MultiWorld instance containing game rules
         output_dir: Directory to write output files
         filename_base: Base name for output files
         save_presets: Whether to save copies of files to the presets directory
-        
+        skip_preset_copy_if_rules_identical: If True, skip copying to presets if files are identical
+
     Returns:
         Dict containing paths to generated files
     """
@@ -1321,7 +1322,7 @@ def export_game_rules(multiworld, output_dir: str, filename_base: str, save_pres
                             all_match = False
                             break
                     
-                    if all_match:
+                    if all_match and skip_preset_copy_if_rules_identical:
                         needs_update = False
                         logger.info(f"Preset {preset_dir} is up-to-date. Skipping file copy.")
             except Exception as e:

@@ -527,7 +527,9 @@ class GeneralOptions(Group):
     output_path: OutputPath = OutputPath("output")
     skip_required_files: bool = False
     save_rules_json: bool = False
+    skip_preset_copy_if_rules_identical: bool = False
     save_sphere_log: bool = False
+    verbose_sphere_log: bool = False
     log_fractional_sphere_details: bool = True
     log_integer_sphere_details: bool = False
     update_frontend_presets: bool = False

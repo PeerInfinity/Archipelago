@@ -97,6 +97,16 @@ export async function register(registrationApi) {
     return sphereState.getCurrentPlayerId();
   });
 
+  registrationApi.registerPublicFunction(moduleId, 'loadSphereLog', async (filePath) => {
+    const sphereState = getSphereStateSingleton();
+    return await sphereState.loadSphereLog(filePath);
+  });
+
+  registrationApi.registerPublicFunction(moduleId, 'setCurrentPlayerId', (playerId) => {
+    const sphereState = getSphereStateSingleton();
+    return sphereState.setCurrentPlayerId(playerId);
+  });
+
   // Register event publishers
   registrationApi.registerEventBusPublisher('sphereState:dataLoaded');
   registrationApi.registerEventBusPublisher('sphereState:dataCleared');

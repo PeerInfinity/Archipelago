@@ -399,7 +399,7 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
         # New: export the rules data to a json file
         settings = get_settings()
         if settings.general_options.save_rules_json:
-            export_game_rules(multiworld, temp_dir, outfilebase, settings.general_options.update_frontend_presets)
+            export_game_rules(multiworld, temp_dir, outfilebase, settings.general_options.update_frontend_presets, settings.general_options.skip_preset_copy_if_rules_identical)
 
         zipfilename = output_path(f"AP_{multiworld.seed_name}.zip")
         logger.info(f"Creating final archive at {zipfilename}")

@@ -7,26 +7,66 @@ from itertools import chain
 if TYPE_CHECKING:
     from BaseClasses import MultiWorld, CollectionState, Location, Spoiler, Item
 
+# Track previous states for calculating deltas in non-verbose mode
+_previous_fractional_state = None
+_previous_integer_state = None
+
+
+def _calculate_inventory_delta(current_items: Dict[str, int], previous_items: Dict[str, int]) -> Dict[str, int]:
+    """Calculate new items added since previous state."""
+    delta = {}
+    for item_name, count in current_items.items():
+        prev_count = previous_items.get(item_name, 0)
+        new_count = count - prev_count
+        if new_count > 0:
+            delta[item_name] = new_count
+    return delta
+
+
+def _calculate_list_delta(current_list: List[str], previous_list: List[str]) -> List[str]:
+    """Calculate newly added items in a list."""
+    current_set = set(current_list)
+    previous_set = set(previous_list)
+    new_items = current_set - previous_set
+    return sorted(list(new_items))
+
+
+def _is_fractional_sphere(sphere_index: Union[int, str]) -> bool:
+    """Check if sphere index is fractional (e.g., 0.1, 1.5) vs integer (0, 1, 2)."""
+    index_str = str(sphere_index)
+    return '.' in index_str
+
+
 def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Union[int, str],
                        current_sphere_locations: Set["Location"],
-                       current_collection_state: "CollectionState") -> None:
+                       current_collection_state: "CollectionState",
+                       verbose_mode: bool = True) -> None:
     """Logs details of the current sphere to the provided file handler."""
+    global _previous_fractional_state, _previous_integer_state
+
     if not file_handler:
         logging.warning("Spoiler log file not open. Cannot log sphere details.")
         return
 
     try:
+        # Determine if this is a fractional or integer sphere
+        is_fractional = _is_fractional_sphere(sphere_index)
+        is_sphere_zero = str(sphere_index) == "0" or str(sphere_index) == "0.0"
+
+        # Collect current state data for all players
+        current_state_data = {}
         player_specific_data = {}
+
         for player_id in multiworld.player_ids:
             prog_items = {item_name: count for item_name, count in current_collection_state.prog_items.get(player_id, {}).items()}
-            
+
             # non_prog_items logic remains difficult to source reliably from CollectionState
             # It primarily tracks prog_items. Logging empty for now.
             non_prog_items = {}
 
             inventory_details = {
                 "prog_items": prog_items,
-                "non_prog_items": non_prog_items 
+                "non_prog_items": non_prog_items
             }
 
             accessible_locations = []
@@ -42,13 +82,89 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
                     reg.name for reg in multiworld.get_regions(player_id)
                     if reg.can_reach(current_collection_state)
                 ])
-            
-            player_specific_data[player_id] = {
+
+            # Store current state for this player
+            current_state_data[player_id] = {
                 "inventory_details": inventory_details,
                 "accessible_locations": accessible_locations,
                 "accessible_regions": accessible_regions
             }
-        
+
+            # Determine what to log based on verbose_mode
+            if verbose_mode:
+                # Verbose mode: log full state with original field names
+                player_specific_data[player_id] = {
+                    "inventory_details": inventory_details,
+                    "accessible_locations": accessible_locations,
+                    "accessible_regions": accessible_regions
+                }
+            else:
+                # Non-verbose mode: calculate deltas
+                if is_sphere_zero:
+                    # Sphere 0: log full state as baseline (but use new_* field names)
+                    player_specific_data[player_id] = {
+                        "new_inventory_details": inventory_details,
+                        "new_accessible_locations": accessible_locations,
+                        "new_accessible_regions": accessible_regions
+                    }
+                else:
+                    # Get the appropriate previous state
+                    if is_fractional:
+                        previous_state = _previous_fractional_state
+                    else:
+                        previous_state = _previous_integer_state
+
+                    if previous_state and player_id in previous_state:
+                        prev_data = previous_state[player_id]
+
+                        # Calculate deltas
+                        new_prog_items = _calculate_inventory_delta(
+                            prog_items,
+                            prev_data["inventory_details"]["prog_items"]
+                        )
+                        new_non_prog_items = _calculate_inventory_delta(
+                            non_prog_items,
+                            prev_data["inventory_details"]["non_prog_items"]
+                        )
+                        new_accessible_locations = _calculate_list_delta(
+                            accessible_locations,
+                            prev_data["accessible_locations"]
+                        )
+                        new_accessible_regions = _calculate_list_delta(
+                            accessible_regions,
+                            prev_data["accessible_regions"]
+                        )
+
+                        player_specific_data[player_id] = {
+                            "new_inventory_details": {
+                                "prog_items": new_prog_items,
+                                "non_prog_items": new_non_prog_items
+                            },
+                            "new_accessible_locations": new_accessible_locations,
+                            "new_accessible_regions": new_accessible_regions
+                        }
+                    else:
+                        # No previous state available, log full state as fallback
+                        logging.warning(f"No previous state available for player {player_id} at sphere {sphere_index}, logging full state")
+                        player_specific_data[player_id] = {
+                            "new_inventory_details": inventory_details,
+                            "new_accessible_locations": accessible_locations,
+                            "new_accessible_regions": accessible_regions
+                        }
+
+        # Update previous state trackers (only in non-verbose mode)
+        if not verbose_mode:
+            if is_sphere_zero:
+                # Sphere 0 initializes both trackers
+                _previous_fractional_state = current_state_data.copy()
+                _previous_integer_state = current_state_data.copy()
+            elif is_fractional:
+                # Fractional sphere updates only fractional tracker
+                _previous_fractional_state = current_state_data.copy()
+            else:
+                # Integer sphere updates only integer tracker
+                _previous_integer_state = current_state_data.copy()
+
         sphere_location_names = sorted([loc.name for loc in current_sphere_locations])
 
         log_entry = {
@@ -57,7 +173,7 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
             "sphere_locations": sphere_location_names,
             "player_data": player_specific_data,
         }
-        
+
         file_handler.write(json.dumps(log_entry) + "\n")
         file_handler.flush()
 
@@ -70,18 +186,25 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
     Enhanced version of create_playthrough that adds sphere logging.
     Destructive to the multiworld while it is run, damage gets repaired afterwards.
     """
+    global _previous_fractional_state, _previous_integer_state
+
     from settings import get_settings
     from BaseClasses import CollectionState
-    
+
     settings = get_settings()
-    
-    # Set up logging
+
+    # Set up logging options
     log_fractional_sphere_details = settings.general_options.log_fractional_sphere_details
     log_integer_sphere_details = settings.general_options.log_integer_sphere_details
-    
+    verbose_sphere_log = settings.general_options.verbose_sphere_log
+
+    # Reset state trackers at the start
+    _previous_fractional_state = None
+    _previous_integer_state = None
+
     spoiler_log_file_handler = None
     log_file_path = ""
-    
+
     try:
         # Use temp_dir from multiworld if available for spheres_log.jsonl, otherwise fallback to output_path
         log_output_directory = getattr(spoiler.multiworld, 'temp_dir_for_spheres_log', None)
@@ -182,11 +305,12 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                 if log_fractional_sphere_details:
                     log_sphere_details(spoiler_log_file_handler, multiworld,
                                      f"0.{sub_index_sphere0}",
-                                     set(), 
-                                     current_playthrough_state.copy())
+                                     set(),
+                                     current_playthrough_state.copy(),
+                                     verbose_sphere_log)
 
             # Log the final "sphere 0" state
-            log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy())
+            log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy(), verbose_sphere_log)
         
         if not spoiler_log_file_handler:
             # If not logging, ensure state includes precollected items for main loop
@@ -218,7 +342,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                     log_sphere_details(spoiler_log_file_handler, multiworld,
                                      sub_sphere_label,
                                      {location},  # The single location collected in this sub-step
-                                     current_playthrough_state.copy())
+                                     current_playthrough_state.copy(),
+                                     verbose_sphere_log)
 
             # After all items in the current_full_sphere_locations are processed individually:
             final_collection_spheres.append(current_full_sphere_locations)
@@ -228,7 +353,8 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                 log_sphere_details(spoiler_log_file_handler, multiworld,
                                  main_sphere_index_counter,  # Integer index for the full sphere
                                  current_full_sphere_locations,  # All locations making up this sphere
-                                 current_playthrough_state.copy())  # State AFTER all items in this sphere are collected
+                                 current_playthrough_state.copy(),  # State AFTER all items in this sphere are collected
+                                 verbose_sphere_log)
             
             logging.debug('Calculated final sphere %i, containing %i of %i progress items.', 
                           main_sphere_index_counter, len(current_full_sphere_locations), len(required_locations))
@@ -252,6 +378,10 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
                 logging.info(f"Closed spoiler log file: {log_file_path}")
             except Exception as e:
                 logging.error(f"Error closing spoiler log file {log_file_path}: {e}")
+
+        # Reset state trackers
+        _previous_fractional_state = None
+        _previous_integer_state = None
 
         # Repair the multiworld
         for location, item in restore_later.items():
