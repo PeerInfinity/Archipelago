@@ -1275,7 +1275,7 @@ export class TestSpoilerUI {
           await stateManager.commitBatchUpdate();
           this.log('debug', 'Committed batch update for inventory.');
 
-          // 3. Ping worker to ensure all commands are processed and state is stable.
+          // 4. Ping worker to ensure all commands are processed and state is stable.
           await stateManager.pingWorker(
             `spoiler_sphere_${context.sphere_number}_inventory_applied`,
             10000  // Increased timeout to 10 seconds to handle intermittent delays
@@ -1285,7 +1285,7 @@ export class TestSpoilerUI {
             'Ping successful. StateManager ready for comparison.'
           );
 
-          // 4. Get the fresh snapshot from the worker.
+          // 5. Get the fresh snapshot from the worker.
           const freshSnapshot = await stateManager.getFullSnapshot();
           if (!freshSnapshot) {
             this.log(
@@ -1296,12 +1296,16 @@ export class TestSpoilerUI {
             break;
           }
           this.log(
+            'info',
+            `Fresh snapshot has ${freshSnapshot.checkedLocations?.length || 0} checked locations`
+          );
+          this.log(
             'debug',
             'Retrieved fresh snapshot from StateManager.',
             freshSnapshot
           );
 
-          // 5. Compare using the fresh snapshot.
+          // 6. Compare using the fresh snapshot.
           const locationComparisonResult = await this.compareAccessibleLocations(
             accessible_from_log, // This is an array of location names
             freshSnapshot, // The authoritative snapshot from the worker
@@ -1309,7 +1313,7 @@ export class TestSpoilerUI {
             context // Original context for logging
           );
           
-          // 6. Compare accessible regions using the fresh snapshot.
+          // 7. Compare accessible regions using the fresh snapshot.
           const regionComparisonResult = await this.compareAccessibleRegions(
             accessible_regions_from_log, // This is an array of region names
             freshSnapshot, // The authoritative snapshot from the worker
@@ -1412,7 +1416,7 @@ export class TestSpoilerUI {
               locationRuleEvalResult === true;
 
             // Check if already checked using the snapshot
-            const isChecked = currentSnapshot.checkedLocations?.includes(locName);
+            const isChecked = currentSnapshot.flags?.includes(locName);
 
             if (!wasAccessible && !isChecked) {
               this.log(
@@ -1584,7 +1588,7 @@ export class TestSpoilerUI {
 
     for (const locName in staticData.locations) {
       const locDef = staticData.locations[locName];
-      const isChecked = modifiedSnapshot.checkedLocations?.includes(locName);
+      const isChecked = modifiedSnapshot.flags?.includes(locName);
       if (isChecked) continue;
       
       const parentRegionName = locDef.parent_region || locDef.region;
@@ -1740,7 +1744,7 @@ export class TestSpoilerUI {
       const locDef = staticData.locations[locName];
 
       // Check against the worker's snapshot flags
-      const isChecked = currentWorkerSnapshot.checkedLocations?.includes(locName);
+      const isChecked = currentWorkerSnapshot.flags?.includes(locName);
       if (isChecked) continue;
 
       const parentRegionName = locDef.parent_region || locDef.region;
@@ -1907,7 +1911,18 @@ export class TestSpoilerUI {
       }
     }
 
-    const stateAccessibleSet = new Set(stateAccessibleRegions);
+    // Filter regions for CvCotM to handle Menu region discrepancy
+    // Menu is a structural region added by the exporter but doesn't appear in Python sphere logs
+    const gameName = staticData?.game_name || staticData?.game_info?.[playerId]?.game || '';
+    const isCvCotM = gameName === 'Castlevania - Circle of the Moon';
+    
+    let filteredStateAccessibleRegions = stateAccessibleRegions;
+    if (isCvCotM) {
+      // Remove Menu from state accessible regions for CvCotM
+      filteredStateAccessibleRegions = stateAccessibleRegions.filter(name => name !== 'Menu');
+    }
+
+    const stateAccessibleSet = new Set(filteredStateAccessibleRegions);
     const logAccessibleSet = new Set(logAccessibleRegionNames);
 
     const missingFromState = [...logAccessibleSet].filter(
@@ -2405,8 +2420,6 @@ export class TestSpoilerUI {
       .filter(([region, status]) => status === 'reachable' || status === 'checked')
       .map(([region]) => region);
     this.log('info', `  Reachable regions (${reachableRegions.length}): ${reachableRegions.slice(0, 10).join(', ')}${reachableRegions.length > 10 ? '...' : ''}`);
-    
-    this.log('info', `  Checked locations: ${currentWorkerSnapshot.checkedLocations?.length || 0}`);
     
     // Log available functions in snapshotInterface
     const availableFunctions = Object.keys(snapshotInterface).filter(k => typeof snapshotInterface[k] === 'function');

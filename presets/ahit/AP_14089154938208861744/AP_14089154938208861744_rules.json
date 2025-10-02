@@ -147,6 +147,10 @@
                   "item": {
                     "type": "constant",
                     "value": "Time Piece"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 8
                   }
                 }
               ]
@@ -181,6 +185,10 @@
                   "item": {
                     "type": "constant",
                     "value": "Time Piece"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 17
                   }
                 }
               ]
@@ -222,6 +230,10 @@
                   "item": {
                     "type": "constant",
                     "value": "Time Piece"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 12
                   }
                 },
                 {
@@ -229,6 +241,10 @@
                   "item": {
                     "type": "constant",
                     "value": "Time Piece"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 17
                   }
                 }
               ]
@@ -275,8 +291,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -1071,8 +1087,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -1113,8 +1129,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 2
                 }
               ]
             },
@@ -1407,8 +1423,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 4
                 }
               ]
             },
@@ -1967,8 +1983,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -2260,8 +2276,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 },
@@ -2297,8 +2313,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 },
@@ -4584,8 +4600,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 },
@@ -4621,8 +4637,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 0
                     }
                   ]
                 },
@@ -4658,8 +4674,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 0
                 }
               ]
             },
@@ -5247,8 +5263,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -5431,8 +5447,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 1
                     }
                   ]
                 }
@@ -5555,8 +5571,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -6379,8 +6395,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -6436,8 +6452,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 2
                 }
               ]
             },
@@ -6567,14 +6583,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6589,14 +6597,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6611,14 +6611,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6633,14 +6625,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6655,14 +6639,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 }
@@ -6696,14 +6672,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6718,14 +6686,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6740,14 +6700,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6762,14 +6714,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -6784,14 +6728,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 }
@@ -6870,8 +6806,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -7002,8 +6938,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 2
                 }
               ]
             },
@@ -7171,14 +7107,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7193,14 +7121,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7215,14 +7135,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7237,14 +7149,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7259,14 +7163,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7281,14 +7177,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 }
@@ -7403,8 +7291,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 2
                 }
               ]
             },
@@ -7427,8 +7315,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 2
                 }
               ]
             },
@@ -7515,8 +7403,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 1
                     }
                   ]
                 }
@@ -7673,14 +7561,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7695,14 +7575,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7717,14 +7589,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7739,14 +7603,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7761,14 +7617,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7783,14 +7631,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 }
@@ -7824,14 +7664,6 @@
                     {
                       "type": "constant",
                       "value": "Location"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7846,14 +7678,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7868,14 +7692,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 },
@@ -7890,14 +7706,6 @@
                     {
                       "type": "constant",
                       "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "world"
-                      },
-                      "attr": "player"
                     }
                   ]
                 }
@@ -8458,8 +8266,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -8735,8 +8543,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -8777,8 +8585,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -8801,8 +8609,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 1
                 }
               ]
             },
@@ -8825,8 +8633,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -8849,8 +8657,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -8891,8 +8699,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -8969,8 +8777,8 @@
               "name": "can_use_hat",
               "args": [
                 {
-                  "type": "name",
-                  "name": "h"
+                  "type": "constant",
+                  "value": 3
                 }
               ]
             },
@@ -9866,8 +9674,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 3
                     }
                   ]
                 }
@@ -9900,8 +9708,8 @@
                   "name": "can_use_hat",
                   "args": [
                     {
-                      "type": "name",
-                      "name": "h"
+                      "type": "constant",
+                      "value": 3
                     }
                   ]
                 }

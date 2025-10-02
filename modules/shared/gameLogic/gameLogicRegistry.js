@@ -15,6 +15,19 @@ import { archipidleStateModule } from './archipidle/archipidleLogic.js';
 import * as blasphemousLogic from './blasphemous/blasphemousLogic.js';
 import { blasphemousStateModule } from './blasphemous/blasphemousLogic.js';
 import { helperFunctions as bombRushCyberfunkHelperFunctions } from './bomb_rush_cyberfunk/bombRushCyberfunkLogic.js';
+import * as celeste64Logic from './celeste64/celeste64Logic.js';
+import { celeste64StateModule } from './celeste64/celeste64Logic.js';
+import * as civ6Logic from './civ_6/civ6Logic.js';
+import { civ6StateModule } from './civ_6/civ6Logic.js';
+import * as dlcquestLogic from './dlcquest/dlcquestLogic.js';
+import { dlcquestStateModule } from './dlcquest/dlcquestLogic.js';
+import * as hkLogic from './hk/hkLogic.js';
+import { hkStateModule } from './hk/hkLogic.js';
+import * as hylics2Logic from './hylics_2/hylics2Logic.js';
+import { hylics2StateModule } from './hylics_2/hylics2Logic.js';
+import * as inscryptionLogic from './inscryption/inscryptionLogic.js';
+import { inscryptionStateModule } from './inscryption/inscryptionLogic.js';
+import { kh1Logic } from './kh1/kh1Logic.js';
 
 /**
  * Registry of all supported games and their logic modules
@@ -49,6 +62,48 @@ const GAME_REGISTRY = {
     helperFunctions: bombRushCyberfunkHelperFunctions,
     worldClasses: ['BombRushCyberfunkWorld'],
     aliases: ['Bomb Rush Cyberfunk', 'BRC']
+  },
+  'Celeste 64': {
+    logicModule: celeste64Logic.celeste64StateModule,
+    helperFunctions: celeste64Logic.helperFunctions,
+    worldClasses: ['Celeste64World'],
+    aliases: ['Celeste 64', 'Celeste64']
+  },
+  'Civilization VI': {
+    logicModule: civ6Logic.civ6StateModule,
+    helperFunctions: civ6Logic.helperFunctions,
+    worldClasses: ['CivVIWorld'],
+    aliases: ['Civilization VI', 'Civ VI', 'Civ6']
+  },
+  'DLCQuest': {
+    logicModule: dlcquestLogic.dlcquestStateModule,
+    helperFunctions: dlcquestLogic.helperFunctions,
+    worldClasses: ['DLCqworld'],
+    aliases: ['DLCQuest', 'DLC Quest']
+  },
+  'Hollow Knight': {
+    logicModule: hkLogic.hkStateModule,
+    helperFunctions: hkLogic.helperFunctions,
+    worldClasses: ['HKWorld'],
+    aliases: ['Hollow Knight', 'HK']
+  },
+  'Hylics 2': {
+    logicModule: hylics2Logic.hylics2StateModule,
+    helperFunctions: hylics2Logic.helperFunctions,
+    worldClasses: ['Hylics2World'],
+    aliases: ['Hylics 2', 'Hylics2']
+  },
+  'Inscryption': {
+    logicModule: inscryptionLogic.inscryptionStateModule,
+    helperFunctions: inscryptionLogic.helperFunctions,
+    worldClasses: ['InscryptionWorld'],
+    aliases: ['Inscryption']
+  },
+  'Kingdom Hearts': {
+    logicModule: genericLogic.genericStateModule,
+    helperFunctions: kh1Logic,
+    worldClasses: ['KH1World'],
+    aliases: ['Kingdom Hearts', 'KH1', 'Kingdom Hearts 1']
   },
   // Add more games here as they're implemented
   'Generic': {

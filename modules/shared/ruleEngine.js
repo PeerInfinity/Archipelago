@@ -334,6 +334,31 @@ export const evaluateRule = (rule, context, depth = 0) => {
       case 'attribute': {
         const baseObject = evaluateRule(rule.object, context, depth + 1);
 
+        // Special case: if baseObject is undefined and the object was "options", 
+        // try to resolve from game settings
+        if (baseObject === undefined && rule.object && rule.object.type === 'name' && rule.object.name === 'options') {
+          // Try to get the setting value from context
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+            
+            // Check if the setting exists
+            if (staticData.settings && staticData.settings[playerId]) {
+              const settingValue = staticData.settings[playerId][rule.attr];
+              if (settingValue !== undefined) {
+                return settingValue;
+              }
+            }
+          }
+          
+          // Default values for common KH1 options
+          if (rule.attr === 'keyblades_unlock_chests') {
+            return false; // Default value
+          }
+          
+          return undefined;
+        }
+
         if (baseObject && typeof baseObject === 'object') {
           // Special handling for parent_region attribute on location objects
           if (rule.attr === 'parent_region' && baseObject.parent_region_name) {
@@ -780,6 +805,48 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'total_items_count': {
+        // Check if player has collected at least N items total across all item types
+        const requiredCount = evaluateRule(rule.count, context, depth + 1);
+        if (requiredCount === undefined) {
+          result = undefined;
+        } else if (typeof context.getTotalItemCount === 'function') {
+          const totalCount = context.getTotalItemCount();
+          result = totalCount >= requiredCount;
+        } else if (context.snapshot && context.snapshot.inventory) {
+          // Fallback: count items directly from snapshot inventory
+          let totalCount = 0;
+          for (const itemName in context.snapshot.inventory) {
+            totalCount += context.snapshot.inventory[itemName] || 0;
+          }
+          result = totalCount >= requiredCount;
+        } else {
+          log('warn', '[evaluateRule] No way to get total item count for total_items_count rule.');
+          result = undefined;
+        }
+        break;
+      }
+      
+      case 'locations_checked': {
+        // Check if player has checked at least N locations
+        const requiredCount = evaluateRule(rule.count, context, depth + 1);
+        console.log('[locations_checked] Rule triggered, requiredCount:', requiredCount);
+        if (requiredCount === undefined) {
+          console.log('[locations_checked] requiredCount is undefined');
+          result = undefined;
+        } else if (typeof context.getCheckedLocationsCount === 'function') {
+          const checkedCount = context.getCheckedLocationsCount();
+          console.log(`[locations_checked] Checking if ${checkedCount} >= ${requiredCount}`);
+          result = checkedCount >= requiredCount;
+          console.log(`[locations_checked] Result: ${result}`);
+        } else {
+          console.log('[locations_checked] context.getCheckedLocationsCount is not a function');
+          log('warn', '[evaluateRule] context.getCheckedLocationsCount is not a function for locations_checked.');
+          result = undefined;
+        }
+        break;
+      }
+
       case 'item_check': {
         const itemName = evaluateRule(rule.item, context, depth + 1);
         if (itemName === undefined) {
@@ -807,6 +874,24 @@ export const evaluateRule = (rule, context, depth = 0) => {
             'warn',
             '[evaluateRule SnapshotIF] context.hasItem is not a function for item_check.'
           );
+          result = undefined;
+        }
+        break;
+      }
+
+      case 'location_check': {
+        // Check if a location is accessible (can be reached)
+        // This matches the Python behavior where _can_get checks if a location CAN be reached
+        const locationName = evaluateRule(rule.location, context, depth + 1);
+        if (locationName === undefined) {
+          result = undefined;
+        } else if (typeof context.isLocationAccessible === 'function') {
+          result = context.isLocationAccessible(locationName);
+          if (result === undefined) {
+            log('warn', `[evaluateRule] Location ${locationName} accessibility could not be determined`);
+          }
+        } else {
+          log('warn', '[evaluateRule] context.isLocationAccessible is not a function for location_check.');
           result = undefined;
         }
         break;
@@ -958,6 +1043,10 @@ export const evaluateRule = (rule, context, depth = 0) => {
             break;
           case '/':
             result = right !== 0 ? left / right : undefined;
+            break;
+          case '//':
+            // Python floor division operator
+            result = right !== 0 ? Math.floor(left / right) : undefined;
             break;
           case '==':
             result = left == right;
@@ -1139,6 +1228,24 @@ export function debugRule(rule, indent = 0) {
         log('info', `${prefix}    Arg ${i + 1}:`);
         debugRule(arg, indent + 6);
       });
+      break;
+
+    case 'location_check':
+      if (typeof rule.location === 'string') {
+        log('info', `${prefix}Location: ${rule.location}`);
+      } else {
+        log('info', `${prefix}Location (complex):`);
+        debugRule(rule.location, indent + 2);
+      }
+      break;
+
+    case 'locations_checked':
+      if (typeof rule.count === 'number') {
+        log('info', `${prefix}Required locations checked: ${rule.count}`);
+      } else if (rule.count) {
+        log('info', `${prefix}Required locations checked (complex):`);
+        debugRule(rule.count, indent + 2);
+      }
       break;
 
     case 'item_check':

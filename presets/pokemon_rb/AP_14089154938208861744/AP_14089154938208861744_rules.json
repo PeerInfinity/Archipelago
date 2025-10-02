@@ -6210,6 +6210,56 @@
                   "item": {
                     "type": "constant",
                     "value": "Pokedex"
+                  },
+                  "count": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "helper",
+                      "name": "int",
+                      "args": [
+                        {
+                          "type": "compare",
+                          "left": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "attribute",
+                                "object": {
+                                  "type": "name",
+                                  "name": "world"
+                                },
+                                "attr": "options"
+                              },
+                              "attr": "elite_four_pokedex_condition"
+                            },
+                            "attr": "total"
+                          },
+                          "op": ">",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      ]
+                    },
+                    "op": "*",
+                    "right": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "name",
+                            "name": "world"
+                          },
+                          "attr": "options"
+                        },
+                        "attr": "require_pokedex"
+                      },
+                      "attr": "value"
+                    }
                   }
                 }
               ]
@@ -6362,6 +6412,56 @@
                   "item": {
                     "type": "constant",
                     "value": "Pokedex"
+                  },
+                  "count": {
+                    "type": "binary_op",
+                    "left": {
+                      "type": "helper",
+                      "name": "int",
+                      "args": [
+                        {
+                          "type": "compare",
+                          "left": {
+                            "type": "attribute",
+                            "object": {
+                              "type": "attribute",
+                              "object": {
+                                "type": "attribute",
+                                "object": {
+                                  "type": "name",
+                                  "name": "world"
+                                },
+                                "attr": "options"
+                              },
+                              "attr": "elite_four_pokedex_condition"
+                            },
+                            "attr": "total"
+                          },
+                          "op": ">",
+                          "right": {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        }
+                      ]
+                    },
+                    "op": "*",
+                    "right": {
+                      "type": "attribute",
+                      "object": {
+                        "type": "attribute",
+                        "object": {
+                          "type": "attribute",
+                          "object": {
+                            "type": "name",
+                            "name": "world"
+                          },
+                          "attr": "options"
+                        },
+                        "attr": "require_pokedex"
+                      },
+                      "attr": "value"
+                    }
                   }
                 }
               ]
@@ -8753,8 +8853,8 @@
                         "value": "Bike Voucher"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }
@@ -52216,8 +52316,8 @@
                         "value": "Gold Teeth"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }

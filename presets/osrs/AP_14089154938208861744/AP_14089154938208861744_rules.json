@@ -400,8 +400,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Farms"
               }
             },
             "reverse": null,
@@ -415,8 +415,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Farms"
               }
             },
             "reverse": null,
@@ -430,8 +430,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Al Kharid"
               }
             },
             "reverse": null,
@@ -445,8 +445,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Swamp"
               }
             },
             "reverse": null,
@@ -460,8 +460,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: HAM Hideout"
               }
             },
             "reverse": null,
@@ -482,8 +482,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: South of Varrock"
                   }
                 }
               ]
@@ -516,8 +516,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Barbarian Village"
                   }
                 }
               ]
@@ -569,8 +569,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Edgeville"
                   }
                 }
               ]
@@ -593,8 +593,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Wilderness"
                   }
                 }
               ]
@@ -926,123 +926,38 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "old_rule",
+                              "args": []
                             }
                           ]
                         }
@@ -1096,73 +1011,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -1212,73 +1076,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -1328,73 +1141,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -1474,8 +1236,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge"
               }
             },
             "reverse": null,
@@ -1489,8 +1251,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: HAM Hideout"
               }
             },
             "reverse": null,
@@ -1600,28 +1362,7 @@
             "name": "Quest: Misthalin Mystery",
             "id": 458769,
             "crystal": null,
-            "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "region_required"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
-            },
+            "access_rule": null,
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -1670,26 +1411,9 @@
                   "value": true
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -1761,8 +1485,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Farms"
               }
             },
             "reverse": null,
@@ -1776,8 +1500,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge"
               }
             },
             "reverse": null,
@@ -1791,8 +1515,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Swamp"
               }
             },
             "reverse": null,
@@ -1806,8 +1530,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Village"
               }
             },
             "reverse": null,
@@ -1886,8 +1610,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -1901,8 +1625,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: HAM Hideout"
               }
             },
             "reverse": null,
@@ -1916,8 +1640,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Village"
               }
             },
             "reverse": null,
@@ -2055,48 +1779,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -2174,8 +1864,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -2189,8 +1879,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge"
               }
             },
             "reverse": null,
@@ -2321,8 +2011,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Farms"
               }
             },
             "reverse": null,
@@ -2336,8 +2026,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Manor"
               }
             },
             "reverse": null,
@@ -2444,8 +2134,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Al Kharid"
               }
             },
             "reverse": null,
@@ -2459,8 +2149,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -2474,8 +2164,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Central Varrock"
               }
             },
             "reverse": null,
@@ -2489,8 +2179,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumberyard"
               }
             },
             "reverse": null,
@@ -2504,8 +2194,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Farms"
               }
             },
             "reverse": null,
@@ -2526,8 +2216,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Lumbridge"
                   }
                 }
               ]
@@ -2550,8 +2240,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Barbarian Village"
                   }
                 }
               ]
@@ -2603,8 +2293,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Edgeville"
                   }
                 }
               ]
@@ -2627,8 +2317,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Wilderness"
                   }
                 }
               ]
@@ -2997,8 +2687,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -3012,8 +2702,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -3027,8 +2717,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Central Varrock"
               }
             },
             "reverse": null,
@@ -3042,8 +2732,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Varrock Palace"
               }
             },
             "reverse": null,
@@ -3124,8 +2814,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Varrock Palace"
               }
             },
             "reverse": null,
@@ -3139,8 +2829,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumberyard"
               }
             },
             "reverse": null,
@@ -3154,8 +2844,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -3169,8 +2859,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -3332,98 +3022,30 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "old_rule",
+                          "args": []
                         }
                       ]
                     }
@@ -3475,98 +3097,30 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "old_rule",
+                          "args": []
                         }
                       ]
                     }
@@ -3618,98 +3172,30 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "old_rule",
+                          "args": []
                         }
                       ]
                     }
@@ -3761,73 +3247,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -3901,8 +3336,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -3916,8 +3351,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumberyard"
               }
             },
             "reverse": null,
@@ -3931,8 +3366,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Central Varrock"
               }
             },
             "reverse": null,
@@ -3946,8 +3381,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -4176,8 +3611,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -4191,8 +3626,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Varrock Palace"
               }
             },
             "reverse": null,
@@ -4206,8 +3641,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -4221,8 +3656,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Barbarian Village"
               }
             },
             "reverse": null,
@@ -4236,8 +3671,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Edgeville"
               }
             },
             "reverse": null,
@@ -4424,8 +3859,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: West Varrock"
                   }
                 }
               ]
@@ -4536,8 +3971,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -4785,26 +4220,9 @@
                   ]
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -4886,8 +4304,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -4901,8 +4319,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -4916,8 +4334,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Barbarian Village"
               }
             },
             "reverse": null,
@@ -4948,8 +4366,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: South of Varrock"
                   }
                 }
               ]
@@ -5001,8 +4419,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Lumbridge"
                   }
                 }
               ]
@@ -5451,8 +4869,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Edgeville"
               }
             },
             "reverse": null,
@@ -5466,8 +4884,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -5481,8 +4899,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Manor"
               }
             },
             "reverse": null,
@@ -5496,8 +4914,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -5775,8 +5193,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Barbarian Village"
               }
             },
             "reverse": null,
@@ -5790,8 +5208,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -5805,8 +5223,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Village"
               }
             },
             "reverse": null,
@@ -5820,8 +5238,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador"
               }
             },
             "reverse": null,
@@ -5870,8 +5288,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Village"
               }
             },
             "reverse": null,
@@ -5885,28 +5303,7 @@
             "name": "Quest: Ernest the Chicken",
             "id": 458758,
             "crystal": null,
-            "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "region_required"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
-            },
+            "access_rule": null,
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -5991,8 +5388,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -6006,8 +5403,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Manor"
               }
             },
             "reverse": null,
@@ -6021,8 +5418,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador Farms"
               }
             },
             "reverse": null,
@@ -6099,8 +5496,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Ice Mountain"
               }
             },
             "reverse": null,
@@ -6114,8 +5511,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Monastery"
               }
             },
             "reverse": null,
@@ -6129,8 +5526,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Barbarian Village"
               }
             },
             "reverse": null,
@@ -6144,8 +5541,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador"
               }
             },
             "reverse": null,
@@ -6159,8 +5556,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador"
               }
             },
             "reverse": null,
@@ -6264,98 +5661,30 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "old_rule",
+                              "args": []
                             }
                           ]
                         }
@@ -6449,8 +5778,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Monastery"
               }
             },
             "reverse": null,
@@ -6464,8 +5793,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Ice Mountain"
               }
             },
             "reverse": null,
@@ -6479,8 +5808,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador"
               }
             },
             "reverse": null,
@@ -6623,131 +5952,46 @@
                     {
                       "type": "item_check",
                       "item": {
-                        "type": "name",
-                        "name": "item_req"
+                        "type": "constant",
+                        "value": "Progressive Armor"
                       }
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "state_method",
-                                  "method": "can_reach",
-                                  "args": [
-                                    {
-                                      "type": "name",
-                                      "name": "region_required"
-                                    },
-                                    {
-                                      "type": "constant",
-                                      "value": "Region"
-                                    },
-                                    {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "self"
-                                      },
-                                      "attr": "player"
-                                    }
-                                  ]
+                                  "type": "helper",
+                                  "name": "rule",
+                                  "args": []
                                 },
                                 {
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "rule",
+                                      "args": []
                                     },
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "old_rule",
+                                      "args": []
                                     }
                                   ]
                                 }
@@ -6832,173 +6076,54 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "state_method",
-                                  "method": "can_reach",
-                                  "args": [
-                                    {
-                                      "type": "name",
-                                      "name": "region_required"
-                                    },
-                                    {
-                                      "type": "constant",
-                                      "value": "Region"
-                                    },
-                                    {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "self"
-                                      },
-                                      "attr": "player"
-                                    }
-                                  ]
+                                  "type": "helper",
+                                  "name": "rule",
+                                  "args": []
                                 },
                                 {
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "rule",
+                                      "args": []
                                     },
                                     {
                                       "type": "and",
                                       "conditions": [
                                         {
-                                          "type": "state_method",
-                                          "method": "can_reach",
-                                          "args": [
-                                            {
-                                              "type": "name",
-                                              "name": "region_required"
-                                            },
-                                            {
-                                              "type": "constant",
-                                              "value": "Region"
-                                            },
-                                            {
-                                              "type": "attribute",
-                                              "object": {
-                                                "type": "name",
-                                                "name": "self"
-                                              },
-                                              "attr": "player"
-                                            }
-                                          ]
+                                          "type": "helper",
+                                          "name": "rule",
+                                          "args": []
                                         },
                                         {
-                                          "type": "state_method",
-                                          "method": "can_reach",
-                                          "args": [
-                                            {
-                                              "type": "name",
-                                              "name": "region_required"
-                                            },
-                                            {
-                                              "type": "constant",
-                                              "value": "Region"
-                                            },
-                                            {
-                                              "type": "attribute",
-                                              "object": {
-                                                "type": "name",
-                                                "name": "self"
-                                              },
-                                              "attr": "player"
-                                            }
-                                          ]
+                                          "type": "helper",
+                                          "name": "old_rule",
+                                          "args": []
                                         }
                                       ]
                                     }
@@ -7088,8 +6213,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -7103,8 +6228,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -7134,123 +6259,38 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "old_rule",
+                              "args": []
                             }
                           ]
                         }
@@ -7354,8 +6394,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -7369,8 +6409,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Monastery"
               }
             },
             "reverse": null,
@@ -7384,8 +6424,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -7413,8 +6453,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Ice Mountain"
                   }
                 }
               ]
@@ -7453,8 +6493,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Ice Mountain"
               }
             },
             "reverse": null,
@@ -7480,28 +6520,7 @@
             "name": "Open an Ornate Lockbox",
             "id": 458877,
             "crystal": null,
-            "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "region_required"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
-            },
+            "access_rule": null,
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -7570,8 +6589,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wilderness"
               }
             },
             "reverse": null,
@@ -7585,8 +6604,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -7600,8 +6619,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -7615,8 +6634,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Ice Mountain"
               }
             },
             "reverse": null,
@@ -7685,8 +6704,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -7700,8 +6719,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador Farms"
               }
             },
             "reverse": null,
@@ -7715,8 +6734,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Dwarven Mines"
               }
             },
             "reverse": null,
@@ -7973,173 +6992,54 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "state_method",
-                                  "method": "can_reach",
-                                  "args": [
-                                    {
-                                      "type": "name",
-                                      "name": "region_required"
-                                    },
-                                    {
-                                      "type": "constant",
-                                      "value": "Region"
-                                    },
-                                    {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "self"
-                                      },
-                                      "attr": "player"
-                                    }
-                                  ]
+                                  "type": "helper",
+                                  "name": "rule",
+                                  "args": []
                                 },
                                 {
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "rule",
+                                      "args": []
                                     },
                                     {
                                       "type": "and",
                                       "conditions": [
                                         {
-                                          "type": "state_method",
-                                          "method": "can_reach",
-                                          "args": [
-                                            {
-                                              "type": "name",
-                                              "name": "region_required"
-                                            },
-                                            {
-                                              "type": "constant",
-                                              "value": "Region"
-                                            },
-                                            {
-                                              "type": "attribute",
-                                              "object": {
-                                                "type": "name",
-                                                "name": "self"
-                                              },
-                                              "attr": "player"
-                                            }
-                                          ]
+                                          "type": "helper",
+                                          "name": "rule",
+                                          "args": []
                                         },
                                         {
                                           "type": "and",
                                           "conditions": [
                                             {
-                                              "type": "state_method",
-                                              "method": "can_reach",
-                                              "args": [
-                                                {
-                                                  "type": "name",
-                                                  "name": "region_required"
-                                                },
-                                                {
-                                                  "type": "constant",
-                                                  "value": "Region"
-                                                },
-                                                {
-                                                  "type": "attribute",
-                                                  "object": {
-                                                    "type": "name",
-                                                    "name": "self"
-                                                  },
-                                                  "attr": "player"
-                                                }
-                                              ]
+                                              "type": "helper",
+                                              "name": "rule",
+                                              "args": []
                                             },
                                             {
-                                              "type": "state_method",
-                                              "method": "can_reach",
-                                              "args": [
-                                                {
-                                                  "type": "name",
-                                                  "name": "region_required"
-                                                },
-                                                {
-                                                  "type": "constant",
-                                                  "value": "Region"
-                                                },
-                                                {
-                                                  "type": "attribute",
-                                                  "object": {
-                                                    "type": "name",
-                                                    "name": "self"
-                                                  },
-                                                  "attr": "player"
-                                                }
-                                              ]
+                                              "type": "helper",
+                                              "name": "old_rule",
+                                              "args": []
                                             }
                                           ]
                                         }
@@ -8271,8 +7171,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador"
               }
             },
             "reverse": null,
@@ -8286,8 +7186,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador"
               }
             },
             "reverse": null,
@@ -8301,8 +7201,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Village"
               }
             },
             "reverse": null,
@@ -8316,8 +7216,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Port Sarim"
               }
             },
             "reverse": null,
@@ -8331,8 +7231,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Rimmington"
               }
             },
             "reverse": null,
@@ -8346,8 +7246,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Crafting Guild"
               }
             },
             "reverse": null,
@@ -8518,8 +7418,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador Farms"
               }
             },
             "reverse": null,
@@ -8533,8 +7433,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Mudskipper Point"
               }
             },
             "reverse": null,
@@ -8548,8 +7448,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Rimmington"
               }
             },
             "reverse": null,
@@ -8563,8 +7463,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Mudskipper Point"
               }
             },
             "reverse": null,
@@ -8737,8 +7637,8 @@
                                                 {
                                                   "type": "item_check",
                                                   "item": {
-                                                    "type": "name",
-                                                    "name": "item_name"
+                                                    "type": "constant",
+                                                    "value": "Area: Crandor"
                                                   }
                                                 }
                                               ]
@@ -8882,98 +7782,30 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "old_rule",
+                          "args": []
                         }
                       ]
                     }
@@ -9055,8 +7887,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Port Sarim"
               }
             },
             "reverse": null,
@@ -9070,8 +7902,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Karamja"
               }
             },
             "reverse": null,
@@ -9118,8 +7950,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Rimmington"
               }
             },
             "reverse": null,
@@ -9133,8 +7965,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Port Sarim"
               }
             },
             "reverse": null,
@@ -9253,8 +8085,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Mudskipper Point"
               }
             },
             "reverse": null,
@@ -9427,8 +8259,8 @@
                                                 {
                                                   "type": "item_check",
                                                   "item": {
-                                                    "type": "name",
-                                                    "name": "item_name"
+                                                    "type": "constant",
+                                                    "value": "Area: Crandor"
                                                   }
                                                 }
                                               ]
@@ -9577,8 +8409,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Karamja"
               }
             },
             "reverse": null,
@@ -9592,8 +8424,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Port Sarim"
               }
             },
             "reverse": null,
@@ -9734,223 +8566,70 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "state_method",
-                                  "method": "can_reach",
-                                  "args": [
-                                    {
-                                      "type": "name",
-                                      "name": "region_required"
-                                    },
-                                    {
-                                      "type": "constant",
-                                      "value": "Region"
-                                    },
-                                    {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "self"
-                                      },
-                                      "attr": "player"
-                                    }
-                                  ]
+                                  "type": "helper",
+                                  "name": "rule",
+                                  "args": []
                                 },
                                 {
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "rule",
+                                      "args": []
                                     },
                                     {
                                       "type": "and",
                                       "conditions": [
                                         {
-                                          "type": "state_method",
-                                          "method": "can_reach",
-                                          "args": [
-                                            {
-                                              "type": "name",
-                                              "name": "region_required"
-                                            },
-                                            {
-                                              "type": "constant",
-                                              "value": "Region"
-                                            },
-                                            {
-                                              "type": "attribute",
-                                              "object": {
-                                                "type": "name",
-                                                "name": "self"
-                                              },
-                                              "attr": "player"
-                                            }
-                                          ]
+                                          "type": "helper",
+                                          "name": "rule",
+                                          "args": []
                                         },
                                         {
                                           "type": "and",
                                           "conditions": [
                                             {
-                                              "type": "state_method",
-                                              "method": "can_reach",
-                                              "args": [
-                                                {
-                                                  "type": "name",
-                                                  "name": "region_required"
-                                                },
-                                                {
-                                                  "type": "constant",
-                                                  "value": "Region"
-                                                },
-                                                {
-                                                  "type": "attribute",
-                                                  "object": {
-                                                    "type": "name",
-                                                    "name": "self"
-                                                  },
-                                                  "attr": "player"
-                                                }
-                                              ]
+                                              "type": "helper",
+                                              "name": "rule",
+                                              "args": []
                                             },
                                             {
                                               "type": "and",
                                               "conditions": [
                                                 {
-                                                  "type": "state_method",
-                                                  "method": "can_reach",
-                                                  "args": [
-                                                    {
-                                                      "type": "name",
-                                                      "name": "region_required"
-                                                    },
-                                                    {
-                                                      "type": "constant",
-                                                      "value": "Region"
-                                                    },
-                                                    {
-                                                      "type": "attribute",
-                                                      "object": {
-                                                        "type": "name",
-                                                        "name": "self"
-                                                      },
-                                                      "attr": "player"
-                                                    }
-                                                  ]
+                                                  "type": "helper",
+                                                  "name": "rule",
+                                                  "args": []
                                                 },
                                                 {
-                                                  "type": "state_method",
-                                                  "method": "can_reach",
-                                                  "args": [
-                                                    {
-                                                      "type": "name",
-                                                      "name": "region_required"
-                                                    },
-                                                    {
-                                                      "type": "constant",
-                                                      "value": "Region"
-                                                    },
-                                                    {
-                                                      "type": "attribute",
-                                                      "object": {
-                                                        "type": "name",
-                                                        "name": "self"
-                                                      },
-                                                      "attr": "player"
-                                                    }
-                                                  ]
+                                                  "type": "helper",
+                                                  "name": "old_rule",
+                                                  "args": []
                                                 }
                                               ]
                                             }
@@ -10048,8 +8727,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador Farms"
               }
             },
             "reverse": null,
@@ -10063,8 +8742,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Port Sarim"
               }
             },
             "reverse": null,
@@ -10078,8 +8757,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Mudskipper Point"
               }
             },
             "reverse": null,
@@ -10093,8 +8772,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Crafting Guild"
               }
             },
             "reverse": null,
@@ -10129,8 +8808,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Corsair Cove"
                   }
                 }
               ]
@@ -10306,48 +8985,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -10395,73 +9040,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -10531,8 +9125,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador Farms"
               }
             },
             "reverse": null,
@@ -10546,8 +9140,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Rimmington"
               }
             },
             "reverse": null,
@@ -10596,8 +9190,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Falador Farms"
               }
             },
             "reverse": null,
@@ -10947,8 +9541,8 @@
                     {
                       "type": "item_check",
                       "item": {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Area: Crafting Guild"
                       }
                     }
                   ]
@@ -11383,8 +9977,8 @@
                     {
                       "type": "item_check",
                       "item": {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Area: Crafting Guild"
                       }
                     }
                   ]
@@ -11559,8 +10153,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Manor"
               }
             },
             "reverse": null,
@@ -11574,8 +10168,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge Farms"
               }
             },
             "reverse": null,
@@ -11589,8 +10183,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: HAM Hideout"
               }
             },
             "reverse": null,
@@ -11604,8 +10198,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Wizard Tower"
               }
             },
             "reverse": null,
@@ -11755,73 +10349,22 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -11867,28 +10410,7 @@
             "name": "Equip an Orange Cape",
             "id": 458894,
             "crystal": null,
-            "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "region_required"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
-            },
+            "access_rule": null,
             "progress_type": 1,
             "locked": false,
             "item": {
@@ -11927,8 +10449,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Draynor Village"
               }
             },
             "reverse": null,
@@ -11970,48 +10492,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -12079,8 +10567,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Rimmington"
               }
             },
             "reverse": null,
@@ -12173,8 +10661,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: South of Varrock"
               }
             },
             "reverse": null,
@@ -12188,8 +10676,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Citharede Abbey"
               }
             },
             "reverse": null,
@@ -12203,8 +10691,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumbridge"
               }
             },
             "reverse": null,
@@ -12218,8 +10706,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Port Sarim"
               }
             },
             "reverse": null,
@@ -12393,173 +10881,54 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "state_method",
-                                  "method": "can_reach",
-                                  "args": [
-                                    {
-                                      "type": "name",
-                                      "name": "region_required"
-                                    },
-                                    {
-                                      "type": "constant",
-                                      "value": "Region"
-                                    },
-                                    {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "self"
-                                      },
-                                      "attr": "player"
-                                    }
-                                  ]
+                                  "type": "helper",
+                                  "name": "rule",
+                                  "args": []
                                 },
                                 {
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "rule",
+                                      "args": []
                                     },
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "old_rule",
+                                      "args": []
                                     }
                                   ]
                                 }
@@ -12617,48 +10986,14 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "rule",
+                  "args": []
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -12700,8 +11035,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Al Kharid"
               }
             },
             "reverse": null,
@@ -12914,8 +11249,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Lumberyard"
               }
             },
             "reverse": null,
@@ -12929,8 +11264,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Varrock Palace"
               }
             },
             "reverse": null,
@@ -12944,8 +11279,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: West Varrock"
               }
             },
             "reverse": null,
@@ -12959,8 +11294,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Edgeville"
               }
             },
             "reverse": null,
@@ -12974,8 +11309,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Monastery"
               }
             },
             "reverse": null,
@@ -12989,8 +11324,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Ice Mountain"
               }
             },
             "reverse": null,
@@ -13004,8 +11339,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item_name"
+                "type": "constant",
+                "value": "Area: Ice Mountain"
               }
             },
             "reverse": null,
@@ -13055,8 +11390,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: South of Varrock"
                   }
                 }
               ]
@@ -13079,8 +11414,8 @@
                 {
                   "type": "item_check",
                   "item": {
-                    "type": "name",
-                    "name": "item_name"
+                    "type": "constant",
+                    "value": "Area: Lumbridge"
                   }
                 }
               ]
@@ -14149,26 +12484,9 @@
                       ]
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -14535,26 +12853,9 @@
                       ]
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -14852,48 +13153,14 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "old_rule",
+                          "args": []
                         }
                       ]
                     }
@@ -15014,26 +13281,9 @@
                   ]
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -15380,48 +13630,14 @@
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "old_rule",
+                              "args": []
                             }
                           ]
                         }
@@ -15715,26 +13931,9 @@
                   ]
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -15853,26 +14052,9 @@
                       ]
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -16002,98 +14184,30 @@
                   "type": "and",
                   "conditions": [
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "rule",
+                      "args": []
                     },
                     {
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "old_rule",
+                              "args": []
                             }
                           ]
                         }
@@ -16784,123 +14898,38 @@
                       "type": "and",
                       "conditions": [
                         {
-                          "type": "state_method",
-                          "method": "can_reach",
-                          "args": [
-                            {
-                              "type": "name",
-                              "name": "region_required"
-                            },
-                            {
-                              "type": "constant",
-                              "value": "Region"
-                            },
-                            {
-                              "type": "attribute",
-                              "object": {
-                                "type": "name",
-                                "name": "self"
-                              },
-                              "attr": "player"
-                            }
-                          ]
+                          "type": "helper",
+                          "name": "rule",
+                          "args": []
                         },
                         {
                           "type": "and",
                           "conditions": [
                             {
-                              "type": "state_method",
-                              "method": "can_reach",
-                              "args": [
-                                {
-                                  "type": "name",
-                                  "name": "region_required"
-                                },
-                                {
-                                  "type": "constant",
-                                  "value": "Region"
-                                },
-                                {
-                                  "type": "attribute",
-                                  "object": {
-                                    "type": "name",
-                                    "name": "self"
-                                  },
-                                  "attr": "player"
-                                }
-                              ]
+                              "type": "helper",
+                              "name": "rule",
+                              "args": []
                             },
                             {
                               "type": "and",
                               "conditions": [
                                 {
-                                  "type": "state_method",
-                                  "method": "can_reach",
-                                  "args": [
-                                    {
-                                      "type": "name",
-                                      "name": "region_required"
-                                    },
-                                    {
-                                      "type": "constant",
-                                      "value": "Region"
-                                    },
-                                    {
-                                      "type": "attribute",
-                                      "object": {
-                                        "type": "name",
-                                        "name": "self"
-                                      },
-                                      "attr": "player"
-                                    }
-                                  ]
+                                  "type": "helper",
+                                  "name": "rule",
+                                  "args": []
                                 },
                                 {
                                   "type": "and",
                                   "conditions": [
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "rule",
+                                      "args": []
                                     },
                                     {
-                                      "type": "state_method",
-                                      "method": "can_reach",
-                                      "args": [
-                                        {
-                                          "type": "name",
-                                          "name": "region_required"
-                                        },
-                                        {
-                                          "type": "constant",
-                                          "value": "Region"
-                                        },
-                                        {
-                                          "type": "attribute",
-                                          "object": {
-                                            "type": "name",
-                                            "name": "self"
-                                          },
-                                          "attr": "player"
-                                        }
-                                      ]
+                                      "type": "helper",
+                                      "name": "old_rule",
+                                      "args": []
                                     }
                                   ]
                                 }
@@ -17325,26 +15354,9 @@
                       ]
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -17559,26 +15571,9 @@
                       ]
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -17793,26 +15788,9 @@
                   "value": true
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -17901,26 +15879,9 @@
                   "value": true
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -18098,26 +16059,9 @@
                       "value": true
                     },
                     {
-                      "type": "state_method",
-                      "method": "can_reach",
-                      "args": [
-                        {
-                          "type": "name",
-                          "name": "region_required"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Region"
-                        },
-                        {
-                          "type": "attribute",
-                          "object": {
-                            "type": "name",
-                            "name": "self"
-                          },
-                          "attr": "player"
-                        }
-                      ]
+                      "type": "helper",
+                      "name": "old_rule",
+                      "args": []
                     }
                   ]
                 }
@@ -18460,26 +16404,9 @@
                   ]
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -19020,26 +16947,9 @@
                   "value": true
                 },
                 {
-                  "type": "state_method",
-                  "method": "can_reach",
-                  "args": [
-                    {
-                      "type": "name",
-                      "name": "region_required"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Region"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "self"
-                      },
-                      "attr": "player"
-                    }
-                  ]
+                  "type": "helper",
+                  "name": "old_rule",
+                  "args": []
                 }
               ]
             },
@@ -19286,28 +17196,7 @@
             "name": "Find a Needle in a Haystack",
             "id": 458895,
             "crystal": null,
-            "access_rule": {
-              "type": "state_method",
-              "method": "can_reach",
-              "args": [
-                {
-                  "type": "name",
-                  "name": "region_required"
-                },
-                {
-                  "type": "constant",
-                  "value": "Region"
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
-                }
-              ]
-            },
+            "access_rule": null,
             "progress_type": 1,
             "locked": false,
             "item": {

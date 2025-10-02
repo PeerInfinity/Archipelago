@@ -21,7 +21,28 @@
         "name": "Catacomb",
         "type": "Region",
         "player": 1,
-        "entrances": [],
+        "entrances": [
+          {
+            "name": "Start Game",
+            "parent_region": "Menu",
+            "connected_region": "Catacomb",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Start Game",
+            "parent_region": "Menu",
+            "connected_region": "Catacomb",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
         "exits": [
           {
             "name": "Catacomb to Stairway",
@@ -4062,6 +4083,30 @@
         "time_passes": true,
         "provides_chest_count": true,
         "region_rules": []
+      },
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Start Game",
+            "connected_region": "Catacomb",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
       }
     }
   },
@@ -4596,20 +4641,6 @@
         "event": false,
         "type": null,
         "max_count": 3
-      },
-      "The Count Downed": {
-        "name": "The Count Downed",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
       }
     }
   },

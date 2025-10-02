@@ -40,13 +40,10 @@
             "connected_region": "Castle Wall: main area",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 1
               }
             },
             "reverse": null,
@@ -59,13 +56,10 @@
             "connected_region": "Tunnel: second half",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 2
               }
             },
             "reverse": null,
@@ -78,13 +72,10 @@
             "connected_region": "Underground Waterway: main area",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 3
               }
             },
             "reverse": null,
@@ -97,13 +88,10 @@
             "connected_region": "Duel Tower",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 4
               }
             },
             "reverse": null,
@@ -116,13 +104,10 @@
             "connected_region": "Room of Clocks",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 5
               }
             },
             "reverse": null,
@@ -135,13 +120,10 @@
             "connected_region": "Clock Tower: middle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 6
               }
             },
             "reverse": null,
@@ -154,13 +136,10 @@
             "connected_region": "Castle Keep: exterior",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "special_one"
+              "item": "Special1",
+              "count": {
+                "type": "constant",
+                "value": 7
               }
             },
             "reverse": null,
@@ -739,14 +718,7 @@
             "connected_region": "Castle Wall: left tower",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "left_tower_key"
-              }
+              "item": "Left Tower Key"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -1171,12 +1143,12 @@
                     "type": "list",
                     "value": [
                       {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Storeroom Key"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }
@@ -1205,12 +1177,12 @@
                         "type": "list",
                         "value": [
                           {
-                            "type": "name",
-                            "name": "item_name"
+                            "type": "constant",
+                            "value": "Storeroom Key"
                           },
                           {
-                            "type": "name",
-                            "name": "player"
+                            "type": "constant",
+                            "value": 1
                           }
                         ]
                       }
@@ -1239,26 +1211,19 @@
                             "type": "list",
                             "value": [
                               {
-                                "type": "name",
-                                "name": "item_name"
+                                "type": "constant",
+                                "value": "Storeroom Key"
                               },
                               {
-                                "type": "name",
-                                "name": "player"
+                                "type": "constant",
+                                "value": 1
                               }
                             ]
                           }
                         },
                         {
                           "type": "item_check",
-                          "item": {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "iname"
-                            },
-                            "attr": "storeroom_key"
-                          }
+                          "item": "Storeroom Key"
                         }
                       ]
                     }
@@ -1298,12 +1263,12 @@
                     "type": "list",
                     "value": [
                       {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Archives Key"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }
@@ -1332,26 +1297,19 @@
                         "type": "list",
                         "value": [
                           {
-                            "type": "name",
-                            "name": "item_name"
+                            "type": "constant",
+                            "value": "Archives Key"
                           },
                           {
-                            "type": "name",
-                            "name": "player"
+                            "type": "constant",
+                            "value": 1
                           }
                         ]
                       }
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "iname"
-                        },
-                        "attr": "archives_key"
-                      }
+                      "item": "Archives Key"
                     }
                   ]
                 }
@@ -1367,14 +1325,7 @@
             "connected_region": "Villa: maze",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "garden_key"
-              }
+              "item": "Garden Key"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -1932,14 +1883,7 @@
             "connected_region": "Villa: main interior",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "storeroom_key"
-              }
+              "item": "Storeroom Key"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -2098,14 +2042,7 @@
             "connected_region": "Villa: servants entrance",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "garden_key"
-              }
+              "item": "Garden Key"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -2117,14 +2054,7 @@
             "connected_region": "Villa: crypt",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "copper_key"
-              }
+              "item": "Copper Key"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -3351,12 +3281,12 @@
                     "type": "list",
                     "value": [
                       {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Chamber Key"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }
@@ -3385,12 +3315,12 @@
                         "type": "list",
                         "value": [
                           {
-                            "type": "name",
-                            "name": "item_name"
+                            "type": "constant",
+                            "value": "Chamber Key"
                           },
                           {
-                            "type": "name",
-                            "name": "player"
+                            "type": "constant",
+                            "value": 1
                           }
                         ]
                       }
@@ -3419,12 +3349,12 @@
                             "type": "list",
                             "value": [
                               {
-                                "type": "name",
-                                "name": "item_name"
+                                "type": "constant",
+                                "value": "Chamber Key"
                               },
                               {
-                                "type": "name",
-                                "name": "player"
+                                "type": "constant",
+                                "value": 1
                               }
                             ]
                           }
@@ -3453,26 +3383,19 @@
                                 "type": "list",
                                 "value": [
                                   {
-                                    "type": "name",
-                                    "name": "item_name"
+                                    "type": "constant",
+                                    "value": "Chamber Key"
                                   },
                                   {
-                                    "type": "name",
-                                    "name": "player"
+                                    "type": "constant",
+                                    "value": 1
                                   }
                                 ]
                               }
                             },
                             {
                               "type": "item_check",
-                              "item": {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "name",
-                                  "name": "iname"
-                                },
-                                "attr": "chamber_key"
-                              }
+                              "item": "Chamber Key"
                             }
                           ]
                         }
@@ -3495,24 +3418,18 @@
               "conditions": [
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "iname"
-                    },
-                    "attr": "magical_nitro"
+                  "item": "Magical Nitro",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "iname"
-                    },
-                    "attr": "mandragora"
+                  "item": "Mandragora",
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 }
               ]
@@ -3526,37 +3443,15 @@
             "name": "Upper cracked wall",
             "connected_region": "Castle Center: library",
             "access_rule": {
-              "type": "state_method",
-              "method": "has_all",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "list",
-                  "value": [
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "iname"
-                      },
-                      "attr": "magical_nitro"
-                    },
-                    {
-                      "type": "attribute",
-                      "object": {
-                        "type": "name",
-                        "name": "iname"
-                      },
-                      "attr": "mandragora"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Magical Nitro"
                 },
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
+                  "type": "item_check",
+                  "item": "Mandragora"
                 }
               ]
             },
@@ -4867,14 +4762,7 @@
             "connected_region": "Tower of Execution: gated ledge",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "execution_key"
-              }
+              "item": "Execution Key"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5097,26 +4985,19 @@
                     "type": "list",
                     "value": [
                       {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Science Key1"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }
                 },
                 {
                   "type": "item_check",
-                  "item": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "iname"
-                    },
-                    "attr": "science_key1"
-                  }
+                  "item": "Science Key1"
                 }
               ]
             },
@@ -5130,14 +5011,7 @@
             "connected_region": "Tower of Science: spiky conveyors",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "science_key2"
-              }
+              "item": "Science Key2"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5278,14 +5152,7 @@
             "connected_region": "Tower of Science: turret lab",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "science_key2"
-              }
+              "item": "Science Key2"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5319,12 +5186,12 @@
                     "type": "list",
                     "value": [
                       {
-                        "type": "name",
-                        "name": "item_name"
+                        "type": "constant",
+                        "value": "Science Key3"
                       },
                       {
-                        "type": "name",
-                        "name": "player"
+                        "type": "constant",
+                        "value": 1
                       }
                     ]
                   }
@@ -5353,26 +5220,19 @@
                         "type": "list",
                         "value": [
                           {
-                            "type": "name",
-                            "name": "item_name"
+                            "type": "constant",
+                            "value": "Science Key3"
                           },
                           {
-                            "type": "name",
-                            "name": "player"
+                            "type": "constant",
+                            "value": 1
                           }
                         ]
                       }
                     },
                     {
                       "type": "item_check",
-                      "item": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "iname"
-                        },
-                        "attr": "science_key3"
-                      }
+                      "item": "Science Key3"
                     }
                   ]
                 }
@@ -5831,14 +5691,7 @@
             "connected_region": "Clock Tower: middle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "clocktower_key1"
-              }
+              "item": "Clocktower Key1"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5930,14 +5783,7 @@
             "connected_region": "Clock Tower: start",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "clocktower_key1"
-              }
+              "item": "Clocktower Key1"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -5949,14 +5795,7 @@
             "connected_region": "Clock Tower: end",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "clocktower_key2"
-              }
+              "item": "Clocktower Key2"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -6046,14 +5885,7 @@
             "connected_region": "Clock Tower: middle",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "clocktower_key2"
-              }
+              "item": "Clocktower Key2"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -6065,14 +5897,7 @@
             "connected_region": "Castle Keep: exterior",
             "access_rule": {
               "type": "item_check",
-              "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "name",
-                  "name": "iname"
-                },
-                "attr": "clocktower_key3"
-              }
+              "item": "Clocktower Key3"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -6135,8 +5960,8 @@
             "name": "Dracula's door",
             "connected_region": "Castle Keep: Dracula's chamber",
             "access_rule": {
-              "type": "constant",
-              "value": null
+              "type": "item_check",
+              "item": "Crystal"
             },
             "reverse": null,
             "randomization_type": 1,
@@ -6782,34 +6607,6 @@
         "event": false,
         "type": null,
         "max_count": 10
-      },
-      "Crystal": {
-        "name": "Crystal",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
-      },
-      "The Count Downed": {
-        "name": "The Count Downed",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
       }
     }
   },

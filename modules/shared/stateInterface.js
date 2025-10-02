@@ -162,6 +162,16 @@ export function createStateSnapshotInterface(
       // Legacy implementation fallback
       return snapshot?.inventory?.[itemName] || 0;
     },
+    getTotalItemCount: () => {
+      // Count total items across all item types in inventory
+      let totalCount = 0;
+      if (snapshot?.inventory) {
+        for (const itemName in snapshot.inventory) {
+          totalCount += snapshot.inventory[itemName] || 0;
+        }
+      }
+      return totalCount;
+    },
     countGroup: (groupName) => {
       if (!staticData?.groups || !snapshot?.inventory) return 0;
       let count = 0;
@@ -256,8 +266,8 @@ export function createStateSnapshotInterface(
       return current;
     },
     getLocationItem: (locationName) => {
-      if (!snapshot || !snapshot.locationItems) return undefined;
-      return snapshot.locationItems[locationName];
+      if (!staticData || !staticData.locationItems) return undefined;
+      return staticData.locationItems[locationName];
     },
     // ADDED: A more direct way to resolve attribute chains
     resolveAttribute: (baseObject, attributeName) => {
@@ -347,9 +357,23 @@ export function createStateSnapshotInterface(
         if (helperName === 'item_name_in_location_names' && args.length === 2) {
           // Special handling for item_name_in_location_names with 2 args
           return selectedHelpers[helperName](snapshot, args[1], args[0], staticData);
+        } else if (helperName === 'graffiti_spots') {
+          // Special handling for graffiti_spots with multiple args
+          // Pass state, playerId, then all the args, then staticData
+          return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
+        } else if (gameName === 'A Link to the Past') {
+          // ALTTP helpers expect (state, world, itemName, staticData)
+          // Pass snapshot, 'world', spread args (or undefined if no args), staticData
+          if (args.length === 0) {
+            return selectedHelpers[helperName](snapshot, 'world', undefined, staticData);
+          } else {
+            return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
+          }
         } else {
           // Pass all arguments to the helper function
-          return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
+          // For Kingdom Hearts and other games that expect args as an array
+          // Pass the interface (this) so helpers can use hasItem/getItemCount
+          return selectedHelpers[helperName](finalSnapshotInterface, args, staticData);
         }
       }
       return undefined; // Helper not found - all games should use agnostic helpers

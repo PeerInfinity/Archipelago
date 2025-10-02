@@ -441,7 +441,7 @@ export class SpoilerChecklistUI {
 
       const showItem = this.showLocationItems || isChecked;
       if (showItem) {
-        const itemAtLocation = snapshot.locationItems?.[locationName];
+        const itemAtLocation = staticData.locationItems?.[locationName];
         if (itemAtLocation && itemAtLocation.name) {
           itemSpan.textContent = itemAtLocation.name;
         }

@@ -8835,36 +8835,8 @@
             "id": null,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "technology"
-                  },
-                  "attr": "name"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "technology"
-                },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "required_technologies"
-                  },
-                  "index": {
-                    "type": "name",
-                    "name": "ingredient"
-                  }
-                }
-              }
+              "type": "constant",
+              "value": true
             },
             "progress_type": 1,
             "locked": true,
@@ -8881,36 +8853,33 @@
             "id": null,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "technology"
-                  },
-                  "attr": "name"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "technology"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Automated automation-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "required_technologies"
-                  },
-                  "index": {
-                    "type": "name",
-                    "name": "ingredient"
+                {
+                  "type": "item_check",
+                  "item": "Automated logistic-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Automated military-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
-              }
+              ]
             },
             "progress_type": 1,
             "locked": true,
@@ -8927,35 +8896,11 @@
             "id": null,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "technology"
-                  },
-                  "attr": "name"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "technology"
-                },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "required_technologies"
-                  },
-                  "index": {
-                    "type": "name",
-                    "name": "ingredient"
-                  }
-                }
+              "type": "item_check",
+              "item": "Automated automation-science-pack",
+              "count": {
+                "type": "constant",
+                "value": 1
               }
             },
             "progress_type": 1,
@@ -8973,36 +8918,25 @@
             "id": null,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "technology"
-                  },
-                  "attr": "name"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "technology"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Automated automation-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "required_technologies"
-                  },
-                  "index": {
-                    "type": "name",
-                    "name": "ingredient"
+                {
+                  "type": "item_check",
+                  "item": "Automated logistic-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
-              }
+              ]
             },
             "progress_type": 1,
             "locked": true,
@@ -9019,36 +8953,33 @@
             "id": null,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "technology"
-                  },
-                  "attr": "name"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "technology"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Automated automation-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "required_technologies"
-                  },
-                  "index": {
-                    "type": "name",
-                    "name": "ingredient"
+                {
+                  "type": "item_check",
+                  "item": "Automated logistic-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Automated chemical-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
-              }
+              ]
             },
             "progress_type": 1,
             "locked": true,
@@ -9065,36 +8996,33 @@
             "id": null,
             "crystal": null,
             "access_rule": {
-              "type": "all_of",
-              "element_rule": {
-                "type": "item_check",
-                "item": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "technology"
-                  },
-                  "attr": "name"
-                }
-              },
-              "iterator_info": {
-                "type": "comprehension_details",
-                "target": {
-                  "type": "name",
-                  "name": "technology"
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Automated automation-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
                 },
-                "iterator": {
-                  "type": "subscript",
-                  "value": {
-                    "type": "name",
-                    "name": "required_technologies"
-                  },
-                  "index": {
-                    "type": "name",
-                    "name": "ingredient"
+                {
+                  "type": "item_check",
+                  "item": "Automated logistic-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": "Automated chemical-science-pack",
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 }
-              }
+              ]
             },
             "progress_type": 1,
             "locked": true,
@@ -9116,7 +9044,7 @@
   "start_regions": {
     "1": {
       "default": [
-        "Menu"
+        "Nauvis"
       ],
       "available": []
     }

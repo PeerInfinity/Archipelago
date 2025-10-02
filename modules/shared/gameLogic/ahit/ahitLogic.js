@@ -132,13 +132,16 @@ export function get_difficulty(state, world, itemName, staticData) {
 
 export function can_clear_required_act(state, world, actEntrance, staticData) {
   // This function checks if a required act can be cleared.
-  // In A Hat in Time, acts are clearable if their connected region is reachable,
-  // since Act Completion locations have no additional requirements.
-  
+  // Python logic:
+  // 1. Check if the connected region is reachable
+  // 2. If it's a "Free Roam" region, return true
+  // 3. Otherwise, the act is clearable if the region is reachable
+  //    (since Act Completion locations typically have access_rule: true)
+
   // Handle multiple calling conventions:
   // 1. From rule engine: (state, 'world', 'world', 'Mafia Town - Act 4', staticData)
   // 2. Direct call: (state, world, actEntrance, staticData)
-  
+
   // If actEntrance is an array, it means we got args passed incorrectly
   if (Array.isArray(actEntrance)) {
     // Args array contains ['world', 'Mafia Town - Act 4']
@@ -152,7 +155,7 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
     actEntrance = staticData;
     staticData = arguments[4];  // Get the 5th argument
   }
-  
+
   // Handle case where no actEntrance is provided
   if (!actEntrance) {
     return false;
@@ -169,20 +172,18 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
   }
 
   let connectedRegion = null;
-  
+
   // Search through all regions to find the entrance
-  for (const playerId in staticData.regions) {
-    for (const regionName in staticData.regions[playerId]) {
-      const region = staticData.regions[playerId][regionName];
-      if (region.exits) {
-        for (const exit of region.exits) {
-          if (exit.name === actEntrance) {
-            connectedRegion = exit.connected_region;
-            break;
-          }
+  // staticData.regions is {regionName: regionData}, not {playerId: {regionName: regionData}}
+  for (const regionName in staticData.regions) {
+    const region = staticData.regions[regionName];
+    if (region.exits) {
+      for (const exit of region.exits) {
+        if (exit.name === actEntrance) {
+          connectedRegion = exit.connected_region;
+          break;
         }
       }
-      if (connectedRegion) break;
     }
     if (connectedRegion) break;
   }
@@ -192,16 +193,27 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
     return false;
   }
 
-  // Check if the connected region is reachable
+  // Step 1: Check if the connected region is reachable
+  let regionReachable = false;
   if (state.regionReachability && state.regionReachability[connectedRegion] !== undefined) {
-    const regionReachable = state.regionReachability[connectedRegion] === true || 
-                           state.regionReachability[connectedRegion] === 'reachable';
-    return regionReachable;
+    regionReachable = state.regionReachability[connectedRegion] === true ||
+                      state.regionReachability[connectedRegion] === 'reachable';
   }
 
-  // If we don't have reachability data, assume not reachable
-  // This is conservative but safe
-  return false;
+  if (!regionReachable) {
+    return false;
+  }
+
+  // Step 2: If it's a "Free Roam" region, return true
+  if (connectedRegion.includes("Free Roam")) {
+    return true;
+  }
+
+  // Step 3: For non-Free Roam regions, the act is clearable if the region is reachable
+  // In A Hat in Time, Act Completion locations typically have access_rule: true,
+  // meaning they're accessible as soon as you can reach the region.
+  // We've already verified the region is reachable in step 1.
+  return true;
 }
 
 // Movement and abilities

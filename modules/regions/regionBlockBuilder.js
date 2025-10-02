@@ -906,8 +906,8 @@ export class RegionBlockBuilder {
 
         // Add item name if showLocationItems is enabled
         settingsManager.getSetting('moduleSettings.commonUI.showLocationItems', false).then(showItems => {
-          if (showItems && snapshot?.locationItems) {
-            const itemAtLocation = snapshot.locationItems[locationDef.name];
+          if (showItems && staticData?.locationItems) {
+            const itemAtLocation = staticData.locationItems[locationDef.name];
             if (itemAtLocation && itemAtLocation.name) {
               const itemSpan = document.createElement('span');
               itemSpan.classList.add('location-item-info');

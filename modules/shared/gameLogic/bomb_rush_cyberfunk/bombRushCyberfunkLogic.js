@@ -311,11 +311,49 @@ function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
     let total = 10;
     
     // Additional spots become available as regions are accessed
-    // (simplified - full implementation would check each region)
+    const conditions = [
+        ["versum_hill_entrance", 1],
+        ["versum_hill_ch1_roadblock", 11],
+        ["chapter2", 12],
+        ["versum_hill_oldhead", 1],
+        ["brink_terminal_entrance", 9],
+        ["brink_terminal_plaza", 3],
+        ["brink_terminal_tower", 0],
+        ["chapter3", 6],
+        ["brink_terminal_oldhead_dock", 1],
+        ["millennium_mall_entrance", 3],
+        ["millennium_mall_switch", 4],
+        ["millennium_mall_theater", 3],
+        ["chapter4", 2],
+        ["pyramid_island_gate", 5],
+        ["pyramid_island_upper_half", 8],
+        ["pyramid_island_oldhead", 2],
+        ["mataan_smoke_wall", 3],
+        ["mataan_deep_city", 5],
+        ["mataan_oldhead", 3],
+        ["mataan_deepest", 2]
+    ];
+    
+    // Add graffiti counts for accessible regions, stop at first inaccessible
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else {
+            break;
+        }
+    }
     
     if (limit) {
         // With limit, spots are limited by character count
-        const characterCount = getItemCount(state, 'characters') || 0;
+        let characterCount = 0;
+        if (state?.inventory) {
+            // Count unique character items
+            for (const itemName in state.inventory) {
+                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && state.inventory[itemName] > 0) {
+                    characterCount++;
+                }
+            }
+        }
         const sprayable = 5 + (characterCount * 5);
         return Math.min(total, sprayable);
     } else {
@@ -326,9 +364,30 @@ function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
 
 function spots_s_glitched(state, playerId, limit, accessCache, staticData) {
     let total = 75;
-    // Additional logic for glitched mode
+    
+    const conditions = [
+        ["brink_terminal_entrance", 13],
+        ["chapter3", 6]
+    ];
+    
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else {
+            break;
+        }
+    }
+    
     if (limit) {
-        const characterCount = getItemCount(state, 'characters') || 0;
+        let characterCount = 0;
+        if (state?.inventory) {
+            // Count unique character items
+            for (const itemName in state.inventory) {
+                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && state.inventory[itemName] > 0) {
+                    characterCount++;
+                }
+            }
+        }
         const sprayable = 5 + (characterCount * 5);
         return Math.min(total, sprayable);
     }
@@ -339,10 +398,40 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
     // Medium spots require graffiti M items
     let total = 4;  // Base spots accessible in Hideout
     
-    // Additional spots would be added based on region access
-    // (simplified for now)
+    const conditions = [
+        ["versum_hill_entrance", 3],
+        ["versum_hill_ch1_roadblock", 13],
+        ["versum_hill_all_challenges", 3],
+        ["chapter2", 16],
+        ["versum_hill_oldhead", 4],
+        ["brink_terminal_entrance", 13],
+        ["brink_terminal_plaza", 4],
+        ["brink_terminal_tower", 0],
+        ["chapter3", 3],
+        ["brink_terminal_oldhead_dock", 4],
+        ["millennium_mall_entrance", 5],
+        ["millennium_mall_big", 6],
+        ["millennium_mall_theater", 4],
+        ["chapter4", 2],
+        ["millennium_mall_oldhead_ceiling", 1],
+        ["pyramid_island_gate", 3],
+        ["pyramid_island_upper_half", 8],
+        ["chapter5", 2],
+        ["pyramid_island_oldhead", 5],
+        ["mataan_deep_city", 7],
+        ["skateboard", 1],
+        ["mataan_oldhead", 1],
+        ["mataan_smoke_wall2", 1],
+        ["mataan_deepest", 10]
+    ];
     
-    console.log(`[spots_m_glitchless] limit=${limit}, inventory keys:`, state?.inventory ? Object.keys(state.inventory) : 'no inventory');
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else if (accessName !== "skateboard") {
+            break;
+        }
+    }
     
     if (limit) {
         // Count unique graffiti M items
@@ -361,21 +450,31 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
         let hasGraffitiM = false;
         if (state?.inventory) {
             for (const itemName in state.inventory) {
-                const count = state.inventory[itemName];
-                console.log(`[spots_m_glitchless] Checking item: "${itemName}", count: ${count}, includes check: ${itemName.includes('Graffiti (M')}`);
-                if (itemName.includes('Graffiti (M') && count > 0) {
+                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
                     hasGraffitiM = true;
                     break;
                 }
             }
         }
-        console.log(`[spots_m_glitchless] hasGraffitiM=${hasGraffitiM}, returning ${hasGraffitiM ? total : 0}`);
         return hasGraffitiM ? total : 0;
     }
 }
 
 function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
     let total = 99;
+    
+    const conditions = [
+        ["brink_terminal_entrance", 21],
+        ["chapter3", 3]
+    ];
+    
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else {
+            break;
+        }
+    }
     
     if (limit) {
         let graffitiMCount = 0;
@@ -406,6 +505,44 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
     // Large spots require graffiti L items
     let total = 7;  // Base spots
     
+    const conditions = [
+        ["inline_skates", 1],
+        ["versum_hill_entrance", 2],
+        ["versum_hill_ch1_roadblock", 13],
+        ["versum_hill_all_challenges", 1],
+        ["chapter2", 14],
+        ["versum_hill_oldhead", 2],
+        ["brink_terminal_entrance", 10],
+        ["brink_terminal_plaza", 2],
+        ["brink_terminal_oldhead_underground", 1],
+        ["brink_terminal_tower", 1],
+        ["chapter3", 4],
+        ["brink_terminal_oldhead_dock", 4],
+        ["millennium_mall_entrance", 3],
+        ["millennium_mall_big", 8],
+        ["millennium_mall_theater", 4],
+        ["chapter4", 5],
+        ["millennium_mall_oldhead_ceiling", 3],
+        ["pyramid_island_gate", 4],
+        ["pyramid_island_upper_half", 5],
+        ["pyramid_island_crew_battle", 1],
+        ["chapter5", 1],
+        ["pyramid_island_oldhead", 2],
+        ["mataan_smoke_wall", 1],
+        ["mataan_deep_city", 2],
+        ["skateboard", 1],
+        ["mataan_oldhead", 2],
+        ["mataan_deepest", 7]
+    ];
+    
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else if (!(accessName === "inline_skates" || accessName === "skateboard")) {
+            break;
+        }
+    }
+    
     if (limit) {
         let graffitiLCount = 0;
         if (state?.inventory) {
@@ -433,6 +570,20 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
 
 function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
     let total = 88;
+    
+    const conditions = [
+        ["brink_terminal_entrance", 18],
+        ["chapter3", 4],
+        ["chapter4", 1]
+    ];
+    
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else {
+            break;
+        }
+    }
     
     if (limit) {
         let graffitiLCount = 0;
@@ -463,6 +614,37 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
     // XL spots require graffiti XL items
     let total = 3;  // Base spots
     
+    const conditions = [
+        ["versum_hill_ch1_roadblock", 6],
+        ["versum_hill_basketball_court", 1],
+        ["chapter2", 9],
+        ["brink_terminal_entrance", 3],
+        ["brink_terminal_plaza", 1],
+        ["brink_terminal_oldhead_underground", 1],
+        ["brink_terminal_tower", 1],
+        ["chapter3", 3],
+        ["brink_terminal_oldhead_dock", 2],
+        ["millennium_mall_entrance", 2],
+        ["millennium_mall_big", 5],
+        ["millennium_mall_theater", 5],
+        ["chapter4", 3],
+        ["millennium_mall_oldhead_ceiling", 1],
+        ["pyramid_island_upper_half", 5],
+        ["pyramid_island_oldhead", 3],
+        ["mataan_smoke_wall", 2],
+        ["mataan_deep_city", 2],
+        ["mataan_oldhead", 2],
+        ["mataan_deepest", 2]
+    ];
+    
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else {
+            break;
+        }
+    }
+    
     if (limit) {
         let graffitiXLCount = 0;
         if (state?.inventory) {
@@ -491,6 +673,20 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
 function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
     let total = 51;
     
+    const conditions = [
+        ["brink_terminal_entrance", 7],
+        ["chapter3", 3],
+        ["chapter4", 1]
+    ];
+    
+    for (const [accessName, graffitiCount] of conditions) {
+        if (accessCache[accessName]) {
+            total += graffitiCount;
+        } else {
+            break;
+        }
+    }
+    
     if (limit) {
         let graffitiXLCount = 0;
         if (state?.inventory) {
@@ -517,40 +713,93 @@ function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
 }
 
 function build_access_cache(state, playerId, movestyle, limit, glitched, staticData) {
-    // For now, return a simple cache with basic chapter access
-    return {
+    // Build the initial cache with basic access checks
+    const accessCache = {
         "skateboard": skateboard(state, playerId, movestyle, staticData),
         "inline_skates": inline_skates(state, playerId, movestyle, staticData),
         "chapter2": current_chapter(state, playerId, 2, staticData),
         "chapter3": current_chapter(state, playerId, 3, staticData),
         "chapter4": current_chapter(state, playerId, 4, staticData),
-        "chapter5": current_chapter(state, playerId, 5, staticData),
-        // For simplicity, assume most areas are accessible for now
-        "versum_hill_entrance": true,
-        "versum_hill_ch1_roadblock": true,
-        "versum_hill_oldhead": true,
-        "versum_hill_all_challenges": true,
-        "versum_hill_basketball_court": true,
-        "brink_terminal_entrance": true,
-        "brink_terminal_oldhead_underground": true,
-        "brink_terminal_oldhead_dock": true,
-        "brink_terminal_plaza": true,
-        "brink_terminal_tower": true,
-        "millennium_mall_entrance": true,
-        "millennium_mall_switch": true,
-        "millennium_mall_oldhead_ceiling": true,
-        "millennium_mall_big": true,
-        "millennium_mall_theater": true,
-        "pyramid_island_gate": true,
-        "pyramid_island_oldhead": true,
-        "pyramid_island_upper_half": true,
-        "pyramid_island_crew_battle": true,
-        "mataan_smoke_wall": true,
-        "mataan_deep_city": true,
-        "mataan_oldhead": true,
-        "mataan_smoke_wall2": true,
-        "mataan_deepest": true
+        "chapter5": current_chapter(state, playerId, 5, staticData)
     };
+    
+    // Define functions to check for each region in order
+    // Each entry is [functionName, args]
+    const funcs = [
+        ["versum_hill_entrance", [state, playerId, staticData]],
+        ["versum_hill_ch1_roadblock", [state, playerId, limit, staticData]],
+        ["versum_hill_oldhead", [state, playerId, staticData]],
+        ["versum_hill_all_challenges", [state, playerId, staticData]],
+        ["versum_hill_basketball_court", [state, playerId, staticData]],
+        ["brink_terminal_entrance", [state, playerId, staticData]],
+        ["brink_terminal_oldhead_underground", [state, playerId, staticData]],
+        ["brink_terminal_oldhead_dock", [state, playerId, staticData]],
+        ["brink_terminal_plaza", [state, playerId, staticData]],
+        ["brink_terminal_tower", [state, playerId, staticData]],
+        ["millennium_mall_entrance", [state, playerId, staticData]],
+        ["millennium_mall_switch", [state, playerId, limit, glitched, staticData]],
+        ["millennium_mall_oldhead_ceiling", [state, playerId, limit, staticData]],
+        ["millennium_mall_big", [state, playerId, limit, glitched, staticData]],
+        ["millennium_mall_theater", [state, playerId, limit, staticData]],
+        ["pyramid_island_gate", [state, playerId, staticData]],
+        ["pyramid_island_oldhead", [state, playerId, staticData]],
+        ["pyramid_island_upper_half", [state, playerId, limit, glitched, staticData]],
+        ["pyramid_island_crew_battle", [state, playerId, limit, glitched, staticData]],
+        ["mataan_smoke_wall", [state, playerId, staticData]],
+        ["mataan_deep_city", [state, playerId, limit, glitched, staticData]],
+        ["mataan_oldhead", [state, playerId, staticData]],
+        ["mataan_smoke_wall2", [state, playerId, limit, glitched, staticData]],
+        ["mataan_deepest", [state, playerId, limit, glitched, staticData]]
+    ];
+    
+    // Map function names to actual functions
+    const functionMap = {
+        versum_hill_entrance,
+        versum_hill_ch1_roadblock,
+        versum_hill_oldhead,
+        versum_hill_all_challenges,
+        versum_hill_basketball_court,
+        brink_terminal_entrance,
+        brink_terminal_oldhead_underground,
+        brink_terminal_oldhead_dock,
+        brink_terminal_plaza,
+        brink_terminal_tower,
+        millennium_mall_entrance,
+        millennium_mall_switch,
+        millennium_mall_oldhead_ceiling,
+        millennium_mall_big,
+        millennium_mall_theater,
+        pyramid_island_gate,
+        pyramid_island_oldhead,
+        pyramid_island_upper_half,
+        pyramid_island_crew_battle,
+        mataan_smoke_wall,
+        mataan_deep_city,
+        mataan_oldhead,
+        mataan_smoke_wall2,
+        mataan_deepest,
+        mataan_crew_battle
+    };
+    
+    // Check each region in order, stopping when we hit an inaccessible one
+    let stop = false;
+    for (const [funcName, args] of funcs) {
+        if (stop) {
+            accessCache[funcName] = false;
+            continue;
+        }
+        
+        const func = functionMap[funcName];
+        const access = func ? func(...args) : false;
+        accessCache[funcName] = access;
+        
+        // Stop at first inaccessible region (unless it's an oldhead)
+        if (!access && !funcName.includes("oldhead")) {
+            stop = true;
+        }
+    }
+    
+    return accessCache;
 }
 
 // Main graffiti_spots function - matches Python implementation
@@ -580,18 +829,10 @@ function graffiti_spots(state, playerId, movestyle, limit, glitched, spots, stat
                spots_l_glitched(state, playerId, limit, accessCache, staticData) +
                spots_xl_glitched(state, playerId, limit, accessCache, staticData);
     } else {
-        const s_spots = spots_s_glitchless(state, playerId, limit, accessCache, staticData);
-        const m_spots = spots_m_glitchless(state, playerId, limit, accessCache, staticData);
-        const l_spots = spots_l_glitchless(state, playerId, limit, accessCache, staticData);
-        const xl_spots = spots_xl_glitchless(state, playerId, limit, accessCache, staticData);
-        
-        // Debug logging (remove after fixing)
-        if (spots <= 25) {
-            console.log(`[graffiti_spots] Checking ${spots} spots: S=${s_spots}, M=${m_spots}, L=${l_spots}, XL=${xl_spots}, Total=${s_spots + m_spots + l_spots + xl_spots}`);
-            console.log(`[graffiti_spots] State inventory:`, state?.inventory);
-        }
-        
-        total = s_spots + m_spots + l_spots + xl_spots;
+        total = spots_s_glitchless(state, playerId, limit, accessCache, staticData) +
+               spots_m_glitchless(state, playerId, limit, accessCache, staticData) +
+               spots_l_glitchless(state, playerId, limit, accessCache, staticData) +
+               spots_xl_glitchless(state, playerId, limit, accessCache, staticData);
     }
     
     return total >= spots;

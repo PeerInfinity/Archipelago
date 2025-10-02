@@ -57,51 +57,23 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_requirements",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 }
               ]
@@ -118,27 +90,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act3_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act3_requirements",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_transcendence_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_transcendence_requirements",
                   "args": []
                 }
               ]
@@ -465,14 +423,6 @@
                       "value": "Squirrel Totem Head"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -506,14 +456,6 @@
                       "value": "Squirrel Totem Head"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -588,14 +530,6 @@
                       "value": "Pile Of Meat"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -617,27 +551,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -659,16 +579,12 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "attribute",
-                "object": {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "world"
-                },
-                "attr": "required_epitaph_pieces_name"
+                "type": "constant",
+                "value": "Epitaph Piece"
+              },
+              "count": {
+                "type": "constant",
+                "value": 9
               }
             },
             "progress_type": 1,
@@ -689,27 +605,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -744,14 +646,6 @@
                       "value": "Pile Of Meat"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -785,14 +679,6 @@
                       "value": "Pile Of Meat"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -826,14 +712,6 @@
                       "value": "Pile Of Meat"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -909,27 +787,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -952,27 +816,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -995,27 +845,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -1038,27 +874,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1081,27 +903,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1124,27 +932,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1215,14 +1009,6 @@
                       "value": "Pile Of Meat"
                     }
                   ]
-                },
-                {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "self"
-                  },
-                  "attr": "player"
                 }
               ]
             },
@@ -1334,27 +1120,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1377,27 +1149,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -1420,27 +1178,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -1463,27 +1207,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -1506,27 +1236,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1549,27 +1265,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1592,27 +1294,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1635,27 +1323,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1678,27 +1352,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1721,27 +1381,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1764,27 +1410,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -1807,27 +1439,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -1913,27 +1531,13 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_monocle"
-                  },
+                  "type": "helper",
+                  "name": "has_monocle",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_act2_bridge_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_act2_bridge_requirements",
                   "args": []
                 }
               ]
@@ -1992,27 +1596,13 @@
               "type": "or",
               "conditions": [
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_camera_and_meat"
-                  },
+                  "type": "helper",
+                  "name": "has_camera_and_meat",
                   "args": []
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_all_epitaph_pieces"
-                  },
+                  "type": "helper",
+                  "name": "has_all_epitaph_pieces",
                   "args": []
                 }
               ]
@@ -2248,15 +1838,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2286,15 +1869,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2324,15 +1900,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2362,15 +1931,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_transcendence_requirements"
-                  },
+                  "type": "helper",
+                  "name": "has_transcendence_requirements",
                   "args": []
                 }
               ]
@@ -2400,15 +1962,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2438,15 +1993,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2539,15 +2087,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2574,18 +2115,15 @@
                   "item": {
                     "type": "constant",
                     "value": "Holo Pelt"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 1
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]
@@ -2612,18 +2150,15 @@
                   "item": {
                     "type": "constant",
                     "value": "Holo Pelt"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 2
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]
@@ -2650,18 +2185,15 @@
                   "item": {
                     "type": "constant",
                     "value": "Holo Pelt"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 3
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]
@@ -2688,18 +2220,15 @@
                   "item": {
                     "type": "constant",
                     "value": "Holo Pelt"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 4
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]
@@ -2726,18 +2255,15 @@
                   "item": {
                     "type": "constant",
                     "value": "Holo Pelt"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 5
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]
@@ -2803,15 +2329,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2862,15 +2381,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2918,15 +2430,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2956,15 +2461,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -2994,15 +2492,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -3032,15 +2523,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_inspectometer_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_inspectometer_battery",
                   "args": []
                 }
               ]
@@ -3070,15 +2554,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]
@@ -3147,15 +2624,8 @@
                   }
                 },
                 {
-                  "type": "function_call",
-                  "function": {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "has_gems_and_battery"
-                  },
+                  "type": "helper",
+                  "name": "has_gems_and_battery",
                   "args": []
                 }
               ]

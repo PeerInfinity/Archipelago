@@ -70,13 +70,13 @@ class CommonUI {
     }
     const staticData = stateManager.getStaticData();
 
-    if (!snapshot?.locationItems || !staticData?.locations) {
+    if (!staticData?.locationItems || !staticData?.locations) {
       return null;
     }
 
     // Find all locations that have this item
     const locationInfos = [];
-    for (const [locName, itemData] of Object.entries(snapshot.locationItems)) {
+    for (const [locName, itemData] of Object.entries(staticData.locationItems)) {
       if (itemData && itemData.name === itemName) {
         // Get the location's region from static data
         const locData = Object.values(staticData.locations).find(l => l.name === locName);

@@ -483,16 +483,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -574,16 +565,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -625,16 +607,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -676,16 +649,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -898,8 +862,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Triangles",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -992,16 +959,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -1031,8 +989,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -1056,8 +1014,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -1102,8 +1060,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -1142,16 +1100,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -1169,8 +1118,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -1217,8 +1166,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Dots": 2,
+                    "Black/White Squares": 1
+                  }
                 }
               ]
             },
@@ -1238,8 +1190,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Dots": 2,
+                    "Black/White Squares": 1
+                  }
                 }
               ]
             },
@@ -1351,16 +1306,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -1821,8 +1767,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -1843,8 +1789,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -1889,8 +1835,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -1911,8 +1857,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -1936,8 +1882,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -1961,8 +1907,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -2017,8 +1963,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Boat"
               },
               "count": {
                 "type": "constant",
@@ -2171,8 +2117,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Symmetry": 2,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -2192,8 +2141,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Progressive Symmetry",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -2216,8 +2168,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Symmetry": 2,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -2240,8 +2195,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Symmetry": 2,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -2262,8 +2220,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -2289,8 +2247,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Symmetry": 2,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -2334,8 +2295,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -2359,8 +2320,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -2384,8 +2345,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Symmetry"
               },
               "count": {
                 "type": "constant",
@@ -2531,16 +2492,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -2563,8 +2515,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "+1 Laser (Unredirected)",
+                    "Desert Laser Redirection"
+                  ]
                 }
               ]
             },
@@ -2823,16 +2778,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -2996,8 +2942,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -3030,8 +2976,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -3230,8 +3176,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -3252,8 +3198,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -3340,8 +3286,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -3383,8 +3332,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -3408,8 +3357,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -3488,8 +3437,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -3568,8 +3520,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -3724,8 +3679,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -3742,8 +3700,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -3763,8 +3724,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -3787,8 +3751,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -3811,8 +3778,13 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares",
+                    "Eraser",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -3835,8 +3807,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Colored Squares",
+                    "Eraser",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -3892,8 +3868,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Shapers",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -3908,8 +3888,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Boat"
               },
               "count": {
                 "type": "constant",
@@ -3930,8 +3910,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -3957,8 +3937,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -4069,8 +4052,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -4090,8 +4076,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -4145,8 +4134,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -4201,8 +4193,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Shapers": 1,
+                    "Eraser": 1
+                  }
                 }
               ]
             },
@@ -4225,8 +4221,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Shapers": 1,
+                    "Eraser": 1
+                  }
                 }
               ]
             },
@@ -4333,16 +4333,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -4381,16 +4372,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -4432,16 +4414,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -4483,16 +4456,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -4755,8 +4719,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -4795,16 +4759,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -4840,16 +4795,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -4885,8 +4831,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -5016,16 +4962,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -5125,16 +5062,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -5230,8 +5158,11 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1
+                  }
                 }
               ]
             },
@@ -5285,8 +5216,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -5330,8 +5265,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -5387,8 +5326,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Shapers",
+                    "Progressive Symmetry",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -5408,8 +5351,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Shapers",
+                    "Progressive Symmetry",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -5775,8 +5722,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -5967,8 +5914,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Boat"
               },
               "count": {
                 "type": "constant",
@@ -6012,8 +5959,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Dots": 2,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1
+                  }
                 }
               ]
             },
@@ -6030,8 +5981,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -6075,8 +6029,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -6117,8 +6074,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Dots": 2,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1
+                  }
                 }
               ]
             },
@@ -6141,8 +6102,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -6260,8 +6224,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -6306,8 +6270,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Progressive Dots",
+                    "Progressive Symmetry"
+                  ]
                 }
               ]
             },
@@ -6528,8 +6496,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Sound Dots"
               },
               "count": {
                 "type": "constant",
@@ -6550,8 +6518,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Sound Dots"
               },
               "count": {
                 "type": "constant",
@@ -6600,8 +6568,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Rotated Shapers",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -6624,8 +6596,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Colored Squares",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -7125,8 +7101,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -7159,8 +7135,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -7205,8 +7181,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -7227,8 +7203,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -7325,8 +7301,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Eraser"
+                  ]
                 }
               ]
             },
@@ -7349,8 +7328,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -7439,8 +7421,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Boat"
               },
               "count": {
                 "type": "constant",
@@ -7708,8 +7690,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -7730,8 +7712,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Black/White Squares"
               },
               "count": {
                 "type": "constant",
@@ -7778,8 +7760,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -7799,8 +7784,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -7823,8 +7811,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -7966,8 +7957,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -7987,8 +7981,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -8234,8 +8231,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -8252,8 +8252,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -8270,8 +8273,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -8288,8 +8294,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -8306,8 +8315,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -8479,8 +8491,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8513,8 +8525,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8584,8 +8596,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8609,8 +8621,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8665,8 +8677,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8684,8 +8696,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8770,8 +8782,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8789,8 +8801,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8823,8 +8835,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8848,8 +8860,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -8933,8 +8945,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9206,8 +9221,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9261,8 +9279,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9326,8 +9347,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9344,8 +9368,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9362,8 +9389,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9498,16 +9528,7 @@
               "if_true": {
                 "type": "state_method",
                 "method": "update_reachable_regions",
-                "args": [
-                  {
-                    "type": "attribute",
-                    "object": {
-                      "type": "name",
-                      "name": "self"
-                    },
-                    "attr": "player"
-                  }
-                ]
+                "args": []
               },
               "if_false": null
             },
@@ -9522,8 +9543,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Boat"
               },
               "count": {
                 "type": "constant",
@@ -9755,8 +9776,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Shapers"
               },
               "count": {
                 "type": "constant",
@@ -9805,8 +9826,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9850,8 +9874,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9891,8 +9919,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -9930,8 +9962,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Negative Shapers",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -10043,8 +10079,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10062,8 +10098,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Boat"
               },
               "count": {
                 "type": "constant",
@@ -10084,8 +10120,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10130,8 +10166,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10152,8 +10188,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10198,8 +10234,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10220,8 +10256,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10266,8 +10302,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10288,8 +10324,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10425,8 +10461,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Progressive Stars",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -10458,8 +10497,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Progressive Stars",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -10501,8 +10543,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10535,8 +10577,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10581,8 +10623,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10603,8 +10645,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Stars"
               },
               "count": {
                 "type": "constant",
@@ -10651,8 +10693,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -10672,8 +10718,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Colored Squares",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -10717,8 +10767,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Colored Squares": 1
+                  }
                 }
               ]
             },
@@ -10735,8 +10789,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Colored Squares": 1
+                  }
                 }
               ]
             },
@@ -10753,8 +10811,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Colored Squares": 1
+                  }
                 }
               ]
             },
@@ -10774,8 +10836,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Colored Squares": 1
+                  }
                 }
               ]
             },
@@ -10819,8 +10885,13 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1,
+                    "Negative Shapers": 1
+                  }
                 }
               ]
             },
@@ -10837,8 +10908,13 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1,
+                    "Negative Shapers": 1
+                  }
                 }
               ]
             },
@@ -10870,8 +10946,13 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1,
+                    "Negative Shapers": 1
+                  }
                 }
               ]
             },
@@ -11224,8 +11305,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Mountain Entry"
               },
               "count": {
                 "type": "constant",
@@ -11379,8 +11460,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Eraser",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -11395,8 +11480,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Mountain Entry"
               },
               "count": {
                 "type": "constant",
@@ -11419,8 +11504,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Eraser",
+                    "Colored Squares"
+                  ]
                 }
               ]
             },
@@ -11503,8 +11592,12 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Shapers",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -11527,8 +11620,14 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -11551,8 +11650,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Shapers"
+                  ]
                 }
               ]
             },
@@ -11620,8 +11722,13 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Progressive Stars",
+                    "Progressive Dots",
+                    "Progressive Symmetry"
+                  ]
                 }
               ]
             },
@@ -11752,8 +11859,13 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Progressive Symmetry": 2,
+                    "Shapers": 1,
+                    "Colored Squares": 1
+                  }
                 }
               ]
             },
@@ -11878,8 +11990,13 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Progressive Symmetry": 2,
+                    "Colored Squares": 1,
+                    "Shapers": 1
+                  }
                 }
               ]
             },
@@ -12004,8 +12121,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Eraser": 1,
+                    "Rotated Shapers": 1
+                  }
                 }
               ]
             },
@@ -12049,8 +12170,15 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Rotated Shapers": 1,
+                    "Shapers": 1,
+                    "Colored Squares": 1,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -12129,8 +12257,15 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Black/White Squares": 1,
+                    "Rotated Shapers": 1,
+                    "Colored Squares": 1,
+                    "Shapers": 1,
+                    "Progressive Dots": 1
+                  }
                 }
               ]
             },
@@ -12176,8 +12311,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Stars": 2,
+                    "Eraser": 1,
+                    "Rotated Shapers": 1
+                  }
                 }
               ]
             },
@@ -12308,8 +12447,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -12327,8 +12466,8 @@
             "access_rule": {
               "type": "item_check",
               "item": {
-                "type": "name",
-                "name": "item"
+                "type": "constant",
+                "value": "Progressive Dots"
               },
               "count": {
                 "type": "constant",
@@ -12383,8 +12522,13 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Eraser",
+                    "Rotated Shapers",
+                    "Shapers",
+                    "Progressive Symmetry"
+                  ]
                 }
               ]
             },
@@ -12416,8 +12560,13 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Rotated Shapers",
+                    "Shapers",
+                    "Eraser",
+                    "Progressive Symmetry"
+                  ]
                 }
               ]
             },
@@ -12461,8 +12610,13 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Colored Squares",
+                    "Shapers",
+                    "Progressive Stars",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -12482,8 +12636,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Shapers",
+                    "Progressive Stars"
+                  ]
                 }
               ]
             },
@@ -12506,8 +12663,11 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Colored Squares",
+                    "Progressive Dots"
+                  ]
                 }
               ]
             },
@@ -12551,8 +12711,14 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Dots": 2,
+                    "Black/White Squares": 1,
+                    "Shapers": 1,
+                    "Progressive Symmetry": 1,
+                    "Progressive Stars": 1
+                  }
                 }
               ]
             },
@@ -12572,8 +12738,12 @@
               "method": "has_all_counts",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_counts"
+                  "type": "constant",
+                  "value": {
+                    "Progressive Dots": 2,
+                    "Progressive Stars": 1,
+                    "Progressive Symmetry": 1
+                  }
                 }
               ]
             },
@@ -12596,8 +12766,14 @@
               "method": "has_all",
               "args": [
                 {
-                  "type": "name",
-                  "name": "sorted_item_list"
+                  "type": "constant",
+                  "value": [
+                    "Black/White Squares",
+                    "Shapers",
+                    "Progressive Stars",
+                    "Progressive Dots",
+                    "Progressive Symmetry"
+                  ]
                 }
               ]
             },
@@ -12656,16 +12832,8 @@
                   ]
                 },
                 {
-                  "type": "attribute",
-                  "object": {
-                    "type": "name",
-                    "name": "world"
-                  },
-                  "attr": "player"
-                },
-                {
-                  "type": "name",
-                  "name": "amount"
+                  "type": "constant",
+                  "value": 7
                 }
               ]
             },

@@ -1,0 +1,6743 @@
+{
+  "schema_version": 3,
+  "game_name": "Donkey Kong Country 3",
+  "game_directory": "donkey_kong_country_3",
+  "archipelago_version": "0.6.4",
+  "generation_seed": 1,
+  "player_names": {
+    "1": "Player1"
+  },
+  "world_classes": {
+    "1": "DKC3World"
+  },
+  "plando_options": [
+    "connections",
+    "texts",
+    "bosses"
+  ],
+  "regions": {
+    "1": {
+      "Menu": {
+        "name": "Menu",
+        "type": "Region",
+        "player": 1,
+        "entrances": [],
+        "exits": [
+          {
+            "name": "Overworld 1",
+            "connected_region": "Overworld 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Overworld 1": {
+        "name": "Overworld 1",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Overworld 1",
+            "parent_region": "Menu",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Overworld 1",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Overworld 2",
+            "connected_region": "Overworld 2",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Progressive Boat Upgrade"
+              },
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Overworld 4",
+            "connected_region": "Overworld 4",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "DK Coin"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 30
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Progressive Boat Upgrade"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Lake Orangatanga",
+            "connected_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Kremwood Forest",
+            "connected_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bounty Beach Region",
+            "connected_region": "Bounty Beach Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bazaar's General Store Region",
+            "connected_region": "Bazaar's General Store Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Overworld 2": {
+        "name": "Overworld 2",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Overworld 2",
+            "parent_region": "Overworld 1",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Progressive Boat Upgrade"
+              },
+              "count": {
+                "type": "constant",
+                "value": 1
+              }
+            },
+            "connected_region": "Overworld 2",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Overworld 3",
+            "connected_region": "Overworld 3",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Progressive Boat Upgrade"
+              },
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Cotton-Top Cove",
+            "connected_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Mekanos",
+            "connected_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Kong Cave Region",
+            "connected_region": "Kong Cave Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bramble's Bungalow Region",
+            "connected_region": "Bramble's Bungalow Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Overworld 3": {
+        "name": "Overworld 3",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Overworld 3",
+            "parent_region": "Overworld 2",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Progressive Boat Upgrade"
+              },
+              "count": {
+                "type": "constant",
+                "value": 3
+              }
+            },
+            "connected_region": "Overworld 3",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "K3",
+            "connected_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Razor Ridge",
+            "connected_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "KAOS Kore",
+            "connected_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Krematoa",
+            "connected_region": "Krematoa",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Undercover Cove Region",
+            "connected_region": "Undercover Cove Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Flower Spot Region",
+            "connected_region": "Flower Spot Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Barter's Swap Shop Region",
+            "connected_region": "Barter's Swap Shop Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Overworld 4": {
+        "name": "Overworld 4",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Overworld 4",
+            "parent_region": "Overworld 1",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "DK Coin"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 30
+                  }
+                },
+                {
+                  "type": "item_check",
+                  "item": {
+                    "type": "constant",
+                    "value": "Progressive Boat Upgrade"
+                  },
+                  "count": {
+                    "type": "constant",
+                    "value": 3
+                  }
+                }
+              ]
+            },
+            "connected_region": "Overworld 4",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Belcha's Burrow Region",
+            "connected_region": "Belcha's Burrow Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "K's Cache Region",
+            "connected_region": "K's Cache Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Hill-Top Hoard Region",
+            "connected_region": "Hill-Top Hoard Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Lake Orangatanga": {
+        "name": "Lake Orangatanga",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Lake Orangatanga",
+            "parent_region": "Overworld 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Lake Orangatanga",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Lakeside Limbo",
+            "connected_region": "Lakeside Limbo",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Doorstop Dash",
+            "connected_region": "Doorstop Dash",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Tidal Trouble",
+            "connected_region": "Tidal Trouble",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Skidda's Row",
+            "connected_region": "Skidda's Row",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Murky Mill",
+            "connected_region": "Murky Mill",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Belcha's Barn Region",
+            "connected_region": "Belcha's Barn Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Barnacle's Island Region",
+            "connected_region": "Barnacle's Island Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Smuggler's Cove Region",
+            "connected_region": "Smuggler's Cove Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Kremwood Forest": {
+        "name": "Kremwood Forest",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Kremwood Forest",
+            "parent_region": "Overworld 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Kremwood Forest",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Barrel Shield Bust-Up",
+            "connected_region": "Barrel Shield Bust-Up",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Riverside Race",
+            "connected_region": "Riverside Race",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Squeals On Wheels",
+            "connected_region": "Squeals On Wheels",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Springin' Spiders",
+            "connected_region": "Springin' Spiders",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bobbing Barrel Brawl",
+            "connected_region": "Bobbing Barrel Brawl",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Arich's Ambush Region",
+            "connected_region": "Arich's Ambush Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Arich's Hoard Region",
+            "connected_region": "Arich's Hoard Region",
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Riverside Race - Flag"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Cotton-Top Cove": {
+        "name": "Cotton-Top Cove",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Cotton-Top Cove",
+            "parent_region": "Overworld 2",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Cotton-Top Cove",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Blue's Beach Hut Region",
+            "connected_region": "Blue's Beach Hut Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bazza's Blockade",
+            "connected_region": "Bazza's Blockade",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Rocket Barrel Ride",
+            "connected_region": "Rocket Barrel Ride",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Kreeping Klasps",
+            "connected_region": "Kreeping Klasps",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Tracker Barrel Trek",
+            "connected_region": "Tracker Barrel Trek",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Fish Food Frenzy",
+            "connected_region": "Fish Food Frenzy",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Squirt's Showdown Region",
+            "connected_region": "Squirt's Showdown Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bounty Bay Region",
+            "connected_region": "Bounty Bay Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Mekanos": {
+        "name": "Mekanos",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Mekanos",
+            "parent_region": "Overworld 2",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Mekanos",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Fire-Ball Frenzy",
+            "connected_region": "Fire-Ball Frenzy",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Demolition Drain-Pipe",
+            "connected_region": "Demolition Drain-Pipe",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Ripsaw Rage",
+            "connected_region": "Ripsaw Rage",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Blazing Bazukas",
+            "connected_region": "Blazing Bazukas",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Low-G Labyrinth",
+            "connected_region": "Low-G Labyrinth",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "KAOS Karnage Region",
+            "connected_region": "KAOS Karnage Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Sky-High Secret Region",
+            "connected_region": "Sky-High Secret Region",
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Bleak's House"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K3": {
+        "name": "K3",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K3",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "K3",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Krevice Kreepers",
+            "connected_region": "Krevice Kreepers",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Tearaway Toboggan",
+            "connected_region": "Tearaway Toboggan",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Barrel Drop Bounce",
+            "connected_region": "Barrel Drop Bounce",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Krack-Shot Kroc",
+            "connected_region": "Krack-Shot Kroc",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Lemguin Lunge",
+            "connected_region": "Lemguin Lunge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bleak's House Region",
+            "connected_region": "Bleak's House Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Bizzard's Basecamp Region",
+            "connected_region": "Bizzard's Basecamp Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Glacial Grotto Region",
+            "connected_region": "Glacial Grotto Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Razor Ridge": {
+        "name": "Razor Ridge",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Razor Ridge",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Razor Ridge",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Buzzer Barrage",
+            "connected_region": "Buzzer Barrage",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Kong-Fused Cliffs",
+            "connected_region": "Kong-Fused Cliffs",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Floodlit Fish",
+            "connected_region": "Floodlit Fish",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Pothole Panic",
+            "connected_region": "Pothole Panic",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Ropey Rumpus",
+            "connected_region": "Ropey Rumpus",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Barbos's Barrier Region",
+            "connected_region": "Barbos's Barrier Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Clifftop Cache Region",
+            "connected_region": "Clifftop Cache Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "KAOS Kore": {
+        "name": "KAOS Kore",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "KAOS Kore",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "KAOS Kore",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Konveyor Rope Klash",
+            "connected_region": "Konveyor Rope Klash",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Creepy Caverns",
+            "connected_region": "Creepy Caverns",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Lightning Lookout",
+            "connected_region": "Lightning Lookout",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Koindozer Klamber",
+            "connected_region": "Koindozer Klamber",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Poisonous Pipeline",
+            "connected_region": "Poisonous Pipeline",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Sewer Stockpile Region",
+            "connected_region": "Sewer Stockpile Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Knautilus Region",
+            "connected_region": "Knautilus Region",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Krematoa": {
+        "name": "Krematoa",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Krematoa",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Krematoa",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Stampede Sprint",
+            "connected_region": "Stampede Sprint",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Criss Kross Cliffs",
+            "connected_region": "Criss Kross Cliffs",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 30
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Tyrant Twin Tussle",
+            "connected_region": "Tyrant Twin Tussle",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 45
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Swoopy Salvo",
+            "connected_region": "Swoopy Salvo",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 60
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Rocket Rush",
+            "connected_region": "Rocket Rush",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 75
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Kastle KAOS Region",
+            "connected_region": "Kastle KAOS Region",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Krematoa Cog"
+              },
+              "count": {
+                "type": "constant",
+                "value": 5
+              }
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Lakeside Limbo": {
+        "name": "Lakeside Limbo",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Lakeside Limbo",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Lakeside Limbo",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lakeside Limbo - Flag",
+            "id": 14430208,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lakeside Limbo - Bonus 1",
+            "id": 14430209,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lakeside Limbo - Bonus 2",
+            "id": 14430210,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lakeside Limbo - DK Coin",
+            "id": 14430211,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Doorstop Dash": {
+        "name": "Doorstop Dash",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Doorstop Dash",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Doorstop Dash",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Doorstop Dash - Flag",
+            "id": 14430212,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doorstop Dash - Bonus 1",
+            "id": 14430213,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doorstop Dash - Bonus 2",
+            "id": 14430214,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Doorstop Dash - DK Coin",
+            "id": 14430215,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tidal Trouble": {
+        "name": "Tidal Trouble",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tidal Trouble",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Tidal Trouble",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tidal Trouble - Flag",
+            "id": 14430216,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tidal Trouble - Bonus 1",
+            "id": 14430217,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tidal Trouble - Bonus 2",
+            "id": 14430218,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Progressive Boat Upgrade",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tidal Trouble - DK Coin",
+            "id": 14430219,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Skidda's Row": {
+        "name": "Skidda's Row",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Skidda's Row",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Skidda's Row",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Skidda's Row - Flag",
+            "id": 14430220,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Skidda's Row - Bonus 1",
+            "id": 14430221,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Skidda's Row - Bonus 2",
+            "id": 14430222,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Skidda's Row - DK Coin",
+            "id": 14430223,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Murky Mill": {
+        "name": "Murky Mill",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Murky Mill",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Murky Mill",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Murky Mill - Flag",
+            "id": 14430224,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Murky Mill - Bonus 1",
+            "id": 14430225,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Murky Mill - Bonus 2",
+            "id": 14430226,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Murky Mill - DK Coin",
+            "id": 14430227,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Barrel Shield Bust-Up": {
+        "name": "Barrel Shield Bust-Up",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Barrel Shield Bust-Up",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Barrel Shield Bust-Up",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barrel Shield Bust-Up - Flag",
+            "id": 14430228,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Shield Bust-Up - Bonus 1",
+            "id": 14430229,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Shield Bust-Up - Bonus 2",
+            "id": 14430230,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Shield Bust-Up - DK Coin",
+            "id": 14430231,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Riverside Race": {
+        "name": "Riverside Race",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Riverside Race",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Riverside Race",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Riverside Race - Flag",
+            "id": 14430232,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Riverside Race - Bonus 1",
+            "id": 14430233,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Riverside Race - Bonus 2",
+            "id": 14430234,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Riverside Race - DK Coin",
+            "id": 14430235,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Squeals On Wheels": {
+        "name": "Squeals On Wheels",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Squeals On Wheels",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Squeals On Wheels",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Squeals On Wheels - Flag",
+            "id": 14430236,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Progressive Boat Upgrade",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Squeals On Wheels - Bonus 1",
+            "id": 14430237,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Squeals On Wheels - Bonus 2",
+            "id": 14430238,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Squeals On Wheels - DK Coin",
+            "id": 14430239,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Progressive Boat Upgrade",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Springin' Spiders": {
+        "name": "Springin' Spiders",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Springin' Spiders",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Springin' Spiders",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Springin' Spiders - Flag",
+            "id": 14430240,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Springin' Spiders - Bonus 1",
+            "id": 14430241,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Springin' Spiders - Bonus 2",
+            "id": 14430242,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Springin' Spiders - DK Coin",
+            "id": 14430243,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bobbing Barrel Brawl": {
+        "name": "Bobbing Barrel Brawl",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bobbing Barrel Brawl",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bobbing Barrel Brawl",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bobbing Barrel Brawl - Flag",
+            "id": 14430244,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl - Bonus 1",
+            "id": 14430245,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl - Bonus 2",
+            "id": 14430246,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bobbing Barrel Brawl - DK Coin",
+            "id": 14430247,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bazza's Blockade": {
+        "name": "Bazza's Blockade",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bazza's Blockade",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bazza's Blockade",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bazza's Blockade - Flag",
+            "id": 14430248,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bazza's Blockade - Bonus 1",
+            "id": 14430249,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bazza's Blockade - Bonus 2",
+            "id": 14430250,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Bazza's Blockade - DK Coin",
+            "id": 14430251,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Rocket Barrel Ride": {
+        "name": "Rocket Barrel Ride",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Rocket Barrel Ride",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Rocket Barrel Ride",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rocket Barrel Ride - Flag",
+            "id": 14430252,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride - Bonus 1",
+            "id": 14430253,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride - Bonus 2",
+            "id": 14430254,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Barrel Ride - DK Coin",
+            "id": 14430255,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Kreeping Klasps": {
+        "name": "Kreeping Klasps",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Kreeping Klasps",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Kreeping Klasps",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kreeping Klasps - Flag",
+            "id": 14430256,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kreeping Klasps - Bonus 1",
+            "id": 14430257,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kreeping Klasps - Bonus 2",
+            "id": 14430258,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kreeping Klasps - DK Coin",
+            "id": 14430259,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tracker Barrel Trek": {
+        "name": "Tracker Barrel Trek",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tracker Barrel Trek",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Tracker Barrel Trek",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tracker Barrel Trek - Flag",
+            "id": 14430260,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek - Bonus 1",
+            "id": 14430261,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek - Bonus 2",
+            "id": 14430262,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tracker Barrel Trek - DK Coin",
+            "id": 14430263,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Fish Food Frenzy": {
+        "name": "Fish Food Frenzy",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Fish Food Frenzy",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Fish Food Frenzy",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Fish Food Frenzy - Flag",
+            "id": 14430264,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy - Bonus 1",
+            "id": 14430265,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy - Bonus 2",
+            "id": 14430266,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fish Food Frenzy - DK Coin",
+            "id": 14430267,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Fire-Ball Frenzy": {
+        "name": "Fire-Ball Frenzy",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Fire-Ball Frenzy",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Fire-Ball Frenzy",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Fire-Ball Frenzy - Flag",
+            "id": 14430268,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire-Ball Frenzy - Bonus 1",
+            "id": 14430269,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire-Ball Frenzy - Bonus 2",
+            "id": 14430270,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Fire-Ball Frenzy - DK Coin",
+            "id": 14430271,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Demolition Drain-Pipe": {
+        "name": "Demolition Drain-Pipe",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Demolition Drain-Pipe",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Demolition Drain-Pipe",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Demolition Drain-Pipe - Flag",
+            "id": 14430272,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe - Bonus 1",
+            "id": 14430273,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe - Bonus 2",
+            "id": 14430274,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Demolition Drain-Pipe - DK Coin",
+            "id": 14430275,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Ripsaw Rage": {
+        "name": "Ripsaw Rage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Ripsaw Rage",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Ripsaw Rage",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ripsaw Rage - Flag",
+            "id": 14430276,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ripsaw Rage - Bonus 1",
+            "id": 14430277,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ripsaw Rage - Bonus 2",
+            "id": 14430278,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ripsaw Rage - DK Coin",
+            "id": 14430279,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Blazing Bazukas": {
+        "name": "Blazing Bazukas",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Blazing Bazukas",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Blazing Bazukas",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Blazing Bazukas - Flag",
+            "id": 14430280,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blazing Bazukas - Bonus 1",
+            "id": 14430281,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blazing Bazukas - Bonus 2",
+            "id": 14430282,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Blazing Bazukas - DK Coin",
+            "id": 14430283,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Low-G Labyrinth": {
+        "name": "Low-G Labyrinth",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Low-G Labyrinth",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Low-G Labyrinth",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Low-G Labyrinth - Flag",
+            "id": 14430284,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth - Bonus 1",
+            "id": 14430285,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth - Bonus 2",
+            "id": 14430286,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Low-G Labyrinth - DK Coin",
+            "id": 14430287,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Krevice Kreepers": {
+        "name": "Krevice Kreepers",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Krevice Kreepers",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Krevice Kreepers",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Krevice Kreepers - Flag",
+            "id": 14430288,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krevice Kreepers - Bonus 1",
+            "id": 14430289,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krevice Kreepers - Bonus 2",
+            "id": 14430290,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krevice Kreepers - DK Coin",
+            "id": 14430291,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tearaway Toboggan": {
+        "name": "Tearaway Toboggan",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tearaway Toboggan",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Tearaway Toboggan",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tearaway Toboggan - Flag",
+            "id": 14430292,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan - Bonus 1",
+            "id": 14430293,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan - Bonus 2",
+            "id": 14430294,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tearaway Toboggan - DK Coin",
+            "id": 14430295,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Barrel Drop Bounce": {
+        "name": "Barrel Drop Bounce",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Barrel Drop Bounce",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Barrel Drop Bounce",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barrel Drop Bounce - Flag",
+            "id": 14430296,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce - Bonus 1",
+            "id": 14430297,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce - Bonus 2",
+            "id": 14430298,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Barrel Drop Bounce - DK Coin",
+            "id": 14430299,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Krack-Shot Kroc": {
+        "name": "Krack-Shot Kroc",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Krack-Shot Kroc",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Krack-Shot Kroc",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Krack-Shot Kroc - Flag",
+            "id": 14430300,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc - Bonus 1",
+            "id": 14430301,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc - Bonus 2",
+            "id": 14430302,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Krack-Shot Kroc - DK Coin",
+            "id": 14430303,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Lemguin Lunge": {
+        "name": "Lemguin Lunge",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Lemguin Lunge",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Lemguin Lunge",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lemguin Lunge - Flag",
+            "id": 14430304,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lemguin Lunge - Bonus 1",
+            "id": 14430305,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lemguin Lunge - Bonus 2",
+            "id": 14430306,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lemguin Lunge - DK Coin",
+            "id": 14430307,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Buzzer Barrage": {
+        "name": "Buzzer Barrage",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Buzzer Barrage",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Buzzer Barrage",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Buzzer Barrage - Flag",
+            "id": 14430308,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Buzzer Barrage - Bonus 1",
+            "id": 14430309,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Buzzer Barrage - Bonus 2",
+            "id": 14430310,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Buzzer Barrage - DK Coin",
+            "id": 14430311,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Kong-Fused Cliffs": {
+        "name": "Kong-Fused Cliffs",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Kong-Fused Cliffs",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Kong-Fused Cliffs",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kong-Fused Cliffs - Flag",
+            "id": 14430312,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs - Bonus 1",
+            "id": 14430313,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs - Bonus 2",
+            "id": 14430314,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Kong-Fused Cliffs - DK Coin",
+            "id": 14430315,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Floodlit Fish": {
+        "name": "Floodlit Fish",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Floodlit Fish",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Floodlit Fish",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Floodlit Fish - Flag",
+            "id": 14430316,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floodlit Fish - Bonus 1",
+            "id": 14430317,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floodlit Fish - Bonus 2",
+            "id": 14430318,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Floodlit Fish - DK Coin",
+            "id": 14430319,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Pothole Panic": {
+        "name": "Pothole Panic",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Pothole Panic",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Pothole Panic",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Pothole Panic - Flag",
+            "id": 14430320,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pothole Panic - Bonus 1",
+            "id": 14430321,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pothole Panic - Bonus 2",
+            "id": 14430322,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Pothole Panic - DK Coin",
+            "id": 14430323,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Ropey Rumpus": {
+        "name": "Ropey Rumpus",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Ropey Rumpus",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Ropey Rumpus",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Ropey Rumpus - Flag",
+            "id": 14430324,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ropey Rumpus - Bonus 1",
+            "id": 14430325,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ropey Rumpus - Bonus 2",
+            "id": 14430326,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Ropey Rumpus - DK Coin",
+            "id": 14430327,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Konveyor Rope Klash": {
+        "name": "Konveyor Rope Klash",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Konveyor Rope Klash",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Konveyor Rope Klash",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Konveyor Rope Klash - Flag",
+            "id": 14430328,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Konveyor Rope Klash - Bonus 1",
+            "id": 14430329,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Konveyor Rope Klash - Bonus 2",
+            "id": 14430330,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Konveyor Rope Klash - DK Coin",
+            "id": 14430331,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Creepy Caverns": {
+        "name": "Creepy Caverns",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Creepy Caverns",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Creepy Caverns",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Creepy Caverns - Flag",
+            "id": 14430332,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Creepy Caverns - Bonus 1",
+            "id": 14430333,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Creepy Caverns - Bonus 2",
+            "id": 14430334,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Creepy Caverns - DK Coin",
+            "id": 14430335,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Lightning Lookout": {
+        "name": "Lightning Lookout",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Lightning Lookout",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Lightning Lookout",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Lightning Lookout - Flag",
+            "id": 14430336,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lightning Lookout - Bonus 1",
+            "id": 14430337,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lightning Lookout - Bonus 2",
+            "id": 14430338,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Lightning Lookout - DK Coin",
+            "id": 14430339,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Koindozer Klamber": {
+        "name": "Koindozer Klamber",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Koindozer Klamber",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Koindozer Klamber",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Koindozer Klamber - Flag",
+            "id": 14430340,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Koindozer Klamber - Bonus 1",
+            "id": 14430341,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Koindozer Klamber - Bonus 2",
+            "id": 14430342,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Koindozer Klamber - DK Coin",
+            "id": 14430343,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Poisonous Pipeline": {
+        "name": "Poisonous Pipeline",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Poisonous Pipeline",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Poisonous Pipeline",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Poisonous Pipeline - Flag",
+            "id": 14430344,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline - Bonus 1",
+            "id": 14430345,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline - Bonus 2",
+            "id": 14430346,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Poisonous Pipeline - DK Coin",
+            "id": 14430347,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Stampede Sprint": {
+        "name": "Stampede Sprint",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Stampede Sprint",
+            "parent_region": "Krematoa",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 15
+              }
+            },
+            "connected_region": "Stampede Sprint",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Stampede Sprint - Flag",
+            "id": 14430348,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - Bonus 1",
+            "id": 14430349,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - Bonus 2",
+            "id": 14430350,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - Bonus 3",
+            "id": 14430351,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Stampede Sprint - DK Coin",
+            "id": 14430352,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Criss Kross Cliffs": {
+        "name": "Criss Kross Cliffs",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Criss Kross Cliffs",
+            "parent_region": "Krematoa",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 30
+              }
+            },
+            "connected_region": "Criss Kross Cliffs",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Criss Kross Cliffs - Flag",
+            "id": 14430353,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs - Bonus 1",
+            "id": 14430354,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs - Bonus 2",
+            "id": 14430355,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Criss Kross Cliffs - DK Coin",
+            "id": 14430356,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Tyrant Twin Tussle": {
+        "name": "Tyrant Twin Tussle",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Tyrant Twin Tussle",
+            "parent_region": "Krematoa",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 45
+              }
+            },
+            "connected_region": "Tyrant Twin Tussle",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Tyrant Twin Tussle - Flag",
+            "id": 14430357,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 1",
+            "id": 14430358,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 2",
+            "id": 14430359,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - Bonus 3",
+            "id": 14430360,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Tyrant Twin Tussle - DK Coin",
+            "id": 14430361,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Swoopy Salvo": {
+        "name": "Swoopy Salvo",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Swoopy Salvo",
+            "parent_region": "Krematoa",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 60
+              }
+            },
+            "connected_region": "Swoopy Salvo",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Swoopy Salvo - Flag",
+            "id": 14430362,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 1",
+            "id": 14430363,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 2",
+            "id": 14430364,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - Bonus 3",
+            "id": 14430365,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Swoopy Salvo - DK Coin",
+            "id": 14430366,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Rocket Rush": {
+        "name": "Rocket Rush",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Rocket Rush",
+            "parent_region": "Krematoa",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Bonus Coin"
+              },
+              "count": {
+                "type": "constant",
+                "value": 75
+              }
+            },
+            "connected_region": "Rocket Rush",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Rocket Rush - Flag",
+            "id": 14430367,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Krematoa Cog",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Rocket Rush - DK Coin",
+            "id": 14430368,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Belcha's Barn Region": {
+        "name": "Belcha's Barn Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Belcha's Barn Region",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Belcha's Barn Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Belcha's Barn",
+            "id": 14430369,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Arich's Ambush Region": {
+        "name": "Arich's Ambush Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Arich's Ambush Region",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Arich's Ambush Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arich's Ambush",
+            "id": 14430370,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Squirt's Showdown Region": {
+        "name": "Squirt's Showdown Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Squirt's Showdown Region",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Squirt's Showdown Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Squirt's Showdown",
+            "id": 14430371,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "KAOS Karnage Region": {
+        "name": "KAOS Karnage Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "KAOS Karnage Region",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "KAOS Karnage Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "KAOS Karnage",
+            "id": 14430372,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bleak's House Region": {
+        "name": "Bleak's House Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bleak's House Region",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bleak's House Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bleak's House",
+            "id": 14430373,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Barbos's Barrier Region": {
+        "name": "Barbos's Barrier Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Barbos's Barrier Region",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Barbos's Barrier Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Barbos's Barrier",
+            "id": 14430374,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Kastle KAOS Region": {
+        "name": "Kastle KAOS Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Kastle KAOS Region",
+            "parent_region": "Krematoa",
+            "access_rule": {
+              "type": "item_check",
+              "item": {
+                "type": "constant",
+                "value": "Krematoa Cog"
+              },
+              "count": {
+                "type": "constant",
+                "value": 5
+              }
+            },
+            "connected_region": "Kastle KAOS Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kastle KAOS",
+            "id": 14430375,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": true,
+            "item": {
+              "name": "Donkey Kong",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Knautilus Region": {
+        "name": "Knautilus Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Knautilus Region",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Knautilus Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Knautilus",
+            "id": 14430376,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Belcha's Burrow Region": {
+        "name": "Belcha's Burrow Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Belcha's Burrow Region",
+            "parent_region": "Overworld 4",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Belcha's Burrow Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Belcha's Burrow",
+            "id": 14430377,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Kong Cave Region": {
+        "name": "Kong Cave Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Kong Cave Region",
+            "parent_region": "Overworld 2",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Kong Cave Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Kong Cave",
+            "id": 14430378,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Undercover Cove Region": {
+        "name": "Undercover Cove Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Undercover Cove Region",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Undercover Cove Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Undercover Cove",
+            "id": 14430379,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "K's Cache Region": {
+        "name": "K's Cache Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "K's Cache Region",
+            "parent_region": "Overworld 4",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "K's Cache Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "K's Cache",
+            "id": 14430380,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Hill-Top Hoard Region": {
+        "name": "Hill-Top Hoard Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Hill-Top Hoard Region",
+            "parent_region": "Overworld 4",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Hill-Top Hoard Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Hill-Top Hoard",
+            "id": 14430381,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bounty Beach Region": {
+        "name": "Bounty Beach Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bounty Beach Region",
+            "parent_region": "Overworld 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bounty Beach Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bounty Beach",
+            "id": 14430382,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bear Coin",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Smuggler's Cove Region": {
+        "name": "Smuggler's Cove Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Smuggler's Cove Region",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Smuggler's Cove Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Smuggler's Cove",
+            "id": 14430383,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "1-Up Balloon",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Arich's Hoard Region": {
+        "name": "Arich's Hoard Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Arich's Hoard Region",
+            "parent_region": "Kremwood Forest",
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Riverside Race - Flag"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            },
+            "connected_region": "Arich's Hoard Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Arich's Hoard",
+            "id": 14430384,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bounty Bay Region": {
+        "name": "Bounty Bay Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bounty Bay Region",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bounty Bay Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Bounty Bay",
+            "id": 14430385,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Bonus Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Sky-High Secret Region": {
+        "name": "Sky-High Secret Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Sky-High Secret Region",
+            "parent_region": "Mekanos",
+            "access_rule": {
+              "type": "state_method",
+              "method": "can_reach",
+              "args": [
+                {
+                  "type": "constant",
+                  "value": "Bleak's House"
+                },
+                {
+                  "type": "constant",
+                  "value": "Location"
+                }
+              ]
+            },
+            "connected_region": "Sky-High Secret Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Glacial Grotto Region": {
+        "name": "Glacial Grotto Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Glacial Grotto Region",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Glacial Grotto Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Glacial Grotto",
+            "id": 14430387,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Clifftop Cache Region": {
+        "name": "Clifftop Cache Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Clifftop Cache Region",
+            "parent_region": "Razor Ridge",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Clifftop Cache Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Sewer Stockpile Region": {
+        "name": "Sewer Stockpile Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Sewer Stockpile Region",
+            "parent_region": "KAOS Kore",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Sewer Stockpile Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sewer Stockpile",
+            "id": 14430389,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "DK Coin",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bazaar's General Store Region": {
+        "name": "Bazaar's General Store Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bazaar's General Store Region",
+            "parent_region": "Overworld 1",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bazaar's General Store Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bramble's Bungalow Region": {
+        "name": "Bramble's Bungalow Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bramble's Bungalow Region",
+            "parent_region": "Overworld 2",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bramble's Bungalow Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Flower Spot Region": {
+        "name": "Flower Spot Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Flower Spot Region",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Flower Spot Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Barter's Swap Shop Region": {
+        "name": "Barter's Swap Shop Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Barter's Swap Shop Region",
+            "parent_region": "Overworld 3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Barter's Swap Shop Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Barnacle's Island Region": {
+        "name": "Barnacle's Island Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Barnacle's Island Region",
+            "parent_region": "Lake Orangatanga",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Barnacle's Island Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Blue's Beach Hut Region": {
+        "name": "Blue's Beach Hut Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Blue's Beach Hut Region",
+            "parent_region": "Cotton-Top Cove",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Blue's Beach Hut Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      },
+      "Bizzard's Basecamp Region": {
+        "name": "Bizzard's Basecamp Region",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Bizzard's Basecamp Region",
+            "parent_region": "K3",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "connected_region": "Bizzard's Basecamp Region",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": []
+      }
+    }
+  },
+  "start_regions": {
+    "1": {
+      "default": [
+        "Menu"
+      ],
+      "available": []
+    }
+  },
+  "items": {
+    "1": {
+      "1-Up Balloon": {
+        "name": "1-Up Balloon",
+        "id": 14430209,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 54
+      },
+      "Bear Coin": {
+        "name": "Bear Coin",
+        "id": 14430210,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 36
+      },
+      "Bonus Coin": {
+        "name": "Bonus Coin",
+        "id": 14430211,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 170
+      },
+      "DK Coin": {
+        "name": "DK Coin",
+        "id": 14430212,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 82
+      },
+      "Banana Bird": {
+        "name": "Banana Bird",
+        "id": 14430213,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": false,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      },
+      "Krematoa Cog": {
+        "name": "Krematoa Cog",
+        "id": 14430214,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 9
+      },
+      "Progressive Boat Upgrade": {
+        "name": "Progressive Boat Upgrade",
+        "id": 14430215,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 6
+      },
+      "Donkey Kong": {
+        "name": "Donkey Kong",
+        "id": 14430208,
+        "groups": [
+          "Everything"
+        ],
+        "advancement": true,
+        "priority": false,
+        "useful": false,
+        "trap": false,
+        "event": false,
+        "type": null,
+        "max_count": 1
+      }
+    }
+  },
+  "item_groups": {
+    "1": [
+      "Everything"
+    ]
+  },
+  "itempool_counts": {
+    "1": {
+      "1-Up Balloon": 54,
+      "Bear Coin": 36,
+      "Bonus Coin": 170,
+      "DK Coin": 82,
+      "Donkey Kong": 1,
+      "Krematoa Cog": 9,
+      "Progressive Boat Upgrade": 6
+    }
+  },
+  "progression_mapping": {
+    "1": {}
+  },
+  "starting_items": {
+    "1": []
+  },
+  "settings": {
+    "1": {
+      "game": "Donkey Kong Country 3",
+      "assume_bidirectional_exits": false
+    }
+  },
+  "game_info": {
+    "1": {
+      "name": "Donkey Kong Country 3",
+      "rule_format": {
+        "version": "1.0"
+      }
+    }
+  }
+}

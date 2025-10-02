@@ -62,21 +62,15 @@
             "name": "Eolis -> Path to Apolune",
             "connected_region": "Path to Apolune",
             "access_rule": {
-              "type": "state_method",
-              "method": "has_all",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "list",
-                  "value": [
-                    {
-                      "type": "constant",
-                      "value": "Key Jack"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Progressive Sword"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key Jack"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Progressive Sword"
                 }
               ]
             },
@@ -110,10 +104,21 @@
             "id": 400101,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "buy_in_eolis",
-              "inferred": true,
-              "description": "Requires ability to buy in eolis"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Progressive Sword"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ring of Elf"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -130,10 +135,21 @@
             "id": 400102,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "buy_in_eolis",
-              "inferred": true,
-              "description": "Requires ability to buy in eolis"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Progressive Sword"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ring of Elf"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -150,10 +166,21 @@
             "id": 400103,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "buy_in_eolis",
-              "inferred": true,
-              "description": "Requires ability to buy in eolis"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Progressive Sword"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ring of Elf"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -170,10 +197,21 @@
             "id": 400104,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "buy_in_eolis",
-              "inferred": true,
-              "description": "Requires ability to buy in eolis"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Progressive Sword"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ring of Elf"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -190,10 +228,21 @@
             "id": 400105,
             "crystal": null,
             "access_rule": {
-              "type": "capability",
-              "capability": "buy_in_eolis",
-              "inferred": true,
-              "description": "Requires ability to buy in eolis"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Progressive Sword"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Ring of Elf"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": true,
@@ -589,21 +638,15 @@
             "id": 400117,
             "crystal": null,
             "access_rule": {
-              "type": "state_method",
-              "method": "has_all",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "list",
-                  "value": [
-                    {
-                      "type": "constant",
-                      "value": "Deluge"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Unlock Wingboots"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Unlock Wingboots"
                 }
               ]
             },
@@ -838,33 +881,27 @@
               "type": "and",
               "conditions": [
                 {
-                  "type": "state_method",
-                  "method": "has_all",
-                  "args": [
+                  "type": "and",
+                  "conditions": [
                     {
-                      "type": "list",
-                      "value": [
-                        {
-                          "type": "constant",
-                          "value": "Key Queen"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Ring of Ruby"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Sky Spring Flow"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Tower of Fortress Spring Flow"
-                        },
-                        {
-                          "type": "constant",
-                          "value": "Joker Spring Flow"
-                        }
-                      ]
+                      "type": "item_check",
+                      "item": "Key Queen"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Ring of Ruby"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Sky Spring Flow"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Tower of Fortress Spring Flow"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Joker Spring Flow"
                     }
                   ]
                 },
@@ -1602,10 +1639,29 @@
             "id": 400148,
             "crystal": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Any_Magic",
-              "inferred": true,
-              "description": "Requires having Any Magic"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Thunder"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Fire"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Death"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Tilte"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -1868,21 +1924,15 @@
             "name": "Mist -> Useless Tower",
             "connected_region": "Useless Tower",
             "access_rule": {
-              "type": "state_method",
-              "method": "has_all",
-              "args": [
+              "type": "and",
+              "conditions": [
                 {
-                  "type": "list",
-                  "value": [
-                    {
-                      "type": "constant",
-                      "value": "Key King"
-                    },
-                    {
-                      "type": "constant",
-                      "value": "Unlock Wingboots"
-                    }
-                  ]
+                  "type": "item_check",
+                  "item": "Key King"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Unlock Wingboots"
                 }
               ]
             },
@@ -2909,10 +2959,29 @@
             "id": 400192,
             "crystal": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Any_Magic",
-              "inferred": true,
-              "description": "Requires having Any Magic"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Thunder"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Fire"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Death"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Tilte"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -3047,10 +3116,29 @@
             "id": 400197,
             "crystal": null,
             "access_rule": {
-              "type": "item_check",
-              "item": "Any_Magic",
-              "inferred": true,
-              "description": "Requires having Any Magic"
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Deluge"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Thunder"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Fire"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Death"
+                },
+                {
+                  "type": "item_check",
+                  "item": "Tilte"
+                }
+              ]
             },
             "progress_type": 1,
             "locked": false,
@@ -3659,7 +3747,7 @@
         ],
         "advancement": false,
         "priority": false,
-        "useful": true,
+        "useful": false,
         "trap": false,
         "event": false,
         "type": null,
@@ -3762,62 +3850,6 @@
         "event": false,
         "type": null,
         "max_count": 4
-      },
-      "Sky Spring Flow": {
-        "name": "Sky Spring Flow",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
-      },
-      "Joker Spring Flow": {
-        "name": "Joker Spring Flow",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
-      },
-      "Tower of Fortress Spring Flow": {
-        "name": "Tower of Fortress Spring Flow",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
-      },
-      "Killed Evil One": {
-        "name": "Killed Evil One",
-        "id": null,
-        "groups": [
-          "Event"
-        ],
-        "advancement": true,
-        "priority": false,
-        "useful": false,
-        "trap": false,
-        "event": true,
-        "type": "Event",
-        "max_count": 1
       }
     }
   },
