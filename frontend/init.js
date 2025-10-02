@@ -2508,8 +2508,8 @@ async function main() {
             playerId: String(eventData.selectedPlayerId),
             playerName: playerInfo.playerName,
           },
-          eventData.source || eventData.filename || 'userLoadedFile'
-        ); // Pass source, fallback to filename or generic
+          eventData.sourceName || eventData.filename || eventData.source || 'userLoadedFile'
+        ); // Pass sourceName, with fallbacks for compatibility
         logger.info(
           'init',
           'files:jsonLoaded: stateManagerProxySingleton.loadRules call COMPLETED.'

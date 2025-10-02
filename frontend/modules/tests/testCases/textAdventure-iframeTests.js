@@ -15,44 +15,37 @@ function log(level, message, ...data) {
 
 // Helper function to load Adventure rules and set up iframe
 async function loadAdventureRulesAndSetupIframe(testController, targetRegion = 'Menu') {
+  // Import playerState singleton once at the top
+  const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
+
   // Step 1: Load Adventure rules in main app first
   testController.log('Loading Adventure rules file in main app...');
   const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 8000);
-  
+
   const rulesResponse = await fetch('./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json');
   const rulesData = await rulesResponse.json();
-  
+
   testController.eventBus.publish('files:jsonLoaded', {
-    fileName: 'AP_14089154938208861744_rules.json',
     jsonData: rulesData,
-    selectedPlayerId: '1'
+    selectedPlayerId: '1',
+    sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
   }, 'tests');
-  
+
   await rulesLoadedPromise;
   testController.reportCondition('Adventure rules loaded in main app', true);
-  
-  // Step 2: Position player in target region in main app
-  testController.log(`Positioning player in ${targetRegion} region in main app...`);
-  if (window.eventDispatcher) {
-    const regionChangePromise = testController.waitForEvent('playerState:regionChanged', 5000);
-    
-    testController.log(`Publishing user:regionMove event to move to ${targetRegion}...`);
-    window.eventDispatcher.publish('tests', 'user:regionMove', {
-      exitName: 'Initial',
-      targetRegion: targetRegion,
-      sourceRegion: null,
-      sourceModule: 'tests'
-    }, { initialTarget: 'bottom' });
-    
-    try {
-      const regionChangeData = await regionChangePromise;
-      testController.log(`Successfully received playerState:regionChanged event:`, regionChangeData);
-      testController.reportCondition('Player region change event received', true);
-    } catch (error) {
-      testController.log(`WARNING: Region change event not received: ${error.message}`, 'warn');
-      testController.reportCondition('Player region change event received', false);
-    }
-  }
+
+  // Step 2: Verify player is in target region in main app
+  testController.log(`Verifying player is in ${targetRegion} region...`);
+  const playerStateReady = await testController.pollForCondition(
+    () => {
+      const playerState = getPlayerStateSingleton();
+      return playerState && playerState.getCurrentRegion() === targetRegion;
+    },
+    `PlayerState to be in ${targetRegion} region`,
+    2000,
+    50
+  );
+  testController.reportCondition(`PlayerState positioned in ${targetRegion}`, playerStateReady);
   
   // Step 3: Create iframe panel
   testController.log('Creating iframe panel...');
@@ -117,13 +110,12 @@ async function loadAdventureRulesAndSetupIframe(testController, targetRegion = '
     500
   );
   testController.reportCondition('Iframe text adventure UI ready', true);
-  
+
   // Step 7: Verify player positioning using playerStateSingleton
-  const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
   const playerState = getPlayerStateSingleton();
   const currentRegion = playerState.getCurrentRegion();
   testController.log(`Final player positioned in region: ${currentRegion}`);
-  testController.reportCondition(`Player positioned in ${targetRegion} region`, 
+  testController.reportCondition(`Player positioned in ${targetRegion} region`,
     currentRegion === targetRegion);
 }
 
@@ -578,14 +570,14 @@ export async function textAdventureIframeManagerUITest(testController) {
     // Step 1: Load Adventure rules in main app first
     testController.log('Loading Adventure rules file in main app...');
     const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 8000);
-    
+
     const rulesResponse = await fetch('./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json');
     const rulesData = await rulesResponse.json();
-    
+
     testController.eventBus.publish('files:jsonLoaded', {
-      fileName: 'AP_14089154938208861744_rules.json',
       jsonData: rulesData,
-      selectedPlayerId: '1'
+      selectedPlayerId: '1',
+      sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
     }, 'tests');
     
     await rulesLoadedPromise;

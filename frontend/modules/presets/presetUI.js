@@ -564,10 +564,9 @@ export class PresetUI {
         }, player ${playerId}. Publishing files:jsonLoaded.`
       );
       eventBus.publish('files:jsonLoaded', {
-        fileName: fileName,
         jsonData: rulesData,
         selectedPlayerId: playerId,
-        source: fileName, // Use fileName as source for manually loaded files
+        sourceName: `userLoaded:${fileName}` // Prefix to indicate manually loaded file
       }, 'presets');
 
       eventBus.publish('ui:notification', {
@@ -798,10 +797,9 @@ export class PresetUI {
         `Rules loaded for ${gameDirectory}, player ${playerId}. Publishing files:jsonLoaded.`
       );
       eventBus.publish('files:jsonLoaded', {
-        fileName: rulesFile,
         jsonData: rulesData,
-        selectedPlayerId: playerId, // Ensure playerId is passed
-        source: fullPath, // Include the full path as source
+        selectedPlayerId: playerId,
+        sourceName: fullPath
       }, 'presets');
 
       // Publish success notification

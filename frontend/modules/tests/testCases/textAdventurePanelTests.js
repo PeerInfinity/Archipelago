@@ -38,11 +38,11 @@ async function loadAdventureRulesAndPositionPlayer(testController, targetRegion 
   
   const rulesResponse = await fetch('./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json');
   const rulesData = await rulesResponse.json();
-  
+
   testController.eventBus.publish('files:jsonLoaded', {
-    fileName: 'AP_14089154938208861744_rules.json',
     jsonData: rulesData,
-    selectedPlayerId: '1'
+    selectedPlayerId: '1',
+    sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
   }, 'tests');
   
   await rulesLoadedPromise;
