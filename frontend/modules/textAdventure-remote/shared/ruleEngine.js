@@ -6,12 +6,21 @@
 //   return stateManagerSingleton.instance;
 // }
 
-import { createSharedLogger } from './sharedLogger.js';
-
-// Create logger for this module
-const logger = createSharedLogger('ruleEngine');
-
 // Evaluation trace object for capturing debug info
+
+// Helper function for logging with fallback
+function log(level, message, ...data) {
+  if (typeof window !== 'undefined' && window.logger) {
+    window.logger[level]('ruleEngine', message, ...data);
+  } else {
+    // In worker context, only log ERROR and WARN levels to keep console clean
+    if (level === 'error' || level === 'warn') {
+      const consoleMethod =
+        console[level === 'info' ? 'log' : level] || console.log;
+      consoleMethod(`[ruleEngine] ${message}`, ...data);
+    }
+  }
+}
 
 class RuleTrace {
   constructor(rule, depth) {
@@ -80,7 +89,21 @@ function hasDefeatMethod(ruleObj, stateSnapshotInterface) {
 }
 
 function safeLog(message, level = 'debug') {
-  logger[level](message);
+  // Check if we're in a worker context (no window object)
+  const isWorkerContext = typeof window === 'undefined';
+
+  // Use the new logger service if available
+  if (!isWorkerContext && window.logger) {
+    window.logger[level]('ruleEngine', message);
+  } else if (
+    !isWorkerContext &&
+    window.consoleManager &&
+    typeof window.consoleManager[level] === 'function'
+  ) {
+    window.consoleManager[level](message);
+  } else {
+    console[level] ? console[level](message) : log('info', message);
+  }
 }
 
 /**
@@ -133,6 +156,16 @@ function isBossDefeatCheck(rule, stateSnapshotInterface) {
 /**
  * Evaluates a rule against the provided state context (either StateManager or main thread snapshot).\n * @param {any} rule - The rule object (or primitive) to evaluate.\n * @param {object} context - Either the StateManager instance (or its interface) in the worker,\n *                           or the snapshot interface on the main thread.\n * @param {number} [depth=0] - Current recursion depth for debugging.\n * @returns {boolean|any} - The result of the rule evaluation.\n */
 export const evaluateRule = (rule, context, depth = 0) => {
+  // Prevent infinite recursion by limiting depth
+  if (depth > 100) {
+    log('error', '[evaluateRule] Maximum recursion depth exceeded', {
+      depth,
+      rule: rule?.type,
+      method: rule?.method
+    });
+    return false; // Return false for locations that would cause stack overflow
+  }
+
   // Ensure rule is an object
   if (typeof rule !== 'object' || rule === null) {
     // Handle primitive types directly if they sneak in (e.g., simple string/number requirement)
@@ -143,7 +176,8 @@ export const evaluateRule = (rule, context, depth = 0) => {
   // Check if context is provided and is a valid snapshot interface
   const isValidContext = context && context._isSnapshotInterface === true;
   if (!isValidContext) {
-    logger.warn(
+    log(
+      'warn',
       '[evaluateRule] Missing or invalid context (snapshotInterface). Evaluation may fail or be inaccurate.',
       { rule: rule, contextProvided: !!context }
     );
@@ -165,11 +199,41 @@ export const evaluateRule = (rule, context, depth = 0) => {
           if (typeof context.executeHelper === 'function') {
             result = context.executeHelper(rule.name, ...args);
           } else {
-            logger.warn(
+            log(
+              'warn',
               `[evaluateRule SnapshotIF] context.executeHelper is not a function for helper \'${rule.name}\'. Assuming undefined.`
             );
             result = undefined;
           }
+        }
+        break;
+      }
+
+      case 'generic_helper': {
+        // Handle generic helper functions that couldn't be converted to specific rule types
+        // Try to call the game-specific helper function, fall back to true if not available
+        const args = rule.args
+          ? rule.args.map((arg) => evaluateRule(arg, context, depth + 1))
+          : [];
+        if (args.some((arg) => arg === undefined)) {
+          result = undefined;
+        } else if (isValidContext) {
+          if (typeof context.executeHelper === 'function') {
+            result = context.executeHelper(rule.name, ...args);
+          } else {
+            log(
+              'warn',
+              `[evaluateRule] context.executeHelper is not a function for generic helper '${rule.name}'. Falling back to true.`
+            );
+            result = true;
+          }
+        } else {
+          log(
+            'warn',
+            `[evaluateRule] Generic helper '${rule.name}' called without valid context - falling back to true`,
+            { rule }
+          );
+          result = true;
         }
         break;
       }
@@ -191,6 +255,8 @@ export const evaluateRule = (rule, context, depth = 0) => {
             );
             result = undefined;
           }
+        } else {
+          result = undefined;
         }
         break;
       }
@@ -268,15 +334,83 @@ export const evaluateRule = (rule, context, depth = 0) => {
       case 'attribute': {
         const baseObject = evaluateRule(rule.object, context, depth + 1);
 
+        // Special case: if baseObject is undefined and the object was "options", 
+        // try to resolve from game settings
+        if (baseObject === undefined && rule.object && rule.object.type === 'name' && rule.object.name === 'options') {
+          // Try to get the setting value from context
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+            
+            // Check if the setting exists
+            if (staticData.settings && staticData.settings[playerId]) {
+              const settingValue = staticData.settings[playerId][rule.attr];
+              if (settingValue !== undefined) {
+                return settingValue;
+              }
+            }
+          }
+          
+          // Default values for common KH1 options
+          if (rule.attr === 'keyblades_unlock_chests') {
+            return false; // Default value
+          }
+          
+          return undefined;
+        }
+
         if (baseObject && typeof baseObject === 'object') {
           // Special handling for parent_region attribute on location objects
           if (rule.attr === 'parent_region' && baseObject.parent_region_name) {
             // Dynamically resolve the parent region from the context
             if (context.getStaticData && context.getStaticData().regions) {
               const regions = context.getStaticData().regions;
-              return regions[baseObject.parent_region_name];
+              
+              // Try direct lookup first
+              if (regions[baseObject.parent_region_name]) {
+                return regions[baseObject.parent_region_name];
+              }
+              
+              // Try player-specific lookup  
+              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+              if (regions[playerId] && regions[playerId][baseObject.parent_region_name]) {
+                return regions[playerId][baseObject.parent_region_name];
+              }
             }
             return undefined;
+          }
+
+          // Special handling for boss attribute - redirect to bosses["None"] if bosses exists
+          if (rule.attr === 'boss' && !baseObject.boss && baseObject.bosses) {
+            // Use the new bosses format - default to "None" entry
+            return baseObject.bosses["None"] || Object.values(baseObject.bosses)[0];
+          }
+          
+          // Special handling for dungeon attribute - resolve string to actual dungeon object
+          if (rule.attr === 'dungeon' && baseObject.dungeon) {
+            const dungeonValue = baseObject.dungeon;
+            
+            if (typeof dungeonValue === 'string') {
+              // Look up the actual dungeon object from staticData
+              const dungeonName = dungeonValue;
+              const playerId = context.playerId || context.getPlayerSlot?.() || '1';
+              const dungeons = context.dungeons || context.getAllDungeons?.() || context.staticData?.dungeons;
+              
+              if (dungeons) {
+                // Try player-specific dungeon first
+                if (dungeons[playerId] && dungeons[playerId][dungeonName]) {
+                  return dungeons[playerId][dungeonName];
+                }
+                // Fallback to direct dungeon lookup if not nested by player
+                if (dungeons[dungeonName]) {
+                  return dungeons[dungeonName];
+                }
+              }
+              // If we couldn't resolve, return the string (fallback)
+              return dungeonName;
+            }
+            // Already an object, return as-is
+            return dungeonValue;
           }
 
           // First try direct property access
@@ -312,6 +446,92 @@ export const evaluateRule = (rule, context, depth = 0) => {
       }
 
       case 'function_call': {
+        // Special handling for state.multiworld.get_location() calls
+        // These are used in location access rules to reference the location's parent_region
+        if (rule.function?.type === 'attribute' && 
+            rule.function.attr === 'get_location' &&
+            rule.function.object?.type === 'attribute' &&
+            rule.function.object.attr === 'multiworld') {
+          
+          const args = rule.args ? rule.args.map(arg => evaluateRule(arg, context, depth + 1)) : [];
+          const locationName = args[0];
+          
+          // If we're evaluating a rule for the same location, return the current location
+          // This avoids circular references when a location's access rule references itself
+          if (context.currentLocation && context.currentLocation.name === locationName) {
+            // Return an object that has the parent_region property properly set
+            return {
+              name: context.currentLocation.name,
+              parent_region: context.currentLocation.parent_region || 
+                           (context.currentLocation.region ? 
+                             context.getStaticData?.().regions?.[context.currentLocation.region] : 
+                             undefined),
+              parent_region_name: context.currentLocation.region
+            };
+          }
+          
+          // Otherwise, try to get the location from static data
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            // Search all regions for this location
+            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+              if (regionData.locations) {
+                const location = regionData.locations.find(loc => loc.name === locationName);
+                if (location) {
+                  return {
+                    name: location.name,
+                    parent_region: regionData,
+                    parent_region_name: regionName
+                  };
+                }
+              }
+            }
+          }
+          
+          return undefined;
+        }
+        
+        // Special handling for state.multiworld.get_entrance() calls
+        // These are used in exit access rules to reference the exit's parent_region
+        if (rule.function?.type === 'attribute' && 
+            rule.function.attr === 'get_entrance' &&
+            rule.function.object?.type === 'attribute' &&
+            rule.function.object.attr === 'multiworld') {
+          
+          const args = rule.args ? rule.args.map(arg => evaluateRule(arg, context, depth + 1)) : [];
+          const exitName = args[0];
+          
+          // When evaluating an exit rule, the context has parent_region set
+          // If this is a self-reference to the current exit, return the appropriate object
+          if (context.currentExit && context.currentExit === exitName) {
+            // For the current exit being evaluated, return an object with parent_region
+            return {
+              name: exitName,
+              parent_region: context.parent_region
+            };
+          }
+          
+          // Otherwise, try to find the exit in static data
+          if (context.getStaticData) {
+            const staticData = context.getStaticData();
+            // Search all regions for this exit
+            for (const [regionName, regionData] of Object.entries(staticData.regions || {})) {
+              if (regionData.exits) {
+                const exit = regionData.exits.find(ex => ex.name === exitName);
+                if (exit) {
+                  return {
+                    name: exit.name,
+                    parent_region: regionData,
+                    parent_region_name: regionName
+                  };
+                }
+              }
+            }
+          }
+          
+          return undefined;
+        }
+        
         // Special handling for boss.can_defeat function calls
         // These need to be redirected to use the boss's defeat_rule data
         if (
@@ -322,9 +542,26 @@ export const evaluateRule = (rule, context, depth = 0) => {
           let current = rule.function.object;
           let isDungeomBossDefeat = false;
 
-          // Look for the pattern: location.parent_region.dungeon.boss.can_defeat
+          // Look for patterns:
+          // 1. location.parent_region.dungeon.boss.can_defeat
+          // 2. location.parent_region.dungeon.bosses["index"].can_defeat (subscript pattern)
+          
+          // First check if immediate parent is a subscript accessing bosses
+          if (current && current.type === 'subscript') {
+            // Check if the subscript is accessing a bosses attribute
+            let subscriptValue = current.value;
+            while (subscriptValue && subscriptValue.type === 'attribute') {
+              if (subscriptValue.attr === 'bosses' || subscriptValue.attr === 'boss') {
+                isDungeomBossDefeat = true;
+                break;
+              }
+              subscriptValue = subscriptValue.object;
+            }
+          }
+          
+          // Also check the standard attribute chain
           while (current && current.type === 'attribute') {
-            if (current.attr === 'boss') {
+            if (current.attr === 'boss' || current.attr === 'bosses') {
               isDungeomBossDefeat = true;
               break;
             }
@@ -529,7 +766,22 @@ export const evaluateRule = (rule, context, depth = 0) => {
             }
             break;
           case 'in':
-            if (Array.isArray(right) || typeof right === 'string') {
+            if (Array.isArray(right)) {
+              // Handle array comparison with deep equality for nested arrays
+              if (Array.isArray(left)) {
+                result = right.some(item => {
+                  if (Array.isArray(item)) {
+                    // Deep array comparison
+                    return item.length === left.length && 
+                           item.every((val, index) => val === left[index]);
+                  } else {
+                    return item === left;
+                  }
+                });
+              } else {
+                result = right.includes(left);
+              }
+            } else if (typeof right === 'string') {
               result = right.includes(left);
             } else if (right instanceof Set) {
               // Handle Set
@@ -553,10 +805,68 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'total_items_count': {
+        // Check if player has collected at least N items total across all item types
+        const requiredCount = evaluateRule(rule.count, context, depth + 1);
+        if (requiredCount === undefined) {
+          result = undefined;
+        } else if (typeof context.getTotalItemCount === 'function') {
+          const totalCount = context.getTotalItemCount();
+          result = totalCount >= requiredCount;
+        } else if (context.snapshot && context.snapshot.inventory) {
+          // Fallback: count items directly from snapshot inventory
+          let totalCount = 0;
+          for (const itemName in context.snapshot.inventory) {
+            totalCount += context.snapshot.inventory[itemName] || 0;
+          }
+          result = totalCount >= requiredCount;
+        } else {
+          log('warn', '[evaluateRule] No way to get total item count for total_items_count rule.');
+          result = undefined;
+        }
+        break;
+      }
+      
+      case 'locations_checked': {
+        // Check if player has checked at least N locations
+        const requiredCount = evaluateRule(rule.count, context, depth + 1);
+        console.log('[locations_checked] Rule triggered, requiredCount:', requiredCount);
+        if (requiredCount === undefined) {
+          console.log('[locations_checked] requiredCount is undefined');
+          result = undefined;
+        } else if (typeof context.getCheckedLocationsCount === 'function') {
+          const checkedCount = context.getCheckedLocationsCount();
+          console.log(`[locations_checked] Checking if ${checkedCount} >= ${requiredCount}`);
+          result = checkedCount >= requiredCount;
+          console.log(`[locations_checked] Result: ${result}`);
+        } else {
+          console.log('[locations_checked] context.getCheckedLocationsCount is not a function');
+          log('warn', '[evaluateRule] context.getCheckedLocationsCount is not a function for locations_checked.');
+          result = undefined;
+        }
+        break;
+      }
+
       case 'item_check': {
         const itemName = evaluateRule(rule.item, context, depth + 1);
         if (itemName === undefined) {
           result = undefined;
+        } else if (rule.count !== undefined) {
+          // If there's a count field, use count-based checking
+          const requiredCount = evaluateRule(rule.count, context, depth + 1);
+          if (requiredCount === undefined) {
+            result = undefined;
+          } else if (typeof context.countItem === 'function') {
+            const currentCount = context.countItem(itemName);
+            if (currentCount === undefined) {
+              result = undefined;
+            } else {
+              result = currentCount >= requiredCount;
+            }
+          } else {
+            log('warn', '[evaluateRule SnapshotIF] context.countItem is not a function for item_check with count.');
+            result = undefined;
+          }
         } else if (typeof context.hasItem === 'function') {
           result = context.hasItem(itemName); // hasItem should return true/false/undefined
         } else {
@@ -564,6 +874,24 @@ export const evaluateRule = (rule, context, depth = 0) => {
             'warn',
             '[evaluateRule SnapshotIF] context.hasItem is not a function for item_check.'
           );
+          result = undefined;
+        }
+        break;
+      }
+
+      case 'location_check': {
+        // Check if a location is accessible (can be reached)
+        // This matches the Python behavior where _can_get checks if a location CAN be reached
+        const locationName = evaluateRule(rule.location, context, depth + 1);
+        if (locationName === undefined) {
+          result = undefined;
+        } else if (typeof context.isLocationAccessible === 'function') {
+          result = context.isLocationAccessible(locationName);
+          if (result === undefined) {
+            log('warn', `[evaluateRule] Location ${locationName} accessibility could not be determined`);
+          }
+        } else {
+          log('warn', '[evaluateRule] context.isLocationAccessible is not a function for location_check.');
           result = undefined;
         }
         break;
@@ -703,10 +1031,22 @@ export const evaluateRule = (rule, context, depth = 0) => {
             result = left - right;
             break;
           case '*':
-            result = left * right;
+            // Handle Python-style list repetition: [item] * count = [item, item, ...]
+            if (Array.isArray(left) && typeof right === 'number') {
+              result = [];
+              for (let i = 0; i < right; i++) {
+                result.push(...left);
+              }
+            } else {
+              result = left * right;
+            }
             break;
           case '/':
             result = right !== 0 ? left / right : undefined;
+            break;
+          case '//':
+            // Python floor division operator
+            result = right !== 0 ? Math.floor(left / right) : undefined;
             break;
           case '==':
             result = left == right;
@@ -761,6 +1101,67 @@ export const evaluateRule = (rule, context, depth = 0) => {
         result = evaluatedList.some((item) => item === undefined)
           ? undefined
           : evaluatedList;
+        break;
+      }
+
+      case 'all_of': {
+        // all_of evaluates an element_rule against all items from an iterator
+        if (!rule.element_rule) {
+          log('warn', '[evaluateRule] all_of rule missing element_rule', { rule });
+          result = undefined;
+          break;
+        }
+        
+        // Extract iterator information
+        let iterable;
+        if (rule.iterator_info && rule.iterator_info.iterator) {
+          // Get the iterator from the iterator_info
+          iterable = evaluateRule(rule.iterator_info.iterator, context, depth + 1);
+        } else if (rule.iterable) {
+          // Fallback for direct iterable field
+          iterable = evaluateRule(rule.iterable, context, depth + 1);
+        } else {
+          log('warn', '[evaluateRule] all_of rule missing iterator information', { rule });
+          result = undefined;
+          break;
+        }
+        
+        if (!Array.isArray(iterable)) {
+          log('warn', '[evaluateRule] all_of iterator is not an array', { rule, iterable });
+          result = false;
+          break;
+        }
+        
+        result = true;
+        for (const item of iterable) {
+          // For now, evaluate the element_rule directly
+          // TODO: In a full implementation, we'd need to bind the iterator variable
+          const itemResult = evaluateRule(rule.element_rule, context, depth + 1);
+          if (itemResult === false) {
+            result = false;
+            break;
+          }
+          if (itemResult === undefined) {
+            result = undefined;
+            break;
+          }
+        }
+        break;
+      }
+
+      case 'generator_expression': {
+        // generator_expression represents a Python generator expression
+        // It has an element and potentially filters/conditions
+        if (!rule.element) {
+          log('warn', '[evaluateRule] generator_expression rule missing element', { rule });
+          result = undefined;
+          break;
+        }
+        
+        // For now, evaluate the element directly
+        // This is a simplified implementation - real generator expressions would need
+        // proper iteration and filtering support
+        result = evaluateRule(rule.element, context, depth + 1);
         break;
       }
 
@@ -829,6 +1230,24 @@ export function debugRule(rule, indent = 0) {
       });
       break;
 
+    case 'location_check':
+      if (typeof rule.location === 'string') {
+        log('info', `${prefix}Location: ${rule.location}`);
+      } else {
+        log('info', `${prefix}Location (complex):`);
+        debugRule(rule.location, indent + 2);
+      }
+      break;
+
+    case 'locations_checked':
+      if (typeof rule.count === 'number') {
+        log('info', `${prefix}Required locations checked: ${rule.count}`);
+      } else if (rule.count) {
+        log('info', `${prefix}Required locations checked (complex):`);
+        debugRule(rule.count, indent + 2);
+      }
+      break;
+
     case 'item_check':
       if (typeof rule.item === 'string') {
         log('info', `${prefix}Item: ${rule.item}`);
@@ -867,6 +1286,24 @@ export function debugRule(rule, indent = 0) {
 
     case 'helper':
       log('info', `${prefix}Helper: ${rule.name}`);
+      if (rule.args && rule.args.length > 0) {
+        log('info', `${prefix}Args:`);
+        rule.args.forEach((arg, i) => {
+          if (typeof arg === 'string' || typeof arg === 'number') {
+            log('info', `${prefix}  Arg ${i + 1}: ${arg}`);
+          } else {
+            log('info', `${prefix}  Arg ${i + 1} (complex):`);
+            debugRule(arg, indent + 4);
+          }
+        });
+      }
+      break;
+
+    case 'generic_helper':
+      log('info', `${prefix}Generic Helper: ${rule.name}`);
+      if (rule.description) {
+        log('info', `${prefix}Description: ${rule.description}`);
+      }
       if (rule.args && rule.args.length > 0) {
         log('info', `${prefix}Args:`);
         rule.args.forEach((arg, i) => {

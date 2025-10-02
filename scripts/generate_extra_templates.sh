@@ -37,3 +37,5 @@ python Generate.py --player_files_path "Players/presets/Multiworld" --seed 3
 #python scripts/pack_apworld.py codingadventure
 
 find frontend/presets -type d -empty -delete
+
+#cp -r frontend/modules/shared frontend/modules/textAdventure-remote/

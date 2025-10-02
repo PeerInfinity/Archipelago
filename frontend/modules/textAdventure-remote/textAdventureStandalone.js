@@ -440,8 +440,12 @@ Load a rules file in the main application to begin your adventure.`;
         }
 
         // Perform the check via dispatcher
+        // Get current region from player state to include in location check
+        const currentRegion = this.playerState ? this.playerState.getCurrentRegion() : null;
+
         this.moduleDispatcher.publish('user:locationCheck', {
             locationName: locationName,
+            regionName: currentRegion,
             sourceModule: 'textAdventureStandalone'
         }, 'bottom');
 
@@ -465,57 +469,38 @@ Load a rules file in the main application to begin your adventure.`;
         return `Your inventory contains: ${inventory.join(', ')}`;
     }
 
-    handleCustomDataSelection(value) {
+    async handleCustomDataSelection(value) {
         if (!value) return;
 
         logger.info('Loading custom data:', value);
 
-        // Create mock custom data for Adventure
         if (value === 'adventure') {
-            const mockCustomData = {
-                settings: {
-                    enableDiscoveryMode: false,
-                    messageHistoryLimit: 10
-                },
-                regions: {
-                    "Menu": {
-                        enterMessage: "You stand at the entrance to Adventure. The path forward awaits your command.",
-                        description: "A simple starting point where your journey begins."
-                    },
-                    "Overworld": {
-                        enterMessage: "You emerge into the vast overworld of Adventure, filled with mysteries and treasures to discover.",
-                        description: "An expansive realm with many secrets hidden within its borders."
-                    }
-                },
-                locations: {
-                    "Blue Labyrinth 0": {
-                        checkMessage: "You carefully search the Blue Labyrinth and discover: {item}!",
-                        alreadyCheckedMessage: "You've already thoroughly explored this part of the Blue Labyrinth.",
-                        inaccessibleMessage: "The entrance to the Blue Labyrinth is blocked by a mysterious force."
-                    }
-                },
-                exits: {
-                    "GameStart": {
-                        moveMessage: "You take your first steps into the world of Adventure...",
-                        inaccessibleMessage: "The way forward is somehow blocked by an unseen barrier."
-                    }
+            try {
+                // Load the actual custom data file from local shared directory
+                const response = await fetch('./shared/customData/adventure_textadventure.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load custom data: ${response.status}`);
                 }
-            };
+                const customData = await response.json();
 
-            this.customData = mockCustomData;
-            
-            // Apply settings
-            if (mockCustomData.settings) {
-                if (typeof mockCustomData.settings.enableDiscoveryMode === 'boolean') {
-                    this.discoveryMode = mockCustomData.settings.enableDiscoveryMode;
+                this.customData = customData;
+
+                // Apply settings
+                if (customData.settings) {
+                    if (typeof customData.settings.enableDiscoveryMode === 'boolean') {
+                        this.discoveryMode = customData.settings.enableDiscoveryMode;
+                    }
+                    if (typeof customData.settings.messageHistoryLimit === 'number') {
+                        this.messageHistoryLimit = customData.settings.messageHistoryLimit;
+                    }
                 }
-                if (typeof mockCustomData.settings.messageHistoryLimit === 'number') {
-                    this.messageHistoryLimit = mockCustomData.settings.messageHistoryLimit;
-                }
+
+                this.displayMessage('Custom Adventure data loaded!', 'system');
+                this.displayCurrentRegion();
+            } catch (error) {
+                logger.error('Error loading custom data file:', error);
+                this.displayMessage(`Failed to load custom data: ${error.message}`, 'error');
             }
-
-            this.displayMessage('Custom Adventure data loaded!', 'system');
-            this.displayCurrentRegion();
         }
     }
 

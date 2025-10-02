@@ -50,40 +50,20 @@ async function loadAdventureRulesAndPositionPlayer(testController, targetRegion 
   
   // Step 3: State manager is ready when rulesLoaded event fires - no additional wait needed
   
-  // Step 4: Position player in target region
-  testController.log(`Positioning player in ${targetRegion} region...`);
-  if (window.eventDispatcher) {
-    // Set up promise to wait for the region change event BEFORE publishing the move
-    const regionChangePromise = testController.waitForEvent('playerState:regionChanged', 5000);
-    
-    testController.log(`Publishing user:regionMove event to move to ${targetRegion}...`);
-    window.eventDispatcher.publish('tests', 'user:regionMove', {
-      exitName: 'Initial',
-      targetRegion: targetRegion,
-      sourceRegion: null,
-      sourceModule: 'tests'
-    }, { initialTarget: 'bottom' });
-    
-    try {
-      // Wait for the region change event to confirm the move worked
-      const regionChangeData = await regionChangePromise;
-      testController.log(`Successfully received playerState:regionChanged event:`, regionChangeData);
-      testController.reportCondition('Player region change event received', true);
-    } catch (error) {
-      testController.log(`WARNING: Region change event not received: ${error.message}`, 'warn');
-      testController.reportCondition('Player region change event received', false);
-    }
-  }
-  
-  // Step 5: UI updates when region change event fires - no additional wait needed
-  
-  // Step 6: Verify positioning using playerStateSingleton (proper approach)
+  // Step 4: Verify player is in target region
+  testController.log(`Verifying player is in ${targetRegion} region...`);
   const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
-  const playerState = getPlayerStateSingleton();
-  const currentRegion = playerState.getCurrentRegion();
-  testController.log(`Final player positioned in region: ${currentRegion}`);
-  testController.reportCondition(`Player positioned in ${targetRegion} region`, 
-    currentRegion === targetRegion);
+
+  const playerStateReady = await testController.pollForCondition(
+    () => {
+      const playerState = getPlayerStateSingleton();
+      return playerState && playerState.getCurrentRegion() === targetRegion;
+    },
+    `PlayerState to be in ${targetRegion} region`,
+    2000,
+    50
+  );
+  testController.reportCondition(`Player positioned in ${targetRegion} region`, playerStateReady);
 }
 
 export async function textAdventureBasicInitializationTest(testController) {
@@ -91,12 +71,21 @@ export async function textAdventureBasicInitializationTest(testController) {
     testController.log('Starting textAdventureBasicInitializationTest...');
     testController.reportCondition('Test started', true);
 
-    // Step 1: Wait briefly for rules to be ready (they should already be loaded)
-    testController.log('Step 1: Ensuring rules are ready...');
-    
-    // Just wait a moment for everything to be ready
-    await new Promise(resolve => setTimeout(resolve, 500));
-    testController.reportCondition('Rules are ready', true);
+    // Step 1: Load Adventure rules
+    testController.log('Step 1: Loading Adventure rules file...');
+    const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 8000);
+
+    const rulesResponse = await fetch('./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json');
+    const rulesData = await rulesResponse.json();
+
+    testController.eventBus.publish('files:jsonLoaded', {
+      jsonData: rulesData,
+      selectedPlayerId: '1',
+      sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
+    }, 'tests');
+
+    await rulesLoadedPromise;
+    testController.reportCondition('Adventure rules loaded', true);
 
     // Step 2: Activate Text Adventure panel
     testController.log('Step 2: Activating Text Adventure panel...');
@@ -114,8 +103,23 @@ export async function textAdventureBasicInitializationTest(testController) {
     );
     testController.reportCondition('Text Adventure panel is visible', panelReady);
 
-    // Step 3: Check initial state
-    testController.log('Step 3: Checking initial state...');
+    // Step 3: Verify player is in Menu region
+    testController.log('Step 3: Verifying player is in Menu region...');
+    const { getPlayerStateSingleton } = await import('../../playerState/singleton.js');
+
+    const playerStateReady = await testController.pollForCondition(
+      () => {
+        const playerState = getPlayerStateSingleton();
+        return playerState && playerState.getCurrentRegion() === 'Menu';
+      },
+      'PlayerState to be in Menu region',
+      2000,
+      50
+    );
+    testController.reportCondition('Player positioned in Menu region', playerStateReady);
+
+    // Step 4: Check initial state
+    testController.log('Step 4: Checking initial state...');
     
     // Check that display area exists and has rules loaded message
     const displayArea = document.querySelector('.text-adventure-display');
@@ -143,8 +147,8 @@ export async function textAdventureBasicInitializationTest(testController) {
       testController.reportCondition('Adventure custom data option available', hasAdventureOption);
     }
 
-    // Step 4: Wait for proper region message to appear (not the "nowhere" fallback)
-    testController.log('Step 4: Waiting for proper region message (not "nowhere" fallback)...');
+    // Step 5: Wait for proper region message to appear (not the "nowhere" fallback)
+    testController.log('Step 5: Waiting for proper region message (not "nowhere" fallback)...');
     
     // The text adventure should show a proper region after rules are loaded, not the fallback message
     const properRegionMessageAppeared = await testController.pollForCondition(
@@ -195,13 +199,26 @@ export async function textAdventureCustomDataLoadingTest(testController) {
     testController.log('Starting textAdventureCustomDataLoadingTest...');
     testController.reportCondition('Test started', true);
 
-    // Ensure we have rules loaded (prerequisite)
-    await new Promise(resolve => setTimeout(resolve, 500));
-    testController.reportCondition('Rules ready', true);
+    // Step 1: Load Adventure rules first
+    testController.log('Step 1: Loading Adventure rules file...');
+    const rulesLoadedPromise = testController.waitForEvent('stateManager:rulesLoaded', 8000);
 
-    // Activate Text Adventure panel
+    const rulesResponse = await fetch('./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json');
+    const rulesData = await rulesResponse.json();
+
+    testController.eventBus.publish('files:jsonLoaded', {
+      jsonData: rulesData,
+      selectedPlayerId: '1',
+      sourceName: './presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json'
+    }, 'tests');
+
+    await rulesLoadedPromise;
+    testController.reportCondition('Adventure rules loaded', true);
+
+    // Step 2: Activate Text Adventure panel
+    testController.log('Step 2: Activating Text Adventure panel...');
     testController.eventBus.publish('ui:activatePanel', { panelId: 'textAdventurePanel' }, 'tests');
-    
+
     await testController.pollForCondition(
       () => document.querySelector('.text-adventure-panel-container') !== null,
       'Text Adventure panel to appear',
@@ -209,15 +226,15 @@ export async function textAdventureCustomDataLoadingTest(testController) {
       200
     );
 
-    // Step 1: Load custom data file
-    testController.log('Step 1: Loading Adventure custom data...');
+    // Step 3: Load custom data file
+    testController.log('Step 3: Loading Adventure custom data...');
     const dropdown = document.querySelector('.custom-data-select');
     testController.reportCondition('Custom data dropdown found', dropdown !== null);
 
     if (dropdown) {
       // Set up event listener BEFORE triggering the change to avoid race condition
       const customDataLoadedPromise = testController.waitForEvent('textAdventure:customDataLoaded', 2000);
-      
+
       // Simulate selecting Adventure custom data
       dropdown.value = 'adventure';
       dropdown.dispatchEvent(new Event('change'));
@@ -227,8 +244,8 @@ export async function textAdventureCustomDataLoadingTest(testController) {
       const customDataLoaded = await customDataLoadedPromise;
       testController.reportCondition('Custom data loaded event received', customDataLoaded !== null);
 
-      // Step 2: Check that custom data properly displays the Adventure entrance message
-      testController.log('Step 2: Verifying Adventure entrance message appears...');
+      // Step 4: Check that custom data properly displays the Adventure entrance message
+      testController.log('Step 4: Verifying Adventure entrance message appears...');
       
       // Allow time for the custom data to be processed and displayCurrentRegion to be called
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -236,7 +253,7 @@ export async function textAdventureCustomDataLoadingTest(testController) {
       const adventureEntranceShown = await testController.pollForCondition(
         () => {
           const displayArea = document.querySelector('.text-adventure-display');
-          return displayArea && displayArea.textContent.includes('You stand at the entrance to Adventure. The path forward awaits your command.');
+          return displayArea && displayArea.textContent.includes('You stand at the entrance to Adventure');
         },
         'Adventure entrance message shown after custom data load',
         2000,
@@ -244,7 +261,7 @@ export async function textAdventureCustomDataLoadingTest(testController) {
       );
       testController.reportCondition('Adventure entrance message displayed after custom data load', adventureEntranceShown);
 
-      // Step 3: Verify custom data loaded message
+      // Step 5: Verify custom data loaded message
       const displayArea = document.querySelector('.text-adventure-display');
       if (displayArea) {
         const hasLoadedMessage = displayArea.textContent.includes('Custom Adventure data loaded');

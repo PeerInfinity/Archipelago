@@ -609,8 +609,13 @@ export class TextAdventureLogic {
 
         // Perform the check via dispatcher
         if (moduleDispatcher) {
+            // Get current region from player state to include in location check
+            const playerState = getPlayerStateSingleton();
+            const currentRegion = playerState ? playerState.getCurrentRegion() : null;
+
             moduleDispatcher.publish('user:locationCheck', {
                 locationName: locationName,
+                regionName: currentRegion,
                 sourceModule: 'textAdventure'
             }, 'bottom');
         }

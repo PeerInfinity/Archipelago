@@ -311,7 +311,8 @@ export class RegionBlockBuilder {
             snapshotInterface,
             regionIsReachable,
             useColorblind,
-            isDiscoveryModeActive
+            isDiscoveryModeActive,
+            staticData
           );
           break;
       }
@@ -843,7 +844,8 @@ export class RegionBlockBuilder {
     snapshotInterface,
     regionIsReachable,
     useColorblind,
-    isDiscoveryModeActive
+    isDiscoveryModeActive,
+    staticData
   ) {
     const locationsHeader = document.createElement('h4');
     locationsHeader.textContent = 'Locations:';
