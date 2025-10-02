@@ -5,6 +5,7 @@ export const MessageTypes = {
     // Handshake messages
     IFRAME_READY: 'IFRAME_READY',
     ADAPTER_READY: 'ADAPTER_READY',
+    IFRAME_APP_READY: 'IFRAME_APP_READY', // Sent when iframe app is fully initialized
     HEARTBEAT: 'HEARTBEAT',
     HEARTBEAT_RESPONSE: 'HEARTBEAT_RESPONSE',
     

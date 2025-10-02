@@ -33,7 +33,7 @@ export class IframeManagerUI {
         this.knownPages = [
             {
                 name: "Text Adventure (Standalone)",
-                url: "./modules/textAdventure-iframe/index.html",
+                url: "./modules/textAdventure-remote/index.html",
                 description: "Interactive text adventure running in iframe"
             },
             {

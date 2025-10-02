@@ -1,17 +1,11 @@
-// Main entry point for standalone text adventure
-import { IframeClient } from './iframeClient.js';
-import { 
-    StateManagerProxy, 
-    EventBusProxy, 
-    ModuleDispatcherProxy,
-    PlayerStateProxy,
-    DiscoveryStateProxy 
-} from './mockDependencies.js';
+// Main entry point for standalone text adventure (separate window version)
+import { WindowClient } from '../window-base/windowClient.js';
 import { TextAdventureStandalone } from './textAdventureStandalone.js';
 import { createSharedLogger, initializeIframeLogger } from './shared/sharedLogger.js';
 
-// Initialize iframe logger with conservative defaults
+// Initialize logger with conservative defaults
 // The main thread will send the actual configuration via postMessage
+// Note: We use initializeIframeLogger for window context too - it handles both
 initializeIframeLogger({
     defaultLevel: 'WARN',
     categoryLevels: {
@@ -20,7 +14,7 @@ initializeIframeLogger({
 });
 
 // Create logger for this module
-const logger = createSharedLogger('standalone');
+const logger = createSharedLogger('standalone-window');
 
 /**
  * Update connection status in UI
@@ -42,14 +36,14 @@ function updateConnectionStatus(status, type = 'connecting') {
 function showError(errorMessage) {
     const appContainer = document.getElementById('appContainer');
     const errorContainer = document.getElementById('errorContainer');
-    
+
     if (appContainer) {
         appContainer.style.display = 'none';
     }
-    
+
     if (errorContainer) {
         errorContainer.style.display = 'flex';
-        
+
         // Update error message if provided
         if (errorMessage) {
             const errorMessageElement = errorContainer.querySelector('.error-message p');
@@ -58,7 +52,7 @@ function showError(errorMessage) {
             }
         }
     }
-    
+
     updateConnectionStatus('Connection failed', 'error');
 }
 
@@ -68,85 +62,57 @@ function showError(errorMessage) {
 function showApp() {
     const appContainer = document.getElementById('appContainer');
     const errorContainer = document.getElementById('errorContainer');
-    
+
     if (appContainer) {
         appContainer.style.display = 'flex';
     }
-    
+
     if (errorContainer) {
         errorContainer.style.display = 'none';
     }
 }
 
 /**
- * Initialize the standalone text adventure
+ * Initialize the standalone text adventure in a separate window
  */
 async function initializeStandalone() {
     try {
-        logger.info('Initializing standalone text adventure...');
-        
-        // Check if we're running inside an iframe panel (parent has iframe status)
-        const isInIframePanel = window.self !== window.top;
-        if (isInIframePanel) {
-            // Add class to hide internal status bar since parent shows it
-            document.body.classList.add('iframe-embedded');
-        }
-        
+        logger.info('Initializing standalone text adventure in separate window...');
+
         updateConnectionStatus('Connecting to main application...');
-        
-        // Create iframe client
-        const iframeClient = new IframeClient();
-        
+
+        // Create window client
+        const windowClient = new WindowClient();
+
         // Attempt to connect
-        const connected = await iframeClient.connect();
-        
+        const connected = await windowClient.connect();
+
         if (!connected) {
             throw new Error('Failed to establish connection');
         }
-        
+
         updateConnectionStatus('Connected successfully', 'connected');
         logger.info('Connection established');
-        
-        // Create mock dependencies
-        const stateManagerProxy = new StateManagerProxy(iframeClient);
-        const eventBusProxy = new EventBusProxy(iframeClient);
-        const moduleDispatcherProxy = new ModuleDispatcherProxy(iframeClient);
-        const playerStateProxy = new PlayerStateProxy(iframeClient);
-        const discoveryStateProxy = new DiscoveryStateProxy(iframeClient);
-        
-        // Make proxies available globally (similar to the main app)
-        window.stateManagerProxySingleton = stateManagerProxy;
-        window.iframeEventBus = eventBusProxy;
-        window.iframeModuleDispatcher = moduleDispatcherProxy;
-        window.iframePlayerState = playerStateProxy;
-        window.iframeDiscoveryState = discoveryStateProxy;
-        window.iframeClient = iframeClient;
-        
+
+        // Make client available globally for debugging
+        window.windowClient = windowClient;
+
         // Wait a brief moment for initial data to arrive
         await new Promise(resolve => setTimeout(resolve, 200));
-        
+
         // Create and initialize the text adventure
+        // TextAdventureStandalone now creates its own dependency wrappers from the client
         const appContainer = document.getElementById('appContainer');
-        const textAdventure = new TextAdventureStandalone(
-            appContainer, 
-            {
-                stateManager: stateManagerProxy,
-                eventBus: eventBusProxy,
-                moduleDispatcher: moduleDispatcherProxy,
-                playerState: playerStateProxy,
-                discoveryState: discoveryStateProxy,
-                iframeClient: iframeClient
-            }
-        );
-        
+        const textAdventure = new TextAdventureStandalone(appContainer, windowClient);
+
         // Show the application
         showApp();
-        
+
         // Update status to show we're ready
         updateConnectionStatus('Ready - Text Adventure loaded', 'connected');
-        
-        logger.info('Standalone text adventure initialized successfully');
-        
+
+        logger.info('Standalone text adventure initialized successfully in separate window');
+
     } catch (error) {
         logger.error('Failed to initialize standalone text adventure:', error);
         showError(`Failed to connect: ${error.message}`);

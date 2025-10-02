@@ -1,23 +1,24 @@
-// Standalone version of TextAdventure adapted for iframe communication
+// Standalone version of TextAdventure adapted for remote communication (iframe or window)
 import { createStateSnapshotInterface, evaluateRule } from './mockDependencies.js';
-import { IframeStateAdapter } from './stateAdapter.js';
+import { RemoteDependencies } from './dependencies/index.js';
 import { createSharedLogger } from './shared/sharedLogger.js';
 
 // Create logger for this module
 const logger = createSharedLogger('textAdventureStandalone');
 
 export class TextAdventureStandalone {
-    constructor(container, dependencies) {
+    constructor(container, client) {
         this.container = container;
-        this.stateManager = dependencies.stateManager;
-        this.eventBus = dependencies.eventBus;
-        this.moduleDispatcher = dependencies.moduleDispatcher;
-        this.playerState = dependencies.playerState;
-        this.discoveryState = dependencies.discoveryState;
-        this.iframeClient = dependencies.iframeClient;
-        
-        // NEW: Initialize async state adapter for unified architecture approach
-        this.stateAdapter = new IframeStateAdapter(this.iframeClient);
+        this.client = client;
+
+        // Create unified dependency wrappers from client
+        const deps = new RemoteDependencies(client);
+
+        this.stateManager = deps.stateManager;
+        this.eventBus = deps.eventBus;
+        this.moduleDispatcher = deps.moduleDispatcher;
+        this.playerState = deps.playerState;
+        this.discoveryState = deps.discoveryState; // null in remote mode
         
         // UI elements
         this.rootElement = null;
@@ -243,7 +244,7 @@ Load a rules file in the main application to begin your adventure.`;
         this.eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureStandalone-oneTime');
         
         // Request fresh state snapshot to trigger the update
-        this.iframeClient.requestStateSnapshot();
+        this.client.requestStateSnapshot();
         
         // Fallback timeout in case the state update doesn't include our location
         setTimeout(() => {
@@ -645,7 +646,9 @@ Load a rules file in the main application to begin your adventure.`;
     displayCurrentRegion() {
         const regionInfo = this.getCurrentRegionInfo();
         if (!regionInfo) {
-            this.addMessage('You are nowhere. Load a rules file in the main application.');
+            // In remote mode, don't show "nowhere" message initially
+            // The region will be displayed when we receive a region change event
+            logger.debug('displayCurrentRegion - no region info available yet');
             return;
         }
 

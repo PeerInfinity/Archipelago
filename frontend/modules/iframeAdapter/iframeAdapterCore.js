@@ -18,29 +18,30 @@ function log(level, message, ...data) {
 }
 
 export class IframeAdapterCore {
-    constructor(eventBus, dispatcher, registerDynamicPublisher) {
+    constructor(eventBus, dispatcher, registerDynamicPublisher, moduleId) {
         this.eventBus = eventBus;
         this.dispatcher = dispatcher;
         this.registerDynamicPublisher = registerDynamicPublisher;
-        
+        this.moduleId = moduleId || 'iframeAdapter';
+
         // Registry of connected iframes
         this.iframes = new Map(); // iframeId -> { window, subscriptions, lastHeartbeat }
-        
+
         // Event subscriptions tracking
         this.eventBusSubscriptions = new Map(); // iframeId -> Set of event names
         this.dispatcherSubscriptions = new Map(); // iframeId -> Set of event names
-        
+
         // Message handlers
         this.messageHandlers = new Map();
         this.setupMessageHandlers();
-        
+
         // Listen for postMessage events
         this.setupPostMessageListener();
-        
+
         // Setup heartbeat monitoring
         this.heartbeatInterval = null;
         this.startHeartbeatMonitoring();
-        
+
         log('info', 'IframeAdapterCore initialized');
     }
 
@@ -49,6 +50,7 @@ export class IframeAdapterCore {
      */
     setupMessageHandlers() {
         this.messageHandlers.set(MessageTypes.IFRAME_READY, this.handleIframeReady.bind(this));
+        this.messageHandlers.set(MessageTypes.IFRAME_APP_READY, this.handleIframeAppReady.bind(this));
         this.messageHandlers.set(MessageTypes.HEARTBEAT, this.handleHeartbeat.bind(this));
         this.messageHandlers.set(MessageTypes.SUBSCRIBE_EVENT_BUS, this.handleSubscribeEventBus.bind(this));
         this.messageHandlers.set(MessageTypes.SUBSCRIBE_EVENT_DISPATCHER, this.handleSubscribeEventDispatcher.bind(this));
@@ -84,12 +86,12 @@ export class IframeAdapterCore {
         }
         
         log('debug', `Received message: ${message.type} from iframe: ${message.iframeId}`);
-        
+
         // Debug log all available handlers
         if (message.type === 'REQUEST_STATE_SNAPSHOT') {
             log('debug', 'Available message handlers:', Array.from(this.messageHandlers.keys()));
         }
-        
+
         // Get message handler
         const handler = this.messageHandlers.get(message.type);
         if (!handler) {
@@ -196,22 +198,44 @@ export class IframeAdapterCore {
     }
 
     /**
+     * Handle iframe app ready message
+     * @param {object} message - The message object
+     * @param {Window} source - Source window
+     */
+    handleIframeAppReady(message, source) {
+        const { iframeId } = message;
+
+        if (this.iframes.has(iframeId)) {
+            const iframeState = this.iframes.get(iframeId);
+            iframeState.appReady = true;
+
+            // Publish event to notify modules that iframe app is fully initialized
+            if (this.eventBus && this.moduleId) {
+                this.eventBus.publish('iframe:appReady', {
+                    iframeId: iframeId,
+                    timestamp: Date.now()
+                }, this.moduleId);
+            }
+        }
+    }
+
+    /**
      * Handle heartbeat message
      * @param {object} message - The message object
      * @param {Window} source - Source window
      */
     handleHeartbeat(message, source) {
         const { iframeId } = message;
-        
+
         if (this.iframes.has(iframeId)) {
             // Update last heartbeat timestamp
             this.iframes.get(iframeId).lastHeartbeat = Date.now();
-            
+
             // Send heartbeat response
             const response = createMessage(MessageTypes.HEARTBEAT_RESPONSE, iframeId, {
                 timestamp: Date.now()
             });
-            
+
             safePostMessage(source, response);
         }
     }

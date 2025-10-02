@@ -34,6 +34,7 @@ export async function register(registrationApi) {
     // Register EventBus publishers for iframe communication
     registrationApi.registerEventBusPublisher('iframe:connected');
     registrationApi.registerEventBusPublisher('iframe:disconnected');
+    registrationApi.registerEventBusPublisher('iframe:appReady');
     registrationApi.registerEventBusPublisher('iframe:error');
     registrationApi.registerEventBusPublisher('iframe:messageReceived');
 
@@ -99,17 +100,25 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     try {
         // Create the adapter core instance
         log('debug', 'Creating IframeAdapterCore instance...');
-        adapterCore = new IframeAdapterCore(moduleEventBus, moduleDispatcher, registerDynamicPublisher);
+        adapterCore = new IframeAdapterCore(moduleEventBus, moduleDispatcher, registerDynamicPublisher, moduleId);
         log('debug', 'IframeAdapterCore instance created successfully');
         
-        // Subscribe to logger configuration updates to sync with iframes
+        // Subscribe to ALL EventBus events to forward to iframes
         if (moduleEventBus) {
+            moduleEventBus.subscribe('*', (eventName, eventData) => {
+                if (adapterCore) {
+                    adapterCore.handleEventBusEvent(eventName, eventData);
+                }
+            }, moduleId);
+            log('debug', 'Subscribed to all EventBus events for iframe forwarding');
+
+            // Subscribe to logger configuration updates to sync with iframes
             moduleEventBus.subscribe('logger:configurationUpdated', (loggingConfig) => {
                 log('debug', 'Received logger configuration update, broadcasting to iframes');
                 adapterCore.broadcastLogConfigUpdate(loggingConfig);
             }, moduleId);
         }
-        
+
         // Make adapter core available globally for iframe panels
         if (typeof window !== 'undefined') {
             window.iframeAdapterCore = adapterCore;

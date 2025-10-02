@@ -146,14 +146,40 @@ export async function initialize(mId, priorityIndex, initializationApi) {
     if (eventBus) {
         eventBus.subscribe('stateManager:rulesLoaded', handleRulesLoaded, moduleId);
         log('info', `[${moduleId} Module] Subscribed to stateManager:rulesLoaded via eventBus`);
+
+        // Subscribe to iframe/window app ready events to send initial state
+        eventBus.subscribe('iframe:appReady', handleRemoteAppReady, moduleId);
+        eventBus.subscribe('window:appReady', handleRemoteAppReady, moduleId);
+        log('info', `[${moduleId} Module] Subscribed to remote app ready events`);
     }
-    
+
     log('info', `[${moduleId} Module] Initialization complete.`);
+}
+
+function handleRemoteAppReady(data, propagationOptions) {
+    log('info', `[${moduleId} Module] Remote app ready, sending current region state`);
+
+    const playerState = getPlayerStateSingleton();
+    const currentRegion = playerState.getCurrentRegion();
+
+    if (currentRegion) {
+        // Publish current region to the newly ready remote
+        // No timeout needed - the remote app is fully initialized and subscribed
+        const eventBus = playerState.eventBus;
+        if (eventBus) {
+            eventBus.publish('playerState:regionChanged', {
+                newRegion: currentRegion,
+                oldRegion: null,
+                source: 'playerState-init'
+            }, moduleId);
+            log('info', `[${moduleId} Module] Published initial region: ${currentRegion}`);
+        }
+    }
 }
 
 function handleRulesLoaded(data, propagationOptions) {
     log('info', `[${moduleId} Module] Received stateManager:rulesLoaded event`);
-    
+
     const playerState = getPlayerStateSingleton();
     playerState.reset();
     

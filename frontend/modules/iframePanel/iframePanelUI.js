@@ -227,8 +227,8 @@ export class IframePanelUI {
             this.iframe.style.width = '100%';
             this.iframe.style.height = '100%';
             this.iframe.style.border = 'none';
-            this.iframe.sandbox = 'allow-scripts allow-same-origin allow-forms allow-popups';
-            
+            // Note: sandbox attribute removed - not needed since iframe content is trusted and same-origin
+
             // Set up iframe event listeners
             this.iframe.onload = () => {
                 log('debug', `Iframe onload fired for URL: ${url}`);

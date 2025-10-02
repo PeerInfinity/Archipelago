@@ -5,10 +5,6 @@ import {
     validateMessage,
     generateIframeId 
 } from '../iframeAdapter/communicationProtocol.js';
-import { createSharedLogger, updateIframeLoggerConfig } from './shared/sharedLogger.js';
-
-// Create logger for this module  
-const logger = createSharedLogger('iframeClient');
 
 export class IframeClient {
     constructor() {
@@ -19,13 +15,11 @@ export class IframeClient {
         
         // Use custom ID if provided, otherwise generate with custom name, fallback to random
         this.iframeId = customId || generateIframeId(customName);
-        logger.debug(`IframeClient using iframe ID: ${this.iframeId}`);
         
         // Add browser detection for debugging
         const userAgent = navigator.userAgent.toLowerCase();
         const isFirefox = userAgent.includes('firefox');
         const isChrome = userAgent.includes('chrome');
-        logger.info(`Browser detected: Firefox=${isFirefox}, Chrome=${isChrome}, UserAgent=${userAgent}`);
         this.isConnected = false;
         this.connectionTimeout = null;
         this.retryCount = 0;
@@ -42,7 +36,6 @@ export class IframeClient {
         // Setup postMessage listener
         this.setupPostMessageListener();
         
-        logger.info(`IframeClient initialized with ID: ${this.iframeId}`);
     }
 
     /**
@@ -51,9 +44,6 @@ export class IframeClient {
      */
     async connect() {
         return new Promise((resolve, reject) => {
-            logger.info('Attempting to connect to main application...');
-            logger.info(`Window context: parent=${!!window.parent}, top=${!!window.top}, self=${!!window.self}`);
-            logger.info(`Same window check: parent===self=${window.parent === window.self}`);
             
             // Set up connection timeout
             this.connectionTimeout = setTimeout(() => {
@@ -65,13 +55,11 @@ export class IframeClient {
             this.connectionReject = reject;
             
             // Send ready message to parent
-            logger.info('Sending IFRAME_READY message to parent...');
             this.sendToParent(MessageTypes.IFRAME_READY, {
                 iframeId: this.iframeId,
                 version: '1.0.0',
                 capabilities: ['iframe-base']
             });
-            logger.info('IFRAME_READY message sent');
         });
     }
 
@@ -82,7 +70,6 @@ export class IframeClient {
         this.retryCount++;
         
         if (this.retryCount <= this.maxRetries) {
-            logger.warn(`Connection attempt ${this.retryCount} failed, retrying...`);
             
             // Retry connection
             setTimeout(() => {
@@ -98,7 +85,6 @@ export class IframeClient {
                 }, 5000);
             }, 1000);
         } else {
-            logger.error('Connection failed after maximum retries');
             if (reject) {
                 reject(new Error('Connection timeout'));
             }
@@ -131,7 +117,6 @@ export class IframeClient {
             return;
         }
         
-        logger.debug(`Received message: ${message.type}`);
         
         // Handle different message types
         switch (message.type) {
@@ -172,7 +157,6 @@ export class IframeClient {
                 break;
                 
             default:
-                logger.warn(`Unhandled message type: ${message.type}`);
         }
     }
 
@@ -181,7 +165,6 @@ export class IframeClient {
      * @param {object} message - Message object
      */
     handleAdapterReady(message) {
-        logger.info('Connected to adapter successfully');
         
         this.isConnected = true;
         
@@ -190,12 +173,10 @@ export class IframeClient {
             clearTimeout(this.connectionTimeout);
             this.connectionTimeout = null;
         }
-        
+
         // Handle initial logging configuration if provided
-        if (message.data && message.data.loggingConfig) {
-            this.applyLoggingConfig(message.data.loggingConfig);
-        }
-        
+        // (Logger removed - applications using IframeClient handle logging themselves)
+
         // Start heartbeat
         this.startHeartbeat();
         
@@ -219,7 +200,6 @@ export class IframeClient {
         if (this.heartbeatInterval) {
             clearInterval(this.heartbeatInterval);
             this.heartbeatInterval = null;
-            logger.debug('Cleared existing heartbeat interval');
         }
         
         // Get heartbeat interval from URL parameter, default to 30 seconds
@@ -233,7 +213,6 @@ export class IframeClient {
             });
         }, heartbeatInterval);
         
-        logger.debug(`Started heartbeat with ${heartbeatInterval}ms interval`);
     }
 
     /**
@@ -269,7 +248,6 @@ export class IframeClient {
      */
     handleStateSnapshot(message) {
         this.cachedStateSnapshot = message.data.snapshot;
-        logger.debug('State snapshot updated:', this.cachedStateSnapshot);
         
         // Trigger snapshot update event
         this.triggerEventListeners('eventBus', 'stateManager:snapshotUpdated', { 
@@ -283,7 +261,6 @@ export class IframeClient {
      */
     handleStaticDataResponse(message) {
         this.cachedStaticData = message.data.staticData;
-        logger.debug('Static data received');
     }
 
     /**
@@ -300,7 +277,6 @@ export class IframeClient {
      */
     handleConnectionError(message) {
         const { errorType, message: errorMessage } = message.data;
-        logger.error(`Connection error: ${errorType} - ${errorMessage}`);
     }
 
     /**
@@ -320,7 +296,6 @@ export class IframeClient {
             eventName
         });
         
-        logger.debug(`Subscribed to eventBus event: ${eventName}`);
     }
 
     /**
@@ -340,7 +315,6 @@ export class IframeClient {
             eventName
         });
         
-        logger.debug(`Subscribed to dispatcher event: ${eventName}`);
     }
 
     /**
@@ -354,7 +328,6 @@ export class IframeClient {
             eventData
         });
         
-        logger.debug(`Published eventBus event: ${eventName}`);
     }
 
     /**
@@ -370,7 +343,6 @@ export class IframeClient {
             target
         });
         
-        logger.debug(`Published dispatcher event: ${eventName}`);
     }
 
     /**
@@ -384,7 +356,6 @@ export class IframeClient {
      * Request current state snapshot from main app
      */
     requestStateSnapshot() {
-        logger.debug('Requesting state snapshot from main app');
         this.sendToParent(MessageTypes.REQUEST_STATE_SNAPSHOT, {});
     }
 
@@ -419,7 +390,6 @@ export class IframeClient {
                 try {
                     callback(eventData);
                 } catch (error) {
-                    logger.error(`Error in event listener for ${key}:`, error);
                 }
             }
         }
@@ -432,12 +402,10 @@ export class IframeClient {
      */
     sendToParent(type, data) {
         if (!window.parent) {
-            logger.error('No parent window available');
             return;
         }
         
         if (window.parent === window) {
-            logger.warn('Window parent is same as window - not in iframe context');
             return;
         }
         
@@ -446,18 +414,25 @@ export class IframeClient {
         try {
             // Try multiple origin targets for better Firefox compatibility
             window.parent.postMessage(message, window.location.origin);
-            logger.debug(`Sent message: ${type} to origin ${window.location.origin}`);
         } catch (originError) {
             try {
                 // Fallback to wildcard origin
                 window.parent.postMessage(message, '*');
-                logger.debug(`Sent message: ${type} to wildcard origin`);
             } catch (error) {
-                logger.error('Error sending message to parent:', error);
             }
         }
     }
 
+
+    /**
+     * Notify adapter that the application is fully initialized and ready
+     * This should be called after all event subscriptions are set up
+     */
+    notifyAppReady() {
+        this.sendToParent(MessageTypes.IFRAME_APP_READY, {
+            timestamp: Date.now()
+        });
+    }
 
     /**
      * Disconnect from main application
@@ -482,7 +457,6 @@ export class IframeClient {
         // Clear event listeners
         this.eventListeners.clear();
         
-        logger.info('Disconnected from main application');
     }
 
     /**
@@ -490,10 +464,8 @@ export class IframeClient {
      * @param {object} message - Message object
      */
     handleLogConfigUpdate(message) {
-        if (message.data && message.data.loggingConfig) {
-            logger.info('Received logging configuration update from main thread');
-            this.applyLoggingConfig(message.data.loggingConfig);
-        }
+        // Logger removed - this is a no-op now
+        // Applications using IframeClient can handle logging themselves
     }
 
     /**
@@ -501,37 +473,7 @@ export class IframeClient {
      * @param {object} message - Message object
      */
     handleLogConfigResponse(message) {
-        if (message.data && message.data.loggingConfig) {
-            logger.info('Received logging configuration response from main thread');
-            this.applyLoggingConfig(message.data.loggingConfig);
-        }
-    }
-
-    /**
-     * Apply logging configuration to the iframe logger
-     * @param {object} loggingConfig - Logging configuration object
-     */
-    applyLoggingConfig(loggingConfig) {
-        try {
-            // Apply configuration synchronously using the imported function
-            updateIframeLoggerConfig(loggingConfig);
-            logger.debug('Applied logging configuration:', loggingConfig);
-        } catch (error) {
-            logger.error('Error applying logging configuration:', error);
-        }
-    }
-
-    /**
-     * Request current logging configuration from main thread
-     */
-    requestLogConfig() {
-        if (!this.isConnected) {
-            logger.warn('Cannot request log config - not connected to adapter');
-            return;
-        }
-
-        const message = createMessage(MessageTypes.REQUEST_LOG_CONFIG, this.iframeId);
-        this.sendMessage(message);
-        logger.debug('Requested logging configuration from main thread');
+        // Logger removed - this is a no-op now
+        // Applications using IframeClient can handle logging themselves
     }
 }

@@ -52,7 +52,7 @@ export async function register(registrationApi) {
             default: [
                 {
                     name: "Text Adventure (Standalone)",
-                    url: "./modules/textAdventure-iframe/index.html",
+                    url: "./modules/textAdventure-remote/index-window.html",
                     description: "Interactive text adventure running in separate window"
                 },
                 {
