@@ -49,6 +49,28 @@ logging.basicConfig(level=logging.DEBUG,
 file_content_cache: Dict[str, str] = {}  # Raw file content as strings
 ast_cache: Dict[str, ast.AST] = {}  # Parsed AST objects
 
+def make_json_serializable(value):
+    """
+    Convert a value to a JSON-serializable format.
+    Handles sets, tuples, and other non-JSON-serializable types.
+    """
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return value
+    elif isinstance(value, set):
+        return list(value)
+    elif isinstance(value, tuple):
+        return list(value)
+    elif isinstance(value, list):
+        return [make_json_serializable(item) for item in value]
+    elif isinstance(value, dict):
+        return {k: make_json_serializable(v) for k, v in value.items()}
+    elif hasattr(value, '__dict__'):
+        # For objects with attributes, try to convert to a dict representation
+        return str(value)
+    else:
+        # For other types, convert to string
+        return str(value)
+
 # Regex definitions
 REGEX_LAMBDA_BODY = re.compile(r'lambda\s+([\w\s,()=]*):\s*(.*)', re.DOTALL)
 
@@ -306,7 +328,7 @@ class RuleAnalyzer(ast.NodeVisitor):
         self.error_log.append(error_entry)
 
     def resolve_variable(self, var_name):
-        """Resolve variable name using function defaults or closure variables."""
+        """Resolve variable name using function defaults, closure variables, or module globals."""
         # First check closure variables
         if var_name in self.closure_vars:
             return self.closure_vars[var_name]
@@ -326,6 +348,13 @@ class RuleAnalyzer(ast.NodeVisitor):
                         if param_name == var_name:
                             logging.debug(f"Resolved variable '{var_name}' to default value: {default_value}")
                             return default_value
+
+        # Finally check function globals (module-level imports like HatType)
+        if self.rule_func and hasattr(self.rule_func, '__globals__'):
+            if var_name in self.rule_func.__globals__:
+                value = self.rule_func.__globals__[var_name]
+                logging.debug(f"Resolved variable '{var_name}' to global value: {value}")
+                return value
 
         logging.debug(f"Could not resolve variable '{var_name}'")
         return None
@@ -568,7 +597,7 @@ class RuleAnalyzer(ast.NodeVisitor):
                     if arg['name'] == 'world':
                         logging.debug(f"Skipping resolution of 'world' argument")
                         continue
-                    
+
                     # Try to resolve the variable
                     resolved_value = self.resolve_variable(arg['name'])
                     if resolved_value is not None:
@@ -577,10 +606,28 @@ class RuleAnalyzer(ast.NodeVisitor):
                             final_value = resolved_value.value
                         else:
                             final_value = resolved_value
+                        # Ensure the final value is JSON-serializable
+                        final_value = make_json_serializable(final_value)
                         logging.debug(f"Resolved argument variable '{arg['name']}' to {final_value}")
                         resolved_args.append({'type': 'constant', 'value': final_value})
                     else:
                         # Keep unresolved name as-is
+                        resolved_args.append(arg)
+                elif arg and arg.get('type') == 'attribute':
+                    # Try to resolve attribute expressions like HatType.BREWING
+                    resolved_value = self.resolve_expression(arg)
+                    if resolved_value is not None:
+                        # Handle enum values - extract the numeric value
+                        if hasattr(resolved_value, 'value'):
+                            final_value = resolved_value.value
+                        else:
+                            final_value = resolved_value
+                        # Ensure the final value is JSON-serializable
+                        final_value = make_json_serializable(final_value)
+                        logging.debug(f"Resolved argument attribute to {final_value}")
+                        resolved_args.append({'type': 'constant', 'value': final_value})
+                    else:
+                        # Keep unresolved attribute as-is
                         resolved_args.append(arg)
                 else:
                     resolved_args.append(arg)
@@ -673,7 +720,7 @@ class RuleAnalyzer(ast.NodeVisitor):
                 # Filter out state/player for final result
                 filtered_args = self._filter_special_args(args_with_nodes)
                 
-                # Resolve variable references in arguments (e.g., lambda defaults) 
+                # Resolve variable references in arguments (e.g., lambda defaults)
                 # This is needed for methods like has_from_list that use lambda with defaults
                 resolved_args = []
                 for arg in filtered_args:
@@ -686,6 +733,8 @@ class RuleAnalyzer(ast.NodeVisitor):
                                 final_value = resolved_value.value
                             else:
                                 final_value = resolved_value
+                            # Ensure the final value is JSON-serializable
+                            final_value = make_json_serializable(final_value)
                             logging.debug(f"Resolved state method argument variable '{arg['name']}' to {final_value}")
                             resolved_args.append({'type': 'constant', 'value': final_value})
                         else:
@@ -695,10 +744,28 @@ class RuleAnalyzer(ast.NodeVisitor):
                         # Try to resolve binary operations like i+1
                         resolved_value = self.resolve_expression(arg)
                         if resolved_value is not None:
+                            # Ensure the resolved value is JSON-serializable
+                            resolved_value = make_json_serializable(resolved_value)
                             logging.debug(f"Resolved state method binary_op '{arg}' to {resolved_value}")
                             resolved_args.append({'type': 'constant', 'value': resolved_value})
                         else:
                             # Keep unresolved expression as-is
+                            resolved_args.append(arg)
+                    elif arg and arg.get('type') == 'attribute':
+                        # Try to resolve attribute expressions like HatType.BREWING
+                        resolved_value = self.resolve_expression(arg)
+                        if resolved_value is not None:
+                            # Handle enum values - extract the numeric value
+                            if hasattr(resolved_value, 'value'):
+                                final_value = resolved_value.value
+                            else:
+                                final_value = resolved_value
+                            # Ensure the final value is JSON-serializable
+                            final_value = make_json_serializable(final_value)
+                            logging.debug(f"Resolved state method argument attribute to {final_value}")
+                            resolved_args.append({'type': 'constant', 'value': final_value})
+                        else:
+                            # Keep unresolved attribute as-is
                             resolved_args.append(arg)
                     else:
                         resolved_args.append(arg)

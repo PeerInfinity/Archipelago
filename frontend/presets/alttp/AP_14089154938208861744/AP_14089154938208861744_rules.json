@@ -15658,12 +15658,8 @@
                         "name": "location_item_name",
                         "args": [
                           {
-                            "type": "attribute",
-                            "object": {
-                              "type": "name",
-                              "name": "location"
-                            },
-                            "attr": "name"
+                            "type": "constant",
+                            "value": "Swamp Palace - Big Chest"
                           }
                         ]
                       },
@@ -17171,12 +17167,8 @@
                             "name": "location_item_name",
                             "args": [
                               {
-                                "type": "attribute",
-                                "object": {
-                                  "type": "name",
-                                  "name": "location"
-                                },
-                                "attr": "name"
+                                "type": "constant",
+                                "value": "Skull Woods - Big Chest"
                               }
                             ]
                           },
@@ -19907,7 +19899,58 @@
           {
             "name": "Turtle Rock (Pokey Room) (South)",
             "connected_region": "Turtle Rock (First Section)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "conditional",
+              "test": {
+                "type": "helper",
+                "name": "item_name_in_location_names",
+                "args": [
+                  {
+                    "type": "constant",
+                    "value": "Big Key (Turtle Rock)"
+                  },
+                  {
+                    "type": "constant",
+                    "value": [
+                      [
+                        "Turtle Rock - Roller Room - Left",
+                        1
+                      ],
+                      [
+                        "Turtle Rock - Roller Room - Right",
+                        1
+                      ],
+                      [
+                        "Turtle Rock - Compass Chest",
+                        1
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "if_true": {
+                "type": "count_check",
+                "item": {
+                  "type": "constant",
+                  "value": "Small Key (Turtle Rock)"
+                },
+                "count": {
+                  "type": "constant",
+                  "value": 4
+                }
+              },
+              "if_false": {
+                "type": "count_check",
+                "item": {
+                  "type": "constant",
+                  "value": "Small Key (Turtle Rock)"
+                },
+                "count": {
+                  "type": "constant",
+                  "value": 6
+                }
+              }
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,

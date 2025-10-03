@@ -369,6 +369,14 @@ export function createStateSnapshotInterface(
           } else {
             return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
           }
+        } else if (gameName === 'A Hat in Time') {
+          // AHIT helpers expect (state, world, itemName, staticData)
+          // Pass finalSnapshotInterface (not snapshot) so helpers can use isLocationAccessible
+          if (args.length === 0) {
+            return selectedHelpers[helperName](finalSnapshotInterface, 'world', undefined, staticData);
+          } else {
+            return selectedHelpers[helperName](finalSnapshotInterface, 'world', ...args, staticData);
+          }
         } else {
           // Pass all arguments to the helper function
           // For Kingdom Hearts and other games that expect args as an array

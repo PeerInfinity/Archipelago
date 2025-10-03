@@ -5,6 +5,7 @@ import {
   getGameLogic,
   detectGameFromWorldClass
 } from '../shared/gameLogic/gameLogicRegistry.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 
 // Import universal logger for consistent logging across contexts
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
@@ -2260,6 +2261,15 @@ export class StateManager {
       if (this.helperFunctions && this.helperFunctions[name]) {
         const snapshot = this.getSnapshot();
         const staticData = this.getStaticGameData();
+
+        // Add evaluateRule method to snapshot for AHIT helpers
+        const self = this;
+        snapshot.evaluateRule = function(rule) {
+          // Create a minimal snapshot interface for rule evaluation
+          const snapshotInterface = self._createSelfSnapshotInterface();
+          return self.evaluateRuleFromEngine(rule, snapshotInterface);
+        };
+
         // For helpers that need multiple arguments, pass them as an array in the itemName parameter
         // Most helpers expect (state, world, itemName, staticData) but some need multiple args
         const helperArgs = args.length > 1 ? args : args[0];

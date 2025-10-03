@@ -209,11 +209,53 @@ export function can_clear_required_act(state, world, actEntrance, staticData) {
     return true;
   }
 
-  // Step 3: For non-Free Roam regions, the act is clearable if the region is reachable
-  // In A Hat in Time, Act Completion locations typically have access_rule: true,
-  // meaning they're accessible as soon as you can reach the region.
-  // We've already verified the region is reachable in step 1.
-  return true;
+  // Step 3: For non-Free Roam regions, check if the Act Completion location is accessible
+  // This matches the Python logic: world.multiworld.get_location(name, world.player).access_rule(state)
+  const actCompletionName = `Act Completion (${connectedRegion})`;
+
+  // Find the Act Completion location in staticData
+  let actCompletionLocation = null;
+  if (staticData && staticData.locations) {
+    // staticData.locations can be an object keyed by location name
+    if (!Array.isArray(staticData.locations)) {
+      actCompletionLocation = staticData.locations[actCompletionName];
+    } else {
+      // Or an array of locations
+      actCompletionLocation = staticData.locations.find(loc => loc.name === actCompletionName);
+    }
+  }
+
+  // If we can't find the location, check in regions
+  if (!actCompletionLocation && staticData && staticData.regions) {
+    for (const regionName in staticData.regions) {
+      const region = staticData.regions[regionName];
+      if (region && region.locations) {
+        const loc = region.locations.find(l => l.name === actCompletionName);
+        if (loc) {
+          actCompletionLocation = loc;
+          break;
+        }
+      }
+    }
+  }
+
+  if (!actCompletionLocation) {
+    return false;
+  }
+
+  // Check if the location has an access rule
+  if (!actCompletionLocation.access_rule) {
+    return true;
+  }
+
+  // Use the state's evaluateRule method if available to evaluate the location's access rule
+  if (state.evaluateRule) {
+    const result = state.evaluateRule(actCompletionLocation.access_rule);
+    return result === true;
+  }
+
+  // Fallback: if we can't evaluate the rule, assume the act is not clearable
+  return false;
 }
 
 // Movement and abilities

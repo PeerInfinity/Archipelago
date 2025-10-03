@@ -597,20 +597,15 @@ export function tr_big_key_chest_keys_needed(state, world, itemName, staticData)
 
 export function item_name_in_location_names(state, world, itemName, staticData) {
   // Check if a specific item is placed in any of the given locations
-  // itemName: can be a single value (for single-arg calls) or array [searchItem, locationPairs] (for multi-arg calls)
-  
-  let searchItem, locationPairs;
-  
-  if (Array.isArray(itemName) && itemName.length >= 2) {
-    // Multi-argument call: [searchItem, locationPairs]
-    searchItem = itemName[0];
-    locationPairs = itemName[1];
-  } else {
-    // Single-argument call (backward compatibility)
-    searchItem = itemName;
-    locationPairs = Array.isArray(world) ? world : [];
+  // itemName should be an array: [searchItem, locationPairs]
+  // The 'world' parameter is unused (legacy placeholder)
+
+  if (!Array.isArray(itemName) || itemName.length < 2) {
+    return false;
   }
-  
+
+  const [searchItem, locationPairs] = itemName;
+
   if (!Array.isArray(locationPairs)) {
     return false;
   }

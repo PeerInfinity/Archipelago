@@ -337,20 +337,19 @@ class AHitGameExportHandler(BaseGameExportHandler):
             }
         }
         
-        # Special handling for functions that require arguments
-        if helper_name == 'can_clear_required_act':
-            result = {
-                'type': 'generic_helper',
-                'name': 'can_clear_required_act',
-                'description': 'Checks if a specific act can be completed'
-            }
+        # Get the mapping for this helper
+        mapping = helper_mappings.get(helper_name)
+
+        # If we have a mapping and it's a generic_helper type, preserve args
+        if mapping and mapping.get('type') == 'generic_helper':
+            result = mapping.copy()
             # Include args if provided
             if args:
                 result['args'] = args
             return result
-        
-        # Return expanded helper if found, otherwise None to preserve as-is
-        return helper_mappings.get(helper_name)
+
+        # For other types (item_check, region_access), return as-is
+        return mapping
     
     def expand_rule(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Expand A Hat in Time specific rules with enhanced processing."""

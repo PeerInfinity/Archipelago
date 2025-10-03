@@ -353,28 +353,21 @@ export function createStateSnapshotInterface(
       const selectedHelpers = getHelperFunctions(gameName);
 
       if (selectedHelpers && selectedHelpers[helperName]) {
-        // Call the agnostic helper, passing the snapshot as the state
-        if (helperName === 'item_name_in_location_names' && args.length === 2) {
-          // Special handling for item_name_in_location_names with 2 args
-          return selectedHelpers[helperName](snapshot, args[1], args[0], staticData);
-        } else if (helperName === 'graffiti_spots') {
-          // Special handling for graffiti_spots with multiple args
-          // Pass state, playerId, then all the args, then staticData
-          return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
-        } else if (gameName === 'A Link to the Past') {
-          // ALTTP helpers expect (state, world, itemName, staticData)
-          // Pass snapshot, 'world', spread args (or undefined if no args), staticData
-          if (args.length === 0) {
-            return selectedHelpers[helperName](snapshot, 'world', undefined, staticData);
-          } else {
-            return selectedHelpers[helperName](snapshot, 'world', ...args, staticData);
-          }
+        // Unified helper calling convention:
+        // - 0 args: pass undefined as itemName
+        // - 1 arg: pass that arg as itemName
+        // - 2+ args: pass args as an array for itemName (allows helpers to handle multiple params)
+        let itemNameArg;
+        if (args.length === 0) {
+          itemNameArg = undefined;
+        } else if (args.length === 1) {
+          itemNameArg = args[0];
         } else {
-          // Pass all arguments to the helper function
-          // For Kingdom Hearts and other games that expect args as an array
-          // Pass the interface (this) so helpers can use hasItem/getItemCount
-          return selectedHelpers[helperName](finalSnapshotInterface, args, staticData);
+          // Multiple args - pass as array so helper can destructure them
+          itemNameArg = args;
         }
+
+        return selectedHelpers[helperName](snapshot, 'world', itemNameArg, staticData);
       }
       return undefined; // Helper not found - all games should use agnostic helpers
     },
@@ -411,11 +404,6 @@ export function createStateSnapshotInterface(
       
       // Check if this is a helper function in the game's logic
       if (selectedHelpers[helperName]) {
-        // All agnostic helpers follow the same pattern: (state, world, itemName, staticData)
-        // For has_any, itemName should be an array
-        // For _has_specific_key_count, itemName should be a string like "Small Key (Palace),3"
-        // For most others, itemName is a single item name
-        
         // Special handling for multi-argument methods that need to be formatted
         let itemNameArg = args[0];
         if (helperName === 'has_any' && args.length > 1) {
@@ -430,7 +418,7 @@ export function createStateSnapshotInterface(
             itemNameArg = `${args[0]},1`;
           }
         }
-        
+
         return selectedHelpers[helperName](snapshot, 'world', itemNameArg, staticData);
       }
       
