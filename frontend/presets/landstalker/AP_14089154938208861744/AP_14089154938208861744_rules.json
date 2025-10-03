@@ -123,7 +123,39 @@
           {
             "name": "massan -> massan_after_swamp_shrine",
             "connected_region": "Massan (after Swamp Shrine)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Swamp Shrine"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -1038,7 +1070,39 @@
           {
             "name": "gumi -> gumi_after_swamp_shrine",
             "connected_region": "Gumi (after Swamp Shrine)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Swamp Shrine"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -1263,7 +1327,41 @@
           {
             "name": "route_gumi_ryuma -> helga_hut",
             "connected_region": "Witch Helga's Hut",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Einstein Whistle"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Massan"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -1583,7 +1681,39 @@
           {
             "name": "ryuma -> ryuma_after_thieves_hideout",
             "connected_region": "Ryuma (after Thieves Hideout)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Thieves Hideout (after keydoor)"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -2456,7 +2586,41 @@
           {
             "name": "helga_hut -> route_gumi_ryuma",
             "connected_region": "Route from Gumi to Ryuma",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Einstein Whistle"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Massan"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -2785,7 +2949,39 @@
           {
             "name": "mercator -> mercator_repaired_docks",
             "connected_region": "Mercator (docks with repaired lighthouse)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Ryuma (repaired lighthouse)"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -3837,7 +4033,39 @@
           {
             "name": "mir_tower_sector -> verla_shore",
             "connected_region": "Verla shore",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Verla Mines"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -5389,7 +5617,39 @@
           {
             "name": "verla_shore -> mir_tower_sector",
             "connected_region": "Mir Tower sector",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Verla Mines"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -5581,7 +5841,39 @@
           {
             "name": "verla -> verla_after_mines",
             "connected_region": "Verla (after mines)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Verla Mines"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -5686,7 +5978,39 @@
           {
             "name": "verla_after_mines -> verla",
             "connected_region": "Verla",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "Verla Mines"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
@@ -9029,7 +9353,41 @@
           {
             "name": "king_nole_labyrinth_post_door -> king_nole_labyrinth_sacred_tree",
             "connected_region": "King Nole's Labyrinth (sacred tree)",
-            "access_rule": null,
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "state_method",
+                  "method": "has_all",
+                  "args": [
+                    {
+                      "type": "helper",
+                      "name": "set",
+                      "args": [
+                        {
+                          "type": "constant",
+                          "value": [
+                            "Axe Magic"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "helper",
+                  "name": "_landstalker_has_visited_regions",
+                  "args": [
+                    {
+                      "type": "constant",
+                      "value": [
+                        "King Nole's Labyrinth (raft entrance)"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
             "reverse": null,
             "randomization_type": 1,
             "direction": null,
