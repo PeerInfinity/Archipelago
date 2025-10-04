@@ -56,15 +56,15 @@ export const helperFunctions = {
   /**
    * Check if the player has an item (Blasphemous implementation)
    */
-  has(state, itemName, staticData) {
-    return !!(state?.inventory && state.inventory[itemName] > 0);
+  has(snapshot, staticData, itemName) {
+    return !!(snapshot?.inventory && snapshot.inventory[itemName] > 0);
   },
 
   /**
    * Count how many of an item the player has
    */
-  count(state, itemName, staticData) {
-    return state?.inventory?.[itemName] || 0;
+  count(snapshot, staticData, itemName) {
+    return snapshot?.inventory?.[itemName] || 0;
   },
 
   // Relic helper functions (matching Python Rules.py)
@@ -73,35 +73,35 @@ export const helperFunctions = {
    * Check if player has Blood Perpetuated in Sand relic
    */
   blood(state, staticData) {
-    return this.has(state, "Blood Perpetuated in Sand", staticData);
+    return this.has(snapshot, staticData, "Blood Perpetuated in Sand");
   },
 
   /**
    * Check if player has Three Gnarled Tongues relic
    */
   root(state, staticData) {
-    return this.has(state, "Three Gnarled Tongues", staticData);
+    return this.has(snapshot, staticData, "Three Gnarled Tongues");
   },
 
   /**
    * Check if player has Linen of Golden Thread relic
    */
   linen(state, staticData) {
-    return this.has(state, "Linen of Golden Thread", staticData);
+    return this.has(snapshot, staticData, "Linen of Golden Thread");
   },
 
   /**
    * Check if player has Nail Uprooted from Dirt relic
    */
   nail(state, staticData) {
-    return this.has(state, "Nail Uprooted from Dirt", staticData);
+    return this.has(snapshot, staticData, "Nail Uprooted from Dirt");
   },
 
   /**
    * Check if player has Shroud of Dreamt Sins relic
    */
   shroud(state, staticData) {
-    return this.has(state, "Shroud of Dreamt Sins", staticData);
+    return this.has(snapshot, staticData, "Shroud of Dreamt Sins");
   },
 
   // Key helper functions
@@ -110,35 +110,35 @@ export const helperFunctions = {
    * Check if player has Bronze Key
    */
   bronze_key(state, staticData) {
-    return this.has(state, "Bronze Key", staticData);
+    return this.has(snapshot, staticData, "Bronze Key");
   },
 
   /**
    * Check if player has Silver Key
    */
   silver_key(state, staticData) {
-    return this.has(state, "Silver Key", staticData);
+    return this.has(snapshot, staticData, "Silver Key");
   },
 
   /**
    * Check if player has Gold Key
    */
   gold_key(state, staticData) {
-    return this.has(state, "Gold Key", staticData);
+    return this.has(snapshot, staticData, "Gold Key");
   },
 
   /**
    * Check if player has Penitent Key
    */
   penitent_key(state, staticData) {
-    return this.has(state, "Penitent Key", staticData);
+    return this.has(snapshot, staticData, "Penitent Key");
   },
 
   /**
    * Check if player has Elder Key
    */
   elder_key(state, staticData) {
-    return this.has(state, "Elder Key", staticData);
+    return this.has(snapshot, staticData, "Elder Key");
   },
 
   // Movement/ability helper functions
@@ -147,42 +147,42 @@ export const helperFunctions = {
    * Check if player can climb walls
    */
   can_climb(state, staticData) {
-    return this.has(state, "Wall Climb Ability", staticData);
+    return this.has(snapshot, staticData, "Wall Climb Ability");
   },
 
   /**
    * Check if player can use dive laser attack
    */
   can_dive_laser(state, staticData) {
-    return this.has(state, "Dive Laser Ability", staticData);
+    return this.has(snapshot, staticData, "Dive Laser Ability");
   },
 
   /**
    * Check if player can air dash
    */
   can_air_dash(state, staticData) {
-    return this.has(state, "Air Dash Ability", staticData);
+    return this.has(snapshot, staticData, "Air Dash Ability");
   },
 
   /**
    * Check if player can break holes in walls
    */
   can_break_holes(state, staticData) {
-    return this.has(state, "Break Holes Ability", staticData);
+    return this.has(snapshot, staticData, "Break Holes Ability");
   },
 
   /**
    * Check if player can survive poison
    */
   can_survive_poison(state, staticData) {
-    return this.has(state, "Poison Immunity", staticData);
+    return this.has(snapshot, staticData, "Poison Immunity");
   },
 
   /**
    * Check if player can walk on roots
    */
   can_walk_on_root(state, staticData) {
-    return this.has(state, "Root Walking Ability", staticData);
+    return this.has(snapshot, staticData, "Root Walking Ability");
   },
 
   // Boss defeat checks (placeholder implementations)
@@ -190,7 +190,7 @@ export const helperFunctions = {
   /**
    * Check if player can defeat a boss (generic)
    */
-  can_defeat_boss(state, bossName, staticData) {
+  can_defeat_boss(snapshot, staticData, bossName) {
     // For now, assume always true - this would need specific boss logic
     return true;
   },
@@ -200,23 +200,23 @@ export const helperFunctions = {
   /**
    * Check if player can reach a specific region
    */
-  can_reach_region(state, regionName, staticData) {
-    return state?.regions?.includes(regionName) || false;
+  can_reach_region(snapshot, staticData, regionName) {
+    return snapshot?.regions?.includes(regionName) || false;
   },
 
   // Generic helper for any item requirement
-  has_item(state, itemName, staticData) {
-    return this.has(state, itemName, staticData);
+  has_item(snapshot, staticData, itemName) {
+    return this.has(snapshot, staticData, itemName);
   },
 
   // Prayer helpers
-  has_prayer(state, prayerName, staticData) {
-    return this.has(state, prayerName, staticData);
+  has_prayer(snapshot, staticData, prayerName) {
+    return this.has(snapshot, staticData, prayerName);
   },
 
   // Rosary bead helpers
-  has_bead(state, beadName, staticData) {
-    return this.has(state, beadName, staticData);
+  has_bead(snapshot, staticData, beadName) {
+    return this.has(snapshot, staticData, beadName);
   },
 
   /**
@@ -235,18 +235,18 @@ export const helperFunctions = {
 
     // Check if any flask region is reachable
     const hasFlaskRegion = doors.some(door =>
-      state?.regions?.includes(door) || false
+      snapshot?.regions?.includes(door) || false
     );
 
-    return hasFlaskRegion ? (state?.inventory?.["Empty Bile Vessel"] || 0) : 0;
+    return hasFlaskRegion ? (snapshot?.inventory?.["Empty Bile Vessel"] || 0) : 0;
   },
 
   /**
    * Count quicksilver (requires reaching D01Z05S01[W])
    */
   quicksilver(state, staticData) {
-    const canReach = state?.regions?.includes("D01Z05S01[W]") || false;
-    return canReach ? (state?.inventory?.["Quicksilver"] || 0) : 0;
+    const canReach = snapshot?.regions?.includes("D01Z05S01[W]") || false;
+    return canReach ? (snapshot?.inventory?.["Quicksilver"] || 0) : 0;
   },
 
   /**
@@ -266,9 +266,9 @@ export const helperFunctions = {
       return false; // No boss specified
     }
 
-    const life = state?.inventory?.["Life Upgrade"] || 0;
-    const sword = state?.inventory?.["Mea Culpa Upgrade"] || 0;
-    const fervour = state?.inventory?.["Fervour Upgrade"] || 0;
+    const life = snapshot?.inventory?.["Life Upgrade"] || 0;
+    const sword = snapshot?.inventory?.["Mea Culpa Upgrade"] || 0;
+    const fervour = snapshot?.inventory?.["Fervour Upgrade"] || 0;
     const flasks = this.flasks(state, staticData);
     const quicksilver = this.quicksilver(state, staticData);
 
@@ -307,7 +307,7 @@ export const helperFunctions = {
 
     // Default difficulty adjustment (assume normal difficulty = 1)
     // Without difficulty setting, use normal: bossStrength + 0 (no adjustment)
-    const difficulty = staticData?.settings?.[state.player]?.difficulty ?? 1;
+    const difficulty = staticData?.settings?.[snapshot.player]?.difficulty ?? 1;
     const adjustment = difficulty >= 2 ? -0.10 : (difficulty >= 1 ? 0 : 0.10);
 
     return playerStrength >= (bossStrength + adjustment);
@@ -338,7 +338,7 @@ export const helperFunctions = {
     let total = 0;
     for (const subDoors of doorGroups) {
       for (const door of subDoors) {
-        if (state?.regions?.includes(door)) {
+        if (snapshot?.regions?.includes(door)) {
           total++;
           break; // Only count one door per group
         }
@@ -351,67 +351,67 @@ export const helperFunctions = {
    * Boss defeat helpers - delegate to has_boss_strength
    */
   can_beat_brotherhood_boss(state, staticData) {
-    return this.has_boss_strength(state, "warden", staticData);
+    return this.has_boss_strength(snapshot, staticData, "warden");
   },
 
   can_beat_mercy_boss(state, staticData) {
-    return this.has_boss_strength(state, "ten-piedad", staticData);
+    return this.has_boss_strength(snapshot, staticData, "ten-piedad");
   },
 
   can_beat_convent_boss(state, staticData) {
-    return this.has_boss_strength(state, "charred-visage", staticData);
+    return this.has_boss_strength(snapshot, staticData, "charred-visage");
   },
 
   can_beat_grievance_boss(state, staticData) {
-    return this.has_boss_strength(state, "tres-angustias", staticData);
+    return this.has_boss_strength(snapshot, staticData, "tres-angustias");
   },
 
   can_beat_bridge_boss(state, staticData) {
-    return this.has_boss_strength(state, "esdras", staticData);
+    return this.has_boss_strength(snapshot, staticData, "esdras");
   },
 
   can_beat_mothers_boss(state, staticData) {
-    return this.has_boss_strength(state, "melquiades", staticData);
+    return this.has_boss_strength(snapshot, staticData, "melquiades");
   },
 
   can_beat_canvases_boss(state, staticData) {
-    return this.has_boss_strength(state, "exposito", staticData);
+    return this.has_boss_strength(snapshot, staticData, "exposito");
   },
 
   can_beat_prison_boss(state, staticData) {
-    return this.has_boss_strength(state, "quirce", staticData);
+    return this.has_boss_strength(snapshot, staticData, "quirce");
   },
 
   can_beat_rooftops_boss(state, staticData) {
-    return this.has_boss_strength(state, "crisanta", staticData);
+    return this.has_boss_strength(snapshot, staticData, "crisanta");
   },
 
   can_beat_ossuary_boss(state, staticData) {
-    return this.has_boss_strength(state, "isidora", staticData);
+    return this.has_boss_strength(snapshot, staticData, "isidora");
   },
 
   can_beat_mourning_boss(state, staticData) {
-    return this.has_boss_strength(state, "sierpes", staticData);
+    return this.has_boss_strength(snapshot, staticData, "sierpes");
   },
 
   can_beat_graveyard_boss(state, staticData) {
-    return this.has_boss_strength(state, "amanecida", staticData);
+    return this.has_boss_strength(snapshot, staticData, "amanecida");
   },
 
   can_beat_jondo_boss(state, staticData) {
-    return this.has_boss_strength(state, "amanecida", staticData);
+    return this.has_boss_strength(snapshot, staticData, "amanecida");
   },
 
   can_beat_patio_boss(state, staticData) {
-    return this.has_boss_strength(state, "amanecida", staticData);
+    return this.has_boss_strength(snapshot, staticData, "amanecida");
   },
 
   can_beat_wall_boss(state, staticData) {
-    return this.has_boss_strength(state, "amanecida", staticData);
+    return this.has_boss_strength(snapshot, staticData, "amanecida");
   },
 
   can_beat_hall_boss(state, staticData) {
-    return this.has_boss_strength(state, "laudes", staticData);
+    return this.has_boss_strength(snapshot, staticData, "laudes");
   },
 
   canBeatBrotherhoodBoss(state, staticData) {

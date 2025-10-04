@@ -47,23 +47,23 @@ export const hkStateModule = {
 export const helperFunctions = {
   /**
    * Check if the player has an item
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {string} itemName - Name of the item to check
    * @param {Object} staticData - Static game data
    * @returns {boolean} True if player has the item
    */
-  has(state, itemName, staticData) {
-    return !!(state?.inventory && state.inventory[itemName] > 0);
+  has(snapshot, staticData, itemName) {
+    return !!(snapshot?.inventory && snapshot.inventory[itemName] > 0);
   },
 
   /**
    * Count how many of an item the player has
-   * @param {Object} state - Game state snapshot  
+   * @param {Object} snapshot - Game state snapshot  
    * @param {string} itemName - Name of the item to count
    * @param {Object} staticData - Static game data
    * @returns {number} Count of the item
    */
-  count(state, itemName, staticData) {
-    return state?.inventory?.[itemName] || 0;
+  count(snapshot, staticData, itemName) {
+    return snapshot?.inventory?.[itemName] || 0;
   },
 };

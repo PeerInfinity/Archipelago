@@ -53,7 +53,7 @@ export const helperFunctions = {
   /**
    * Check if a location is accessible based on its rule requirements
    * Based on location_rule from Rules.py
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID (unused but part of standard interface)
    * @param {string} locationName - Name of the location to check
    * @param {Object} staticData - Static game data containing logic mappings
@@ -79,7 +79,7 @@ export const helperFunctions = {
       // Check if player has all required items for this access method (AND logic)
       let hasAllItems = true;
       for (const item of requiredItems) {
-        const itemCount = state?.inventory?.[item] || 0;
+        const itemCount = snapshot?.inventory?.[item] || 0;
         if (itemCount === 0) {
           hasAllItems = false;
           break;
@@ -97,7 +97,7 @@ export const helperFunctions = {
   /**
    * Check if a region connection is accessible
    * Based on region_connection_rule from Rules.py
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID (unused but part of standard interface)
    * @param {string} fromRegion - Source region name
    * @param {string} toRegion - Destination region name
@@ -132,7 +132,7 @@ export const helperFunctions = {
       // Check if player has all required items for this access method (AND logic)
       let hasAllItems = true;
       for (const item of requiredItems) {
-        const itemCount = state?.inventory?.[item] || 0;
+        const itemCount = snapshot?.inventory?.[item] || 0;
         if (itemCount === 0) {
           hasAllItems = false;
           break;
@@ -150,14 +150,14 @@ export const helperFunctions = {
   /**
    * Check if the goal condition is met
    * Based on goal_rule from Rules.py
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @param {Object} staticData - Static game data
    * @returns {boolean} True if goal is met
    */
-  goal_rule(state, playerId, staticData) {
+  goal_rule(snapshot, staticData, playerId) {
     const strawberriesRequired = staticData?.settings?.strawberries_required || 0;
-    const strawberryCount = state?.inventory?.['Strawberry'] || 0;
+    const strawberryCount = snapshot?.inventory?.['Strawberry'] || 0;
     
     // Check if player has enough strawberries
     if (strawberryCount < strawberriesRequired) {
@@ -167,7 +167,7 @@ export const helperFunctions = {
     // Check if player can reach Badeline Island region
     // This would need to be checked through the region reachability system
     // For now, we'll just check if the region is in the accessible regions
-    const accessibleRegions = state?.accessibleRegions || [];
+    const accessibleRegions = snapshot?.accessibleRegions || [];
     return accessibleRegions.includes('Badeline Island');
   },
 };

@@ -49,14 +49,14 @@ export const dlcquestStateModule = {
 export const helperFunctions = {
   /**
    * Check if the player has an item (generic implementation)
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} player - Player ID
    * @param {string} item - Item name
    * @param {number} [count=1] - Required count
    * @returns {boolean} True if player has at least count of the item
    */
   can_access(state, player, item, count = 1) {
-    const progItems = state.prog_items?.[player] || {};
+    const progItems = snapshot.prog_items?.[player] || {};
     return (progItems[item] || 0) >= count;
   },
   
@@ -71,13 +71,13 @@ export const helperFunctions = {
    * Check if player has visited/checked a location
    */
   has_flag(state, player, flag) {
-    return state.flags?.includes(flag) || false;
+    return snapshot.flags?.includes(flag) || false;
   },
   
   /**
    * Check if player has an event
    */
   has_event(state, player, event) {
-    return state.events?.includes(event) || false;
+    return snapshot.events?.includes(event) || false;
   }
 };

@@ -9,7 +9,7 @@
 
 // Basic helper function to count items
 function getItemCount(state, itemName) {
-    return state?.inventory?.[itemName] || 0;
+    return snapshot?.inventory?.[itemName] || 0;
 }
 
 // Basic helper function to check if player has any of an item
@@ -19,7 +19,7 @@ function hasItem(state, itemName, count = 1) {
 
 // Basic helper function to check if an event has occurred
 function hasEvent(state, eventName) {
-    return state?.events?.includes(eventName) || state?.flags?.includes(eventName);
+    return snapshot?.events?.includes(eventName) || snapshot?.flags?.includes(eventName);
 }
 
 function graffitiM(state, playerId, limit, spots, staticData) {
@@ -63,11 +63,11 @@ function bmx(state, playerId, movestyle, staticData) {
     return movestyle === 1 || hasItem(state, 'bmx');
 }
 
-function camera(state, playerId, staticData) {
+function camera(snapshot, staticData, playerId) {
     return hasItem(state, 'Camera App');
 }
 
-function is_girl(state, playerId, staticData) {
+function is_girl(snapshot, staticData, playerId) {
     // Simplified - may need to check character groups
     return hasItem(state, 'girl');
 }
@@ -81,7 +81,7 @@ function rep(state, playerId, required, staticData) {
 }
 
 // Progression functions
-function versum_hill_entrance(state, playerId, staticData) {
+function versum_hill_entrance(snapshot, staticData, playerId) {
     return rep(state, playerId, 20, staticData);
 }
 
@@ -89,27 +89,27 @@ function versum_hill_ch1_roadblock(state, playerId, limit, staticData) {
     return graffitiL(state, playerId, limit, 10, staticData);
 }
 
-function versum_hill_challenge1(state, playerId, staticData) {
+function versum_hill_challenge1(snapshot, staticData, playerId) {
     return rep(state, playerId, 50, staticData);
 }
 
-function versum_hill_challenge2(state, playerId, staticData) {
+function versum_hill_challenge2(snapshot, staticData, playerId) {
     return rep(state, playerId, 58, staticData);
 }
 
-function versum_hill_challenge3(state, playerId, staticData) {
+function versum_hill_challenge3(snapshot, staticData, playerId) {
     return rep(state, playerId, 65, staticData);
 }
 
-function versum_hill_all_challenges(state, playerId, staticData) {
-    return versum_hill_challenge3(state, playerId, staticData);
+function versum_hill_all_challenges(snapshot, staticData, playerId) {
+    return versum_hill_challenge3(snapshot, staticData, playerId);
 }
 
-function versum_hill_basketball_court(state, playerId, staticData) {
+function versum_hill_basketball_court(snapshot, staticData, playerId) {
     return rep(state, playerId, 90, staticData);
 }
 
-function versum_hill_oldhead(state, playerId, staticData) {
+function versum_hill_oldhead(snapshot, staticData, playerId) {
     return rep(state, playerId, 120, staticData);
 }
 
@@ -123,49 +123,49 @@ function versum_hill_crew_battle(state, playerId, limit, glitched, staticData) {
     }
 }
 
-function brink_terminal_entrance(state, playerId, staticData) {
-    return is_girl(state, playerId, staticData) && 
+function brink_terminal_entrance(snapshot, staticData, playerId) {
+    return is_girl(snapshot, staticData, playerId) && 
            rep(state, playerId, 180, staticData) && 
            current_chapter(state, playerId, 2, staticData);
 }
 
-function brink_terminal_challenge1(state, playerId, staticData) {
+function brink_terminal_challenge1(snapshot, staticData, playerId) {
     return rep(state, playerId, 188, staticData);
 }
 
-function brink_terminal_challenge2(state, playerId, staticData) {
+function brink_terminal_challenge2(snapshot, staticData, playerId) {
     return rep(state, playerId, 200, staticData);
 }
 
-function brink_terminal_challenge3(state, playerId, staticData) {
+function brink_terminal_challenge3(snapshot, staticData, playerId) {
     return rep(state, playerId, 220, staticData);
 }
 
-function brink_terminal_all_challenges(state, playerId, staticData) {
-    return brink_terminal_challenge3(state, playerId, staticData);
+function brink_terminal_all_challenges(snapshot, staticData, playerId) {
+    return brink_terminal_challenge3(snapshot, staticData, playerId);
 }
 
-function brink_terminal_plaza(state, playerId, staticData) {
-    return brink_terminal_all_challenges(state, playerId, staticData);
+function brink_terminal_plaza(snapshot, staticData, playerId) {
+    return brink_terminal_all_challenges(snapshot, staticData, playerId);
 }
 
-function brink_terminal_tower(state, playerId, staticData) {
+function brink_terminal_tower(snapshot, staticData, playerId) {
     return rep(state, playerId, 280, staticData);
 }
 
-function brink_terminal_oldhead_underground(state, playerId, staticData) {
+function brink_terminal_oldhead_underground(snapshot, staticData, playerId) {
     return rep(state, playerId, 250, staticData);
 }
 
-function brink_terminal_oldhead_dock(state, playerId, staticData) {
+function brink_terminal_oldhead_dock(snapshot, staticData, playerId) {
     return rep(state, playerId, 320, staticData);
 }
 
-function millennium_square_entrance(state, playerId, staticData) {
+function millennium_square_entrance(snapshot, staticData, playerId) {
     return current_chapter(state, playerId, 2, staticData);
 }
 
-function millennium_mall_entrance(state, playerId, staticData) {
+function millennium_mall_entrance(snapshot, staticData, playerId) {
     return rep(state, playerId, 380, staticData) && 
            current_chapter(state, playerId, 3, staticData);
 }
@@ -194,19 +194,19 @@ function millennium_mall_big(state, playerId, limit, glitched, staticData) {
     return millennium_mall_switch(state, playerId, limit, glitched, staticData);
 }
 
-function pyramid_island_entrance(state, playerId, staticData) {
+function pyramid_island_entrance(snapshot, staticData, playerId) {
     return current_chapter(state, playerId, 4, staticData);
 }
 
-function pyramid_island_gate(state, playerId, staticData) {
+function pyramid_island_gate(snapshot, staticData, playerId) {
     return rep(state, playerId, 620, staticData);
 }
 
-function pyramid_island_oldhead(state, playerId, staticData) {
+function pyramid_island_oldhead(snapshot, staticData, playerId) {
     return rep(state, playerId, 780, staticData);
 }
 
-function pyramid_island_challenge1(state, playerId, staticData) {
+function pyramid_island_challenge1(snapshot, staticData, playerId) {
     return rep(state, playerId, 630, staticData) && 
            current_chapter(state, playerId, 4, staticData);
 }
@@ -235,11 +235,11 @@ function pyramid_island_crew_battle(state, playerId, limit, glitched, staticData
     }
 }
 
-function mataan_entrance(state, playerId, staticData) {
+function mataan_entrance(snapshot, staticData, playerId) {
     return current_chapter(state, playerId, 2, staticData);
 }
 
-function mataan_smoke_wall(state, playerId, staticData) {
+function mataan_smoke_wall(snapshot, staticData, playerId) {
     return current_chapter(state, playerId, 5, staticData) && 
            rep(state, playerId, 850, staticData);
 }
@@ -260,7 +260,7 @@ function mataan_deep_city(state, playerId, limit, glitched, staticData) {
     return mataan_challenge1(state, playerId, limit, glitched, staticData);
 }
 
-function mataan_oldhead(state, playerId, staticData) {
+function mataan_oldhead(snapshot, staticData, playerId) {
     return rep(state, playerId, 935, staticData);
 }
 
@@ -274,13 +274,13 @@ function mataan_challenge2(state, playerId, limit, glitched, staticData) {
     }
 }
 
-function mataan_challenge3(state, playerId, staticData) {
+function mataan_challenge3(snapshot, staticData, playerId) {
     return rep(state, playerId, 920, staticData);
 }
 
 function mataan_all_challenges(state, playerId, limit, glitched, staticData) {
     return mataan_challenge2(state, playerId, limit, glitched, staticData) && 
-           mataan_challenge3(state, playerId, staticData);
+           mataan_challenge3(snapshot, staticData, playerId);
 }
 
 function mataan_smoke_wall2(state, playerId, limit, glitched, staticData) {
@@ -346,10 +346,10 @@ function spots_s_glitchless(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         // With limit, spots are limited by character count
         let characterCount = 0;
-        if (state?.inventory) {
+        if (snapshot?.inventory) {
             // Count unique character items
-            for (const itemName in state.inventory) {
-                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && state.inventory[itemName] > 0) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && snapshot.inventory[itemName] > 0) {
                     characterCount++;
                 }
             }
@@ -380,10 +380,10 @@ function spots_s_glitched(state, playerId, limit, accessCache, staticData) {
     
     if (limit) {
         let characterCount = 0;
-        if (state?.inventory) {
+        if (snapshot?.inventory) {
             // Count unique character items
-            for (const itemName in state.inventory) {
-                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && state.inventory[itemName] > 0) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.match(/^(Red|Tryce|Bel|Vinyl|Solace|Rave|Mesh|Shine|Rise|Coil|DOT EXE|Dev|Frank|Rietveld|DJ Cyber|Eclipse|Vela|Max|Nunchaku Girl|Bumpy|Flesh Prince|Irene|Felix|Oldhead|Base|Jay|Futurism|Jazz|Veronica|Magnum)$/) && snapshot.inventory[itemName] > 0) {
                     characterCount++;
                 }
             }
@@ -436,9 +436,9 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
     if (limit) {
         // Count unique graffiti M items
         let graffitiMCount = 0;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
                     graffitiMCount++;
                 }
             }
@@ -448,9 +448,9 @@ function spots_m_glitchless(state, playerId, limit, accessCache, staticData) {
     } else {
         // Without limit, need at least one graffiti M to access any M spots
         let hasGraffitiM = false;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
                     hasGraffitiM = true;
                     break;
                 }
@@ -478,9 +478,9 @@ function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
     
     if (limit) {
         let graffitiMCount = 0;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
                     graffitiMCount++;
                 }
             }
@@ -489,9 +489,9 @@ function spots_m_glitched(state, playerId, limit, accessCache, staticData) {
         return Math.min(total, sprayable);
     } else {
         let hasGraffitiM = false;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (M') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (M') && snapshot.inventory[itemName] > 0) {
                     hasGraffitiM = true;
                     break;
                 }
@@ -545,9 +545,9 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
     
     if (limit) {
         let graffitiLCount = 0;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
                     graffitiLCount++;
                 }
             }
@@ -556,9 +556,9 @@ function spots_l_glitchless(state, playerId, limit, accessCache, staticData) {
         return Math.min(total, sprayable);
     } else {
         let hasGraffitiL = false;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
                     hasGraffitiL = true;
                     break;
                 }
@@ -587,9 +587,9 @@ function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
     
     if (limit) {
         let graffitiLCount = 0;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
                     graffitiLCount++;
                 }
             }
@@ -598,9 +598,9 @@ function spots_l_glitched(state, playerId, limit, accessCache, staticData) {
         return Math.min(total, sprayable);
     } else {
         let hasGraffitiL = false;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (L') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (L') && snapshot.inventory[itemName] > 0) {
                     hasGraffitiL = true;
                     break;
                 }
@@ -647,9 +647,9 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
     
     if (limit) {
         let graffitiXLCount = 0;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
                     graffitiXLCount++;
                 }
             }
@@ -658,9 +658,9 @@ function spots_xl_glitchless(state, playerId, limit, accessCache, staticData) {
         return Math.min(total, sprayable);
     } else {
         let hasGraffitiXL = false;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
                     hasGraffitiXL = true;
                     break;
                 }
@@ -689,9 +689,9 @@ function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
     
     if (limit) {
         let graffitiXLCount = 0;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
                     graffitiXLCount++;
                 }
             }
@@ -700,9 +700,9 @@ function spots_xl_glitched(state, playerId, limit, accessCache, staticData) {
         return Math.min(total, sprayable);
     } else {
         let hasGraffitiXL = false;
-        if (state?.inventory) {
-            for (const itemName in state.inventory) {
-                if (itemName.includes('Graffiti (XL') && state.inventory[itemName] > 0) {
+        if (snapshot?.inventory) {
+            for (const itemName in snapshot.inventory) {
+                if (itemName.includes('Graffiti (XL') && snapshot.inventory[itemName] > 0) {
                     hasGraffitiXL = true;
                     break;
                 }

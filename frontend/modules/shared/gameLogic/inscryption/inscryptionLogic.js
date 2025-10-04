@@ -48,61 +48,61 @@ export const helperFunctions = {
   /**
    * Check if player has access to Act 2
    * Requires Film Roll item
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if Act 2 requirements are met
    */
   has_act2_requirements(state, playerId) {
-    const filmRoll = state?.inventory?.['Film Roll'] || 0;
+    const filmRoll = snapshot?.inventory?.['Film Roll'] || 0;
     return filmRoll > 0;
   },
 
   /**
    * Check if player has all epitaph pieces
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if all epitaph pieces are collected
    */
   has_all_epitaph_pieces(state, playerId) {
     // Check for "Epitaph Pieces" item (might be plural form)
-    const epitaphPieces = state?.inventory?.['Epitaph Pieces'] || 0;
+    const epitaphPieces = snapshot?.inventory?.['Epitaph Pieces'] || 0;
     if (epitaphPieces >= 1) {
       return true;
     }
     
     // Also check for individual "Epitaph Piece" items
     // Inscryption typically has 9 epitaph pieces total
-    const epitaphPiece = state?.inventory?.['Epitaph Piece'] || 0;
+    const epitaphPiece = snapshot?.inventory?.['Epitaph Piece'] || 0;
     return epitaphPiece >= 9;
   },
 
   /**
    * Check if player has camera and meat
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if both camera and meat are collected
    */
   has_camera_and_meat(state, playerId) {
-    const camera = state?.inventory?.['Camera Replica'] || 0;
-    const meat = state?.inventory?.['Pile Of Meat'] || 0;
+    const camera = snapshot?.inventory?.['Camera Replica'] || 0;
+    const meat = snapshot?.inventory?.['Pile Of Meat'] || 0;
     return camera > 0 && meat > 0;
   },
 
   /**
    * Check if player has monocle
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if monocle is collected
    */
   has_monocle(state, playerId) {
-    const monocle = state?.inventory?.['Monocle'] || 0;
+    const monocle = snapshot?.inventory?.['Monocle'] || 0;
     return monocle > 0;
   },
 
   /**
    * Check if player has access to Act 3
    * Requires Act 2 requirements plus additional items
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if Act 3 requirements are met
    */
@@ -117,19 +117,19 @@ export const helperFunctions = {
   /**
    * Check if player has transcendence requirements
    * Requires Quill and gems/battery in addition to Act 3 access
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if transcendence requirements are met
    */
   has_transcendence_requirements(state, playerId) {
-    const quill = state?.inventory?.['Quill'] || 0;
+    const quill = snapshot?.inventory?.['Quill'] || 0;
     return quill > 0 && helperFunctions.has_gems_and_battery(state, playerId);
   },
 
   /**
    * Check if player has all items in a list
    * This is a state_method used by various locations
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {*} world - World object (unused)
    * @param {Array} itemList - List of item names to check
    * @returns {boolean} True if all items are collected
@@ -143,7 +143,7 @@ export const helperFunctions = {
     
     // Check if player has all items
     for (const item of items) {
-      const count = state?.inventory?.[item] || 0;
+      const count = snapshot?.inventory?.[item] || 0;
       if (count === 0) {
         return false;
       }
@@ -153,7 +153,7 @@ export const helperFunctions = {
 
   /**
    * Check if player has Act 2 bridge requirements
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if Act 2 bridge requirements are met
    */
@@ -164,24 +164,24 @@ export const helperFunctions = {
 
   /**
    * Check if player has gems module and battery
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if gems module and battery are collected
    */
   has_gems_and_battery(state, playerId) {
-    const gems = state?.inventory?.['Gems Module'] || 0;
-    const battery = state?.inventory?.['Inspectometer Battery'] || 0;
+    const gems = snapshot?.inventory?.['Gems Module'] || 0;
+    const battery = snapshot?.inventory?.['Inspectometer Battery'] || 0;
     return gems > 0 && battery > 0;
   },
 
   /**
    * Check if player has inspectometer battery
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {number} playerId - Player ID
    * @returns {boolean} True if inspectometer battery is collected
    */
   has_inspectometer_battery(state, playerId) {
-    const battery = state?.inventory?.['Inspectometer Battery'] || 0;
+    const battery = snapshot?.inventory?.['Inspectometer Battery'] || 0;
     return battery > 0;
   },
 };

@@ -45,16 +45,16 @@ export const archipidleStateModule = {
 export const helperFunctions = {
   /**
    * Check if the player has enough progression items to access a location
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {string} world - World object (not used, passed as 'world')
    * @param {number} requiredCount - Number of progression items required
    * @param {Object} staticData - Static game data including items
    * @returns {boolean} True if player has enough progression items
    */
-  _archipidle_location_is_accessible(state, world, requiredCount, staticData) {
+  _archipidle_location_is_accessible(snapshot, staticData, requiredCount) {
     // Count progression items in inventory
     let progressionCount = 0;
-    const inventory = state?.inventory || {};
+    const inventory = snapshot?.inventory || {};
     
     // Get item data from staticData
     const itemData = staticData?.items;
@@ -76,23 +76,23 @@ export const helperFunctions = {
 
   /**
    * Generic has function
-   * @param {Object} state - Game state snapshot
+   * @param {Object} snapshot - Game state snapshot
    * @param {string} itemName - Name of the item to check
    * @param {Object} staticData - Static game data
    * @returns {boolean} True if player has the item
    */
-  has(state, itemName, staticData) {
-    return !!(state?.inventory && state.inventory[itemName] > 0);
+  has(snapshot, staticData, itemName) {
+    return !!(snapshot?.inventory && snapshot.inventory[itemName] > 0);
   },
 
   /**
    * Generic count function
-   * @param {Object} state - Game state snapshot  
+   * @param {Object} snapshot - Game state snapshot  
    * @param {string} itemName - Name of the item to count
    * @param {Object} staticData - Static game data
    * @returns {number} Count of the item
    */
-  count(state, itemName, staticData) {
-    return state?.inventory?.[itemName] || 0;
+  count(snapshot, staticData, itemName) {
+    return snapshot?.inventory?.[itemName] || 0;
   },
 };

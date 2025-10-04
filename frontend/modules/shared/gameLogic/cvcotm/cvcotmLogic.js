@@ -17,44 +17,44 @@ export const cvcotmLogic = {
         },
         'has_jump_level_2': (state, player) => {
             // Double jump
-            return state.has('Double', player);
+            return snapshot.has('Double', player);
         },
         'has_kick': (state, player) => {
             // Kick boots
-            return state.has('Kick Boots', player);
+            return snapshot.has('Kick Boots', player);
         },
         'has_tackle': (state, player) => {
             // Tackle ability
-            return state.has('Tackle', player);
+            return snapshot.has('Tackle', player);
         },
         'has_roc_wing': (state, player) => {
             // Roc Wing for high jumps
-            return state.has('Roc Wing', player);
+            return snapshot.has('Roc Wing', player);
         },
         
         // DSS Cards - checking for specific card combinations
         'has_freeze': (state, player) => {
             // Freeze enemies - requires specific DSS cards
-            return state.has('Mercury Card', player) && state.has('Serpent Card', player);
+            return snapshot.has('Mercury Card', player) && snapshot.has('Serpent Card', player);
         },
         'has_cleansing': (state, player) => {
             // Cleansing ability - requires specific cards
-            return state.has('Venus Card', player) && state.has('Unicorn Card', player);
+            return snapshot.has('Venus Card', player) && snapshot.has('Unicorn Card', player);
         },
         
         // Key items
         'has_last_key': (state, player) => {
-            return state.has('Last Key', player);
+            return snapshot.has('Last Key', player);
         },
         
         // Combat abilities
         'can_push_crates': (state, player) => {
             // Push Heavy Crate ability
-            return state.has('Heavy Ring', player) || state.has('Tackle', player);
+            return snapshot.has('Heavy Ring', player) || snapshot.has('Tackle', player);
         },
         'can_break_blocks': (state, player) => {
             // Break blocks - various methods
-            return state.has('Kick Boots', player) || state.has('Tackle', player);
+            return snapshot.has('Kick Boots', player) || snapshot.has('Tackle', player);
         }
     },
 
