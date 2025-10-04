@@ -150,22 +150,22 @@ export function can_kill_most_things(snapshot, staticData, itemName) {
            has(snapshot, staticData, 'Cane of Somaria') &&
            has(snapshot, staticData, 'Cane of Byrna') &&
            can_extend_magic(snapshot, staticData, itemName) &&
-           can_shoot_arrows(snapshot, staticData, '0', staticData) &&
+           can_shoot_arrows(snapshot, staticData, '0') &&
            has(snapshot, staticData, 'Fire Rod') &&
-           can_use_bombs(snapshot, staticData, (enemies * 4).toString(), staticData);
+           can_use_bombs(snapshot, staticData, (enemies * 4).toString());
   } else {
     // Normal enemy logic - any of these work
     if (has_melee_weapon(snapshot, staticData, itemName)) return true;
     if (has(snapshot, staticData, 'Cane of Somaria')) return true;
     if (has(snapshot, staticData, 'Cane of Byrna') && 
         (enemies < 6 || can_extend_magic(snapshot, staticData, itemName))) return true;
-    if (can_shoot_arrows(snapshot, staticData, '0', staticData)) return true;
+    if (can_shoot_arrows(snapshot, staticData, '0')) return true;
     if (has(snapshot, staticData, 'Fire Rod')) return true;
     
     // Bombs work on easy/default enemy health
     const enemyHealth = snapshot.settings?.enemy_health || 'default';
     if ((enemyHealth === 'easy' || enemyHealth === 'default') &&
-        can_use_bombs(snapshot, staticData, (enemies * 4).toString(), staticData)) {
+        can_use_bombs(snapshot, staticData, (enemies * 4).toString())) {
       return true;
     }
     
@@ -238,13 +238,13 @@ export function can_use_bombs(snapshot, staticData, itemName) {
 }
 
 export function can_bomb_or_bonk(snapshot, staticData, itemName) {
-  return has(snapshot, staticData, 'Pegasus Boots') || can_use_bombs(snapshot, staticData, '1', staticData);
+  return has(snapshot, staticData, 'Pegasus Boots') || can_use_bombs(snapshot, staticData, '1');
 }
 
 export function can_activate_crystal_switch(snapshot, staticData, itemName) {
   return has_melee_weapon(snapshot, staticData, itemName) ||
-         can_use_bombs(snapshot, staticData, '1', staticData) ||
-         can_shoot_arrows(snapshot, staticData, '0', staticData) ||
+         can_use_bombs(snapshot, staticData, '1') ||
+         can_shoot_arrows(snapshot, staticData, '0') ||
          has(snapshot, staticData, 'Hookshot') ||
          has(snapshot, staticData, 'Cane of Somaria') ||
          has(snapshot, staticData, 'Cane of Byrna') ||
@@ -417,7 +417,7 @@ export function bottle_count(snapshot, staticData, itemName) {
 
 export function can_bomb_clip(snapshot, staticData, itemName) {
   // Need bombs, boots, and to not be bunny
-  return can_use_bombs(snapshot, staticData, '1', staticData) &&
+  return can_use_bombs(snapshot, staticData, '1') &&
          has(snapshot, staticData, 'Pegasus Boots') &&
          is_not_bunny(snapshot, staticData, itemName);
 }
@@ -567,7 +567,7 @@ export function tr_big_key_chest_keys_needed(snapshot, staticData, itemName) {
   // This function handles the key requirements for the TR Big Chest
   // Based on the Python function in worlds/alttp/Rules.py
 
-  const item = location_item_name(snapshot, staticData, 'Turtle Rock - Big Key Chest', staticData);
+  const item = location_item_name(snapshot, staticData, 'Turtle Rock - Big Key Chest');
 
   if (!item) {
     // If we can't determine the item, use the default (6 keys)
@@ -638,7 +638,7 @@ export function has_crystals_for_ganon(snapshot, staticData, itemName) {
   const requiredCrystals = snapshot.settings?.crystals_needed_for_ganon || 7;
   
   // Use the simpler has_crystals function that counts Crystal 1-7 directly
-  return has_crystals(snapshot, staticData, requiredCrystals.toString(), staticData);
+  return has_crystals(snapshot, staticData, requiredCrystals.toString());
 }
 
 export function GanonDefeatRule(snapshot, staticData, itemName) {
@@ -650,7 +650,7 @@ export function GanonDefeatRule(snapshot, staticData, itemName) {
     return has(snapshot, staticData, 'Hammer') &&
            has_fire_source(snapshot, staticData, itemName) &&
            has(snapshot, staticData, 'Silver Bow') &&
-           can_shoot_arrows(snapshot, staticData, '0', staticData);
+           can_shoot_arrows(snapshot, staticData, '0');
   } else {
     // Normal mode requirements
     const hasBeamSword = has_beam_sword(snapshot, staticData, itemName);
@@ -670,13 +670,13 @@ export function GanonDefeatRule(snapshot, staticData, itemName) {
       // With glitches, more options available
       return has(snapshot, staticData, 'Tempered Sword') ||
              has(snapshot, staticData, 'Golden Sword') ||
-             (has(snapshot, staticData, 'Silver Bow') && can_shoot_arrows(snapshot, staticData, '0', staticData)) ||
+             (has(snapshot, staticData, 'Silver Bow') && can_shoot_arrows(snapshot, staticData, '0')) ||
              has(snapshot, staticData, 'Lamp') ||
-             can_extend_magic(snapshot, staticData, '12', staticData);
+             can_extend_magic(snapshot, staticData, '12');
     } else {
       // No glitches (default) - need silver arrows
       return has(snapshot, staticData, 'Silver Bow') &&
-             can_shoot_arrows(snapshot, staticData, '0', staticData);
+             can_shoot_arrows(snapshot, staticData, '0');
     }
   }
 }
@@ -730,8 +730,8 @@ export function can_extend_magic_complex(snapshot, staticData, itemName) {
     basemagic = 16;
   }
   
-  if (can_buy_unlimited(snapshot, staticData, 'Green Potion', staticData) ||
-      can_buy_unlimited(snapshot, staticData, 'Blue Potion', staticData)) {
+  if (can_buy_unlimited(snapshot, staticData, 'Green Potion') ||
+      can_buy_unlimited(snapshot, staticData, 'Blue Potion')) {
     
     const bottles = bottle_count(snapshot, staticData, itemName);
     const functionality = snapshot.settings?.item_functionality || 'normal';
@@ -800,7 +800,7 @@ export function countGroup(snapshot, staticData, itemName) {
 export function has_crystals_count(snapshot, staticData, itemName) {
   // Alternative crystal counting that uses group data
   const requiredCount = parseInt(itemName, 10) || 7;
-  const crystalCount = countGroup(snapshot, staticData, 'Crystals', staticData);
+  const crystalCount = countGroup(snapshot, staticData, 'Crystals');
   return crystalCount >= requiredCount;
 }
 
@@ -816,8 +816,8 @@ export function can_get_bottle(snapshot, staticData, itemName) {
   // Check if player can obtain any bottle
   // This is a simplified version - full implementation would check specific bottle locations
   return count(snapshot, staticData, 'Bottle') > 0 ||
-         can_reach_region(snapshot, staticData, 'Bottle Merchant', staticData) ||
-         can_reach_region(snapshot, staticData, 'Magic Shop', staticData);
+         can_reach_region(snapshot, staticData, 'Bottle Merchant') ||
+         can_reach_region(snapshot, staticData, 'Magic Shop');
 }
 
 export function zip(snapshot, staticData, itemName) {
@@ -868,7 +868,7 @@ export function len(snapshot, staticData, itemName) {
 
 export function can_bomb_things(snapshot, staticData, itemName) {
   // Alias for can_use_bombs for rule compatibility
-  return can_use_bombs(snapshot, staticData, itemName, staticData);
+  return can_use_bombs(snapshot, staticData, itemName);
 }
 
 export function can_pass_curtains(snapshot, staticData, itemName) {
@@ -884,7 +884,7 @@ export function can_see_in_dark(snapshot, staticData, itemName) {
 export function can_pass_rocks(snapshot, staticData, itemName) {
   // Rocks can be lifted or bombed
   return can_lift_rocks(snapshot, staticData, itemName) || 
-         can_use_bombs(snapshot, staticData, '1', staticData);
+         can_use_bombs(snapshot, staticData, '1');
 }
 
 export function can_swim(snapshot, staticData, itemName) {
@@ -916,7 +916,7 @@ export function can_reach_dark_world(snapshot, staticData, itemName) {
     // Need access to dark world portals or magic mirror
     return has(snapshot, staticData, 'Moon Pearl') &&
            (has(snapshot, staticData, 'Magic Mirror') || 
-            can_reach_region(snapshot, staticData, 'Dark World', staticData));
+            can_reach_region(snapshot, staticData, 'Dark World'));
   }
 }
 
