@@ -151,28 +151,28 @@ class FFMQGameExportHandler(BaseGameExportHandler):
             
         # Process regular items
         if hasattr(FFMQItems, 'item_table'):
-            for item_name, item_id in FFMQItems.item_table.items():
+            for item_name, item_data in FFMQItems.item_table.items():
                 groups = []
                 # Check which groups this item belongs to
                 for group_name, items in self.item_groups.items():
                     if item_name in items:
                         groups.append(group_name)
-                        
+
                 # Determine classification
                 is_advancement = False
                 is_useful = False
                 is_trap = False
-                
+
                 if hasattr(FFMQItems, 'progression_items') and item_name in FFMQItems.progression_items:
                     is_advancement = True
                 elif hasattr(FFMQItems, 'useful_items') and item_name in FFMQItems.useful_items:
                     is_useful = True
                 elif hasattr(FFMQItems, 'trap_items') and item_name in FFMQItems.trap_items:
                     is_trap = True
-                    
+
                 ffmq_items_data[item_name] = {
                     'name': item_name,
-                    'id': item_id,
+                    'id': item_data.id,
                     'groups': sorted(groups),
                     'advancement': is_advancement,
                     'priority': False,

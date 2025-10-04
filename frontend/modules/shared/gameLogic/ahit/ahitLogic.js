@@ -75,13 +75,18 @@ export function count(snapshot, staticData, itemName) {
  * @returns {boolean}
  */
 export function has_paintings(snapshot, staticData, countRequired, allowSkip = true) {
+  const paintingLogicEnabled = painting_logic(snapshot, staticData, null);
+
   // If painting logic is disabled, always return true
-  if (!painting_logic(snapshot, staticData, null)) {
+  if (!paintingLogicEnabled) {
     return true;
   }
 
   // Check for painting skip options based on difficulty
-  if (allowSkip) {
+  const settings = staticData?.settings?.[1];
+  const noPaintingSkips = settings?.NoPaintingSkips ?? false;
+
+  if (!noPaintingSkips && allowSkip) {
     const difficulty = get_difficulty(snapshot, staticData, null);
     // In Moderate or higher, there are tricks to skip painting walls
     if (difficulty >= 0) { // 0 = Moderate, 1 = Hard, 2 = Expert
@@ -90,7 +95,8 @@ export function has_paintings(snapshot, staticData, countRequired, allowSkip = t
   }
 
   // Check if player has enough Progressive Painting Unlock items
-  return count(snapshot, staticData, 'Progressive Painting Unlock') >= countRequired;
+  const playerCount = count(snapshot, staticData, 'Progressive Painting Unlock');
+  return playerCount >= countRequired;
 }
 
 /**
@@ -102,9 +108,9 @@ export function has_paintings(snapshot, staticData, countRequired, allowSkip = t
  * @returns {boolean}
  */
 export function painting_logic(snapshot, staticData, itemName) {
-  // Default to false for now - this should come from game settings
-  // In a full implementation, this would check world.options.ShuffleSubconPaintings
-  return false;
+  // Check world.options.ShuffleSubconPaintings from staticData
+  const settings = staticData?.settings?.[1];
+  return settings?.ShuffleSubconPaintings ?? false;
 }
 
 /**
@@ -116,9 +122,9 @@ export function painting_logic(snapshot, staticData, itemName) {
  * @returns {number} -1=Normal, 0=Moderate, 1=Hard, 2=Expert
  */
 export function get_difficulty(snapshot, staticData, itemName) {
-  // Default to Normal difficulty
-  // In a full implementation, this would check world.options.LogicDifficulty
-  return -1;
+  // Check world.options.LogicDifficulty from staticData
+  const settings = staticData?.settings?.[1];
+  return settings?.LogicDifficulty ?? -1;
 }
 
 /**

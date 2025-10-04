@@ -3652,6 +3652,7 @@ export class StateManager {
       mode: this.mode,
       // Game-specific information
       game_info: this.gameInfo,
+      settings: this.rules?.settings,
       // ID mappings
       locationNameToId: this.locationNameToId,
       itemNameToId: this.itemNameToId,

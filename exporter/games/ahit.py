@@ -33,6 +33,42 @@ class AHitGameExportHandler(BaseGameExportHandler):
             logger.error(f"Error extracting UmbrellaLogic option: {e}")
             settings['UmbrellaLogic'] = False
 
+        try:
+            if hasattr(world, 'options') and hasattr(world.options, 'ShuffleSubconPaintings'):
+                settings['ShuffleSubconPaintings'] = bool(world.options.ShuffleSubconPaintings.value)
+            else:
+                settings['ShuffleSubconPaintings'] = False  # Default value
+        except Exception as e:
+            logger.error(f"Error extracting ShuffleSubconPaintings option: {e}")
+            settings['ShuffleSubconPaintings'] = False
+
+        try:
+            if hasattr(world, 'options') and hasattr(world.options, 'LogicDifficulty'):
+                settings['LogicDifficulty'] = int(world.options.LogicDifficulty.value)
+            else:
+                settings['LogicDifficulty'] = -1  # Default to Normal
+        except Exception as e:
+            logger.error(f"Error extracting LogicDifficulty option: {e}")
+            settings['LogicDifficulty'] = -1
+
+        try:
+            if hasattr(world, 'options') and hasattr(world.options, 'NoPaintingSkips'):
+                settings['NoPaintingSkips'] = bool(world.options.NoPaintingSkips.value)
+            else:
+                settings['NoPaintingSkips'] = False  # Default value
+        except Exception as e:
+            logger.error(f"Error extracting NoPaintingSkips option: {e}")
+            settings['NoPaintingSkips'] = False
+
+        try:
+            if hasattr(world, 'options') and hasattr(world.options, 'ShuffleAlpineZiplines'):
+                settings['ShuffleAlpineZiplines'] = bool(world.options.ShuffleAlpineZiplines.value)
+            else:
+                settings['ShuffleAlpineZiplines'] = False  # Default value
+        except Exception as e:
+            logger.error(f"Error extracting ShuffleAlpineZiplines option: {e}")
+            settings['ShuffleAlpineZiplines'] = False
+
         return settings
 
     def get_chapter_costs(self, world):
