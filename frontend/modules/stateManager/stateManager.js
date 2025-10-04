@@ -2181,7 +2181,7 @@ export class StateManager {
         if (typeof this.helperFunctions[method] === 'function') {
           const snapshot = this.getSnapshot();
           const staticData = this.getStaticGameData();
-          return this.helperFunctions[method](snapshot, 'world', args[0], staticData);
+          return this.helperFunctions[method](snapshot, staticData, ...args);
         }
 
       }

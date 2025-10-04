@@ -353,21 +353,7 @@ export function createStateSnapshotInterface(
       const selectedHelpers = getHelperFunctions(gameName);
 
       if (selectedHelpers && selectedHelpers[helperName]) {
-        // Unified helper calling convention:
-        // - 0 args: pass undefined as itemName
-        // - 1 arg: pass that arg as itemName
-        // - 2+ args: pass args as an array for itemName (allows helpers to handle multiple params)
-        let itemNameArg;
-        if (args.length === 0) {
-          itemNameArg = undefined;
-        } else if (args.length === 1) {
-          itemNameArg = args[0];
-        } else {
-          // Multiple args - pass as array so helper can destructure them
-          itemNameArg = args;
-        }
-
-        return selectedHelpers[helperName](snapshot, 'world', itemNameArg, staticData);
+        return selectedHelpers[helperName](snapshot, staticData, ...args);
       }
       return undefined; // Helper not found - all games should use agnostic helpers
     },
@@ -395,33 +381,14 @@ export function createStateSnapshotInterface(
         if (targetType === 'Location')
           return finalSnapshotInterface.isLocationAccessible(targetName);
       }
-      
+
       // Use game-specific agnostic helpers for all helper methods
       const selectedHelpers = getHelperFunctions(gameName);
-      
-      // Map method names to helper names if needed
-      let helperName = methodName;
-      
-      // Check if this is a helper function in the game's logic
-      if (selectedHelpers[helperName]) {
-        // Special handling for multi-argument methods that need to be formatted
-        let itemNameArg = args[0];
-        if (helperName === 'has_any' && args.length > 1) {
-          // If multiple args are passed, combine them into an array
-          itemNameArg = args;
-        } else if (helperName === '_has_specific_key_count') {
-          if (args.length > 1) {
-            // Combine key name and count into comma-separated string
-            itemNameArg = `${args[0]},${args[1]}`;
-          } else {
-            // Default to count=1 when only key name is provided
-            itemNameArg = `${args[0]},1`;
-          }
-        }
 
-        return selectedHelpers[helperName](snapshot, 'world', itemNameArg, staticData);
+      if (selectedHelpers[methodName]) {
+        return selectedHelpers[methodName](snapshot, staticData, ...args);
       }
-      
+
       // Legacy helper system removed - all games should use agnostic helpers
       return undefined;
     },
@@ -430,11 +397,11 @@ export function createStateSnapshotInterface(
 
   // Add helper functions as direct properties for compatibility with spoiler tests
   const selectedHelpers = getHelperFunctions(gameName);
-  
+
   if (selectedHelpers && selectedHelpers !== genericLogic) {
     for (const [helperName, helperFunction] of Object.entries(selectedHelpers)) {
       finalSnapshotInterface[helperName] = (...args) => {
-        return helperFunction(snapshot, 'world', args[0], staticData);
+        return helperFunction(snapshot, staticData, ...args);
       };
     }
   }
