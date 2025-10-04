@@ -56,10 +56,12 @@ def make_json_serializable(value):
     """
     if value is None or isinstance(value, (bool, int, float, str)):
         return value
-    elif isinstance(value, set):
-        return sorted(list(value), key=lambda x: (str(type(x).__name__), str(x)))
+    elif isinstance(value, (set, frozenset)):
+        # Recursively process elements, then sort
+        processed = [make_json_serializable(item) for item in value]
+        return sorted(processed, key=lambda x: (str(type(x).__name__), str(x)))
     elif isinstance(value, tuple):
-        return list(value)
+        return [make_json_serializable(item) for item in value]
     elif isinstance(value, list):
         return [make_json_serializable(item) for item in value]
     elif isinstance(value, dict):
@@ -629,6 +631,19 @@ class RuleAnalyzer(ast.NodeVisitor):
                     else:
                         # Keep unresolved attribute as-is
                         resolved_args.append(arg)
+                elif arg and arg.get('type') == 'list':
+                    # Convert list type with all constant elements to a constant array
+                    list_elements = arg.get('value', [])
+                    if all(e.get('type') == 'constant' for e in list_elements):
+                        # Extract the constant values and sort them for consistency
+                        const_values = [e.get('value') for e in list_elements]
+                        # Sort for consistent ordering (important for sets that became lists)
+                        sorted_values = sorted(const_values, key=lambda x: (str(type(x).__name__), str(x)))
+                        logging.debug(f"Converted list to sorted constant array: {sorted_values}")
+                        resolved_args.append({'type': 'constant', 'value': sorted_values})
+                    else:
+                        # Keep list as-is if not all elements are constants
+                        resolved_args.append(arg)
                 else:
                     resolved_args.append(arg)
             
@@ -767,10 +782,40 @@ class RuleAnalyzer(ast.NodeVisitor):
                         else:
                             # Keep unresolved attribute as-is
                             resolved_args.append(arg)
+                    elif arg and arg.get('type') == 'list':
+                        # Convert list type with all constant elements to a constant array
+                        list_elements = arg.get('value', [])
+                        if all(e.get('type') == 'constant' for e in list_elements):
+                            # Extract the constant values and sort them for consistency
+                            const_values = [e.get('value') for e in list_elements]
+                            # Sort for consistent ordering (important for sets that became lists)
+                            sorted_values = sorted(const_values, key=lambda x: (str(type(x).__name__), str(x)))
+                            logging.debug(f"Converted list to sorted constant array: {sorted_values}")
+                            resolved_args.append({'type': 'constant', 'value': sorted_values})
+                        else:
+                            # Keep list as-is if not all elements are constants
+                            resolved_args.append(arg)
                     else:
                         resolved_args.append(arg)
                 
                 filtered_args = resolved_args
+
+                # For has_all, has_any, and has_all_counts, sort arguments for consistency
+                # These methods are order-independent, so we can safely sort
+                if method in ['has_all', 'has_any', 'has_all_counts'] and len(filtered_args) >= 1:
+                    first_arg = filtered_args[0]
+                    if first_arg and first_arg.get('type') == 'constant':
+                        value = first_arg.get('value')
+                        if isinstance(value, list) and all(isinstance(item, str) for item in value):
+                            # Sort string lists for consistent ordering
+                            sorted_value = sorted(value)
+                            filtered_args[0] = {'type': 'constant', 'value': sorted_value}
+                            logging.debug(f"Sorted {method} argument list: {sorted_value}")
+                        elif isinstance(value, dict):
+                            # Sort dictionary keys for consistent ordering
+                            sorted_dict = {k: value[k] for k in sorted(value.keys())}
+                            filtered_args[0] = {'type': 'constant', 'value': sorted_dict}
+                            logging.debug(f"Sorted {method} argument dict keys: {list(sorted_dict.keys())}")
 
                 # Simplify handling based on method name
                 if method == 'has' and len(filtered_args) >= 1:
@@ -1156,7 +1201,12 @@ class RuleAnalyzer(ast.NodeVisitor):
                     logging.error(f"Failed to analyze element in Set: {ast.dump(elt_node)}")
                     return None
                 elements.append(elt_result)
-            
+
+            # Sort elements for consistent ordering (sets are unordered in Python)
+            # Check if all elements are constants and sort them if so
+            if all(e.get('type') == 'constant' for e in elements):
+                elements.sort(key=lambda e: (str(type(e.get('value')).__name__), str(e.get('value'))))
+
             # Represent as a list in the output JSON (consistent with tuple/list)
             return {'type': 'list', 'value': elements}
         except Exception as e:

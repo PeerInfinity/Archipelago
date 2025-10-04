@@ -1,10 +1,10 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-10-04 13:01:15
+**Generated:** 2025-10-04 13:41:19
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-10-04T13:01:15.019535
+**Source Data Last Updated:** 2025-10-04T13:41:19.529114
 
 **Script Version:** 1.0.0
 
@@ -66,7 +66,7 @@
 | Overcooked! 2 | ❌ Failed seed 1 | 0 | 0 | 17.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Paint | ❌ Failed seed 1 | 130 | 0.1 | 12.1 | 🟠 0.8% | ⚫ | ⚫ |
 | Pokemon Emerald | ❌ Failed seed 1 | 0 | 4.1 | 15.1 | 🟡 27.2% | ⚫ | ⚫ |
-| Pokemon Red and Blue | ❌ Failed seed 1 | 646 | 1.2 | 10.1 | 🟡 11.9% | ⚫ | ⚫ |
+| Pokemon Red and Blue | ❌ Failed seed 1 | 646 | 1.3 | 10.1 | 🟡 12.9% | ⚫ | ⚫ |
 | Raft | ❌ Failed seed 1 | 0 | 0 | 10.1 | 🔴 0.0% | ⚫ | ⚫ |
 | Risk of Rain 2 | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ⚫ | ⚫ |
 | SMZ3 | ❌ Failed seed 1 | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |
@@ -83,7 +83,7 @@
 | Super Metroid | ❌ Failed seed 1 | 0 | 0 | 8.1 | 🔴 0.0% | ⚫ | ⚫ |
 | TUNIC | ❌ Failed seed 1 | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |
 | Terraria | ❌ Failed seed 1 | 0 | 0 | 9.3 | 🔴 0.0% | ⚫ | ⚫ |
-| The Legend of Zelda | ❌ Failed seed 1 | 0 | 0.1 | 10.1 | 🟠 1.0% | ⚫ | ⚫ |
+| The Legend of Zelda | ❌ Failed seed 1 | 0 | 0.1 | 11.1 | 🟠 0.9% | ⚫ | ⚫ |
 | The Messenger | ❌ Failed seed 1 | 0 | 0.1 | 6.1 | 🟠 1.6% | ⚫ | ⚫ |
 | The Wind Waker | ❌ Failed seed 1 | 0 | 0.1 | 17.1 | 🟠 0.6% | ⚫ | ⚫ |
 | The Witness | ❌ Failed seed 1 | 0 | 0 | 9.1 | 🔴 0.0% | ⚫ | ⚫ |
