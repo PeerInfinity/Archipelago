@@ -595,29 +595,24 @@ export function tr_big_key_chest_keys_needed(snapshot, staticData, itemName) {
   }
 }
 
-export function item_name_in_location_names(snapshot, staticData, itemName) {
+export function item_name_in_location_names(snapshot, staticData, searchItem, locationPairs) {
   // Check if a specific item is placed in any of the given locations
-  // itemName should be an array: [searchItem, locationPairs]
-  // The 'world' parameter is unused (legacy placeholder)
-
-  if (!Array.isArray(itemName) || itemName.length < 2) {
-    return false;
-  }
-
-  const [searchItem, locationPairs] = itemName;
+  // New signature: (snapshot, staticData, searchItem, locationPairs)
+  // searchItem: string - the item name to search for (e.g., "Big Key (Ganons Tower)")
+  // locationPairs: array - list of [locationName, playerNumber] pairs to check
 
   if (!Array.isArray(locationPairs)) {
     return false;
   }
-  
+
   const currentPlayer = snapshot.player?.slot || parseInt(snapshot.player) || 1;
-  
+
   for (const locationPair of locationPairs) {
     if (!Array.isArray(locationPair) || locationPair.length < 2) continue;
-    
+
     const [locationName, locationPlayer] = locationPair;
     if (typeof locationName !== 'string') continue;
-    
+
     const itemAtLocation = location_item_name(snapshot, staticData, locationName);
     if (itemAtLocation && Array.isArray(itemAtLocation)) {
       const [foundItem, foundPlayer] = itemAtLocation;
@@ -627,7 +622,7 @@ export function item_name_in_location_names(snapshot, staticData, itemName) {
       }
     }
   }
-  
+
   return false;
 }
 

@@ -2270,10 +2270,8 @@ export class StateManager {
           return self.evaluateRuleFromEngine(rule, snapshotInterface);
         };
 
-        // For helpers that need multiple arguments, pass them as an array in the itemName parameter
-        // Most helpers expect (state, world, itemName, staticData) but some need multiple args
-        const helperArgs = args.length > 1 ? args : args[0];
-        return this.helperFunctions[name](snapshot, 'world', helperArgs, staticData);
+        // New helper signature: (snapshot, staticData, ...args)
+        return this.helperFunctions[name](snapshot, staticData, ...args);
       }
       return false; // Default return if no helper is found
     } finally {

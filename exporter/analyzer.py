@@ -57,7 +57,7 @@ def make_json_serializable(value):
     if value is None or isinstance(value, (bool, int, float, str)):
         return value
     elif isinstance(value, set):
-        return list(value)
+        return sorted(list(value), key=lambda x: (str(type(x).__name__), str(x)))
     elif isinstance(value, tuple):
         return list(value)
     elif isinstance(value, list):
@@ -1902,7 +1902,11 @@ def analyze_rule(rule_func: Optional[Callable[[Any], bool]] = None,
             final_result = analysis_result
 
         # Always log the final result (or error structure) being returned
-        logging.debug(f"analyze_rule: Final result before return = {json.dumps(final_result, indent=2)}")
+        try:
+            logging.debug(f"analyze_rule: Final result before return = {json.dumps(make_json_serializable(final_result), indent=2)}")
+        except Exception as debug_err:
+            logging.debug(f"analyze_rule: Could not serialize final result for debug logging: {debug_err}")
+            logging.debug(f"analyze_rule: Final result (repr) = {repr(final_result)}")
         return final_result
     
     except Exception as e:
