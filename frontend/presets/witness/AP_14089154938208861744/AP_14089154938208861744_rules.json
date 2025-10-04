@@ -12819,10 +12819,16 @@
               "method": "has_from_list",
               "args": [
                 {
-                  "type": "constant",
+                  "type": "list",
                   "value": [
-                    "+1 Laser",
-                    "+1 Laser (Unredirected)"
+                    {
+                      "type": "constant",
+                      "value": "+1 Laser"
+                    },
+                    {
+                      "type": "constant",
+                      "value": "+1 Laser (Unredirected)"
+                    }
                   ]
                 },
                 {

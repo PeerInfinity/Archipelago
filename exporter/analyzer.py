@@ -631,19 +631,6 @@ class RuleAnalyzer(ast.NodeVisitor):
                     else:
                         # Keep unresolved attribute as-is
                         resolved_args.append(arg)
-                elif arg and arg.get('type') == 'list':
-                    # Convert list type with all constant elements to a constant array
-                    list_elements = arg.get('value', [])
-                    if all(e.get('type') == 'constant' for e in list_elements):
-                        # Extract the constant values and sort them for consistency
-                        const_values = [e.get('value') for e in list_elements]
-                        # Sort for consistent ordering (important for sets that became lists)
-                        sorted_values = sorted(const_values, key=lambda x: (str(type(x).__name__), str(x)))
-                        logging.debug(f"Converted list to sorted constant array: {sorted_values}")
-                        resolved_args.append({'type': 'constant', 'value': sorted_values})
-                    else:
-                        # Keep list as-is if not all elements are constants
-                        resolved_args.append(arg)
                 else:
                     resolved_args.append(arg)
             
@@ -781,19 +768,6 @@ class RuleAnalyzer(ast.NodeVisitor):
                             resolved_args.append({'type': 'constant', 'value': final_value})
                         else:
                             # Keep unresolved attribute as-is
-                            resolved_args.append(arg)
-                    elif arg and arg.get('type') == 'list':
-                        # Convert list type with all constant elements to a constant array
-                        list_elements = arg.get('value', [])
-                        if all(e.get('type') == 'constant' for e in list_elements):
-                            # Extract the constant values and sort them for consistency
-                            const_values = [e.get('value') for e in list_elements]
-                            # Sort for consistent ordering (important for sets that became lists)
-                            sorted_values = sorted(const_values, key=lambda x: (str(type(x).__name__), str(x)))
-                            logging.debug(f"Converted list to sorted constant array: {sorted_values}")
-                            resolved_args.append({'type': 'constant', 'value': sorted_values})
-                        else:
-                            # Keep list as-is if not all elements are constants
                             resolved_args.append(arg)
                     else:
                         resolved_args.append(arg)
