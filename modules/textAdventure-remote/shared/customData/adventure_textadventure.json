@@ -1,0 +1,116 @@
+{
+  "settings": {
+    "enableDiscoveryMode": false,
+    "messageHistoryLimit": 15
+  },
+  "regions": {
+    "Menu": {
+      "enterMessage": "You stand at the entrance to Adventure, the legendary realm where brave souls seek treasure and glory. The path forward awaits your command, adventurer.",
+      "description": "A mystical starting point where your epic journey begins. Ancient runes glow softly, hinting at the wonders that lie ahead."
+    },
+    "Overworld": {
+      "enterMessage": "You emerge into the vast overworld of Adventure, a sprawling realm filled with mysteries, treasures, and dangerous creatures. The wind carries whispers of ancient secrets waiting to be discovered.",
+      "description": "An expansive wilderness dotted with castles, labyrinths, and hidden passages. Each step could lead to fortune or peril."
+    },
+    "White Castle": {
+      "enterMessage": "The gleaming walls of the White Castle rise before you, their pristine stones radiating an aura of protection and hope. This sanctuary has sheltered many heroes on their quests.",
+      "description": "A majestic fortress of white stone, serving as a beacon of light in the realm."
+    },
+    "Black Castle": {
+      "enterMessage": "Dark clouds swirl around the imposing Black Castle, its obsidian walls seeming to absorb light itself. An ominous presence emanates from within these cursed halls.",
+      "description": "A foreboding stronghold shrouded in shadow and malevolent energy."
+    },
+    "Yellow Castle": {
+      "enterMessage": "The Golden spires of the Yellow Castle catch the sunlight, creating a dazzling display of wealth and power. Rumors speak of great treasures hidden within its gilded chambers.",
+      "description": "A castle of golden stone that gleams like the sun, promising riches beyond imagination."
+    }
+  },
+  "locations": {
+    "Blue Labyrinth 0": {
+      "checkMessage": "You venture deep into the twisting passages of the Blue Labyrinth, your footsteps echoing off ancient stone walls. After careful exploration, you discover: {item}!",
+      "alreadyCheckedMessage": "You've already thoroughly explored this section of the Blue Labyrinth. The corridors hold no more secrets for you.",
+      "inaccessibleMessage": "The entrance to the Blue Labyrinth is sealed by mysterious blue energy that repels your approach."
+    },
+    "Yellow Labyrinth 0": {
+      "checkMessage": "The Yellow Labyrinth's golden walls shimmer as you navigate its maze-like interior. Your persistence is rewarded when you find: {item}!",
+      "alreadyCheckedMessage": "This part of the Yellow Labyrinth has already yielded its treasures to you.",
+      "inaccessibleMessage": "Golden barriers block your path into the Yellow Labyrinth."
+    },
+    "Black Labyrinth 0": {
+      "checkMessage": "Darkness seems to close in around you as you brave the Black Labyrinth's shadowy depths. Through sheer determination, you locate: {item}!",
+      "alreadyCheckedMessage": "The shadows of this labyrinth section hold no more surprises for you.",
+      "inaccessibleMessage": "Impenetrable darkness bars your entry to the Black Labyrinth."
+    },
+    "White Castle Basement": {
+      "checkMessage": "In the depths beneath the White Castle, you search through ancient storage chambers and dusty alcoves. Your investigation reveals: {item}!",
+      "alreadyCheckedMessage": "You've already scoured every corner of the White Castle's basement.",
+      "inaccessibleMessage": "The basement entrance is sealed with protective wards."
+    },
+    "Black Castle Basement": {
+      "checkMessage": "The cursed basement of the Black Castle fills you with dread, but you steel yourself and continue searching. Among the shadows, you discover: {item}!",
+      "alreadyCheckedMessage": "This accursed basement has already given up its dark secrets to you.",
+      "inaccessibleMessage": "Malevolent forces prevent you from entering the Black Castle's basement."
+    },
+    "Yellow Castle Basement": {
+      "checkMessage": "Golden light illuminates the Yellow Castle's treasure-filled basement as you explore. Your careful search uncovers: {item}!",
+      "alreadyCheckedMessage": "The golden basement's riches have already been claimed by you.",
+      "inaccessibleMessage": "The basement is locked behind golden gates that refuse to open."
+    }
+  },
+  "exits": {
+    "GameStart": {
+      "moveMessage": "You take your first brave steps into the world of Adventure, leaving the safety of the starting point behind. The journey of a lifetime begins now...",
+      "inaccessibleMessage": "An invisible barrier prevents you from beginning your adventure. Perhaps you need to prepare further."
+    },
+    "To White Castle": {
+      "moveMessage": "You follow the well-trodden path toward the White Castle, its gleaming spires growing larger with each step.",
+      "inaccessibleMessage": "The road to the White Castle is blocked by fallen trees and debris."
+    },
+    "To Black Castle": {
+      "moveMessage": "You venture down the ominous path leading to the Black Castle, shadows growing deeper as you approach.",
+      "inaccessibleMessage": "Dark magic bars your passage to the Black Castle."
+    },
+    "To Yellow Castle": {
+      "moveMessage": "You stride confidently toward the Yellow Castle, drawn by the promise of golden treasures within.",
+      "inaccessibleMessage": "The path to the Yellow Castle is obstructed by a wall of golden light."
+    },
+    "Enter Blue Labyrinth": {
+      "moveMessage": "You steel yourself and step into the Blue Labyrinth, ready to face whatever challenges await in its azure corridors.",
+      "inaccessibleMessage": "The Blue Labyrinth's entrance is sealed by ancient magic."
+    },
+    "Enter Yellow Labyrinth": {
+      "moveMessage": "The golden glow of the Yellow Labyrinth beckons as you cross its threshold, prepared for the maze ahead.",
+      "inaccessibleMessage": "Golden barriers prevent your entry into the Yellow Labyrinth."
+    },
+    "Enter Black Labyrinth": {
+      "moveMessage": "With courage in your heart, you plunge into the darkness of the Black Labyrinth, determined to conquer its shadows.",
+      "inaccessibleMessage": "The Black Labyrinth is shrouded in impenetrable darkness."
+    },
+    "Return to Overworld": {
+      "moveMessage": "You emerge back into the familiar expanse of the Overworld, breathing deeply of the open air.",
+      "inaccessibleMessage": "Something prevents you from leaving this place."
+    }
+  },
+  "items": {
+    "Sword": {
+      "foundMessage": "The legendary Sword gleams in your hands, its blade humming with ancient power!",
+      "description": "A weapon of heroes, capable of vanquishing any evil."
+    },
+    "Key": {
+      "foundMessage": "You grasp the mystical Key, feeling its magical properties resonate through your being!",
+      "description": "An ornate key that can unlock the most secure of barriers."
+    },
+    "Chalice": {
+      "foundMessage": "The sacred Chalice radiates divine light as you lift it reverently!",
+      "description": "A holy vessel said to bring protection to its bearer."
+    },
+    "Left Difficulty Switch": {
+      "foundMessage": "You discover the Left Difficulty Switch, a mysterious artifact that seems to control the very nature of reality!",
+      "description": "An enigmatic device that can alter the challenges you face."
+    },
+    "Right Difficulty Switch": {
+      "foundMessage": "The Right Difficulty Switch pulses with otherworldly energy as you claim it!",
+      "description": "A companion to its left counterpart, holding equal mysterious power."
+    }
+  }
+}

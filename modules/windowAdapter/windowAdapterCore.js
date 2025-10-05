@@ -59,6 +59,10 @@ export class WindowAdapterCore {
         this.messageHandlers.set(MessageTypes.REQUEST_STATIC_DATA, this.handleRequestStaticData.bind(this));
         this.messageHandlers.set(MessageTypes.REQUEST_STATE_SNAPSHOT, this.handleRequestStateSnapshot.bind(this));
         this.messageHandlers.set(MessageTypes.REQUEST_LOG_CONFIG, this.handleRequestLogConfig.bind(this));
+
+        // Stub handlers for iframe-specific messages (handled by iframeAdapterCore instead)
+        this.messageHandlers.set(MessageTypes.IFRAME_READY, this.handleIframeMessage.bind(this));
+        this.messageHandlers.set(MessageTypes.IFRAME_APP_READY, this.handleIframeMessage.bind(this));
     }
 
     /**
@@ -157,6 +161,17 @@ export class WindowAdapterCore {
                 this.eventBus.publish('window:disconnected', { windowId }, 'windowAdapter');
             }
         }
+    }
+
+    /**
+     * Stub handler for iframe-specific messages
+     * These messages are handled by iframeAdapterCore, not windowAdapterCore
+     * @param {object} message - The message object
+     * @param {Window} source - Source window
+     */
+    handleIframeMessage(message, source) {
+        // Silently ignore - these messages are for iframeAdapterCore
+        log('debug', `Ignoring iframe-specific message: ${message.type} (handled by iframeAdapterCore)`);
     }
 
     /**

@@ -311,7 +311,8 @@ export class RegionBlockBuilder {
             snapshotInterface,
             regionIsReachable,
             useColorblind,
-            isDiscoveryModeActive
+            isDiscoveryModeActive,
+            staticData
           );
           break;
       }
@@ -390,7 +391,8 @@ export class RegionBlockBuilder {
     entrancesList.classList.add('region-entrances-list');
     
     // Check if bidirectional exits are assumed from game settings
-    const assumeBidirectional = staticData?.options?.assume_bidirectional_exits === true;
+    const playerSettings = staticData?.settings ? Object.values(staticData.settings)[0] : null;
+    const assumeBidirectional = playerSettings?.assume_bidirectional_exits === true;
     
     // Find all entrances to this region
     const entrances = [];
@@ -843,7 +845,8 @@ export class RegionBlockBuilder {
     snapshotInterface,
     regionIsReachable,
     useColorblind,
-    isDiscoveryModeActive
+    isDiscoveryModeActive,
+    staticData
   ) {
     const locationsHeader = document.createElement('h4');
     locationsHeader.textContent = 'Locations:';

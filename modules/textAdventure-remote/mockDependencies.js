@@ -101,7 +101,7 @@ export class PlayerStateProxy {
         this.iframeClient.publishEventBus('playerState:regionChanged', {
             oldRegion,
             newRegion: region,
-            source: 'textAdventure-iframe'
+            source: 'textAdventure-remote'
         });
     }
 }

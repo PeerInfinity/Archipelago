@@ -288,54 +288,34 @@ Load a rules file to begin your adventure.`;
         this.executeCommand(command);
     }
 
-    handleCustomDataSelection(value) {
+    async handleCustomDataSelection(value) {
         if (!value) return;
 
         log('info', 'Loading custom data:', value);
 
-        // For now, create a mock custom data file
-        // In the future, this would load from actual files
         if (value === 'adventure') {
-            const mockCustomData = {
-                settings: {
-                    enableDiscoveryMode: false,
-                    messageHistoryLimit: 10
-                },
-                regions: {
-                    "Menu": {
-                        enterMessage: "You stand at the entrance to Adventure. The path forward awaits your command.",
-                        description: "A simple starting point where your journey begins."
-                    },
-                    "Overworld": {
-                        enterMessage: "You emerge into the vast overworld of Adventure, filled with mysteries and treasures to discover.",
-                        description: "An expansive realm with many secrets hidden within its borders."
-                    }
-                },
-                locations: {
-                    "Blue Labyrinth 0": {
-                        checkMessage: "You carefully search the Blue Labyrinth and discover: {item}!",
-                        alreadyCheckedMessage: "You've already thoroughly explored this part of the Blue Labyrinth.",
-                        inaccessibleMessage: "The entrance to the Blue Labyrinth is blocked by an mysterious force."
-                    }
-                },
-                exits: {
-                    "GameStart": {
-                        moveMessage: "You take your first steps into the world of Adventure...",
-                        inaccessibleMessage: "The way forward is somehow blocked by an unseen barrier."
-                    }
+            try {
+                // Load the actual custom data file from shared directory
+                const response = await fetch('./modules/shared/customData/adventure_textadventure.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load custom data: ${response.status}`);
                 }
-            };
+                const customData = await response.json();
 
-            // Clear existing messages first
-            this.logic.clearMessageHistory();
-            
-            // Add confirmation message first
-            this.displayMessage('Custom Adventure data loaded!', 'system');
-            
-            // Then load custom data and display the entrance message
-            const success = this.logic.loadCustomData(mockCustomData);
-            if (!success) {
-                this.displayMessage('Failed to load custom data.', 'error');
+                // Clear existing messages first
+                this.logic.clearMessageHistory();
+
+                // Add confirmation message first
+                this.displayMessage('Custom Adventure data loaded!', 'system');
+
+                // Then load custom data and display the entrance message
+                const success = this.logic.loadCustomData(customData);
+                if (!success) {
+                    this.displayMessage('Failed to load custom data.', 'error');
+                }
+            } catch (error) {
+                log('error', 'Error loading custom data file:', error);
+                this.displayMessage(`Failed to load custom data: ${error.message}`, 'error');
             }
         }
     }

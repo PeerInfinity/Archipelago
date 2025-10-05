@@ -81,10 +81,10 @@ export class InventoryUI {
           <!-- Expand button might need separate logic if needed outside GL -->
         </div>
         <div class="inventory-controls" style="flex-shrink: 0;">
-          <label>
+          <div class="checkbox-container">
             <input type="checkbox" id="hide-unowned" checked />
-            Hide unowned items
-          </label>
+            <label for="hide-unowned">Hide unowned items</label>
+          </div>
           <div class="checkbox-container">
             <input type="checkbox" id="hide-categories" />
             <label for="hide-categories">Hide categories</label>
@@ -130,9 +130,12 @@ export class InventoryUI {
     flatGroup.appendChild(flatItems);
     flatContainer.appendChild(flatGroup);
 
-    const sortedGroupNames = [...this.groupNames].sort((a, b) =>
-      a.localeCompare(b)
-    );
+    const sortedGroupNames = [...this.groupNames].sort((a, b) => {
+      // "Everything" category should always appear first
+      if (a === 'Everything') return -1;
+      if (b === 'Everything') return 1;
+      return a.localeCompare(b);
+    });
 
     sortedGroupNames.forEach((groupName) => {
       const groupItems = Object.entries(this.itemData).filter(

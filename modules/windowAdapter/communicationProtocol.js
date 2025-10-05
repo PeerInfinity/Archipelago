@@ -4,7 +4,8 @@
 export const MessageTypes = {
     // Handshake messages
     WINDOW_READY: 'WINDOW_READY',
-    IFRAME_READY: 'IFRAME_READY', // Support legacy iframe messages
+    IFRAME_READY: 'IFRAME_READY', // Support iframe messages (handled by iframeAdapterCore)
+    IFRAME_APP_READY: 'IFRAME_APP_READY', // Support iframe app ready messages (handled by iframeAdapterCore)
     ADAPTER_READY: 'ADAPTER_READY',
     HEARTBEAT: 'HEARTBEAT',
     HEARTBEAT_RESPONSE: 'HEARTBEAT_RESPONSE',

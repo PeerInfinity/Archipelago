@@ -552,189 +552,6 @@
         "provides_chest_count": true,
         "region_rules": []
       },
-      "Home Waters, behind rock": {
-        "name": "Home Waters, behind rock",
-        "type": "Region",
-        "player": 1,
-        "entrances": [
-          {
-            "name": "Home Waters to Home Waters, behind rock",
-            "parent_region": "Home Waters",
-            "connected_region": "Home Waters, behind rock",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          },
-          {
-            "name": "Home Waters, Nautilus nest to Home Waters, behind rock",
-            "parent_region": "Home Waters, Nautilus nest",
-            "connected_region": "Home Waters, behind rock",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          },
-          {
-            "name": "Energy Temple first area to Home Waters, behind rock",
-            "parent_region": "Energy Temple first area",
-            "connected_region": "Home Waters, behind rock",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          },
-          {
-            "name": "Energy Temple bottom entrance to Home Waters, behind rock",
-            "parent_region": "Energy Temple bottom entrance",
-            "connected_region": "Home Waters, behind rock",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [
-          {
-            "name": "Home Waters, behind rock to Home Waters",
-            "connected_region": "Home Waters",
-            "access_rule": {
-              "type": "item_check",
-              "item": "Bind Song"
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
-          },
-          {
-            "name": "Home Waters, behind rock to Home Waters, Nautilus nest",
-            "connected_region": "Home Waters, Nautilus nest",
-            "access_rule": {
-              "type": "or",
-              "conditions": [
-                {
-                  "type": "item_check",
-                  "item": "Energy Form"
-                },
-                {
-                  "type": "and",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": "Li and Li Song"
-                    },
-                    {
-                      "type": "item_check",
-                      "item": "Dual Form"
-                    }
-                  ]
-                }
-              ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
-          },
-          {
-            "name": "Home Waters, behind rock to Energy Temple first area",
-            "connected_region": "Energy Temple first area",
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
-          },
-          {
-            "name": "Home Waters, behind rock to Energy Temple bottom entrance",
-            "connected_region": "Energy Temple bottom entrance",
-            "access_rule": {
-              "type": "and",
-              "conditions": [
-                {
-                  "type": "or",
-                  "conditions": [
-                    {
-                      "type": "item_check",
-                      "item": "Energy Form"
-                    },
-                    {
-                      "type": "and",
-                      "conditions": [
-                        {
-                          "type": "item_check",
-                          "item": "Li and Li Song"
-                        },
-                        {
-                          "type": "item_check",
-                          "item": "Dual Form"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "item_check",
-                  "item": "Bind Song"
-                }
-              ]
-            },
-            "reverse": null,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Exit"
-          }
-        ],
-        "locations": [
-          {
-            "name": "Home Waters, bulb in the path below Nautilus Prime",
-            "id": 698059,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Rotten Meat",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Home Waters, bulb in the bottom left room",
-            "id": 698063,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Hand Roll",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
       "Home Waters, Nautilus nest": {
         "name": "Home Waters, Nautilus nest",
         "type": "Region",
@@ -2698,83 +2515,6 @@
         "provides_chest_count": true,
         "region_rules": []
       },
-      "Open Waters top right area, Mithalas entrance": {
-        "name": "Open Waters top right area, Mithalas entrance",
-        "type": "Region",
-        "player": 1,
-        "entrances": [
-          {
-            "name": "Open Waters top right area to Open Waters top right area, Mithalas entrance",
-            "parent_region": "Open Waters top right area",
-            "connected_region": "Open Waters top right area, Mithalas entrance",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [],
-        "locations": [
-          {
-            "name": "Open Waters top right area, first urn in the Mithalas exit",
-            "id": 698148,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Plant Leaf x 2",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Open Waters top right area, second urn in the Mithalas exit",
-            "id": 698149,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Zuuna's Perogi",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Open Waters top right area, third urn in the Mithalas exit",
-            "id": 698150,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Big Seed",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
       "Open Waters bottom left area": {
         "name": "Open Waters bottom left area",
         "type": "Region",
@@ -4404,119 +4144,6 @@
         "provides_chest_count": true,
         "region_rules": []
       },
-      "Mithalas City urns": {
-        "name": "Mithalas City urns",
-        "type": "Region",
-        "player": 1,
-        "entrances": [
-          {
-            "name": "Mithalas City to Mithalas City urns",
-            "parent_region": "Mithalas City",
-            "connected_region": "Mithalas City urns",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [],
-        "locations": [
-          {
-            "name": "Mithalas City, first urn in one of the homes",
-            "id": 698123,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Healing Poultice",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City, second urn in one of the homes",
-            "id": 698124,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Baby Dumbo",
-              "player": 1,
-              "advancement": true,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City, first urn in the city reserve",
-            "id": 698125,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Small Bone x 3",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City, second urn in the city reserve",
-            "id": 698126,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Healing Poultice x 2",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City, third urn in the city reserve",
-            "id": 698127,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Arcane Poultice",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
       "Mithalas City top path": {
         "name": "Mithalas City top path",
         "type": "Region",
@@ -5014,137 +4641,6 @@
             "locked": false,
             "item": {
               "name": "Sea Loaf x 2",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          }
-        ],
-        "time_passes": true,
-        "provides_chest_count": true,
-        "region_rules": []
-      },
-      "Mithalas castle urns": {
-        "name": "Mithalas castle urns",
-        "type": "Region",
-        "player": 1,
-        "entrances": [
-          {
-            "name": "Mithalas castle to Mithalas castle urns",
-            "parent_region": "Mithalas castle",
-            "connected_region": "Mithalas castle urns",
-            "reverse": null,
-            "assumed": false,
-            "randomization_type": 1,
-            "direction": null,
-            "type": "Entrance"
-          }
-        ],
-        "exits": [],
-        "locations": [
-          {
-            "name": "Mithalas City Castle, urn in the bedroom",
-            "id": 698130,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Red Berry",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City Castle, first urn of the single lamp path",
-            "id": 698131,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Volcano Roll",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City Castle, second urn of the single lamp path",
-            "id": 698132,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Sea Cake",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City Castle, urn in the bottom room",
-            "id": 698133,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Mithalas Banner",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City Castle, first urn on the entrance path",
-            "id": 698134,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Plump Perogi",
-              "player": 1,
-              "advancement": false,
-              "priority": null,
-              "type": "None"
-            }
-          },
-          {
-            "name": "Mithalas City Castle, second urn on the entrance path",
-            "id": 698135,
-            "crystal": null,
-            "access_rule": {
-              "type": "constant",
-              "value": true
-            },
-            "progress_type": 1,
-            "locked": false,
-            "item": {
-              "name": "Rotten Meat",
               "player": 1,
               "advancement": false,
               "priority": null,
@@ -10110,12 +9606,8 @@
                     {
                       "type": "item_check",
                       "item": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "ItemNames"
-                        },
-                        "attr": "LUMEREAN_GOD_BEATED"
+                        "type": "constant",
+                        "value": "Lumerean God beated"
                       }
                     }
                   ]
@@ -10157,12 +9649,8 @@
                     {
                       "type": "item_check",
                       "item": {
-                        "type": "attribute",
-                        "object": {
-                          "type": "name",
-                          "name": "ItemNames"
-                        },
-                        "attr": "LUMEREAN_GOD_BEATED"
+                        "type": "constant",
+                        "value": "Lumerean God beated"
                       }
                     }
                   ]
@@ -11719,7 +11207,7 @@
           },
           {
             "name": "Sunken City left area to Sunken City left area",
-            "connected_region": "Sunken City left area",
+            "connected_region": "Sunken City left area crates",
             "access_rule": {
               "type": "or",
               "conditions": [
@@ -13223,7 +12711,8 @@
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "dynamically_added": true
       },
       "Energy Temple Idol room": {
         "name": "Energy Temple Idol room",
@@ -13328,7 +12817,274 @@
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Energy Temple after boss path": {
+        "name": "Energy Temple after boss path",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Energy Temple first area to Energy Temple after boss path",
+            "parent_region": "Energy Temple first area",
+            "connected_region": "Energy Temple after boss path",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Energy Temple fallen God room to Energy Temple after boss path",
+            "parent_region": "Energy Temple fallen God room",
+            "connected_region": "Energy Temple after boss path",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Energy Temple after boss path to Energy Temple first area",
+            "connected_region": "Energy Temple first area",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Energy Temple after boss path to Energy Temple fallen God room",
+            "connected_region": "Energy Temple fallen God room",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Energy Temple after boss path to Energy Temple blaster room",
+            "connected_region": "Energy Temple blaster room",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "helper",
+                  "name": "_has_nature_form",
+                  "args": []
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bind Song"
+                },
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Frozen Veil": {
+        "name": "Frozen Veil",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Ice Cavern to Frozen Veil",
+            "parent_region": "Ice Cavern",
+            "connected_region": "Frozen Veil",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Bubble Cave to Frozen Veil",
+            "parent_region": "Bubble Cave",
+            "connected_region": "Frozen Veil",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Frozen Veil to Ice Cavern",
+            "connected_region": "Ice Cavern",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Frozen Veil to Bubble Cave",
+            "connected_region": "Bubble Cave",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Beast Form"
+                },
+                {
+                  "type": "helper",
+                  "name": "_has_hot_soup",
+                  "args": []
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Sunken City left area crates": {
+        "name": "Sunken City left area crates",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Sunken City left area to Sunken City left area",
+            "parent_region": "Sunken City left area",
+            "connected_region": "Sunken City left area crates",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Sunken City left area, crate in the little pipe room",
+            "id": 698151,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Leeching Poultice",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sunken City left area, crate close to the save crystal",
+            "id": 698152,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Hearty Soup",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Sunken City left area, crate before the bedroom",
+            "id": 698153,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Transturtle Open Waters top right",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
       },
       "Sunken City right area crates": {
         "name": "Sunken City right area crates",
@@ -13387,7 +13143,516 @@
         ],
         "time_passes": true,
         "provides_chest_count": true,
-        "region_rules": []
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Home Waters, behind rock": {
+        "name": "Home Waters, behind rock",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Home Waters to Home Waters, behind rock",
+            "parent_region": "Home Waters",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Home Waters, Nautilus nest to Home Waters, behind rock",
+            "parent_region": "Home Waters, Nautilus nest",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Energy Temple first area to Home Waters, behind rock",
+            "parent_region": "Energy Temple first area",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          },
+          {
+            "name": "Energy Temple bottom entrance to Home Waters, behind rock",
+            "parent_region": "Energy Temple bottom entrance",
+            "connected_region": "Home Waters, behind rock",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [
+          {
+            "name": "Home Waters, behind rock to Home Waters",
+            "connected_region": "Home Waters",
+            "access_rule": {
+              "type": "item_check",
+              "item": "Bind Song"
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Home Waters, behind rock to Home Waters, Nautilus nest",
+            "connected_region": "Home Waters, Nautilus nest",
+            "access_rule": {
+              "type": "or",
+              "conditions": [
+                {
+                  "type": "item_check",
+                  "item": "Energy Form"
+                },
+                {
+                  "type": "and",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Li and Li Song"
+                    },
+                    {
+                      "type": "item_check",
+                      "item": "Dual Form"
+                    }
+                  ]
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Home Waters, behind rock to Energy Temple first area",
+            "connected_region": "Energy Temple first area",
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          },
+          {
+            "name": "Home Waters, behind rock to Energy Temple bottom entrance",
+            "connected_region": "Energy Temple bottom entrance",
+            "access_rule": {
+              "type": "and",
+              "conditions": [
+                {
+                  "type": "or",
+                  "conditions": [
+                    {
+                      "type": "item_check",
+                      "item": "Energy Form"
+                    },
+                    {
+                      "type": "and",
+                      "conditions": [
+                        {
+                          "type": "item_check",
+                          "item": "Li and Li Song"
+                        },
+                        {
+                          "type": "item_check",
+                          "item": "Dual Form"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "item_check",
+                  "item": "Bind Song"
+                }
+              ]
+            },
+            "reverse": null,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Exit"
+          }
+        ],
+        "locations": [
+          {
+            "name": "Home Waters, bulb in the path below Nautilus Prime",
+            "id": 698059,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Rotten Meat",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Home Waters, bulb in the bottom left room",
+            "id": 698063,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Hand Roll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Open Waters top right area, Mithalas entrance": {
+        "name": "Open Waters top right area, Mithalas entrance",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Open Waters top right area to Open Waters top right area, Mithalas entrance",
+            "parent_region": "Open Waters top right area",
+            "connected_region": "Open Waters top right area, Mithalas entrance",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Open Waters top right area, first urn in the Mithalas exit",
+            "id": 698148,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Plant Leaf x 2",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Open Waters top right area, second urn in the Mithalas exit",
+            "id": 698149,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Zuuna's Perogi",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Open Waters top right area, third urn in the Mithalas exit",
+            "id": 698150,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Big Seed",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Mithalas City urns": {
+        "name": "Mithalas City urns",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Mithalas City to Mithalas City urns",
+            "parent_region": "Mithalas City",
+            "connected_region": "Mithalas City urns",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Mithalas City, first urn in one of the homes",
+            "id": 698123,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Healing Poultice",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, second urn in one of the homes",
+            "id": 698124,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Baby Dumbo",
+              "player": 1,
+              "advancement": true,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, first urn in the city reserve",
+            "id": 698125,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Small Bone x 3",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, second urn in the city reserve",
+            "id": 698126,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Healing Poultice x 2",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City, third urn in the city reserve",
+            "id": 698127,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Arcane Poultice",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
+      },
+      "Mithalas castle urns": {
+        "name": "Mithalas castle urns",
+        "type": "Region",
+        "player": 1,
+        "entrances": [
+          {
+            "name": "Mithalas castle to Mithalas castle urns",
+            "parent_region": "Mithalas castle",
+            "connected_region": "Mithalas castle urns",
+            "reverse": null,
+            "assumed": false,
+            "randomization_type": 1,
+            "direction": null,
+            "type": "Entrance"
+          }
+        ],
+        "exits": [],
+        "locations": [
+          {
+            "name": "Mithalas City Castle, urn in the bedroom",
+            "id": 698130,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Red Berry",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, first urn of the single lamp path",
+            "id": 698131,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Volcano Roll",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, second urn of the single lamp path",
+            "id": 698132,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Sea Cake",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, urn in the bottom room",
+            "id": 698133,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Mithalas Banner",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, first urn on the entrance path",
+            "id": 698134,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Plump Perogi",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          },
+          {
+            "name": "Mithalas City Castle, second urn on the entrance path",
+            "id": 698135,
+            "crystal": null,
+            "access_rule": {
+              "type": "constant",
+              "value": true
+            },
+            "progress_type": 1,
+            "locked": false,
+            "item": {
+              "name": "Rotten Meat",
+              "player": 1,
+              "advancement": false,
+              "priority": null,
+              "type": "None"
+            }
+          }
+        ],
+        "time_passes": true,
+        "provides_chest_count": true,
+        "region_rules": [],
+        "dynamically_added": true
       }
     }
   },

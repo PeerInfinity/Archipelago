@@ -1,23 +1,24 @@
-// Standalone version of TextAdventure adapted for iframe communication
+// Standalone version of TextAdventure adapted for remote communication (iframe or window)
 import { createStateSnapshotInterface, evaluateRule } from './mockDependencies.js';
-import { IframeStateAdapter } from './stateAdapter.js';
+import { RemoteDependencies } from './dependencies/index.js';
 import { createSharedLogger } from './shared/sharedLogger.js';
 
 // Create logger for this module
 const logger = createSharedLogger('textAdventureStandalone');
 
 export class TextAdventureStandalone {
-    constructor(container, dependencies) {
+    constructor(container, client) {
         this.container = container;
-        this.stateManager = dependencies.stateManager;
-        this.eventBus = dependencies.eventBus;
-        this.moduleDispatcher = dependencies.moduleDispatcher;
-        this.playerState = dependencies.playerState;
-        this.discoveryState = dependencies.discoveryState;
-        this.iframeClient = dependencies.iframeClient;
-        
-        // NEW: Initialize async state adapter for unified architecture approach
-        this.stateAdapter = new IframeStateAdapter(this.iframeClient);
+        this.client = client;
+
+        // Create unified dependency wrappers from client
+        const deps = new RemoteDependencies(client);
+
+        this.stateManager = deps.stateManager;
+        this.eventBus = deps.eventBus;
+        this.moduleDispatcher = deps.moduleDispatcher;
+        this.playerState = deps.playerState;
+        this.discoveryState = deps.discoveryState; // null in remote mode
         
         // UI elements
         this.rootElement = null;
@@ -243,7 +244,7 @@ Load a rules file in the main application to begin your adventure.`;
         this.eventBus.subscribe('stateManager:snapshotUpdated', onStateUpdate, 'textAdventureStandalone-oneTime');
         
         // Request fresh state snapshot to trigger the update
-        this.iframeClient.requestStateSnapshot();
+        this.client.requestStateSnapshot();
         
         // Fallback timeout in case the state update doesn't include our location
         setTimeout(() => {
@@ -295,7 +296,7 @@ Load a rules file in the main application to begin your adventure.`;
                     return { type: 'error', message: 'Move where? Specify an exit.' };
                 }
                 // Check if target is a valid exit
-                const exitMatch = availableExits.find(exit => 
+                const exitMatch = availableExits.find(exit =>
                     exit.toLowerCase().includes(target) || target.includes(exit.toLowerCase())
                 );
                 if (exitMatch) {
@@ -390,16 +391,29 @@ Load a rules file in the main application to begin your adventure.`;
     }
 
     handleRegionMove(exitName) {
-        logger.debug(`Handling region move: ${exitName}`);
-        
-        if (!this.isExitAccessible(exitName)) {
-            return `The path to ${exitName} is blocked.`;
+        // Find the actual exit (case-insensitive)
+        const regionInfo = this.getCurrentRegionInfo();
+
+        const exitNameLower = exitName.toLowerCase();
+        const actualExit = regionInfo?.data?.exits?.find(ex => ex.name.toLowerCase() === exitNameLower);
+
+        if (!actualExit) {
+            console.error(`[textAdventureStandalone] No exit found matching "${exitName}". Available: ${regionInfo?.data?.exits?.map(e => e.name).join(', ')}`);
+            return `Unrecognized exit: ${exitName}`;
+        }
+
+        const actualExitName = actualExit.name; // Use the actual cased name
+
+        if (!this.isExitAccessible(actualExitName)) {
+            // Check for custom inaccessible message
+            const customMessage = this.getCustomMessage('exits', actualExitName, 'inaccessibleMessage');
+            return customMessage || `The path to ${actualExitName} is blocked.`;
         }
 
         // Get destination region
-        const destinationRegion = this.getExitDestination(exitName);
+        const destinationRegion = this.getExitDestination(actualExitName);
         if (!destinationRegion) {
-            return `Cannot determine where ${exitName} leads.`;
+            return `Cannot determine where ${actualExitName} leads.`;
         }
 
         // Get current region before updating
@@ -410,19 +424,37 @@ Load a rules file in the main application to begin your adventure.`;
 
         // Publish region move via dispatcher
         this.moduleDispatcher.publish('user:regionMove', {
-            exitName: exitName,
+            exitName: actualExitName,
             targetRegion: destinationRegion,
             sourceRegion: sourceRegion,
             sourceModule: 'textAdventureStandalone'
         }, 'bottom');
 
-        return `You travel through ${exitName}.`;
+        // Check for custom move message
+        const customMessage = this.getCustomMessage('exits', actualExitName, 'moveMessage');
+        return customMessage || `You travel through ${actualExitName}.`;
     }
 
     handleLocationCheck(locationName) {
-        if (!this.isLocationAccessible(locationName)) {
+        // Find the actual location (case-insensitive)
+        const staticData = this.stateManager.getStaticData();
+        const locationNameLower = locationName.toLowerCase();
+        const actualLocationName = staticData?.locations ?
+            Object.keys(staticData.locations).find(name => name.toLowerCase() === locationNameLower) : null;
+
+        if (!actualLocationName) {
             return {
-                message: `You cannot reach ${locationName} from here.`,
+                message: `Unrecognized location: ${locationName}`,
+                shouldRedisplayRegion: true,
+                wasSuccessful: false
+            };
+        }
+
+        if (!this.isLocationAccessible(actualLocationName)) {
+            // Check for custom inaccessible message
+            const customMessage = this.getCustomMessage('locations', actualLocationName, 'inaccessibleMessage');
+            return {
+                message: customMessage || `You cannot reach ${actualLocationName} from here.`,
                 shouldRedisplayRegion: true,
                 wasSuccessful: false
             };
@@ -430,25 +462,37 @@ Load a rules file in the main application to begin your adventure.`;
 
         // Check if already checked
         const snapshot = this.stateManager.getLatestStateSnapshot();
-        if (snapshot && snapshot.checkedLocations && snapshot.checkedLocations.includes(locationName)) {
+        if (snapshot && snapshot.checkedLocations && snapshot.checkedLocations.includes(actualLocationName)) {
+            // Check for custom already checked message
+            const customMessage = this.getCustomMessage('locations', actualLocationName, 'alreadyCheckedMessage');
             return {
-                message: `You have already searched ${locationName}.`,
+                message: customMessage || `You have already searched ${actualLocationName}.`,
                 shouldRedisplayRegion: true,
                 wasSuccessful: false
             };
         }
 
         // Perform the check via dispatcher
+        // Get current region from player state to include in location check
+        const currentRegion = this.playerState ? this.playerState.getCurrentRegion() : null;
+
         this.moduleDispatcher.publish('user:locationCheck', {
-            locationName: locationName,
+            locationName: actualLocationName,
+            regionName: currentRegion,
             sourceModule: 'textAdventureStandalone'
         }, 'bottom');
 
         // Get the item that would be found
-        const itemFound = this.getItemAtLocation(locationName);
-        
+        const itemFound = this.getItemAtLocation(actualLocationName);
+
+        // Check for custom check message
+        const customMessage = this.getCustomMessage('locations', actualLocationName, 'checkMessage');
+        const message = customMessage ?
+            customMessage.replace('{item}', itemFound) :
+            `You search ${actualLocationName} and find: ${itemFound}!`;
+
         return {
-            message: `You search ${locationName} and find: ${itemFound}!`,
+            message: message,
             shouldRedisplayRegion: true,
             wasSuccessful: true
         };
@@ -464,57 +508,38 @@ Load a rules file in the main application to begin your adventure.`;
         return `Your inventory contains: ${inventory.join(', ')}`;
     }
 
-    handleCustomDataSelection(value) {
+    async handleCustomDataSelection(value) {
         if (!value) return;
 
         logger.info('Loading custom data:', value);
 
-        // Create mock custom data for Adventure
         if (value === 'adventure') {
-            const mockCustomData = {
-                settings: {
-                    enableDiscoveryMode: false,
-                    messageHistoryLimit: 10
-                },
-                regions: {
-                    "Menu": {
-                        enterMessage: "You stand at the entrance to Adventure. The path forward awaits your command.",
-                        description: "A simple starting point where your journey begins."
-                    },
-                    "Overworld": {
-                        enterMessage: "You emerge into the vast overworld of Adventure, filled with mysteries and treasures to discover.",
-                        description: "An expansive realm with many secrets hidden within its borders."
-                    }
-                },
-                locations: {
-                    "Blue Labyrinth 0": {
-                        checkMessage: "You carefully search the Blue Labyrinth and discover: {item}!",
-                        alreadyCheckedMessage: "You've already thoroughly explored this part of the Blue Labyrinth.",
-                        inaccessibleMessage: "The entrance to the Blue Labyrinth is blocked by a mysterious force."
-                    }
-                },
-                exits: {
-                    "GameStart": {
-                        moveMessage: "You take your first steps into the world of Adventure...",
-                        inaccessibleMessage: "The way forward is somehow blocked by an unseen barrier."
-                    }
+            try {
+                // Load the actual custom data file from local shared directory
+                const response = await fetch('./shared/customData/adventure_textadventure.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load custom data: ${response.status}`);
                 }
-            };
+                const customData = await response.json();
 
-            this.customData = mockCustomData;
-            
-            // Apply settings
-            if (mockCustomData.settings) {
-                if (typeof mockCustomData.settings.enableDiscoveryMode === 'boolean') {
-                    this.discoveryMode = mockCustomData.settings.enableDiscoveryMode;
+                this.customData = customData;
+
+                // Apply settings
+                if (customData.settings) {
+                    if (typeof customData.settings.enableDiscoveryMode === 'boolean') {
+                        this.discoveryMode = customData.settings.enableDiscoveryMode;
+                    }
+                    if (typeof customData.settings.messageHistoryLimit === 'number') {
+                        this.messageHistoryLimit = customData.settings.messageHistoryLimit;
+                    }
                 }
-                if (typeof mockCustomData.settings.messageHistoryLimit === 'number') {
-                    this.messageHistoryLimit = mockCustomData.settings.messageHistoryLimit;
-                }
+
+                this.displayMessage('Custom Adventure data loaded!', 'system');
+                this.displayCurrentRegion();
+            } catch (error) {
+                logger.error('Error loading custom data file:', error);
+                this.displayMessage(`Failed to load custom data: ${error.message}`, 'error');
             }
-
-            this.displayMessage('Custom Adventure data loaded!', 'system');
-            this.displayCurrentRegion();
         }
     }
 
@@ -589,8 +614,10 @@ Load a rules file in the main application to begin your adventure.`;
     isExitAccessible(exitName) {
         const regionInfo = this.getCurrentRegionInfo();
         if (!regionInfo || !regionInfo.data.exits) return false;
-        
-        const exitDef = regionInfo.data.exits.find(exit => exit.name === exitName);
+
+        // Case-insensitive exit name matching
+        const exitNameLower = exitName.toLowerCase();
+        const exitDef = regionInfo.data.exits.find(exit => exit.name.toLowerCase() === exitNameLower);
         if (!exitDef) return false;
         
         const snapshot = this.stateManager.getLatestStateSnapshot();
@@ -634,7 +661,9 @@ Load a rules file in the main application to begin your adventure.`;
     getExitDestination(exitName) {
         const regionInfo = this.getCurrentRegionInfo();
         if (regionInfo && regionInfo.data.exits) {
-            const exit = regionInfo.data.exits.find(ex => ex.name === exitName);
+            // Case-insensitive exit name matching
+            const exitNameLower = exitName.toLowerCase();
+            const exit = regionInfo.data.exits.find(ex => ex.name.toLowerCase() === exitNameLower);
             if (exit) {
                 return exit.connected_region;
             }
@@ -642,10 +671,32 @@ Load a rules file in the main application to begin your adventure.`;
         return null;
     }
 
+    /**
+     * Get custom message from custom data
+     * @param {string} category - Category (e.g., 'exits', 'locations', 'regions')
+     * @param {string} name - Name of the item
+     * @param {string} messageType - Type of message (e.g., 'moveMessage', 'checkMessage')
+     * @returns {string|null} Custom message or null if not found
+     */
+    getCustomMessage(category, name, messageType) {
+        if (!this.customData || !this.customData[category]) {
+            return null;
+        }
+
+        const item = this.customData[category][name];
+        if (!item || !item[messageType]) {
+            return null;
+        }
+
+        return item[messageType];
+    }
+
     displayCurrentRegion() {
         const regionInfo = this.getCurrentRegionInfo();
         if (!regionInfo) {
-            this.addMessage('You are nowhere. Load a rules file in the main application.');
+            // In remote mode, don't show "nowhere" message initially
+            // The region will be displayed when we receive a region change event
+            logger.debug('displayCurrentRegion - no region info available yet');
             return;
         }
 

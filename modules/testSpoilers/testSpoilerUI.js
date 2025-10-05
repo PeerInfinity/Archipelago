@@ -1928,8 +1928,31 @@ export class TestSpoilerUI {
     const missingFromState = [...logAccessibleSet].filter(
       (name) => !stateAccessibleSet.has(name)
     );
+
+    // Filter out dynamically-added regions from the comparison
+    // These regions were added after sphere calculation and won't appear in the log
     const extraInState = [...stateAccessibleSet].filter(
-      (name) => !logAccessibleSet.has(name)
+      (name) => {
+        if (logAccessibleSet.has(name)) return false;
+
+        // Check if this region is marked as dynamically_added
+        // staticData.regions might be structured differently - check if it's an array
+        let regionData;
+        if (Array.isArray(staticData?.regions)) {
+          // It's an array - find by name
+          regionData = staticData.regions.find(r => r.name === name);
+        } else if (staticData?.regions) {
+          // It's an object - try both keying strategies
+          regionData = staticData.regions[playerId]?.[name] || staticData.regions[name];
+        }
+
+        if (regionData && regionData.dynamically_added === true) {
+          this.log('info', `Skipping dynamically-added region from comparison: ${name}`);
+          return false;
+        }
+
+        return true;
+      }
     );
 
     if (missingFromState.length === 0 && extraInState.length === 0) {

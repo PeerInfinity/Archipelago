@@ -5,6 +5,7 @@ import {
   getGameLogic,
   detectGameFromWorldClass
 } from '../shared/gameLogic/gameLogicRegistry.js';
+import { createStateSnapshotInterface } from '../shared/stateInterface.js';
 
 // Import universal logger for consistent logging across contexts
 import { createUniversalLogger } from '../../app/core/universalLogger.js';
@@ -2180,7 +2181,7 @@ export class StateManager {
         if (typeof this.helperFunctions[method] === 'function') {
           const snapshot = this.getSnapshot();
           const staticData = this.getStaticGameData();
-          return this.helperFunctions[method](snapshot, 'world', args[0], staticData);
+          return this.helperFunctions[method](snapshot, staticData, ...args);
         }
 
       }
@@ -2260,10 +2261,17 @@ export class StateManager {
       if (this.helperFunctions && this.helperFunctions[name]) {
         const snapshot = this.getSnapshot();
         const staticData = this.getStaticGameData();
-        // For helpers that need multiple arguments, pass them as an array in the itemName parameter
-        // Most helpers expect (state, world, itemName, staticData) but some need multiple args
-        const helperArgs = args.length > 1 ? args : args[0];
-        return this.helperFunctions[name](snapshot, 'world', helperArgs, staticData);
+
+        // Add evaluateRule method to snapshot for AHIT helpers
+        const self = this;
+        snapshot.evaluateRule = function(rule) {
+          // Create a minimal snapshot interface for rule evaluation
+          const snapshotInterface = self._createSelfSnapshotInterface();
+          return self.evaluateRuleFromEngine(rule, snapshotInterface);
+        };
+
+        // New helper signature: (snapshot, staticData, ...args)
+        return this.helperFunctions[name](snapshot, staticData, ...args);
       }
       return false; // Default return if no helper is found
     } finally {
@@ -2984,7 +2992,6 @@ export class StateManager {
     // REFACTOR: Duplication removed - using single source of truth for all fields
     const snapshot = {
       inventory: inventorySnapshot,
-      settings: { ...this.settings },
       // All games now use gameStateModule flags
       flags: this.gameStateModule?.flags || [],
       checkedLocations: Array.from(this.checkedLocations || []),
@@ -3644,6 +3651,7 @@ export class StateManager {
       mode: this.mode,
       // Game-specific information
       game_info: this.gameInfo,
+      settings: this.rules?.settings,
       // ID mappings
       locationNameToId: this.locationNameToId,
       itemNameToId: this.itemNameToId,

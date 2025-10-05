@@ -182,6 +182,10 @@ export const testLogic = {
           'info',
           '[TestLogic] Auto-starting tests (from setEventBus after loaded state applied)...'
         );
+
+        // Activate the Tests panel when auto-starting
+        eventBusInstance.publish('ui:activatePanel', { panelId: 'testsPanel' }, 'tests');
+
         setTimeout(() => {
           // Add timeout to auto-start to prevent infinite waiting
           Promise.race([
@@ -195,7 +199,7 @@ export const testLogic = {
               '[TestLogic] Error during auto-start (from setEventBus):',
               error
             );
-            
+
             // Set completion flags even if auto-start fails
             const summary = {
               totalRun: 0,
@@ -467,6 +471,11 @@ export const testLogic = {
         '[TestLogic applyLoadedState] Auto-start is enabled, triggering auto-start...'
       );
 
+      // Activate the Tests panel when auto-starting
+      if (eventBusInstance) {
+        eventBusInstance.publish('ui:activatePanel', { panelId: 'testsPanel' }, 'tests');
+      }
+
       // Use setTimeout to ensure this happens after the current call stack completes
       setTimeout(async () => {
         try {
@@ -474,7 +483,7 @@ export const testLogic = {
             'info',
             '[TestLogic applyLoadedState] Running auto-start tests...'
           );
-          
+
           // Add timeout to auto-start to prevent infinite waiting
           // Increased timeout to accommodate many enabled tests
           await Promise.race([
@@ -489,7 +498,7 @@ export const testLogic = {
             '[TestLogic applyLoadedState] Error during auto-start:',
             error
           );
-          
+
           // Set completion flags even if auto-start fails, but use actual test results
           const tests = TestState.getTests();
           const completedTests = tests.filter(test => test.status === 'passed' || test.status === 'failed');
@@ -498,7 +507,7 @@ export const testLogic = {
           const failedConditions = failedTests.reduce((total, test) => {
             return total + (test.conditions ? test.conditions.filter(c => c.status === 'failed').length : 0);
           }, 0);
-          
+
           const summary = {
             totalRun: completedTests.length,
             passedCount: passedTests.length,

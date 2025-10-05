@@ -62,7 +62,9 @@ export class PlayerState {
     updatePath(targetRegion, exitUsed = null, sourceRegion = null) {
         // Check if we're already at the target region - ignore redundant moves
         if (targetRegion === this.currentRegion) {
-            console.warn(`[PlayerState] Ignoring redundant move to same region: ${targetRegion}. Current path length: ${this.path.length}`);
+            // Using console.log instead of console.warn since this is expected behavior
+            // (prevents duplicate moves when events are processed multiple times)
+            console.log(`[PlayerState] Ignoring redundant move to same region: ${targetRegion}. Current path length: ${this.path.length}`);
             return;
         }
         

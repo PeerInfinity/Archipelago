@@ -190,6 +190,46 @@ export const evaluateRule = (rule, context, depth = 0) => {
   try {
     switch (ruleType) {
       case 'helper': {
+        // Handle Python built-in functions
+        if (rule.name === 'any') {
+          // Python's any() returns True if any element is truthy
+          // args[0] should be a generator expression or list
+          if (!rule.args || rule.args.length === 0) {
+            result = false;
+            break;
+          }
+
+          const firstArg = rule.args[0];
+          if (firstArg && firstArg.type === 'generator_expression') {
+            // Evaluate the generator expression element - it should return true if any condition passes
+            // For now, treat it like an OR of all possible evaluations
+            result = evaluateRule(firstArg, context, depth + 1);
+          } else {
+            // Evaluate all args and return true if any is truthy
+            const evalArgs = rule.args.map(arg => evaluateRule(arg, context, depth + 1));
+            result = evalArgs.some(val => val === true);
+          }
+          break;
+        }
+
+        if (rule.name === 'all') {
+          // Python's all() returns True if all elements are truthy
+          if (!rule.args || rule.args.length === 0) {
+            result = true;
+            break;
+          }
+
+          const firstArg = rule.args[0];
+          if (firstArg && firstArg.type === 'generator_expression') {
+            result = evaluateRule(firstArg, context, depth + 1);
+          } else {
+            const evalArgs = rule.args.map(arg => evaluateRule(arg, context, depth + 1));
+            result = evalArgs.every(val => val === true);
+          }
+          break;
+        }
+
+        // Regular helper function handling
         const args = rule.args
           ? rule.args.map((arg) => evaluateRule(arg, context, depth + 1))
           : [];
@@ -1162,6 +1202,23 @@ export const evaluateRule = (rule, context, depth = 0) => {
         // This is a simplified implementation - real generator expressions would need
         // proper iteration and filtering support
         result = evaluateRule(rule.element, context, depth + 1);
+        break;
+      }
+
+      case 'can_reach': {
+        // Check if a region is reachable
+        const regionName = evaluateRule(rule.region, context, depth + 1);
+        if (regionName === undefined) {
+          result = undefined;
+        } else if (typeof context.isRegionReachable === 'function') {
+          result = context.isRegionReachable(regionName);
+          if (result === undefined) {
+            log('debug', `[evaluateRule] Region ${regionName} reachability could not be determined`);
+          }
+        } else {
+          log('warn', '[evaluateRule] context.isRegionReachable is not a function for can_reach.');
+          result = undefined;
+        }
         break;
       }
 

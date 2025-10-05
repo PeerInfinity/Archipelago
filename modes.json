@@ -239,7 +239,10 @@
       "enabled": true
     },
     "userSettings": {
-      "paths": ["./settings.json", "./settings-loops.json"],
+      "paths": [
+        "./settings.json",
+        "./settings-loops.json"
+      ],
       "enabled": true
     }
   },
@@ -257,7 +260,10 @@
       "enabled": true
     },
     "userSettings": {
-      "paths": ["./settings.json", "./settings-loops.json"],
+      "paths": [
+        "./settings.json",
+        "./settings-loops.json"
+      ],
       "enabled": true
     },
     "testsConfig": {
@@ -279,11 +285,58 @@
       "enabled": true
     },
     "userSettings": {
-      "paths": ["./settings.json", "./settings-overlay.json"],
+      "paths": [
+        "./settings.json",
+        "./settings-overlay.json"
+      ],
       "enabled": true
     },
     "testsConfig": {
       "path": "./playwright_tests_config.json",
+      "enabled": true
+    }
+  },
+  "test-textadventure": {
+    "moduleConfig": {
+      "path": "./modules.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "layoutConfig": {
+      "path": "./layout_presets.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "path": "./settings.json",
+      "enabled": true
+    },
+    "testsConfig": {
+      "path": "./playwright_tests_config-textadventure.json",
+      "enabled": true
+    }
+  },
+  "test-textadventure-iframe": {
+    "moduleConfig": {
+      "path": "./modules.json",
+      "enabled": true
+    },
+    "rulesConfig": {
+      "path": "./presets/adventure/AP_14089154938208861744/AP_14089154938208861744_rules.json",
+      "enabled": true
+    },
+    "layoutConfig": {
+      "path": "./layout_presets.json",
+      "enabled": true
+    },
+    "userSettings": {
+      "path": "./settings.json",
+      "enabled": true
+    },
+    "testsConfig": {
+      "path": "./playwright_tests_config-textadventure-iframe.json",
       "enabled": true
     }
   }
