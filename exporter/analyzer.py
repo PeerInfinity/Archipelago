@@ -676,11 +676,49 @@ class RuleAnalyzer(ast.NodeVisitor):
             if func_name == 'all' and len(filtered_args) == 1 and filtered_args[0].get('type') == 'generator_expression':
                 logging.debug(f"Detected all(GeneratorExp) pattern.")
                 gen_exp = filtered_args[0] # The result from visit_GeneratorExp
+
+                # Try to resolve the iterator if it's a name reference
+                iterator_info = gen_exp['comprehension']
+                if iterator_info.get('iterator', {}).get('type') == 'name':
+                    iterator_name = iterator_info['iterator']['name']
+                    logging.debug(f"all(GeneratorExp): Attempting to resolve iterator '{iterator_name}'")
+
+                    resolved_value = self.resolve_variable(iterator_name)
+                    if resolved_value is not None and isinstance(resolved_value, list):
+                        logging.debug(f"all(GeneratorExp): Resolved '{iterator_name}' to list with {len(resolved_value)} items")
+                        # Try to analyze each item in the list if they're callables
+                        if all(callable(item) for item in resolved_value):
+                            from . import analyze_rule
+                            analyzed_items = []
+                            for item_func in resolved_value:
+                                try:
+                                    item_result = analyze_rule(rule_func=item_func, closure_vars=self.closure_vars.copy(),
+                                                              seen_funcs=self.seen_funcs, game_handler=self.game_handler,
+                                                              player_context=self.player_context)
+                                    if item_result and item_result.get('type') != 'error':
+                                        analyzed_items.append(item_result)
+                                    else:
+                                        logging.debug(f"Could not analyze item in {iterator_name} list, falling back to unresolved")
+                                        analyzed_items = None
+                                        break
+                                except Exception as e:
+                                    logging.debug(f"Error analyzing item in {iterator_name}: {e}")
+                                    analyzed_items = None
+                                    break
+
+                            if analyzed_items:
+                                # Successfully analyzed all items - return an 'and' of all items
+                                logging.debug(f"all(GeneratorExp): Successfully analyzed {len(analyzed_items)} items, returning 'and' rule")
+                                if len(analyzed_items) == 1:
+                                    return analyzed_items[0]
+                                else:
+                                    return {'type': 'and', 'conditions': analyzed_items}
+
                 # Represent this as a specific 'all_of' rule type
                 result = {
                     'type': 'all_of',
                     'element_rule': gen_exp['element'],
-                    'iterator_info': gen_exp['comprehension']
+                    'iterator_info': iterator_info
                 }
                 logging.debug(f"Created 'all_of' result: {result}")
                 return result

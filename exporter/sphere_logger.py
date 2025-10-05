@@ -292,24 +292,16 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
         current_playthrough_state.locations_checked.clear()
 
         if spoiler_log_file_handler:
-            # Log precollected items one by one for "0.x" spheres
+            # Collect precollected items into the state
             precollected_advancement_items = sorted(
                 [item for p_items in multiworld.precollected_items.values() for item in p_items if item.advancement],
                 key=lambda item: (item.player, item.name)
             )
-            
-            sub_index_sphere0 = 0
+
             for item in precollected_advancement_items:
                 current_playthrough_state.collect(item, True)  # Collect into the accumulating state, prevent sweep
-                sub_index_sphere0 += 1
-                if log_fractional_sphere_details:
-                    log_sphere_details(spoiler_log_file_handler, multiworld,
-                                     f"0.{sub_index_sphere0}",
-                                     set(),
-                                     current_playthrough_state.copy(),
-                                     verbose_sphere_log)
 
-            # Log the final "sphere 0" state
+            # Log the final "sphere 0" state (contains all precollected items)
             log_sphere_details(spoiler_log_file_handler, multiworld, 0, set(), current_playthrough_state.copy(), verbose_sphere_log)
         
         if not spoiler_log_file_handler:

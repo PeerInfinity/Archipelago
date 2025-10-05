@@ -747,10 +747,13 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                                     target_type='Entrance',
                                     world=world
                                 )
-                                
+
                                 # Post-process the entrance rule if the game handler supports it
                                 if expanded_rule and game_handler and hasattr(game_handler, 'postprocess_entrance_rule'):
                                     expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, entrance_name)
+                                # Also call general postprocess_rule if available
+                                elif expanded_rule and game_handler and hasattr(game_handler, 'postprocess_rule'):
+                                    expanded_rule = game_handler.postprocess_rule(expanded_rule)
                             
                             # Get spoiler-aware entrance data for all games with entrance randomization
                             game_name = multiworld.game[player]
@@ -798,10 +801,13 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                                         target_type='Exit',
                                         world=world
                                     )
-                                    
+
                                     # Post-process the exit rule if the game handler supports it
                                     if expanded_rule and game_handler and hasattr(game_handler, 'postprocess_entrance_rule'):
                                         expanded_rule = game_handler.postprocess_entrance_rule(expanded_rule, exit_name)
+                                    # Also call general postprocess_rule if available
+                                    elif expanded_rule and game_handler and hasattr(game_handler, 'postprocess_rule'):
+                                        expanded_rule = game_handler.postprocess_rule(expanded_rule)
                             
                             # Get spoiler-aware exit data for all games with entrance randomization
                             game_name = multiworld.game[player]

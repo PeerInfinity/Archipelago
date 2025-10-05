@@ -991,6 +991,21 @@ export const evaluateRule = (rule, context, depth = 0) => {
         break;
       }
 
+      case 'setting_value': {
+        // Retrieve a setting value (e.g. for self.world.options.difficulty)
+        let settingName = rule.setting;
+        if (typeof settingName === 'string') {
+          result = context.getSetting(settingName);
+        } else {
+          log('warn', '[evaluateRule] Invalid setting name for setting_value', {
+            rule,
+            settingName,
+          });
+          result = undefined;
+        }
+        break;
+      }
+
       case 'setting_check': {
         let settingName = evaluateRule(rule.setting, context, depth + 1);
         let expectedValue = evaluateRule(rule.value, context, depth + 1);

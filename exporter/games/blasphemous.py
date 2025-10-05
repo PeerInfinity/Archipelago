@@ -50,6 +50,11 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
     
     def override_rule_analysis(self, rule_func, rule_target_name: str = None) -> Optional[Dict[str, Any]]:
         """Override rule analysis for Blasphemous to reconstruct from original logic data."""
+        # First try to extract from closure variables if this is a lambda with clauses
+        closure_result = self._try_extract_from_closure(rule_func)
+        if closure_result:
+            return closure_result
+
         # Check if this is a location or exit rule
         if rule_target_name:
             # Try to match location logic
@@ -58,15 +63,100 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
                     logic_data = self.location_logic_map[loc_name]
                     if logic_data:
                         return self._convert_logic_data_to_rule(logic_data)
-                        
+
             # Try to match exit logic
             for exit_key in self.region_logic_map:
                 if exit_key in rule_target_name or exit_key.replace(' -> ', ' ') in rule_target_name:
                     logic_data = self.region_logic_map[exit_key]
                     if logic_data:
                         return self._convert_logic_data_to_rule(logic_data)
-        
+
         return None  # Let normal analysis proceed
+
+    def _try_extract_from_closure(self, rule_func) -> Optional[Dict[str, Any]]:
+        """Try to extract clauses from closure variables or function defaults."""
+        try:
+            if not hasattr(rule_func, '__code__'):
+                return None
+
+            # First try closure variables
+            if hasattr(rule_func, '__closure__') and rule_func.__closure__:
+                freevars = rule_func.__code__.co_freevars
+
+                # Look for 'clauses', 'reqs', or 'req' variables
+                for i, var_name in enumerate(freevars):
+                    if i >= len(rule_func.__closure__):
+                        break
+
+                    if var_name in ['clauses', 'reqs']:
+                        try:
+                            cell_contents = rule_func.__closure__[i].cell_contents
+                            if isinstance(cell_contents, list) and len(cell_contents) > 0:
+                                # Found a list of clauses - try to analyze each one
+                                logger.debug(f"Found {var_name} in closure with {len(cell_contents)} items")
+                                return self._analyze_clauses(cell_contents, var_name)
+                        except (ValueError, AttributeError):
+                            pass
+
+            # Then try function defaults (for parameters like reqs=reqs)
+            if hasattr(rule_func, '__defaults__') and rule_func.__defaults__:
+                arg_names = rule_func.__code__.co_varnames[:rule_func.__code__.co_argcount]
+                defaults = rule_func.__defaults__
+
+                # Map default values to parameter names (defaults apply to last N parameters)
+                if len(defaults) > 0:
+                    default_start = len(arg_names) - len(defaults)
+                    for i, default_value in enumerate(defaults):
+                        param_name = arg_names[default_start + i]
+                        if param_name in ['clauses', 'reqs']:
+                            if isinstance(default_value, list) and len(default_value) > 0:
+                                logger.debug(f"Found {param_name} in defaults with {len(default_value)} items")
+                                return self._analyze_clauses(default_value, param_name)
+
+            return None
+        except Exception as e:
+            logger.debug(f"Could not extract from closure or defaults: {e}")
+            return None
+
+    def _analyze_clauses(self, clauses_list: List, var_type: str) -> Optional[Dict[str, Any]]:
+        """Analyze a list of clause lambdas and convert to rule."""
+        try:
+            from ..analyzer import analyze_rule
+
+            analyzed_clauses = []
+            for clause_func in clauses_list:
+                if not callable(clause_func):
+                    continue
+
+                # Try to analyze this clause lambda
+                clause_result = analyze_rule(rule_func=clause_func, closure_vars={}, game_handler=self)
+                if clause_result and clause_result.get('type') != 'error':
+                    analyzed_clauses.append(clause_result)
+                else:
+                    # Could not analyze this clause - give up
+                    logger.debug(f"Could not analyze clause in {var_type} list")
+                    return None
+
+            if not analyzed_clauses:
+                return None
+
+            # Combine based on variable type
+            if var_type == 'clauses':
+                # Multiple clauses are OR'd together
+                if len(analyzed_clauses) == 1:
+                    return analyzed_clauses[0]
+                else:
+                    return {'type': 'or', 'conditions': analyzed_clauses}
+            elif var_type == 'reqs':
+                # Multiple requirements are AND'd together
+                if len(analyzed_clauses) == 1:
+                    return analyzed_clauses[0]
+                else:
+                    return {'type': 'and', 'conditions': analyzed_clauses}
+
+        except Exception as e:
+            logger.debug(f"Error analyzing clauses list: {e}")
+            return None
     
     def _convert_logic_data_to_rule(self, logic_data: List[Dict]) -> Dict[str, Any]:
         """Convert Blasphemous logic data structure to rule format."""
@@ -225,6 +315,62 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
         if not rule:
             return rule
 
+        # Handle attribute access chains like self.world.options.difficulty
+        if rule.get('type') == 'attribute':
+            obj = rule.get('object', {})
+            attr_name = rule.get('attr')
+
+            # Check if this is self.world.options.something
+            if (obj.get('type') == 'attribute' and
+                obj.get('attr') == 'options'):
+                inner_obj = obj.get('object', {})
+                if (inner_obj.get('type') == 'attribute' and
+                    inner_obj.get('attr') == 'world'):
+                    innermost_obj = inner_obj.get('object', {})
+                    if (innermost_obj.get('type') == 'name' and
+                        innermost_obj.get('name') == 'self'):
+                        # This is self.world.options.something
+                        # Convert to a setting_value retrieval
+                        return {
+                            'type': 'setting_value',
+                            'setting': attr_name
+                        }
+
+            # Recursively process the object
+            processed_obj = self.postprocess_rule(obj)
+            if processed_obj != obj:
+                rule['object'] = processed_obj
+            return rule
+
+        # Handle function calls with "self" first, before recursing
+        if rule.get('type') == 'function_call':
+            func = rule.get('function', {})
+            if func.get('type') == 'attribute':
+                obj = func.get('object', {})
+                if obj.get('type') == 'name' and obj.get('name') == 'self':
+                    # This is a call to self.method_name(args...)
+                    method_name = func.get('attr')
+                    # Filter out state parameter and recursively process remaining args
+                    args = rule.get('args', [])
+                    filtered_args = []
+                    for i, arg in enumerate(args):
+                        if i == 0 and arg.get('type') == 'name' and arg.get('name') == 'state':
+                            continue
+                        # Recursively process args in case they contain self references
+                        filtered_args.append(self.postprocess_rule(arg))
+
+                    # Expand the self method using our mappings
+                    helper_rule = {'type': 'helper', 'name': method_name}
+                    if filtered_args:
+                        helper_rule['args'] = filtered_args
+                    expanded = self._expand_self_helper(helper_rule)
+                    return expanded if expanded else helper_rule
+            else:
+                # Not a self method call, but might have args with self references
+                # Recursively process the args
+                if 'args' in rule:
+                    rule['args'] = [self.postprocess_rule(arg) for arg in rule.get('args', [])]
+
         # Handle all_of rules with unresolved iterators
         if rule.get('type') == 'all_of' and rule.get('iterator_info'):
             iterator_info = rule.get('iterator_info', {})
@@ -243,30 +389,6 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
         # Handle helper calls that reference self
         if rule.get('type') == 'helper' and 'self' in rule.get('name', ''):
             return self._expand_self_helper(rule)
-
-        # Handle function_call nodes that call methods on self
-        if rule.get('type') == 'function_call':
-            func = rule.get('function', {})
-            if func.get('type') == 'attribute':
-                obj = func.get('object', {})
-                if obj.get('type') == 'name' and obj.get('name') == 'self':
-                    # This is a call to self.method_name(args...)
-                    method_name = func.get('attr')
-                    # Preserve arguments, filtering out the 'state' parameter (first arg)
-                    args = rule.get('args', [])
-                    # The first argument is typically 'state', skip it
-                    # Keep all subsequent arguments (like boss names, etc.)
-                    filtered_args = []
-                    for i, arg in enumerate(args):
-                        # Skip first arg if it's a name reference to 'state'
-                        if i == 0 and arg.get('type') == 'name' and arg.get('name') == 'state':
-                            continue
-                        filtered_args.append(arg)
-
-                    result = {'type': 'helper', 'name': method_name}
-                    if filtered_args:
-                        result['args'] = filtered_args
-                    return result
 
         # Recursively process nested rules
         if rule.get('type') in ['and', 'or']:
@@ -287,6 +409,13 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             # Process the element of generator expressions
             if 'element' in rule:
                 rule['element'] = self.postprocess_rule(rule['element'])
+        elif rule.get('type') == 'count_check':
+            # Process count field which might contain self references
+            if 'count' in rule:
+                rule['count'] = self.postprocess_rule(rule['count'])
+            # Process args if present
+            if 'args' in rule:
+                rule['args'] = [self.postprocess_rule(arg) for arg in rule.get('args', [])]
 
         return rule
     
@@ -316,9 +445,9 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
     
     def _expand_self_helper(self, rule: Dict[str, Any]) -> Dict[str, Any]:
         """Expand helper methods that reference self (BlasRules instance methods)."""
-        
+
         helper_name = rule.get('name', '').replace('self.', '')
-        
+
         # Map BlasRules methods to their logic
         blas_methods = {
             'blood': {'type': 'item_check', 'item': 'Blood Perpetuated in Sand'},
@@ -361,6 +490,49 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             'incorrupt_hand': {'type': 'item_check', 'item': 'Incorrupt Hand of the Fraternal Master'},
             'olive': {'type': 'item_check', 'item': 'Olive Seeds'},
             'blessing': {'type': 'item_check', 'item': 'Quicksilver'},
+            # Skill count methods - these return counts, not booleans
+            'charged': {'type': 'count_check', 'item': 'Charged Skill'},
+            'ranged': {'type': 'count_check', 'item': 'Ranged Skill'},
+            'dive': {'type': 'count_check', 'item': 'Dive Skill'},
+            'lunge': {'type': 'count_check', 'item': 'Lunge Skill'},
+            'upward': {'type': 'count_check', 'item': 'Upward Skill'},
+            'combo': {'type': 'count_check', 'item': 'Combo Skill'},
+            # Bead count methods
+            'red_wax': {'type': 'count_check', 'item': 'Bead of Red Wax'},
+            'blue_wax': {'type': 'count_check', 'item': 'Bead of Blue Wax'},
+            # Prayer methods
+            'debla': {'type': 'item_check', 'item': 'Debla of the Lights'},
+            'taranto': {'type': 'item_check', 'item': 'Taranto to my Sister'},
+            'ruby': {'type': 'item_check', 'item': 'Cloistered Ruby'},
+            'tiento': {'type': 'item_check', 'item': 'Tiento to my Sister'},
+            # World reference - probably the BlasWorld instance, not needed in frontend
+            'world': {'type': 'constant', 'value': True},
+            # Complex helper methods - defer to JavaScript
+            'double_jump': {'type': 'helper', 'name': 'double_jump'},
+            'dash': {'type': 'helper', 'name': 'dash'},
+            'wall_climb': {'type': 'helper', 'name': 'wall_climb'},
+            'dawn_heart': {'type': 'helper', 'name': 'dawn_heart'},
+            'can_dawn_jump': {'type': 'helper', 'name': 'can_dawn_jump'},
+            'can_air_stall': {'type': 'helper', 'name': 'can_air_stall'},
+            'can_cross_gap_3': {'type': 'helper', 'name': 'can_cross_gap_3'},
+            'can_cross_gap_5': {'type': 'helper', 'name': 'can_cross_gap_5'},
+            'can_enemy_bounce': {'type': 'helper', 'name': 'can_enemy_bounce'},
+            'enemy_skips_allowed': {'type': 'helper', 'name': 'enemy_skips_allowed'},
+            'can_use_any_prayer': {'type': 'helper', 'name': 'can_use_any_prayer'},
+            'has_boss_strength': {'type': 'helper', 'name': 'has_boss_strength'},
+            'total_fervour': {'type': 'helper', 'name': 'total_fervour'},
+            'holy_wounds': {'type': 'helper', 'name': 'holy_wounds'},
+            'masks': {'type': 'helper', 'name': 'masks'},
+            'ceremony_items': {'type': 'helper', 'name': 'ceremony_items'},
+            'chalice_rooms': {'type': 'helper', 'name': 'chalice_rooms'},
+            'wheel': {'type': 'helper', 'name': 'wheel'},
+            # Room count methods
+            'amanecida_rooms': {'type': 'helper', 'name': 'amanecida_rooms'},
+            'guilt_rooms': {'type': 'helper', 'name': 'guilt_rooms'},
+            'sword_rooms': {'type': 'helper', 'name': 'sword_rooms'},
+            'redento_rooms': {'type': 'helper', 'name': 'redento_rooms'},
+            'miriam_rooms': {'type': 'helper', 'name': 'miriam_rooms'},
+            'enemy_count': {'type': 'helper', 'name': 'enemy_count'},
         }
         
         # Check if we have a mapping for this method
