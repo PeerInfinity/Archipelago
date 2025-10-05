@@ -1258,6 +1258,27 @@ def main():
     
     # Load existing results for merging
     results_file = os.path.join(project_root, args.output_file)
+
+    # Save a timestamped backup of the existing results file if it exists
+    if os.path.exists(results_file):
+        timestamp_backup = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        backup_dir = os.path.dirname(results_file)
+        backup_basename = os.path.basename(results_file)
+        # Insert timestamp before file extension
+        name_parts_backup = backup_basename.rsplit('.', 1)
+        if len(name_parts_backup) == 2:
+            backup_filename = f"{name_parts_backup[0]}_backup_{timestamp_backup}.{name_parts_backup[1]}"
+        else:
+            backup_filename = f"{backup_basename}_backup_{timestamp_backup}"
+        backup_file = os.path.join(backup_dir, backup_filename)
+
+        try:
+            import shutil
+            shutil.copy2(results_file, backup_file)
+            print(f"Backup of existing results saved to: {backup_filename}")
+        except (IOError, OSError) as e:
+            print(f"Warning: Could not create backup of existing results: {e}")
+
     existing_results = load_existing_results(results_file)
 
     # Determine if we should update metadata in merged results

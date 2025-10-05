@@ -132,10 +132,27 @@ export function createStateSnapshotInterface(
         case 'player':
           return snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
         case 'world':
-          // Return an object with player property for AHIT compatibility
+          // Return an object with player and options properties
+          const playerId = snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1';
           return {
-            player: snapshot?.player?.slot || staticData?.playerId || contextVariables?.playerId || '1'
+            player: playerId,
+            options: snapshot?.settings?.[playerId] || snapshot?.settings || {}
           };
+        case 'logic':
+          // Return game-specific helper functions as an object
+          // This allows code like logic.can_surf(...) to work
+          const selectedHelpers = getHelperFunctions(gameName);
+          if (selectedHelpers) {
+            // Wrap each helper to accept the right parameters
+            const logicObject = {};
+            for (const [helperName, helperFunction] of Object.entries(selectedHelpers)) {
+              logicObject[helperName] = (...args) => {
+                return helperFunction(snapshot, staticData, ...args);
+              };
+            }
+            return logicObject;
+          }
+          return undefined;
         default:
           return undefined;
       }

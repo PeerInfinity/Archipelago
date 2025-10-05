@@ -2792,7 +2792,44 @@ export class StateManager {
         if (name === 'player') return self.playerSlot;
 
         // World object (commonly used in helper functions)
-        if (name === 'world') return 'world'; // Return a placeholder string for now
+        if (name === 'world') {
+          return {
+            player: self.playerSlot,
+            options: self.settings?.[self.playerSlot] || self.settings || {}
+          };
+        }
+
+        // Logic object (game-specific helper functions)
+        if (name === 'logic') {
+          // Get game-specific helpers from the game logic module
+          const gameName = self.rules?.game_name;
+          if (gameName) {
+            const gameLogic = getGameLogic(gameName);
+            if (gameLogic && gameLogic.helperFunctions) {
+              // Create a logic object with all helper functions bound to receive (snapshot, staticData, ...args)
+              // Note: We create the snapshot/staticData lazily inside each function to avoid recursion
+              const logicObject = {};
+
+              for (const [helperName, helperFunction] of Object.entries(gameLogic.helperFunctions)) {
+                logicObject[helperName] = (...args) => {
+                  // Create a lightweight snapshot for the helper
+                  // We can't call getSnapshot() here because it might trigger recursion
+                  // Instead, create a minimal snapshot object
+                  const snapshot = {
+                    inventory: { ...self.inventory },
+                    flags: self.gameStateModule?.flags || [],
+                    events: self.gameStateModule?.events || [],
+                    checkedLocations: Array.from(self.checkedLocations || [])
+                  };
+                  const staticData = self.getStaticGameData();
+                  return helperFunction(snapshot, staticData, ...args);
+                };
+              }
+              return logicObject;
+            }
+          }
+          return undefined;
+        }
 
         // Current location being evaluated (for location access rules)
         if (name === 'location') return anInterface.currentLocation;
@@ -3637,6 +3674,7 @@ export class StateManager {
     return {
       game_name: this.rules?.game_name,
       game_directory: this.rules?.game_directory,
+      playerId: String(this.playerSlot),
       locations: this.locations,
       regions: this.regions,
       exits: this.exits,

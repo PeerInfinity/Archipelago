@@ -35,6 +35,7 @@ from .kh1 import KH1GameExportHandler
 from .kh2 import KH2GameExportHandler
 from .kdl3 import KDL3GameExportHandler
 from .lingo import LingoGameExportHandler
+from .pokemon_rb import PokemonRBGameExportHandler
 from .saving_princess import SavingPrincessGameExportHandler
 
 # Register game-specific helper expanders
@@ -71,6 +72,7 @@ GAME_HANDLERS: Dict[str, Type[BaseGameExportHandler]] = {
     "Kirby's Dream Land 3": KDL3GameExportHandler,
     'Lingo': LingoGameExportHandler,
     'Metamath': MetamathGameExportHandler,
+    'Pokemon Red and Blue': PokemonRBGameExportHandler,
     'Saving Princess': SavingPrincessGameExportHandler,
 }
 
@@ -78,6 +80,6 @@ def get_game_export_handler(game_name: str, world=None) -> BaseGameExportHandler
     """Get the appropriate helper expander for the game."""
     handler_class = GAME_HANDLERS.get(game_name, GenericGameExportHandler)
     # Pass world to handlers that accept it
-    if game_name in ['Bomb Rush Cyberfunk', 'Blasphemous', 'Castlevania 64', 'Celeste 64', 'Dark Souls III', 'DLCQuest', 'Donkey Kong Country 3', 'DOOM 1993', 'DOOM II', 'Factorio', 'Faxanadu', 'Final Fantasy Mystic Quest', 'Inscryption', 'Kingdom Hearts', 'Kingdom Hearts 2']:
+    if game_name in ['Bomb Rush Cyberfunk', 'Blasphemous', 'Castlevania 64', 'Celeste 64', 'Dark Souls III', 'DLCQuest', 'Donkey Kong Country 3', 'DOOM 1993', 'DOOM II', 'Factorio', 'Faxanadu', 'Final Fantasy Mystic Quest', 'Inscryption', 'Kingdom Hearts', 'Kingdom Hearts 2', 'Pokemon Red and Blue']:
         return handler_class(world)
     return handler_class()
