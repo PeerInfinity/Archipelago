@@ -2352,6 +2352,16 @@ export class StateManager {
   }
 
   /**
+   * Check if a region can be reached (Python CollectionState.can_reach_region equivalent)
+   * @param {string} region - Region name to check
+   * @param {number} player - Player number (defaults to this.playerSlot)
+   * @returns {boolean} True if region is reachable
+   */
+  can_reach_region(region, player = this.playerSlot) {
+    return this.can_reach(region, 'Region', player);
+  }
+
+  /**
    * Set debug mode for detailed logging
    * @param {boolean|string} mode - true for basic debug, 'ultra' for verbose, false to disable
    */
@@ -3273,6 +3283,33 @@ export class StateManager {
     return true;
   }
 
+  /**
+   * Check if the inventory has at least n items from a list
+   * Used by ChecksFinder - returns true if at least n items from the list are in inventory
+   * @param {Array<string>} items - Array of item names to check
+   * @param {number} count - Minimum number of items required
+   * @returns {boolean} - True if at least count items from the list are in inventory
+   * @updated 2025-10-06T05:16:00Z
+   */
+  has_from_list(items, count) {
+    if (!Array.isArray(items)) {
+      console.warn('[has_from_list] First argument is not an array:', items);
+      return false;
+    }
+    if (typeof count !== 'number' || count < 0) {
+      console.warn('[has_from_list] Count is not a valid number:', count);
+      return false;
+    }
+
+    // Count how many items from the list we have
+    let itemsFound = 0;
+    for (const itemName of items) {
+      itemsFound += (this._countItem(itemName) || 0);
+    }
+
+    return itemsFound >= count;
+  }
+
   applyRuntimeState(payload) {
     this._logDebug(
       '[StateManager applyRuntimeState] Received payload:',
@@ -3804,6 +3841,11 @@ export class StateManager {
       // Game-specific information
       game_info: this.gameInfo,
       settings: this.rules?.settings,
+      // Game-specific logic mappings (for Celeste 64 and other games that use them)
+      location_standard_moves_logic: this.rules?.location_standard_moves_logic,
+      location_hard_moves_logic: this.rules?.location_hard_moves_logic,
+      region_standard_moves_logic: this.rules?.region_standard_moves_logic,
+      region_hard_moves_logic: this.rules?.region_hard_moves_logic,
       // ID mappings
       locationNameToId: this.locationNameToId,
       itemNameToId: this.itemNameToId,

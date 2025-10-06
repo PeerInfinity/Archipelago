@@ -217,12 +217,17 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
     
     def _expand_string_rule(self, rule_name: str) -> Dict[str, Any]:
         """Expand a string rule reference to its actual rule."""
+        # Check purified_hand option for DoubleJump
+        purified_hand_enabled = False
+        if hasattr(self, 'world') and hasattr(self.world, 'options') and hasattr(self.world.options, 'purified_hand'):
+            purified_hand_enabled = bool(self.world.options.purified_hand.value)
+
         # Map of known string rules to their expansions - these correspond to BlasRules.string_rules
         string_rule_expansions = {
             # Movement abilities
             'dash': {'type': 'item_check', 'item': 'Dash Ability'},
             'wallclimb': {'type': 'item_check', 'item': 'Wall Climb Ability'},
-            'DoubleJump': {'type': 'constant', 'value': True},  # Based on options.purified_hand
+            'DoubleJump': {'type': 'item_check', 'item': 'Purified Hand of the Nun'} if purified_hand_enabled else {'type': 'constant', 'value': False},
             
             # Logic difficulty flags
             'NormalLogic': {'type': 'constant', 'value': True},  # Based on options.difficulty >= 1

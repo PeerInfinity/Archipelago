@@ -429,6 +429,20 @@ export function createStateSnapshotInterface(
         return true;
       }
 
+      if (methodName === 'has_from_list' && args.length >= 2) {
+        const items = args[0];
+        const count = args[1];
+        if (!Array.isArray(items)) return false;
+        if (typeof count !== 'number' || count < 0) return false;
+
+        // Count total items from the list
+        let itemsFound = 0;
+        for (const itemName of items) {
+          itemsFound += (finalSnapshotInterface.countItem(itemName) || 0);
+        }
+        return itemsFound >= count;
+      }
+
       // Use game-specific agnostic helpers for all helper methods
       const selectedHelpers = getHelperFunctions(gameName);
 

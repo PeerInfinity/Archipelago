@@ -1,18 +1,18 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-10-05 19:18:54
+**Generated:** 2025-10-06 09:07:18
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-10-05T19:18:54.315640
+**Source Data Last Updated:** 2025-10-06T09:07:18.636480
 
 **Script Version:** 1.0.0
 
 ## Summary
 
 - **Total Games:** 79
-- **Passed:** 26 (32.9%)
-- **Failed:** 53 (67.1%)
+- **Passed:** 28 (35.4%)
+- **Failed:** 51 (64.6%)
 
 ## Test Results
 
@@ -24,15 +24,15 @@
 | Adventure | ✅ Passed seeds 1-10 | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
 | Aquaria | ✅ Passed seeds 1-10 | 0 | 5.1 | 5.1 | 🟢 Complete | ✅ | ✅ |
 | ArchipIDLE | ✅ Passed seeds 1-10 | 0 | 3.2 | 3.2 | 🟢 Complete | ✅ | ✅ |
-| Blasphemous | ✅ Passed seeds 1 | 0 | 5.1 | 5.1 | 🟢 Complete | ✅ | ✅ |
-| Bomb Rush Cyberfunk | ✅ Passed seeds 1 | 0 | 9.1 | 9.1 | 🟢 Complete | ✅ | ⚫ |
+| Blasphemous | ❌ Failed seed 4 | 0 | 2.5 | 4.1 | 🟡 61.0% | ✅ | ✅ |
+| Bomb Rush Cyberfunk | ✅ Passed seeds 1-10 | 0 | 9.1 | 9.1 | 🟢 Complete | ✅ | ⚫ |
 | Bumper Stickers | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ✅ | ⚫ |
-| Castlevania - Circle of the Moon | ✅ Passed seeds 1 | 0 | 3.1 | 3.1 | 🟢 Complete | ✅ | ✅ |
-| Castlevania 64 | ❌ Failed seed 10 | 0 | 1.5 | 4.1 | 🟡 36.6% | ✅ | ⚫ |
-| Celeste 64 | ❌ Failed seed 1 | 0 | 0 | 5.2 | 🔴 0.0% | ✅ | ✅ |
-| ChecksFinder | ❌ Failed seed 1 | 0 | 0.1 | 4.5 | 🟠 2.2% | ✅ | ⚫ |
+| Castlevania - Circle of the Moon | ✅ Passed seeds 1-10 | 0 | 3.1 | 3.1 | 🟢 Complete | ✅ | ✅ |
+| Castlevania 64 | ✅ Passed seeds 1-10 | 0 | 4.1 | 4.1 | 🟢 Complete | ✅ | ⚫ |
+| Celeste 64 | ✅ Passed seeds 1-10 | 0 | 5.2 | 5.2 | 🟢 Complete | ✅ | ✅ |
+| ChecksFinder | ✅ Passed seeds 1-10 | 0 | 4.5 | 4.5 | 🟢 Complete | ✅ | ⚫ |
 | ChocolateChipCookies | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ✅ | ⚫ |
-| Civilization VI | ❌ Failed seed 1 | 0 | 0.13 | 8.1 | 🟠 1.6% | ✅ | ⚫ |
+| Civilization VI | ❌ Failed seed 1 | 0 | 7.4 | 8.1 | 🟡 91.4% | ✅ | ⚫ |
 | DLCQuest | ❌ Failed seed 1 | 0 | 0.1 | 8.1 | 🟠 1.2% | ✅ | ✅ |
 | DOOM 1993 | ✅ Passed seeds 1-10 | 0 | 18.1 | 18.1 | 🟢 Complete | ✅ | ⚫ |
 | DOOM II | ✅ Passed seeds 1-10 | 0 | 21.2 | 21.2 | 🟢 Complete | ✅ | ⚫ |
@@ -83,7 +83,7 @@
 | Super Metroid | ❌ Failed seed 1 | 0 | 0 | 8.1 | 🔴 0.0% | ⚫ | ⚫ |
 | TUNIC | ❌ Failed seed 1 | 0 | 0.1 | 4.1 | 🟠 2.4% | ⚫ | ⚫ |
 | Terraria | ❌ Failed seed 1 | 0 | 0 | 9.3 | 🔴 0.0% | ⚫ | ⚫ |
-| The Legend of Zelda | ❌ Failed seed 1 | 0 | 0.1 | 10.1 | 🟠 1.0% | ⚫ | ⚫ |
+| The Legend of Zelda | ❌ Failed seed 1 | 0 | 0.1 | 11.1 | 🟠 0.9% | ⚫ | ⚫ |
 | The Messenger | ❌ Failed seed 1 | 0 | 0.1 | 6.1 | 🟠 1.6% | ⚫ | ⚫ |
 | The Wind Waker | ❌ Failed seed 1 | 0 | 0 | 17.1 | 🔴 0.0% | ⚫ | ⚫ |
 | The Witness | ❌ Failed seed 1 | 0 | 0 | 9.1 | 🔴 0.0% | ⚫ | ⚫ |

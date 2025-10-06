@@ -267,19 +267,22 @@ def create_playthrough_with_logging(spoiler: "Spoiler", create_paths: bool = Tru
             initial_collection_spheres[num] = sphere
 
         # Precollected items phase
+        # NOTE: Pruning of precollected items is disabled to ensure the sphere log matches starting_items
+        # in the exported rules.json. The original pruning logic would remove unnecessary precollected items,
+        # but this causes mismatches in frontend testing where starting_items lists all precollected items.
         removed_precollected: List["Item"] = []
-        for player_id in multiworld.player_ids:
-            if player_id in multiworld.precollected_items:
-                player_precollected = multiworld.precollected_items[player_id]
-                for item in player_precollected[:]:  # Iterate over a copy
-                    if not item.advancement:
-                        continue
-                    player_precollected.remove(item)
-                    multiworld.state.remove(item)
-                    if not multiworld.can_beat_game():
-                        multiworld.push_precollected(item)
-                    else:
-                        removed_precollected.append(item)
+        # for player_id in multiworld.player_ids:
+        #     if player_id in multiworld.precollected_items:
+        #         player_precollected = multiworld.precollected_items[player_id]
+        #         for item in player_precollected[:]:  # Iterate over a copy
+        #             if not item.advancement:
+        #                 continue
+        #             player_precollected.remove(item)
+        #             multiworld.state.remove(item)
+        #             if not multiworld.can_beat_game():
+        #                 multiworld.push_precollected(item)
+        #             else:
+        #                 removed_precollected.append(item)
         
         # Final sphere calculation pass
         required_locations = {loc for sphere_set in initial_collection_spheres for loc in sphere_set}

@@ -1142,23 +1142,58 @@ def main():
         print("Continuing anyway...")
         print("")
     
+    # Determine project root early (needed for server startup)
+    project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
     # Check if HTTP server is running (required for spoiler tests, but not for export-only)
     if not args.export_only and not check_http_server():
-        print("[ERROR] HTTP development server not running!")
+        print("[WARNING] HTTP development server not running!")
         print("")
         print("The spoiler tests require a local development server.")
-        print("Please start the server first:")
-        print("  python -m http.server 8000")
+        print("Starting server automatically: python -m http.server 8000")
         print("")
-        print("Then access the frontend at: http://localhost:8000/frontend/")
-        print("Once the server is running, run this script again.")
-        print("")
-        print("Alternatively, use --export-only to skip spoiler tests.")
-        sys.exit(1)
-    
-    # Determine project root and templates directory
-    project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    
+
+        # Start the server in the background
+        try:
+            server_process = subprocess.Popen(
+                [sys.executable, '-m', 'http.server', '8000'],
+                cwd=project_root,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
+
+            # Wait for server to start (up to 10 seconds)
+            print("Waiting for server to start...", end='', flush=True)
+            for i in range(20):  # 20 attempts, 0.5 seconds each = 10 seconds total
+                time.sleep(0.5)
+                if check_http_server():
+                    print(" Server started successfully!")
+                    print(f"Server running at: http://localhost:8000/frontend/")
+                    print(f"Server PID: {server_process.pid}")
+                    print("")
+                    break
+                print(".", end='', flush=True)
+            else:
+                # Server didn't start in time
+                print(" Failed!")
+                print("")
+                print("[ERROR] Server failed to start within 10 seconds.")
+                print("Please start the server manually:")
+                print("  python -m http.server 8000")
+                print("")
+                print("Alternatively, use --export-only to skip spoiler tests.")
+                server_process.terminate()
+                sys.exit(1)
+        except Exception as e:
+            print(f"[ERROR] Failed to start server: {e}")
+            print("")
+            print("Please start the server manually:")
+            print("  python -m http.server 8000")
+            print("")
+            print("Alternatively, use --export-only to skip spoiler tests.")
+            sys.exit(1)
+
+    # Determine templates directory (project_root already defined earlier)
     if args.templates_dir:
         templates_dir = os.path.abspath(args.templates_dir)
     else:

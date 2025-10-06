@@ -999,6 +999,21 @@ def process_items(multiworld, player: int, itempool_counts: Dict[str, int]) -> D
                  item_data['trap'] = getattr(location.item, 'trap', False)
             # Event flag likely comes from type, less critical to update here unless specific logic requires it
 
+    # 3b. Also check precollected items for advancement status
+    if player in multiworld.precollected_items:
+        for item in multiworld.precollected_items[player]:
+            if item.name in items_data:
+                item_data = items_data[item.name]
+                # Only update flags if they are still default (False)
+                if not item_data.get('advancement'):
+                    item_data['advancement'] = getattr(item, 'advancement', False)
+                if not item_data.get('priority'):
+                    item_data['priority'] = getattr(item, 'priority', False)
+                if not item_data.get('useful'):
+                    item_data['useful'] = getattr(item, 'useful', False)
+                if not item_data.get('trap'):
+                    item_data['trap'] = getattr(item, 'trap', False)
+
     # 4. Get and apply game-specific max counts
     try:
         game_max_counts = game_handler.get_item_max_counts(world)

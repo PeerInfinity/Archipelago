@@ -889,6 +889,351 @@ export const helperFunctions = {
   },
 
   /**
+   * Count tentudia remains
+   */
+  tentudia_remains(snapshot, staticData) {
+    // Count unique Tentudia's remains items in inventory
+    let count = 0;
+    const tentudiaItems = [
+      "Tentudia's Carnal Remains",
+      "Remains of Tentudia's Hair",
+      "Tentudia's Skeletal Remains"
+    ];
+    for (const item of tentudiaItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Count herbs for Tirso quest
+   */
+  herbs(snapshot, staticData) {
+    // Count unique herbs given to Tirso
+    let count = 0;
+    const herbItems = [
+      "Olive Seeds",
+      "Dried Clove",
+      "Bouquet of Thyme",
+      "Sooty Garlic",
+      "Incense Garlic",
+      "Bouquet of Rosemary"
+    ];
+    for (const item of herbItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Count bones collected
+   */
+  bones(snapshot, staticData) {
+    // Count unique bone items (from Items.py bones group)
+    let count = 0;
+    const boneItems = [
+      "Parietal bone of Lasser, the Inquisitor",
+      "Jaw of Ashgan, the Inquisitor",
+      "Cervical vertebra of Zicher, the Brewmaster",
+      "Clavicle of Dalhuisen, the Schoolchild",
+      "Sternum of Vitas, the Performer",
+      "Ribs of Sabnock, the Guardian",
+      "Vertebra of John, the Gambler",
+      "Scapula of Carlos, the Executioner",
+      "Humerus of McMittens, the Nurse",
+      "Ulna of Koke, the Troubadour",
+      "Radius of Helzer, the Poet",
+      "Frontal of Martinus, the Ropemaker",
+      "Metacarpus of Hodges, the Blacksmith",
+      "Phalanx of Arthur, the Sailor",
+      "Phalanx of Miriam, the Counsellor",
+      "Phalanx of Brannon, the Gravedigger",
+      "Coxal of June, the Prostitute",
+      "Sacrum of the Dark Warlock",
+      "Coccyx of Daniel, the Possessed",
+      "Femur of Karpow, the Bounty Hunter",
+      "Kneecap of Sebastien, the Puppeteer",
+      "Tibia of Alsahli, the Mystic",
+      "Fibula of Rysp, the Ranger",
+      "Temporal of Joel, the Thief",
+      "Metatarsus of Rikusyo, the Traveller",
+      "Phalanx of Zeth, the Prisoner",
+      "Phalanx of William, the Sceptic",
+      "Phalanx of Aralcarim, the Archivist",
+      "Occipital of Tequila, the Metalsmith",
+      "Maxilla of Tarradax, the Cleric",
+      "Nasal bone of Charles, the Artist",
+      "Hyoid bone of Senex, the Beggar",
+      "Vertebra of Lindquist, the Forger",
+      "Trapezium of Jeremiah, the Hangman",
+      "Trapezoid of Yeager, the Jeweller",
+      "Capitate of Barock, the Herald",
+      "Hamate of Vukelich, the Copyist",
+      "Pisiform of Hernandez, the Explorer",
+      "Triquetral of Luca, the Tailor",
+      "Lunate of Keiya, the Butcher",
+      "Scaphoid of Fierce, the Leper",
+      "Anklebone of Weston, the Pilgrim",
+      "Calcaneum of Persian, the Bandit",
+      "Navicular of Kahnnyhoo, the Murderer"
+    ];
+    for (const item of boneItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Count egg ceremony items
+   */
+  egg_items(snapshot, staticData) {
+    // Count unique egg ceremony items
+    let count = 0;
+    const eggItems = [
+      "Black Grieving Veil",
+      "Melted Golden Coins",
+      "Torn Bridal Ribbon"
+    ];
+    for (const item of eggItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Count toe items
+   */
+  toes(snapshot, staticData) {
+    // Count unique toe items
+    let count = 0;
+    const toeItems = [
+      "Big Toe Made of Limestone",
+      "Second Toe Made of Tin",
+      "Third Toe Made of Marble",
+      "Fourth Toe Made of Wood",
+      "Little Toe Made of Serpent's Scales"
+    ];
+    for (const item of toeItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Count refuge marks
+   */
+  refuge_marks(snapshot, staticData) {
+    // Count unique refuge marks
+    let count = 0;
+    const markItems = [
+      "Mark of the Second Refuge",
+      "Mark of the First Refuge",
+      "Mark of the Third Refuge"
+    ];
+    for (const item of markItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Count eye items
+   */
+  eyes(snapshot, staticData) {
+    // Count unique eye items
+    let count = 0;
+    const eyeItems = [
+      "Severed Right Eye of the Traitor",
+      "Crystallised Left Eye of the Envious"
+    ];
+    for (const item of eyeItems) {
+      if (this.has(snapshot, staticData, item)) {
+        count++;
+      }
+    }
+    return count;
+  },
+
+  /**
+   * Convert value to boolean
+   */
+  bool(snapshot, staticData, value) {
+    return !!value;
+  },
+
+  /**
+   * Check if enemy skips are allowed
+   * Requires difficulty >= 2 and enemy_randomizer is false
+   */
+  enemy_skips_allowed(snapshot, staticData) {
+    const difficulty = staticData?.settings?.[snapshot.player]?.difficulty ?? 1;
+    const enemyRandomizer = staticData?.settings?.[snapshot.player]?.enemy_randomizer ?? false;
+    return difficulty >= 2 && !enemyRandomizer;
+  },
+
+  /**
+   * Alias for enemy_skips_allowed
+   */
+  enemySkipsAllowed(snapshot, staticData) {
+    return this.enemy_skips_allowed(snapshot, staticData);
+  },
+
+  /**
+   * Check if obscure skips are allowed
+   * Requires difficulty >= 2
+   */
+  obscure_skips_allowed(snapshot, staticData) {
+    const difficulty = staticData?.settings?.[snapshot.player]?.difficulty ?? 1;
+    return difficulty >= 2;
+  },
+
+  /**
+   * Alias for obscure_skips_allowed
+   */
+  obscureSkipsAllowed(snapshot, staticData) {
+    return this.obscure_skips_allowed(snapshot, staticData);
+  },
+
+  /**
+   * Check if precise skips are allowed
+   * Requires difficulty >= 2
+   */
+  precise_skips_allowed(snapshot, staticData) {
+    const difficulty = staticData?.settings?.[snapshot.player]?.difficulty ?? 1;
+    return difficulty >= 2;
+  },
+
+  /**
+   * Alias for precise_skips_allowed
+   */
+  preciseSkipsAllowed(snapshot, staticData) {
+    return this.precise_skips_allowed(snapshot, staticData);
+  },
+
+  /**
+   * Check if player has bronze key (Key of the Secular)
+   */
+  bronze_key(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Key of the Secular");
+  },
+
+  /**
+   * Check if player has silver key (Key of the Scribe)
+   */
+  silver_key(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Key of the Scribe");
+  },
+
+  /**
+   * Check if player has gold key (Key of the Inquisitor)
+   */
+  gold_key(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Key of the Inquisitor");
+  },
+
+  /**
+   * Check if player has peaks key (Key of the High Peaks)
+   */
+  peaks_key(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Key of the High Peaks");
+  },
+
+  /**
+   * Check if player has elder key
+   */
+  elder_key(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Key to the Chamber of the Eldest Brother");
+  },
+
+  /**
+   * Check if player has wood key
+   */
+  wood_key(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Key Grown from Twisted Wood");
+  },
+
+  /**
+   * Aliases for key helpers (matching Python string rules)
+   */
+  bronzeKey(snapshot, staticData) {
+    return this.bronze_key(snapshot, staticData);
+  },
+
+  silverKey(snapshot, staticData) {
+    return this.silver_key(snapshot, staticData);
+  },
+
+  goldKey(snapshot, staticData) {
+    return this.gold_key(snapshot, staticData);
+  },
+
+  peaksKey(snapshot, staticData) {
+    return this.peaks_key(snapshot, staticData);
+  },
+
+  elderKey(snapshot, staticData) {
+    return this.elder_key(snapshot, staticData);
+  },
+
+  woodKey(snapshot, staticData) {
+    return this.wood_key(snapshot, staticData);
+  },
+
+  /**
+   * Count red wax beads
+   */
+  red_wax(snapshot, staticData) {
+    return this.count(snapshot, staticData, "Bead of Red Wax");
+  },
+
+  /**
+   * Count blue wax beads
+   */
+  blue_wax(snapshot, staticData) {
+    return this.count(snapshot, staticData, "Bead of Blue Wax");
+  },
+
+  /**
+   * Check if player has at least 1 blue wax bead
+   */
+  blueWax1(snapshot, staticData) {
+    return this.blue_wax(snapshot, staticData) >= 1;
+  },
+
+  /**
+   * Check if player has at least 3 blue wax beads
+   */
+  blueWax3(snapshot, staticData) {
+    return this.blue_wax(snapshot, staticData) >= 3;
+  },
+
+  /**
+   * Check if player has at least 1 red wax bead
+   */
+  redWax1(snapshot, staticData) {
+    return this.red_wax(snapshot, staticData) >= 1;
+  },
+
+  /**
+   * Check if player has at least 3 red wax beads
+   */
+  redWax3(snapshot, staticData) {
+    return this.red_wax(snapshot, staticData) >= 3;
+  },
+
+  /**
    * Count ceremony items (egg items)
    */
   ceremony_items(snapshot, staticData) {
