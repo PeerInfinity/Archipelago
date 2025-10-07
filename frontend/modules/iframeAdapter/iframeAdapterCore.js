@@ -79,9 +79,13 @@ export class IframeAdapterCore {
      */
     handlePostMessage(event) {
         const message = event.data;
-        
+
         // Validate message structure
         if (!validateMessage(message)) {
+            // Silently ignore WINDOW_READY and WINDOW_APP_READY messages (they're for windowAdapter)
+            if (message && (message.type === 'WINDOW_READY' || message.type === 'WINDOW_APP_READY')) {
+                return;
+            }
             log('warn', 'Received invalid message', message);
             return;
         }
@@ -160,18 +164,16 @@ export class IframeAdapterCore {
                 // Use setTimeout to ensure iframe has finished setting up its event subscriptions
                 setTimeout(() => {
                     const playerState = getPlayerStateSingleton();
-                    console.log('[iframeAdapter] playerState:', playerState);
                     const currentRegion = playerState?.getCurrentRegion();
-                    console.log('[iframeAdapter] currentRegion:', currentRegion);
                     if (currentRegion) {
-                        console.log(`[iframeAdapter] Sending current region to iframe: ${currentRegion}`);
+                        log('debug', `Sending current region to iframe: ${currentRegion}`);
                         // Publish region changed event so iframe can sync
                         this.eventBus.publish('playerState:regionChanged', {
                             oldRegion: null,
                             newRegion: currentRegion
                         }, 'iframeAdapter');
                     } else {
-                        console.log('[iframeAdapter] No current region to send to iframe');
+                        log('debug', 'No current region to send to iframe');
                     }
                 }, 500); // Increased delay to ensure iframe subscriptions are ready
             }

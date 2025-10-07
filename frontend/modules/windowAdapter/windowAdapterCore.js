@@ -1,11 +1,12 @@
 // Core adapter logic for event bridging between main app and separate windows
-import { 
-    MessageTypes, 
-    createMessage, 
-    validateMessage, 
+import {
+    MessageTypes,
+    createMessage,
+    validateMessage,
     safePostMessage,
-    createErrorMessage 
+    createErrorMessage
 } from './communicationProtocol.js';
+import { getPlayerStateSingleton } from '../playerState/singleton.js';
 
 // Helper function for logging with fallback
 function log(level, message, ...data) {
@@ -25,11 +26,12 @@ export class WindowAdapterCore {
         
         // Registry of connected windows
         this.windows = new Map(); // windowId -> { window, subscriptions, lastHeartbeat }
-        
+
         // Event subscriptions tracking
         this.eventBusSubscriptions = new Map(); // windowId -> Set of event names
         this.dispatcherSubscriptions = new Map(); // windowId -> Set of event names
-        
+        this._adapterEventBusSubscriptions = new Set(); // Track which events the adapter has subscribed to
+
         // Message handlers
         this.messageHandlers = new Map();
         this.setupMessageHandlers();
@@ -124,12 +126,12 @@ export class WindowAdapterCore {
             lastHeartbeat: Date.now(),
             connected: true
         });
-        
+
         this.eventBusSubscriptions.set(windowId, new Set());
         this.dispatcherSubscriptions.set(windowId, new Set());
-        
+
         log('info', `Window registered: ${windowId}`);
-        
+
         // Register window-specific publisher for common events that windows might publish
         if (this.registerDynamicPublisher) {
             const publisherId = `${windowId}`;
@@ -137,10 +139,27 @@ export class WindowAdapterCore {
             this.registerDynamicPublisher(publisherId, 'playerState:regionChanged');
             log('debug', `Registered dynamic publisher ${publisherId} for window events`);
         }
-        
+
         // Publish connection event
         if (this.eventBus) {
             this.eventBus.publish('window:connected', { windowId }, 'windowAdapter');
+
+            // Send current region to newly connected window so it can initialize its state
+            // Use setTimeout to ensure window has finished setting up its event subscriptions
+            setTimeout(() => {
+                const playerState = getPlayerStateSingleton();
+                const currentRegion = playerState?.getCurrentRegion();
+                if (currentRegion) {
+                    log('debug', `Sending current region to window: ${currentRegion}`);
+                    // Publish region changed event so window can sync
+                    this.eventBus.publish('playerState:regionChanged', {
+                        oldRegion: null,
+                        newRegion: currentRegion
+                    }, 'windowAdapter');
+                } else {
+                    log('debug', 'No current region to send to window');
+                }
+            }, 500); // Delay to ensure window subscriptions are ready
         }
     }
 
@@ -240,16 +259,37 @@ export class WindowAdapterCore {
         const windowId = message.windowId || message.iframeId;
         const { data } = message;
         const { eventName } = data;
-        
+
         if (!this.windows.has(windowId)) {
             this.sendErrorToWindow(source, windowId, 'NOT_REGISTERED', 'Window not registered');
             return;
         }
-        
+
         // Add to subscriptions
         this.eventBusSubscriptions.get(windowId).add(eventName);
-        
+
         log('debug', `Window ${windowId} subscribed to eventBus event: ${eventName}`);
+
+        // If this is the first window to subscribe to this event, subscribe the adapter to it
+        // Check if any window is subscribed to this event
+        let anyWindowSubscribed = false;
+        for (const subscriptions of this.eventBusSubscriptions.values()) {
+            if (subscriptions.has(eventName)) {
+                anyWindowSubscribed = true;
+                break;
+            }
+        }
+
+        // Only subscribe once per event (avoid duplicate subscriptions)
+        if (anyWindowSubscribed && !this._adapterEventBusSubscriptions.has(eventName)) {
+            // Subscribe to the event and forward to interested windows
+            this.eventBus.subscribe(eventName, (eventData) => {
+                this.handleEventBusEvent(eventName, eventData);
+            }, 'windowAdapter');
+
+            this._adapterEventBusSubscriptions.add(eventName);
+            log('debug', `WindowAdapter subscribed to eventBus event: ${eventName}`);
+        }
     }
 
     /**

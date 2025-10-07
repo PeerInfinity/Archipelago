@@ -29,6 +29,7 @@ export class TextAdventureLogic {
         this.discoveryMode = false;
         this.retryAttempts = 0;
         this.maxRetryAttempts = 10; // Limit retries to prevent infinite loops
+        this.lastDisplayedRegion = null; // Track last displayed region to prevent duplicates
         
         // Subscribe to relevant events
         this.setupEventSubscriptions();
@@ -854,8 +855,16 @@ export class TextAdventureLogic {
      */
     handleRegionChange(data) {
         log('info', 'Region changed:', data);
-        // Display new region immediately - this event fires when region change is complete
-        this.displayCurrentRegion();
+
+        // Only display if the region is different from the last one we displayed
+        // This prevents duplicate messages when sync events fire
+        if (data && data.newRegion && data.newRegion !== this.lastDisplayedRegion) {
+            this.lastDisplayedRegion = data.newRegion;
+            // Display new region immediately - this event fires when region change is complete
+            this.displayCurrentRegion();
+        } else {
+            log('debug', 'Skipping region display - already displayed this region');
+        }
     }
 
     /**
