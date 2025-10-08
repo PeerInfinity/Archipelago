@@ -682,11 +682,15 @@ export const helperFunctions = {
           count = 3;
 
           // Fourth meeting
-          if (isReachable("D04Z01S03[E]") || isReachable("D04Z02S01[W]")) {
+          if (isReachable("D04Z01S03[E]") || isReachable("D04Z02S01[W]") || isReachable("D06Z01S18[-Cherubs]")) {
             count = 4;
 
-            // Fifth meeting (assuming there's more to the pattern)
-            if (isReachable("D05Z02S12[E]") || isReachable("D09Z01S01[E]")) {
+            // Fifth meeting - requires knots >= 1 AND limestones >= 3 AND reaching specific regions
+            const hasKnots = (snapshot?.inventory?.["Knot of Hair"] || 0) >= 1;
+            const hasLimestones = (snapshot?.inventory?.["Limestone"] || 0) >= 3;
+
+            if (hasKnots && hasLimestones &&
+                (isReachable("D04Z02S08[E]") || isReachable("D04BZ02S01[Redento]"))) {
               count = 5;
             }
           }
@@ -1400,5 +1404,565 @@ export const helperFunctions = {
       const status = reachability[region];
       return status === 'reachable' || status === 'checked';
     });
+  },
+
+  /**
+   * Check if the TSC gate has been opened
+   * The gate is opened if either of these regions have been reached
+   */
+  openedTSCGate(snapshot, staticData) {
+    const regions = [
+      "D05Z02S06[SE]",
+      "D05Z01S21[-Cherubs]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if the AR ladder has been opened
+   * The ladder is opened if any of these regions have been reached
+   */
+  openedARLadder(snapshot, staticData) {
+    const regions = [
+      "D06Z01S22[Sword]",
+      "D06Z01S20[W]",
+      "D04Z02S06[N]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Count Child of Moonlight items (cherubs)
+   */
+  cherubs(snapshot, staticData) {
+    return snapshot?.inventory?.["Child of Moonlight"] || 0;
+  },
+
+  /**
+   * Check if player has at least 30 bones
+   */
+  bones30(snapshot, staticData) {
+    return this.bones(snapshot, staticData) >= 30;
+  },
+
+  /**
+   * Check if player has at least 3 holy wounds
+   */
+  holyWounds3(snapshot, staticData) {
+    return this.holy_wounds(snapshot, staticData) >= 3;
+  },
+
+  /**
+   * Check if player has the Golden Thimble Filled with Burning Oil
+   */
+  fullThimble(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Golden Thimble Filled with Burning Oil");
+  },
+
+  /**
+   * Check if player has the Incomplete Scapular
+   */
+  scapular(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Incomplete Scapular");
+  },
+
+  /**
+   * Count traitor eyes (eye items)
+   */
+  traitor_eyes(snapshot, staticData) {
+    return this.eyes(snapshot, staticData);
+  },
+
+  /**
+   * Count marks of refuge
+   */
+  marks_of_refuge(snapshot, staticData) {
+    return this.refuge_marks(snapshot, staticData);
+  },
+
+  /**
+   * Check if player can survive poison level 3
+   * Requires lung OR (hard difficulty + tiento prayer + 120 fervour)
+   */
+  canSurvivePoison3(snapshot, staticData) {
+    const hasLung = this.has(snapshot, staticData, "Silvered Lung of Dolphos");
+    if (hasLung) return true;
+
+    const settings = staticData?.settings || {};
+    const difficulty = settings.difficulty || 0;
+    const hasTiento = this.has(snapshot, staticData, "Tiento to your Thorned Hairs");
+    const totalFervour = this.total_fervour(snapshot, staticData);
+
+    return difficulty >= 2 && hasTiento && totalFervour >= 120;
+  },
+
+  /**
+   * Check if redento has been met 5 times (requires accessing 5 redento regions)
+   */
+  redentoRooms5(snapshot, staticData) {
+    return this.redento_rooms(snapshot, staticData) >= 5;
+  },
+
+  /**
+   * Check if player can cross a 6-tile gap (requires double jump)
+   */
+  canCrossGap6(snapshot, staticData) {
+    return this.double_jump(snapshot, staticData);
+  },
+
+  /**
+   * Check if player can cross a 9-tile gap
+   * Requires double jump + (dawn jump OR wheel + air stall)
+   */
+  canCrossGap9(snapshot, staticData) {
+    const hasDoubleJump = this.double_jump(snapshot, staticData);
+    if (!hasDoubleJump) return false;
+
+    const hasDawnJump = this.can_dawn_jump(snapshot, staticData);
+    if (hasDawnJump) return true;
+
+    const hasWheel = this.wheel(snapshot, staticData);
+    const hasAirStall = this.can_air_stall(snapshot, staticData);
+    return hasWheel && hasAirStall;
+  },
+
+  /**
+   * Check if player can perform enemy skips AND has double jump
+   */
+  EnemySkipsAndDoubleJump(snapshot, staticData) {
+    return this.enemy_skips_allowed(snapshot, staticData) &&
+           this.double_jump(snapshot, staticData);
+  },
+
+  /**
+   * Check if DC gate (west) has been opened
+   */
+  openedDCGateW(snapshot, staticData) {
+    const regions = [
+      "D20Z01S04[E]",
+      "D01Z05S23[W]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if DC gate (east) has been opened
+   */
+  openedDCGateE(snapshot, staticData) {
+    const regions = [
+      "D01Z05S10[SE]",
+      "D01Z04S09[W]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if DC ladder has been opened
+   */
+  openedDCLadder(snapshot, staticData) {
+    const regions = [
+      "D01Z05S25[NE]",
+      "D01Z05S02[S]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if WOTW cave has been opened
+   */
+  openedWOTWCave(snapshot, staticData) {
+    const regions = [
+      "D02Z01S01[SW]",
+      "D02Z01S08[E]",  // With wall climb
+      "D02Z01S02[]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+
+    // Check if first region is reachable
+    if (reachability["D02Z01S01[SW]"] === 'reachable' ||
+        reachability["D02Z01S01[SW]"] === 'checked') {
+      return true;
+    }
+
+    // Check if third region is reachable
+    if (reachability["D02Z01S02[]"] === 'reachable' ||
+        reachability["D02Z01S02[]"] === 'checked') {
+      return true;
+    }
+
+    // Check if second region is reachable AND has wall climb
+    const hasWallClimb = this.wall_climb(snapshot, staticData);
+    if (hasWallClimb &&
+        (reachability["D02Z01S08[E]"] === 'reachable' ||
+         reachability["D02Z01S08[E]"] === 'checked')) {
+      return true;
+    }
+
+    return false;
+  },
+
+  /**
+   * Check if Convent ladder has been opened
+   */
+  openedConventLadder(snapshot, staticData) {
+    const regions = [
+      "D02Z03S02[N]",
+      "D02Z03S15[E]",
+      "D02Z03S19[E]",
+      "D02Z03S10[W]",
+      "D02Z03S22[W]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if BotTC statue has been broken
+   */
+  brokeBotTCStatue(snapshot, staticData) {
+    const regions = [
+      "D08Z03S03[W]",
+      "D08Z02S03[W]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if WotHP gate has been opened
+   */
+  openedWotHPGate(snapshot, staticData) {
+    const regions = [
+      "D09Z01S13[E]",
+      "D09Z01S03[W]",
+      "D09Z01S08[W]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  /**
+   * Check if BotSS ladder has been opened
+   */
+  openedBotssLadder(snapshot, staticData) {
+    const regions = [
+      "D17Z01S05[S]",
+      "D17BZ02S01[FrontR]"
+    ];
+
+    const reachability = snapshot?.regionReachability || {};
+    return regions.some(region => {
+      const status = reachability[region];
+      return status === 'reachable' || status === 'checked';
+    });
+  },
+
+  // ==================== Quest/Item Helpers ====================
+
+  /**
+   * Check if player has the Petrified Bell (Jibrael quest)
+   */
+  bell(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Petrified Bell");
+  },
+
+  /**
+   * Check if player has Boots of Pleading
+   */
+  boots(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Boots of Pleading");
+  },
+
+  /**
+   * Check if player has Chalice of Inverted Verses
+   */
+  chalice(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Chalice of Inverted Verses");
+  },
+
+  /**
+   * Check if player has Dried Flowers bathed in Tears
+   */
+  driedFlowers(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Dried Flowers bathed in Tears");
+  },
+
+  /**
+   * Alias for driedFlowers (snake_case version)
+   */
+  dried_flowers(snapshot, staticData) {
+    return this.driedFlowers(snapshot, staticData);
+  },
+
+  /**
+   * Check if player has Egg of Deformity (individual egg, not ceremony items)
+   */
+  egg(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Egg of Deformity");
+  },
+
+  /**
+   * Check if player has Empty Golden Thimble
+   */
+  emptyThimble(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Empty Golden Thimble");
+  },
+
+  /**
+   * Alias for emptyThimble (snake_case version)
+   */
+  empty_thimble(snapshot, staticData) {
+    return this.emptyThimble(snapshot, staticData);
+  },
+
+  /**
+   * Check if player has Weight of True Guilt
+   */
+  guiltBead(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Weight of True Guilt");
+  },
+
+  /**
+   * Alias for guiltBead (snake_case version)
+   */
+  guilt_bead(snapshot, staticData) {
+    return this.guiltBead(snapshot, staticData);
+  },
+
+  /**
+   * Check if player has Hatched Egg of Deformity
+   */
+  hatchedEgg(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Hatched Egg of Deformity");
+  },
+
+  /**
+   * Alias for hatchedEgg (snake_case version)
+   */
+  hatched_egg(snapshot, staticData) {
+    return this.hatchedEgg(snapshot, staticData);
+  },
+
+  /**
+   * Check if player has Apodictic Heart of Mea Culpa (Crisanta quest)
+   */
+  trueHeart(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Apodictic Heart of Mea Culpa");
+  },
+
+  /**
+   * Alias for trueHeart (snake_case version)
+   */
+  true_heart(snapshot, staticData) {
+    return this.trueHeart(snapshot, staticData);
+  },
+
+  /**
+   * Count Verses Spun from Gold
+   */
+  verses(snapshot, staticData) {
+    return snapshot?.inventory?.["Verses Spun from Gold"] || 0;
+  },
+
+  /**
+   * Check if player has Linen Cloth (LOTL quest)
+   */
+  cloth(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Linen Cloth");
+  },
+
+  /**
+   * Check if player has Severed Hand (LOTL quest)
+   */
+  hand(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Severed Hand");
+  },
+
+  /**
+   * Check if player has Cord of the True Burying
+   */
+  cord(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Cord of the True Burying");
+  },
+
+  // ==================== Item Count Helpers ====================
+
+  /**
+   * Count Knot of Rosary Rope items
+   * Only counts if player can reach D17Z01S07[NW]
+   */
+  knots(snapshot, staticData) {
+    const reachability = snapshot?.regionReachability || {};
+    const canReachRegion = reachability["D17Z01S07[NW]"] === 'reachable' ||
+                           reachability["D17Z01S07[NW]"] === 'checked';
+
+    if (!canReachRegion) return 0;
+
+    return snapshot?.inventory?.["Knot of Rosary Rope"] || 0;
+  },
+
+  /**
+   * Count Limestone items (toe items for Redento quest)
+   * This is an alias for the toe count
+   */
+  limestones(snapshot, staticData) {
+    return this.toes(snapshot, staticData);
+  },
+
+  // ==================== Relic/Ability Helpers ====================
+
+  /**
+   * Check if player has Silvered Lung of Dolphos
+   */
+  lung(snapshot, staticData) {
+    return this.has(snapshot, staticData, "Silvered Lung of Dolphos");
+  },
+
+  // ==================== Combat/Movement Ability Helpers ====================
+
+  /**
+   * Count Charged Skill items
+   */
+  charged(snapshot, staticData) {
+    return snapshot?.inventory?.["Charged Skill"] || 0;
+  },
+
+  /**
+   * Count Combo Skill items
+   */
+  combo(snapshot, staticData) {
+    return snapshot?.inventory?.["Combo Skill"] || 0;
+  },
+
+  /**
+   * Count Dive Skill items
+   */
+  dive(snapshot, staticData) {
+    return snapshot?.inventory?.["Dive Skill"] || 0;
+  },
+
+  /**
+   * Count Lunge Skill items
+   */
+  lunge(snapshot, staticData) {
+    return snapshot?.inventory?.["Lunge Skill"] || 0;
+  },
+
+  /**
+   * Check if player can beat the Legionary boss
+   */
+  canBeatLegionary(snapshot, staticData) {
+    return this.has_boss_strength(snapshot, staticData, "legionary");
+  },
+
+  /**
+   * Alias for canBeatLegionary (snake_case version)
+   */
+  can_beat_legionary(snapshot, staticData) {
+    return this.canBeatLegionary(snapshot, staticData);
+  },
+
+  /**
+   * Check if player can climb on root (requires root AND wall climb)
+   */
+  canClimbOnRoot(snapshot, staticData) {
+    return this.root(snapshot, staticData) &&
+           this.wall_climb(snapshot, staticData);
+  },
+
+  /**
+   * Alias for canClimbOnRoot (snake_case version)
+   */
+  can_climb_on_root(snapshot, staticData) {
+    return this.canClimbOnRoot(snapshot, staticData);
+  },
+
+  /**
+   * Check if player can perform enemy upslash technique
+   * Requires combo >= 2 AND enemy skips allowed
+   */
+  canEnemyUpslash(snapshot, staticData) {
+    const comboCount = this.combo(snapshot, staticData);
+    const enemySkipsOk = this.enemy_skips_allowed(snapshot, staticData);
+    return comboCount >= 2 && enemySkipsOk;
+  },
+
+  /**
+   * Alias for canEnemyUpslash (snake_case version)
+   */
+  can_enemy_upslash(snapshot, staticData) {
+    return this.canEnemyUpslash(snapshot, staticData);
+  },
+
+  // ==================== Difficulty Skip Helpers ====================
+
+  /**
+   * Check if mourning skips are allowed (requires hard difficulty)
+   */
+  mourningSkipAllowed(snapshot, staticData) {
+    const settings = staticData?.settings || {};
+    const difficulty = settings.difficulty || 0;
+    return difficulty >= 2;
+  },
+
+  /**
+   * Alias for mourningSkipAllowed (snake_case version)
+   */
+  mourning_skip_allowed(snapshot, staticData) {
+    return this.mourningSkipAllowed(snapshot, staticData);
+  },
+
+  /**
+   * Check if upwarp skips are allowed (requires hard difficulty)
+   */
+  upwarpSkipsAllowed(snapshot, staticData) {
+    const settings = staticData?.settings || {};
+    const difficulty = settings.difficulty || 0;
+    return difficulty >= 2;
+  },
+
+  /**
+   * Alias for upwarpSkipsAllowed (snake_case version)
+   */
+  upwarp_skips_allowed(snapshot, staticData) {
+    return this.upwarpSkipsAllowed(snapshot, staticData);
   },
 };

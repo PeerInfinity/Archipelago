@@ -1,10 +1,10 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-10-06 16:27:24
+**Generated:** 2025-10-08 00:50:57
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-10-06T16:27:24.205020
+**Source Data Last Updated:** 2025-10-08T00:50:57.846897
 
 **Script Version:** 1.0.0
 
@@ -24,7 +24,7 @@
 | Adventure | ✅ Passed seeds 1-10 | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
 | Aquaria | ✅ Passed seeds 1-10 | 0 | 5.1 | 5.1 | 🟢 Complete | ✅ | ✅ |
 | ArchipIDLE | ✅ Passed seeds 1-10 | 0 | 3.2 | 3.2 | 🟢 Complete | ✅ | ✅ |
-| Blasphemous | ❌ Failed seed 4 | 0 | 2.5 | 4.1 | 🟡 61.0% | ✅ | ✅ |
+| Blasphemous | ❌ Failed seed 8 | 0 | 3.1 | 8.1 | 🟡 38.3% | ✅ | ✅ |
 | Bomb Rush Cyberfunk | ✅ Passed seeds 1-10 | 0 | 9.1 | 9.1 | 🟢 Complete | ✅ | ⚫ |
 | Bumper Stickers | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ✅ | ⚫ |
 | Castlevania - Circle of the Moon | ✅ Passed seeds 1-10 | 0 | 3.1 | 3.1 | 🟢 Complete | ✅ | ✅ |
@@ -48,7 +48,7 @@
 | Jak and Daxter: The Precursor Legacy | ❌ Failed seed 1 | 0 | 0 | 0 | 🔴 0.0% | ⚫ | ⚫ |
 | Kingdom Hearts | ❌ Failed seed 1 | 0 | 0 | 11.1 | 🔴 0.0% | ✅ | ✅ |
 | Kingdom Hearts 2 | ❌ Failed seed 1 | 0 | 0.2 | 12.1 | 🟠 1.7% | ✅ | ⚫ |
-| Kirby's Dream Land 3 | ❌ Failed seed 1 | 0 | 0.9 | 11.1 | 🟠 8.1% | ✅ | ⚫ |
+| Kirby's Dream Land 3 | ❌ Failed seed 1 | 0 | 0.7 | 11.1 | 🟠 6.3% | ✅ | ⚫ |
 | Landstalker - The Treasures of King Nole | ❌ Failed seed 1 | 49 | 0.1 | 9.1 | 🟠 1.1% | ⚫ | ⚫ |
 | Lingo | ❌ Failed seed 1 | 0 | 0 | 4.1 | 🔴 0.0% | ✅ | ⚫ |
 | Links Awakening DX | ❌ Failed seed 1 | 0 | 0 | 14.1 | 🔴 0.0% | ⚫ | ⚫ |
