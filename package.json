@@ -9,10 +9,13 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test",
-    "test:headed": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test --headed",
-    "test:debug": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test --debug",
-    "test:ui": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test --ui",
+    "test": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test tests/e2e/app.spec.js",
+    "test:headed": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test tests/e2e/app.spec.js --headed",
+    "test:debug": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test tests/e2e/app.spec.js --debug",
+    "test:ui": "TEST_MODE=${npm_config_mode:-test} TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} RULES_OVERRIDE=${npm_config_rules:-} TEST_LAYOUT=${npm_config_layout:-} playwright test tests/e2e/app.spec.js --ui",
+    "test:multiplayer": "TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_OUTPUT_DIR=${npm_config_output:-test_results/multiplayer} playwright test tests/e2e/multiplayer.spec.js",
+    "test:multiplayer:headed": "TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_OUTPUT_DIR=${npm_config_output:-test_results/multiplayer} playwright test tests/e2e/multiplayer.spec.js --headed",
+    "test:multiplayer:debug": "TEST_GAME=${npm_config_game:-} TEST_SEED=${npm_config_seed:-} TEST_OUTPUT_DIR=${npm_config_output:-test_results/multiplayer} playwright test tests/e2e/multiplayer.spec.js --debug",
     "test:health": "node scripts/test-health-check.js",
     "test:analyze": "node scripts/analyze-test-results.js",
     "test:full-suite": "npm run test:health && npm test && npm run test:analyze",

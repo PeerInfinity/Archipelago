@@ -869,8 +869,6 @@ def process_regions(multiworld, player: int, game_handler=None) -> tuple:
                             location_data = {
                                 'name': location_name,
                                 'id': location_name_to_id.get(location_name, None),  # Add location ID from mapping
-                                'region': region.name,  # Add region name reference
-                                'crystal': getattr(location, 'crystal', None),
                                 'access_rule': access_rule_result,
                                 'item_rule': item_rule_result,
                                 'progress_type': extract_type_value(getattr(location, 'progress_type', None)),

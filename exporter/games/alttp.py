@@ -551,19 +551,37 @@ class ALttPGameExportHandler(BaseGameExportHandler): # Ensure correct inheritanc
     def get_region_attributes(self, region) -> Dict[str, Any]:
         """
         Add ALTTP-specific region attributes like light/dark world.
-        
+
         Args:
             region: The region object being processed
-            
+
         Returns:
             Dictionary with ALTTP-specific region attributes
         """
         attributes = {}
-        
+
         # Add light/dark world attributes which are specific to ALTTP
         attributes['is_light_world'] = getattr(region, 'is_light_world', False)
         attributes['is_dark_world'] = getattr(region, 'is_dark_world', False)
-        
+
+        return attributes
+
+    def get_location_attributes(self, location, world) -> Dict[str, Any]:
+        """
+        Add ALTTP-specific location attributes like crystal.
+
+        Args:
+            location: The location object being processed
+            world: The world object for this player
+
+        Returns:
+            Dictionary with ALTTP-specific location attributes
+        """
+        attributes = {}
+
+        # Add crystal attribute for dungeon prize locations
+        attributes['crystal'] = getattr(location, 'crystal', None)
+
         return attributes
 
     def get_collection_data(self, name):

@@ -80,18 +80,31 @@ export function register(registrationApi) {
         timerLogicInstance &&
         typeof timerLogicInstance.setCheckDelay === 'function'
       ) {
-        log('info', 
+        log('info',
           `[Timer Module] setCheckDelay called with min=${minSeconds}, max=${maxSeconds}`
         );
         timerLogicInstance.setCheckDelay(minSeconds, maxSeconds);
         return true;
       } else {
-        log('error', 
+        log('error',
           '[Timer Module] setCheckDelay called but TimerLogic instance or method not ready.'
         );
         return false;
       }
     }
+  );
+
+  // Register public functions for test access
+  registrationApi.registerPublicFunction(
+    moduleInfo.name,
+    'getTimerLogic',
+    () => timerLogicInstance
+  );
+
+  registrationApi.registerPublicFunction(
+    moduleInfo.name,
+    'getTimerUI',
+    () => timerUIInstance
   );
 
   // Register events this module publishes

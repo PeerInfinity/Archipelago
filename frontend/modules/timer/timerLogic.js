@@ -226,6 +226,12 @@ export class TimerLogic {
       const isChecked = snapshot.checkedLocations?.includes(loc.name);
       if (isChecked) continue;
 
+      // Skip locations with invalid IDs (ID 0 or null means not recognized by server)
+      if (loc.id === 0 || loc.id === null || loc.id === undefined) {
+        log('debug', `[TimerLogic] Skipping location ${loc.name} with invalid ID: ${loc.id}`);
+        continue;
+      }
+
       // Use snapshotInterface for all evaluations
       const isAccessible = snapshotInterface.isLocationAccessible(loc.name);
 

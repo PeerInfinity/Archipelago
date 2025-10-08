@@ -83,7 +83,7 @@ export class Connection {
         );
         this.eventBus?.publish('connection:error', {
           message: 'Error reading connection settings from storage.',
-        });
+        }, 'client');
         return false; // Indicate failure if storage read fails and no address was given
       }
     }
@@ -94,7 +94,7 @@ export class Connection {
       );
       this.eventBus?.publish('connection:error', {
         message: 'Server address not provided and not found in settings.',
-      });
+      }, 'client');
       return false; // Indicate failure
     }
 
@@ -145,7 +145,7 @@ export class Connection {
       log('error', 'Error connecting to server:', error);
       this.eventBus?.publish('connection:error', {
         message: `Failed to connect: ${error.message}`,
-      });
+      }, 'client');
       return false;
     }
   }
@@ -158,14 +158,14 @@ export class Connection {
     log('info', '[Connection] WebSocket URL:', this.socket.url);
     this.eventBus?.publish('connection:open', {
       serverAddress: this.serverAddress,
-    });
+    }, 'client');
   }
 
   _onMessage(event) {
     try {
       const commands = JSON.parse(event.data);
       log('info', '[Connection] Received message from server:', commands);
-      this.eventBus?.publish('connection:message', commands);
+      this.eventBus?.publish('connection:message', commands, 'client');
     } catch (error) {
       log('error', 'Error parsing server message:', error);
       log('error', 'Raw message data:', event.data);
@@ -175,7 +175,7 @@ export class Connection {
   _onClose() {
     this.eventBus?.publish('connection:close', {
       serverAddress: this.serverAddress,
-    });
+    }, 'client');
 
     // Handle reconnection logic
     if (this.preventReconnect || !this.serverAddress) {
@@ -203,14 +203,14 @@ export class Connection {
         this.eventBus?.publish('connection:error', {
           message:
             'Archipelago server connection lost. Maximum reconnection attempts reached.',
-        });
+        }, 'client');
         return;
       }
 
       this.eventBus?.publish('connection:reconnecting', {
         attempt: this.reconnectAttempts,
         maxAttempts: this.maxReconnectAttempts,
-      });
+      }, 'client');
 
       // Attempt to reconnect
       this.connect(this.serverAddress, this.serverPassword);
@@ -222,7 +222,7 @@ export class Connection {
       this.eventBus?.publish('connection:error', {
         message:
           'Archipelago server connection lost. The connection closed unexpectedly.',
-      });
+      }, 'client');
       this.socket.close();
     }
   }

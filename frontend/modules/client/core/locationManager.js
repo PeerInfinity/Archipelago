@@ -71,7 +71,7 @@ export class LocationManager {
 
     subscribe('game:connected', () => {
       // Use injected eventBus
-      this.eventBus?.publish('locations:updated', {});
+      this.eventBus?.publish('locations:updated', {}, 'client');
     });
     // Add other subscriptions if needed
   }
