@@ -263,10 +263,7 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             # Prayer items
             'aubade': {'type': 'item_check', 'item': 'Aubade'},
             'cantina': {'type': 'item_check', 'item': 'Cantina of the Blue Rose'},
-            'verses4': {'type': 'item_check', 'item': 'Verses Spun from Gold IV'},
             'pillar': {'type': 'item_check', 'item': 'Pillar of Salt'},
-            'verses3': {'type': 'item_check', 'item': 'Verses Spun from Gold III'},
-            'verses2': {'type': 'item_check', 'item': 'Verses Spun from Gold II'},
             'tirana': {'type': 'item_check', 'item': 'Taranto to my Sister'},
             'cante': {'type': 'item_check', 'item': 'Cante Jondo of the Three Sisters'},
             'cord': {'type': 'item_check', 'item': 'Cord of the True Burying'},
@@ -289,7 +286,7 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             },
 
             # Bell items
-            'bell': {'type': 'item_check', 'item': 'Dried Flowers Bathed in Tears'},
+            'bell': {'type': 'item_check', 'item': 'Petrified Bell'},
             'redWax': {'type': 'item_check', 'item': 'Smoking Heart of Incense'},
             'blueWax': {'type': 'item_check', 'item': 'Apodictic Heart of Mea Culpa'},
             
@@ -496,10 +493,7 @@ class BlasphemousGameExportHandler(BaseGameExportHandler):
             'wallclimb': {'type': 'item_check', 'item': 'Wall Climb Ability'},
             'aubade': {'type': 'item_check', 'item': 'Aubade'},
             'cantina': {'type': 'item_check', 'item': 'Cantina of the Blue Rose'},
-            'verses4': {'type': 'item_check', 'item': 'Verses Spun from Gold IV'},
             'pillar': {'type': 'item_check', 'item': 'Pillar of Salt'},
-            'verses3': {'type': 'item_check', 'item': 'Verses Spun from Gold III'},
-            'verses2': {'type': 'item_check', 'item': 'Verses Spun from Gold II'},
             'tirana': {'type': 'item_check', 'item': 'Taranto to my Sister'},
             'cante': {'type': 'item_check', 'item': 'Cante Jondo of the Three Sisters'},
             'cord': {'type': 'item_check', 'item': 'Cord of the True Burying'},

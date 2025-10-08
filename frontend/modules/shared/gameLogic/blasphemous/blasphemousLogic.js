@@ -416,23 +416,63 @@ export const helperFunctions = {
   },
 
   can_beat_graveyard_boss(snapshot, staticData) {
-    return this.has_boss_strength(snapshot, 'world', "amanecida", staticData);
+    return (
+      this.has_boss_strength(snapshot, 'world', "amanecida", staticData) &&
+      this.wallClimb(snapshot, staticData) &&
+      this.can_reach_region(snapshot, staticData, "D01Z06S01[Santos]") &&
+      this.can_reach_region(snapshot, staticData, "D02Z03S18[NW]") &&
+      this.can_reach_region(snapshot, staticData, "D02Z02S03[NE]")
+    );
   },
 
   can_beat_jondo_boss(snapshot, staticData) {
-    return this.has_boss_strength(snapshot, 'world', "amanecida", staticData);
+    return (
+      this.has_boss_strength(snapshot, 'world', "amanecida", staticData) &&
+      this.can_reach_region(snapshot, staticData, "D01Z06S01[Santos]") &&
+      (
+        this.can_reach_region(snapshot, staticData, "D20Z01S06[NE]") ||
+        this.can_reach_region(snapshot, staticData, "D20Z01S04[W]")
+      ) &&
+      (
+        this.can_reach_region(snapshot, staticData, "D03Z01S04[E]") ||
+        this.can_reach_region(snapshot, staticData, "D03Z02S10[N]")
+      )
+    );
   },
 
   can_beat_patio_boss(snapshot, staticData) {
-    return this.has_boss_strength(snapshot, 'world', "amanecida", staticData);
+    return (
+      this.has_boss_strength(snapshot, 'world', "amanecida", staticData) &&
+      this.can_reach_region(snapshot, staticData, "D01Z06S01[Santos]") &&
+      this.can_reach_region(snapshot, staticData, "D06Z01S02[W]") &&
+      (
+        this.can_reach_region(snapshot, staticData, "D04Z01S03[E]") ||
+        this.can_reach_region(snapshot, staticData, "D04Z01S01[W]") ||
+        this.can_reach_region(snapshot, staticData, "D06Z01S18[-Cherubs]")
+      )
+    );
   },
 
   can_beat_wall_boss(snapshot, staticData) {
-    return this.has_boss_strength(snapshot, 'world', "amanecida", staticData);
+    return (
+      this.has_boss_strength(snapshot, 'world', "amanecida", staticData) &&
+      this.can_reach_region(snapshot, staticData, "D01Z06S01[Santos]") &&
+      this.can_reach_region(snapshot, staticData, "D09Z01S09[Cell24]") &&
+      (
+        this.can_reach_region(snapshot, staticData, "D09Z01S11[E]") ||
+        this.can_reach_region(snapshot, staticData, "D06Z01S13[W]")
+      )
+    );
   },
 
   can_beat_hall_boss(snapshot, staticData) {
-    return this.has_boss_strength(snapshot, 'world', "laudes", staticData);
+    return (
+      this.has_boss_strength(snapshot, 'world', "laudes", staticData) &&
+      (
+        this.can_reach_region(snapshot, staticData, "D08Z01S02[NE]") ||
+        this.can_reach_region(snapshot, staticData, "D08Z03S02[NW]")
+      )
+    );
   },
 
   canBeatBrotherhoodBoss(snapshot, staticData) {
@@ -1800,6 +1840,27 @@ export const helperFunctions = {
    */
   verses(snapshot, staticData) {
     return snapshot?.inventory?.["Verses Spun from Gold"] || 0;
+  },
+
+  /**
+   * Check if player has 2+ Verses Spun from Gold
+   */
+  verses2(snapshot, staticData) {
+    return this.verses(snapshot, staticData) >= 2;
+  },
+
+  /**
+   * Check if player has 3+ Verses Spun from Gold
+   */
+  verses3(snapshot, staticData) {
+    return this.verses(snapshot, staticData) >= 3;
+  },
+
+  /**
+   * Check if player has 4+ Verses Spun from Gold
+   */
+  verses4(snapshot, staticData) {
+    return this.verses(snapshot, staticData) >= 4;
   },
 
   /**

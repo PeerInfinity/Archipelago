@@ -1,18 +1,18 @@
 # Archipelago Template Test Results Chart
 
-**Generated:** 2025-10-08 00:50:57
+**Generated:** 2025-10-08 07:18:45
 
 **Source Data Created:** 2025-08-22T09:54:44.358796
 
-**Source Data Last Updated:** 2025-10-08T00:50:57.846897
+**Source Data Last Updated:** 2025-10-08T07:18:45.326286
 
 **Script Version:** 1.0.0
 
 ## Summary
 
 - **Total Games:** 79
-- **Passed:** 28 (35.4%)
-- **Failed:** 51 (64.6%)
+- **Passed:** 29 (36.7%)
+- **Failed:** 50 (63.3%)
 
 ## Test Results
 
@@ -24,7 +24,7 @@
 | Adventure | ✅ Passed seeds 1-10 | 0 | 6.1 | 6.1 | 🟢 Complete | ✅ | ⚫ |
 | Aquaria | ✅ Passed seeds 1-10 | 0 | 5.1 | 5.1 | 🟢 Complete | ✅ | ✅ |
 | ArchipIDLE | ✅ Passed seeds 1-10 | 0 | 3.2 | 3.2 | 🟢 Complete | ✅ | ✅ |
-| Blasphemous | ❌ Failed seed 8 | 0 | 3.1 | 8.1 | 🟡 38.3% | ✅ | ✅ |
+| Blasphemous | ✅ Passed seeds 1-10 | 0 | 5.1 | 5.1 | 🟢 Complete | ✅ | ✅ |
 | Bomb Rush Cyberfunk | ✅ Passed seeds 1-10 | 0 | 9.1 | 9.1 | 🟢 Complete | ✅ | ⚫ |
 | Bumper Stickers | ✅ Passed seeds 1-10 | 0 | 8.1 | 8.1 | 🟢 Complete | ✅ | ⚫ |
 | Castlevania - Circle of the Moon | ✅ Passed seeds 1-10 | 0 | 3.1 | 3.1 | 🟢 Complete | ✅ | ✅ |
