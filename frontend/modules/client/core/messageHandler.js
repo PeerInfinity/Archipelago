@@ -32,6 +32,7 @@ export class MessageHandler {
     this.clientSlotName = null;
     this.clientSlot = null;
     this.clientTeam = null;
+    this.clientGameName = null; // Store the game name for this client's slot
     this.players = [];
 
     // Use the imported stateManagerProxySingleton directly
@@ -208,6 +209,9 @@ export class MessageHandler {
         log('info', `[MessageHandler] Using first available game: ${gameName}`);
       }
     }
+
+    // Store the game name for this client
+    this.clientGameName = gameName;
 
     log('info', `[MessageHandler] Connecting as game: ${gameName}, player: ${slotName}`);
 
@@ -575,8 +579,8 @@ export class MessageHandler {
       storage.setItem('dataPackageVersion', data.data.version);
       storage.setItem('dataPackage', JSON.stringify(data.data));
 
-      // Initialize mappings
-      const initSuccess = initializeMappingsFromDataPackage(data.data);
+      // Initialize mappings, passing the client's game name to avoid ID collisions in multiworld
+      const initSuccess = initializeMappingsFromDataPackage(data.data, this.clientGameName);
       if (initSuccess) {
         log('info', 'Successfully initialized mappings from new data package');
       } else {

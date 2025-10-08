@@ -24,63 +24,90 @@ from typing import Dict, List, Optional, Tuple
 from seed_utils import get_seed_id as compute_seed_id
 
 
-def run_post_processing_scripts(project_root: str, results_file: str):
+def run_post_processing_scripts(project_root: str, results_file: str, multiplayer: bool = False):
     """Run post-processing scripts to update documentation and preset files."""
     print("\n=== Running Post-Processing Scripts ===")
-    
-    # Script 1: Generate test chart
-    print("\nGenerating test results chart...")
-    chart_script = os.path.join(project_root, 'scripts', 'generate-test-chart.py')
-    try:
-        result = subprocess.run(
-            [sys.executable, chart_script, '--input-file', results_file],
-            cwd=project_root,
-            capture_output=True,
-            text=True,
-            timeout=30
-        )
-        if result.returncode == 0:
-            print("✓ Test chart generated successfully")
-            # Show where the chart was saved
-            if "Chart saved to:" in result.stdout:
-                for line in result.stdout.split('\n'):
-                    if "Chart saved to:" in line:
-                        print(f"  {line.strip()}")
-        else:
-            print(f"✗ Failed to generate test chart: {result.stderr}")
-    except subprocess.TimeoutExpired:
-        print("✗ Test chart generation timed out")
-    except Exception as e:
-        print(f"✗ Error running generate-test-chart.py: {e}")
-    
-    # Script 2: Update preset files
-    print("\nUpdating preset files with test data...")
-    preset_script = os.path.join(project_root, 'scripts', 'update-preset-files.py')
-    try:
-        result = subprocess.run(
-            [sys.executable, preset_script, '--test-results', results_file],
-            cwd=project_root,
-            capture_output=True,
-            text=True,
-            timeout=30
-        )
-        if result.returncode == 0:
-            print("✓ Preset files updated successfully")
-            # Show summary from output
-            if "Summary:" in result.stdout:
-                in_summary = False
-                for line in result.stdout.split('\n'):
-                    if "Summary:" in line:
-                        in_summary = True
-                    elif in_summary and line.strip().startswith('-'):
-                        print(f"  {line.strip()}")
-        else:
-            print(f"✗ Failed to update preset files: {result.stderr}")
-    except subprocess.TimeoutExpired:
-        print("✗ Preset files update timed out")
-    except Exception as e:
-        print(f"✗ Error running update-preset-files.py: {e}")
-    
+
+    if multiplayer:
+        # Multiplayer mode: only run generate-test-chart-multiplayer.py
+        print("\nGenerating multiplayer test results chart...")
+        chart_script = os.path.join(project_root, 'scripts', 'generate-test-chart-multiplayer.py')
+        try:
+            result = subprocess.run(
+                [sys.executable, chart_script, '--input-file', results_file],
+                cwd=project_root,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                print("✓ Multiplayer test chart generated successfully")
+                # Show where the chart was saved
+                if "Chart saved to:" in result.stdout:
+                    for line in result.stdout.split('\n'):
+                        if "Chart saved to:" in line:
+                            print(f"  {line.strip()}")
+            else:
+                print(f"✗ Failed to generate multiplayer test chart: {result.stderr}")
+        except subprocess.TimeoutExpired:
+            print("✗ Multiplayer test chart generation timed out")
+        except Exception as e:
+            print(f"✗ Error running generate-test-chart-multiplayer.py: {e}")
+    else:
+        # Spoiler mode: run both scripts
+        # Script 1: Generate test chart
+        print("\nGenerating test results chart...")
+        chart_script = os.path.join(project_root, 'scripts', 'generate-test-chart.py')
+        try:
+            result = subprocess.run(
+                [sys.executable, chart_script, '--input-file', results_file],
+                cwd=project_root,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                print("✓ Test chart generated successfully")
+                # Show where the chart was saved
+                if "Chart saved to:" in result.stdout:
+                    for line in result.stdout.split('\n'):
+                        if "Chart saved to:" in line:
+                            print(f"  {line.strip()}")
+            else:
+                print(f"✗ Failed to generate test chart: {result.stderr}")
+        except subprocess.TimeoutExpired:
+            print("✗ Test chart generation timed out")
+        except Exception as e:
+            print(f"✗ Error running generate-test-chart.py: {e}")
+
+        # Script 2: Update preset files
+        print("\nUpdating preset files with test data...")
+        preset_script = os.path.join(project_root, 'scripts', 'update-preset-files.py')
+        try:
+            result = subprocess.run(
+                [sys.executable, preset_script, '--test-results', results_file],
+                cwd=project_root,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                print("✓ Preset files updated successfully")
+                # Show summary from output
+                if "Summary:" in result.stdout:
+                    in_summary = False
+                    for line in result.stdout.split('\n'):
+                        if "Summary:" in line:
+                            in_summary = True
+                        elif in_summary and line.strip().startswith('-'):
+                            print(f"  {line.strip()}")
+            else:
+                print(f"✗ Failed to update preset files: {result.stderr}")
+        except subprocess.TimeoutExpired:
+            print("✗ Preset files update timed out")
+        except Exception as e:
+            print(f"✗ Error running update-preset-files.py: {e}")
+
     print("\n=== Post-Processing Complete ===")
 
 
@@ -362,6 +389,70 @@ def count_total_spheres(spheres_log_path: str) -> float:
         return 0
 
 
+def parse_multiplayer_test_results(test_results_dir: str) -> Dict:
+    """Parse multiplayer test results from JSON files."""
+    result = {
+        'success': False,
+        'client1_passed': False,
+        'locations_checked': 0,
+        'total_locations': 0,
+        'error_message': None
+    }
+
+    # Find the most recent test result files
+    try:
+        from pathlib import Path
+        files = list(Path(test_results_dir).glob('client1-timer-*.json'))
+        if not files:
+            result['error_message'] = "No test result files found"
+            return result
+
+        # Get the most recent file
+        latest_file = max(files, key=os.path.getctime)
+
+        with open(latest_file, 'r') as f:
+            data = json.load(f)
+
+        # Parse the results
+        summary = data.get('summary', {})
+        result['client1_passed'] = summary.get('failedCount', 1) == 0
+
+        # Extract locations checked from logs
+        test_details = data.get('testDetails', [])
+        if test_details:
+            # First try to find it in conditions
+            conditions = test_details[0].get('conditions', [])
+            for condition in conditions:
+                desc = condition.get('description', '')
+                if 'locations checked' in desc.lower():
+                    # Extract numbers from description like "Checked 24/24 locations" or "Only checked 33/249 locations"
+                    match = re.search(r'(\d+)/(\d+)', desc)
+                    if match:
+                        result['locations_checked'] = int(match.group(1))
+                        result['total_locations'] = int(match.group(2))
+                        break
+
+            # If not found in conditions, check logs for "Final result"
+            if result['total_locations'] == 0:
+                logs = test_details[0].get('logs', [])
+                for log_entry in logs:
+                    message = log_entry.get('message', '')
+                    if 'final result' in message.lower():
+                        # Extract from "Final result: 24 of 24 locations checked"
+                        match = re.search(r'(\d+)\s+of\s+(\d+)', message)
+                        if match:
+                            result['locations_checked'] = int(match.group(1))
+                            result['total_locations'] = int(match.group(2))
+                            break
+
+        result['success'] = result['client1_passed'] and result['locations_checked'] == result['total_locations']
+
+    except Exception as e:
+        result['error_message'] = f"Error parsing test results: {str(e)}"
+
+    return result
+
+
 def parse_playwright_analysis(analysis_text: str) -> Dict:
     """
     Parse playwright-analysis.txt to extract test results.
@@ -375,20 +466,20 @@ def parse_playwright_analysis(analysis_text: str) -> Dict:
         'first_error_line': None,
         'first_warning_line': None
     }
-    
+
     # Count errors and warnings
     error_count, warning_count, first_error, first_warning = count_errors_and_warnings(analysis_text)
     result['error_count'] = error_count
     result['warning_count'] = warning_count
     result['first_error_line'] = first_error
     result['first_warning_line'] = first_warning
-    
+
     # Parse for sphere information and pass/fail status
     lines = analysis_text.split('\n')
     for line in lines:
         line_stripped = line.strip()
         line_upper = line_stripped.upper()
-        
+
         # Look for pass/fail status - check for [PASS] or [FAIL] in test results
         if '[PASS]' in line_upper:
             result['pass_fail'] = 'passed'
@@ -401,16 +492,16 @@ def parse_playwright_analysis(analysis_text: str) -> Dict:
                 result['pass_fail'] = 'failed'
         elif 'NO ERRORS DETECTED' in line_upper:
             result['pass_fail'] = 'passed'
-        
+
         # Look for sphere information
         sphere_match = re.search(r'sphere\s+(\d+(?:\.\d+)?)', line_stripped.lower())
         if sphere_match:
             result['sphere_reached'] = float(sphere_match.group(1))
-        
+
         total_match = re.search(r'(\d+)\s+total\s+spheres?', line_stripped.lower())
         if total_match:
             result['total_spheres'] = int(total_match.group(1))
-        
+
         # Alternative patterns for total spheres
         if 'spheres' in line_stripped.lower() and '/' in line_stripped:
             parts = line_stripped.split('/')
@@ -420,7 +511,7 @@ def parse_playwright_analysis(analysis_text: str) -> Dict:
                     result['total_spheres'] = total
                 except (IndexError, ValueError):
                     pass
-    
+
     return result
 
 
@@ -429,7 +520,30 @@ def load_existing_results(results_file: str) -> Dict:
     if os.path.exists(results_file):
         try:
             with open(results_file, 'r') as f:
-                return json.load(f)
+                data = json.load(f)
+
+                # Check if this is an old-format file (list-based results from old multiplayer script)
+                if isinstance(data.get('results'), list):
+                    # Convert old format to new format
+                    print("Converting old-format results file to new format...")
+                    return {
+                        'metadata': {
+                            'created': data.get('timestamp', datetime.now().isoformat()),
+                            'last_updated': datetime.now().isoformat(),
+                            'script_version': '1.0.0'
+                        },
+                        'results': {}
+                    }
+
+                # Check if metadata exists, if not add it
+                if 'metadata' not in data:
+                    data['metadata'] = {
+                        'created': datetime.now().isoformat(),
+                        'last_updated': datetime.now().isoformat(),
+                        'script_version': '1.0.0'
+                    }
+
+                return data
         except (json.JSONDecodeError, IOError):
             pass
 
@@ -682,7 +796,7 @@ def save_results(results: Dict, results_file: str, batch_processing_time: float 
         print(f"Error saving results: {e}")
 
 
-def test_template_single_seed(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, spoiler_only: bool = False) -> Dict:
+def test_template_single_seed(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed: str = "1", export_only: bool = False, test_only: bool = False, multiplayer: bool = False, single_client: bool = False) -> Dict:
     """Test a single template file and return results."""
     template_name = os.path.basename(template_file)
     game_name = normalize_game_name(template_name)
@@ -698,7 +812,7 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
     world_info = get_world_info(template_file, templates_dir, world_mapping)
     
     print(f"\n=== Testing {template_name} ===")
-    
+
     result = {
         'template_name': template_name,
         'game_name': game_name,
@@ -715,7 +829,29 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'return_code': None,
             'processing_time_seconds': 0
         },
-        'spoiler_test': {
+        'rules_file': {
+            'path': None,
+            'size_bytes': 0,
+            'size_mb': 0.0
+        }
+    }
+
+    # Add appropriate test structure based on test type
+    if multiplayer:
+        result['multiplayer_test'] = {
+            'success': False,
+            'client1_passed': False,
+            'locations_checked': 0,
+            'total_locations': 0,
+            'error_count': 0,
+            'warning_count': 0,
+            'first_error_line': None,
+            'first_warning_line': None,
+            'return_code': None,
+            'processing_time_seconds': 0
+        }
+    else:
+        result['spoiler_test'] = {
             'success': False,
             'pass_fail': 'unknown',
             'sphere_reached': 0,
@@ -726,23 +862,17 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'first_warning_line': None,
             'return_code': None,
             'processing_time_seconds': 0
-        },
-        'rules_file': {
-            'path': None,
-            'size_bytes': 0,
-            'size_mb': 0.0
-        },
-        'analysis': {
+        }
+        result['analysis'] = {
             'success': False,
             'error_count': 0,
             'warning_count': 0,
             'first_error_line': None,
             'first_warning_line': None
         }
-    }
     
-    # Step 1: Run Generate.py (skip if spoiler_only mode)
-    if not spoiler_only:
+    # Step 1: Run Generate.py (skip if test_only mode)
+    if not test_only:
         print(f"Running Generate.py for {template_name}...")
         # Ensure template name has .yaml extension for the file path
         template_file = template_name if template_name.endswith(('.yaml', '.yml')) else f"{template_name}.yaml"
@@ -785,78 +915,142 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             print(f"Generation failed with return code {gen_return_code}")
             return result
     else:
-        print(f"Skipping generation for {template_name} (spoiler-only mode)")
+        print(f"Skipping generation for {template_name} (test-only mode)")
         result['generation'].update({
             'success': True,  # Assume success since we're skipping
             'return_code': 0,
             'processing_time_seconds': 0,
-            'note': 'Skipped in spoiler-only mode'
+            'note': 'Skipped in test-only mode'
         })
     
     # Return early if export_only mode
     if export_only:
         print(f"Export completed for {template_name} (export-only mode)")
         return result
-    
-    # Step 2: Run spoiler test
-    print("Running spoiler test...")
-    rules_path = f"./presets/{game_name}/{seed_id}/{seed_id}_rules.json"
-    
+
     # Check if rules file exists (files are actually in frontend/presets/)
+    rules_path = f"./presets/{game_name}/{seed_id}/{seed_id}_rules.json"
     full_rules_path = os.path.join(project_root, 'frontend', rules_path.lstrip('./'))
     if not os.path.exists(full_rules_path):
         print(f"Rules file not found: {full_rules_path}")
-        result['spoiler_test']['error_count'] = 1
-        result['spoiler_test']['first_error_line'] = f"Rules file not found: {rules_path}"
+        test_key = 'multiplayer_test' if multiplayer else 'spoiler_test'
+        result[test_key]['error_count'] = 1
+        result[test_key]['first_error_line'] = f"Rules file not found: {rules_path}"
         return result
-    
-    spoiler_cmd = ["npm", "test", "--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
-    spoiler_env = os.environ.copy()
-    
-    # Time the spoiler test process
-    spoiler_start_time = time.time()
-    spoiler_return_code, spoiler_stdout, spoiler_stderr = run_command(
-        spoiler_cmd, cwd=project_root, timeout=900, env=spoiler_env
-    )
-    spoiler_end_time = time.time()
-    spoiler_processing_time = round(spoiler_end_time - spoiler_start_time, 2)
-    
-    result['spoiler_test']['return_code'] = spoiler_return_code
-    result['spoiler_test']['success'] = spoiler_return_code == 0
-    result['spoiler_test']['processing_time_seconds'] = spoiler_processing_time
-    
-    # Step 3: Run test analysis
-    print("Running test analysis...")
-    analysis_cmd = ["npm", "run", "test:analyze"]
-    analysis_return_code, analysis_stdout, analysis_stderr = run_command(
-        analysis_cmd, cwd=project_root, timeout=60
-    )
-    
-    # Read playwright-analysis.txt if it exists
-    analysis_file = os.path.join(project_root, "playwright-analysis.txt")
-    if os.path.exists(analysis_file):
-        try:
-            with open(analysis_file, 'r') as f:
-                analysis_text = f.read()
-            
-            # Parse the analysis
-            analysis_result = parse_playwright_analysis(analysis_text)
-            result['spoiler_test'].update(analysis_result)
-            result['analysis']['success'] = True
-            
-        except IOError:
-            result['analysis']['first_error_line'] = "Could not read playwright-analysis.txt"
+
+    # Step 2: Run test (multiplayer or spoiler based on mode)
+    if multiplayer:
+        # Multiplayer test
+        test_mode = "single-client" if single_client else "dual-client"
+        print(f"Running multiplayer timer test ({test_mode} mode)...")
+
+        # Run the multiplayer test
+        if single_client:
+            # Single-client mode
+            multiplayer_cmd = [
+                "npx", "playwright", "test",
+                "tests/e2e/multiplayer.spec.js",
+                "-g", "single client timer test"
+            ]
+            multiplayer_env = os.environ.copy()
+            multiplayer_env['ENABLE_SINGLE_CLIENT'] = 'true'
+        else:
+            # Dual-client mode (default)
+            multiplayer_cmd = [
+                "npx", "playwright", "test",
+                "tests/e2e/multiplayer.spec.js",
+                "-g", "multiplayer timer test"
+            ]
+            multiplayer_env = os.environ.copy()
+
+        multiplayer_env['TEST_GAME'] = game_name
+        multiplayer_env['TEST_SEED'] = seed
+
+        # Time the multiplayer test process
+        test_start_time = time.time()
+        test_return_code, test_stdout, test_stderr = run_command(
+            multiplayer_cmd, cwd=project_root, timeout=180, env=multiplayer_env
+        )
+        test_end_time = time.time()
+        test_processing_time = round(test_end_time - test_start_time, 2)
+
+        result['multiplayer_test']['return_code'] = test_return_code
+        result['multiplayer_test']['processing_time_seconds'] = test_processing_time
+
+        # Analyze test output
+        full_output = test_stdout + "\n" + test_stderr
+        test_error_count, test_warning_count, test_first_error, test_first_warning = count_errors_and_warnings(full_output)
+
+        result['multiplayer_test']['error_count'] = test_error_count
+        result['multiplayer_test']['warning_count'] = test_warning_count
+        result['multiplayer_test']['first_error_line'] = test_first_error
+        result['multiplayer_test']['first_warning_line'] = test_first_warning
+
+        # Parse test results
+        test_results_dir = os.path.join(project_root, 'test_results', 'multiplayer')
+        test_results = parse_multiplayer_test_results(test_results_dir)
+
+        result['multiplayer_test'].update({
+            'success': test_results['success'],
+            'client1_passed': test_results['client1_passed'],
+            'locations_checked': test_results['locations_checked'],
+            'total_locations': test_results['total_locations']
+        })
+
+        if test_results.get('error_message'):
+            result['multiplayer_test']['first_error_line'] = test_results['error_message']
+
     else:
-        result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
-    
-    # Read total spheres from spheres_log.jsonl file
-    spheres_log_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_spheres_log.jsonl')
-    total_spheres = count_total_spheres(spheres_log_path)
-    result['spoiler_test']['total_spheres'] = total_spheres
-    
-    # If test passed, sphere_reached should equal total_spheres
-    if result['spoiler_test']['pass_fail'] == 'passed':
-        result['spoiler_test']['sphere_reached'] = total_spheres
+        # Spoiler test
+        print("Running spoiler test...")
+
+        spoiler_cmd = ["npm", "test", "--mode=test-spoilers", f"--game={game_name}", f"--seed={seed}"]
+        spoiler_env = os.environ.copy()
+
+        # Time the spoiler test process
+        spoiler_start_time = time.time()
+        spoiler_return_code, spoiler_stdout, spoiler_stderr = run_command(
+            spoiler_cmd, cwd=project_root, timeout=900, env=spoiler_env
+        )
+        spoiler_end_time = time.time()
+        spoiler_processing_time = round(spoiler_end_time - spoiler_start_time, 2)
+
+        result['spoiler_test']['return_code'] = spoiler_return_code
+        result['spoiler_test']['success'] = spoiler_return_code == 0
+        result['spoiler_test']['processing_time_seconds'] = spoiler_processing_time
+
+        # Step 3: Run test analysis
+        print("Running test analysis...")
+        analysis_cmd = ["npm", "run", "test:analyze"]
+        analysis_return_code, analysis_stdout, analysis_stderr = run_command(
+            analysis_cmd, cwd=project_root, timeout=60
+        )
+
+        # Read playwright-analysis.txt if it exists
+        analysis_file = os.path.join(project_root, "playwright-analysis.txt")
+        if os.path.exists(analysis_file):
+            try:
+                with open(analysis_file, 'r') as f:
+                    analysis_text = f.read()
+
+                # Parse the analysis
+                analysis_result = parse_playwright_analysis(analysis_text)
+                result['spoiler_test'].update(analysis_result)
+                result['analysis']['success'] = True
+
+            except IOError:
+                result['analysis']['first_error_line'] = "Could not read playwright-analysis.txt"
+        else:
+            result['analysis']['first_error_line'] = "playwright-analysis.txt not found"
+
+        # Read total spheres from spheres_log.jsonl file
+        spheres_log_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_spheres_log.jsonl')
+        total_spheres = count_total_spheres(spheres_log_path)
+        result['spoiler_test']['total_spheres'] = total_spheres
+
+        # If test passed, sphere_reached should equal total_spheres
+        if result['spoiler_test']['pass_fail'] == 'passed':
+            result['spoiler_test']['sphere_reached'] = total_spheres
     
     # Get rules file size
     rules_file_path = os.path.join(project_root, 'frontend', 'presets', game_name, seed_id, f'{seed_id}_rules.json')
@@ -884,16 +1078,22 @@ def test_template_single_seed(template_file: str, templates_dir: str, project_ro
             'note': 'Error reading file size'
         }
     
-    print(f"Completed {template_name}: Generation={'[PASS]' if result['generation']['success'] else '[FAIL]'}, "
-          f"Test={'[PASS]' if result['spoiler_test']['pass_fail'] == 'passed' else '[FAIL]'}, "
-          f"Gen Errors={result['generation']['error_count']}, "
-          f"Sphere Reached={result['spoiler_test']['sphere_reached']}, "
-          f"Max Spheres={result['spoiler_test']['total_spheres']}")
-    
+    if multiplayer:
+        print(f"Completed {template_name}: Generation={'[PASS]' if result['generation']['success'] else '[FAIL]'}, "
+              f"Test={'[PASS]' if result['multiplayer_test']['success'] else '[FAIL]'}, "
+              f"Gen Errors={result['generation']['error_count']}, "
+              f"Locations Checked={result['multiplayer_test']['locations_checked']}/{result['multiplayer_test']['total_locations']}")
+    else:
+        print(f"Completed {template_name}: Generation={'[PASS]' if result['generation']['success'] else '[FAIL]'}, "
+              f"Test={'[PASS]' if result['spoiler_test']['pass_fail'] == 'passed' else '[FAIL]'}, "
+              f"Gen Errors={result['generation']['error_count']}, "
+              f"Sphere Reached={result['spoiler_test']['sphere_reached']}, "
+              f"Max Spheres={result['spoiler_test']['total_spheres']}")
+
     return result
 
 
-def test_template_seed_range(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed_list: List[int], export_only: bool = False, spoiler_only: bool = False, stop_on_failure: bool = False) -> Dict:
+def test_template_seed_range(template_file: str, templates_dir: str, project_root: str, world_mapping: Dict[str, Dict], seed_list: List[int], export_only: bool = False, test_only: bool = False, stop_on_failure: bool = False, multiplayer: bool = False, single_client: bool = False) -> Dict:
     """Test a template file with multiple seeds and return aggregated results."""
     template_name = os.path.basename(template_file)
     
@@ -927,16 +1127,18 @@ def test_template_seed_range(template_file: str, templates_dir: str, project_roo
         try:
             # Test this specific seed
             result = test_template_single_seed(
-                template_file, templates_dir, project_root, world_mapping, 
-                str(seed), export_only, spoiler_only
+                template_file, templates_dir, project_root, world_mapping,
+                str(seed), export_only, test_only, multiplayer, single_client
             )
-            
+
             seed_range_result['individual_results'][str(seed)] = result
             seed_range_result['total_seeds_tested'] += 1
-            
+
             # Check if this seed passed
             if export_only:
                 passed = result.get('generation', {}).get('success', False)
+            elif multiplayer:
+                passed = result.get('multiplayer_test', {}).get('success', False)
             else:
                 passed = result.get('spoiler_test', {}).get('pass_fail') == 'passed'
             
@@ -960,6 +1162,14 @@ def test_template_seed_range(template_file: str, templates_dir: str, project_roo
                             seed_range_result['first_failure_reason'] = f"Generation error: {gen_result['first_error_line']}"
                         else:
                             seed_range_result['first_failure_reason'] = f"Generation failed with return code {gen_result.get('return_code')}"
+                    elif multiplayer:
+                        mp_result = result.get('multiplayer_test', {})
+                        if mp_result.get('first_error_line'):
+                            seed_range_result['first_failure_reason'] = f"Multiplayer test error: {mp_result['first_error_line']}"
+                        else:
+                            locations_checked = mp_result.get('locations_checked', 0)
+                            total_locations = mp_result.get('total_locations', 0)
+                            seed_range_result['first_failure_reason'] = f"Multiplayer test failed: {locations_checked}/{total_locations} locations checked"
                     else:
                         spoiler_result = result.get('spoiler_test', {})
                         if spoiler_result.get('first_error_line'):
@@ -1050,9 +1260,9 @@ def main():
         help='Only run the generation (export) step, skip spoiler tests'
     )
     parser.add_argument(
-        '--spoiler-only',
+        '--test-only',
         action='store_true',
-        help='Only run the spoiler test step, skip generation (requires existing rules files)'
+        help='Only run the test step (spoiler or multiplayer), skip generation (requires existing rules files)'
     )
     parser.add_argument(
         '--start-from',
@@ -1080,12 +1290,26 @@ def main():
         action='store_true',
         help='Run post-processing scripts after testing (generate-test-chart.py and update-preset-files.py)'
     )
-    
+    parser.add_argument(
+        '--multiplayer',
+        action='store_true',
+        help='Run multiplayer timer tests instead of spoiler tests'
+    )
+    parser.add_argument(
+        '--single-client',
+        action='store_true',
+        help='Use single-client mode for multiplayer tests (only valid with --multiplayer)'
+    )
+
     args = parser.parse_args()
-    
+
     # Validate mutually exclusive options
-    if args.export_only and args.spoiler_only:
-        print("Error: --export-only and --spoiler-only are mutually exclusive")
+    if args.export_only and args.test_only:
+        print("Error: --export-only and --test-only are mutually exclusive")
+        sys.exit(1)
+
+    if args.single_client and not args.multiplayer:
+        print("Error: --single-client can only be used with --multiplayer")
         sys.exit(1)
     
     # Check if both seed and seed_range were explicitly provided
@@ -1292,6 +1516,11 @@ def main():
         print(f"{'Not included' if args.include_list is not None else 'Skipping'}: {len(skipped_files)} files (too many to list)")
     
     # Load existing results for merging
+    # Adjust output file path for multiplayer mode if using default path
+    if args.multiplayer and args.output_file == 'scripts/output/template-test-results.json':
+        # Use multiplayer-specific output directory and file name
+        args.output_file = 'scripts/output-multiplayer/test-results-multiplayer.json'
+
     results_file = os.path.join(project_root, args.output_file)
 
     # Save a timestamped backup of the existing results file if it exists
@@ -1376,15 +1605,17 @@ def main():
             if len(seed_list) > 1:
                 # Test with seed range
                 template_result = test_template_seed_range(
-                    yaml_file, templates_dir, project_root, world_mapping, 
-                    seed_list, export_only=args.export_only, spoiler_only=args.spoiler_only,
-                    stop_on_failure=not args.seed_range_continue_on_failure
+                    yaml_file, templates_dir, project_root, world_mapping,
+                    seed_list, export_only=args.export_only, test_only=args.test_only,
+                    stop_on_failure=not args.seed_range_continue_on_failure,
+                    multiplayer=args.multiplayer, single_client=args.single_client
                 )
             else:
                 # Test with single seed
                 template_result = test_template_single_seed(
-                    yaml_file, templates_dir, project_root, world_mapping, 
-                    str(seed_list[0]), export_only=args.export_only, spoiler_only=args.spoiler_only
+                    yaml_file, templates_dir, project_root, world_mapping,
+                    str(seed_list[0]), export_only=args.export_only, test_only=args.test_only,
+                    multiplayer=args.multiplayer, single_client=args.single_client
                 )
             
             results['results'][yaml_file] = template_result
@@ -1397,7 +1628,7 @@ def main():
 
             # Run post-processing after each test if requested
             if args.post_process:
-                run_post_processing_scripts(project_root, results_file)
+                run_post_processing_scripts(project_root, results_file, args.multiplayer)
 
         except KeyboardInterrupt:
             print("\nInterrupted by user. Saving current results...")
@@ -1487,13 +1718,21 @@ def main():
                                    if r.get('generation', {}).get('success', False))
             failed_exports = len(yaml_files) - successful_exports
             print(f"Export Summary: {successful_exports} successful, {failed_exports} failed")
-        elif args.spoiler_only:
-            passed = sum(1 for r in results['results'].values() 
-                        if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
-            failed = sum(1 for r in results['results'].values() 
-                        if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
-            errors = len(yaml_files) - passed - failed
-            print(f"Spoiler Test Summary: {passed} passed, {failed} failed, {errors} errors")
+        elif args.test_only:
+            if args.multiplayer:
+                # Multiplayer test summary
+                passed = sum(1 for r in results['results'].values()
+                            if r.get('multiplayer_test', {}).get('success', False))
+                failed = len(yaml_files) - passed
+                print(f"Multiplayer Test Summary: {passed} passed, {failed} failed")
+            else:
+                # Spoiler test summary
+                passed = sum(1 for r in results['results'].values()
+                            if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
+                failed = sum(1 for r in results['results'].values()
+                            if r.get('spoiler_test', {}).get('pass_fail') == 'failed')
+                errors = len(yaml_files) - passed - failed
+                print(f"Spoiler Test Summary: {passed} passed, {failed} failed, {errors} errors")
         else:
             passed = sum(1 for r in results['results'].values() 
                         if r.get('spoiler_test', {}).get('pass_fail') == 'passed')
@@ -1505,7 +1744,7 @@ def main():
     # Run post-processing scripts if requested (only if not already run after each test)
     # This ensures post-processing runs at least once, even if no tests were run
     if args.post_process and len(yaml_files) == 0:
-        run_post_processing_scripts(project_root, results_file)
+        run_post_processing_scripts(project_root, results_file, args.multiplayer)
 
 
 if __name__ == '__main__':

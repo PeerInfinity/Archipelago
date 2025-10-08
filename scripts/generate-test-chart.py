@@ -244,8 +244,8 @@ def main():
     parser.add_argument(
         '--output-file',
         type=str,
-        default='docs/json/developer/guides/test-results.md',
-        help='Output markdown file path (default: docs/json/developer/guides/test-results.md)'
+        default='docs/json/developer/test-results/test-results.md',
+        help='Output markdown file path (default: docs/json/developer/test-results/test-results.md)'
     )
     
     args = parser.parse_args()

@@ -104,6 +104,7 @@ export async function timerSendTest(testController) {
     // Set a reasonable timeout - if there are many locations, this could take a while
     // For Adventure game, there should be a manageable number of locations
     const maxWaitTime = 300000; // 5 minutes max
+    const maxStallTime = 10000; // 10 seconds without progress = stalled
     const timerStartTime = Date.now();
 
     let timerStopped = false;
@@ -115,15 +116,33 @@ export async function timerSendTest(testController) {
 
     // Wait for timer to stop (indicating all checks are done)
     const stateManager = testController.stateManager;
+    let lastCheckedCount = 0;
+    let lastProgressTime = Date.now();
+
     while (!timerStopped && (Date.now() - timerStartTime) < maxWaitTime) {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Check every second
 
+      const snapshot = stateManager.getSnapshot();
+      const currentCheckedCount = snapshot?.checkedLocations?.length || 0;
+
+      // Check if progress has stalled
+      if (currentCheckedCount > lastCheckedCount) {
+        lastCheckedCount = currentCheckedCount;
+        lastProgressTime = Date.now();
+      } else {
+        const timeSinceProgress = Date.now() - lastProgressTime;
+        if (timeSinceProgress > maxStallTime) {
+          throw new Error(
+            `Test appears to be stalled - no progress for ${Math.floor(timeSinceProgress / 1000)} seconds ` +
+            `(${currentCheckedCount} locations checked)`
+          );
+        }
+      }
+
       // Log progress periodically
       if ((Date.now() - timerStartTime) % 10000 < 1000) { // Every 10 seconds
-        const snapshot = stateManager.getSnapshot();
         if (snapshot) {
-          const checkedCount = snapshot.checkedLocations?.length || 0;
-          testController.log(`Progress: ${checkedCount} locations checked`);
+          testController.log(`Progress: ${currentCheckedCount} locations checked`);
         }
       }
     }
