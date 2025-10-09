@@ -1208,7 +1208,7 @@ export class TestSpoilerUI {
         }
 
         // Use accumulated data from sphereState
-        const inventory_from_log = sphereData.inventoryDetails?.prog_items || {};
+        const inventory_from_log = sphereData.inventoryDetails?.base_items || {};
 
         // Find newly added items by comparing with previous inventory
         newlyAddedItems = this.findNewlyAddedItems(this.previousInventory, inventory_from_log);
@@ -1487,7 +1487,7 @@ export class TestSpoilerUI {
     if (eventType === 'state_update') {
       const sphereData = this._getSphereDataFromSphereState(this.currentLogIndex);
       if (sphereData) {
-        this.previousInventory = JSON.parse(JSON.stringify(sphereData.inventoryDetails?.prog_items || {}));
+        this.previousInventory = JSON.parse(JSON.stringify(sphereData.inventoryDetails?.base_items || {}));
       }
     }
     
@@ -1507,183 +1507,6 @@ export class TestSpoilerUI {
   }
 
   // Renaming old version to avoid conflict, or it could be removed if only state_update is used.
-  async compareAccessibleLocations_OLD(logData, playerId, context) {
-    const originalSnapshot = await stateManager.getFullSnapshot();
-    const staticData = stateManager.getStaticData();
-
-    this.log('info', `[compareAccessibleLocations_OLD] Context:`, {
-      context,
-      originalSnapshot,
-      staticData,
-      logDataInventory: logData ? logData.inventory : 'N/A',
-    });
-
-    if (!originalSnapshot) {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] Original Snapshot is null/undefined for context: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-      throw new Error(
-        `Original Snapshot invalid (null) during spoiler test at: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-    }
-    if (!staticData || !staticData.locations) {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] Static data or staticData.locations is null/undefined for context: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`,
-        { staticData }
-      );
-      throw new Error(
-        `Static data invalid during spoiler test at: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-    }
-
-    let modifiedSnapshot = JSON.parse(JSON.stringify(originalSnapshot));
-    if (logData && logData.inventory && playerId) {
-      if (!modifiedSnapshot.prog_items) {
-        modifiedSnapshot.prog_items = {};
-      }
-      if (
-        typeof modifiedSnapshot.prog_items[playerId] !== 'object' ||
-        modifiedSnapshot.prog_items[playerId] === null
-      ) {
-        modifiedSnapshot.prog_items[playerId] = {};
-      }
-      modifiedSnapshot.prog_items[playerId] = { ...logData.inventory };
-
-      this.log(
-        'debug',
-        `[compareAccessibleLocations_OLD] Overrode snapshot inventory for player ${playerId} with log inventory:`,
-        logData.inventory
-      );
-    } else {
-      this.log(
-        'debug',
-        '[compareAccessibleLocations_OLD] No inventory override from logData or missing playerId.'
-      );
-    }
-
-    const stateAccessibleUnchecked = [];
-    const snapshotInterface = createStateSnapshotInterface(
-      modifiedSnapshot,
-      staticData
-    );
-
-    if (!snapshotInterface) {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] Failed to create snapshotInterface for context: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-      throw new Error(
-        `SnapshotInterface creation failed at: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-    }
-
-    for (const locName in staticData.locations) {
-      const locDef = staticData.locations[locName];
-      const isChecked = modifiedSnapshot.flags?.includes(locName);
-      if (isChecked) continue;
-      
-      const parentRegionName = locDef.parent_region || locDef.region;
-      const parentRegionReachabilityStatus =
-        modifiedSnapshot.regionReachability?.[parentRegionName];
-      const isParentRegionEffectivelyReachable =
-        parentRegionReachabilityStatus === 'reachable' ||
-        parentRegionReachabilityStatus === 'checked';
-      
-      const locationAccessRule = locDef.access_rule;
-      let locationRuleEvalResult = true;
-      if (locationAccessRule) {
-        // Create a location-specific snapshotInterface with the location as context
-        const locationSnapshotInterface = createStateSnapshotInterface(
-          modifiedSnapshot,
-          staticData,
-          { location: locDef } // Pass the location definition as context
-        );
-        
-        locationRuleEvalResult = evaluateRule(
-          locationAccessRule,
-          locationSnapshotInterface
-        );
-      }
-      const doesLocationRuleEffectivelyPass = locationRuleEvalResult === true;
-      if (
-        isParentRegionEffectivelyReachable &&
-        doesLocationRuleEffectivelyPass
-      ) {
-        stateAccessibleUnchecked.push(locName);
-      }
-    }
-
-    const stateAccessibleSet = new Set(stateAccessibleUnchecked);
-    const accessibleFromLog =
-      logData && Array.isArray(logData.accessible) ? logData.accessible : [];
-    const logAccessibleSet = new Set(accessibleFromLog);
-
-    const missingFromState = [...logAccessibleSet].filter(
-      (name) => !stateAccessibleSet.has(name)
-    );
-    const extraInState = [...stateAccessibleSet].filter(
-      (name) => !logAccessibleSet.has(name)
-    );
-
-    if (missingFromState.length === 0 && extraInState.length === 0) {
-      this.log(
-        'success',
-        `[compareAccessibleLocations_OLD] State match OK for: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }. (${stateAccessibleSet.size} accessible & unchecked)`
-      );
-      return true;
-    } else {
-      this.log(
-        'error',
-        `[compareAccessibleLocations_OLD] STATE MISMATCH found for: ${
-          typeof context === 'string' ? context : JSON.stringify(context)
-        }`
-      );
-      if (missingFromState.length > 0) {
-        this.log(
-          'mismatch',
-          ` > [OLD] Locations accessible in LOG but NOT in STATE (or checked): ${missingFromState.join(
-            ', '
-          )}`
-        );
-      }
-      if (extraInState.length > 0) {
-        this.log(
-          'mismatch',
-          ` > [OLD] Locations accessible in STATE (and unchecked) but NOT in LOG: ${extraInState.join(
-            ', '
-          )}`
-        );
-      }
-      this.log('debug', '[compareAccessibleLocations_OLD] Mismatch Details:', {
-        context:
-          typeof context === 'string' ? context : JSON.stringify(context),
-        logAccessibleSet: Array.from(logAccessibleSet),
-        stateAccessibleSet: Array.from(stateAccessibleSet),
-        logInventoryUsed: logData ? logData.inventory : 'N/A',
-        originalSnapshotInventory: originalSnapshot.prog_items
-          ? originalSnapshot.prog_items[playerId] // Use playerId here
-          : 'N/A',
-      });
-      return false;
-    }
-  }
-
   async compareAccessibleLocations(
     logAccessibleLocationNames,
     currentWorkerSnapshot,

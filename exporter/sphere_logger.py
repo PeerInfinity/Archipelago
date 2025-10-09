@@ -58,15 +58,22 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
         player_specific_data = {}
 
         for player_id in multiworld.player_ids:
-            prog_items = {item_name: count for item_name, count in current_collection_state.prog_items.get(player_id, {}).items()}
+            # Get resolved items from CollectionState (after progressive item resolution)
+            resolved_items = {item_name: count for item_name, count in current_collection_state.prog_items.get(player_id, {}).items()}
 
-            # non_prog_items logic remains difficult to source reliably from CollectionState
-            # It primarily tracks prog_items. Logging empty for now.
-            non_prog_items = {}
+            # Get base items by examining all checked locations for this player
+            # These are the item names BEFORE progressive item resolution
+            base_items = {}
+            for location in current_collection_state.locations_checked:
+                if location.item and location.item.player == player_id:
+                    # Only count advancement items (same filter as prog_items)
+                    if location.item.advancement:
+                        item_name = location.item.name
+                        base_items[item_name] = base_items.get(item_name, 0) + 1
 
             inventory_details = {
-                "prog_items": prog_items,
-                "non_prog_items": non_prog_items
+                "base_items": base_items,
+                "resolved_items": resolved_items
             }
 
             accessible_locations = []
@@ -118,13 +125,13 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
                         prev_data = previous_state[player_id]
 
                         # Calculate deltas
-                        new_prog_items = _calculate_inventory_delta(
-                            prog_items,
-                            prev_data["inventory_details"]["prog_items"]
+                        new_base_items = _calculate_inventory_delta(
+                            base_items,
+                            prev_data["inventory_details"]["base_items"]
                         )
-                        new_non_prog_items = _calculate_inventory_delta(
-                            non_prog_items,
-                            prev_data["inventory_details"]["non_prog_items"]
+                        new_resolved_items = _calculate_inventory_delta(
+                            resolved_items,
+                            prev_data["inventory_details"]["resolved_items"]
                         )
                         new_accessible_locations = _calculate_list_delta(
                             accessible_locations,
@@ -137,8 +144,8 @@ def log_sphere_details(file_handler, multiworld: "MultiWorld", sphere_index: Uni
 
                         player_specific_data[player_id] = {
                             "new_inventory_details": {
-                                "prog_items": new_prog_items,
-                                "non_prog_items": new_non_prog_items
+                                "base_items": new_base_items,
+                                "resolved_items": new_resolved_items
                             },
                             "new_accessible_locations": new_accessible_locations,
                             "new_accessible_regions": new_accessible_regions

@@ -146,18 +146,18 @@ export class SphereState {
    */
   _mergeInventory(accumulated, delta) {
     const result = {
-      prog_items: { ...accumulated.prog_items },
-      non_prog_items: { ...accumulated.non_prog_items }
+      base_items: { ...accumulated.base_items },
+      resolved_items: { ...accumulated.resolved_items }
     };
 
-    // Merge prog_items
-    for (const [itemName, count] of Object.entries(delta.prog_items || {})) {
-      result.prog_items[itemName] = (result.prog_items[itemName] || 0) + count;
+    // Merge base_items
+    for (const [itemName, count] of Object.entries(delta.base_items || {})) {
+      result.base_items[itemName] = (result.base_items[itemName] || 0) + count;
     }
 
-    // Merge non_prog_items
-    for (const [itemName, count] of Object.entries(delta.non_prog_items || {})) {
-      result.non_prog_items[itemName] = (result.non_prog_items[itemName] || 0) + count;
+    // Merge resolved_items
+    for (const [itemName, count] of Object.entries(delta.resolved_items || {})) {
+      result.resolved_items[itemName] = (result.resolved_items[itemName] || 0) + count;
     }
 
     return result;
@@ -232,7 +232,7 @@ export class SphereState {
         locations: entry.sphere_locations || [],
         accessibleLocations: playerData?.accessible_locations || [],
         accessibleRegions: playerData?.accessible_regions || [],
-        inventoryDetails: playerData?.inventory_details || { prog_items: {}, non_prog_items: {} }
+        inventoryDetails: playerData?.inventory_details || { base_items: {}, resolved_items: {} }
       });
     }
   }
@@ -244,13 +244,13 @@ export class SphereState {
   _parseIncrementalFormat(entries) {
     // Track accumulated state separately for fractional and integer spheres
     const fractionalAccumulated = {
-      inventoryDetails: { prog_items: {}, non_prog_items: {} },
+      inventoryDetails: { base_items: {}, resolved_items: {} },
       accessibleLocations: new Set(),
       accessibleRegions: new Set()
     };
 
     const integerAccumulated = {
-      inventoryDetails: { prog_items: {}, non_prog_items: {} },
+      inventoryDetails: { base_items: {}, resolved_items: {} },
       accessibleLocations: new Set(),
       accessibleRegions: new Set()
     };
@@ -268,7 +268,7 @@ export class SphereState {
       const isFractional = parsed.sphereIndex.includes('.');
 
       // Get deltas from the entry
-      const deltaInventory = playerData?.new_inventory_details || { prog_items: {}, non_prog_items: {} };
+      const deltaInventory = playerData?.new_inventory_details || { base_items: {}, resolved_items: {} };
       const deltaLocations = playerData?.new_accessible_locations || [];
       const deltaRegions = playerData?.new_accessible_regions || [];
 
