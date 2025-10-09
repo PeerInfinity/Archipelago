@@ -1173,6 +1173,50 @@ export class TestSpoilerUI {
     }
   }
 
+  /**
+   * Helper method to check a location via dispatcher event instead of direct call
+   * This simulates the event-based flow used by timer and UI modules
+   * @param {string} locationName - Name of the location to check
+   * @param {string} regionName - Name of the parent region (optional)
+   */
+  async checkLocationViaEvent(locationName, regionName = null) {
+    // Publish user:locationCheck event through the dispatcher
+    // This will be handled by stateManager's handleUserLocationCheckForStateManager
+    // Use window.eventDispatcher instance created in init.js
+    if (!window.eventDispatcher) {
+      this.log('error', 'eventDispatcher not available on window');
+      return;
+    }
+
+    window.eventDispatcher.publish(
+      'testSpoilers', // originModuleId
+      'user:locationCheck', // eventName
+      {
+        locationName: locationName,
+        regionName: regionName,
+        originator: 'TestSpoilersModule',
+        originalDOMEvent: false,
+      },
+      { initialTarget: 'bottom' }
+    );
+
+    // Wait for the state to update by listening for the snapshot update event
+    // This ensures we don't proceed until the location check is processed
+    await new Promise((resolve) => {
+      const handler = () => {
+        this.eventBus.unsubscribe('stateManager:snapshotUpdated', handler);
+        resolve();
+      };
+      this.eventBus.subscribe('stateManager:snapshotUpdated', handler, 'testSpoilers');
+
+      // Add a safety timeout in case the snapshot update never comes
+      setTimeout(() => {
+        this.eventBus.unsubscribe('stateManager:snapshotUpdated', handler);
+        resolve();
+      }, 5000); // 5 second timeout
+    });
+  }
+
   async processSingleEvent(event) {
     this.log(
       'debug',
@@ -1272,9 +1316,11 @@ export class TestSpoilerUI {
                 this.log('debug', `  Checking "${locationName}" (no item or event)`);
               }
 
-              // Check location WITH items (addItems=true is default, so we omit the parameter)
+              // Check location WITH items via event dispatcher instead of direct call
               // This naturally adds the item (e.g., "Progressive Sword") to inventory
-              await stateManager.checkLocation(locationName);
+              // Use event-based flow to match how timer and UI modules interact with stateManager
+              const locationRegion = locationDef?.parent_region || locationDef?.region || null;
+              await this.checkLocationViaEvent(locationName, locationRegion);
             }
 
             this.log('info', `Completed checking ${locationsToCheck.length} locations for sphere ${context.sphere_number}`);
@@ -1454,10 +1500,12 @@ export class TestSpoilerUI {
               this.log('info', `Location "${locName}" contains item: "${itemName}"`);
             }
 
-            // Mark location as checked (async command)
-            // checkLocation will automatically add the item to inventory (addItems=true by default)
-            await stateManager.checkLocation(locName);
-            this.log('info', `Location "${locName}" marked as checked.`);
+            // Mark location as checked via event dispatcher instead of direct call
+            // This will automatically add the item to inventory (addItems=true by default)
+            // Use event-based flow to match how timer and UI modules interact with stateManager
+            const locationRegion = locDef?.parent_region || locDef?.region || null;
+            await this.checkLocationViaEvent(locName, locationRegion);
+            this.log('info', `Location "${locName}" marked as checked via event.`);
           }
         } else {
           this.log(
