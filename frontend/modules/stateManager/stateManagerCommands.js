@@ -27,5 +27,6 @@ export const STATE_MANAGER_COMMANDS = {
   APPLY_TEST_INVENTORY_AND_EVALUATE: 'applyTestInventoryAndEvaluate',
   GET_RAW_JSON_DATA_SOURCE: 'getRawJsonDataSource',
   CLEAR_STATE_AND_RESET: 'clearStateAndReset',
+  CLEAR_EVENT_ITEMS: 'clearEventItems',
   SET_AUTO_COLLECT_EVENTS_CONFIG: 'setAutoCollectEventsConfig',
 };

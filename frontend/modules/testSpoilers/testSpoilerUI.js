@@ -1243,10 +1243,10 @@ export class TestSpoilerUI {
         );
 
         try {
-          // Only clear state for sphere 0
+          // Only clear event items for sphere 0
           if (context.sphere_number === 0) {
-            await stateManager.clearStateAndReset();
-            this.log('debug', 'StateManager state cleared for sphere 0.');
+            await stateManager.clearEventItems();
+            this.log('debug', 'Event items cleared for sphere 0.');
           } else {
             this.log('debug', `Keeping accumulated state for sphere ${context.sphere_number}.`);
           }

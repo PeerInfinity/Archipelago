@@ -368,6 +368,46 @@ export class StateManager {
   }
 
   /**
+   * Removes all event items from inventory while preserving other state.
+   * Useful for testing scenarios where you want to reset auto-collected events
+   * without clearing manually collected items or checked locations.
+   * Also unchecks event locations so they can be checked again during testing.
+   */
+  clearEventItems(options = { recomputeAndSendUpdate: true }) {
+    if (!this.inventory || !this.itemData) {
+      this._logDebug('[StateManager] Cannot clear event items: inventory or itemData not available');
+      return;
+    }
+
+    // Remove all event items from inventory and uncheck their locations
+    for (const itemName in this.itemData) {
+      if (this.itemData[itemName]?.event || this.itemData[itemName]?.type === 'Event') {
+        if (this.inventory[itemName] > 0) {
+          this._logDebug(`[StateManager] Clearing event item: ${itemName}`);
+          this.inventory[itemName] = 0;
+        }
+      }
+    }
+
+    // Uncheck all event locations so they can be checked again during testing
+    if (this.eventLocations) {
+      for (const eventLocation of this.eventLocations.values()) {
+        if (this.checkedLocations.has(eventLocation.name)) {
+          this._logDebug(`[StateManager] Unchecking event location: ${eventLocation.name}`);
+          this.checkedLocations.delete(eventLocation.name);
+        }
+      }
+    }
+
+    this.invalidateCache();
+
+    if (options.recomputeAndSendUpdate) {
+      this.computeReachableRegions();
+      this._sendSnapshotUpdate();
+    }
+  }
+
+  /**
    * Adds an item and notifies all registered callbacks
    */
   addItemToInventory(itemName, count = 1) {

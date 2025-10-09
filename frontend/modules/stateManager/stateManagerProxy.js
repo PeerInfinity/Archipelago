@@ -1120,6 +1120,13 @@ export class StateManagerProxy {
     // We'll rely on subsequent ping/snapshotUpdated events for synchronization.
   }
 
+  async clearEventItems() {
+    if (typeof logWorkerCommunication === 'function') {
+      logWorkerCommunication('[Proxy -> Worker] COMMAND: clearEventItems');
+    }
+    await this._sendCommand(StateManagerProxy.COMMANDS.CLEAR_EVENT_ITEMS);
+  }
+
   /**
    * Requests the worker to evaluate a specific rule using its full context.
    * @param {object} rule The rule object to evaluate.
