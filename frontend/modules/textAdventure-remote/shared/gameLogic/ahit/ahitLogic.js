@@ -278,8 +278,6 @@ function get_hat_cost(staticData, hatType) {
  * @returns {boolean}
  */
 export function can_use_hat(snapshot, staticData, hatType) {
-  console.log(`[can_use_hat] Called with hatType=${hatType}, typeof=${typeof hatType}`);
-
   // Map HatType enum values (integers) to item names
   const hatEnumToItem = {
     0: 'Sprint Hat',      // HatType.SPRINT
@@ -314,20 +312,14 @@ export function can_use_hat(snapshot, staticData, hatType) {
     }
   }
 
-  console.log(`[can_use_hat] itemName=${itemName}, hatTypeNum=${hatTypeNum}`);
-
   if (!itemName) {
-    console.log(`[can_use_hat] No itemName found, returning false`);
     return false;
   }
 
   // Check if HatItems option is enabled (hats are separate items)
   const hatItemsEnabled = staticData?.settings?.['1']?.HatItems;
-  console.log(`[can_use_hat] HatItems enabled: ${hatItemsEnabled}`);
   if (hatItemsEnabled) {
-    const result = has(snapshot, staticData, itemName);
-    console.log(`[can_use_hat] Checking for hat item ${itemName}: ${result}`);
-    return result;
+    return has(snapshot, staticData, itemName);
   }
 
   // HatItems is disabled, check Yarn count instead
@@ -336,25 +328,19 @@ export function can_use_hat(snapshot, staticData, hatType) {
     if (hatInfo && hatInfo.hat_yarn_costs) {
       // Keys in JSON are strings, so convert hatTypeNum to string
       const hatYarnCost = hatInfo.hat_yarn_costs[String(hatTypeNum)];
-      console.log(`[can_use_hat] hatYarnCost for ${hatTypeNum}: ${hatYarnCost}`);
       // Check if hat cost is 0 or negative (in starting inventory)
       if (hatYarnCost !== undefined && hatYarnCost <= 0) {
-        console.log(`[can_use_hat] Hat in starting inventory, returning true`);
         return true;
       }
 
       // Check if player has enough Yarn to craft this hat
       const requiredYarn = get_hat_cost(staticData, hatTypeNum);
       const yarnCount = count(snapshot, staticData, 'Yarn');
-      console.log(`[can_use_hat] Required Yarn: ${requiredYarn}, Player Yarn: ${yarnCount}`);
-      const result = yarnCount >= requiredYarn;
-      console.log(`[can_use_hat] Returning ${result}`);
-      return result;
+      return yarnCount >= requiredYarn;
     }
   }
 
   // Fallback: check for hat item directly
-  console.log(`[can_use_hat] Fallback: checking for hat item ${itemName}`);
   return has(snapshot, staticData, itemName);
 }
 

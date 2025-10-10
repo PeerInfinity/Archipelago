@@ -249,7 +249,15 @@ export function createStateSnapshotInterface(
       if (parentRegionIsReachable === undefined) return undefined;
       if (parentRegionIsReachable === false) return false;
       if (!locData.access_rule) return true;
-      return evaluateRule(locData.access_rule, this);
+
+      // Create a new interface with location context for rule evaluation
+      // This matches what StateManager does in its isLocationAccessible method
+      const locationContext = createStateSnapshotInterface(snapshot, staticData, {
+        ...contextVariables,
+        location: locData,
+        currentLocation: locData
+      });
+      return evaluateRule(locData.access_rule, locationContext);
     },
     getPlayerSlot: () => snapshot?.player?.slot,
     getGameMode: () => snapshot?.gameMode,

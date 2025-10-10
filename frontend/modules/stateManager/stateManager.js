@@ -1473,18 +1473,10 @@ export class StateManager {
         continueSearching = false;
         passCount++;
 
-        // Debug logging for A Hat in Time
-        if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
-          console.log(`[BFS] Starting pass ${passCount}`);
-        }
-
         // Process reachability with BFS
         const newlyReachable = this.runBFSPass();
         if (newlyReachable) {
           continueSearching = true;
-          if (this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') {
-            console.log(`[BFS] Pass ${passCount} found new regions, will continue`);
-          }
         }
 
         // Auto-collect events - MODIFIED: Make conditional
@@ -1577,12 +1569,6 @@ export class StateManager {
 
         const canTraverse = !exit.access_rule || ruleEvaluationResult;
 
-        // Debug Time Rift connections
-        if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
-          targetRegion && targetRegion.includes('Time Rift')) {
-          console.log(`[BFS] Evaluating ${fromRegion} -> ${targetRegion} (${exit.name}): canTraverse=${canTraverse}`);
-        }
-
         // +++ DETAILED LOGGING FOR RULE EVALUATION +++
         //if (exit.name === 'GameStart' || fromRegion === 'Menu') {
         //  log('info',
@@ -1601,12 +1587,6 @@ export class StateManager {
           this.knownReachableRegions.add(targetRegion);
           newRegionsFound = true;
           newConnection = true; // Signal that we found a new connection
-
-          // Debug logging for A Hat in Time Time Rifts
-          if ((this.rules?.game_name === 'A Hat in Time' || this.rules?.game_directory === 'ahit') &&
-            (targetRegion.includes('Time Rift') || targetRegion === 'The Golden Vault' || targetRegion === 'Picture Perfect')) {
-            console.log(`[BFS] NEW REGION: ${targetRegion} (from ${fromRegion} via ${exit.name})`);
-          }
 
           // Remove from blocked connections
           this.blockedConnections.delete(connection);
