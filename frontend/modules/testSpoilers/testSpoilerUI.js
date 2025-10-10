@@ -1316,6 +1316,23 @@ export class TestSpoilerUI {
                 this.log('debug', `  Checking "${locationName}" (no item or event)`);
               }
 
+              // NEW: Check if location is accessible BEFORE attempting to check it
+              const currentSnapshot = await stateManager.getFullSnapshot();
+              const snapshotInterface = createStateSnapshotInterface(currentSnapshot, stateManager.getStaticData());
+              const isAccessible = snapshotInterface.isLocationAccessible(locationName);
+
+              if (!isAccessible) {
+                this.log('error', `  ⚠️ PRE-CHECK FAILED: "${locationName}" is NOT accessible per snapshot before check attempt!`);
+                this.log('error', `    Current inventory: ${JSON.stringify(currentSnapshot.inventory)}`);
+                this.log('error', `    Sphere log says this location should be accessible in sphere ${context.sphere_number}`);
+                this.log('error', `    But snapshot reports it as inaccessible - this is a bug!`);
+
+                // Mark this as a failure and stop the test
+                allChecksPassed = false;
+                comparisonResult = false;
+                throw new Error(`Pre-check accessibility mismatch for "${locationName}" in sphere ${context.sphere_number}`);
+              }
+
               // Check location WITH items via event dispatcher instead of direct call
               // This naturally adds the item (e.g., "Progressive Sword") to inventory
               // Use event-based flow to match how timer and UI modules interact with stateManager
